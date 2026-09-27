@@ -291,7 +291,7 @@ input:focus, select:focus { border-color: var(--a); }
 .midi-dev { background: var(--panel-2); padding: 6px 10px; border-radius: 4px; }
 .midi-monitor { color: var(--dim); font-family: ui-monospace, monospace; font-size: 11px; }
 .midi-table { display: flex; flex-direction: column; }
-.midi-row { display: grid; grid-template-columns: 1fr 50px 110px 140px 24px; gap: 8px; align-items: center; padding: 3px 0; border-bottom: 1px solid #ffffff08; }
+.midi-row { display: grid; grid-template-columns: 1fr 44px 150px 130px 24px 24px; gap: 8px; align-items: center; padding: 3px 0; border-bottom: 1px solid #ffffff08; }
 .midi-kind { color: var(--faint); font-size: 10px; }
 .midi-key { font-family: ui-monospace, monospace; color: var(--ok); font-size: 11px; }
 .keys-table { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; }
@@ -331,3 +331,23 @@ kbd { background: var(--panel-3); border: 1px solid #3a4258; border-bottom-width
 .ai-test.error { color: var(--err); }
 .btn:disabled { opacity: .5; cursor: wait; }
 .automix-pane .check { font-size: 11px; color: var(--dim); }
+
+/* --- Console DJ ------------------------------------------------------------ */
+.midi-dev { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.tier-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: var(--panel-3); color: var(--dim); }
+.tier-badge.home { background: #35e07c; color: #000; }
+.tier-badge.semi { background: #3dd6ff; color: #000; }
+.tier-badge.pro { background: #ffc53d; color: #000; }
+.tier-badge.none { color: var(--warn); }
+.wizard-box { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--panel-2); border-radius: var(--radius); padding: 8px; }
+.wizard-step { flex: 1; }
+.midi-key.from-preset { color: var(--a); }
+.supported { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.supported-col { background: var(--panel-2); border-radius: var(--radius); padding: 8px; display: flex; flex-direction: column; gap: 3px; }
+.tier-title { font-weight: 800; font-size: 11px; margin-bottom: 4px; }
+.tier-title.home { color: #35e07c; }
+.tier-title.semi { color: #3dd6ff; }
+.tier-title.pro { color: #ffc53d; }
+.supported-item { font-size: 11px; color: var(--dim); }
+.supported-item b { color: var(--text); font-weight: 600; }
+.badge { cursor: pointer; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

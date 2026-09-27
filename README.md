@@ -47,6 +47,27 @@ energica"*) puoi collegare un **LLM che gira sul tuo computer**. Nessun dato esc
 
 Se il modello non risponde, l'AI DJ continua da sola con il motore interno.
 
+## 🎛 Console DJ supportate
+
+Collega la console via USB: viene **riconosciuta automaticamente** e mappata, con i **LED dei pulsanti** che seguono
+lo stato del programma (play, cue, sync, hot cue, loop, preascolto, effetti…).
+
+| Casa / principianti | Semi-professionali | Professionali |
+| --- | --- | --- |
+| Pioneer DJ DDJ-200, DDJ-FLX2, DDJ-400, DDJ-FLX4, DDJ-SB3 | Pioneer DJ DDJ-FLX6, DDJ-SR2, DDJ-REV1/5/7, DDJ-800 | Pioneer DJ DDJ-SX3, DDJ-1000, DDJ-FLX10, XDJ-RX3/XZ, Opus Quad (modalità PC) |
+| Hercules DJControl Starlight, Inpulse 200/300, Mix | Hercules Inpulse 500, Inpulse T7 | Denon DJ MC7000, SC6000/SC5000/Prime 4 (modalità PC) |
+| Numark Party Mix, DJ2GO2 Touch, Mixtrack Pro FX, Mixtrack Platinum FX | Numark NS4FX, Mixstream Pro; Denon DJ MC4000, MC6000MK2 | Rane ONE, Seventy, Four; Allen & Heath Xone:K1/K2/K3 |
+| | Behringer CMD, Novation Launch Control | |
+
+- **Qualsiasi altra console MIDI** si configura in un minuto con la **procedura guidata** (Impostazioni → 🎛 Console DJ):
+  ti chiede un controllo alla volta. Ogni controllo si può anche correggere con **Learn** o invertire (⇅).
+- Le mappature si possono **esportare e importare** (file `.vdjai.json`) per condividerle.
+- I profili seguono la documentazione MIDI pubblica dei produttori; se su un modello un comando non risponde,
+  basta correggerlo con Learn: le correzioni personali hanno sempre la precedenza.
+- **Gamepad** Xbox, PlayStation, Switch Pro e simili funzionano come console (play, cue, sync, crossfader sui grilletti, jog sugli stick).
+- Console solo HID (es. Traktor Kontrol S2/S3/S4 MK3): vanno impostate in modalità MIDI con il software del produttore.
+  Lettori CDJ/XDJ e mixer DJM si possono usare anche come sorgenti audio tramite gli ingressi linea dei deck.
+
 ## Funzionalità
 
 **Deck (×2)**
@@ -79,7 +100,7 @@ Se il modello non risponde, l'AI DJ continua da sola con il motore interno.
 - **Sampler** a 8 pad con suoni inclusi (air horn, sirena, riser…) e campioni personalizzabili
 - **AI DJ** (vedi sopra) con coda, scalette automatiche e AI locale
 - **Registrazione** del mix in WAV (scritta su disco in streaming, adatta a set di ore)
-- **Controller MIDI** con MIDI learn di tutte le funzioni (anche jog a encoder)
+- **Console DJ**: riconoscimento automatico, LED, procedura guidata, MIDI learn, gamepad (vedi sopra)
 - Scorciatoie da tastiera (F1 per l'elenco)
 
 ## Sviluppo
@@ -90,7 +111,7 @@ Requisiti: Node.js 22.
 npm install
 npm start          # avvia l'app
 npm run dev        # avvia con gli strumenti sviluppatore
-npm test           # test: analisi audio, motore deck, AI DJ, MIDI
+npm test           # test: analisi audio, motore deck, AI DJ, console MIDI e gamepad
 npm run check      # controllo di sintassi
 npm run dist:win   # installer .msi (su Windows)
 npm run dist:mac   # installer .dmg (su macOS)
@@ -105,6 +126,7 @@ src/renderer/      interfaccia e motore audio (Web Audio API + AudioWorklet)
   js/audio/        engine, deck, mixer, effetti, sampler, microfono
   js/dsp/          analisi BPM/beatgrid/tonalità/forma d'onda/struttura, WAV
   js/ai/           AI DJ: selezione brani, transizioni, LLM locale, analisi libreria
+  js/controllers/  profili delle console DJ, gamepad
   js/ui/           componenti grafici
   worklets/        riproduzione dei deck (scratch, loop, keylock) e registrazione
   workers/         analisi dei brani in background

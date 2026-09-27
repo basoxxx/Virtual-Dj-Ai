@@ -28,7 +28,7 @@ test('MidiManager: learn e dispatch verso le azioni', () => {
   m.learn('vol');
   m.onMessage([0xb0, 1, 0]);
   m.learn('jog');
-  m.onMessage([0xb0, 2, 65]);
+  m.onMessage([0xb0, 2, 1]); // encoder "twos" (1 / 127)
   calls.length = 0;
   m.onMessage([0x90, 10, 127]);
   m.onMessage([0xb0, 1, 127]);

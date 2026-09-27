@@ -2,6 +2,8 @@
 import { el, button, select, toast } from './controls.js';
 import { AudioEngine } from '../audio/engine.js';
 import { SHORTCUTS } from '../keyboard.js';
+import { PRESETS, TIERS } from '../controllers/presets.js';
+import { GAMEPAD_LAYOUT } from '../controllers/gamepad.js';
 
 export async function openSettings(app, initialTab = 'audio') {
   document.querySelectorAll('.settings-overlay').forEach((o) => o.remove());
@@ -29,7 +31,7 @@ export async function openSettings(app, initialTab = 'audio') {
     audio: { label: 'Audio I/O', render: () => audioPage(app) },
     mixer: { label: 'Mixer & Deck', render: () => mixerPage(app) },
     ai: { label: '🤖 AI locale', render: () => aiPage(app) },
-    midi: { label: 'Controller MIDI', render: () => midiPage(app) },
+    midi: { label: '🎛 Console DJ', render: () => midiPage(app) },
     keys: { label: 'Tastiera', render: () => keysPage() },
     about: { label: 'Informazioni', render: () => aboutPage(app) },
   };
@@ -299,49 +301,161 @@ function aiPage(app) {
 function midiPage(app) {
   const midi = app.midi;
   const wrap = el('div', { class: 'settings-page' });
-  if (!midi.supported || !midi.access) {
-    wrap.append(el('div', { class: 'hint' }, 'MIDI non disponibile su questo sistema o nessun permesso concesso.'));
-    return wrap;
-  }
+
+  // --- console collegate
   const devices = el('div', { class: 'midi-devices' });
   const renderDevices = () => {
-    devices.replaceChildren(...(midi.inputs.length ? midi.inputs.map((i) => el('div', { class: 'midi-dev' }, `🎛 ${i.name} ${i.manufacturer ? `(${i.manufacturer})` : ''}`)) : [el('div', { class: 'hint' }, 'Nessun controller collegato. Collegalo via USB: verrà rilevato automaticamente.')]));
+    const list = midi.devices();
+    const pads = app.gamepad ? app.gamepad.pads : [];
+    const rows = list.map((d) => el('div', { class: 'midi-dev' },
+      el('span', {}, `🎛 ${d.name}`),
+      d.preset
+        ? el('span', { class: `tier-badge ${d.preset.tier}` }, `${d.preset.brand} ${d.preset.name} · ${TIERS[d.preset.tier]}`)
+        : el('span', { class: 'tier-badge none' }, 'profilo non trovato: usa la procedura guidata')));
+    for (const p of pads) rows.push(el('div', { class: 'midi-dev' }, el('span', {}, `🎮 ${p.id}`), el('span', { class: 'tier-badge home' }, 'Gamepad')));
+    if (!rows.length) {
+      rows.push(el('div', { class: 'hint' }, midi.access
+        ? 'Nessuna console collegata. Collegala via USB: verrà riconosciuta automaticamente.'
+        : 'MIDI non disponibile su questo sistema (i gamepad funzionano comunque).'));
+    }
+    devices.replaceChildren(...rows);
   };
   renderDevices();
   midi.addEventListener('devices', renderDevices);
+
+  // --- profilo
+  const groups = Object.keys(TIERS).map((tier) => ({ tier, items: PRESETS.filter((p) => p.tier === tier) }));
+  const presetSel = el('select', {});
+  presetSel.append(el('option', { value: 'auto' }, 'Automatico (riconosce la console collegata)'));
+  presetSel.append(el('option', { value: 'none' }, 'Nessuno (solo mappature personali)'));
+  for (const g of groups) {
+    const og = el('optgroup', { label: TIERS[g.tier] });
+    for (const p of g.items) og.append(el('option', { value: p.id }, `${p.brand} ${p.name}`));
+    presetSel.append(og);
+  }
+  presetSel.value = midi.presetMode;
+  presetSel.addEventListener('change', () => {
+    midi.setPresetMode(presetSel.value);
+    app.saveSettings();
+    app.updateMidiBadge();
+    refresh();
+  });
+
+  // --- procedura guidata
+  const wizardBox = el('div', { class: 'wizard-box' });
+  const renderWizard = (info) => {
+    if (!midi.wizard) {
+      wizardBox.replaceChildren(
+        button('🧭 Procedura guidata di mappatura', { className: 'small primary', onClick: () => midi.startWizard() }),
+        el('span', { class: 'field-hint' }, info && info.done ? '✓ Mappatura completata e salvata' : 'Per qualsiasi console non in elenco: ti chiede un controllo alla volta.'));
+      return;
+    }
+    const id = midi.learning;
+    const action = app.actions.get(id);
+    wizardBox.replaceChildren(
+      el('div', { class: 'wizard-step' }, `Passo ${midi.wizard.index + 1}/${midi.wizard.steps.length}: `, el('b', {}, action ? action.label : id),
+        el('span', { class: 'field-hint' }, action && action.kind === 'button' ? ' — premi il pulsante' : ' — muovi il controllo')),
+      button('Salta', { className: 'small', onClick: () => midi.skipWizardStep() }),
+      button('Fine', { className: 'small', onClick: () => midi.stopWizard(true) }));
+  };
+  renderWizard();
+  midi.addEventListener('wizard', (e) => renderWizard(e.detail));
+
+  // --- import / export
+  const exportBtn = button('Esporta mappatura', { className: 'small', onClick: () => {
+    const blob = new Blob([midi.exportMapping()], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'mappatura-console.vdjai.json';
+    a.click();
+  } });
+  const importBtn = button('Importa…', { className: 'small', onClick: () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    input.onchange = async () => {
+      try {
+        const n = midi.importMapping(await input.files[0].text());
+        presetSel.value = midi.presetMode;
+        toast(`Mappatura importata: ${n} controlli`, 'ok');
+        refresh();
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    };
+    input.click();
+  } });
+  const resetBtn = button('Azzera personalizzazioni', { className: 'small', onClick: () => {
+    midi.clearAll();
+    refresh();
+  } });
+
+  // --- gamepad
+  const gp = el('input', { type: 'checkbox' });
+  gp.checked = app.gamepad ? app.gamepad.enabled : true;
+  gp.addEventListener('change', () => {
+    if (app.gamepad) app.gamepad.enabled = gp.checked;
+    app.saveSettings();
+  });
+
   const monitor = el('div', { class: 'midi-monitor' }, 'Ultimo messaggio: —');
   midi.addEventListener('message', (e) => {
-    monitor.textContent = `Ultimo messaggio: ${e.detail.key} = ${e.detail.raw}`;
+    monitor.textContent = `Ultimo messaggio: ${e.detail.key} = ${e.detail.raw}${e.detail.device ? ` (${e.detail.device})` : ''}`;
   });
+
+  // --- tabella mappature
   const table = el('div', { class: 'midi-table' });
   const rows = new Map();
   for (const [id, action] of app.actions) {
-    const keyEl = el('span', { class: 'midi-key' }, midi.keyFor(id) || '—');
+    const keyEl = el('span', { class: 'midi-key' });
     const learn = button('Learn', { className: 'small', onClick: () => {
       if (midi.learning === id) midi.cancelLearn();
       else midi.learn(id);
     } });
-    const clear = button('×', { className: 'tiny ghost', title: 'Rimuovi mappatura', onClick: () => midi.clear(id) });
-    const row = el('div', { class: 'midi-row' }, el('span', { class: 'midi-label' }, action.label), el('span', { class: 'midi-kind' }, action.kind), keyEl, learn, clear);
-    rows.set(id, { row, keyEl, learn });
+    const inv = button('⇅', { className: 'tiny ghost', title: 'Inverti il verso (per manopole, fader e jog appresi)', onClick: () => midi.toggleInvert(id) });
+    if (action.kind === 'button') inv.style.visibility = 'hidden';
+    const clear = button('×', { className: 'tiny ghost', title: 'Rimuovi la mappatura personale', onClick: () => midi.clear(id) });
+    const row = el('div', { class: 'midi-row' }, el('span', { class: 'midi-label' }, action.label), el('span', { class: 'midi-kind' }, action.kind), keyEl, learn, inv, clear);
+    rows.set(id, { keyEl, learn, inv });
     table.append(row);
   }
   const refresh = () => {
     for (const [id, r] of rows) {
-      r.keyEl.textContent = midi.keyFor(id) || '—';
+      const user = midi.userEntry(id);
+      const pk = midi.presetKeyFor(id);
+      r.keyEl.textContent = user ? `${user.key}${user.invert ? ' ⇅' : ''}` : pk ? `${pk} (profilo)` : '—';
+      r.keyEl.classList.toggle('from-preset', !user && Boolean(pk));
+      r.inv.classList.toggle('on', Boolean(user && user.invert));
       r.learn.classList.toggle('on', midi.learning === id);
       r.learn.textContent = midi.learning === id ? 'Muovi un controllo…' : 'Learn';
     }
   };
+  refresh();
   midi.addEventListener('learning', refresh);
   midi.addEventListener('mapping', () => {
     refresh();
     app.saveSettings();
   });
+  midi.addEventListener('devices', refresh);
+
+  // --- console supportate
+  const supported = el('div', { class: 'supported' }, groups.map((g) => el('div', { class: 'supported-col' },
+    el('div', { class: `tier-title ${g.tier}` }, TIERS[g.tier]),
+    g.items.map((p) => el('div', { class: 'supported-item' }, el('b', {}, p.brand), ` ${p.name}`)))));
+
   wrap.append(
-    el('div', { class: 'section-title' }, 'Dispositivi'), devices, monitor,
-    el('div', { class: 'section-title' }, 'Mappature (MIDI learn)'),
-    el('div', { class: 'hint' }, 'Premi "Learn" e muovi il pulsante/manopola del controller. Per i jog usa encoder relativi.'),
+    el('div', { class: 'section-title' }, 'Console collegate'), devices,
+    field('Profilo console', presetSel, 'Il profilo si attiva da solo quando colleghi una console in elenco. Le tue correzioni con Learn hanno sempre la precedenza.'),
+    wizardBox,
+    el('div', { class: 'row tight' }, exportBtn, importBtn, resetBtn),
+    monitor,
+    el('div', { class: 'section-title' }, 'Gamepad (Xbox, PlayStation, Switch…)'),
+    el('label', { class: 'check' }, gp, 'Usa il gamepad come console DJ'),
+    el('div', { class: 'keys-table' }, GAMEPAD_LAYOUT.map(([k, d]) => el('div', { class: 'key-row' }, el('kbd', {}, k), el('span', {}, d)))),
+    el('div', { class: 'section-title' }, 'Console supportate'),
+    el('div', { class: 'field-hint' }, 'Le console che non hanno un canale MIDI (es. Traktor Kontrol S2/S3/S4 MK3 in modalità HID) vanno messe in modalità MIDI con il software del produttore, poi mappate con la procedura guidata. Lettori CDJ/XDJ e mixer DJM si possono usare anche come sorgenti audio tramite gli ingressi linea dei deck.'),
+    supported,
+    el('div', { class: 'section-title' }, 'Mappature'),
     table);
   return wrap;
 }
