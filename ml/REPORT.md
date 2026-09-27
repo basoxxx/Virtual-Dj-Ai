@@ -31,7 +31,7 @@ onnxruntime-web 1.30.0, onnxruntime-node 1.30.0 (solo per il confronto), Python 
   **Motore di analisi: AI (Beat This!) / Classico**; se il modello manca o dà errore si usa l'analisi classica
   (verificato: con il modello non caricabile il banco di prova ha restituito il BPM classico e il messaggio d'errore).
 - **Distribuzione dei modelli:** i file `.onnx` non sono in git; stanno nella GitHub Release `models-v1`
-  (pre-release, così il sito continua a leggere l'ultima versione dell'app), con SHA-256 in `scripts/models.json`.
+  (pre-release, così il sito continua a leggere l'ultima versione dell'app), con SHA-256 in `src/main/models.json`.
   `npm run models` li scarica; CI e rilascio lo fanno prima di test e build. I file di onnxruntime-web vengono copiati
   in `src/renderer/vendor/` dal `postinstall`.
 
@@ -353,3 +353,113 @@ sintetico. **Resta la v1**; il prossimo passo utile sono dati di transizioni uma
 - **Remix dal vivo:** l'AI DJ può già usare loop, beat jump, effetti e filtri sulla griglia: un "modo remix" che
   suona un brano ricomponendone le sezioni (intro, build-up, drop) non richiede modelli nuovi.
 - Registrazione delle transizioni dell'utente e rifinitura del modello C sui dati reali.
+
+---
+
+## Giorno 3 — 27 settembre 2026 (remix, mashup, analisi ibrida, dati in zip)
+
+### Fatto
+
+- **Analisi ibrida** (punto 3): il classico dà subito BPM, tonalità, forma d'onda e struttura; con il motore AI
+  Beat This! rifinisce poi in background griglia, battuta forte e struttura. Un deck in riproduzione cambia solo
+  fase e battuta forte (chi è in sync non salta); la libreria passa prima tutta dal classico, poi dalla rifinitura;
+  l'AI DJ aspetta la rifinitura del brano entrante prima di pianificare; le griglie corrette a mano non si toccano.
+- **Mashup** (punto 2): Demucs v4 (`htdemucs`) esportato in ONNX senza STFT (`ml/mashup/export_demucs.py`), STFT,
+  ISTFT e divisione in blocchi di `apply_model` riscritte in JavaScript (`src/renderer/js/dsp/demucs.js`), worker di
+  separazione che si chiude a fine brano, voce e base salvate su disco (`userData/stems`). Il modello (174 MB) non è
+  nell'installer: si scarica dal pannello AI DJ la prima volta, con verifica SHA-256. Deck: pulsante **STEM**
+  (completo / solo voce / solo base, scambio senza fermare il brano). AI DJ: opzione **Mashup**.
+- **Remix dal vivo** (punto 2): opzione dell'AI DJ; pianificatore puro (`src/renderer/js/ai/remix.js`) con loop
+  roll, eco, filtro in salita e ripetizione della frase, sui confini di frase, mai nelle 2 frasi prima di un mix.
+- **Pacchetti in zip per le transizioni umane** (punto 1): vedi sotto.
+
+### Numeri misurati
+
+#### 1. Analisi ibrida nell'app vera (`ml/eval/electron/hybrid.js`)
+
+Brano non analizzato caricato sul deck (con altri processi pesanti in esecuzione): brano pronto 0,5 s, **BPM classico
+a 2,2 s**, rifinitura AI a 11,1 s (offset spostato da 0,393 alla battuta forte vera 1,016 s, struttura ricalcolata).
+
+#### 2. Demucs in ONNX
+
+| | File | Differenza da PyTorch (SDR) | Tempo per blocco di 7,8 s |
+|---|---|---|---|
+| fp32 (ONNX Runtime Python, CPU) | 174 MB | 65-87 dB (errore relativo 1,4·10⁻⁸) | 2,06 s |
+| int8 (ONNX Runtime Python, CPU) | 85 MB | voce 19,1 dB, altre 38-45 dB | 1,48 s |
+
+PyTorch su CPU (con carico in background): 130 s per un brano di 310 s (0,42× tempo reale), picco 3,6 GB.
+
+Separazione completa in JavaScript (`demucs.js` + onnxruntime-web, Node, 4 thread) di 30 s di "Realizer", contro
+`demucs.apply_model` di PyTorch (`ml/mashup/bench_separate.mjs`):
+
+| Modello | Opzioni di memoria | Tempo (× tempo reale) | SDR voce / base contro PyTorch | Picco RAM |
+|---|---|---|---|---|
+| **fp32** | predefinite | 21,5 s (0,72×) | **43,2 / 75,9 dB** | 3004 MB |
+| fp32 | senza arena né piani di memoria | 21,5 s (0,72×) | 43,2 / 75,9 dB | 3026 MB |
+| int8 | predefinite | 21,6 s (0,72×) | 25,4 / 59,4 dB | 2777 MB |
+
+In WASM l'int8 non è più veloce e peggiora la voce: si usa l'fp32. La memoria WASM non si restringe: per questo
+la separazione gira in un worker per brano che poi si chiude.
+
+STFT/ISTFT JavaScript contro Demucs (`test/demucs.test.js`): spettro entro 1·10⁻⁴ relativo; ISTFT esatta al centro
+del blocco (1·10⁻⁵) e identica a Demucs ai bordi (dove anche Demucs non ricostruisce il segnale: frame scartati da
+`_spec`, errore 0,185 sia in Python che in JS).
+
+#### 3. Pacchetti in zip con transizioni (punto 1)
+
+| Pacchetto | Contenuto | Licenza | Utilità |
+|---|---|---|---|
+| [dj_mix_ground_truth_extractor_dataset.zip](https://github.com/werthen/dj-mix-ground-truth-extractor) (6,4 GB, tesi Università di Gand 2018) | 5 mix (4 Mixotic + 1 NCS) in WAV, 62 brani originali, progetti Ableton, JSON con posizione, stretch e **automazioni del crossfader** | codice MIT, dataset non dichiarata | ~50 transizioni umane esatte (niente allineamento), ma **solo crossfader** (nei progetti non c'è EQ); mix ricreati dall'autore della tesi |
+| [UnmixDB](https://zenodo.org/records/1422385) (6 zip, 4,2 GB) | estratti di 20 s di inizio/fine dei brani Mixotic e mix rigenerati con dissolvenze lineari | CC BY-NC-ND 4.0 | nessun gesto umano; non commerciale e senza opere derivate |
+| [Mixotic.net DJ Set archive](https://archive.org/details/mixotic.net_202209) (297 mix, 36 GB) | mix umani in MP3 | Creative Commons (per il sito) | mix umani con licenza pulita, ma i brani originali vanno cercati uno per uno sulle netlabel |
+
+Scaricato in locale solo il primo (in `ml/data/werthen`, fuori da git).
+
+#### 4. Mashup nell'app vera (`ml/eval/electron/mashup.js`)
+
+Sessione realistica: coda Miami Viceroy (268 s, 124 BPM) → Electro Cabello (191 s, 117 BPM), tonalità fissata a La
+minore per entrambi; il primo brano separato prima di partire (in una sessione vera lo si fa quando è "il prossimo"),
+il secondo mentre il primo suona. Volume master a zero.
+
+| | |
+|---|---|
+| Separazione Miami Viceroy (268 s) | 157 s (0,59× tempo reale) |
+| Separazione Electro Cabello (191 s) | 112 s (0,59×) |
+| Download del modello dall'app (174 MB, SHA-256 verificato, prova a parte) | 10,8 s |
+| Sequenza eseguita | base del primo + voce del secondo dal punto 32,9 s (prima frase cantata), crossfader al centro per 16 battute (31,0 s), poi il secondo torna completo e il primo sfuma in 8 battute (fine a 46,4 s); deck di nuovo "completo" alla fine |
+
+RAM di tutti i processi dell'app:
+
+| Fase | Totale | Renderer (con i worker) |
+|---|---|---|
+| Separazione senza mix | 3853 MB | 3506 MB |
+| **Mix + separazione del brano successivo** | **5241 MB** | 4881 MB |
+| Mashup (dopo la separazione) | 4086 MB | 3674 MB |
+
+La separazione sta dentro il tetto di 6 GB ma lo avvicina: è l'unica fase oltre i 4 GB. Con la versione precedente
+del codice (copia normalizzata dell'intero brano, separazione anche del brano in onda) il picco era 5732 MB.
+
+Prima prova senza tonalità fissata: la stima classica della tonalità ha dato valori diversi dalla misura precedente
+sugli stessi brani (la tonalità dipende dalla frequenza di campionamento del contesto audio) e il piano ha scelto
+il filtro: il mashup non è partito, correttamente. Seconda prova senza pre-separazione: voce e base non pronte in
+tempo, transizione normale con avviso nel diario (il ripiego funziona).
+
+### Problemi aperti
+
+- **RAM della separazione:** 5,2 GB in tutto durante il mix. Su computer da 8 GB conviene preparare i mashup prima
+  del set (pulsante STEM sui brani della coda) invece che durante. Si potrebbe ridurre il picco dividendo il modello
+  in due parti ONNX: da provare.
+- **Primo brano della sessione:** non è stato "il prossimo" di nessuno, quindi non è separato in anticipo; il primo
+  mashup possibile è tra il secondo e il terzo brano, a meno di premere STEM prima.
+- **Tonalità:** la stima classica non è stabile (vedi sopra) e decide se il mashup è possibile; un modello di
+  tonalità con licenza MIT/Apache migliorerebbe mashup e scelta dei brani.
+- **Licenze:** pesi di Demucs e dataset della tesi di Gand senza licenza dichiarata (uso deciso dall'utente, solo in
+  locale per il dataset).
+- **Ascolto:** remix e mashup sono provati nel funzionamento, non nel risultato musicale: serve il tuo orecchio.
+
+### Prossimi passi
+
+- Rifinire il modello C sul crossfader con le ~50 transizioni umane del pacchetto di Gand (serve il tuo via, licenza
+  non dichiarata) e, meglio ancora, con le tue transizioni registrate nell'app.
+- Ridurre la RAM della separazione e aggiungere "prepara i mashup della coda" prima del set.
+- Scelta dei brani per il mashup guidata dalla presenza della voce (energia della parte vocale).

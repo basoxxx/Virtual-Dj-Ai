@@ -28,7 +28,8 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    struttura del brano (intro, outro, frasi da 8 battute) e punti di mix. Battute e battute forti vengono da
    **Beat This!**, una rete neurale open source (CPJKU, licenza MIT) che gira sul computer con la sola CPU;
    in **Impostazioni → AI locale → Motore di analisi** si può tornare all'analisi classica, che resta comunque
-   il ripiego automatico se il modello manca o dà errore.
+   il ripiego automatico se il modello manca o dà errore. L'analisi è ibrida: il classico dà subito BPM e forma
+   d'onda, Beat This! rifinisce poi battute, battuta forte e struttura in background.
 2. **Sceglie il brano successivo** tra quelli compatibili: tonalità armonica, BPM vicini (anche metà/doppio tempo),
    energia coerente con la strategia scelta (*mantieni*, *crescente*, *onde*, *rilassata*, *picco*), genere, varietà.
    Nel pannello "Diario dell'AI" spiega ogni scelta.
@@ -39,6 +40,12 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    Con **Transizioni → Modello AI (sperimentale)** le curve di crossfader, EQ basso/medio/alto e filtri le decide,
    battuta per battuta, una rete neurale che gira sul computer (`ml/transitions/`); se non è disponibile si usano
    le regole.
+5. **Remix dal vivo** (opzione): mentre un brano suona da solo l'AI lo ricompone sulle frasi della griglia con loop
+   roll, eco, filtro in salita e ripetizione della frase appena suonata.
+6. **Mashup** (opzione): quando il brano successivo è compatibile per tonalità e tempo, il brano in onda passa alla
+   sola base e la **voce** del successivo entra a tempo per 16 battute, poi il mix prosegue. Voce e base vengono
+   separate sul computer con **Demucs v4** (il modello, 174 MB, si scarica dal pannello AI DJ la prima volta) e
+   salvate su disco. Il pulsante **STEM** di ogni deck passa tra brano completo, solo voce e solo base.
 
 Puoi lasciare scegliere all'AI dalla libreria o da una playlist, oppure darle una coda. I pulsanti **Mixa ora** e
 **Cambia prossimo** permettono di intervenire in qualsiasi momento.
@@ -143,6 +150,7 @@ src/renderer/      interfaccia e motore audio (Web Audio API + AudioWorklet)
   models/          modelli ONNX scaricati da npm run models (esclusi da git)
 ml/                modelli AI: ambiente Python, export ONNX, valutazioni e REPORT.md con le misure
   beat_this/       Beat This! in ONNX        transitions/  modello delle transizioni (dati, addestramento)
+  mashup/          Demucs in ONNX (voce e base)
 .github/workflows/ CI, pubblicazione automatica delle release e del sito
 site/              sito GitHub Pages (foto reali dell'interfaccia)
 ```
@@ -150,7 +158,7 @@ site/              sito GitHub Pages (foto reali dell'interfaccia)
 ### Modelli AI
 
 I pesi non stanno nel repository: i file `.onnx` sono asset della GitHub Release
-[`models-v1`](../../releases/tag/models-v1), elencati con dimensione e SHA-256 in `scripts/models.json`.
+[`models-v1`](../../releases/tag/models-v1), elencati con dimensione e SHA-256 in `src/main/models.json`.
 `npm run models` scarica quelli inclusi nell'app (`--all` anche le altre varianti); CI e rilascio lo fanno
 prima di test e build. Senza modello l'app funziona con l'analisi classica.
 
