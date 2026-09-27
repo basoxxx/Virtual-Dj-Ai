@@ -564,3 +564,87 @@ modello esegue bass swap e crossfader completo. **La v3 sostituisce la v2 nell'a
 
 - Tutti i dati umani sono di una sola persona, con il solo crossfader: gli EQ restano quelli del maestro sintetico.
   Le tue transizioni registrate nell'app resterebbero la fonte migliore.
+
+## Giorno 6 — 27 settembre 2026 (modello C v4: "cerca esempi di DJ veri e copiali")
+
+### Fatto
+
+- **DJ set veri con i brani originali:** su Internet Archive ([mixotic.net_202209](https://archive.org/details/mixotic.net_202209),
+  Creative Commons) ci sono i mix **originali** dei quattro set Mixotic ricreati nella tesi di Gand (044, 123, 281,
+  286: 77,8 + 55,7 + 60,0 + 52,7 min). I loro brani sono i "refsongs" del dataset di Gand, gli stessi file digitali:
+  per la prima volta ci sono DJ veri con crossfader, fader **ed EQ**, e brani originali esatti. Mix scaricati e usati
+  solo in locale (`ml/data/mixotic/`), come il dataset di Gand.
+- **Allineamento** (`align_mixotic.py`): la ricostruzione di Gand segue la timeline dei mix originali; da inizio clip,
+  punto di partenza e stretch si ricava la diagonale attesa di ogni brano e la si cerca solo entro ±64 battute. Senza
+  questo indizio i set 281 e 286 mettevano metà dei brani nei primi 8 minuti; con l'indizio **45 brani su 55**
+  allineati, quasi tutti a 0-2 battute dalla diagonale attesa nei set 044 e 286 (fino a 30-50 battute nel 123 e nel 281:
+  la ricostruzione deriva leggermente).
+- **Tratto suonato:** il riconoscimento per somiglianza trova spesso solo parte del brano (break, dissolvenze lunghe) e
+  le coppie non risultano contigue (14 transizioni). Con le clip di Gand spostate sulla diagonale trovata: 24.
+- **Curve del DJ** (`mixotic_dataset.py`, stessa stima di `gains.py` su 64 sotto-bande): con la levigatura di prima
+  le curve degli EQ saltavano da una battuta all'altra (due casse techno simili sono ambigue). Su set 044 + 286:
+
+  | Levigatura | Errore del fit | Variazione crossfader per battuta | Variazione EQ per battuta |
+  |---|---|---|---|
+  | 1 (prima) | 0,138 | 0,056 | 0,106 |
+  | 4 | 0,153 | 0,023 | 0,065 |
+  | **16** (scelta) | 0,176 | 0,007 | 0,028 |
+  | 64 | 0,193 | 0,005 | 0,010 |
+
+  Nei grafici (`ml/data/mixotic/plots/`) si vedono bass swap veri: bassi di B tagliati mentre suona A, poi scambio.
+- **Dataset:** 22 transizioni con errore del fit ≤ 0,5 (mediana 0,265; il DJ Mix Dataset aveva 0,537). Sono
+  **lunghe**: mediana 192 battute (min 33, max 276), 17 su 22 oltre le 128 dell'app. Finestre: dall'entrata di B
+  (anche anticipata di 4/8/16 battute) e, per quelle lunghe, quella che finisce con l'uscita di A: 59 finestre.
+  Pesi: crossfader 1, EQ 0,5 scalato sull'udibilità del proprio deck, filtri 0 (non stimati); mixer differenziabile
+  attivo (le potenze del mix sono note).
+- **Controllo indipendente:** l'istante in cui il crossfader stimato dal mix vero passa metà corsa dista da quello
+  della ricostruzione di Gand **12 s in mediana** su 15 transizioni (set 044: 0,3-10 s).
+- **v4** (`train.py --v4-cv --v4-final`): v3 + 800 passi, lr 1e-4, lotti da 20 reali (metà Gand, metà Mixotic) +
+  12 sintetici con le forme umane. 12 minuti in tutto per 4 fold + modello finale (M1 Pro, MPS).
+
+### Numeri misurati
+
+Validazione incrociata: un set tenuto da parte alla volta (anche dai dati di Gand), finestre dall'entrata di B e
+finali, 39 finestre in tutto, media pesata (`ml/data/runs/v4-cv.json`).
+
+| Sui DJ set veri tenuti da parte | **v4** | v3 | Regole: bass swap | Regole: dissolvenza | DJ vero |
+|---|---|---|---|---|---|
+| Errore crossfader | **0,208** | 0,227 | 0,235 | 0,261 | |
+| Errore EQ | **0,153** | 0,202 | 0,206 | 0,104¹ | |
+| Errore del suono rispetto al mix (dB) | **2,07** | 2,11 | 2,22 | 2,15 | |
+| Errore d'inizio (battute) | **10,5** | 16,8 | 18,0 | 25,8 | |
+| Errore di fine (battute) | **19,7** | 25,3 | 23,6 | 27,7 | |
+| Scontro dei bassi | 9,2% | 0,9% | 0% | 18,1% | 12,3% |
+| Eventi a inizio frase | 34% | 68% | 8% | 8% | 9% |
+
+¹ La dissolvenza non tocca gli EQ e il DJ li tocca poco quando il proprio deck è pieno: l'errore EQ medio favorisce
+chi li lascia fermi, per questo conta di più l'errore del suono.
+
+La v4 è più vicina ai DJ veri in tutte le misure d'imitazione: -8% sul crossfader, -24% sugli EQ, 6 battute in meno
+d'errore sull'inizio. Sovrappone di più i bassi, come fanno davvero questi DJ techno nelle loro dissolvenze lunghe.
+
+Sul test sintetico di sempre (256 transizioni da brani mai visti, tutti i generi, `v3-v4-synth.json`) la v4 resta
+pulita: errore crossfader 0,097 (v3 0,093), EQ 0,057 (0,056), mix 0,93 dB (0,92), scontro dei bassi 0,9% (0,4%;
+maestro sintetico 2,2%), eventi a inizio frase 60% (62%).
+
+Sul crossfader di Gand, finestra larga, set tenuti da parte: 0,097 su 17 finestre di 3 set. La v3 aveva 0,088 nella
+sua validazione (26 transizioni di 4 set): non è lo stesso sottoinsieme, ma è un possibile piccolo peggioramento sul
+singolo DJ di Gand.
+
+ONNX v4: fp32 identico a PyTorch, int8 errore medio 0,003 (massimo 0,20). Nell'app vera (`autodj-model.js`): piano
+"del modello AI", crossfader completo e bass swap. `npm run check` 64/64, `npm test` 88/88. **La v4 sostituisce la v3
+nell'app** (6,8 MB, nella release `models-v1`).
+
+### Beta 1.6.0
+
+Nuovo workflow `.github/workflows/beta.yml`: un tag `v1.6.0-beta.1` sul branch costruisce gli stessi installer e
+pubblica una **pre-release** (non "latest": sito e aggiornamenti automatici restano sulla 1.5.6), con le note di
+`docs/release-notes/v1.6.0-beta.1.md` su come funziona l'AI e com'è fatto il modello. Versione in `package.json`
+portata a 1.6.0, così la 1.6 stabile aggiornerà anche chi ha la beta.
+
+### Problemi aperti
+
+- Solo 4 DJ, tutti techno/minimal, e 22 transizioni: la v4 imita le dissolvenze lunghe di questo genere. Altri set
+  Mixotic su Internet Archive (222, 230, 275) non hanno i brani originali.
+- Il tratto suonato viene dalla ricostruzione di Gand: dove la ricostruzione sbaglia, sbaglia anche la finestra.
+- Le transizioni vere durano spesso più di 128 battute: l'app per ora ne pianifica al massimo 32 (128 battute).
