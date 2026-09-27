@@ -12,3 +12,7 @@ onnx>=1.18
 onnxscript>=0.3
 onnxruntime>=1.22
 psutil>=6
+# Settimana 2 (modello delle transizioni). Serve anche ffmpeg nel PATH (brew install ffmpeg).
+scipy>=1.14
+matplotlib>=3.9
+yt-dlp>=2026.8
