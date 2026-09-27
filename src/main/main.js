@@ -31,7 +31,13 @@ function registerAppProtocol() {
     const rel = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html';
     const file = path.normalize(path.join(RENDERER_DIR, rel));
     if (!file.startsWith(RENDERER_DIR)) return new Response('Forbidden', { status: 403 });
-    return net.fetch(pathToFileURL(file).toString());
+    return net.fetch(pathToFileURL(file).toString()).then((res) => {
+      // isolamento cross-origin: SharedArrayBuffer per i thread WASM dell'analisi AI
+      const headers = new Headers(res.headers);
+      headers.set('Cross-Origin-Opener-Policy', 'same-origin');
+      headers.set('Cross-Origin-Embedder-Policy', 'require-corp');
+      return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
+    });
   });
 }
 

@@ -50,6 +50,7 @@ export class BatchAnalyzer extends EventTarget {
           key: !t.key,
           knownBpm: t.bpm || 0,
           knownOffset: t.gridOffset || 0,
+          encoded: bytes,
         });
         const patch = analysisPatch(res, audio.duration);
         Object.assign(t, patch);

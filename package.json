@@ -16,6 +16,8 @@
     "dev": "electron . --dev",
     "test": "node --test \"test/**/*.test.js\"",
     "check": "node scripts/check-syntax.js",
+    "postinstall": "node scripts/vendor-ort.js",
+    "models": "node scripts/download-models.js",
     "icons": "node scripts/generate-icon.js",
     "dist": "electron-builder --publish never",
     "dist:win": "electron-builder --win msi --publish never",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "electron": "^38.8.6",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.0.12",
+    "onnxruntime-web": "1.30.0"
   }
 }

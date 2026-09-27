@@ -1,13 +1,69 @@
 // Worker di analisi: BPM, beatgrid, tonalità, forma d'onda e loudness fuori dal thread UI.
+// Con il motore "ai" battute e battute forti vengono da Beat This! (onnxruntime-web, solo CPU);
+// se il modello manca o dà errore si usa l'analisi classica.
 import { analyzeTrack } from '../js/dsp/analysis.js';
+import { createBeatThisSession, trackBeats } from '../js/dsp/beat-this.js';
 
-self.onmessage = (e) => {
-  const { id, channels, sampleRate, options } = e.data;
+const VENDOR = new URL('../vendor/onnxruntime-web/', import.meta.url);
+const MODELS = new URL('../models/', import.meta.url);
+
+let beatThis = null; // { model, promise } della sessione, riusata tra un brano e l'altro
+
+function loadBeatThis(model) {
+  if (!beatThis || beatThis.model !== model) {
+    if (beatThis) beatThis.promise.then((s) => s.release()).catch(() => {});
+    const promise = (async () => {
+      const ort = await import(new URL('ort.wasm.bundle.min.mjs', VENDOR).href);
+      // solo il .wasm: il codice di collegamento è già dentro il bundle
+      ort.env.wasm.wasmPaths = { wasm: new URL('ort-wasm-simd-threaded.wasm', VENDOR).href };
+      // i thread WASM richiedono l'isolamento cross-origin (SharedArrayBuffer)
+      ort.env.wasm.numThreads = self.crossOriginIsolated ? Math.max(1, Math.min(4, (navigator.hardwareConcurrency || 2) >> 1)) : 1;
+      const res = await fetch(new URL(model, MODELS));
+      if (!res.ok) throw new Error(`modello ${model} non installato`);
+      return createBeatThisSession(ort, new Uint8Array(await res.arrayBuffer()));
+    })();
+    const entry = { model, promise };
+    promise.catch(() => {
+      if (beatThis === entry) beatThis = null;
+    });
+    beatThis = entry;
+  }
+  return beatThis.promise;
+}
+
+async function aiBeat(mono22050, model) {
+  const { run } = await loadBeatThis(model);
+  const { beats, grid } = await trackBeats(run, mono22050);
+  if (!grid.bpm) throw new Error('nessuna battuta riconosciuta');
+  return { bpm: grid.bpm, offset: grid.offset, confidence: grid.confidence, engine: 'ai', beats: beats.length };
+}
+
+async function handle({ id, channels, sampleRate, options = {}, mono22050 }) {
   try {
-    const result = analyzeTrack(channels, sampleRate, options);
+    let beat = null;
+    let aiError = null;
+    if (options.bpm !== false && options.engine === 'ai') {
+      try {
+        if (!mono22050) throw new Error('audio a 22050 Hz non disponibile');
+        beat = await aiBeat(mono22050, options.model);
+      } catch (err) {
+        aiError = String((err && err.message) || err);
+      }
+    }
+    const opts = beat ? { ...options, bpm: false, knownBpm: beat.bpm, knownOffset: beat.offset } : options;
+    const result = analyzeTrack(channels, sampleRate, opts);
+    if (beat) result.beat = beat;
+    else if (result.beat) result.beat.engine = 'classic';
+    if (aiError) result.aiError = aiError;
     const wf = result.waveform;
     self.postMessage({ id, result }, wf ? [wf.peak.buffer, wf.low.buffer, wf.mid.buffer, wf.high.buffer] : []);
   } catch (err) {
     self.postMessage({ id, error: String((err && err.message) || err) });
   }
+}
+
+// una richiesta alla volta: la sessione ONNX non accetta esecuzioni sovrapposte
+let queue = Promise.resolve();
+self.onmessage = (e) => {
+  queue = queue.then(() => handle(e.data));
 };

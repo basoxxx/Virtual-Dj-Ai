@@ -164,7 +164,7 @@ export class Deck extends EventTarget {
           this.emit('cover', c);
         }
       });
-      this.runAnalysis(track, [left, right === left ? left : right], audio.sampleRate);
+      this.runAnalysis(track, [left, right === left ? left : right], audio.sampleRate, bytes);
       return true;
     } catch (err) {
       this.loading = false;
@@ -174,12 +174,12 @@ export class Deck extends EventTarget {
     }
   }
 
-  async runAnalysis(track, channels, sampleRate) {
+  async runAnalysis(track, channels, sampleRate, encoded) {
     const needBeat = !track.analyzed || !track.bpm;
     const needKey = !track.key;
     this.emit('analyzing', true);
     try {
-      const res = await analyze(channels, sampleRate, { bpm: needBeat, key: needKey, knownBpm: track.bpm || 0, knownOffset: track.gridOffset || 0 });
+      const res = await analyze(channels, sampleRate, { bpm: needBeat, key: needKey, knownBpm: track.bpm || 0, knownOffset: track.gridOffset || 0, encoded });
       if (this.track !== track) return;
       this.waveform = res.waveform;
       const patch = analysisPatch(res, this.duration);
