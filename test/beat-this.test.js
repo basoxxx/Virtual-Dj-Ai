@@ -173,11 +173,12 @@ for (const [name, variant, tolerance] of E2E) {
   });
 }
 
-test('modelli: il worker usa un modello incluso nell\'app e scaricato da npm run models', async () => {
+test('modelli: l\'app usa modelli inclusi nel pacchetto e scaricati da npm run models', async () => {
   const { BEAT_MODEL } = await import('../src/renderer/js/audio/analyzer-client.js');
+  const { TRANSITION_MODEL } = await import('../src/renderer/js/ai/transition-planner.js');
   const manifest = JSON.parse(readFileSync(new URL('../scripts/models.json', import.meta.url), 'utf8'));
   const bundled = manifest.models.filter((m) => m.bundle).map((m) => m.file);
-  assert.ok(bundled.includes(BEAT_MODEL), `${BEAT_MODEL} non è tra i modelli inclusi`);
+  for (const used of [BEAT_MODEL, TRANSITION_MODEL]) assert.ok(bundled.includes(used), `${used} non è tra i modelli inclusi`);
   const builder = readFileSync(new URL('../electron-builder.yml', import.meta.url), 'utf8');
   const listed = [...builder.matchAll(/^\s+- src\/renderer\/models\/(\S+\.onnx)$/gm)].map((m) => m[1]);
   assert.deepEqual(listed.sort(), bundled.sort());

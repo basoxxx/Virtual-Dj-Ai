@@ -3,6 +3,8 @@
 // ed esegue la transizione muovendo crossfader, EQ, filtri ed effetti come un DJ.
 import { rankCandidates, planTransition, transitionState, buildSet } from './selector.js';
 import { formatTime } from '../dsp/analysis.js';
+import { planCurves } from './transition-planner.js';
+import { curvesAt } from './transition-model.js';
 
 const DEFAULT_OPTIONS = {
   mode: 'ai', // 'ai' = sceglie l'AI, 'queue' = segue la coda
@@ -266,6 +268,7 @@ export class AutoDJ extends EventTarget {
       for (let i = 0; i < 100 && !next.bpm && this.enabled; i++) await sleep(100);
       if (!this.enabled) return;
       this.plan = this.makePlan(cur, next);
+      if (this.plan.wantModel) await this.attachModelCurves(this.plan);
       this.resetChannel(next);
       next.seek(this.plan.mixIn);
       this.say(`Prossimo: ${label(next.track)} — ${reason}`);
@@ -277,7 +280,10 @@ export class AutoDJ extends EventTarget {
   }
 
   makePlan(cur, next) {
-    const t = planTransition(cur.track, next.track, { style: this.options.style, bars: this.options.bars });
+    // con il modello si decide come in automatico (sync, ripiego), poi le curve vengono dal modello
+    const wantModel = this.options.style === 'model';
+    const t = planTransition(cur.track, next.track, { style: wantModel ? 'auto' : this.options.style, bars: this.options.bars });
+    t.wantModel = wantModel && t.sync;
     const bar = cur.beatLength * 4;
     const transTrackSec = Math.max(bar, t.bars * bar);
     let startAt = cur.track.mixOut && cur.track.mixOut < cur.duration - 4 ? cur.track.mixOut : cur.duration - transTrackSec - 8;
@@ -290,6 +296,24 @@ export class AutoDJ extends EventTarget {
     if (startAt + transTrackSec > cur.duration) startAt = Math.max(cur.position + 0.2, cur.duration - transTrackSec - 0.5);
     const mixIn = next.track.mixIn != null && next.track.mixIn < next.duration / 2 ? next.track.mixIn : next.gridOffset || 0;
     return { ...t, from: cur, fromTrack: cur.track, to: next, toTrack: next.track, startAt, mixIn, transTrackSec };
+  }
+
+  /** Curve del pianificatore (modello C); se non è disponibile resta il piano a regole. */
+  async attachModelCurves(plan) {
+    const info = (d) => ({ waveform: d.waveform, bpm: d.bpm, gridOffset: d.gridOffset, duration: d.duration });
+    // il modello usa forma d'onda e griglia di entrambi i brani: si aspetta la fine dell'analisi (max 30 s)
+    const ready = () => plan.from.waveform && plan.to.waveform && plan.from.bpm && plan.to.bpm;
+    for (let i = 0; i < 300 && !ready() && this.enabled; i++) await sleep(100);
+    try {
+      const { curves, length } = await planCurves(info(plan.from), plan.startAt, info(plan.to), plan.mixIn, plan.bars);
+      plan.curves = curves;
+      plan.curveLength = length;
+      plan.fallbackType = plan.type;
+      plan.type = 'model';
+      plan.why = 'curve previste dal modello sperimentale';
+    } catch (err) {
+      this.say(`Modello delle transizioni non disponibile (${err.message}): uso le regole`);
+    }
   }
 
   /** Anticipa la transizione alla prossima battuta forte. */
@@ -348,7 +372,8 @@ export class AutoDJ extends EventTarget {
         return;
       }
       const p = Math.min(1, (performance.now() - tr.start) / tr.duration);
-      this.applyState(tr, transitionState(tr.plan.type, p));
+      if (tr.plan.curves) this.applyModelState(tr, curvesAt(tr.plan.curves, tr.plan.curveLength, p * tr.plan.curveLength));
+      else this.applyState(tr, transitionState(tr.plan.type, p));
       if (p < 1) tr.raf = requestAnimationFrame(stepFn);
       else this.finishTransition();
     };
@@ -388,6 +413,24 @@ export class AutoDJ extends EventTarget {
     }
   }
 
+  /** Stato previsto dal modello: crossfader, EQ a 3 bande e filtro di entrambi i deck. */
+  applyModelState(tr, s) {
+    const { from, to, controls } = tr;
+    const a = this.side(from);
+    const b = this.side(to);
+    this.engine.setCrossfader(a + (b - a) * s.xf);
+    const cf = controls[from.id];
+    const ct = controls[to.id];
+    if (!cf || !ct) return;
+    const q = (v) => Math.round(v * 50) / 50;
+    ['low', 'mid', 'high'].forEach((band, i) => {
+      this.setControl(tr, `outEq_${band}`, cf.eq[band], q(s.eqA[i]));
+      this.setControl(tr, `inEq_${band}`, ct.eq[band], q(s.eqB[i]));
+    });
+    this.setControl(tr, 'outFilter', cf.filter, q(s.filterA));
+    this.setControl(tr, 'inFilter', ct.filter, q(s.filterB));
+  }
+
   finishTransition() {
     const tr = this.transition;
     if (!tr) return;
@@ -398,14 +441,15 @@ export class AutoDJ extends EventTarget {
     // l'eco finisce di suonare prima di ripulire il canale uscente
     const tail = tr.plan.type === 'echo' ? 2500 : 0;
     from.pause();
+    const allEq = Boolean(tr.plan.curves);
     setTimeout(() => {
-      this.resetChannel(from);
+      this.resetChannel(from, { allEq });
       from.fx[1].setOn(tr.fxBackup.on);
       from.fx[1].setType(tr.fxBackup.type);
       from.fx[1].setMix(tr.fxBackup.mix);
       from.emit('fx');
     }, tail);
-    this.resetChannel(to, { keepVolume: true });
+    this.resetChannel(to, { allEq });
     to._aiReady = false;
     this.history.push(to.track);
     this.step++;
@@ -420,17 +464,17 @@ export class AutoDJ extends EventTarget {
     if (!tr) return;
     cancelAnimationFrame(tr.raf);
     this.transition = null;
-    this.resetChannel(tr.from);
-    this.resetChannel(tr.to);
+    this.resetChannel(tr.from, { allEq: Boolean(tr.plan.curves) });
+    this.resetChannel(tr.to, { allEq: Boolean(tr.plan.curves) });
     this.plan = null;
     this.say('Transizione interrotta');
     this.emit();
   }
 
-  resetChannel(deck) {
+  resetChannel(deck, { allEq = false } = {}) {
     const c = this.getControls()[deck.id];
     if (c) {
-      if (c.eq.low.getValue() !== 0) c.eq.low.set(0);
+      for (const band of allEq ? ['low', 'mid', 'high'] : ['low']) if (c.eq[band].getValue() !== 0) c.eq[band].set(0);
       if (c.filter.getValue() !== 0) c.filter.set(0);
     }
     deck.playerGain.gain.setTargetAtTime(1, deck.ctx.currentTime, 0.02);
@@ -498,7 +542,7 @@ export class AutoDJ extends EventTarget {
   }
 }
 
-const TRANSITION_NAMES = { bassswap: 'bass swap', filter: 'filtro', echo: 'echo out', fade: 'dissolvenza', cut: 'taglio sul beat' };
+const TRANSITION_NAMES = { bassswap: 'bass swap', filter: 'filtro', echo: 'echo out', fade: 'dissolvenza', cut: 'taglio sul beat', model: 'del modello AI' };
 
 function label(t) {
   return t ? `${t.artist ? `${t.artist} - ` : ''}${t.title}` : '—';

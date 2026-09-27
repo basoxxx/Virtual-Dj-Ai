@@ -29,6 +29,20 @@
       "bytes": 81651009,
       "sha256": "cee641c66588bc6182fd445d3a4b2889113a952514227d21174f19284232e987",
       "source": "Beat This! final0 (CPJKU, MIT), ml/beat_this/export_onnx.py, fp32"
+    },
+    {
+      "file": "transition-planner-v1-int8.onnx",
+      "bundle": true,
+      "bytes": 6815310,
+      "sha256": "1672325644c5fedb80037cd40d0330b7a7a347bac0d473908cbf48149168a86c",
+      "source": "Modello C (pianificatore delle transizioni) v1, ml/transitions, int8 dinamico; addestrato su transizioni sintetiche"
+    },
+    {
+      "file": "transition-planner-v1.onnx",
+      "bundle": false,
+      "bytes": 25766251,
+      "sha256": "d41ad454ce3d6c3d1ffc56f9a1d12a288653650bb9881c6daff0aa193aec0978",
+      "source": "Modello C (pianificatore delle transizioni) v1, ml/transitions, fp32"
     }
   ]
 }
