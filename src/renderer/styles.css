@@ -161,6 +161,10 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 .hotcue { padding: 6px 0; color: var(--dim); box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--hc) 70%, transparent); border-radius: 6px; }
 .hotcue.set { background: var(--hc); color: #000; box-shadow: none; }
 .loop-box { display: flex; flex-direction: column; gap: 4px; }
+/* le file di pulsanti si stringono invece di andare a capo (finestre strette) */
+.loop-box .row.tight { flex-wrap: nowrap; min-width: 0; }
+.loop-box .row.tight .btn { flex: 1 1 auto; min-width: 0; padding-left: 4px; padding-right: 4px; overflow: hidden; text-overflow: ellipsis; }
+.loop-box .row.tight .mini-label { flex: none; }
 .loop-sizes { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
 .loop-size { padding: 4px 0; border-radius: 6px; }
 .loop-size.on, .loop-box .btn.on { background: var(--ok); color: #000; }
@@ -285,7 +289,7 @@ input.lib-search { flex: 1; padding-left: 30px; background-image: url("data:imag
 .in-deck { display: inline-block; font-size: 9px; font-weight: 700; padding: 0 5px; border-radius: 4px; margin-right: 6px; color: #000; line-height: 15px; }
 .in-deck.dA { background: var(--a); }
 .in-deck.dB { background: var(--b); }
-.lib-empty { position: absolute; inset: 60px 0 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--dim); font-size: 13px; }
+.lib-empty { position: absolute; top: 72px; left: 0; right: 0; bottom: 0; overflow: auto; padding: 8px; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--dim); font-size: 13px; }
 .lib-empty.show { display: flex; }
 .lib-empty .big { color: var(--faint); }
 
@@ -401,6 +405,10 @@ kbd { background: var(--control); border-radius: 6px; padding: 3px 7px; font-fam
 .supported-item { font-size: 11px; color: var(--dim); }
 .supported-item b { color: var(--text); font-weight: 600; }
 
+@media (max-height: 860px) {
+  .lib-empty { gap: 8px; }
+  .lib-empty .big { display: none; }
+}
 @media (max-height: 820px) {
   .waves { height: 104px; }
   .jog { width: 124px; height: 124px; }

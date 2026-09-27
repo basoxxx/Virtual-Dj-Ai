@@ -119,6 +119,7 @@ class App {
     await this.library.reload();
     document.addEventListener('pointerdown', () => this.engine.resume(), { once: true });
     document.body.classList.add('ready');
+    this.installAutoFit();
     this.loop();
   }
 
@@ -174,6 +175,8 @@ class App {
     const mixer = el('section', {});
     const deckB = el('section', {});
     const middle = el('div', { class: 'console' }, deckA, mixer, deckB);
+    this.consoleEl = middle;
+    this.wavesEl = waves;
     this.deckUIs = this.decks.map((d, i) => new DeckUI(i === 0 ? deckA : deckB, d, {
       accent: ACCENTS[i],
       side: i === 0 ? 'left' : 'right',
@@ -465,6 +468,38 @@ class App {
     });
     const missing = knownActions().filter((id) => !this.actions.has(id));
     if (missing.length) console.warn('Azioni MIDI non registrate:', missing);
+  }
+
+  /**
+   * Adatta la console allo spazio disponibile: su schermi bassi (es. MacBook 13") la riduce
+   * in proporzione invece di farla sovrapporre alla libreria, che tiene sempre uno spazio minimo.
+   */
+  fitLayout() {
+    const c = this.consoleEl;
+    if (!c) return;
+    c.style.zoom = '';
+    const natural = c.scrollHeight;
+    const topbar = 44;
+    const minBottom = Math.max(210, window.innerHeight * 0.27);
+    const available = window.innerHeight - topbar - this.wavesEl.offsetHeight - minBottom;
+    const zoom = Math.max(0.68, Math.min(1, available / natural));
+    if (zoom < 0.995) c.style.zoom = zoom.toFixed(3);
+    document.body.classList.toggle('compact', zoom < 0.995);
+  }
+
+  installAutoFit() {
+    let pending = false;
+    const schedule = () => {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => {
+        pending = false;
+        this.fitLayout();
+      });
+    };
+    window.addEventListener('resize', schedule);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+    schedule();
   }
 
   loop() {
