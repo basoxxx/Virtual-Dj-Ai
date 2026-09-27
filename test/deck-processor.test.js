@@ -105,3 +105,17 @@ test('la frenata rallenta gradualmente', () => {
   render(p, SR / 2);
   assert.ok(p.motor > 0.3 && p.motor < 0.7, `motor ${p.motor}`);
 });
+
+test('swap cambia versione del brano senza fermarlo né spostarlo (mashup)', () => {
+  const p = make(sine(100, 4));
+  p.port.onmessage({ data: { type: 'loop', in: SR * 2, out: SR * 3, active: true } });
+  p.port.onmessage({ data: { type: 'play', startTime: 0 } });
+  render(p, SR);
+  const pos = p.pos;
+  p.port.onmessage({ data: { type: 'swap', left: sine(300, 4), right: sine(300, 4) } });
+  assert.equal(p.pos, pos);
+  assert.equal(p.playing, true);
+  assert.equal(p.loopActive, true);
+  const out = render(p, SR / 2);
+  assert.ok(Math.abs(freqOf(out) - 300) < 10, `frequenza ${freqOf(out)}`);
+});

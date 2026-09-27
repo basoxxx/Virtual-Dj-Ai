@@ -1,11 +1,12 @@
 // AI DJ: mixa in automatico. Sceglie il brano successivo (motore interno o LLM locale),
 // lo precarica, calcola il punto di mix allineato alle frasi, sincronizza tempo e fase
 // ed esegue la transizione muovendo crossfader, EQ, filtri ed effetti come un DJ.
-import { rankCandidates, planTransition, transitionState, buildSet } from './selector.js';
+import { rankCandidates, planTransition, transitionState, buildSet, keyScore } from './selector.js';
 import { formatTime } from '../dsp/analysis.js';
 import { planCurves } from './transition-planner.js';
 import { curvesAt } from './transition-model.js';
 import { needsAiRefine } from '../audio/analyzer-client.js';
+import { planRemix, REMIX_ACTIONS } from './remix.js';
 
 const DEFAULT_OPTIONS = {
   mode: 'ai', // 'ai' = sceglie l'AI, 'queue' = segue la coda
@@ -16,11 +17,15 @@ const DEFAULT_OPTIONS = {
   useLLM: false,
   returnTempo: true,
   notes: '',
+  remix: false, // remix dal vivo mentre un brano suona da solo
+  mashup: false, // voce del prossimo brano sulla base di quello in onda (serve il modello Demucs)
 };
 
 export class AutoDJ extends EventTarget {
-  constructor({ engine, decks, getControls, getPool, llm }) {
+  constructor({ engine, decks, getControls, getPool, llm, stems = null, random = Math.random }) {
     super();
+    this.stems = stems;
+    this.random = random;
     this.engine = engine;
     this.decks = decks;
     this.getControls = getControls;
@@ -109,6 +114,7 @@ export class AutoDJ extends EventTarget {
       this.timer = setInterval(() => this.tick(), 150);
       this.tick();
     } else {
+      this.cancelRemix();
       this.abortTransition();
       this.plan = null;
       this.say('AI DJ disattivato');
@@ -203,6 +209,7 @@ export class AutoDJ extends EventTarget {
     }
     if (next.playing) return; // l'utente sta suonando manualmente l'altro deck
     if (cur.position >= this.plan.startAt) this.beginTransition(cur, next, this.plan);
+    else if (this.options.remix) this.remixTick(cur);
   }
 
   async startFirst() {
@@ -272,6 +279,11 @@ export class AutoDJ extends EventTarget {
       if (!this.enabled) return;
       this.plan = this.makePlan(cur, next);
       if (this.plan.wantModel) await this.attachModelCurves(this.plan);
+      if (this.options.mashup) {
+        // il brano successivo si separa subito: quando andrà in onda la sua base sarà già pronta
+        if (this.stems) this.stems.ensure(next.track).catch(() => {});
+        this.prepareMashup(this.plan);
+      }
       this.resetChannel(next);
       next.seek(this.plan.mixIn);
       this.say(`Prossimo: ${label(next.track)} — ${reason}`);
@@ -349,6 +361,14 @@ export class AutoDJ extends EventTarget {
   // --- transizione --------------------------------------------------------------------
 
   beginTransition(from, to, plan) {
+    this.cancelRemix();
+    if (plan.mashup) {
+      if (plan.mashup.status === 'ready') {
+        this.beginMashup(from, to, plan);
+        return;
+      }
+      this.say(plan.mashup.status === 'preparing' ? 'Mashup: voce e base non ancora pronte, transizione normale' : 'Mashup non disponibile, transizione normale');
+    }
     const controls = this.getControls();
     if (plan.sync && from.bpm && to.bpm) to.sync(from);
     else to.setPitch(0);
@@ -445,6 +465,10 @@ export class AutoDJ extends EventTarget {
     const tail = tr.plan.type === 'echo' ? 2500 : 0;
     from.pause();
     const allEq = Boolean(tr.plan.curves);
+    if (tr.mashup) {
+      from.setStem('full').catch(() => {});
+      to.setStem('full').catch(() => {});
+    }
     setTimeout(() => {
       this.resetChannel(from, { allEq });
       from.fx[1].setOn(tr.fxBackup.on);
@@ -467,11 +491,195 @@ export class AutoDJ extends EventTarget {
     if (!tr) return;
     cancelAnimationFrame(tr.raf);
     this.transition = null;
+    if (tr.mashup) {
+      tr.from.setStem('full').catch(() => {});
+      tr.to.setStem('full').catch(() => {});
+    }
     this.resetChannel(tr.from, { allEq: Boolean(tr.plan.curves) });
     this.resetChannel(tr.to, { allEq: Boolean(tr.plan.curves) });
     this.plan = null;
     this.say('Transizione interrotta');
     this.emit();
+  }
+
+  // --- mashup ------------------------------------------------------------------------
+
+  /** Con l'opzione mashup e due brani compatibili prepara in background voce e base di entrambi. */
+  async prepareMashup(plan) {
+    if (!this.stems || !plan.sync || keyScore(plan.fromTrack.key, plan.toTrack.key) < 0.75) return;
+    plan.mashup = { status: 'preparing' };
+    try {
+      if (!(await this.stems.checkModel())) throw new Error('scarica prima il modello per separare voce e base (pannello AI DJ)');
+      this.say(`Mashup: preparo voce e base di ${label(plan.toTrack)} e ${label(plan.fromTrack)}`);
+      await Promise.all([this.stems.ensure(plan.fromTrack), this.stems.ensure(plan.toTrack)]);
+      const vocalStart = await this.vocalEntry(plan.to, plan.toTrack);
+      if (this.plan !== plan) return;
+      plan.mashup = { status: 'ready', vocalStart };
+      this.say(`Mashup pronto: la voce di ${label(plan.toTrack)} entrerà sulla base di ${label(plan.fromTrack)}`);
+    } catch (err) {
+      plan.mashup = { status: 'failed' };
+      this.say(`Mashup non possibile: ${err.message}`);
+    }
+  }
+
+  /** Inizio (s) della prima frase di 4 battute in cui la voce del brano è ben presente. */
+  async vocalEntry(deck, track) {
+    const bytes = await this.stems.readVocals(track);
+    const ctx = new OfflineAudioContext(1, 1, 22050);
+    const audio = await ctx.decodeAudioData(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
+    const x = audio.getChannelData(0);
+    const bar = (60 / (track.bpm || deck.bpm)) * 4;
+    const offset = track.gridOffset || 0;
+    const rms = [];
+    for (let t = offset; t + bar < audio.duration; t += bar) {
+      let s = 0;
+      const a = Math.floor(t * 22050);
+      const b = Math.floor((t + bar) * 22050);
+      for (let i = a; i < b; i += 4) s += x[i] * x[i];
+      rms.push(Math.sqrt(s / ((b - a) / 4)));
+    }
+    const max = Math.max(...rms, 1e-9);
+    const first = rms.findIndex((v) => v > 0.3 * max);
+    return offset + Math.max(0, Math.floor(Math.max(0, first) / 4) * 4) * bar;
+  }
+
+  /**
+   * Transizione mashup: il brano in onda passa alla sola base, entra la voce del prossimo a tempo per
+   * 16 battute, poi il prossimo torna completo e il primo sfuma in 8 battute.
+   */
+  async beginMashup(from, to, plan) {
+    const beat = from.beatLength;
+    const remaining = from.duration - from.position;
+    const fadeBars = 8;
+    const mashBars = Math.max(4, Math.min(16, Math.floor(remaining / (4 * beat)) - fadeBars));
+    this.transition = {
+      from, to, plan, controls: this.getControls(), mashup: true, mashBars, fadeBars, applied: {},
+      start: performance.now(), duration: (((mashBars + fadeBars) * 4 * beat) / from.tempo) * 1000,
+      fxBackup: { type: from.fx[1].type, on: from.fx[1].on, mix: from.fx[1].mix },
+    };
+    try {
+      await from.setStem('instrumental');
+      if (from.bpm && to.bpm) to.sync(from);
+      await to.setStem('vocals');
+      to.seek(plan.mashup.vocalStart);
+      to.play();
+      if (from.bpm && to.bpm) to.alignPhase(from);
+    } catch (err) {
+      this.say(`Mashup interrotto: ${err.message}`);
+      this.abortTransition();
+      return;
+    }
+    const vol = this.transition.controls[to.id] && this.transition.controls[to.id].vol;
+    if (vol && vol.getValue() < 0.5) vol.set(0.85);
+    this.say(`Mashup: voce di ${label(to.track)} sulla base di ${label(from.track)} per ${mashBars} battute`);
+    this.emit();
+    const stepFn = () => {
+      const tr = this.transition;
+      if (!tr) return;
+      if (!tr.to.playing) {
+        this.abortTransition();
+        return;
+      }
+      const p = Math.min(1, (performance.now() - tr.start) / tr.duration);
+      const split = tr.mashBars / (tr.mashBars + tr.fadeBars);
+      const a = this.side(tr.from);
+      const b = this.side(tr.to);
+      if (p < split) {
+        // entrambi a volume pieno: con la curva "smooth" il centro non abbassa nessuno dei due
+        this.engine.setCrossfader(a + (b - a) * 0.5);
+      } else {
+        if (!tr.applied.full) {
+          tr.applied.full = true;
+          tr.to.setStem('full').catch(() => {});
+        }
+        const q = (p - split) / (1 - split);
+        this.engine.setCrossfader(a + (b - a) * (0.5 + 0.5 * (0.5 - 0.5 * Math.cos(Math.PI * q))));
+      }
+      if (p < 1) tr.raf = requestAnimationFrame(stepFn);
+      else this.finishTransition();
+    };
+    this.transition.raf = requestAnimationFrame(stepFn);
+  }
+
+  // --- remix dal vivo ------------------------------------------------------------------
+
+  remixTick(deck) {
+    const r = this.remix;
+    if (r && r.deck === deck && r.track === deck.track && (r.pending || deck.position < r.plan.boundary)) return;
+    this.cancelRemix();
+    const info = { bpm: deck.bpm, gridOffset: deck.gridOffset, duration: deck.duration, barEnergy: deck.track && deck.track.barEnergy };
+    const plan = planRemix(info, deck.position, { nextMixAt: this.plan ? this.plan.startAt : Infinity, rng: this.random, last: r && r.plan.action });
+    if (!plan) return;
+    const rem = { deck, track: deck.track, plan, timers: [], pending: plan.action !== 'none' };
+    this.remix = rem;
+    if (plan.action === 'none') return;
+    const at = (sec, fn) => rem.timers.push(setTimeout(fn, Math.max(0, ((sec - deck.position) / deck.tempo) * 1000)));
+    at(plan.at, () => this.remixStart(rem));
+    at(plan.until, () => this.remixEnd(rem));
+  }
+
+  remixStart(rem) {
+    const { deck, plan } = rem;
+    if (this.remix !== rem || !deck.playing || this.transition) return;
+    this.say(`Remix: ${REMIX_ACTIONS[plan.action]}`);
+    if (plan.action === 'roll') {
+      rem.slip = deck.slip;
+      deck.setSlip(true);
+      deck.autoLoop(0.5);
+      rem.timers.push(setTimeout(() => deck.loopScale(0.5), ((deck.beatLength / 2) / deck.tempo) * 1000));
+    } else if (plan.action === 'echo') {
+      const slot = deck.fx[1];
+      rem.fx = { type: slot.type, on: slot.on, mix: slot.mix, param: slot.param };
+      slot.setType('echo');
+      slot.setParam(0.5);
+      slot.setMix(0.5);
+      slot.setOn(true);
+      deck.emit('fx');
+    } else if (plan.action === 'build') {
+      const ctl = this.getControls()[deck.id];
+      const t0 = performance.now();
+      const len = ((plan.until - plan.at) / deck.tempo) * 1000;
+      rem.timers.push(setInterval(() => {
+        const q = Math.min(1, (performance.now() - t0) / len);
+        if (ctl) ctl.filter.set(Math.round(q * 0.55 * 50) / 50);
+      }, 60));
+    } else if (plan.action === 'repeat') {
+      deck.beatJump(plan.jumpBeats);
+    }
+  }
+
+  remixEnd(rem) {
+    const { deck, plan } = rem;
+    rem.pending = false;
+    if (plan.action === 'roll' && deck.loop.active) {
+      deck.setLoopActive(false);
+      deck.setSlip(Boolean(rem.slip));
+    } else if (plan.action === 'echo' && rem.fx) {
+      // lascia suonare la coda dell'eco per una battuta
+      setTimeout(() => {
+        const slot = deck.fx[1];
+        slot.setOn(rem.fx.on);
+        slot.setType(rem.fx.type);
+        slot.setMix(rem.fx.mix);
+        if (rem.fx.param != null) slot.setParam(rem.fx.param);
+        deck.emit('fx');
+      }, ((deck.beatLength * 4) / deck.tempo) * 1000);
+    } else if (plan.action === 'build') {
+      rem.timers.forEach((t) => clearInterval(t));
+      const ctl = this.getControls()[deck.id];
+      if (ctl) ctl.filter.set(0);
+    }
+  }
+
+  cancelRemix() {
+    const rem = this.remix;
+    if (!rem) return;
+    rem.timers.forEach((t) => {
+      clearTimeout(t);
+      clearInterval(t);
+    });
+    if (rem.pending && rem.plan.action !== 'none') this.remixEnd(rem);
+    this.remix = null;
   }
 
   resetChannel(deck, { allEq = false } = {}) {

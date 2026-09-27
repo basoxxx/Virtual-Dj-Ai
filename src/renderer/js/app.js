@@ -10,6 +10,7 @@ import { AutoDJ } from './ai/autodj.js';
 import { LocalLLM } from './ai/llm.js';
 import { BatchAnalyzer } from './ai/batch-analyzer.js';
 import { configureAnalysis } from './audio/analyzer-client.js';
+import { StemManager } from './ai/stems.js';
 import { DeckUI } from './ui/deck-ui.js';
 import { MixerUI } from './ui/mixer-ui.js';
 import { LibraryUI } from './ui/library-ui.js';
@@ -80,7 +81,9 @@ class App {
     await this.sampler.init(this.settings.sampler);
     this.llm = new LocalLLM(() => this.settings.ai);
     this.analyzer = new BatchAnalyzer(this.engine.ctx);
+    this.stems = new StemManager({ isBusy: () => this.analyzer.running });
     this.automix = new AutoDJ({
+      stems: this.stems,
       engine: this.engine,
       decks: this.decks,
       getControls: () => this.mixerUI.controls,
@@ -189,6 +192,7 @@ class App {
       side: i === 0 ? 'left' : 'right',
       getOther: () => this.decks[1 - i],
       onRequestLoad: (e) => this.onDeckDrop(d, e),
+      stems: this.stems,
     }));
     this.mixerUI = new MixerUI(mixer, { engine: this.engine, strips: this.strips, decks: this.decks, mic: this.mic, sampler: this.sampler, accents: ACCENTS });
 
@@ -205,6 +209,7 @@ class App {
       getMasterDeck: () => this.masterDeck(),
     });
     this.sideUI = new SideUI(sideHost, {
+      stems: this.stems,
       sampler: this.sampler,
       automix: this.automix,
       onSamplerChange: () => {
@@ -224,7 +229,7 @@ class App {
     });
     this.library.addEventListener('changed', () => {
       this.sideUI.refreshSources();
-      if (this.settings.ai.autoAnalyze && !this.analyzer.running) {
+      if (this.settings.ai.autoAnalyze && !this.analyzer.running && !this.stems.running) {
         clearTimeout(this.analyzeTimer);
         this.analyzeTimer = setTimeout(() => this.analyzer.run(this.library.lib.tracks), 3000);
       }

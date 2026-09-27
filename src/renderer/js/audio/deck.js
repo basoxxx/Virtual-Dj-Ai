@@ -131,6 +131,9 @@ export class Deck extends EventTarget {
       const right = audio.numberOfChannels > 1 ? audio.getChannelData(1) : left;
       this.post({ type: 'unload' });
       this.post({ type: 'load', left, right });
+      // versione completa (per tornarci dopo solo voce / solo base)
+      this.fullBuffers = { left, right };
+      this.stem = 'full';
       this.post({ type: 'seek', pos: 0 });
       this.track = track;
       this.duration = audio.duration;
@@ -243,6 +246,8 @@ export class Deck extends EventTarget {
   eject() {
     if (this.playing) return false;
     this.post({ type: 'unload' });
+    this.fullBuffers = null;
+    this.stem = 'full';
     this.track = null;
     this.duration = 0;
     this.waveform = null;
@@ -372,6 +377,32 @@ export class Deck extends EventTarget {
   }
 
   // --- Loop ----------------------------------------------------------------------------
+
+  /**
+   * Versione del brano in riproduzione: 'full', 'vocals' (solo voce) o 'instrumental' (solo base), dalle
+   * parti separate salvate su disco (mashup). Lo scambio non ferma né sposta il brano.
+   */
+  async setStem(kind) {
+    if (!this.track || !this.fullBuffers) return false;
+    if (kind === (this.stem || 'full')) return true;
+    const track = this.track;
+    let left;
+    let right;
+    if (kind === 'full') {
+      ({ left, right } = this.fullBuffers);
+    } else {
+      const bytes = await api.readStem(track.id, kind);
+      if (!bytes) throw new Error('parte separata non disponibile');
+      const audio = await this.ctx.decodeAudioData(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
+      left = audio.getChannelData(0);
+      right = audio.numberOfChannels > 1 ? audio.getChannelData(1) : left;
+    }
+    if (this.track !== track) return false;
+    this.post({ type: 'swap', left, right });
+    this.stem = kind;
+    this.emit('state');
+    return true;
+  }
 
   sendLoop() {
     this.post({ type: 'loop', in: this.loop.in * this.sampleRate, out: this.loop.out * this.sampleRate, active: this.loop.active });
