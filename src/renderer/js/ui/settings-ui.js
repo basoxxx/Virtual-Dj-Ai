@@ -474,5 +474,38 @@ async function aboutPage(app) {
     el('div', {}, `Versione ${info.version}`),
     el('div', { class: 'field-hint' }, `${info.platform} ${info.arch} · Electron ${info.electron}`),
     el('p', {}, 'Software DJ open source con AI DJ che mixa in automatico (anche con un modello linguistico locale): 2 deck con scratch, keylock e sync, mixer a 3 bande con filtri, 2 effetti per deck, sampler, microfono, ingressi linea dalla scheda audio, uscita cuffia separata, controller MIDI e registrazione del mix.'),
-    el('p', { class: 'field-hint' }, 'Le nuove versioni vengono pubblicate automaticamente su GitHub Releases a ogni aggiornamento del ramo main.'));
+    updatesSection(app));
+}
+
+function updatesSection(app) {
+  const u = app.updateUI;
+  const wrap = el('div', { class: 'update-settings' }, el('div', { class: 'section-label' }, 'AGGIORNAMENTI'));
+  if (!u || !u.supported) {
+    wrap.append(el('p', { class: 'field-hint' }, 'Le nuove versioni vengono pubblicate su GitHub Releases a ogni aggiornamento del ramo main.'));
+    return wrap;
+  }
+  const auto = el('input', { type: 'checkbox' });
+  auto.checked = u.auto;
+  auto.addEventListener('change', () => u.setAuto(auto.checked));
+  const status = el('span', { class: 'field-hint' });
+  const action = el('div', { class: 'row' });
+  const render = () => {
+    const i = u.info;
+    if (u.state === 'checking') status.textContent = 'Controllo in corso…';
+    else if (u.state === 'error') status.textContent = `Controllo non riuscito: ${u.error}`;
+    else if (i && i.available) status.textContent = `Disponibile la versione ${i.latest}`;
+    else if (i) status.textContent = `Hai l'ultima versione (${i.current})`;
+    else status.textContent = '';
+    action.replaceChildren(
+      button('Verifica ora', { className: 'small', onClick: () => u.check(true) }),
+      i && i.available ? button(`Installa ${i.latest}`, { className: 'small primary', onClick: () => u.openDialog() }) : null,
+      status);
+  };
+  u.onChange = () => { if (wrap.isConnected) render(); };
+  render();
+  wrap.append(
+    el('label', { class: 'check' }, auto, 'Controlla e proponi gli aggiornamenti automaticamente'),
+    action,
+    el('p', { class: 'field-hint' }, 'Il pacchetto viene scaricato da GitHub Releases, verificato con la sua impronta SHA-256 e installato al riavvio.'));
+  return wrap;
 }

@@ -21,6 +21,7 @@ import { formatTime } from './dsp/analysis.js';
 import { knownActions } from './controllers/presets.js';
 import { GamepadController } from './controllers/gamepad.js';
 import { icon, withIcon } from './ui/icons.js';
+import { UpdateUI } from './ui/update-ui.js';
 
 const ACCENTS = ['#2ea8ff', '#ff6a3d'];
 
@@ -37,6 +38,7 @@ const DEFAULT_SETTINGS = {
     autoAnalyze: true,
     options: {},
   },
+  updates: { auto: true },
 };
 
 function merge(defaults, saved) {
@@ -120,6 +122,7 @@ class App {
     document.addEventListener('pointerdown', () => this.engine.resume(), { once: true });
     document.body.classList.add('ready');
     this.installAutoFit();
+    this.updateUI.schedule();
     this.loop();
   }
 
@@ -138,6 +141,7 @@ class App {
     this.midiBadge = el('span', { class: 'badge', title: 'Console DJ' }, 'MIDI');
     this.midiBadge.addEventListener('click', () => this.openSettings('midi'));
     this.clock = el('span', { class: 'clock' });
+    this.updateUI = new UpdateUI(this);
     this.progress = el('span', { class: 'progress' });
     this.engine.addEventListener('recording', (e) => {
       this.recBtn.setOn(e.detail);
@@ -147,7 +151,7 @@ class App {
       el('div', { class: 'logo' }, el('img', { class: 'logo-img', src: 'img/icon.png', alt: '' }), 'Virtual DJ ', el('b', {}, 'AI')),
       this.progress,
       el('div', { class: 'spacer' }),
-      this.recBtn, this.recTime, this.automixBtn, this.midiBadge,
+      this.updateUI.badge, this.recBtn, this.recTime, this.automixBtn, this.midiBadge,
       button(icon('gear'), { className: 'icon-btn', title: 'Impostazioni (Ctrl+,)', onClick: () => this.openSettings() }),
       button(icon('help'), { className: 'icon-btn', title: 'Scorciatoie (F1)', onClick: () => this.openSettings('keys') }),
       this.clock);
@@ -331,6 +335,7 @@ class App {
         },
         sampler: this.sampler.serialize(),
         ai: this.settings.ai,
+        updates: this.settings.updates,
       });
     }, 300);
   }

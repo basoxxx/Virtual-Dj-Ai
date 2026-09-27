@@ -417,3 +417,14 @@ kbd { background: var(--control); border-radius: 6px; padding: 3px 7px; font-fam
   .fader.vertical { height: 120px; }
   .fader.pitch { height: 140px; }
 }
+
+/* aggiornamenti */
+.btn.update-badge { background: var(--accent); color: #fff; font-weight: 600; border-radius: 980px; padding: 4px 12px 4px 9px; gap: 6px; }
+.btn.update-badge[hidden] { display: none; }
+.update-modal { width: 440px; max-width: calc(100vw - 32px); }
+.update-head { display: flex; gap: 14px; align-items: center; }
+.update-icon { width: 52px; height: 52px; border-radius: 12px; }
+.update-notes { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; color: var(--dim); font-size: 12.5px; line-height: 1.4; max-height: 180px; overflow: auto; }
+.update-progress { height: 6px; border-radius: 3px; background: var(--control); overflow: hidden; }
+.update-bar { height: 100%; background: var(--accent); border-radius: 3px; transition: width .2s ease; }
+.update-settings { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 520px; margin-top: 8px; padding-top: 14px; border-top: 1px solid var(--line); text-align: left; }

@@ -7,6 +7,7 @@ const { pathToFileURL } = require('node:url');
 const { Library, isAudioFile, AUDIO_EXTENSIONS } = require('./library');
 const { JsonStore } = require('./store');
 const llm = require('./llm');
+const updater = require('./updater');
 
 const RENDERER_DIR = path.join(__dirname, '..', 'renderer');
 const isDev = process.argv.includes('--dev');
@@ -254,6 +255,36 @@ function registerIpc() {
       fs.rmSync(rec.tmp, { force: true });
     }
     return res.filePath;
+  });
+
+  // --- aggiornamenti automatici ---------------------------------------------------
+  let updateInfo = null;
+  let downloadedInstaller = null;
+  // net.fetch usa la rete di Chromium: rispetta proxy e certificati di sistema
+  const fetchImpl = (url, opts) => net.fetch(url, opts);
+  ipcMain.handle('update:check', async () => {
+    updateInfo = await updater.checkForUpdates(app.getVersion(), { fetchImpl });
+    return { ...updateInfo, packaged: app.isPackaged };
+  });
+  ipcMain.handle('update:download', async () => {
+    if (!updateInfo || !updateInfo.available) throw new Error('Nessun aggiornamento disponibile');
+    downloadedInstaller = await updater.download(updateInfo.asset, {
+      fetchImpl,
+      onProgress: (done, total) => send('update:progress', { done, total }),
+    });
+    return { file: downloadedInstaller, verified: Boolean(updateInfo.asset.sha256) };
+  });
+  ipcMain.handle('update:install', () => {
+    if (!downloadedInstaller) throw new Error('Scarica prima l\'aggiornamento');
+    // dal codice sorgente non si sostituisce mai l'eseguibile: si apre solo l'installer
+    const result = app.isPackaged ? updater.install(downloadedInstaller, { shell }) : 'manual';
+    if (result === 'manual' && !app.isPackaged) shell.showItemInFolder(downloadedInstaller);
+    if (result === 'restart') {
+      if (library) library.flush();
+      if (settings) settings.flush();
+      setTimeout(() => app.quit(), 300);
+    }
+    return result;
   });
 
   ipcMain.handle('ai:models', (_e, cfg) => llm.listModels(cfg || {}));

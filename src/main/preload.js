@@ -41,10 +41,13 @@ contextBridge.exposeInMainWorld('api', {
   recordStop: invoke('record:stop'),
   requestMic: invoke('media:requestMic'),
   aiModels: invoke('ai:models'),
+  updateCheck: invoke('update:check'),
+  updateDownload: invoke('update:download'),
+  updateInstall: invoke('update:install'),
   aiChat: invoke('ai:chat'),
 
   on: (channel, handler) => {
-    const allowed = ['menu', 'library:progress'];
+    const allowed = ['menu', 'library:progress', 'update:progress'];
     if (!allowed.includes(channel)) return () => {};
     const listener = (_e, payload) => handler(payload);
     ipcRenderer.on(channel, listener);
