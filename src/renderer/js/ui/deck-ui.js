@@ -226,6 +226,13 @@ export class DeckUI {
     d.addEventListener('analyzing', (e) => this.analyzingEl.classList.toggle('show', e.detail));
     d.addEventListener('error', (e) => toast(e.detail, 'error'));
     d.addEventListener('pitch', () => this.pitchFader.setValue(d.pitch / d.pitchRange));
+    d.addEventListener('fx', () => this.fxBoxes.forEach((box) => {
+      const c = box.fxControls;
+      c.sel.value = c.slot.type;
+      c.onBtn.setOn(c.slot.on);
+      c.wet.setValue(c.slot.mix);
+      c.param.setValue(c.slot.param);
+    }));
     d.addEventListener('line', (e) => {
       this.lineSel.value = e.detail || '';
       this.refreshTrack();

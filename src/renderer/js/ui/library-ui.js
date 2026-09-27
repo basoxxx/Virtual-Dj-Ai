@@ -128,6 +128,7 @@ export class LibraryUI extends EventTarget {
     if (this.source.type === 'playlist' && !lib.playlists.find((p) => p.id === this.source.id)) this.source = { type: 'all' };
     this.renderSidebar();
     this.refreshRows();
+    this.dispatchEvent(new CustomEvent('changed'));
   }
 
   track(id) {

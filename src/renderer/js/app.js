@@ -6,7 +6,9 @@ import { Deck } from './audio/deck.js';
 import { Sampler } from './audio/sampler.js';
 import { MicChannel } from './audio/mic.js';
 import { MidiManager } from './midi.js';
-import { Automix } from './automix.js';
+import { AutoDJ } from './ai/autodj.js';
+import { LocalLLM } from './ai/llm.js';
+import { BatchAnalyzer } from './ai/batch-analyzer.js';
 import { DeckUI } from './ui/deck-ui.js';
 import { MixerUI } from './ui/mixer-ui.js';
 import { LibraryUI } from './ui/library-ui.js';
@@ -27,6 +29,11 @@ const DEFAULT_SETTINGS = {
   },
   midi: { mapping: {} },
   sampler: [],
+  ai: {
+    llm: false, provider: 'ollama', endpoint: 'http://localhost:11434', model: '', apiKey: '',
+    autoAnalyze: true,
+    options: {},
+  },
 };
 
 function merge(defaults, saved) {
@@ -63,7 +70,16 @@ class App {
     this.mic.addEventListener('error', (e) => toast(e.detail, 'error'));
     this.sampler = new Sampler(this.engine);
     await this.sampler.init(this.settings.sampler);
-    this.automix = new Automix(this.engine, this.decks);
+    this.llm = new LocalLLM(() => this.settings.ai);
+    this.analyzer = new BatchAnalyzer(this.engine.ctx);
+    this.automix = new AutoDJ({
+      engine: this.engine,
+      decks: this.decks,
+      getControls: () => this.mixerUI.controls,
+      getPool: (source) => (source && source !== 'library' ? this.library.playlistTracks(source) : this.library.lib.tracks),
+      llm: this.llm,
+    });
+    this.automix.setOptions(this.settings.ai.options || {});
 
     this.buildLayout();
     this.applyMixerSettings();
@@ -102,8 +118,11 @@ class App {
     // barra superiore
     this.recBtn = button('● REC', { className: 'rec-btn toggle', title: 'Registra il mix in WAV (Ctrl+R)', onClick: () => this.toggleRecording() });
     this.recTime = el('span', { class: 'rec-time' }, '');
-    this.automixBtn = button('AUTOMIX', { className: 'toggle', title: 'Automix (Ctrl+M)', onClick: () => this.automix.setEnabled(!this.automix.enabled) });
+    this.automixBtn = button('🤖 AI DJ', { className: 'toggle', title: 'AI DJ: mixa in automatico (Ctrl+M)', onClick: () => this.automix.setEnabled(!this.automix.enabled) });
     this.automix.addEventListener('change', () => this.automixBtn.setOn(this.automix.enabled));
+    this.automix.addEventListener('log', (e) => {
+      if (/^(⏭|✓)/.test(e.detail.text)) this.library.renderRows();
+    });
     this.midiBadge = el('span', { class: 'badge', title: 'Controller MIDI' }, 'MIDI');
     this.clock = el('span', { class: 'clock' });
     this.progress = el('span', { class: 'progress' });
@@ -159,7 +178,7 @@ class App {
       onQueue: (tracks) => {
         this.automix.enqueue(tracks);
         this.sideUI.show('automix');
-        toast(`${tracks.length} brani in coda Automix`);
+        toast(`${tracks.length} brani in coda AI DJ`);
       },
       getMasterDeck: () => this.masterDeck(),
     });
@@ -171,12 +190,40 @@ class App {
         this.saveSettings();
       },
       getTrack: (id) => this.library.track(id),
+      analyzer: this.analyzer,
+      getPlaylists: () => this.library.lib.playlists,
+      getAllTracks: () => this.library.lib.tracks,
+      llm: this.llm,
+      onAiOptions: (options) => {
+        this.settings.ai.options = { ...options };
+        this.saveSettings();
+      },
+      openAiSettings: () => this.openSettings('ai'),
+    });
+    this.library.addEventListener('changed', () => {
+      this.sideUI.refreshSources();
+      if (this.settings.ai.autoAnalyze && !this.analyzer.running) {
+        clearTimeout(this.analyzeTimer);
+        this.analyzeTimer = setTimeout(() => this.analyzer.run(this.library.lib.tracks), 3000);
+      }
+    });
+    this.analyzer.addEventListener('progress', (e) => {
+      const p = e.detail;
+      if (p.running) this.showProgress({ label: 'Analisi AI', done: p.done, total: p.total });
+      else this.library.renderRows();
     });
     const bottom = el('div', { class: 'bottom' }, libHost, sideHost);
     root.append(top, waves, middle, bottom);
 
     let libTimer = null;
     for (const d of this.decks) {
+      // badge "A"/"B" in libreria sul brano caricato nel deck
+      let marked = null;
+      d.addEventListener('loaded', () => {
+        if (marked && marked._deck === d.id) delete marked._deck;
+        marked = d.track;
+        if (marked) marked._deck = d.id;
+      });
       const rerender = () => {
         clearTimeout(libTimer);
         libTimer = setTimeout(() => this.library.renderRows(), 300);
@@ -215,11 +262,7 @@ class App {
       toast(`Il deck ${deck.id} è in riproduzione: fermalo prima di caricare`, 'warn');
       return;
     }
-    if (deck.track) delete deck.track._deck;
-    track._deck = deck.id;
-    const ok = await deck.load(track);
-    if (!ok) delete track._deck;
-    this.library.renderRows();
+    await deck.load(track);
   }
 
   async onDeckDrop(deck, e) {
@@ -268,6 +311,7 @@ class App {
         mixer: this.settings.mixer,
         midi: { mapping: this.midi ? this.midi.mapping : this.settings.midi.mapping },
         sampler: this.sampler.serialize(),
+        ai: this.settings.ai,
       });
     }, 300);
   }
@@ -360,7 +404,9 @@ class App {
     add('hpVolume', 'Volume cuffia', 'knob', scale(this.mixerUI.hpVolKnob, 0, 1));
     add('cueMix', 'Cuffia: cue/master', 'knob', scale(this.mixerUI.cueMixKnob, 0, 1));
     add('mic', 'Microfono on air', 'button', (on) => on && this.mic.setOnAir(!this.mic.onAir));
-    add('automix', 'Automix on/off', 'button', (on) => on && this.automix.setEnabled(!this.automix.enabled));
+    add('automix', 'AI DJ on/off', 'button', (on) => on && this.automix.setEnabled(!this.automix.enabled));
+    add('aiMixNow', 'AI DJ: mixa ora', 'button', (on) => on && this.automix.mixNow());
+    add('aiSkip', 'AI DJ: cambia prossimo brano', 'button', (on) => on && this.automix.skipNext());
     add('record', 'Registrazione', 'button', (on) => on && this.toggleRecording());
     for (let p = 0; p < 8; p++) add(`sampler${p + 1}`, `Sampler pad ${p + 1}`, 'button', (on) => on && this.sampler.trigger(p));
     add('browse', 'Libreria: scorri (encoder)', 'jog', (delta) => {

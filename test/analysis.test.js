@@ -105,3 +105,11 @@ test('formatTime', () => {
   assert.equal(formatTime(75.5), '01:15.5');
   assert.equal(formatTime(-1, false), '00:00');
 });
+
+test('detectBpm: cassa a 100 BPM con accordo tenuto (regressione)', () => {
+  const kick = kickTrack(100, 40, 0.05);
+  const tones = chordTrack([hz(62), hz(65), hz(69), hz(74)], 40);
+  const mix = kick.map((v, i) => v * 0.4 + tones[i] * 0.2);
+  const res = detectBpm(mix, SR);
+  assert.ok(Math.abs(res.bpm - 100) < 0.6, `ottenuto ${res.bpm}`);
+});

@@ -1,7 +1,7 @@
 // Deck: caricamento traccia, trasporto, cue stile CDJ, 8 hot cue, loop, beat jump,
 // pitch/keylock, sync di tempo e fase, slip mode, reverse/censor, ingresso linea.
 import { api } from '../api.js';
-import { analyze } from './analyzer-client.js';
+import { analyze, analysisPatch } from './analyzer-client.js';
 import { FxSlot } from './effects.js';
 import { shiftKey } from '../dsp/analysis.js';
 
@@ -179,15 +179,13 @@ export class Deck extends EventTarget {
     const needKey = !track.key;
     this.emit('analyzing', true);
     try {
-      const res = await analyze(channels, sampleRate, { bpm: needBeat, key: needKey });
+      const res = await analyze(channels, sampleRate, { bpm: needBeat, key: needKey, knownBpm: track.bpm || 0, knownOffset: track.gridOffset || 0 });
       if (this.track !== track) return;
       this.waveform = res.waveform;
-      const patch = { analyzed: true, duration: this.duration };
+      const patch = analysisPatch(res, this.duration);
       if (res.beat && res.beat.bpm) {
         this.bpm = res.beat.bpm;
         this.gridOffset = res.beat.offset;
-        patch.bpm = this.bpm;
-        patch.gridOffset = this.gridOffset;
         if (!track.hotcues || track.hotcues[0] == null) {
           if (Math.abs(this.position - this.cuePoint) < 0.01 && !this.playing) {
             this.cuePoint = this.gridOffset;
@@ -195,14 +193,8 @@ export class Deck extends EventTarget {
           }
         }
       }
-      if (res.key) {
-        this.key = res.key.key;
-        patch.key = this.key;
-      }
-      if (res.loudness) {
-        patch.gain = res.loudness.gainDb;
-        if (this.engine.autoGain !== false) this.strip.setAutoGain(patch.gain);
-      }
+      if (res.key) this.key = res.key.key;
+      if (res.loudness && this.engine.autoGain !== false) this.strip.setAutoGain(patch.gain);
       Object.assign(track, patch);
       api.updateTrack(track.id, patch);
       this.fx.forEach((f) => f.setBpm(this.effectiveBpm));

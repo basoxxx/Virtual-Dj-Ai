@@ -6,6 +6,7 @@ const os = require('node:os');
 const { pathToFileURL } = require('node:url');
 const { Library, isAudioFile, AUDIO_EXTENSIONS } = require('./library');
 const { JsonStore } = require('./store');
+const llm = require('./llm');
 
 const RENDERER_DIR = path.join(__dirname, '..', 'renderer');
 const isDev = process.argv.includes('--dev');
@@ -95,7 +96,7 @@ function buildMenu() {
       label: 'Mix',
       submenu: [
         { label: 'Avvia/Ferma registrazione', accelerator: 'CmdOrCtrl+R', click: () => send('menu', 'record') },
-        { label: 'Automix', accelerator: 'CmdOrCtrl+M', click: () => send('menu', 'automix') },
+        { label: 'AI DJ (mix automatico)', accelerator: 'CmdOrCtrl+M', click: () => send('menu', 'automix') },
       ],
     },
     {
@@ -254,6 +255,9 @@ function registerIpc() {
     }
     return res.filePath;
   });
+
+  ipcMain.handle('ai:models', (_e, cfg) => llm.listModels(cfg || {}));
+  ipcMain.handle('ai:chat', (_e, req) => llm.chat(req || {}));
 
   ipcMain.handle('media:requestMic', async () => {
     if (process.platform !== 'darwin') return true;

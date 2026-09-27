@@ -180,7 +180,8 @@ class Library {
   updateTrack(id, patch) {
     const t = this.data.tracks[id];
     if (!t) return null;
-    const allowed = ['bpm', 'key', 'gain', 'duration', 'rating', 'hotcues', 'analyzed', 'title', 'artist', 'genre', 'gridOffset', 'comment'];
+    const allowed = ['bpm', 'key', 'gain', 'duration', 'rating', 'hotcues', 'analyzed', 'title', 'artist', 'genre', 'gridOffset', 'comment',
+      'energy', 'mixIn', 'mixOut', 'introEnd', 'outroStart', 'barEnergy'];
     for (const k of allowed) if (k in patch) t[k] = patch[k];
     this.store.save();
     return t;

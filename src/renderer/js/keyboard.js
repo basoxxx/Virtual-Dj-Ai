@@ -18,7 +18,7 @@ export const SHORTCUTS = [
   ['Spazio', 'Microfono on air (tieni premuto)'],
   ['Ctrl/Cmd + F', 'Cerca nella libreria'],
   ['Ctrl/Cmd + R', 'Avvia/ferma registrazione'],
-  ['Ctrl/Cmd + M', 'Automix on/off'],
+  ['Ctrl/Cmd + M', 'AI DJ on/off'],
   ['Ctrl/Cmd + ,', 'Impostazioni'],
   ['F1', 'Questa guida'],
 ];

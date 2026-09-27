@@ -40,6 +40,8 @@ contextBridge.exposeInMainWorld('api', {
   recordChunk: (chunk) => ipcRenderer.send('record:chunk', chunk),
   recordStop: invoke('record:stop'),
   requestMic: invoke('media:requestMic'),
+  aiModels: invoke('ai:models'),
+  aiChat: invoke('ai:chat'),
 
   on: (channel, handler) => {
     const allowed = ['menu', 'library:progress'];

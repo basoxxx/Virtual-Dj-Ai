@@ -1,6 +1,7 @@
 # Virtual DJ AI
 
-Software DJ desktop per **Windows**, **macOS** e **Linux**, ispirato a VirtualDJ: due deck, mixer completo,
+Software DJ desktop per **Windows**, **macOS** e **Linux**, ispirato a VirtualDJ, con un'**AI che mixa in automatico**
+(anche collegata a un modello linguistico locale): due deck, mixer completo,
 effetti, sampler, microfono, ingressi linea dalla scheda audio, uscita cuffia separata, controller MIDI,
 registrazione del mix e automix.
 
@@ -16,6 +17,35 @@ Ad ogni push o merge su `main`, GitHub Actions compila e pubblica automaticament
 
 > **macOS:** l'app non è firmata con un certificato Apple. Al primo avvio fai clic destro sull'app → **Apri**,
 > oppure esegui `xattr -cr "/Applications/Virtual DJ AI.app"` nel Terminale.
+
+## 🤖 AI DJ: mix automatico con AI locale
+
+Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
+
+1. **Analizza** in background tutta la libreria: BPM, beatgrid, tonalità (Camelot), energia 1–10,
+   struttura del brano (intro, outro, frasi da 8 battute) e punti di mix.
+2. **Sceglie il brano successivo** tra quelli compatibili: tonalità armonica, BPM vicini (anche metà/doppio tempo),
+   energia coerente con la strategia scelta (*mantieni*, *crescente*, *onde*, *rilassata*, *picco*), genere, varietà.
+   Nel pannello "Diario dell'AI" spiega ogni scelta.
+3. **Pianifica la transizione** sul punto di uscita del brano, allineata alla battuta forte, e sceglie lo stile:
+   **bass swap** con gli EQ, **filtro**, **echo out** (per tempi incompatibili), **dissolvenza** o **taglio sul beat**.
+4. **Esegue il mix**: sync di tempo e fase, crossfader, EQ, filtri ed effetti si muovono da soli (si vedono le manopole
+   girare), poi riporta gradualmente il brano al suo BPM originale.
+
+Puoi lasciare scegliere all'AI dalla libreria o da una playlist, oppure darle una coda. I pulsanti **Mixa ora** e
+**Cambia prossimo** permettono di intervenire in qualsiasi momento.
+
+### Modello linguistico locale (facoltativo)
+
+Per scelte ancora più "umane" e per creare scalette descritte a parole (es. *"deep house al tramonto, poi sempre più
+energica"*) puoi collegare un **LLM che gira sul tuo computer**. Nessun dato esce dal PC.
+
+1. Installa [Ollama](https://ollama.com) e scarica un modello: `ollama pull llama3.2`
+   (in alternativa LM Studio, llama.cpp server, Jan o LocalAI: qualsiasi server compatibile OpenAI).
+2. In **Impostazioni → 🤖 AI locale** attiva "Usa il modello locale", premi **Rileva modelli** e **Prova**.
+3. Nel pannello AI DJ spunta **Usa AI locale (LLM)**, scrivi la richiesta e premi **✨ Crea scaletta**.
+
+Se il modello non risponde, l'AI DJ continua da sola con il motore interno.
 
 ## Funzionalità
 
@@ -47,7 +77,7 @@ Ad ogni push o merge su `main`, GitHub Actions compila e pubblica automaticament
 - Libreria con cartelle musicali, ricerca istantanea, ordinamento, playlist, cronologia, più suonati
 - Evidenziazione dei brani compatibili (BPM vicino, tonalità armonica) col deck in onda
 - **Sampler** a 8 pad con suoni inclusi (air horn, sirena, riser…) e campioni personalizzabili
-- **Automix** con coda, transizioni sincronizzate e durata regolabile
+- **AI DJ** (vedi sopra) con coda, scalette automatiche e AI locale
 - **Registrazione** del mix in WAV (scritta su disco in streaming, adatta a set di ore)
 - **Controller MIDI** con MIDI learn di tutte le funzioni (anche jog a encoder)
 - Scorciatoie da tastiera (F1 per l'elenco)
@@ -60,7 +90,7 @@ Requisiti: Node.js 22.
 npm install
 npm start          # avvia l'app
 npm run dev        # avvia con gli strumenti sviluppatore
-npm test           # test di analisi audio (BPM, tonalità, forme d'onda)
+npm test           # test: analisi audio, motore deck, AI DJ, MIDI
 npm run check      # controllo di sintassi
 npm run dist:win   # installer .msi (su Windows)
 npm run dist:mac   # installer .dmg (su macOS)
@@ -73,7 +103,8 @@ npm run dist:linux # AppImage (su Linux)
 src/main/          processo principale Electron (finestre, libreria, file, registrazione)
 src/renderer/      interfaccia e motore audio (Web Audio API + AudioWorklet)
   js/audio/        engine, deck, mixer, effetti, sampler, microfono
-  js/dsp/          analisi BPM/beatgrid/tonalità/forma d'onda, WAV
+  js/dsp/          analisi BPM/beatgrid/tonalità/forma d'onda/struttura, WAV
+  js/ai/           AI DJ: selezione brani, transizioni, LLM locale, analisi libreria
   js/ui/           componenti grafici
   worklets/        riproduzione dei deck (scratch, loop, keylock) e registrazione
   workers/         analisi dei brani in background

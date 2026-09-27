@@ -66,40 +66,62 @@ export function computeWaveform(mono, sampleRate, binsPerSecond = 150) {
   return { binsPerSecond: sampleRate / samplesPerBin, length: bins, peak, low, mid, high };
 }
 
-/** Inviluppo di "onset" (flusso di energia positivo), dominato dalle basse frequenze. */
-export function onsetEnvelope(mono, sampleRate, hop = 256) {
-  const frames = Math.floor(mono.length / hop);
+/**
+ * Inviluppo di "onset" con spectral flux (FFT): somma degli aumenti di magnitudine
+ * logaritmica per banda. Le note tenute non generano falsi attacchi.
+ * Restituisce anche il flusso delle sole basse frequenze (cassa) per la fase.
+ */
+export function onsetEnvelope(mono, sampleRate) {
+  const dec = sampleRate >= 32000 ? 2 : 1;
+  const sr = sampleRate / dec;
+  const hop = 128;
+  const N = 1024;
+  const len = Math.floor(mono.length / dec);
+  const x = new Float32Array(len);
+  for (let i = 0; i < len; i++) {
+    let v = 0;
+    for (let j = 0; j < dec; j++) v += mono[i * dec + j];
+    x[i] = v / dec;
+  }
+  const frames = Math.max(0, Math.floor((len - N) / hop));
   const env = new Float32Array(frames);
   const lowEnv = new Float32Array(frames);
-  const aLow = onePoleCoef(160, sampleRate);
-  const aHp = onePoleCoef(4000, sampleRate);
-  let lp = 0;
-  let lpHi = 0;
-  let prevLow = 0;
-  let prevHigh = 0;
-  let lowPrevE = 0;
+  const win = new Float64Array(N);
+  for (let i = 0; i < N; i++) win[i] = 0.5 - 0.5 * Math.cos((2 * Math.PI * i) / (N - 1));
+  const re = new Float64Array(N);
+  const im = new Float64Array(N);
+  const half = N / 2;
+  const maxBin = Math.min(half, Math.floor((8000 / sr) * N));
+  const lowBin = Math.max(2, Math.floor((180 / sr) * N));
+  let prev = new Float64Array(half);
+  let cur = new Float64Array(half);
   for (let f = 0; f < frames; f++) {
-    let eLow = 0;
-    let eHigh = 0;
     const start = f * hop;
-    for (let i = start; i < start + hop; i++) {
-      const x = mono[i];
-      lp += aLow * (x - lp);
-      lpHi += aHp * (x - lpHi);
-      const h = x - lpHi;
-      eLow += lp * lp;
-      eHigh += h * h;
+    for (let i = 0; i < N; i++) {
+      re[i] = x[start + i] * win[i];
+      im[i] = 0;
     }
-    const lLow = Math.log1p(1000 * eLow);
-    const lHigh = Math.log1p(1000 * eHigh);
-    const d = Math.max(0, lLow - prevLow) + 0.35 * Math.max(0, lHigh - prevHigh);
-    prevLow = lLow;
-    prevHigh = lHigh;
-    env[f] = d;
-    lowEnv[f] = Math.max(0, lLow - (f > 0 ? Math.log1p(1000 * lowPrevE) : lLow));
-    lowPrevE = eLow;
+    fft(re, im);
+    let flux = 0;
+    let lowFlux = 0;
+    for (let k = 1; k < maxBin; k++) {
+      const m = Math.log1p(100 * Math.sqrt(re[k] * re[k] + im[k] * im[k]));
+      cur[k] = m;
+      const d = m - prev[k];
+      if (d > 0) {
+        flux += d;
+        if (k <= lowBin) lowFlux += d;
+      }
+    }
+    env[f] = f > 0 ? flux : 0;
+    lowEnv[f] = f > 0 ? lowFlux : 0;
+    const t = prev;
+    prev = cur;
+    cur = t;
   }
-  return { env: detrend(env), low: detrend(lowEnv), rate: sampleRate / hop };
+  // un attacco produce il massimo del flusso quando entra nella parte pesata della finestra:
+  // lo scarto (misurato) è circa 0,94·N campioni rispetto all'inizio del frame
+  return { env: detrend(env), low: detrend(lowEnv), rate: sr / hop, latency: (0.94 * N) / sr };
 }
 
 // sottrae la media locale per evidenziare i transienti
@@ -165,7 +187,7 @@ export function detectBpm(mono, sampleRate, { min = 70, max = 180 } = {}) {
     segStart = Math.floor((mono.length - maxSamples) / 2);
     segment = mono.subarray(segStart, segStart + maxSamples);
   }
-  const { env, low, rate } = onsetEnvelope(segment, sampleRate, 256);
+  const { env, low, rate, latency } = onsetEnvelope(segment, sampleRate);
   if (env.length < rate * 4) return { bpm: 0, offset: 0, confidence: 0 };
 
   const minLag = Math.floor((60 * rate) / (max * 1.02));
@@ -180,24 +202,30 @@ export function detectBpm(mono, sampleRate, { min = 70, max = 180 } = {}) {
     for (let i = 0; i + lag < n; i++) s += (env[i] - mean) * (env[i + lag] - mean);
     ac[lag] = s / (n - lag);
   }
-  // punteggio con rinforzo armonico (battuta + doppio della battuta)
-  let bestLag = minLag;
-  let bestScore = -Infinity;
+  // punteggio con rinforzo armonico (battuta + doppio della battuta), tollerante
+  // ai picchi che cadono tra due ritardi interi
+  const acAt = (l, w) => {
+    let m = -Infinity;
+    for (let k = l - w; k <= l + w; k++) if (k >= minLag && k < ac.length && ac[k] > m) m = ac[k];
+    return m === -Infinity ? 0 : m;
+  };
+  const scores = [];
   for (let lag = minLag; lag <= maxLag; lag++) {
-    const score = (ac[lag] + 0.5 * (ac[lag * 2] || 0)) * tempoPrior((60 * rate) / lag);
-    if (score > bestScore) {
-      bestScore = score;
-      bestLag = lag;
-    }
+    scores.push({ lag, score: (acAt(lag, 1) + 0.5 * acAt(lag * 2, 2)) * tempoPrior((60 * rate) / lag) });
   }
-  const y0 = ac[bestLag - 1] || 0;
-  const y1 = ac[bestLag];
-  const y2 = ac[bestLag + 1] || 0;
-  const denom = y0 - 2 * y1 + y2;
-  const frac = denom !== 0 ? (0.5 * (y0 - y2)) / denom : 0;
-  let bpm = (60 * rate) / (bestLag + Math.max(-0.5, Math.min(0.5, frac)));
-  while (bpm < min) bpm *= 2;
-  while (bpm > max) bpm /= 2;
+  // i migliori candidati distinti (massimi locali)
+  const peaks = scores
+    .filter((x, i) => (i === 0 || x.score >= scores[i - 1].score) && (i === scores.length - 1 || x.score >= scores[i + 1].score))
+    .sort((a, b) => b.score - a.score);
+  const coarse = [];
+  for (const pk of peaks) {
+    let b = (60 * rate) / pk.lag;
+    while (b < min) b *= 2;
+    while (b > max) b /= 2;
+    if (coarse.every((c) => Math.abs(c - b) > 2)) coarse.push(b);
+    if (coarse.length >= 3) break;
+  }
+  if (!coarse.length) return { bpm: 0, offset: 0, confidence: 0 };
 
   // rifinitura fine con pettine su tutto il segmento, valutando anche
   // il doppio e la metà del tempo per risolvere l'ambiguità di ottava
@@ -220,14 +248,18 @@ export function detectBpm(mono, sampleRate, { min = 70, max = 180 } = {}) {
     }
     return { bpm: bestCand, score: bestS * tempoPrior(bestCand) };
   };
-  let bestBpm = bpm;
+  let bestBpm = coarse[0];
   let best = -1;
-  for (const c of [bpm, bpm * 2, bpm / 2]) {
-    if (c < min * 0.98 || c > max * 1.02) continue;
-    const r = refine(c);
-    if (r.score > best) {
-      best = r.score;
-      bestBpm = r.bpm;
+  const tried = [];
+  for (const base of coarse) {
+    for (const c of [base, base * 2, base / 2]) {
+      if (c < min * 0.98 || c > max * 1.02 || tried.some((t) => Math.abs(t - c) < 1.5)) continue;
+      tried.push(c);
+      const r = refine(c);
+      if (r.score > best) {
+        best = r.score;
+        bestBpm = r.bpm;
+      }
     }
   }
   const rounded = Math.round(bestBpm);
@@ -245,7 +277,7 @@ export function detectBpm(mono, sampleRate, { min = 70, max = 180 } = {}) {
 
   // offset della prima battuta in secondi rispetto all'inizio della traccia
   const beatSec = 60 / bestBpm;
-  let offset = (segStart / sampleRate + ph.phase / rate) % beatSec;
+  let offset = (segStart / sampleRate + ph.phase / rate + latency) % beatSec;
   if (offset < 0) offset += beatSec;
   return { bpm: bestBpm, offset, confidence };
 }
@@ -447,14 +479,81 @@ export function loudness(mono) {
   return { rmsDb: db, gainDb };
 }
 
-export function analyzeTrack(channels, sampleRate, { bpm = true, key = true } = {}) {
-  const mono = mixToMono(channels);
-  const result = {
-    waveform: computeWaveform(mono, sampleRate),
-    loudness: loudness(mono),
+/**
+ * Struttura del brano per il mix automatico: energia per battuta (bar),
+ * fine dell'intro, inizio dell'outro e punti di mix allineati alle frasi da 8 battute.
+ */
+export function trackStructure(mono, sampleRate, bpm, offset = 0) {
+  const duration = mono.length / sampleRate;
+  if (!(bpm > 0) || duration < 10) {
+    return { mixIn: 0, mixOut: Math.max(0, duration - 12), introEnd: 0, outroStart: duration, barEnergy: [] };
+  }
+  const bar = (60 / bpm) * 4;
+  const nBars = Math.max(1, Math.floor((duration - offset) / bar));
+  const energy = new Float32Array(nBars);
+  let max = 1e-9;
+  for (let b = 0; b < nBars; b++) {
+    const start = Math.floor((offset + b * bar) * sampleRate);
+    const end = Math.min(mono.length, Math.floor((offset + (b + 1) * bar) * sampleRate));
+    let s = 0;
+    let n = 0;
+    for (let i = start; i < end; i += 8) {
+      s += mono[i] * mono[i];
+      n++;
+    }
+    energy[b] = Math.sqrt(s / Math.max(1, n));
+    if (energy[b] > max) max = energy[b];
+  }
+  for (let b = 0; b < nBars; b++) energy[b] /= max;
+  const sorted = [...energy].sort((a, b) => a - b);
+  const median = sorted[Math.floor(sorted.length / 2)] || 0;
+  const loud = median * 0.8;
+  let first = 0;
+  while (first < nBars - 1 && energy[first] < loud) first++;
+  let last = nBars - 1;
+  while (last > 0 && energy[last] < loud) last--;
+  const phrase = 8;
+  const introBar = first < 4 ? 0 : first;
+  // l'outro inizia alla fine della frase (multipla di 8 battute) che contiene l'ultima battuta "piena"
+  let outroBar = Math.ceil((last + 1) / phrase) * phrase;
+  if (outroBar > nBars) outroBar = Math.floor(nBars / phrase) * phrase || nBars;
+  // punto d'uscita: almeno 16 battute prima della fine, allineato alle frasi
+  let mixOutBar = Math.min(outroBar, nBars - 16);
+  mixOutBar = Math.max(Math.floor(nBars / 2), Math.floor(mixOutBar / phrase) * phrase);
+  if (nBars < 24) mixOutBar = Math.max(0, nBars - 8);
+  const barEnergy = [];
+  const step = Math.max(1, Math.ceil(nBars / 256));
+  for (let b = 0; b < nBars; b += step) barEnergy.push(Math.round(energy[b] * 100) / 100);
+  return {
+    mixIn: offset,
+    mixOut: offset + mixOutBar * bar,
+    introEnd: offset + introBar * bar,
+    outroStart: offset + Math.min(outroBar, nBars) * bar,
+    barEnergy,
+    sustained: energy.filter((e) => e > 0.7).length / nBars,
   };
+}
+
+/** Livello di energia 1..10 (volume medio e quanto a lungo il brano resta "pieno"). */
+export function energyLevel(rmsDb, sustained = 0.5) {
+  const loudPart = Math.max(0, Math.min(1, (rmsDb + 24) / 16));
+  const e = 1 + 9 * (0.6 * loudPart + 0.4 * Math.max(0, Math.min(1, sustained)));
+  return Math.round(e);
+}
+
+export function analyzeTrack(channels, sampleRate, { bpm = true, key = true, waveform = true, knownBpm = 0, knownOffset = 0 } = {}) {
+  const mono = mixToMono(channels);
+  const result = { loudness: loudness(mono) };
+  if (waveform) result.waveform = computeWaveform(mono, sampleRate);
   if (bpm) result.beat = detectBpm(mono, sampleRate);
   if (key) result.key = detectKey(mono, sampleRate);
+  const b = result.beat && result.beat.bpm ? result.beat : { bpm: knownBpm, offset: knownOffset };
+  if (b.bpm > 0) {
+    result.structure = trackStructure(mono, sampleRate, b.bpm, b.offset);
+    result.energy = energyLevel(result.loudness.rmsDb, result.structure.sustained);
+  } else {
+    result.energy = energyLevel(result.loudness.rmsDb);
+  }
   return result;
 }
 

@@ -29,3 +29,29 @@ export function analyze(channels, sampleRate, options = {}) {
     getWorker().postMessage({ id, channels, sampleRate, options });
   });
 }
+
+/** Converte il risultato dell'analisi nei campi salvati in libreria. */
+export function analysisPatch(res, duration) {
+  const patch = { analyzed: true };
+  if (duration) patch.duration = duration;
+  if (res.beat && res.beat.bpm) {
+    patch.bpm = res.beat.bpm;
+    patch.gridOffset = res.beat.offset;
+  }
+  if (res.key) patch.key = res.key.key;
+  if (res.loudness) patch.gain = res.loudness.gainDb;
+  if (res.energy) patch.energy = res.energy;
+  if (res.structure) {
+    patch.mixIn = res.structure.mixIn;
+    patch.mixOut = res.structure.mixOut;
+    patch.introEnd = res.structure.introEnd;
+    patch.outroStart = res.structure.outroStart;
+    patch.barEnergy = res.structure.barEnergy;
+  }
+  return patch;
+}
+
+/** La traccia ha già tutti i dati che servono all'AI DJ? */
+export function isFullyAnalyzed(t) {
+  return Boolean(t.analysisFailed || (t.analyzed && t.bpm && t.key && t.energy && t.mixOut));
+}

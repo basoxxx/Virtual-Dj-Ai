@@ -6,7 +6,7 @@ self.onmessage = (e) => {
   try {
     const result = analyzeTrack(channels, sampleRate, options);
     const wf = result.waveform;
-    self.postMessage({ id, result }, [wf.peak.buffer, wf.low.buffer, wf.mid.buffer, wf.high.buffer]);
+    self.postMessage({ id, result }, wf ? [wf.peak.buffer, wf.low.buffer, wf.mid.buffer, wf.high.buffer] : []);
   } catch (err) {
     self.postMessage({ id, error: String((err && err.message) || err) });
   }

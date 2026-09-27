@@ -28,6 +28,7 @@ export async function openSettings(app, initialTab = 'audio') {
   const pages = {
     audio: { label: 'Audio I/O', render: () => audioPage(app) },
     mixer: { label: 'Mixer & Deck', render: () => mixerPage(app) },
+    ai: { label: '🤖 AI locale', render: () => aiPage(app) },
     midi: { label: 'Controller MIDI', render: () => midiPage(app) },
     keys: { label: 'Tastiera', render: () => keysPage() },
     about: { label: 'Informazioni', render: () => aboutPage(app) },
@@ -200,6 +201,101 @@ function mixerPage(app) {
   );
 }
 
+const PROVIDER_DEFAULTS = {
+  ollama: 'http://localhost:11434',
+  openai: 'http://localhost:1234/v1',
+};
+
+function aiPage(app) {
+  const ai = app.settings.ai;
+  const save = () => {
+    app.saveSettings();
+    app.sideUI.refreshAutomix();
+  };
+  const status = el('div', { class: 'ai-test' });
+  const setStatus = (text, cls = '') => {
+    status.textContent = text;
+    status.className = `ai-test ${cls}`;
+  };
+  const enable = el('input', { type: 'checkbox' });
+  enable.checked = ai.llm;
+  enable.addEventListener('change', () => {
+    ai.llm = enable.checked;
+    save();
+  });
+  const endpoint = el('input', { type: 'text', value: ai.endpoint || PROVIDER_DEFAULTS[ai.provider] });
+  endpoint.addEventListener('keydown', (e) => e.stopPropagation());
+  endpoint.addEventListener('change', () => {
+    ai.endpoint = endpoint.value.trim();
+    save();
+  });
+  const apiKey = el('input', { type: 'text', value: ai.apiKey || '', placeholder: 'facoltativa' });
+  apiKey.addEventListener('keydown', (e) => e.stopPropagation());
+  apiKey.addEventListener('change', () => {
+    ai.apiKey = apiKey.value.trim();
+    save();
+  });
+  const provider = select([
+    { value: 'ollama', label: 'Ollama' },
+    { value: 'openai', label: 'Compatibile OpenAI (LM Studio, llama.cpp, Jan, LocalAI…)' },
+  ], ai.provider, (v) => {
+    const wasDefault = !ai.endpoint || Object.values(PROVIDER_DEFAULTS).includes(ai.endpoint);
+    ai.provider = v;
+    if (wasDefault) {
+      ai.endpoint = PROVIDER_DEFAULTS[v];
+      endpoint.value = ai.endpoint;
+    }
+    save();
+  });
+  const model = select(ai.model ? [{ value: ai.model, label: ai.model }] : [{ value: '', label: '— premi "Rileva modelli" —' }], ai.model, (v) => {
+    ai.model = v;
+    save();
+  });
+  const detect = button('Rileva modelli', { className: 'small', onClick: async () => {
+    setStatus('Connessione in corso…');
+    try {
+      const list = await app.llm.models({ provider: ai.provider, endpoint: ai.endpoint, apiKey: ai.apiKey });
+      if (!list.length) {
+        setStatus('Server raggiunto ma nessun modello installato. Con Ollama: ollama pull llama3.2', 'warn');
+        return;
+      }
+      if (!ai.model || !list.includes(ai.model)) ai.model = list[0];
+      model.setOptions(list.map((m) => ({ value: m, label: m })), ai.model);
+      save();
+      setStatus(`Trovati ${list.length} modelli ✓`, 'ok');
+    } catch (err) {
+      setStatus(err.message, 'error');
+    }
+  } });
+  const testBtn = button('Prova', { className: 'small', onClick: async () => {
+    setStatus('Il modello sta rispondendo…');
+    try {
+      const msg = await app.llm.test();
+      setStatus(`✓ ${msg}`, 'ok');
+    } catch (err) {
+      setStatus(err.message, 'error');
+    }
+  } });
+  const auto = el('input', { type: 'checkbox' });
+  auto.checked = ai.autoAnalyze;
+  auto.addEventListener('change', () => {
+    ai.autoAnalyze = auto.checked;
+    save();
+  });
+  return el('div', { class: 'settings-page' },
+    el('div', { class: 'section-title' }, 'AI DJ integrata'),
+    el('p', { class: 'field-hint' }, 'L\'AI DJ funziona sempre, anche offline: analizza BPM, tonalità, energia e struttura dei brani, sceglie il successivo in modo armonico, trova il punto di mix sulle frasi musicali e crea transizioni (bass swap, filtro, echo out, dissolvenza) muovendo mixer ed effetti. Si attiva dal pannello "AI DJ" o con Ctrl+M.'),
+    el('label', { class: 'check' }, auto, 'Analizza automaticamente i nuovi brani della libreria in background'),
+    el('div', { class: 'section-title' }, 'Modello linguistico locale (facoltativo)'),
+    el('p', { class: 'field-hint' }, 'Collega un LLM che gira sul tuo computer per scegliere i brani con "gusto" e creare scalette descritte a parole ("set deep house al tramonto"). Nessun dato esce dal tuo PC. Installa Ollama da ollama.com, poi nel terminale: ollama pull llama3.2'),
+    el('label', { class: 'check' }, enable, 'Usa il modello locale'),
+    field('Server', provider),
+    field('Indirizzo', endpoint),
+    field('Chiave API', apiKey, 'Solo se il server la richiede'),
+    field('Modello', el('div', { class: 'row tight' }, model, detect, testBtn)),
+    status);
+}
+
 function midiPage(app) {
   const midi = app.midi;
   const wrap = el('div', { class: 'settings-page' });
@@ -262,6 +358,6 @@ async function aboutPage(app) {
     el('div', { class: 'about-logo' }, 'VIRTUAL DJ AI'),
     el('div', {}, `Versione ${info.version}`),
     el('div', { class: 'field-hint' }, `${info.platform} ${info.arch} · Electron ${info.electron}`),
-    el('p', {}, 'Software DJ open source: 2 deck con scratch, keylock e sync, mixer a 3 bande con filtri, 2 effetti per deck, sampler, microfono, ingressi linea dalla scheda audio, uscita cuffia separata, controller MIDI, registrazione del mix e automix.'),
+    el('p', {}, 'Software DJ open source con AI DJ che mixa in automatico (anche con un modello linguistico locale): 2 deck con scratch, keylock e sync, mixer a 3 bande con filtri, 2 effetti per deck, sampler, microfono, ingressi linea dalla scheda audio, uscita cuffia separata, controller MIDI e registrazione del mix.'),
     el('p', { class: 'field-hint' }, 'Le nuove versioni vengono pubblicate automaticamente su GitHub Releases a ogni aggiornamento del ramo main.'));
 }
