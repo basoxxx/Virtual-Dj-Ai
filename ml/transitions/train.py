@@ -129,7 +129,9 @@ def split_tracks(test_share: float = 0.2) -> tuple[list[Path], list[Path]]:
     """Brani per il sintetico divisi in modo deterministico (hash del nome) tra addestramento e test."""
     import zlib
 
-    files = sorted((DATA / "features").glob("yt-*.npz"))
+    from synth import default_files
+
+    files = default_files()
     test = [f for f in files if zlib.crc32(f.name.encode()) % 100 < test_share * 100]
     return [f for f in files if f not in test], test
 
@@ -180,18 +182,26 @@ def main():
     ap.add_argument("--cv", action="store_true", help="validazione incrociata: rifinitura tenendo da parte un mix alla volta")
     ap.add_argument("--final", action="store_true", help="rifinitura su tutti i mix (salva transition-planner.pt)")
     ap.add_argument("--synth-eval", action="store_true", help="pre-addestra sull'80%% dei brani e valuta sul 20%% mai visto")
+    ap.add_argument("--compare", default="", help="con --synth-eval: valuta anche questo checkpoint sullo stesso test")
+    ap.add_argument("--test-prefix", default="", help="con --synth-eval: solo i brani di test con questo prefisso (es. usb-)")
+    ap.add_argument("--out", default="", help="nome del checkpoint salvato da --pretrain / del risultato di --synth-eval")
     ap.add_argument("--pre-steps", type=int, default=4000)
     ap.add_argument("--ft-steps", type=int, default=600)
     args = ap.parse_args()
     RUNS.mkdir(parents=True, exist_ok=True)
-    pre_path = RUNS / "pretrained.pt"
+    pre_path = RUNS / (args.out or "pretrained.pt") if args.pretrain else RUNS / "pretrained.pt"
     if args.synth_eval:
         tr_files, te_files = split_tracks()
+        te_files = [f for f in te_files if f.name.startswith(args.test_prefix)]
         model = train(None, np.array([], int), args.pre_steps, synth_files=tr_files)
         test = Synth(seed=123, files=te_files).batch(256)
         res = {"braniAddestramento": len(tr_files), "braniTest": len(te_files), **evaluate(model, test, np.arange(256))}
+        if args.compare:
+            base = TransitionPlanner(N_IN).to(DEVICE)
+            base.load_state_dict(torch.load(args.compare, map_location=DEVICE))
+            res["confronto"] = {"checkpoint": Path(args.compare).name, **evaluate(base, test, np.arange(256))["modello"]}
         print(json.dumps(res, ensure_ascii=False))
-        (RUNS / "synth-eval.json").write_text(json.dumps(res, indent=1, ensure_ascii=False))
+        (RUNS / (args.out or "synth-eval.json")).write_text(json.dumps(res, indent=1, ensure_ascii=False))
     if args.pretrain:
         model = train(None, np.array([], int), args.pre_steps)
         torch.save(model.state_dict(), pre_path)

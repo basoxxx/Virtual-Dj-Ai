@@ -1,6 +1,7 @@
 """Transizioni sintetiche per il pre-addestramento del modello C.
 
-Ingressi: coppie di brani veri (caratteristiche per battuta in ml/data/djmix/features/yt-*.npz), A verso la fine
+Ingressi: coppie di brani veri (caratteristiche per battuta: ml/data/djmix/features/yt-*.npz e, se c'è,
+ml/data/usb/features/usb-*.npz dalla musica dell'utente), A verso la fine
 e B dall'inizio, come nell'app. Curve: stili da DJ legati alla musica, così il modello impara a usare gli ingressi:
   - bass swap al primo confine di frase (8 battute di A) dopo l'entrata dei bassi di B
   - blend con scambio graduale dei bassi, dissolvenza, taglio sul beat
@@ -20,6 +21,12 @@ from build_dataset import MAX_BEATS, N_IN, bar_positions, deck_features, global_
 from features import FINE_EQ_BAND  # noqa: E402
 
 FEAT = ML_DIR / "data" / "djmix" / "features"
+USB_FEAT = ML_DIR / "data" / "usb" / "features"
+
+
+def default_files() -> list[Path]:
+    """Brani del DJ Mix Dataset e della cartella musicale dell'utente (ml/transitions/usb_features.py)."""
+    return sorted(FEAT.glob("yt-*.npz")) + sorted(USB_FEAT.glob("usb-*.npz"))
 LENGTHS = [32, 48, 64, 64, 96, 128]
 
 
@@ -42,7 +49,7 @@ def smooth_gains(xf: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
 class Synth:
     def __init__(self, seed: int = 0, files: list[Path] | None = None):
         self.rng = np.random.default_rng(seed)
-        files = files or sorted(FEAT.glob("yt-*.npz"))
+        files = files or default_files()
         self.tracks = []
         for f in files:
             d = dict(np.load(f))

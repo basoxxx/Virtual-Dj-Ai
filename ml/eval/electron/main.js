@@ -18,7 +18,11 @@ const arg = (name, def) => {
 };
 const engine = arg('engine', 'ai');
 const model = arg('model', 'beat_this-small0-int8.onnx');
-const manifest = JSON.parse(fs.readFileSync(path.join(AUDIO, 'manifest.json'), 'utf8'));
+// --list <json>: brani qualsiasi [{ path, bpm }] (es. la cartella musicale dell'utente) al posto del set CC
+const list = arg('list', '') ? JSON.parse(fs.readFileSync(arg('list'), 'utf8')) : null;
+const manifest = list
+  ? list.map((x, i) => ({ file: String(i), path: x.path, bpm: x.bpm }))
+  : JSON.parse(fs.readFileSync(path.join(AUDIO, 'manifest.json'), 'utf8'));
 const files = arg('files', '') ? arg('files').split(',') : manifest.map((m) => m.file);
 const out = arg('out', path.join(REPO, 'ml', 'data', 'reference', `electron-${engine}${engine === 'ai' ? '-' + model.replace('.onnx', '') : ''}.json`));
 
@@ -58,6 +62,10 @@ app.whenReady().then(async () => {
   protocol.handle('app', (request) => {
     const url = new URL(request.url);
     const rel = decodeURIComponent(url.pathname).replace(/^\/+/, '');
+    if (rel.startsWith('__audio/') && list) {
+      const m = manifest[Number(rel.slice(8))];
+      return serve(path.dirname(m.path), path.basename(m.path));
+    }
     if (rel.startsWith('__audio/')) return serve(AUDIO, rel.slice(8));
     if (rel.startsWith('__bench/')) return serve(__dirname, rel.slice(8));
     return serve(RENDERER, rel);

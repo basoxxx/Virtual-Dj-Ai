@@ -17,6 +17,7 @@ Uso:  ml/.venv/bin/python ml/transitions/features.py <file audio>...   (oppure -
 from __future__ import annotations
 
 import argparse
+import os
 import subprocess
 import sys
 import time
@@ -51,7 +52,7 @@ def beat_this(mono: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     global _session
     if _session is None:
         so = ort.SessionOptions()
-        so.intra_op_num_threads = 6
+        so.intra_op_num_threads = int(os.environ.get("BT_THREADS", "6"))
         _session = ort.InferenceSession(str(ML_DIR / "data" / "onnx" / "beat_this-final0.onnx"), so, providers=["CPUExecutionProvider"])
     return ref.postprocess(*ref.predict_logits(ref.log_mel(mono), ref.onnx_runner(_session)))
 
@@ -136,8 +137,8 @@ def sub_beats(beats: np.ndarray, duration: float, n: int = 4) -> np.ndarray:
     return (beats[:, None] + (ends - beats)[:, None] * frac[None, :]).reshape(-1)
 
 
-def extract(path: Path, out_dir: Path = OUT) -> Path:
-    dest = out_dir / f"{path.stem.split('.')[0]}.npz"
+def extract(path: Path, out_dir: Path = OUT, name: str | None = None) -> Path:
+    dest = out_dir / f"{name or path.stem.split('.')[0]}.npz"
     old = dict(np.load(dest)) if dest.exists() else None
     if old is not None and "pow64" in old:
         return dest
