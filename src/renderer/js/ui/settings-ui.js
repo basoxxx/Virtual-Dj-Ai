@@ -5,6 +5,7 @@ import { SHORTCUTS } from '../keyboard.js';
 import { PRESETS, TIERS } from '../controllers/presets.js';
 import { GAMEPAD_LAYOUT } from '../controllers/gamepad.js';
 import { icon, withIcon } from './icons.js';
+import { configureAnalysis, BEAT_MODEL } from '../audio/analyzer-client.js';
 
 export async function openSettings(app, initialTab = 'audio') {
   document.querySelectorAll('.settings-overlay').forEach((o) => o.remove());
@@ -279,6 +280,31 @@ function aiPage(app) {
       setStatus(err.message, 'error');
     }
   } });
+  const engineStatus = el('div', { class: 'ai-test' });
+  const showEngineStatus = async () => {
+    if (ai.analysisEngine !== 'ai') {
+      engineStatus.textContent = '';
+      return;
+    }
+    let installed = false;
+    try {
+      installed = (await fetch(`models/${BEAT_MODEL}`, { method: 'HEAD' })).ok;
+    } catch {
+      installed = false;
+    }
+    engineStatus.textContent = installed ? 'Modello Beat This! installato' : 'Modello Beat This! non installato: si usa l\'analisi classica';
+    engineStatus.className = `ai-test ${installed ? 'ok' : 'warn'}`;
+  };
+  const engine = select([
+    { value: 'ai', label: 'AI (Beat This!)' },
+    { value: 'classic', label: 'Classico' },
+  ], ai.analysisEngine, (v) => {
+    ai.analysisEngine = v;
+    configureAnalysis({ engine: v });
+    save();
+    showEngineStatus();
+  });
+  showEngineStatus();
   const auto = el('input', { type: 'checkbox' });
   auto.checked = ai.autoAnalyze;
   auto.addEventListener('change', () => {
@@ -289,6 +315,8 @@ function aiPage(app) {
     el('div', { class: 'section-title' }, 'AI DJ integrata'),
     el('p', { class: 'field-hint' }, 'L\'AI DJ funziona sempre, anche offline: analizza BPM, tonalità, energia e struttura dei brani, sceglie il successivo in modo armonico, trova il punto di mix sulle frasi musicali e crea transizioni (bass swap, filtro, echo out, dissolvenza) muovendo mixer ed effetti. Si attiva dal pannello "AI DJ" o con Ctrl+M.'),
     el('label', { class: 'check' }, auto, 'Analizza automaticamente i nuovi brani della libreria in background'),
+    field('Motore di analisi', engine, 'Beat This! riconosce battute e battute forti con una rete neurale che gira sul computer, solo con la CPU. Se il modello manca o dà errore si usa l\'analisi classica. Vale per i brani analizzati da ora in poi.'),
+    engineStatus,
     el('div', { class: 'section-title' }, 'Modello linguistico locale (facoltativo)'),
     el('p', { class: 'field-hint' }, 'Collega un LLM che gira sul tuo computer per scegliere i brani con "gusto" e creare scalette descritte a parole ("set deep house al tramonto"). Nessun dato esce dal tuo PC. Installa Ollama da ollama.com, poi nel terminale: ollama pull llama3.2'),
     el('label', { class: 'check' }, enable, 'Usa il modello locale'),
@@ -474,6 +502,7 @@ async function aboutPage(app) {
     el('div', {}, `Versione ${info.version}`),
     el('div', { class: 'field-hint' }, `${info.platform} ${info.arch} · Electron ${info.electron}`),
     el('p', {}, 'Software DJ open source con AI DJ che mixa in automatico (anche con un modello linguistico locale): 2 deck con scratch, keylock e sync, mixer a 3 bande con filtri, 2 effetti per deck, sampler, microfono, ingressi linea dalla scheda audio, uscita cuffia separata, controller MIDI e registrazione del mix.'),
+    el('p', { class: 'field-hint' }, 'Analisi di battute e battute forti: Beat This! (Institute of Computational Perception, JKU Linz, licenza MIT) eseguito con ONNX Runtime Web (Microsoft, licenza MIT).'),
     updatesSection(app));
 }
 

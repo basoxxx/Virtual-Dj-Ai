@@ -9,6 +9,7 @@ import { MidiManager } from './midi.js';
 import { AutoDJ } from './ai/autodj.js';
 import { LocalLLM } from './ai/llm.js';
 import { BatchAnalyzer } from './ai/batch-analyzer.js';
+import { configureAnalysis } from './audio/analyzer-client.js';
 import { DeckUI } from './ui/deck-ui.js';
 import { MixerUI } from './ui/mixer-ui.js';
 import { LibraryUI } from './ui/library-ui.js';
@@ -36,6 +37,7 @@ const DEFAULT_SETTINGS = {
   ai: {
     llm: false, provider: 'ollama', endpoint: 'http://localhost:11434', model: '', apiKey: '',
     autoAnalyze: true,
+    analysisEngine: 'ai',
     options: {},
   },
   updates: { auto: true },
@@ -60,6 +62,7 @@ class App {
 
   async start() {
     this.settings = merge(DEFAULT_SETTINGS, await api.getSettings());
+    configureAnalysis({ engine: this.settings.ai.analysisEngine });
     this.engine = new AudioEngine();
     await this.engine.init({ latency: this.settings.audio.latency });
     this.engine.addEventListener('error', (e) => toast(e.detail, 'error'));
