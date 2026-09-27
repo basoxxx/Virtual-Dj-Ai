@@ -229,7 +229,7 @@ export function vuMeter({ segments = 24, width = 14, height = 160, horizontal = 
   canvas.style.width = `${width}px`;
   canvas.style.height = `${height}px`;
   const g = canvas.getContext('2d');
-  const colorAt = (t) => (t > 0.9 ? '#ff3b3b' : t > 0.72 ? '#ffc53d' : '#35e07c');
+  const colorAt = (t) => (t > 0.9 ? '#ff453a' : t > 0.72 ? '#ffd60a' : '#30d158');
   const toT = (lvl) => {
     const db = 20 * Math.log10(lvl + 1e-9);
     return clamp((db + 48) / 51, 0, 1); // -48 dB .. +3 dB
@@ -246,7 +246,7 @@ export function vuMeter({ segments = 24, width = 14, height = 160, horizontal = 
         const st = (s + 0.5) / segments;
         const lit = st <= t;
         const isPeak = Math.abs(st - pt) < 0.5 / segments;
-        g.fillStyle = lit || isPeak ? colorAt(st) : 'rgba(255,255,255,0.06)';
+        g.fillStyle = lit || isPeak ? colorAt(st) : '#232326';
         if (horizontal) {
           const segW = (W - gap * (segments - 1)) / segments;
           const hh = (H - gap) / 2;

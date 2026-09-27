@@ -1,6 +1,6 @@
 // Visualizzazione forme d'onda: vista scorrevole con beatgrid e vista d'insieme del brano.
 
-const HOTCUE_COLORS = ['#ff3b3b', '#ff9f1a', '#ffe14d', '#35e07c', '#3dd6ff', '#5b8cff', '#b36bff', '#ff5fc1'];
+const HOTCUE_COLORS = ['#ff453a', '#ff9f0a', '#ffd60a', '#30d158', '#64d2ff', '#0a84ff', '#bf5af2', '#ff375f'];
 export { HOTCUE_COLORS };
 
 function fitCanvas(canvas) {
@@ -84,12 +84,12 @@ export class ScrollingWaveform {
     const { w, h, dpr } = fitCanvas(this.canvas);
     const g = this.g;
     const deck = this.deck;
-    g.fillStyle = '#07080c';
+    g.fillStyle = '#000';
     g.fillRect(0, 0, w, h);
     const mid = h / 2;
     if (!deck.loaded) {
       g.fillStyle = 'rgba(255,255,255,0.18)';
-      g.font = `${12 * dpr}px system-ui, sans-serif`;
+      g.font = `500 ${12 * dpr}px Inter, system-ui, sans-serif`;
       g.textAlign = 'center';
       g.fillText(deck.lineDevice ? 'INGRESSO LINEA ATTIVO' : deck.loading ? 'Caricamento…' : `Deck ${deck.id} vuoto — trascina qui un brano`, w / 2, mid + 4 * dpr);
       return;
@@ -104,7 +104,7 @@ export class ScrollingWaveform {
     if (deck.loop.out > deck.loop.in) {
       const x1 = (deck.loop.in - t0) / secPerPx;
       const x2 = (deck.loop.out - t0) / secPerPx;
-      g.fillStyle = deck.loop.active ? 'rgba(53,224,124,0.18)' : 'rgba(255,255,255,0.06)';
+      g.fillStyle = deck.loop.active ? 'rgba(48,209,88,0.16)' : 'rgba(255,255,255,0.06)';
       g.fillRect(x1, 0, x2 - x1, h);
     }
 
@@ -130,7 +130,7 @@ export class ScrollingWaveform {
       }
     } else {
       g.fillStyle = 'rgba(255,255,255,0.25)';
-      g.font = `${11 * dpr}px system-ui, sans-serif`;
+      g.font = `500 ${11 * dpr}px Inter, system-ui, sans-serif`;
       g.textAlign = 'center';
       g.fillText('Analisi forma d\'onda…', w / 2, mid - 10 * dpr);
     }
@@ -164,7 +164,7 @@ export class ScrollingWaveform {
         g.lineTo(x, 14 * dpr);
         g.fill();
         g.fillStyle = '#000';
-        g.font = `bold ${9 * dpr}px system-ui, sans-serif`;
+        g.font = `700 ${9 * dpr}px Inter, system-ui, sans-serif`;
         g.textAlign = 'left';
         g.fillText(label, x + 3 * dpr, 9 * dpr);
       }
@@ -234,7 +234,7 @@ export class OverviewWaveform {
     const { w, h, dpr } = fitCanvas(this.canvas);
     const g = this.g;
     const deck = this.deck;
-    g.fillStyle = '#07080c';
+    g.fillStyle = '#000';
     g.fillRect(0, 0, w, h);
     if (!deck.loaded) return;
     const key = deck.waveform ? `${w}x${h}:${deck.track && deck.track.id}:${deck.waveform.length}` : null;
@@ -248,7 +248,7 @@ export class OverviewWaveform {
     g.fillStyle = 'rgba(0,0,0,0.5)';
     g.fillRect(0, 0, x, h);
     if (deck.loop.out > deck.loop.in) {
-      g.fillStyle = deck.loop.active ? 'rgba(53,224,124,0.35)' : 'rgba(255,255,255,0.12)';
+      g.fillStyle = deck.loop.active ? 'rgba(48,209,88,0.32)' : 'rgba(255,255,255,0.12)';
       g.fillRect(px(deck.loop.in), 0, Math.max(2, px(deck.loop.out) - px(deck.loop.in)), h);
     }
     deck.hotcues.forEach((c, i) => {
@@ -260,7 +260,7 @@ export class OverviewWaveform {
     g.fillRect(px(deck.cuePoint), h - 5 * dpr, 2 * dpr, 5 * dpr);
     // avviso di fine brano
     const warn = deck.remaining < 30 && deck.playing && Math.floor(performance.now() / 400) % 2 === 0;
-    g.fillStyle = warn ? '#ff3b3b' : this.accent;
+    g.fillStyle = warn ? '#ff453a' : this.accent;
     g.fillRect(x - dpr, 0, 2 * dpr, h);
   }
 }

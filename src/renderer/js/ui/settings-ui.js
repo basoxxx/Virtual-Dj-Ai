@@ -4,6 +4,7 @@ import { AudioEngine } from '../audio/engine.js';
 import { SHORTCUTS } from '../keyboard.js';
 import { PRESETS, TIERS } from '../controllers/presets.js';
 import { GAMEPAD_LAYOUT } from '../controllers/gamepad.js';
+import { icon, withIcon } from './icons.js';
 
 export async function openSettings(app, initialTab = 'audio') {
   document.querySelectorAll('.settings-overlay').forEach((o) => o.remove());
@@ -30,8 +31,8 @@ export async function openSettings(app, initialTab = 'audio') {
   const pages = {
     audio: { label: 'Audio I/O', render: () => audioPage(app) },
     mixer: { label: 'Mixer & Deck', render: () => mixerPage(app) },
-    ai: { label: '🤖 AI locale', render: () => aiPage(app) },
-    midi: { label: '🎛 Console DJ', render: () => midiPage(app) },
+    ai: { label: 'AI locale', render: () => aiPage(app) },
+    midi: { label: 'Console DJ', render: () => midiPage(app) },
     keys: { label: 'Tastiera', render: () => keysPage() },
     about: { label: 'Informazioni', render: () => aboutPage(app) },
   };
@@ -45,7 +46,7 @@ export async function openSettings(app, initialTab = 'audio') {
     tabBtns[id] = button(p.label, { className: 'tab', onClick: () => show(id) });
     tabs.append(tabBtns[id]);
   }
-  modal.append(el('div', { class: 'modal-head' }, el('div', { class: 'modal-title' }, 'Impostazioni'), button('✕', { className: 'tiny ghost', onClick: close })), tabs, body);
+  modal.append(el('div', { class: 'modal-head' }, el('div', { class: 'modal-title' }, 'Impostazioni'), button(icon('close', 14), { className: 'tiny ghost', title: 'Chiudi', onClick: close })), tabs, body);
   overlay.append(modal);
   document.body.append(overlay);
   show(initialTab);
@@ -308,11 +309,11 @@ function midiPage(app) {
     const list = midi.devices();
     const pads = app.gamepad ? app.gamepad.pads : [];
     const rows = list.map((d) => el('div', { class: 'midi-dev' },
-      el('span', {}, `🎛 ${d.name}`),
+      el('span', { class: 'dev-name' }, icon('sliders', 15), d.name),
       d.preset
         ? el('span', { class: `tier-badge ${d.preset.tier}` }, `${d.preset.brand} ${d.preset.name} · ${TIERS[d.preset.tier]}`)
         : el('span', { class: 'tier-badge none' }, 'profilo non trovato: usa la procedura guidata')));
-    for (const p of pads) rows.push(el('div', { class: 'midi-dev' }, el('span', {}, `🎮 ${p.id}`), el('span', { class: 'tier-badge home' }, 'Gamepad')));
+    for (const p of pads) rows.push(el('div', { class: 'midi-dev' }, el('span', { class: 'dev-name' }, icon('gamepad', 15), p.id), el('span', { class: 'tier-badge home' }, 'Gamepad')));
     if (!rows.length) {
       rows.push(el('div', { class: 'hint' }, midi.access
         ? 'Nessuna console collegata. Collegala via USB: verrà riconosciuta automaticamente.'
@@ -346,7 +347,7 @@ function midiPage(app) {
   const renderWizard = (info) => {
     if (!midi.wizard) {
       wizardBox.replaceChildren(
-        button('🧭 Procedura guidata di mappatura', { className: 'small primary', onClick: () => midi.startWizard() }),
+        button(withIcon('compass', 'Procedura guidata di mappatura'), { className: 'small primary', onClick: () => midi.startWizard() }),
         el('span', { class: 'field-hint' }, info && info.done ? '✓ Mappatura completata e salvata' : 'Per qualsiasi console non in elenco: ti chiede un controllo alla volta.'));
       return;
     }

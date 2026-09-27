@@ -20,6 +20,7 @@ import { el, button, toast } from './ui/controls.js';
 import { formatTime } from './dsp/analysis.js';
 import { knownActions } from './controllers/presets.js';
 import { GamepadController } from './controllers/gamepad.js';
+import { icon, withIcon } from './ui/icons.js';
 
 const ACCENTS = ['#2ea8ff', '#ff6a3d'];
 
@@ -97,7 +98,7 @@ class App {
     this.gamepad = new GamepadController(this.actions);
     this.gamepad.enabled = this.settings.midi.gamepad !== false;
     this.gamepad.addEventListener('connected', (e) => {
-      toast(`🎮 Gamepad collegato: ${e.detail}`);
+      toast(`Gamepad collegato: ${e.detail}`);
       this.updateMidiBadge();
     });
     this.gamepad.addEventListener('disconnected', () => this.updateMidiBadge());
@@ -126,12 +127,12 @@ class App {
     root.innerHTML = '';
 
     // barra superiore
-    this.recBtn = button('● REC', { className: 'rec-btn toggle', title: 'Registra il mix in WAV (Ctrl+R)', onClick: () => this.toggleRecording() });
+    this.recBtn = button(withIcon('record', 'REC'), { className: 'rec-btn toggle', title: 'Registra il mix in WAV (Ctrl+R)', onClick: () => this.toggleRecording() });
     this.recTime = el('span', { class: 'rec-time' }, '');
-    this.automixBtn = button('🤖 AI DJ', { className: 'toggle', title: 'AI DJ: mixa in automatico (Ctrl+M)', onClick: () => this.automix.setEnabled(!this.automix.enabled) });
+    this.automixBtn = button(withIcon('sparkles', 'AI DJ'), { className: 'toggle', title: 'AI DJ: mixa in automatico (Ctrl+M)', onClick: () => this.automix.setEnabled(!this.automix.enabled) });
     this.automix.addEventListener('change', () => this.automixBtn.setOn(this.automix.enabled));
     this.automix.addEventListener('log', (e) => {
-      if (/^(⏭|✓)/.test(e.detail.text)) this.library.renderRows();
+      if (/^(Prossimo|In onda)/.test(e.detail.text)) this.library.renderRows();
     });
     this.midiBadge = el('span', { class: 'badge', title: 'Console DJ' }, 'MIDI');
     this.midiBadge.addEventListener('click', () => this.openSettings('midi'));
@@ -142,12 +143,12 @@ class App {
       if (!e.detail) this.recTime.textContent = '';
     });
     const top = el('header', { class: 'topbar' },
-      el('div', { class: 'logo' }, el('span', { class: 'logo-mark' }, '◉'), 'VIRTUAL DJ ', el('b', {}, 'AI')),
+      el('div', { class: 'logo' }, el('img', { class: 'logo-img', src: 'img/icon.png', alt: '' }), 'Virtual DJ ', el('b', {}, 'AI')),
       this.progress,
       el('div', { class: 'spacer' }),
       this.recBtn, this.recTime, this.automixBtn, this.midiBadge,
-      button('⚙', { className: 'icon-btn', title: 'Impostazioni (Ctrl+,)', onClick: () => this.openSettings() }),
-      button('?', { className: 'icon-btn', title: 'Scorciatoie (F1)', onClick: () => this.openSettings('keys') }),
+      button(icon('gear'), { className: 'icon-btn', title: 'Impostazioni (Ctrl+,)', onClick: () => this.openSettings() }),
+      button(icon('help'), { className: 'icon-btn', title: 'Scorciatoie (F1)', onClick: () => this.openSettings('keys') }),
       this.clock);
 
     // forme d'onda scorrevoli
@@ -345,15 +346,15 @@ class App {
     const pads = this.gamepad ? this.gamepad.pads : [];
     const n = devices.length + pads.length;
     const known = devices.find((d) => d.preset);
-    this.midiBadge.textContent = known ? known.preset.name.split(' /')[0] : pads.length && !devices.length ? '🎮 PAD' : 'MIDI';
+    this.midiBadge.textContent = known ? known.preset.name.split(' /')[0] : pads.length && !devices.length ? 'Gamepad' : 'MIDI';
     this.midiBadge.classList.toggle('on', n > 0);
     this.midiBadge.title = n
-      ? [...devices.map((d) => `🎛 ${d.name}${d.preset ? ` → profilo ${d.preset.brand} ${d.preset.name}` : ' (nessun profilo: usa Learn o la procedura guidata)'}`), ...pads.map((p) => `🎮 ${p.id}`)].join('\n')
+      ? [...devices.map((d) => `${d.name}${d.preset ? ` → profilo ${d.preset.brand} ${d.preset.name}` : ' (nessun profilo: usa Learn o la procedura guidata)'}`), ...pads.map((p) => `Gamepad: ${p.id}`)].join('\n')
       : 'Nessuna console collegata';
     if (known && !this.announced?.has(known.id)) {
       this.announced = this.announced || new Set();
       this.announced.add(known.id);
-      toast(`🎛 Console riconosciuta: ${known.preset.brand} ${known.preset.name}`, 'ok');
+      toast(`Console riconosciuta: ${known.preset.brand} ${known.preset.name}`, 'ok');
     }
   }
 

@@ -1,5 +1,6 @@
 // Mixer: canali A/B, master, cuffia, microfono, crossfader.
 import { el, button, knob, fader, vuMeter, select } from './controls.js';
+import { icon } from './icons.js';
 
 const dbFmt = (v) => (Math.abs(v) < 0.01 ? '0' : `${v > 0 ? '+' : ''}${(v < 0 ? v * 30 : v * 6).toFixed(0)}`);
 
@@ -34,10 +35,10 @@ export class MixerUI {
       } });
       knobs.append(el('div', { class: 'eq-row' }, eq[band], kills[band]));
     }
-    const filter = knob({ label: 'FILTER', min: -1, max: 1, value: 0, def: 0, bipolar: true, size: 30, color: '#ffc53d', format: (v) => (Math.abs(v) < 0.03 ? '' : v < 0 ? 'LP' : 'HP'), onChange: (v) => strip.setFilter(v) });
+    const filter = knob({ label: 'FILTER', min: -1, max: 1, value: 0, def: 0, bipolar: true, size: 30, color: '#ffd60a', format: (v) => (Math.abs(v) < 0.03 ? '' : v < 0 ? 'LP' : 'HP'), onChange: (v) => strip.setFilter(v) });
     knobs.append(filter);
 
-    const cue = button('🎧', { className: 'cue-btn toggle', title: 'Preascolto in cuffia (PFL)', onClick: () => {
+    const cue = button(icon('headphones', 15), { className: 'cue-btn toggle', title: 'Preascolto in cuffia (PFL)', onClick: () => {
       strip.setCue(!strip.cue);
       cue.setOn(strip.cue);
     } });
@@ -78,10 +79,10 @@ export class MixerUI {
     const mic = this.mic;
     this.micOn = button('MIC', { className: 'small toggle mic-on', title: 'Microfono in onda (Spazio)', onClick: () => mic.setOnAir(!mic.onAir) });
     this.talkBtn = button('TALK', { className: 'small toggle', title: 'Talkover: abbassa la musica quando il mic è attivo', onClick: () => mic.setTalkover(!mic.talkover) });
-    const micGain = knob({ label: 'MIC', value: 0.7, def: 0.7, size: 24, color: '#ff5fc1', onChange: (v) => mic.setGain(v) });
-    const micHi = knob({ label: 'HI', min: -1, max: 1, value: 0, def: 0, bipolar: true, size: 24, color: '#ff5fc1', onChange: (v) => mic.setEq('high', v) });
-    const micLo = knob({ label: 'LO', min: -1, max: 1, value: 0, def: 0, bipolar: true, size: 24, color: '#ff5fc1', onChange: (v) => mic.setEq('low', v) });
-    const micEcho = knob({ label: 'ECHO', value: 0, def: 0, size: 24, color: '#ff5fc1', onChange: (v) => mic.setEcho(v) });
+    const micGain = knob({ label: 'MIC', value: 0.7, def: 0.7, size: 24, color: '#ff375f', onChange: (v) => mic.setGain(v) });
+    const micHi = knob({ label: 'HI', min: -1, max: 1, value: 0, def: 0, bipolar: true, size: 24, color: '#ff375f', onChange: (v) => mic.setEq('high', v) });
+    const micLo = knob({ label: 'LO', min: -1, max: 1, value: 0, def: 0, bipolar: true, size: 24, color: '#ff375f', onChange: (v) => mic.setEq('low', v) });
+    const micEcho = knob({ label: 'ECHO', value: 0, def: 0, size: 24, color: '#ff375f', onChange: (v) => mic.setEcho(v) });
     mic.setGain(0.7);
     const micVu = vuMeter({ width: 90, height: 6, segments: 18, horizontal: true });
     this.meters.push({ meter: mic.meter, canvas: micVu });

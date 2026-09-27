@@ -4,6 +4,7 @@ import { api } from '../api.js';
 import { formatTime, camelotOf } from '../dsp/analysis.js';
 import { STRATEGIES, TRANSITIONS } from '../ai/selector.js';
 import { BatchAnalyzer } from '../ai/batch-analyzer.js';
+import { icon, withIcon } from './icons.js';
 
 export class SideUI {
   constructor(root, { sampler, automix, onSamplerChange, getTrack, analyzer, getPlaylists, getAllTracks, onAiOptions, openAiSettings, llm }) {
@@ -33,7 +34,7 @@ export class SideUI {
       panes.append(pane);
       this.tabs[id] = { t, pane };
     };
-    addTab('automix', '🤖 AI DJ', this.buildAutomix());
+    addTab('automix', 'AI DJ', this.buildAutomix());
     addTab('sampler', 'SAMPLER', this.buildSampler());
     r.append(tabBar, panes);
     this.show('automix');
@@ -145,7 +146,7 @@ export class SideUI {
       this.onAiOptions(a.options);
       this.refreshAutomix();
     };
-    this.amToggle = button('🤖 AI DJ OFF', { className: 'toggle automix-toggle', title: 'Mixa in automatico (Ctrl+M)', onClick: () => a.setEnabled(!a.enabled) });
+    this.amToggle = button('Avvia AI DJ', { className: 'toggle automix-toggle', title: 'Mixa in automatico (Ctrl+M)', onClick: () => a.setEnabled(!a.enabled) });
     this.amStatus = el('div', { class: 'ai-status' }, 'Spento');
     this.modeSel = select([
       { value: 'ai', label: 'L\'AI sceglie i brani' },
@@ -176,7 +177,7 @@ export class SideUI {
     this.prompt.value = opt.notes || '';
     this.prompt.addEventListener('keydown', (e) => e.stopPropagation());
     this.prompt.addEventListener('change', () => setOpt({ notes: this.prompt.value.trim() }));
-    const genBtn = button('✨ Crea scaletta', { className: 'small primary', title: 'Genera la coda con l\'AI', onClick: async () => {
+    const genBtn = button(withIcon('sparkles', 'Crea scaletta', 13), { className: 'small primary', title: 'Genera la coda con l\'AI', onClick: async () => {
       genBtn.disabled = true;
       try {
         const tracks = await a.generateSet({ request: this.prompt.value.trim(), length: 15 });
@@ -217,8 +218,8 @@ export class SideUI {
     return el('div', { class: 'tab-pane automix-pane' },
       this.amToggle, this.amStatus,
       el('div', { class: 'row tight' },
-        button('⏩ Mixa ora', { className: 'small', title: 'Avvia la transizione alla prossima battuta', onClick: () => a.mixNow() }),
-        button('↻ Cambia prossimo', { className: 'small', title: 'Scarta il brano preparato', onClick: () => a.skipNext() })),
+        button(withIcon('forward', 'Mixa ora', 13), { className: 'small', title: 'Avvia la transizione alla prossima battuta', onClick: () => a.mixNow() }),
+        button(withIcon('skip', 'Cambia prossimo', 13), { className: 'small', title: 'Scarta il brano preparato', onClick: () => a.skipNext() })),
       row('Brani', this.modeSel),
       row('Sorgente', this.sourceSel),
       row('Energia', this.strategySel),
@@ -226,7 +227,7 @@ export class SideUI {
       row('Durata mix', this.barsSel),
       el('label', { class: 'check' }, tempoCheck, 'Ritorna al BPM originale dopo il mix'),
       el('label', { class: 'check' }, llmCheck, 'Usa AI locale (LLM)', this.llmBadge,
-        button('⚙', { className: 'tiny ghost', title: 'Configura AI locale', onClick: () => this.openAiSettings() })),
+        button(icon('gear', 13), { className: 'tiny ghost', title: 'Configura AI locale', onClick: () => this.openAiSettings() })),
       this.prompt,
       el('div', { class: 'row tight' }, genBtn,
         button('Mescola', { className: 'small', onClick: () => a.shuffle() }),
@@ -267,7 +268,7 @@ export class SideUI {
   refreshAutomix() {
     const a = this.automix;
     const o = a.options;
-    this.amToggle.textContent = a.enabled ? '🤖 AI DJ ON' : '🤖 AI DJ OFF';
+    this.amToggle.textContent = a.enabled ? 'AI DJ attivo' : 'Avvia AI DJ';
     this.amToggle.setOn(a.enabled);
     this.modeSel.value = o.mode;
     this.strategySel.value = o.strategy;
