@@ -1,7 +1,7 @@
 // Browser della libreria: sorgenti, playlist, ricerca, ordinamento, lista virtualizzata,
 // evidenziazione dei brani compatibili (BPM e tonalità Camelot) con il deck in onda.
 import { el, button, toast, askText, confirmDialog } from './controls.js';
-import { formatTime, parseKey, camelot } from '../dsp/analysis.js';
+import { formatTime, camelotOf, harmonicMatch } from '../dsp/analysis.js';
 import { api } from '../api.js';
 
 const ROW_H = 26;
@@ -16,25 +16,6 @@ const COLUMNS = [
   { id: 'album', label: 'Album', width: '1.2fr' },
   { id: 'playCount', label: '▶', width: '40px', num: true },
 ];
-
-function camelotOf(key) {
-  const k = parseKey(key);
-  return k ? camelot(k.tonic, k.minor) : '';
-}
-
-export function harmonicMatch(a, b) {
-  const ca = camelotOf(a);
-  const cb = camelotOf(b);
-  if (!ca || !cb) return false;
-  const na = parseInt(ca, 10);
-  const nb = parseInt(cb, 10);
-  const la = ca.slice(-1);
-  const lb = cb.slice(-1);
-  if (na === nb) return true;
-  if (la !== lb) return false;
-  const d = Math.abs(na - nb);
-  return d === 1 || d === 11;
-}
 
 export class LibraryUI extends EventTarget {
   constructor(root, { onLoad, onQueue, getMasterDeck }) {

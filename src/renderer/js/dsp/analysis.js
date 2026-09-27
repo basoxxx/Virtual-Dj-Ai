@@ -326,6 +326,24 @@ export function shiftKey(name, semitones) {
   return keyName(k.tonic + Math.round(semitones), k.minor);
 }
 
+export function camelotOf(key) {
+  const k = parseKey(key);
+  return k ? camelot(k.tonic, k.minor) : '';
+}
+
+/** Compatibilità armonica secondo la ruota Camelot (stesso numero, o ±1 con la stessa lettera). */
+export function harmonicMatch(a, b) {
+  const ca = camelotOf(a);
+  const cb = camelotOf(b);
+  if (!ca || !cb) return false;
+  const na = parseInt(ca, 10);
+  const nb = parseInt(cb, 10);
+  if (na === nb) return true;
+  if (ca.slice(-1) !== cb.slice(-1)) return false;
+  const d = Math.abs(na - nb);
+  return d === 1 || d === 11;
+}
+
 function correlate(a, b) {
   let ma = 0;
   let mb = 0;
