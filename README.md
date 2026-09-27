@@ -25,7 +25,10 @@ Ad ogni push o merge su `main`, GitHub Actions compila e pubblica automaticament
 Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
 
 1. **Analizza** in background tutta la libreria: BPM, beatgrid, tonalità (Camelot), energia 1–10,
-   struttura del brano (intro, outro, frasi da 8 battute) e punti di mix.
+   struttura del brano (intro, outro, frasi da 8 battute) e punti di mix. Battute e battute forti vengono da
+   **Beat This!**, una rete neurale open source (CPJKU, licenza MIT) che gira sul computer con la sola CPU;
+   in **Impostazioni → AI locale → Motore di analisi** si può tornare all'analisi classica, che resta comunque
+   il ripiego automatico se il modello manca o dà errore.
 2. **Sceglie il brano successivo** tra quelli compatibili: tonalità armonica, BPM vicini (anche metà/doppio tempo),
    energia coerente con la strategia scelta (*mantieni*, *crescente*, *onde*, *rilassata*, *picco*), genere, varietà.
    Nel pannello "Diario dell'AI" spiega ogni scelta.
@@ -115,6 +118,7 @@ npm start          # avvia l'app
 npm run dev        # avvia con gli strumenti sviluppatore
 npm test           # test: analisi audio, motore deck, AI DJ, console MIDI e gamepad
 npm run check      # controllo di sintassi
+npm run models     # scarica i modelli AI (GitHub Release models-v1) in src/renderer/models/
 npm run dist:win   # installer .msi (su Windows)
 npm run dist:mac   # installer .dmg (su macOS)
 npm run dist:linux # AppImage (su Linux)
@@ -131,10 +135,29 @@ src/renderer/      interfaccia e motore audio (Web Audio API + AudioWorklet)
   js/controllers/  profili delle console DJ, gamepad
   js/ui/           componenti grafici
   worklets/        riproduzione dei deck (scratch, loop, keylock) e registrazione
-  workers/         analisi dei brani in background
+  workers/         analisi dei brani in background (Beat This! con onnxruntime-web, solo CPU)
+  vendor/          file di onnxruntime-web copiati da npm install (esclusi da git)
+  models/          modelli ONNX scaricati da npm run models (esclusi da git)
+ml/                modelli AI: ambiente Python, export ONNX, valutazioni e REPORT.md con le misure
 .github/workflows/ CI, pubblicazione automatica delle release e del sito
 site/              sito GitHub Pages (foto reali dell'interfaccia)
 ```
+
+### Modelli AI
+
+I pesi non stanno nel repository: i file `.onnx` sono asset della GitHub Release
+[`models-v1`](../../releases/tag/models-v1), elencati con dimensione e SHA-256 in `scripts/models.json`.
+`npm run models` scarica quelli inclusi nell'app (`--all` anche le altre varianti); CI e rilascio lo fanno
+prima di test e build. Senza modello l'app funziona con l'analisi classica.
+
+Per rigenerarli (Python 3.12, vedi `ml/requirements.txt`):
+
+```bash
+uv venv --python 3.12 ml/.venv && uv pip install --python ml/.venv/bin/python -r ml/requirements.txt
+ml/.venv/bin/python ml/beat_this/export_onnx.py   # ONNX fp32 + int8 in ml/data/onnx, riferimenti per i test
+```
+
+Misure, confronti e problemi aperti sono in [`ml/REPORT.md`](ml/REPORT.md).
 
 ### Rilascio
 
