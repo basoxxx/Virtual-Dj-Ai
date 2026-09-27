@@ -1,9 +1,9 @@
 """Esporta il modello C (pianificatore delle transizioni) in ONNX fp32 e int8 e salva i riferimenti per i test JS.
 
 Ingressi: x (1, 128, 35), mask (1, 128) float (1 = battuta valida). Uscita: controls (1, 128, 9).
-File: ml/data/onnx/transition-planner-v1.onnx e -int8.onnx; riferimenti in test/fixtures/transition-model/.
+File: ml/data/onnx/<nome>.onnx e <nome>-int8.onnx; riferimenti in test/fixtures/transition-model/.
 
-Uso:  ml/.venv/bin/python ml/transitions/export_onnx.py [--ckpt ml/data/runs/transition-planner.pt]
+Uso:  ml/.venv/bin/python ml/transitions/export_onnx.py [--ckpt ml/data/runs/planner-v2.pt --name transition-planner-v2]
 """
 
 from __future__ import annotations
@@ -54,13 +54,14 @@ def deck_block_fixture(rng) -> dict:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ckpt", default=str(ML_DIR / "data" / "runs" / "transition-planner.pt"))
+    ap.add_argument("--name", default="transition-planner-v1", help="nome dei file ONNX (senza estensione)")
     args = ap.parse_args()
     net = TransitionPlanner(N_IN)
     net.load_state_dict(torch.load(args.ckpt, map_location="cpu"))
     net.eval()
     ONNX_DIR.mkdir(parents=True, exist_ok=True)
-    fp32 = ONNX_DIR / "transition-planner-v1.onnx"
-    int8 = ONNX_DIR / "transition-planner-v1-int8.onnx"
+    fp32 = ONNX_DIR / f"{args.name}.onnx"
+    int8 = ONNX_DIR / f"{args.name}-int8.onnx"
     x = torch.zeros(1, MAX_BEATS, N_IN)
     mask = torch.ones(1, MAX_BEATS)
     with torch.inference_mode():
@@ -69,7 +70,7 @@ def main():
                           opset_version=17, do_constant_folding=True, dynamo=False)
     net.eval()
     onnx.checker.check_model(str(fp32))
-    pre = ONNX_DIR / "transition-planner-v1-pre.onnx"
+    pre = ONNX_DIR / f"{args.name}-pre.onnx"
     quant_pre_process(str(fp32), str(pre), skip_symbolic_shape=True)
     quantize_dynamic(str(pre), str(int8), weight_type=QuantType.QInt8, op_types_to_quantize=["MatMul", "Gemm"],
                      per_channel=True, extra_options={"MatMulConstBOnly": True})

@@ -80,16 +80,21 @@ def mix_power(ctrl: torch.Tensor, pow_a: torch.Tensor, pow_b: torch.Tensor) -> t
 CONTROL_WEIGHTS = torch.tensor([1.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.1, 0.1])
 
 
-def losses(pred: torch.Tensor, target: torch.Tensor, powers: torch.Tensor, mask: torch.Tensor) -> dict:
-    """powers: (B, T, 9) = potenze per banda di A (0:3), B (3:6) e del mix reale (6:9)."""
+def losses(pred: torch.Tensor, target: torch.Tensor, powers: torch.Tensor, mask: torch.Tensor,
+           weights: torch.Tensor | None = None, mixer_on: torch.Tensor | None = None) -> dict:
+    """powers: (B, T, 9) = potenze per banda di A (0:3), B (3:6) e del mix reale (6:9).
+    weights: (B, T, 9) pesi per controllo (0 = controllo non noto, es. EQ nei dati di solo crossfader);
+    mixer_on: (B,) 1 dove le potenze del mix sono note (perdita del mixer differenziabile)."""
     m = mask.float()[..., None]
     n = m.sum().clamp(min=1)
-    w = CONTROL_WEIGHTS.to(pred.device)
-    curve = ((pred - target).abs() * w * m).sum() / (n * w.sum())
+    w = CONTROL_WEIGHTS.to(pred.device) if weights is None else weights * CONTROL_WEIGHTS.to(pred.device)
+    wm = w * m
+    curve = ((pred - target).abs() * wm).sum() / wm.sum().clamp(min=1e-6)
     est = mix_power(pred, powers[..., 0:3], powers[..., 3:6])
     ref = powers[..., 6:9]
     db = lambda p: 10 * torch.log10(p + 1e-6 * (ref.mean() + 1e-12))  # noqa: E731
-    mixer = ((db(est) - db(ref)).abs() * m).sum() / (n * 3) / 10  # in unità di 10 dB
+    mm = m if mixer_on is None else m * mixer_on.float()[:, None, None]
+    mixer = ((db(est) - db(ref)).abs() * mm).sum() / (mm.sum().clamp(min=1) * 3) / 10  # in unità di 10 dB
     tv = ((pred[:, 1:] - pred[:, :-1]).abs() * m[:, 1:] * m[:, :-1]).sum() / (n * N_OUT)
     return {"curve": curve, "mixer": mixer, "tv": tv, "total": curve + 0.5 * mixer + 0.05 * tv}
 

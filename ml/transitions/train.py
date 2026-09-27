@@ -30,7 +30,7 @@ DEVICE = "mps" if torch.backends.mps.is_available() else "cpu"
 
 
 def to_t(batch: dict) -> dict:
-    return {k: torch.from_numpy(np.asarray(v)).to(DEVICE) for k, v in batch.items() if k in ("X", "Y", "P", "mask")}
+    return {k: torch.from_numpy(np.asarray(v)).to(DEVICE) for k, v in batch.items() if k in ("X", "Y", "P", "mask", "W", "MO")}
 
 
 def rules_curves(style: str, L: int) -> np.ndarray:
@@ -152,13 +152,19 @@ def train(real: dict | None, train_idx: np.ndarray, steps: int, seed: int = 0, i
     for step in range(steps):
         model.train()
         if real is None or not len(train_idx):
-            b = to_t(synth.batch(32))
+            sb = synth.batch(32)
+            b = to_t({**sb, "W": np.ones_like(sb["Y"]), "MO": np.ones(32, np.float32)})
         else:
-            ids = rng.choice(train_idx, 24, replace=True)
+            n_real = 32 - synth_share
+            ids = rng.choice(train_idx, n_real, replace=True)
             r = {k: real[k][ids] for k in ("X", "Y", "P", "mask")}
+            # dati reali: pesi per controllo (es. solo crossfader) e mixer solo se le potenze del mix sono note
+            r["W"] = real["W"][ids] if "W" in real else np.ones_like(r["Y"])
+            r["MO"] = np.full(n_real, 0.0 if "W" in real else 1.0, np.float32)
             sb = synth.batch(synth_share)
+            sb = {**sb, "W": np.ones_like(sb["Y"]), "MO": np.ones(synth_share, np.float32)}
             b = to_t({k: np.concatenate([r[k], sb[k]]) for k in r})
-        out = losses(model(b["X"], b["mask"]), b["Y"], b["P"], b["mask"])
+        out = losses(model(b["X"], b["mask"]), b["Y"], b["P"], b["mask"], weights=b["W"], mixer_on=b["MO"])
         opt.zero_grad()
         out["total"].backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -167,6 +173,52 @@ def train(real: dict | None, train_idx: np.ndarray, steps: int, seed: int = 0, i
         if step % 500 == 0 or step == steps - 1:
             log(f"passo {step:5d}  curve {out['curve'].item():.3f}  mixer {out['mixer'].item():.3f}  tv {out['tv'].item():.3f}  {time.time() - t0:.0f} s")
     return model
+
+
+def xf_metrics(C: np.ndarray, data: dict, idx: np.ndarray) -> dict:
+    """Crossfader previsto contro quello umano: errore medio, errore di tempo (battute) di inizio (0,1),
+    metà (0,5) e fine (0,9) del movimento, attraversamento della metà su una battuta forte del brano uscente."""
+    mae, t_err, on_bar = [], {0.1: [], 0.5: [], 0.9: []}, []
+    for n, i in enumerate(idx):
+        L = int(data["mask"][i].sum())
+        y, c, x = data["Y"][i, :L, 0], C[n, :L, 0], data["X"][i, :L]
+        mae.append(np.abs(c - y).mean())
+        first = lambda v, th: int(np.argmax(v >= th)) if (v >= th).any() else L  # noqa: E731
+        for th in t_err:
+            t_err[th].append(abs(first(c, th) - first(y, th)))
+        j = first(c, 0.5)
+        on_bar.append(bool(j < L and (x[max(0, j - 1):j + 2, 4] > 0.5).any()))
+    return {"maeCrossfader": round(float(np.mean(mae)), 3),
+            "erroreInizioBattute": round(float(np.mean(t_err[0.1])), 1),
+            "erroreMetaBattute": round(float(np.mean(t_err[0.5])), 1),
+            "erroreFineBattute": round(float(np.mean(t_err[0.9])), 1),
+            "metaSuBattutaForte": round(float(np.mean(on_bar)), 2)}
+
+
+def eval_xf(models: dict, data: dict, idx: np.ndarray) -> dict:
+    X, M = data["X"][idx], data["mask"][idx]
+    out = {}
+    for name, model in models.items():
+        with torch.no_grad():
+            model.eval()
+            C = model(torch.from_numpy(X).to(DEVICE), torch.from_numpy(M).to(DEVICE)).cpu().numpy()
+        out[name] = xf_metrics(C, data, idx)
+    for style in ("bassswap", "fade"):
+        C = np.zeros((len(idx), X.shape[1], 9), np.float32)
+        for n in range(len(idx)):
+            L = int(M[n].sum())
+            C[n, :L] = rules_curves(style, L)
+        out[f"regole_{style}"] = xf_metrics(C, data, idx)
+    real = np.stack([data["Y"][i] for i in idx])
+    out["umano"] = xf_metrics(real, data, idx)
+    return out
+
+
+def load_gand() -> dict:
+    d = np.load(ML_DIR / "data" / "werthen" / "transitions.npz")
+    out = {k: d[k] for k in ("X", "Y", "W", "P", "mask")}
+    out["meta"] = json.loads(str(d["meta"]))
+    return out
 
 
 def load_real() -> dict:
@@ -185,6 +237,11 @@ def main():
     ap.add_argument("--compare", default="", help="con --synth-eval: valuta anche questo checkpoint sullo stesso test")
     ap.add_argument("--test-prefix", default="", help="con --synth-eval: solo i brani di test con questo prefisso (es. usb-)")
     ap.add_argument("--out", default="", help="nome del checkpoint salvato da --pretrain / del risultato di --synth-eval")
+    ap.add_argument("--gand-cv", action="store_true", help="rifinitura sul crossfader dei mix di Gand, un set tenuto da parte alla volta")
+    ap.add_argument("--gand-final", action="store_true", help="rifinitura su tutti i set di Gand (salva planner-v2.pt)")
+    ap.add_argument("--init", default="planner-v1.pt", help="checkpoint di partenza per la rifinitura")
+    ap.add_argument("--ft-lr", type=float, default=1e-4)
+    ap.add_argument("--synth-share", type=int, default=16, help="transizioni sintetiche per lotto di 32 nella rifinitura")
     ap.add_argument("--pre-steps", type=int, default=4000)
     ap.add_argument("--ft-steps", type=int, default=600)
     args = ap.parse_args()
@@ -206,6 +263,31 @@ def main():
         model = train(None, np.array([], int), args.pre_steps)
         torch.save(model.state_dict(), pre_path)
         print(f"{count_params(model) / 1e6:.2f}M parametri, salvato {pre_path}")
+    if args.gand_cv or args.gand_final:
+        init = torch.load(RUNS / args.init, map_location=DEVICE)
+        gand = load_gand()
+        sets = np.array([m["set"] for m in gand["meta"]])
+        v1 = TransitionPlanner(N_IN).to(DEVICE)
+        v1.load_state_dict(init)
+        if args.gand_cv:
+            results = {}
+            for held in sorted(set(sets)):
+                tr, te = np.where(sets != held)[0], np.where(sets == held)[0]
+                print(f"--- set tenuto da parte: {held} ({len(te)} transizioni)")
+                model = train(gand, tr, args.ft_steps, init=init, lr=args.ft_lr, synth_share=args.synth_share)
+                results[held] = {"n": int(len(te)), **eval_xf({"rifinito": model, "v1": v1}, gand, te)}
+                print(json.dumps(results[held], ensure_ascii=False))
+            # media pesata sul numero di transizioni
+            tot = sum(r["n"] for r in results.values())
+            names = [k for k in next(iter(results.values())) if k != "n"]
+            summary = {nm: {m: round(sum(r[nm][m] * r["n"] for r in results.values()) / tot, 3) for m in results[held][nm]} for nm in names}
+            print("MEDIA", json.dumps(summary, ensure_ascii=False))
+            cfg = {"passi": args.ft_steps, "lr": args.ft_lr, "sinteticiPerLotto": args.synth_share}
+            (RUNS / (args.out or "gand-cv.json")).write_text(json.dumps({"config": cfg, "perSet": results, "media": summary}, indent=1, ensure_ascii=False))
+        if args.gand_final:
+            model = train(gand, np.arange(len(sets)), args.ft_steps, init=init, lr=args.ft_lr, synth_share=args.synth_share)
+            torch.save(model.state_dict(), RUNS / "planner-v2.pt")
+            print(f"salvato {RUNS / 'planner-v2.pt'}")
     if not (args.cv or args.final):
         return
     init = torch.load(pre_path, map_location=DEVICE)
