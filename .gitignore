@@ -3,3 +3,14 @@ dist/
 out/
 *.log
 .DS_Store
+
+# Modelli AI: pesi, dataset e ambiente Python restano fuori da git
+ml/.venv/
+ml/.cache/
+ml/data/
+*.ckpt
+*.onnx
+__pycache__/
+# copiati da node_modules (postinstall) e scaricati dalla release models-v1 (npm run models)
+src/renderer/vendor/
+src/renderer/models/
