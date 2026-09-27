@@ -40,6 +40,8 @@ jobs:
       - run: npm ci
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      - name: Modelli AI (GitHub Release models-v1)
+        run: npm run models
       - run: npm run check
       - run: npm test
 
@@ -70,6 +72,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Modelli AI (GitHub Release models-v1)
+        run: npm run models
       - name: Imposta versione ${{ needs.version.outputs.version }}
         run: npm version ${{ needs.version.outputs.version }} --no-git-tag-version --allow-same-version
       - name: Pacchetto installabile

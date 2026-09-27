@@ -9,6 +9,9 @@ directories:
 
 files:
   - src/**/*
+  # modelli AI: solo quelli con "bundle": true in scripts/models.json
+  - "!src/renderer/models/**"
+  - src/renderer/models/beat_this-small0-int8.onnx
   - package.json
   - "!**/*.map"
 

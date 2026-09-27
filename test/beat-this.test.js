@@ -173,6 +173,17 @@ for (const [name, variant, tolerance] of E2E) {
   });
 }
 
+test('modelli: il worker usa un modello incluso nell\'app e scaricato da npm run models', async () => {
+  const { BEAT_MODEL } = await import('../src/renderer/js/audio/analyzer-client.js');
+  const manifest = JSON.parse(readFileSync(new URL('../scripts/models.json', import.meta.url), 'utf8'));
+  const bundled = manifest.models.filter((m) => m.bundle).map((m) => m.file);
+  assert.ok(bundled.includes(BEAT_MODEL), `${BEAT_MODEL} non è tra i modelli inclusi`);
+  const builder = readFileSync(new URL('../electron-builder.yml', import.meta.url), 'utf8');
+  const listed = [...builder.matchAll(/^\s+- src\/renderer\/models\/(\S+\.onnx)$/gm)].map((m) => m[1]);
+  assert.deepEqual(listed.sort(), bundled.sort());
+  for (const m of manifest.models) assert.match(m.sha256, /^[0-9a-f]{64}$/);
+});
+
 const BUNDLED = `${MODELS}beat_this-small0-int8.onnx`;
 test('Beat This! small0 int8: BPM e prima battuta forte su brani a tempo noto', { skip: !existsSync(BUNDLED) && 'modello non scaricato' }, async () => {
   const ort = await import('onnxruntime-web');
