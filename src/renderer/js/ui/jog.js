@@ -76,7 +76,8 @@ export class JogWheel {
   draw() {
     const dpr = window.devicePixelRatio || 1;
     const size = Math.round(this.canvas.clientWidth * dpr);
-    if (this.canvas.width !== size) {
+    // un canvas nasce 300×150: vanno controllate entrambe le dimensioni (a 2x la larghezza è già 300)
+    if (this.canvas.width !== size || this.canvas.height !== size) {
       this.canvas.width = size;
       this.canvas.height = size;
     }

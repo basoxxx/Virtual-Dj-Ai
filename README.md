@@ -1,5 +1,7 @@
 # Virtual DJ AI
 
+🌐 **Sito:** https://basoxxx.github.io/Virtual-Dj-Ai/
+
 Software DJ desktop per **Windows**, **macOS** e **Linux**, ispirato a VirtualDJ, con un'**AI che mixa in automatico**
 (anche collegata a un modello linguistico locale): due deck, mixer completo,
 effetti, sampler, microfono, ingressi linea dalla scheda audio, uscita cuffia separata, controller MIDI,
@@ -130,7 +132,8 @@ src/renderer/      interfaccia e motore audio (Web Audio API + AudioWorklet)
   js/ui/           componenti grafici
   worklets/        riproduzione dei deck (scratch, loop, keylock) e registrazione
   workers/         analisi dei brani in background
-.github/workflows/ CI e pubblicazione automatica delle release
+.github/workflows/ CI, pubblicazione automatica delle release e del sito
+site/              sito GitHub Pages (foto reali dell'interfaccia)
 ```
 
 ### Rilascio

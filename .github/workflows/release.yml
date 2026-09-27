@@ -92,7 +92,14 @@ jobs:
         with:
           path: installers
           merge-multiple: true
-      - run: ls -la installers
+      - name: Copie con nome fisso (link "ultima versione" usati dal sito)
+        run: |
+          cd installers
+          for f in *; do
+            stable=$(echo "$f" | sed -E 's/-[0-9]+\.[0-9]+\.[0-9]+-/-/')
+            [ "$stable" != "$f" ] && cp "$f" "$stable"
+          done
+          ls -la
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ needs.version.outputs.version }}

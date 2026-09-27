@@ -219,7 +219,13 @@ export function detectBpm(mono, sampleRate, { min = 70, max = 180 } = {}) {
     .sort((a, b) => b.score - a.score);
   const coarse = [];
   for (const pk of peaks) {
-    let b = (60 * rate) / pk.lag;
+    // posizione frazionaria del picco (interpolazione parabolica)
+    const y0 = ac[pk.lag - 1] || 0;
+    const y1 = ac[pk.lag];
+    const y2 = ac[pk.lag + 1] || 0;
+    const den = y0 - 2 * y1 + y2;
+    const frac = den < 0 ? Math.max(-0.5, Math.min(0.5, (0.5 * (y0 - y2)) / den)) : 0;
+    let b = (60 * rate) / (pk.lag + frac);
     while (b < min) b *= 2;
     while (b > max) b /= 2;
     if (coarse.every((c) => Math.abs(c - b) > 2)) coarse.push(b);
@@ -232,7 +238,8 @@ export function detectBpm(mono, sampleRate, { min = 70, max = 180 } = {}) {
   const refine = (center) => {
     let bestCand = center;
     let bestS = -1;
-    for (let cand = center - 1.5; cand <= center + 1.5; cand += 0.05) {
+    // la stima iniziale ha una risoluzione di ~1,5 BPM: si esplora ±3 BPM
+    for (let cand = center - 3; cand <= center + 3; cand += 0.05) {
       const s = combScore(env, (60 * rate) / cand);
       if (s > bestS) {
         bestS = s;
@@ -253,7 +260,7 @@ export function detectBpm(mono, sampleRate, { min = 70, max = 180 } = {}) {
   const tried = [];
   for (const base of coarse) {
     for (const c of [base, base * 2, base / 2]) {
-      if (c < min * 0.98 || c > max * 1.02 || tried.some((t) => Math.abs(t - c) < 1.5)) continue;
+      if (c < min * 0.98 || c > max * 1.02 || tried.some((t) => Math.abs(t - c) < 2)) continue;
       tried.push(c);
       const r = refine(c);
       if (r.score > best) {
