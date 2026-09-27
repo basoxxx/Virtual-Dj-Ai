@@ -54,7 +54,7 @@
     },
     {
       "file": "transition-planner-v2-int8.onnx",
-      "bundle": true,
+      "bundle": false,
       "bytes": 6815310,
       "sha256": "dfa1ee0313bcbe83b54a19a70dc37ab01310067df3feeb3f5309030ea4cd7fe0",
       "source": "Modello C v2: v1 rifinito sul crossfader di 26 transizioni umane (dataset della tesi di Gand, solo in locale), int8 dinamico"
@@ -65,6 +65,20 @@
       "bytes": 25766251,
       "sha256": "010dab1ddcfd9016f023a246840685edd74ea40e60494d945fad61fab03bdcb8",
       "source": "Modello C v2, fp32"
+    },
+    {
+      "file": "transition-planner-v3-int8.onnx",
+      "bundle": true,
+      "bytes": 6815310,
+      "sha256": "6f1ed3446f5f5848f97e4f39c10dd11bf4866688a088ed5b968444fcdc4f599b",
+      "source": "Modello C v3: sintetico con brani da DJ, outro e forme del crossfader umano, rifinito su 26 transizioni umane con finestre variabili (dataset di Gand, solo in locale), int8 dinamico"
+    },
+    {
+      "file": "transition-planner-v3.onnx",
+      "bundle": false,
+      "bytes": 25766251,
+      "sha256": "d551380c37587dc43d7dad384e0b7b448344cca1435348425cf4fc92ce9ae546",
+      "source": "Modello C v3, fp32"
     }
   ]
 }

@@ -515,3 +515,52 @@ del modello eseguita con bass swap.
 - I dati umani sono pochi e solo di crossfader: la strada migliore resta **registrare le tue transizioni**
   nell'app (crossfader, EQ e filtri per battuta), che darebbe anche gli EQ.
 - Le 20 transizioni lunghe (oltre 128 battute) richiederebbero una finestra più lunga o un modello a passi.
+
+---
+
+## Giorno 5 — 27 settembre 2026 (modello C v3: "addestrala meglio")
+
+### Fatto
+
+- **La chiavetta:** le "Zarro Mix" non sono mix continui (ai confini tra tracce c'è silenzio, fino a -180 dB), quindi
+  niente transizioni già fatte; l'unico DJ mix vero ("Noblemo – MIX Electro night spirit", 24,5 min) usa brani che
+  non sono sulla chiavetta (le "corrispondenze" trovate cadono tutte negli stessi due punti del mix: falsi
+  positivi). I remix e i brani da club servono però al generatore: **344 brani "da DJ"** (remix, club/extended mix,
+  cartelle Techno/House/CROSSFADER/Zarro Mix, generi elettronici, più quelli del DJ Mix Dataset) pesano 3 volte gli
+  altri, dimezzati se il tempo è irregolare; il brano uscente esce spesso sul suo **outro vero** (calo di energia
+  finale, trovato su 178 brani).
+- **Stile "umano" nel generatore:** in 1 transizione su 3 il crossfader ha la forma e la durata di una delle 45 curve
+  umane di Gand (anche quelle lunghe, prima escluse), parte su una battuta forte (spesso a inizio frase) e il bass swap
+  cade dove l'umano passa la metà (6 volte su 10).
+- **Finestre variabili sui dati umani:** ogni transizione anche con la finestra anticipata di 4, 8, 16 e 32 battute e
+  allungata di 8 (119 finestre): il modello deve decidere *quando* muoversi guardando la musica, come nell'app.
+- **v3:** v1 + 1500 passi sul nuovo sintetico + rifinitura sulle finestre umane. Nella validazione incrociata le
+  forme umane del set di test non entrano nel generatore.
+
+### Numeri misurati (validazione incrociata, 26 transizioni, media pesata)
+
+| Finestra | | v3 | v2 (ricalcolata per fold) | v1 | Regole: bass swap | Regole: dissolvenza |
+|---|---|---|---|---|---|---|
+| Stretta (dal movimento) | errore crossfader | **0,111** | 0,117 | 0,120 | 0,117 | 0,124 |
+| | errore fine | 3,8 | 3,9 | 3,9 | 3,5 | 4,2 |
+| | metà su battuta forte | 77% | 73% | 77% | 66% | 66% |
+| **Larga** (16 battute prima, 8 dopo: come nell'app) | errore crossfader | **0,088** | 0,120 | 0,111 | 0,117 | 0,092 |
+| | errore inizio | **7,1** | 11,5 | 11,1 | 10,9 | 7,1 |
+| | errore fine | **2,3** | 2,6 | 2,9 | 2,8 | 2,5 |
+| | metà su battuta forte | 84% | 84% | 60% | 88% | 88% |
+
+Con la finestra stretta le differenze sono nel rumore (la stessa v2 ha dato 0,113 in un'altra esecuzione). Con la
+finestra larga la v3 riduce l'errore del **27% rispetto alla v2** e fa meglio di entrambe le regole: sa aspettare e
+poi muoversi. Il momento a metà resta difficile (8,9 battute di errore contro 7,6 della dissolvenza).
+
+Sul vecchio test sintetico (256 transizioni da brani mai visti) la v3 conserva gli EQ: errore EQ 0,059 (v1 0,060),
+mix 0,88 dB (v1 0,86), scontro dei bassi 0,6% (v1 0,1%); eventi su inizio frase 60% contro 68%, perché segue di più i
+tempi umani (le persone di Gand partono raramente a inizio frase).
+
+ONNX v3: fp32 identico a PyTorch, int8 errore medio 0,0021. Nell'app vera (`autodj-model.js`) la transizione del
+modello esegue bass swap e crossfader completo. **La v3 sostituisce la v2 nell'app.**
+
+### Problemi aperti
+
+- Tutti i dati umani sono di una sola persona, con il solo crossfader: gli EQ restano quelli del maestro sintetico.
+  Le tue transizioni registrate nell'app resterebbero la fonte migliore.
