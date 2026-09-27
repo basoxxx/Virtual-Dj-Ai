@@ -3,25 +3,14 @@
 // se il modello manca o dà errore si usa l'analisi classica.
 import { analyzeTrack } from '../js/dsp/analysis.js';
 import { createBeatThisSession, trackBeats } from '../js/dsp/beat-this.js';
-
-const VENDOR = new URL('../vendor/onnxruntime-web/', import.meta.url);
-const MODELS = new URL('../models/', import.meta.url);
+import { loadOrt, fetchModel } from '../js/dsp/ort-loader.js';
 
 let beatThis = null; // { model, promise } della sessione, riusata tra un brano e l'altro
 
 function loadBeatThis(model) {
   if (!beatThis || beatThis.model !== model) {
     if (beatThis) beatThis.promise.then((s) => s.release()).catch(() => {});
-    const promise = (async () => {
-      const ort = await import(new URL('ort.wasm.bundle.min.mjs', VENDOR).href);
-      // solo il .wasm: il codice di collegamento è già dentro il bundle
-      ort.env.wasm.wasmPaths = { wasm: new URL('ort-wasm-simd-threaded.wasm', VENDOR).href };
-      // i thread WASM richiedono l'isolamento cross-origin (SharedArrayBuffer)
-      ort.env.wasm.numThreads = self.crossOriginIsolated ? Math.max(1, Math.min(4, (navigator.hardwareConcurrency || 2) >> 1)) : 1;
-      const res = await fetch(new URL(model, MODELS));
-      if (!res.ok) throw new Error(`modello ${model} non installato`);
-      return createBeatThisSession(ort, new Uint8Array(await res.arrayBuffer()));
-    })();
+    const promise = (async () => createBeatThisSession(await loadOrt(), await fetchModel(model)))();
     const entry = { model, promise };
     promise.catch(() => {
       if (beatThis === entry) beatThis = null;
