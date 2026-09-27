@@ -32,7 +32,7 @@
     },
     {
       "file": "transition-planner-v1-int8.onnx",
-      "bundle": true,
+      "bundle": false,
       "bytes": 6815310,
       "sha256": "1672325644c5fedb80037cd40d0330b7a7a347bac0d473908cbf48149168a86c",
       "source": "Modello C (pianificatore delle transizioni) v1, ml/transitions, int8 dinamico; addestrato su transizioni sintetiche"
@@ -51,6 +51,20 @@
       "bytes": 174264722,
       "sha256": "b9b27414530f0a08125ecb5b470191073bb81f7e1431df844169320a4c5e1a2f",
       "source": "Demucs v4 htdemucs (Meta, codice MIT; licenza dei pesi non dichiarata, uso deciso dall'utente), ml/mashup/export_demucs.py, fp32 senza STFT"
+    },
+    {
+      "file": "transition-planner-v2-int8.onnx",
+      "bundle": true,
+      "bytes": 6815310,
+      "sha256": "dfa1ee0313bcbe83b54a19a70dc37ab01310067df3feeb3f5309030ea4cd7fe0",
+      "source": "Modello C v2: v1 rifinito sul crossfader di 26 transizioni umane (dataset della tesi di Gand, solo in locale), int8 dinamico"
+    },
+    {
+      "file": "transition-planner-v2.onnx",
+      "bundle": false,
+      "bytes": 25766251,
+      "sha256": "010dab1ddcfd9016f023a246840685edd74ea40e60494d945fad61fab03bdcb8",
+      "source": "Modello C v2, fp32"
     }
   ]
 }

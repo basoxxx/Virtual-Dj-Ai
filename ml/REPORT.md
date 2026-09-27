@@ -463,3 +463,55 @@ tempo, transizione normale con avviso nel diario (il ripiego funziona).
   non dichiarata) e, meglio ancora, con le tue transizioni registrate nell'app.
 - Ridurre la RAM della separazione e aggiungere "prepara i mashup della coda" prima del set.
 - Scelta dei brani per il mashup guidata dalla presenza della voce (energia della parte vocale).
+
+---
+
+## Giorno 4 — 27 settembre 2026 (modello C v2: crossfader umano dal dataset di Gand)
+
+### Fatto
+
+- Su tua indicazione ho usato il dataset della tesi di Gand (Werthen-Brabants 2018) **solo in locale**
+  (`ml/data/werthen`, licenza non dichiarata). Unità verificate sui dati: tempi in secondi (l'ultima clip finisce
+  esattamente alla durata del mix), crossfader 0 = lato A, 1 = lato B, e tempo nel brano = offset + (t - inizio
+  clip) × stretch (BPM del brano × stretch = BPM del set, scarto medio 0,9-1,9 BPM contro 3,3-10,8 dell'ipotesi
+  opposta).
+- Caratteristiche per battuta dei 62 brani originali (`gand_features.py`), 26 transizioni con finestra entro 128
+  battute (`gand_dataset.py`; 20 escluse perché più lunghe, tutto il set 281 è fatto di fusioni lunghissime).
+- Rifinitura (`train.py --gand-cv / --gand-final`) partendo dalla v1: lotti di 16 transizioni umane + 16
+  sintetiche; sulle umane la perdita guarda **solo il crossfader** (EQ e filtri non ci sono e non si forzano a zero,
+  il mixer differenziabile è spento), sulle sintetiche tutto come prima. Così il modello non disimpara il bass swap.
+- **v2** esportata in ONNX, nella release `models-v1` e nell'app al posto della v1.
+
+### Numeri misurati
+
+Validazione incrociata, un set tenuto da parte alla volta (4 set con transizioni, 26 in tutto, media pesata):
+
+| | Errore crossfader | Errore inizio (0,1) | Errore metà (0,5) | Errore fine (0,9) | Metà su battuta forte |
+|---|---|---|---|---|---|
+| **Rifinito (400 passi, lr 1e-4, 16 sintetiche)** | **0,113** | **3,1 battute** | **12,2** | 3,8 | 77% |
+| Rifinito (1000 passi, lr 2e-4, 8 sintetiche) | 0,119 | 2,7 | 12,7 | 3,8 | 81% |
+| v1 | 0,120 | 4,2 | 13,0 | 3,9 | 77% |
+| Regole: bass swap | 0,117 | 3,9 | 12,2 | 3,5 | 66% |
+| Regole: dissolvenza | 0,124 | 6,9 | 12,2 | 4,2 | 66% |
+| Umano | — | — | — | — | 85% |
+
+Scelto il primo assetto: migliora la v1 su tutte le misure del crossfader senza peggiorarne nessuna. Il guadagno è
+**piccolo** e, con 26 transizioni fatte con il solo crossfader, dentro il rumore statistico: l'errore sul momento a
+metà resta di circa 12 battute per tutti (le persone muovono il crossfader in modo asimmetrico: aspettano e poi
+chiudono in fretta).
+
+Controllo che la v2 non abbia perso il resto (256 transizioni sintetiche da 94 brani della chiavetta mai visti):
+
+| | Errore crossfader | Errore EQ | Errore del mix | Scontro bassi | Eventi su battuta forte | su frase |
+|---|---|---|---|---|---|---|
+| v1 | 0,082 | 0,060 | 0,85 dB | 0,1% | 90% | 67% |
+| v2 | 0,085 | 0,061 | 0,89 dB | 0,1% | 93% | 65% |
+
+ONNX v2: fp32 identico a PyTorch; int8 errore medio 0,0021. Prova nell'app vera (`autodj-model.js`): transizione
+del modello eseguita con bass swap.
+
+### Problemi aperti e prossimi passi
+
+- I dati umani sono pochi e solo di crossfader: la strada migliore resta **registrare le tue transizioni**
+  nell'app (crossfader, EQ e filtri per battuta), che darebbe anche gli EQ.
+- Le 20 transizioni lunghe (oltre 128 battute) richiederebbero una finestra più lunga o un modello a passi.

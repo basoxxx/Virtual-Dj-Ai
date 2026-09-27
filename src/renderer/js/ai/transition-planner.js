@@ -1,7 +1,7 @@
 // Client del worker del pianificatore delle transizioni (modello C, sperimentale).
 import { transitionInput } from './transition-model.js';
 
-export const TRANSITION_MODEL = 'transition-planner-v1-int8.onnx';
+export const TRANSITION_MODEL = 'transition-planner-v2-int8.onnx';
 
 let worker = null;
 let seq = 0;
