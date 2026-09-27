@@ -205,3 +205,22 @@ test('Beat This! small0 int8: BPM e prima battuta forte su brani a tempo noto', 
     await release();
   }
 });
+
+test('analisi ibrida: quali brani aspettano la rifinitura AI', async () => {
+  const { configureAnalysis, needsAiRefine } = await import('../src/renderer/js/audio/analyzer-client.js');
+  const t = { analyzed: true, bpm: 124, bpmEngine: 'classic' };
+  configureAnalysis({ engine: 'classic' });
+  assert.equal(needsAiRefine(t), false);
+  configureAnalysis({ engine: 'ai' });
+  try {
+    assert.equal(needsAiRefine(t), true);
+    assert.equal(needsAiRefine({ ...t, bpmEngine: undefined }), true); // analizzato prima dell'AI
+    assert.equal(needsAiRefine({ ...t, bpmEngine: 'ai' }), false);
+    assert.equal(needsAiRefine({ ...t, bpmEngine: 'manual' }), false); // griglia corretta a mano
+    assert.equal(needsAiRefine({ ...t, aiRefineFailed: true }), false);
+    assert.equal(needsAiRefine({ ...t, analyzed: false }), false);
+    assert.equal(needsAiRefine(null), false);
+  } finally {
+    configureAnalysis({ engine: 'classic' });
+  }
+});

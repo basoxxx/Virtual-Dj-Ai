@@ -303,6 +303,8 @@ function aiPage(app) {
     configureAnalysis({ engine: v });
     save();
     showEngineStatus();
+    // con l'AI i brani già analizzati vengono rifiniti in background
+    if (v === 'ai' && ai.autoAnalyze && app.analyzer && app.library) app.analyzer.run(app.library.lib.tracks);
   });
   showEngineStatus();
   const auto = el('input', { type: 'checkbox' });
@@ -315,7 +317,7 @@ function aiPage(app) {
     el('div', { class: 'section-title' }, 'AI DJ integrata'),
     el('p', { class: 'field-hint' }, 'L\'AI DJ funziona sempre, anche offline: analizza BPM, tonalità, energia e struttura dei brani, sceglie il successivo in modo armonico, trova il punto di mix sulle frasi musicali e crea transizioni (bass swap, filtro, echo out, dissolvenza) muovendo mixer ed effetti. Si attiva dal pannello "AI DJ" o con Ctrl+M.'),
     el('label', { class: 'check' }, auto, 'Analizza automaticamente i nuovi brani della libreria in background'),
-    field('Motore di analisi', engine, 'Beat This! riconosce battute e battute forti con una rete neurale che gira sul computer, solo con la CPU. Se il modello manca o dà errore si usa l\'analisi classica. Vale per i brani analizzati da ora in poi.'),
+    field('Motore di analisi', engine, 'L\'analisi classica dà subito BPM e forma d\'onda; con l\'AI, Beat This! (una rete neurale che gira sul computer, solo con la CPU) rifinisce poi in background battute, battuta forte e struttura. Se il modello manca o dà errore resta l\'analisi classica. Le griglie corrette a mano non vengono toccate.'),
     engineStatus,
     el('div', { class: 'section-title' }, 'Modello linguistico locale (facoltativo)'),
     el('p', { class: 'field-hint' }, 'Collega un LLM che gira sul tuo computer per scegliere i brani con "gusto" e creare scalette descritte a parole ("set deep house al tramonto"). Nessun dato esce dal tuo PC. Installa Ollama da ollama.com, poi nel terminale: ollama pull llama3.2'),

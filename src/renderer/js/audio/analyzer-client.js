@@ -17,6 +17,24 @@ export function configureAnalysis(patch) {
   Object.assign(config, patch);
 }
 
+export function analysisEngine() {
+  return config.engine;
+}
+
+/**
+ * Analisi ibrida: con il motore AI il classico dà subito i risultati e Beat This! rifinisce poi griglia,
+ * battuta forte e struttura. Il brano aspetta la rifinitura? (Mai se la griglia è stata corretta a mano.)
+ */
+export function needsAiRefine(t) {
+  return config.engine === 'ai' && Boolean(t && t.analyzed && t.bpm && !t.analysisFailed && !t.aiRefineFailed)
+    && t.bpmEngine !== 'ai' && t.bpmEngine !== 'manual';
+}
+
+/** Rifinitura AI di un brano già analizzato: battute, battuta forte, struttura ed energia. */
+export function refineWithAi(channels, sampleRate, encoded) {
+  return analyze(channels, sampleRate, { engine: 'ai', waveform: false, key: false, bpm: true, encoded });
+}
+
 function getWorker() {
   clearTimeout(idleTimer);
   if (!worker) {

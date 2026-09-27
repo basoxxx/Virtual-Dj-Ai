@@ -5,6 +5,7 @@ import { rankCandidates, planTransition, transitionState, buildSet } from './sel
 import { formatTime } from '../dsp/analysis.js';
 import { planCurves } from './transition-planner.js';
 import { curvesAt } from './transition-model.js';
+import { needsAiRefine } from '../audio/analyzer-client.js';
 
 const DEFAULT_OPTIONS = {
   mode: 'ai', // 'ai' = sceglie l'AI, 'queue' = segue la coda
@@ -264,8 +265,10 @@ export class AutoDJ extends EventTarget {
         next._aiReady = true;
       }
       this.warnedEnd = false;
-      // aspetta l'analisi del brano appena caricato (BPM, punti di mix)
+      // aspetta l'analisi del brano appena caricato (BPM, punti di mix) e, con il motore AI,
+      // la rifinitura di griglia e battuta forte (il piano si allinea alle frasi)
       for (let i = 0; i < 100 && !next.bpm && this.enabled; i++) await sleep(100);
+      for (let i = 0; i < 300 && needsAiRefine(next.track) && this.enabled; i++) await sleep(100);
       if (!this.enabled) return;
       this.plan = this.makePlan(cur, next);
       if (this.plan.wantModel) await this.attachModelCurves(this.plan);
