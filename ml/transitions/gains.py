@@ -44,7 +44,7 @@ def solve_band(M: np.ndarray, PA: np.ndarray, PB: np.ndarray, smooth: float = SM
 
 
 def estimate(mix_fine: np.ndarray, a_fine: np.ndarray, b_fine: np.ndarray, band_of_bin: np.ndarray,
-             solo_a: slice, solo_b: slice) -> dict:
+             solo_a: slice, solo_b: slice, smooth: float = SMOOTH) -> dict:
     """mix_fine, a_fine, b_fine: (n battute, 64 sotto-bande) di potenza, già allineate battuta per battuta.
     band_of_bin: banda dell'EQ (0, 1, 2) di ogni sotto-banda. solo_a/solo_b: battute (dentro gli array) in cui
     suona solo A / solo B, per calibrare il livello "pieno" di ogni sotto-banda nel mix."""
@@ -54,7 +54,7 @@ def estimate(mix_fine: np.ndarray, a_fine: np.ndarray, b_fine: np.ndarray, band_
         M, PA, PB = mix_fine[:, bins], a_fine[:, bins], b_fine[:, bins]
         ra = np.median(M[solo_a] / (PA[solo_a] + 1e-12), 0) if solo_a.stop > solo_a.start else np.ones(len(bins))
         rb = np.median(M[solo_b] / (PB[solo_b] + 1e-12), 0) if solo_b.stop > solo_b.start else np.ones(len(bins))
-        a, b, err = solve_band(M, ra * PA, rb * PB)
+        a, b, err = solve_band(M, ra * PA, rb * PB, smooth)
         ga.append(np.sqrt(a))
         gb.append(np.sqrt(b))
         errs.append(err)

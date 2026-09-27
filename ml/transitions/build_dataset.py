@@ -19,7 +19,7 @@ import numpy as np
 ML_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ML_DIR / "transitions"))
 from features import FINE_EQ_BAND  # noqa: E402
-from gains import estimate, to_controls  # noqa: E402
+from gains import SMOOTH, estimate, to_controls  # noqa: E402
 
 DATA = ML_DIR / "data" / "djmix"
 FEAT = DATA / "features"
@@ -98,9 +98,14 @@ def mapping(a: dict, n_mix: int, first: bool) -> tuple[int, int, int]:
     return seg[2], a["mixBeats"][0], min(a["mixBeats"][1], n_mix)
 
 
-def transitions_of_mix(mix_id: str) -> list[dict]:
-    al = json.loads((ALIGN / f"{mix_id}.json").read_text())
-    fm = np.load(FEAT / f"{mix_id}.npz")
+def transitions_of_mix(mix_id: str, al: dict | None = None, fm=None, track_feat=None, smooth: float = SMOOTH,
+                       audible: float = 0.1, max_beats: int = MAX_BEATS) -> list[dict]:
+    """Transizioni tra brani consecutivi allineati. Di default dati del DJ Mix Dataset; al/fm/track_feat
+    (allineamento, caratteristiche del mix, id -> caratteristiche del brano) per altre fonti; smooth: penalità
+    sulle variazioni dei guadagni tra battute; audible: guadagno oltre il quale un brano si considera udibile."""
+    al = al or json.loads((ALIGN / f"{mix_id}.json").read_text())
+    fm = fm if fm is not None else np.load(FEAT / f"{mix_id}.npz")
+    track_feat = track_feat or (lambda i: np.load(FEAT / f"yt-{i}.npz"))
     n_mix = len(fm["beats"])
     tracks = {t["pos"]: t for t in al["tracks"] if not t.get("failed")}
     out = []
@@ -108,7 +113,7 @@ def transitions_of_mix(mix_id: str) -> list[dict]:
         if pos + 1 not in tracks:
             continue
         A, B = tracks[pos], tracks[pos + 1]
-        fa, fb = np.load(FEAT / f"yt-{A['id']}.npz"), np.load(FEAT / f"yt-{B['id']}.npz")
+        fa, fb = track_feat(A["id"]), track_feat(B["id"])
         dA, a0, a1 = mapping(A, n_mix, first=False)
         dB, b0, b1 = mapping(B, n_mix, first=True)
         if b0 > a1 + 32 or b1 < a1:  # tratti non consecutivi: allineamento dubbio
@@ -128,11 +133,11 @@ def transitions_of_mix(mix_id: str) -> list[dict]:
         solo_a = slice(0, max(0, min(16, b0 - lo)))
         s_b = max(0, a1 - lo)
         solo_b = slice(min(len(j), s_b), min(len(j), s_b + 16))
-        g = estimate(mix, powA + 1e-12, powB + 1e-12, FINE_EQ_BAND, solo_a, solo_b)
+        g = estimate(mix, powA + 1e-12, powB + 1e-12, FINE_EQ_BAND, solo_a, solo_b, smooth)
         ctrl = to_controls(g["gainA"] * okA[:, None], g["gainB"] * okB[:, None])
         fA_, fB_ = g["gainA"].max(1) * okA, g["gainB"].max(1) * okB
-        audB = np.where(fB_ > 0.1)[0]
-        audA = np.where(fA_ > 0.1)[0]
+        audB = np.where(fB_ > audible)[0]
+        audA = np.where(fA_ > audible)[0]
         if not len(audB) or not len(audA):
             continue
         # finestra: da quando B si sente (all'inizio della sua battuta) a quando A non si sente più
@@ -143,14 +148,15 @@ def transitions_of_mix(mix_id: str) -> list[dict]:
         L = w1 - w0
         if L < MIN_BEATS:
             continue
-        if L > MAX_BEATS:
-            w1, L = w0 + MAX_BEATS, MAX_BEATS
+        raw_length = L
+        if L > max_beats:
+            w1, L = w0 + max_beats, max_beats
         sl = slice(w0, w1)
         bpm_a, bpm_b = median_bpm(fa["beats"]), median_bpm(fb["beats"])
         x = np.concatenate([deck_features(fa, np.where(okA, kA, -1)[sl]), deck_features(fb, np.where(okB, kB, -1)[sl]),
                             global_features(L, bpm_b / bpm_a)], 1)
         out.append({
-            "mix": mix_id, "posA": pos, "idA": A["id"], "idB": B["id"], "length": L, "zA": A["z"], "zB": B["z"],
+            "mix": mix_id, "posA": pos, "idA": A["id"], "idB": B["id"], "length": L, "rawLength": raw_length, "zA": A["z"], "zB": B["z"],
             "x": x, "y": ctrl[sl], "fitError": g["fitError"],
             # potenze per banda dell'EQ (per la perdita del mixer differenziabile), calibrate come nel fit
             "powA": g["bandA"][sl] * okA[sl, None], "powB": g["bandB"][sl] * okB[sl, None], "powMix": g["bandMix"][sl],
