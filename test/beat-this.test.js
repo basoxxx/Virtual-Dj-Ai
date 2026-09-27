@@ -176,7 +176,7 @@ for (const [name, variant, tolerance] of E2E) {
 test('modelli: l\'app usa modelli inclusi nel pacchetto e scaricati da npm run models', async () => {
   const { BEAT_MODEL } = await import('../src/renderer/js/audio/analyzer-client.js');
   const { TRANSITION_MODEL } = await import('../src/renderer/js/ai/transition-planner.js');
-  const manifest = JSON.parse(readFileSync(new URL('../scripts/models.json', import.meta.url), 'utf8'));
+  const manifest = JSON.parse(readFileSync(new URL('../src/main/models.json', import.meta.url), 'utf8'));
   const bundled = manifest.models.filter((m) => m.bundle).map((m) => m.file);
   for (const used of [BEAT_MODEL, TRANSITION_MODEL]) assert.ok(bundled.includes(used), `${used} non è tra i modelli inclusi`);
   const builder = readFileSync(new URL('../electron-builder.yml', import.meta.url), 'utf8');

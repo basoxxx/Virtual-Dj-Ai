@@ -1,4 +1,4 @@
-// npm run models: scarica i modelli ONNX dalla GitHub Release indicata in scripts/models.json
+// npm run models: scarica i modelli ONNX dalla GitHub Release indicata in src/main/models.json
 // dentro src/renderer/models/ (esclusa da git) e ne verifica lo SHA-256.
 // Senza argomenti scarica i modelli inclusi nell'app ("bundle": true); con --all anche gli altri.
 const fs = require('node:fs');
@@ -7,7 +7,7 @@ const crypto = require('node:crypto');
 const { Readable } = require('node:stream');
 const { pipeline } = require('node:stream/promises');
 
-const manifest = require('./models.json');
+const manifest = require('../src/main/models.json');
 const OUT = path.join(__dirname, '..', 'src', 'renderer', 'models');
 const all = process.argv.includes('--all');
 

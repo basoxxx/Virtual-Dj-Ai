@@ -40,6 +40,12 @@ contextBridge.exposeInMainWorld('api', {
   recordChunk: (chunk) => ipcRenderer.send('record:chunk', chunk),
   recordStop: invoke('record:stop'),
   requestMic: invoke('media:requestMic'),
+  modelStatus: invoke('models:status'),
+  downloadModel: invoke('models:download'),
+  stemsStatus: invoke('stems:status'),
+  saveStem: invoke('stems:save'),
+  readStem: invoke('stems:read'),
+  systemMemory: invoke('system:memory'),
   aiModels: invoke('ai:models'),
   updateCheck: invoke('update:check'),
   updateDownload: invoke('update:download'),
@@ -47,7 +53,7 @@ contextBridge.exposeInMainWorld('api', {
   aiChat: invoke('ai:chat'),
 
   on: (channel, handler) => {
-    const allowed = ['menu', 'library:progress', 'update:progress'];
+    const allowed = ['menu', 'library:progress', 'update:progress', 'models:progress'];
     if (!allowed.includes(channel)) return () => {};
     const listener = (_e, payload) => handler(payload);
     ipcRenderer.on(channel, listener);

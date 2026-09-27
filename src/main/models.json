@@ -43,6 +43,14 @@
       "bytes": 25766251,
       "sha256": "d41ad454ce3d6c3d1ffc56f9a1d12a288653650bb9881c6daff0aa193aec0978",
       "source": "Modello C (pianificatore delle transizioni) v1, ml/transitions, fp32"
+    },
+    {
+      "file": "htdemucs.onnx",
+      "bundle": false,
+      "onDemand": true,
+      "bytes": 174264722,
+      "sha256": "b9b27414530f0a08125ecb5b470191073bb81f7e1431df844169320a4c5e1a2f",
+      "source": "Demucs v4 htdemucs (Meta, codice MIT; licenza dei pesi non dichiarata, uso deciso dall'utente), ml/mashup/export_demucs.py, fp32 senza STFT"
     }
   ]
 }

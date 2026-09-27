@@ -8,6 +8,7 @@ const { Library, isAudioFile, AUDIO_EXTENSIONS } = require('./library');
 const { JsonStore } = require('./store');
 const llm = require('./llm');
 const updater = require('./updater');
+const aiAssets = require('./ai-assets');
 
 const RENDERER_DIR = path.join(__dirname, '..', 'renderer');
 const isDev = process.argv.includes('--dev');
@@ -29,8 +30,14 @@ function registerAppProtocol() {
   protocol.handle('app', (request) => {
     const url = new URL(request.url);
     const rel = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html';
-    const file = path.normalize(path.join(RENDERER_DIR, rel));
+    let file = path.normalize(path.join(RENDERER_DIR, rel));
     if (!file.startsWith(RENDERER_DIR)) return new Response('Forbidden', { status: 403 });
+    // i modelli scaricati su richiesta stanno nella cartella dati dell'utente
+    if (rel.startsWith('models/') && !fs.existsSync(file)) {
+      const extra = aiAssets.downloadedModel(app.getPath('userData'), rel.slice(7));
+      if (!extra) return new Response('Not found', { status: 404 });
+      file = extra;
+    }
     return net.fetch(pathToFileURL(file).toString()).then((res) => {
       // isolamento cross-origin: SharedArrayBuffer per i thread WASM dell'analisi AI
       const headers = new Headers(res.headers);
@@ -292,6 +299,18 @@ function registerIpc() {
     }
     return result;
   });
+
+  // --- modelli su richiesta e parti separate (mashup) --------------------------------
+  const userData = () => app.getPath('userData');
+  ipcMain.handle('models:status', (_e, name) => aiAssets.modelStatus(userData(), name));
+  ipcMain.handle('models:download', (_e, name) => aiAssets.downloadModel(userData(), name, {
+    fetchImpl,
+    onProgress: (done, total) => send('models:progress', { name, done, total }),
+  }));
+  ipcMain.handle('stems:status', (_e, trackId) => aiAssets.stemsStatus(userData(), trackId));
+  ipcMain.handle('stems:save', (_e, trackId, kind, bytes) => aiAssets.saveStem(userData(), trackId, kind, bytes));
+  ipcMain.handle('stems:read', (_e, trackId, kind) => aiAssets.readStem(userData(), trackId, kind));
+  ipcMain.handle('system:memory', () => ({ totalMB: Math.round(os.totalmem() / 1048576), freeMB: Math.round(os.freemem() / 1048576) }));
 
   ipcMain.handle('ai:models', (_e, cfg) => llm.listModels(cfg || {}));
   ipcMain.handle('ai:chat', (_e, req) => llm.chat(req || {}));
