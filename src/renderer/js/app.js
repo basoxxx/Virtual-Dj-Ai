@@ -18,6 +18,8 @@ import { openSettings } from './ui/settings-ui.js';
 import { installKeyboard } from './keyboard.js';
 import { el, button, toast } from './ui/controls.js';
 import { formatTime } from './dsp/analysis.js';
+import { knownActions } from './controllers/presets.js';
+import { GamepadController } from './controllers/gamepad.js';
 
 const ACCENTS = ['#2ea8ff', '#ff6a3d'];
 
@@ -27,7 +29,7 @@ const DEFAULT_SETTINGS = {
     xfCurve: 'smooth', autoGain: true, limiter: true, pitchRange: 8, keylock: false, quantize: true,
     vinyl: true, lockPlaying: true, brakeTime: 0, startTime: 0,
   },
-  midi: { mapping: {} },
+  midi: { mapping: {}, preset: 'auto', gamepad: true },
   sampler: [],
   ai: {
     llm: false, provider: 'ollama', endpoint: 'http://localhost:11434', model: '', apiKey: '',
@@ -91,7 +93,15 @@ class App {
 
     this.registerActions();
     this.midi = new MidiManager(this.actions);
-    await this.midi.init(this.settings.midi.mapping);
+    await this.midi.init(this.settings.midi.mapping, this.settings.midi.preset);
+    this.gamepad = new GamepadController(this.actions);
+    this.gamepad.enabled = this.settings.midi.gamepad !== false;
+    this.gamepad.addEventListener('connected', (e) => {
+      toast(`🎮 Gamepad collegato: ${e.detail}`);
+      this.updateMidiBadge();
+    });
+    this.gamepad.addEventListener('disconnected', () => this.updateMidiBadge());
+    setInterval(() => this.midi.updateLeds(), 100);
     this.midi.addEventListener('mapping', (e) => {
       this.settings.midi.mapping = e.detail;
       this.saveSettings();
@@ -123,7 +133,8 @@ class App {
     this.automix.addEventListener('log', (e) => {
       if (/^(⏭|✓)/.test(e.detail.text)) this.library.renderRows();
     });
-    this.midiBadge = el('span', { class: 'badge', title: 'Controller MIDI' }, 'MIDI');
+    this.midiBadge = el('span', { class: 'badge', title: 'Console DJ' }, 'MIDI');
+    this.midiBadge.addEventListener('click', () => this.openSettings('midi'));
     this.clock = el('span', { class: 'clock' });
     this.progress = el('span', { class: 'progress' });
     this.engine.addEventListener('recording', (e) => {
@@ -309,7 +320,11 @@ class App {
       api.setSettings({
         audio: this.settings.audio,
         mixer: this.settings.mixer,
-        midi: { mapping: this.midi ? this.midi.mapping : this.settings.midi.mapping },
+        midi: {
+          mapping: this.midi ? this.midi.mapping : this.settings.midi.mapping,
+          preset: this.midi ? this.midi.presetMode : this.settings.midi.preset,
+          gamepad: this.gamepad ? this.gamepad.enabled : this.settings.midi.gamepad,
+        },
         sampler: this.sampler.serialize(),
         ai: this.settings.ai,
       });
@@ -326,9 +341,20 @@ class App {
   }
 
   updateMidiBadge() {
-    const n = this.midi.inputs.length;
+    const devices = this.midi.devices();
+    const pads = this.gamepad ? this.gamepad.pads : [];
+    const n = devices.length + pads.length;
+    const known = devices.find((d) => d.preset);
+    this.midiBadge.textContent = known ? known.preset.name.split(' /')[0] : pads.length && !devices.length ? '🎮 PAD' : 'MIDI';
     this.midiBadge.classList.toggle('on', n > 0);
-    this.midiBadge.title = n ? `Controller: ${this.midi.inputs.map((i) => i.name).join(', ')}` : 'Nessun controller MIDI';
+    this.midiBadge.title = n
+      ? [...devices.map((d) => `🎛 ${d.name}${d.preset ? ` → profilo ${d.preset.brand} ${d.preset.name}` : ' (nessun profilo: usa Learn o la procedura guidata)'}`), ...pads.map((p) => `🎮 ${p.id}`)].join('\n')
+      : 'Nessuna console collegata';
+    if (known && !this.announced?.has(known.id)) {
+      this.announced = this.announced || new Set();
+      this.announced.add(known.id);
+      toast(`🎛 Console riconosciuta: ${known.preset.brand} ${known.preset.name}`, 'ok');
+    }
   }
 
   async toggleRecording() {
@@ -362,26 +388,44 @@ class App {
   }
 
   registerActions() {
-    const add = (id, label, kind, run) => this.actions.set(id, { label, kind, run });
+    const add = (id, label, kind, run, led) => this.actions.set(id, { label, kind, run, led });
     const mix = this.mixerUI.controls;
     const scale = (ctl, min, max) => (v) => ctl.set(min + v * (max - min));
     this.decks.forEach((d, i) => {
       const other = () => this.decks[1 - i];
       const X = d.id;
       const ui = this.deckUIs[i];
-      add(`${X}.play`, `Deck ${X}: Play/Pausa`, 'button', (on) => on && d.togglePlay());
-      add(`${X}.cue`, `Deck ${X}: Cue`, 'button', (on) => (on ? d.cueDown() : d.cueUp()));
-      add(`${X}.sync`, `Deck ${X}: Sync`, 'button', (on) => on && d.sync(other()));
-      for (let h = 0; h < 8; h++) add(`${X}.hotcue${h + 1}`, `Deck ${X}: Hot cue ${h + 1}`, 'button', (on) => on && d.hotcue(h));
-      add(`${X}.loop4`, `Deck ${X}: Loop 4 battute`, 'button', (on) => on && d.autoLoop(4));
-      add(`${X}.reloop`, `Deck ${X}: Reloop/Esci`, 'button', (on) => on && d.reloop());
+      const blinkPaused = () => d.playing || (d.loaded && Math.floor(performance.now() / 500) % 2 === 0);
+      add(`${X}.play`, `Deck ${X}: Play/Pausa`, 'button', (on) => on && d.togglePlay(), blinkPaused);
+      add(`${X}.cue`, `Deck ${X}: Cue`, 'button', (on) => (on ? d.cueDown() : d.cueUp()), () => d.loaded && !d.playing && Math.abs(d.position - d.cuePoint) < 0.02);
+      add(`${X}.sync`, `Deck ${X}: Sync`, 'button', (on) => on && d.sync(other()), () => {
+        const o = other();
+        return Boolean(o.bpm && d.bpm && Math.abs(o.effectiveBpm - d.effectiveBpm) < 0.05);
+      });
+      add(`${X}.stutter`, `Deck ${X}: Riparti dal cue`, 'button', (on) => on && d.cuePlay());
+      add(`${X}.keylock`, `Deck ${X}: Keylock`, 'button', (on) => on && d.setKeylock(!d.keylock), () => d.keylock);
+      add(`${X}.slip`, `Deck ${X}: Slip`, 'button', (on) => on && d.setSlip(!d.slip), () => d.slip);
+      add(`${X}.censor`, `Deck ${X}: Censor (tieni premuto)`, 'button', (on) => d.censor(on), () => d.reverse);
+      for (let h = 0; h < 8; h++) add(`${X}.hotcue${h + 1}`, `Deck ${X}: Hot cue ${h + 1}`, 'button', (on) => on && d.hotcue(h), () => d.hotcues[h] != null);
+      add(`${X}.loop4`, `Deck ${X}: Loop 4 battute`, 'button', (on) => on && d.autoLoop(4), () => d.loop.active);
+      add(`${X}.reloop`, `Deck ${X}: Reloop/Esci`, 'button', (on) => on && d.reloop(), () => d.loop.active);
       add(`${X}.loopHalf`, `Deck ${X}: Loop ÷2`, 'button', (on) => on && d.loopScale(0.5));
       add(`${X}.loopDouble`, `Deck ${X}: Loop ×2`, 'button', (on) => on && d.loopScale(2));
-      add(`${X}.keylock`, `Deck ${X}: Keylock`, 'button', (on) => on && d.setKeylock(!d.keylock));
-      add(`${X}.pitch`, `Deck ${X}: Pitch fader`, 'knob', (v) => ui.pitchFader.set(1 - v * 2));
-      add(`${X}.jog`, `Deck ${X}: Jog (encoder)`, 'jog', (delta) => d.jogTurn(delta / 64));
+      add(`${X}.loopIn`, `Deck ${X}: Loop in`, 'button', (on) => on && d.loopIn());
+      add(`${X}.loopOut`, `Deck ${X}: Loop out`, 'button', (on) => on && d.loopOut());
+      add(`${X}.jumpBack`, `Deck ${X}: Beat jump indietro`, 'button', (on) => on && d.beatJump(-4));
+      add(`${X}.jumpFwd`, `Deck ${X}: Beat jump avanti`, 'button', (on) => on && d.beatJump(4));
+      add(`${X}.nudgeDown`, `Deck ${X}: Nudge −`, 'button', (on) => d.bend(on ? -4 : 0));
+      add(`${X}.nudgeUp`, `Deck ${X}: Nudge +`, 'button', (on) => d.bend(on ? 4 : 0));
+      add(`${X}.tempoReset`, `Deck ${X}: Azzera pitch`, 'button', (on) => on && ui.pitchFader.set(0));
+      add(`${X}.pitch`, `Deck ${X}: Pitch fader`, 'knob', (v) => ui.pitchFader.set(v * 2 - 1));
+      add(`${X}.jog`, `Deck ${X}: Jog (bordo / bend)`, 'jog', (delta) => d.jogTurn(delta / 64));
       add(`${X}.jogTouch`, `Deck ${X}: Jog touch (scratch)`, 'button', (on) => d.jogTouch(on));
-      add(`${X}.jogScratch`, `Deck ${X}: Jog scratch (encoder)`, 'jog', (delta) => {
+      add(`${X}.jogScratch`, `Deck ${X}: Jog piatto (scratch)`, 'jog', (delta) => {
+        if (!d.scratching) {
+          d.jogTurn(delta / 64);
+          return;
+        }
         d.jogScratch(delta * 0.8);
         clearTimeout(d._midiScratch);
         d._midiScratch = setTimeout(() => d.jogScratch(0), 40);
@@ -390,10 +434,10 @@ class App {
       add(`${X}.gain`, `Canale ${X}: Gain`, 'knob', scale(mix[X].gain, -12, 12));
       for (const band of ['high', 'mid', 'low']) add(`${X}.eq.${band}`, `Canale ${X}: EQ ${band}`, 'knob', scale(mix[X].eq[band], -1, 1));
       add(`${X}.filter`, `Canale ${X}: Filtro`, 'knob', scale(mix[X].filter, -1, 1));
-      add(`${X}.pfl`, `Canale ${X}: Cuffia (PFL)`, 'button', (on) => on && mix[X].cue.click());
+      add(`${X}.pfl`, `Canale ${X}: Cuffia (PFL)`, 'button', (on) => on && mix[X].cue.click(), () => d.strip.cue);
       ui.fxBoxes.forEach((box, f) => {
         const c = box.fxControls;
-        add(`${X}.fx${f + 1}.on`, `Deck ${X}: FX${f + 1} on/off`, 'button', (on) => on && c.onBtn.click());
+        add(`${X}.fx${f + 1}.on`, `Deck ${X}: FX${f + 1} on/off`, 'button', (on) => on && c.onBtn.click(), () => c.slot.on);
         add(`${X}.fx${f + 1}.mix`, `Deck ${X}: FX${f + 1} dry/wet`, 'knob', scale(c.wet, 0, 1));
         add(`${X}.fx${f + 1}.param`, `Deck ${X}: FX${f + 1} parametro`, 'knob', scale(c.param, 0, 1));
       });
@@ -403,12 +447,12 @@ class App {
     add('master', 'Volume master', 'knob', scale(this.mixerUI.masterKnob, 0, 1));
     add('hpVolume', 'Volume cuffia', 'knob', scale(this.mixerUI.hpVolKnob, 0, 1));
     add('cueMix', 'Cuffia: cue/master', 'knob', scale(this.mixerUI.cueMixKnob, 0, 1));
-    add('mic', 'Microfono on air', 'button', (on) => on && this.mic.setOnAir(!this.mic.onAir));
-    add('automix', 'AI DJ on/off', 'button', (on) => on && this.automix.setEnabled(!this.automix.enabled));
-    add('aiMixNow', 'AI DJ: mixa ora', 'button', (on) => on && this.automix.mixNow());
+    add('mic', 'Microfono on air', 'button', (on) => on && this.mic.setOnAir(!this.mic.onAir), () => this.mic.onAir);
+    add('automix', 'AI DJ on/off', 'button', (on) => on && this.automix.setEnabled(!this.automix.enabled), () => this.automix.enabled);
+    add('aiMixNow', 'AI DJ: mixa ora', 'button', (on) => on && this.automix.mixNow(), () => Boolean(this.automix.transition));
     add('aiSkip', 'AI DJ: cambia prossimo brano', 'button', (on) => on && this.automix.skipNext());
-    add('record', 'Registrazione', 'button', (on) => on && this.toggleRecording());
-    for (let p = 0; p < 8; p++) add(`sampler${p + 1}`, `Sampler pad ${p + 1}`, 'button', (on) => on && this.sampler.trigger(p));
+    add('record', 'Registrazione', 'button', (on) => on && this.toggleRecording(), () => this.engine.recording);
+    for (let p = 0; p < 8; p++) add(`sampler${p + 1}`, `Sampler pad ${p + 1}`, 'button', (on) => on && this.sampler.trigger(p), () => Boolean(this.sampler.pads[p].source));
     add('browse', 'Libreria: scorri (encoder)', 'jog', (delta) => {
       const lib = this.library;
       const i = Math.max(0, Math.min(lib.rows.length - 1, lib.lastClicked + Math.sign(delta)));
@@ -418,10 +462,13 @@ class App {
       lib.viewport.scrollTop = Math.max(0, i * 26 - lib.viewport.clientHeight / 2);
       lib.renderRows();
     });
+    const missing = knownActions().filter((id) => !this.actions.has(id));
+    if (missing.length) console.warn('Azioni MIDI non registrate:', missing);
   }
 
   loop() {
     const frame = () => {
+      if (this.gamepad) this.gamepad.poll();
       for (const s of this.scrollers) s.draw();
       for (const ui of this.deckUIs) ui.frame();
       this.mixerUI.frame();
