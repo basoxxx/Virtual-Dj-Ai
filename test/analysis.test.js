@@ -113,3 +113,19 @@ test('detectBpm: cassa a 100 BPM con accordo tenuto (regressione)', () => {
   const res = detectBpm(mix, SR);
   assert.ok(Math.abs(res.bpm - 100) < 0.6, `ottenuto ${res.bpm}`);
 });
+
+test('detectBpm: arpeggio con accenti ogni 3 sedicesimi non inganna (regressione 84 vs 126)', () => {
+  const bpm = 126;
+  const secs = 60;
+  const kick = kickTrack(bpm, secs, 0.05);
+  const step = 60 / bpm / 4;
+  for (let n = 0; n * step < secs; n++) {
+    const s0 = Math.round((0.05 + n * step) * SR);
+    const amp = n % 3 === 0 ? 0.5 : 0.15;
+    for (let i = 0; i < SR * 0.08 && s0 + i < kick.length; i++) {
+      kick[s0 + i] += amp * Math.sin((2 * Math.PI * 880 * i) / SR) * Math.exp(-i / (SR * 0.02));
+    }
+  }
+  const res = detectBpm(kick, SR);
+  assert.ok(Math.abs(res.bpm - bpm) < 0.6, `ottenuto ${res.bpm}`);
+});

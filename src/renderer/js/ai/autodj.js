@@ -269,7 +269,7 @@ export class AutoDJ extends EventTarget {
       this.resetChannel(next);
       next.seek(this.plan.mixIn);
       this.say(`⏭ Prossimo: ${label(next.track)} — ${reason}`);
-      this.say(`   Transizione ${this.plan.type} di ${this.plan.bars} battute alle ${formatTime(this.plan.startAt, false)} (${this.plan.why})`);
+      this.say(`   Transizione ${TRANSITION_NAMES[this.plan.type] || this.plan.type} di ${this.plan.bars} battute alle ${formatTime(this.plan.startAt, false)} (${this.plan.why})`);
       this.emit();
     } finally {
       this.selecting = false;
@@ -497,6 +497,8 @@ export class AutoDJ extends EventTarget {
     return cur ? 'In onda' : 'In attesa';
   }
 }
+
+const TRANSITION_NAMES = { bassswap: 'bass swap', filter: 'filtro', echo: 'echo out', fade: 'dissolvenza', cut: 'taglio sul beat' };
 
 function label(t) {
   return t ? `${t.artist ? `${t.artist} - ` : ''}${t.title}` : '—';
