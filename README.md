@@ -176,3 +176,8 @@ Misure, confronti e problemi aperti sono in [`ml/REPORT.md`](ml/REPORT.md).
 Il workflow `.github/workflows/release.yml` si attiva su ogni push su `main` (quindi anche su ogni merge di una
 pull request): esegue i test, costruisce MSI/DMG/AppImage su runner Windows/macOS/Linux e crea la release
 `v<major>.<minor>.<numero build>`. Per cambiare major/minor modifica `version` in `package.json`.
+
+Le versioni di prova partono da un branch con un tag `v<versione>-beta.<n>` (o `-alpha.<n>`), per esempio
+`git tag v1.6.0-beta.1 && git push origin v1.6.0-beta.1`: il workflow `.github/workflows/beta.yml` esegue gli stessi
+test e build e pubblica una **pre-release** con le note di `docs/release-notes/<tag>.md`. Le pre-release non
+diventano "latest": il sito e gli aggiornamenti automatici continuano a proporre l'ultima versione stabile.

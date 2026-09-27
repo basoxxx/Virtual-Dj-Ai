@@ -1,0 +1,103 @@
+name: Beta / Alpha
+
+# Versioni di prova da un branch, senza passare da main: si attiva con un tag v<versione>-beta.<n> o
+# v<versione>-alpha.<n> (es. v1.6.0-beta.1). Stessi test e installer del rilascio, ma la GitHub Release è una
+# pre-release: non diventa "latest", quindi il sito e gli aggiornamenti automatici continuano a proporre
+# l'ultima versione stabile. Note della release: docs/release-notes/<tag>.md.
+on:
+  push:
+    tags: ['v*-beta*', 'v*-alpha*']
+
+permissions:
+  contents: write
+
+jobs:
+  version:
+    name: Calcola versione
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+    steps:
+      - id: v
+        name: Versione numerica dal tag (gli installer MSI accettano solo numeri)
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          echo "version=${TAG%%-*}" >> "$GITHUB_OUTPUT"
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      - name: Modelli AI (GitHub Release models-v1)
+        run: npm run models
+      - run: npm run check
+      - run: npm test
+
+  build:
+    name: Build ${{ matrix.name }}
+    needs: [version, test]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows (MSI)
+            os: windows-latest
+            args: --win msi --x64
+            files: dist/*.msi
+          - name: macOS (DMG)
+            os: macos-latest
+            args: --mac dmg --x64 --arm64
+            files: dist/*.dmg
+          - name: Linux (AppImage)
+            os: ubuntu-latest
+            args: --linux AppImage --x64
+            files: dist/*.AppImage
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Modelli AI (GitHub Release models-v1)
+        run: npm run models
+      - name: Imposta versione ${{ needs.version.outputs.version }}
+        run: npm version ${{ needs.version.outputs.version }} --no-git-tag-version --allow-same-version
+      - name: Pacchetto installabile
+        run: npx electron-builder ${{ matrix.args }} --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installer-${{ matrix.os }}
+          path: ${{ matrix.files }}
+          if-no-files-found: error
+
+  release:
+    name: Pubblica pre-release
+    needs: [version, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: installers
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Virtual DJ AI ${{ github.ref_name }}
+          prerelease: true
+          make_latest: false
+          body_path: docs/release-notes/${{ github.ref_name }}.md
+          files: installers/*
