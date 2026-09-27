@@ -56,7 +56,26 @@ def track_beats(f, clip: dict, times: np.ndarray) -> np.ndarray:
     return np.where(inside, k, -1)
 
 
-def transitions_of_set(set_name: str) -> tuple[list[dict], int]:
+def human_templates(sets: list[str] | None = None) -> list[dict]:
+    """Forme del crossfader umano (anche le transizioni lunghe): durata in battute e curva normalizzata
+    0 -> 1 su 21 punti, per il generatore sintetico. `sets`: solo questi set (validazione incrociata)."""
+    out = []
+    for set_dir in sorted(p for p in ROOT.iterdir() if p.is_dir()):
+        if sets is not None and set_dir.name not in sets:
+            continue
+        d = json.loads((set_dir / f"{set_dir.name}.json").read_text())
+        beat = 60 / d["bpm"]
+        for xp in d["xfade_positions"]:
+            s, e = xp["start"], xp["end"]
+            v0, v1 = crossfader(d["crossfade"]["events"], np.array([s, e]))
+            if abs(v1 - v0) < 0.5 or e - s < 2 * beat:
+                continue
+            v = crossfader(d["crossfade"]["events"], np.linspace(s, e, 21))
+            out.append({"set": set_dir.name, "beats": (e - s) / beat, "shape": np.clip((v - v0) / (v1 - v0), 0, 1).tolist()})
+    return out
+
+
+def transitions_of_set(set_name: str, pre_beats: int = 0, post_beats: int = 4) -> tuple[list[dict], int]:
     d = json.loads((ROOT / set_name / f"{set_name}.json").read_text())
     beat = 60 / d["bpm"]
     bar = 4 * beat
@@ -73,8 +92,9 @@ def transitions_of_set(set_name: str) -> tuple[list[dict], int]:
         a, b = active(clips, side_from, s), active(clips, side_to, e - 1e-3)
         if not a or not b or a is b:
             continue
-        t0 = np.floor(s / bar) * bar
-        L = int(np.ceil((e - t0) / beat)) + 4
+        # finestra: dalla battuta forte prima del movimento (anticipata di pre_beats) fino a post_beats dopo
+        t0 = np.floor(s / bar) * bar - pre_beats * beat
+        L = int(np.ceil((e - t0) / beat)) + post_beats
         if L > MAX_BEATS:
             too_long += 1
             continue
@@ -88,17 +108,25 @@ def transitions_of_set(set_name: str) -> tuple[list[dict], int]:
         y = np.zeros((L, 9), np.float32)
         y[:, 0] = xf
         out.append({"set": set_name, "x": x, "y": y, "length": L, "start": float(s), "end": float(e),
-                    "from": a["name"], "to": b["name"], "beats": round((e - s) / beat, 1)})
+                    "from": a["name"], "to": b["name"], "beats": round((e - s) / beat, 1),
+                    "pre": pre_beats, "post": post_beats})
     return out, too_long
+
+
+# finestre usate: la prima è quella "stretta" (dal movimento), le altre la anticipano e la allungano come
+# succede nell'app, dove la finestra la decide il piano e il modello deve scegliere quando muoversi
+WINDOWS = [(0, 4), (4, 8), (8, 4), (16, 8), (32, 8)]
 
 
 def main():
     items, skipped = [], 0
     for set_dir in sorted(p for p in ROOT.iterdir() if p.is_dir()):
-        tr, n = transitions_of_set(set_dir.name)
-        skipped += n
-        print(f"{set_dir.name}: {len(tr)} transizioni ({n} oltre 128 battute escluse)")
-        items += tr
+        for pre, post in WINDOWS:
+            tr, n = transitions_of_set(set_dir.name, pre, post)
+            items += tr
+            if (pre, post) == WINDOWS[0]:
+                skipped += n
+                print(f"{set_dir.name}: {len(tr)} transizioni ({n} oltre 128 battute escluse)")
     n = len(items)
     X = np.zeros((n, MAX_BEATS, N_IN), np.float32)
     Y = np.zeros((n, MAX_BEATS, 9), np.float32)
@@ -109,9 +137,9 @@ def main():
         X[i, :L], Y[i, :L], mask[i, :L], W[i, :L] = it["x"], it["y"], True, XF_ONLY
     meta = [{k: v for k, v in it.items() if k not in ("x", "y")} for it in items]
     np.savez_compressed(OUT, X=X, Y=Y, W=W, P=np.zeros((n, MAX_BEATS, 9), np.float32), mask=mask, meta=json.dumps(meta))
-    dur = [m["beats"] for m in meta]
-    print(f"{n} transizioni, {skipped} escluse; durata del movimento: mediana {np.median(dur):.0f} battute, "
-          f"min {min(dur):.0f}, max {max(dur):.0f}")
+    dur = [m["beats"] for m in meta if (m["pre"], m["post"]) == WINDOWS[0]]
+    print(f"{len(dur)} transizioni ({n} finestre in tutto), {skipped} escluse; durata del movimento: mediana "
+          f"{np.median(dur):.0f} battute, min {min(dur):.0f}, max {max(dur):.0f}")
 
 
 if __name__ == "__main__":

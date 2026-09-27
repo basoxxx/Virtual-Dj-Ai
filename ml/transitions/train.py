@@ -137,11 +137,12 @@ def split_tracks(test_share: float = 0.2) -> tuple[list[Path], list[Path]]:
 
 
 def train(real: dict | None, train_idx: np.ndarray, steps: int, seed: int = 0, init: dict | None = None,
-          lr: float = 3e-4, synth_share: int = 8, log=print, synth_files: list[Path] | None = None):
+          lr: float = 3e-4, synth_share: int = 8, log=print, synth_files: list[Path] | None = None,
+          synth_kwargs: dict | None = None):
     """Senza dati reali (o con init=None e real=None): pre-addestramento sintetico. Con dati reali: rifinitura
     (batch di 24 reali + `synth_share` sintetiche, per non dimenticare), a partire dai pesi `init`."""
     torch.manual_seed(seed)
-    synth = Synth(seed=seed, files=synth_files)
+    synth = Synth(seed=seed, files=synth_files, **(synth_kwargs or {}))
     model = TransitionPlanner(N_IN).to(DEVICE)
     if init is not None:
         model.load_state_dict(init)
@@ -242,6 +243,9 @@ def main():
     ap.add_argument("--init", default="planner-v1.pt", help="checkpoint di partenza per la rifinitura")
     ap.add_argument("--ft-lr", type=float, default=1e-4)
     ap.add_argument("--synth-share", type=int, default=16, help="transizioni sintetiche per lotto di 32 nella rifinitura")
+    ap.add_argument("--v3-cv", action="store_true", help="v3: sintetico con brani da DJ, outro e forme umane + finestre variabili")
+    ap.add_argument("--v3-final", action="store_true", help="v3 su tutti i set (salva planner-v3.pt)")
+    ap.add_argument("--v3-steps", type=int, default=1500, help="passi sul nuovo sintetico prima della rifinitura")
     ap.add_argument("--pre-steps", type=int, default=4000)
     ap.add_argument("--ft-steps", type=int, default=600)
     args = ap.parse_args()
@@ -288,6 +292,51 @@ def main():
             model = train(gand, np.arange(len(sets)), args.ft_steps, init=init, lr=args.ft_lr, synth_share=args.synth_share)
             torch.save(model.state_dict(), RUNS / "planner-v2.pt")
             print(f"salvato {RUNS / 'planner-v2.pt'}")
+    if args.v3_cv or args.v3_final:
+        from gand_dataset import WINDOWS, human_templates
+
+        v1_state = torch.load(RUNS / "planner-v1.pt", map_location=DEVICE)
+        gand = load_gand()
+        sets = np.array([m["set"] for m in gand["meta"]])
+        win = [(m["pre"], m["post"]) for m in gand["meta"]]
+        narrow = np.array([w == WINDOWS[0] for w in win])
+        wide = np.array([w == (16, 8) for w in win])
+
+        def v3_model(train_sets, idx):
+            kw = {"templates": human_templates(list(train_sets))}
+            stage1 = train(None, np.array([], int), args.v3_steps, init=v1_state, lr=2e-4, synth_kwargs=kw)
+            return train(gand, idx, args.ft_steps, init=stage1.state_dict(), lr=1e-4, synth_share=16, synth_kwargs=kw)
+
+        if args.v3_cv:
+            v1 = TransitionPlanner(N_IN).to(DEVICE)
+            v1.load_state_dict(v1_state)
+            results = {}
+            for held in sorted(set(sets)):
+                train_sets = sorted(set(sets) - {held})
+                tr_all = np.where(sets != held)[0]
+                print(f"--- set tenuto da parte: {held}")
+                m3 = v3_model(train_sets, tr_all)
+                # v2 ricalcolata per questo fold: solo rifinitura della v1 sulle finestre strette
+                m2 = train(gand, np.where((sets != held) & narrow)[0], args.ft_steps, init=v1_state, lr=1e-4, synth_share=16,
+                           synth_kwargs={"weights": "uniform", "templates": None, "use_outro": False})
+                models = {"v3": m3, "v2": m2, "v1": v1}
+                results[held] = {"n": int(((sets == held) & narrow).sum()),
+                                 "stretta": eval_xf(models, gand, np.where((sets == held) & narrow)[0]),
+                                 "larga": eval_xf(models, gand, np.where((sets == held) & wide)[0])}
+                print(json.dumps(results[held], ensure_ascii=False))
+            tot = sum(r["n"] for r in results.values())
+            summary = {}
+            for w in ("stretta", "larga"):
+                summary[w] = {}
+                for nm in next(iter(results.values()))[w]:
+                    summary[w][nm] = {m: round(sum(r[w][nm][m] * r["n"] for r in results.values()) / tot, 3)
+                                      for m in next(iter(results.values()))[w][nm]}
+            print("MEDIA", json.dumps(summary, ensure_ascii=False))
+            (RUNS / "v3-cv.json").write_text(json.dumps({"perSet": results, "media": summary}, indent=1, ensure_ascii=False))
+        if args.v3_final:
+            m3 = v3_model(sorted(set(sets)), np.arange(len(sets)))
+            torch.save(m3.state_dict(), RUNS / "planner-v3.pt")
+            print(f"salvato {RUNS / 'planner-v3.pt'}")
     if not (args.cv or args.final):
         return
     init = torch.load(pre_path, map_location=DEVICE)

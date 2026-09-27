@@ -24,6 +24,39 @@ FEAT = ML_DIR / "data" / "djmix" / "features"
 USB_FEAT = ML_DIR / "data" / "usb" / "features"
 
 
+DJ_GENRES = {"electronic", "dance", "techno", "house", "trance", "deep house", "tech house", "bass & garage",
+             "commercial house", "hardstyle", "edm", "electro", "drum & bass", "progressive house", "minimal"}
+DJ_WORDS = ("remix", "rmx", "extended", "club mix", "original mix", " mix)", "edit", "bootleg", "vip", "dub")
+DJ_FOLDERS = ("/Techno/", "CROSSFADER MUSIC PACK", "Zarro Mix", "/House", "/Tech House")
+
+
+def dj_weights(files: list[Path]) -> np.ndarray:
+    """Peso di campionamento: 3 per i brani da DJ (remix, club mix, extended, cartelle e generi elettronici della
+    musica dell'utente; tutti quelli del DJ Mix Dataset), 1 per gli altri."""
+    import json
+    import zlib
+
+    inv_path = ML_DIR / "data" / "usb" / "inventory.json"
+    info = {}
+    if inv_path.exists():
+        for it in json.loads(inv_path.read_text()):
+            info[f"usb-{zlib.crc32(it['path'].encode()):08x}"] = it
+    w = []
+    for f in files:
+        if f.name.startswith("yt-"):
+            w.append(3.0)
+            continue
+        it = info.get(f.stem)
+        if not it:
+            w.append(1.0)
+            continue
+        name = it["path"].lower()
+        genre = (it.get("genre") or "").lower()
+        dj = any(k.lower() in it["path"] for k in DJ_FOLDERS) or any(k in name for k in DJ_WORDS) or genre in DJ_GENRES
+        w.append(3.0 if dj else 1.0)
+    return np.array(w)
+
+
 def default_files() -> list[Path]:
     """Brani del DJ Mix Dataset e della cartella musicale dell'utente (ml/transitions/usb_features.py)."""
     return sorted(FEAT.glob("yt-*.npz")) + sorted(USB_FEAT.glob("usb-*.npz"))
@@ -46,26 +79,61 @@ def smooth_gains(xf: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     return a, b
 
 
+def outro_start(d: dict) -> int | None:
+    """Battuta forte da cui l'energia (bassi + medi) resta sotto il 60% della mediana fino alla fine."""
+    e = d["wave"][:, 1] + d["wave"][:, 2]
+    dbs = np.where(d["pos"] == 0)[0]
+    if len(dbs) < 16:
+        return None
+    bar_e = np.array([e[a:b].mean() for a, b in zip(dbs, np.append(dbs[1:], len(e)))])
+    loud = np.where(bar_e >= 0.6 * np.median(bar_e))[0]
+    if not len(loud) or loud[-1] >= len(dbs) - 8:
+        return None
+    return int(dbs[loud[-1] + 1])
+
+
 class Synth:
-    def __init__(self, seed: int = 0, files: list[Path] | None = None):
+    """templates: forme del crossfader umano (gand_dataset.human_templates) per lo stile "umano";
+    weights: peso di campionamento dei brani (dj_weights)."""
+
+    def __init__(self, seed: int = 0, files: list[Path] | None = None, templates: list[dict] | None = None,
+                 weights: np.ndarray | str | None = None, human_share: float = 0.35, use_outro: bool = True):
         self.rng = np.random.default_rng(seed)
         files = files or default_files()
-        self.tracks = []
-        for f in files:
+        # weights: None = pesi da DJ, "uniform" = tutti uguali (generatore della v1/v2)
+        if isinstance(weights, str) and weights == "uniform":
+            base_w = np.ones(len(files))
+        else:
+            base_w = dj_weights(files) if weights is None else np.asarray(weights, float)
+        self.use_outro = use_outro
+        self.templates = templates or []
+        self.human_share = human_share if self.templates else 0.0
+        self.tracks, w = [], []
+        for f, wf in zip(files, base_w):
             d = dict(np.load(f))
             if "pow64" in d and len(d["beats"]) > 200:
                 d["band3"] = np.stack([d["pow64"][:, FINE_EQ_BAND == b].sum(1) for b in range(3)], 1)
                 d["pos"], d["bar"] = bar_positions(d["beats"], d["downbeats"])
+                d["outro"] = outro_start(d)
+                ibi = np.diff(d["beats"])
+                steady = np.median(np.abs(ibi - np.median(ibi))) / np.median(ibi) < 0.05
                 self.tracks.append(d)
+                w.append(wf * (1.0 if steady else 0.5))
+        self.p = np.array(w) / np.sum(w)
 
     def sample(self) -> dict:
         r = self.rng
-        ia, ib = r.choice(len(self.tracks), 2, replace=False)
+        ia, ib = r.choice(len(self.tracks), 2, replace=False, p=self.p)
         fa, fb = self.tracks[ia], self.tracks[ib]
         L = int(r.choice(LENGTHS))
         na, nb = len(fa["beats"]), len(fb["beats"])
-        # A: una battuta forte nell'ultimo 45% del brano con almeno L battute rimaste
-        cand = np.where((fa["pos"] == 0) & (np.arange(na) >= 0.55 * na) & (np.arange(na) + L <= na))[0]
+        # A: spesso sul suo outro vero (fino a 8 battute prima), altrimenti una battuta forte nell'ultimo 45%
+        cand = np.array([], int)
+        if self.use_outro and fa["outro"] is not None and r.random() < 0.6:
+            o = fa["outro"]
+            cand = np.where((fa["pos"] == 0) & (np.arange(na) >= o - 32) & (np.arange(na) <= o) & (np.arange(na) + L <= na))[0]
+        if not len(cand):
+            cand = np.where((fa["pos"] == 0) & (np.arange(na) >= 0.55 * na) & (np.arange(na) + L <= na))[0]
         if not len(cand):
             cand = np.where((fa["pos"] == 0) & (np.arange(na) + L <= na))[0]
         ka0 = int(r.choice(cand)) if len(cand) else max(0, na - L)
@@ -102,6 +170,8 @@ class Synth:
             ok = bars[(bars >= lo_w) & (bars <= 0.8 * L)]
         w = int(ok[0]) if len(ok) else int(L // 2)
         end = L - int(r.integers(0, 9))
+        if r.random() < self.human_share:
+            return self.human_curve(y, L, bars, phrase)
         style = r.choice(["swap", "blend", "fade", "cut"], p=[0.45, 0.3, 0.15, 0.1])
         if style == "swap":
             hold = int(r.choice([0, 0, 8, 16]))
@@ -122,6 +192,24 @@ class Synth:
             y[:, 0] = np.clip(np.arange(L) / max(1, end - 1), 0, 1)
         else:
             y[:, 0] = (np.arange(L) >= w).astype(np.float32)
+        return y
+
+    def human_curve(self, y: np.ndarray, L: int, bars: np.ndarray, phrase: np.ndarray) -> np.ndarray:
+        """Crossfader con la forma e la durata di una transizione umana (dataset di Gand), che parte su una
+        battuta forte (spesso a inizio frase); bass swap dove l'umano passa la metà (6 volte su 10)."""
+        r = self.rng
+        t = self.templates[int(r.integers(len(self.templates)))]
+        D = int(np.clip(round(t["beats"]), 4, L - 2))
+        starts = [b for b in (phrase if len(phrase) and r.random() < 0.6 else bars) if b + D <= L]
+        s = int(r.choice(starts)) if starts else 0
+        j = np.arange(L)
+        shape = np.asarray(t["shape"])
+        y[:, 0] = np.where(j < s, 0, np.where(j >= s + D, 1, np.interp((j - s) / max(1, D), np.linspace(0, 1, len(shape)), shape)))
+        if r.random() < 0.6:
+            half = int(np.argmax(y[:, 0] >= 0.5))
+            swap = int(bars[np.argmin(np.abs(bars - half))]) if len(bars) else half
+            y[:, 4] = np.where(j < swap, -1, 0)
+            y[:, 1] = np.where(j < swap, 0, -1)
         return y
 
     def batch(self, n: int) -> dict:
