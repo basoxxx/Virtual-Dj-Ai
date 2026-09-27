@@ -226,7 +226,7 @@ export class AutoDJ extends EventTarget {
       deck.play();
       this.history.push(track);
       this.step++;
-      this.say(`▶ Apertura: ${label(track)} (${reason})`);
+      this.say(`Apertura: ${label(track)} (${reason})`);
       this.emit();
     } finally {
       this.selecting = false;
@@ -268,7 +268,7 @@ export class AutoDJ extends EventTarget {
       this.plan = this.makePlan(cur, next);
       this.resetChannel(next);
       next.seek(this.plan.mixIn);
-      this.say(`⏭ Prossimo: ${label(next.track)} — ${reason}`);
+      this.say(`Prossimo: ${label(next.track)} — ${reason}`);
       this.say(`   Transizione ${TRANSITION_NAMES[this.plan.type] || this.plan.type} di ${this.plan.bars} battute alle ${formatTime(this.plan.startAt, false)} (${this.plan.why})`);
       this.emit();
     } finally {
@@ -338,7 +338,7 @@ export class AutoDJ extends EventTarget {
       applied: {},
       fxBackup: { type: from.fx[1].type, on: from.fx[1].on, mix: from.fx[1].mix },
     };
-    this.say(`🎚 Mix in corso: ${label(from.track)} → ${label(to.track)}`);
+    this.say(`Mix in corso: ${label(from.track)} → ${label(to.track)}`);
     this.emit();
     const stepFn = () => {
       if (!this.transition) return;
@@ -410,7 +410,7 @@ export class AutoDJ extends EventTarget {
     this.history.push(to.track);
     this.step++;
     this.plan = null;
-    this.say(`✓ Ora in onda: ${label(to.track)}`);
+    this.say(`In onda: ${label(to.track)}`);
     if (this.options.returnTempo && Math.abs(to.pitch) > 0.05) this.rampTempo(to);
     this.emit();
   }

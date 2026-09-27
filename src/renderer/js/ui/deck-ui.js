@@ -5,6 +5,7 @@ import { JogWheel } from './jog.js';
 import { EFFECTS } from '../audio/effects.js';
 import { formatTime } from '../dsp/analysis.js';
 import { HOTCUE_COUNT } from '../audio/deck.js';
+import { icon } from './icons.js';
 
 const LOOP_SIZES = [
   { beats: 0.25, label: '¼' },
@@ -75,7 +76,7 @@ export class DeckUI {
     this.syncBtn = button('SYNC', { className: 'transport sync', onClick: () => {
       if (!d.sync(this.getOther())) toast('Sync: serve il BPM su entrambi i deck', 'warn');
     } });
-    this.stutterBtn = button('↺', { className: 'transport small-t', title: 'Riparti dal cue (stutter)', onClick: () => d.cuePlay() });
+    this.stutterBtn = button(icon('restart', 18), { className: 'transport small-t', title: 'Riparti dal cue (stutter)', onClick: () => d.cuePlay() });
 
     // hot cue
     this.hotBtns = [];
@@ -179,7 +180,7 @@ export class DeckUI {
       button('×2', { className: 'small', title: 'Raddoppia BPM', onClick: () => d.setBpm(d.bpm * 2) }),
       button('÷2', { className: 'small', title: 'Dimezza BPM', onClick: () => d.setBpm(d.bpm / 2) }),
       this.quantBtn = button('Q', { className: 'small toggle', title: 'Quantize: cue e loop agganciati alla battuta', onClick: () => { d.quantize = !d.quantize; this.refresh(); } }),
-      button('⏏', { className: 'small', title: 'Espelli', onClick: () => { if (!d.eject()) toast('Ferma il deck prima di espellere', 'warn'); } }),
+      button(icon('eject', 14), { className: 'small', title: 'Espelli', onClick: () => { if (!d.eject()) toast('Ferma il deck prima di espellere', 'warn'); } }),
       this.lineSel);
 
     const transport = el('div', { class: 'transport-row' }, this.cueBtn, this.playBtn, this.syncBtn, this.stutterBtn);

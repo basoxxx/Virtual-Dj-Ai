@@ -3,6 +3,7 @@
 import { el, button, toast, askText, confirmDialog } from './controls.js';
 import { formatTime, camelotOf, harmonicMatch } from '../dsp/analysis.js';
 import { api } from '../api.js';
+import { icon, withIcon } from './icons.js';
 
 const ROW_H = 26;
 
@@ -39,7 +40,7 @@ export class LibraryUI extends EventTarget {
     const r = this.root;
     r.classList.add('library');
     this.sidebar = el('div', { class: 'lib-sidebar' });
-    this.search = el('input', { class: 'lib-search', type: 'search', placeholder: '🔍 Cerca titolo, artista, BPM, key… (Ctrl+F)' });
+    this.search = el('input', { class: 'lib-search', type: 'search', placeholder: 'Cerca titolo, artista, BPM, tonalità…' });
     this.search.addEventListener('input', () => {
       this.query = this.search.value.trim().toLowerCase();
       this.refreshRows();
@@ -76,7 +77,7 @@ export class LibraryUI extends EventTarget {
     this.viewport.addEventListener('keydown', (e) => this.onKey(e));
     new ResizeObserver(() => this.renderRows()).observe(this.viewport);
     this.empty = el('div', { class: 'lib-empty' },
-      el('div', { class: 'big' }, '🎵'),
+      el('div', { class: 'big' }, icon('music', 44)),
       el('div', {}, 'La libreria è vuota'),
       el('div', { class: 'row center' },
         button('+ Aggiungi cartella musicale', { className: 'primary', onClick: () => this.addFolder() }),
@@ -138,7 +139,7 @@ export class LibraryUI extends EventTarget {
   renderSidebar() {
     const s = this.sidebar;
     s.innerHTML = '';
-    const item = (label, source, extra = null, count = null) => {
+    const item = (label, source, extra = null, count = null, text = '') => {
       const active = this.source.type === source.type && this.source.id === source.id;
       const node = el('div', { class: `lib-src ${active ? 'active' : ''}` }, el('span', { class: 'src-label' }, label), count != null ? el('span', { class: 'src-count' }, count) : null, extra);
       node.addEventListener('click', () => {
@@ -167,7 +168,7 @@ export class LibraryUI extends EventTarget {
           e.preventDefault();
           this.openMenu(e, [
             { label: 'Rinomina', run: async () => {
-              const name = await askText('Nome della playlist', label);
+              const name = await askText('Nome della playlist', text);
               if (name) {
                 await api.renamePlaylist(source.id, name);
                 this.reload();
@@ -175,7 +176,7 @@ export class LibraryUI extends EventTarget {
             } },
             { label: 'Metti tutto in Automix', run: () => this.onQueue(this.playlistTracks(source.id)) },
             { label: 'Elimina playlist', run: async () => {
-              if (await confirmDialog(`Eliminare la playlist "${label}"?`, 'Elimina')) {
+              if (await confirmDialog(`Eliminare la playlist "${text}"?`, 'Elimina')) {
                 await api.deletePlaylist(source.id);
                 this.reload();
               }
@@ -186,10 +187,10 @@ export class LibraryUI extends EventTarget {
       return node;
     };
     s.append(el('div', { class: 'lib-group' }, 'LIBRERIA'));
-    s.append(item('🎵 Tutti i brani', { type: 'all' }, null, this.lib.tracks.length));
-    s.append(item('🕘 Cronologia', { type: 'history' }));
-    s.append(item('⭐ Più suonati', { type: 'top' }));
-    s.append(item('🆕 Aggiunti di recente', { type: 'recent' }));
+    s.append(item(withIcon('music', 'Tutti i brani'), { type: 'all' }, null, this.lib.tracks.length));
+    s.append(item(withIcon('clock', 'Cronologia'), { type: 'history' }));
+    s.append(item(withIcon('star', 'Più suonati'), { type: 'top' }));
+    s.append(item(withIcon('plusCircle', 'Aggiunti di recente'), { type: 'recent' }));
     s.append(el('div', { class: 'lib-group' }, 'PLAYLIST', button('+', { className: 'tiny', title: 'Nuova playlist', onClick: async (e) => {
       e.stopPropagation();
       const name = await askText('Nome della nuova playlist', 'Nuova playlist');
@@ -198,7 +199,7 @@ export class LibraryUI extends EventTarget {
         this.reload();
       }
     } })));
-    for (const p of this.lib.playlists) s.append(item(`📃 ${p.name}`, { type: 'playlist', id: p.id }, null, p.tracks.length));
+    for (const p of this.lib.playlists) s.append(item(withIcon('list', p.name), { type: 'playlist', id: p.id }, null, p.tracks.length, p.name));
     s.append(el('div', { class: 'lib-group' }, 'CARTELLE', button('+', { className: 'tiny', title: 'Aggiungi cartella', onClick: (e) => {
       e.stopPropagation();
       this.addFolder();
@@ -211,14 +212,14 @@ export class LibraryUI extends EventTarget {
           this.setLibrary(await api.removeFolder(f));
         }
       } });
-      const node = item(`📁 ${name}`, { type: 'folder', id: f }, rm);
+      const node = item(withIcon('folder', name), { type: 'folder', id: f }, rm);
       node.title = f;
       s.append(node);
     }
     s.append(el('div', { class: 'lib-actions' },
       button('+ Cartella', { className: 'small', onClick: () => this.addFolder() }),
       button('+ File', { className: 'small', onClick: () => this.addFiles() }),
-      button('↻', { className: 'small', title: 'Aggiorna libreria', onClick: async () => {
+      button(icon('refresh', 14), { className: 'small', title: 'Aggiorna libreria', onClick: async () => {
         this.setLibrary(await api.rescan());
         toast('Libreria aggiornata');
       } })));

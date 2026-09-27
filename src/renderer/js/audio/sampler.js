@@ -19,7 +19,7 @@ function noiseBuffer(ctx, seconds) {
 const BUILTIN = [
   {
     name: 'Air Horn',
-    color: '#ff4d4d',
+    color: '#ff453a',
     make: () => render(1.6, (ctx) => {
       const out = ctx.createGain();
       out.gain.setValueAtTime(0, 0);
@@ -46,7 +46,7 @@ const BUILTIN = [
   },
   {
     name: 'Sirena',
-    color: '#ff9f1a',
+    color: '#ff9f0a',
     make: () => render(2.5, (ctx) => {
       const o = ctx.createOscillator();
       o.type = 'square';
@@ -69,7 +69,7 @@ const BUILTIN = [
   },
   {
     name: 'Kick',
-    color: '#3dd6ff',
+    color: '#64d2ff',
     make: () => render(0.6, (ctx) => {
       const o = ctx.createOscillator();
       o.frequency.setValueAtTime(150, 0);
@@ -83,7 +83,7 @@ const BUILTIN = [
   },
   {
     name: 'Clap',
-    color: '#b36bff',
+    color: '#bf5af2',
     make: () => render(0.5, (ctx) => {
       const src = ctx.createBufferSource();
       src.buffer = noiseBuffer(ctx, 0.5);
@@ -105,7 +105,7 @@ const BUILTIN = [
   },
   {
     name: 'Laser',
-    color: '#27e07a',
+    color: '#30d158',
     make: () => render(0.7, (ctx) => {
       const o = ctx.createOscillator();
       o.type = 'sawtooth';
@@ -120,7 +120,7 @@ const BUILTIN = [
   },
   {
     name: 'Riser',
-    color: '#ffe14d',
+    color: '#ffd60a',
     make: () => render(4, (ctx) => {
       const src = ctx.createBufferSource();
       src.buffer = noiseBuffer(ctx, 4);
@@ -139,7 +139,7 @@ const BUILTIN = [
   },
   {
     name: 'Rewind',
-    color: '#ff5fc1',
+    color: '#ff375f',
     make: () => render(1.2, (ctx) => {
       const src = ctx.createBufferSource();
       src.buffer = noiseBuffer(ctx, 1.2);
@@ -163,7 +163,7 @@ const BUILTIN = [
   },
   {
     name: 'Snare Roll',
-    color: '#5b8cff',
+    color: '#0a84ff',
     make: () => render(2, (ctx) => {
       const noise = noiseBuffer(ctx, 2);
       let t = 0;

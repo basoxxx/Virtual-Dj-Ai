@@ -88,29 +88,28 @@ export class JogWheel {
     const R = c - 3 * dpr;
     // anello esterno con avanzamento del brano
     g.lineWidth = 4 * dpr;
-    g.strokeStyle = 'rgba(255,255,255,0.08)';
+    g.strokeStyle = '#2a2a2e';
     g.beginPath();
     g.arc(c, c, R, 0, Math.PI * 2);
     g.stroke();
     if (deck.loaded) {
       const prog = deck.position / deck.duration;
-      g.strokeStyle = deck.remaining < 30 ? '#ff3b3b' : this.accent;
+      g.strokeStyle = deck.remaining < 30 ? '#ff453a' : this.accent;
+      g.lineCap = 'round';
       g.beginPath();
       g.arc(c, c, R, -Math.PI / 2, -Math.PI / 2 + prog * Math.PI * 2);
       g.stroke();
     }
     // piatto
-    const grad = g.createRadialGradient(c, c, R * 0.2, c, c, R * 0.92);
-    grad.addColorStop(0, '#262a33');
-    grad.addColorStop(1, '#101217');
-    g.fillStyle = grad;
+    g.lineCap = 'butt';
+    g.fillStyle = '#1f1f22';
     g.beginPath();
     g.arc(c, c, R * 0.9, 0, Math.PI * 2);
     g.fill();
     // solchi
     g.lineWidth = 1;
-    g.strokeStyle = 'rgba(255,255,255,0.035)';
-    for (let r = R * 0.45; r < R * 0.88; r += 4 * dpr) {
+    g.strokeStyle = 'rgba(255,255,255,0.03)';
+    for (let r = R * 0.48; r < R * 0.86; r += 5 * dpr) {
       g.beginPath();
       g.arc(c, c, r, 0, Math.PI * 2);
       g.stroke();
@@ -131,25 +130,25 @@ export class JogWheel {
       g.restore();
     } else {
       g.fillStyle = this.accent;
-      g.globalAlpha = 0.85;
       g.fill();
-      g.globalAlpha = 1;
-      g.fillStyle = '#0d0f14';
-      g.font = `bold ${Math.round(labelR * 0.8)}px system-ui, sans-serif`;
+      g.fillStyle = '#000';
+      g.font = `700 ${Math.round(labelR * 0.8)}px Inter, system-ui, sans-serif`;
       g.textAlign = 'center';
       g.textBaseline = 'middle';
       g.fillText(deck.id, 0, 0);
     }
     // indicatore di rotazione
-    g.fillStyle = '#fff';
-    g.fillRect(-1.5 * dpr, -R * 0.88, 3 * dpr, R * 0.3);
+    g.fillStyle = '#f5f5f7';
+    g.beginPath();
+    g.roundRect(-1.5 * dpr, -R * 0.86, 3 * dpr, R * 0.28, 1.5 * dpr);
+    g.fill();
     g.restore();
-    g.fillStyle = '#0d0f14';
+    g.fillStyle = '#000';
     g.beginPath();
     g.arc(c, c, 4 * dpr, 0, Math.PI * 2);
     g.fill();
     if (this.drag && this.drag.scratch) {
-      g.strokeStyle = 'rgba(255,255,255,0.5)';
+      g.strokeStyle = 'rgba(255,255,255,0.35)';
       g.lineWidth = 2 * dpr;
       g.beginPath();
       g.arc(c, c, R * 0.9, 0, Math.PI * 2);
