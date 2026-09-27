@@ -36,6 +36,9 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    **bass swap** con gli EQ, **filtro**, **echo out** (per tempi incompatibili), **dissolvenza** o **taglio sul beat**.
 4. **Esegue il mix**: sync di tempo e fase, crossfader, EQ, filtri ed effetti si muovono da soli (si vedono le manopole
    girare), poi riporta gradualmente il brano al suo BPM originale.
+   Con **Transizioni → Modello AI (sperimentale)** le curve di crossfader, EQ basso/medio/alto e filtri le decide,
+   battuta per battuta, una rete neurale che gira sul computer (`ml/transitions/`); se non è disponibile si usano
+   le regole.
 
 Puoi lasciare scegliere all'AI dalla libreria o da una playlist, oppure darle una coda. I pulsanti **Mixa ora** e
 **Cambia prossimo** permettono di intervenire in qualsiasi momento.
@@ -139,6 +142,7 @@ src/renderer/      interfaccia e motore audio (Web Audio API + AudioWorklet)
   vendor/          file di onnxruntime-web copiati da npm install (esclusi da git)
   models/          modelli ONNX scaricati da npm run models (esclusi da git)
 ml/                modelli AI: ambiente Python, export ONNX, valutazioni e REPORT.md con le misure
+  beat_this/       Beat This! in ONNX        transitions/  modello delle transizioni (dati, addestramento)
 .github/workflows/ CI, pubblicazione automatica delle release e del sito
 site/              sito GitHub Pages (foto reali dell'interfaccia)
 ```

@@ -192,3 +192,164 @@ catalogo). I file restano in `ml/data/` (fuori da git).
 - Comando per rianalizzare con l'AI i brani già in libreria; decidere cosa fare con confidenza bassa e 3/4.
 - Settimana 2: dati del DJ Mix Dataset (sottoinsieme di circa 200 mix), studio di DJtransGAN, estrazione delle curve
   per transizione e primo addestramento del modello C con MPS.
+
+---
+
+## Giorno 2 — 27 settembre 2026 (Settimana 2: primo "cervello DJ")
+
+### Fatto
+
+- **Licenze.** DJ Mix Dataset, pacchetto `djmix` e djmix-analysis non hanno licenza: su tua decisione metadati e
+  audio si usano **solo in locale** (`ml/data/`, mai committati o ridistribuiti) e il codice non è stato copiato:
+  allineamento e stima di fader/EQ sono riscritti da zero dagli articoli (ISMIR 2020, DAFx 2022). DJtransGAN è MIT:
+  ne ho ripreso le idee (curve di fader/EQ, mixer differenziabile), non il codice.
+- **Dati** (`ml/transitions/djmix_subset.py`, `download.py`): sottoinsieme deterministico di 200 mix di musica da club
+  (5095 transizioni, 5495 brani). I mix (SoundCloud/Mixcloud) si scaricano; i brani da YouTube sono stati bloccati
+  dalla verifica anti-bot dopo circa 100 download anche con 2 download in parallelo e pause di 4-10 s. Su tua
+  indicazione ho proseguito con i dati disponibili: 18 mix e 98 brani, di cui utili 5 mix del 1994-95 (vinile)
+  con 62 coppie di brani consecutivi.
+- **Caratteristiche e allineamento** (`features.py`, `align.py`): battute con Beat This! final0, caratteristiche per
+  battuta, diagonali nella matrice di somiglianza brano × mix e programmazione dinamica sull'ordine della tracklist.
+- **Curve reali** (`gains.py`, `build_dataset.py`): guadagni per banda dell'EQ dell'app stimati dal mix con minimi
+  quadrati vincolati su 64 sotto-bande, convertiti in crossfader (curva "smooth"), EQ -1..0 e filtri.
+- **Modello C** (`model.py`, `synth.py`, `train.py`): transformer bidirezionale da **6,43M parametri**; per ogni battuta
+  della finestra (fino a 128) prevede crossfader, EQ basso/medio/alto dei due deck e filtri. Perdita: curve + mixer
+  differenziabile (i controlli applicati alle bande dei due brani devono ridare il mix) + regolarità.
+  Pre-addestramento su **transizioni sintetiche legate alla musica** (bass swap sul primo confine di frase di 8 battute
+  dopo l'entrata dei bassi di B, blend, dissolvenza, taglio) generate da brani veri; la rifinitura sui mix reali è
+  pronta (`--cv`, `--final`) ma **non usata**: i dati reali disponibili non sono affidabili (vedi sotto).
+- **Export ONNX** (`export_onnx.py`): fp32 e int8, nella release `models-v1`; nell'app l'int8 (6,8 MB).
+- **Nell'app:** Transizioni → **Modello AI (sperimentale)** nel pannello AI DJ. Il piano (sync, durata) si decide come
+  in automatico, poi un worker dedicato calcola le curve battuta per battuta; se il modello manca, dà errore o i brani
+  non sono analizzati in 30 s, si usano le regole e il diario lo dice.
+- **Ascolto:** tre transizioni reali rese in `ml/data/listening/` (solo in locale): mix del DJ, regole, modello.
+- **La tua musica (chiavetta):** inventario dei 1146 file, confronto dei BPM tra analisi classica e AI sui brani
+  con tag (`ml/eval/usb_bpm.py`), caratteristiche per battuta per il generatore sintetico (`usb_features.py`,
+  letti dalla chiavetta, salvate solo le caratteristiche) e prova di pre-addestramento con 5 volte i brani.
+
+### Numeri misurati
+
+#### 1. Stima dei guadagni su una transizione sintetica nota (`gains.py`)
+
+64 battute, A esce con i bassi tagliati a metà (-26 dB), B entra gradualmente; errore medio sui guadagni d'ampiezza.
+
+| Metodo | Errore A | Errore B | Bassi di A dopo lo scambio |
+|---|---|---|---|
+| 3 bande, regolarità quadratica | 0,105 | 0,139 | circa -9 dB (scambio smussato) |
+| 3 bande, variazione totale | 0,15-0,35 | 0,17-0,35 | -6/-10 dB |
+| **64 sotto-bande, guadagno condiviso per banda** | **0,03** | **0,03** | **-20/-60 dB** |
+
+Con una sola potenza per banda il problema non è identificabile (due casse a tempo sommate): servono le sotto-bande.
+
+#### 2. Allineamento e dati reali (`align.py`, `build_dataset.py`)
+
+| | |
+|---|---|
+| Brani cercati nei 5 mix / allineati | 97 / 86 |
+| Allineamenti affidabili (z ≥ 6, oppure z ≥ 5 con ≤ 3 tratti e ≥ 96 battute) | 18 |
+| Coppie consecutive entrambe affidabili | **1** |
+| Transizioni costruite da tutte le coppie allineate | 13 (lunghezza mediana 79 battute) |
+| Errore relativo mediano del fit dei guadagni | **0,54** (sulle transizioni sintetiche: 0,04) |
+
+Il primo metodo (senza centrare la matrice di somiglianza) non trovava nessuna diagonale; il secondo trova i brani
+nell'ordine giusto, ma sui mix su vinile del 1994-95 (pitch dei giradischi, registrazioni radio, versioni YouTube
+diverse) la somiglianza è troppo debole. Il livello metrico non c'entra: mix e brani hanno tempi coerenti.
+**Queste 13 transizioni non sono affidabili come esempi da imitare** e non sono state usate per addestrare.
+
+#### 3. Addestramento (Apple M1 Pro, MPS)
+
+Pre-addestramento: 4000 passi da 32 transizioni sintetiche in 13 min (0,2 s a passo); alla fine errore sulle curve
+0,055 e mixer 0,8 dB.
+
+#### 4. Valutazione su brani mai visti (`train.py --synth-eval`)
+
+Modello addestrato su 77 brani, valutato su 256 transizioni sintetiche da 22 brani mai visti, contro il motore a
+regole attuale (`selector.js`) sulla stessa finestra. "Scontro dei bassi": battute con entrambi i bassi pieni;
+"buchi": volume oltre 6 dB sotto il livello dei brani da soli; "eventi": crossfader a metà, bassi di A tagliati,
+bassi di B aperti, su una battuta forte / su un inizio di frase di 8 battute del brano uscente.
+
+| | Errore crossfader | Errore EQ | Errore del mix | Scontro bassi | Buchi | Eventi su battuta forte | Eventi su frase |
+|---|---|---|---|---|---|---|---|
+| **Modello C** | **0,088** | **0,056** | **0,88 dB** | 0,1% | 5,0% | 93% | **71%** |
+| Regole: bass swap | 0,099 | 0,082 | 1,21 dB | 0% | 4,6% | 89% | 15% |
+| Regole: dissolvenza | 0,093 | 0,128 | 1,36 dB | 12,4% | 3,9% | 89% | 15% |
+| Obiettivo (sintetico) | — | — | — | 2,8% | 5,7% | 93% | 67% |
+
+Il modello impara quello che gli insegna il generatore (frasi, entrata dei bassi) e lo applica a brani nuovi; non
+è ancora "stile umano".
+
+Sulle 13 transizioni reali poco affidabili: errore del mix 7,5 dB (modello) contro 7,45 (bass swap) e 7,2 (dissolvenza),
+cioè indistinguibili, con eventi su inizio frase 67% (modello) contro 23% (regole).
+
+#### 5. ONNX e app
+
+| | |
+|---|---|
+| File | fp32 25,8 MB, int8 6,8 MB |
+| ONNX fp32 contro PyTorch | errore massimo 1·10⁻⁵ |
+| ONNX int8 contro PyTorch | errore medio 0,0017, massimo 0,28; metriche della tabella 4 identiche (0,078/0,036/0,67 dB su 128 transizioni) |
+| onnxruntime-web (int8) contro Python | entro 0,05; creazione della sessione + inferenza 0,3 s in Node (1 thread) |
+| Prova nell'app vera (`ml/eval/electron/autodj-model.js`) | piano "modello", bass swap eseguito dal modello (bassi A 0 → -1, bassi B -1 → 0), filtri non usati |
+
+La prova nell'app ha trovato un errore reale, corretto: il piano chiedeva le curve prima che l'analisi dei brani
+appena caricati fosse finita (con l'AI circa 8 s) e ripiegava sempre sulle regole.
+
+#### 6. Ascolto
+
+`ml/data/listening/` (in locale): per 3 transizioni `_1_reale.wav` (mix del DJ), `_2_regole.wav`, `_3_modello.wav`,
+8 battute prima e dopo. Livelli controllati (nessun silenzio o saturazione). **Il giudizio d'ascolto è da fare**:
+non posso ascoltare; le transizioni vengono da mix su vinile allineati male, quindi valgono come prova qualitativa.
+
+#### 7. Beat This! sulla tua musica (chiavetta, `ml/eval/usb_bpm.py`)
+
+1146 file audio (8,9 GB) letti dalla chiavetta senza copiarli. 282 hanno un tag BPM; 120 di questi sono tag fasulli
+di un convertitore da YouTube (sempre 90 BPM sui file "(MP3_320K)", su cui i due motori concordano tra loro con
+valori noti, es. Avicii "Wake Me Up" 124). Restano **162 brani con tag affidabile**, analizzati nell'app vera:
+
+| Motore | ±0,5 BPM | a meno di metà/doppio | Secondi a brano (mediana) |
+|---|---|---|---|
+| Classico | 142/162 (87,7%) | 156/162 (96,3%) | 1,6 |
+| AI (Beat This! small0 int8) | 141/162 (87,0%) | 158/162 (97,5%) | 7,6 |
+
+Per genere (±0,5 BPM, classico / AI): elettronica 25 / 28 su 31, techno 22 / 22 su 23, house 17 / 17, trance 12 / 12,
+senza genere 41 / 37 su 48. **Sul BPM della tua musica i due motori sono alla pari**; le differenze sono quasi tutte
+di ottava (75 contro 150, 70 contro 140, 85,5 contro 171: "Blinding Lights" è a 171, quindi lì il tag è l'errore).
+Il vantaggio dell'AI misurato sul set CC (fase della griglia, battuta forte 23/25 contro 14/25) con i tag non si
+può verificare. Nessun ripiego al classico su 282 brani.
+
+#### 8. Più brani per il pre-addestramento (chiavetta, `train.py --synth-eval --compare`)
+
+Stesso test per entrambi: 256 transizioni sintetiche da 94 brani della chiavetta mai visti da nessuno dei due modelli.
+
+| | Brani per l'addestramento | Errore crossfader | Errore EQ | Errore del mix | Eventi su frase |
+|---|---|---|---|---|---|
+| v1 (in uso) | 98 (DJ Mix Dataset) | 0,090 | 0,063 | 0,94 dB | 65% |
+| v1.1 | 435 (DJ Mix Dataset + chiavetta) | 0,090 | 0,062 | 0,92 dB | 66% |
+| Regole: bass swap | — | 0,098 | 0,084 | 1,15 dB | 9% |
+
+Cinque volte i brani non cambiano nulla: la v1 generalizza già a musica di altri generi e il limite è il "maestro"
+sintetico. **Resta la v1**; il prossimo passo utile sono dati di transizioni umane.
+
+### Problemi aperti
+
+- **Dati reali per il modello C.** Serve un insieme di mix digitali recenti con i brani originali. Strade possibili:
+  (a) download lento da YouTube su più giorni (1 brano ogni 30-60 s); (b) cookie del browser (più veloce ma usa il
+  tuo account); (c) **registrare le tue transizioni** nell'app: quando mixi a mano, l'app salva per battuta
+  crossfader, EQ e filtri con le caratteristiche dei due brani, in locale; sarebbero dati puliti (niente
+  allineamento né stima) e nel tuo stile.
+- **Filtro:** con 3 bande non si distingue dall'EQ; la v1 non lo usa. Servirebbero più bande nella stima o le tue
+  transizioni registrate.
+- **Ingressi del modello:** mancano tonalità ed energia (1-10); il 3/4 non è gestito (l'app ragiona in battute da 4).
+- **Tempo dell'analisi AI:** sulla tua musica non migliora il BPM e costa 5 volte il classico; resta utile per la
+  battuta forte (aggancio delle frasi dell'AI DJ). Da decidere se tenerla come predefinita.
+- **Remix e mashup** (richiesta nuova): vedi sotto.
+
+### Prossimi passi
+
+- **Mashup:** separare voce e base con Demucs e sovrapporre la voce di un brano alla base di un altro compatibile
+  (tonalità e tempo, sulla griglia di battute). Prima di usarlo va chiarita la **licenza dei pesi**: il codice è MIT,
+  ma htdemucs è addestrato anche su MUSDB18-HQ (solo ricerca non commerciale) e il README non parla dei pesi.
+  Poi: fattibilità dell'export ONNX, tempo e RAM su CPU da misurare, risultati salvati su disco come per l'analisi.
+- **Remix dal vivo:** l'AI DJ può già usare loop, beat jump, effetti e filtri sulla griglia: un "modo remix" che
+  suona un brano ricomponendone le sezioni (intro, build-up, drop) non richiede modelli nuovi.
+- Registrazione delle transizioni dell'utente e rifinitura del modello C sui dati reali.
