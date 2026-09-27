@@ -1,0 +1,32 @@
+{
+  "name": "virtual-dj-ai",
+  "productName": "Virtual DJ AI",
+  "version": "1.1.0",
+  "description": "Software DJ con AI DJ che mixa in automatico (anche con LLM locale): 2 deck, mixer, effetti, sampler, microfono, ingressi linea, MIDI, registrazione.",
+  "main": "src/main/main.js",
+  "author": "basoxxx",
+  "license": "MIT",
+  "homepage": "https://github.com/basoxxx/Virtual-Dj-Ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/basoxxx/Virtual-Dj-Ai.git"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "test": "node --test \"test/**/*.test.js\"",
+    "check": "node scripts/check-syntax.js",
+    "icons": "node scripts/generate-icon.js",
+    "dist": "electron-builder --publish never",
+    "dist:win": "electron-builder --win msi --publish never",
+    "dist:mac": "electron-builder --mac dmg --publish never",
+    "dist:linux": "electron-builder --linux AppImage --publish never"
+  },
+  "dependencies": {
+    "music-metadata": "^7.14.0"
+  },
+  "devDependencies": {
+    "electron": "^38.8.6",
+    "electron-builder": "^26.0.12"
+  }
+}

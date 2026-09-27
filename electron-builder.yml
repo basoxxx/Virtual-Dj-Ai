@@ -1,0 +1,61 @@
+appId: com.basoxxx.virtualdjai
+productName: Virtual DJ AI
+copyright: Copyright © 2026 basoxxx
+artifactName: "Virtual-DJ-AI-${version}-${os}-${arch}.${ext}"
+
+directories:
+  output: dist
+  buildResources: build
+
+files:
+  - src/**/*
+  - package.json
+  - "!**/*.map"
+
+asar: true
+afterPack: scripts/after-pack.js
+
+win:
+  icon: build/icon.png
+  target:
+    - target: msi
+      arch: [x64]
+
+msi:
+  oneClick: false
+  perMachine: false
+  runAfterFinish: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Virtual DJ AI
+  upgradeCode: a95433b2-0269-4ba4-9613-c071d0de679c
+
+mac:
+  icon: build/icon.png
+  category: public.app-category.music
+  identity: null
+  hardenedRuntime: false
+  gatekeeperAssess: false
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+  extendInfo:
+    NSMicrophoneUsageDescription: Virtual DJ AI usa il microfono e gli ingressi audio della scheda audio per mixarli dal vivo.
+    NSAudioCaptureUsageDescription: Virtual DJ AI usa gli ingressi audio per mixare sorgenti esterne.
+
+dmg:
+  title: Virtual DJ AI ${version}
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications
+
+linux:
+  icon: build/icon.png
+  category: Audio
+  target:
+    - target: AppImage
+      arch: [x64]
