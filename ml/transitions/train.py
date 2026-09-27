@@ -157,11 +157,13 @@ def train(real: dict | None, train_idx: np.ndarray, steps: int, seed: int = 0, i
             b = to_t({**sb, "W": np.ones_like(sb["Y"]), "MO": np.ones(32, np.float32)})
         else:
             n_real = 32 - synth_share
-            ids = rng.choice(train_idx, n_real, replace=True)
+            # probabilità di estrazione per fonte (es. metà Gand e metà Mixotic), se date
+            p = real["p"][train_idx] / real["p"][train_idx].sum() if "p" in real else None
+            ids = rng.choice(train_idx, n_real, replace=True, p=p)
             r = {k: real[k][ids] for k in ("X", "Y", "P", "mask")}
             # dati reali: pesi per controllo (es. solo crossfader) e mixer solo se le potenze del mix sono note
             r["W"] = real["W"][ids] if "W" in real else np.ones_like(r["Y"])
-            r["MO"] = np.full(n_real, 0.0 if "W" in real else 1.0, np.float32)
+            r["MO"] = real["MO"][ids] if "MO" in real else np.full(n_real, 0.0 if "W" in real else 1.0, np.float32)
             sb = synth.batch(synth_share)
             sb = {**sb, "W": np.ones_like(sb["Y"]), "MO": np.ones(synth_share, np.float32)}
             b = to_t({k: np.concatenate([r[k], sb[k]]) for k in r})
@@ -222,6 +224,24 @@ def load_gand() -> dict:
     return out
 
 
+def load_mixotic() -> dict:
+    d = np.load(ML_DIR / "data" / "mixotic" / "transitions.npz")
+    out = {k: d[k] for k in ("X", "Y", "W", "P", "mask")}
+    out["meta"] = json.loads(str(d["meta"]))
+    return out
+
+
+def gand_plus_mixotic(share: float = 0.5) -> dict:
+    """Gand (solo crossfader, niente mixer) + Mixotic (crossfader + EQ + mixer); `share` delle estrazioni reali
+    dai mix veri di Mixotic."""
+    g, m = load_gand(), load_mixotic()
+    out = {k: np.concatenate([g[k], m[k]]) for k in ("X", "Y", "W", "P", "mask")}
+    out["MO"] = np.concatenate([np.zeros(len(g["X"]), np.float32), np.ones(len(m["X"]), np.float32)])
+    out["p"] = np.concatenate([np.full(len(g["X"]), (1 - share) / len(g["X"])), np.full(len(m["X"]), share / len(m["X"]))])
+    out["meta"] = [{**x, "fonte": "gand"} for x in g["meta"]] + [{**x, "fonte": "mixotic"} for x in m["meta"]]
+    return out
+
+
 def load_real() -> dict:
     d = np.load(DATA / "transitions.npz")
     out = {k: d[k] for k in ("X", "Y", "P", "mask")}
@@ -246,6 +266,9 @@ def main():
     ap.add_argument("--v3-cv", action="store_true", help="v3: sintetico con brani da DJ, outro e forme umane + finestre variabili")
     ap.add_argument("--v3-final", action="store_true", help="v3 su tutti i set (salva planner-v3.pt)")
     ap.add_argument("--v3-steps", type=int, default=1500, help="passi sul nuovo sintetico prima della rifinitura")
+    ap.add_argument("--v4-cv", action="store_true", help="v4: v3 rifinita anche sui mix veri di Mixotic (crossfader + EQ), un set tenuto da parte alla volta")
+    ap.add_argument("--v4-final", action="store_true", help="v4 su tutti i set (salva planner-v4.pt)")
+    ap.add_argument("--v4-steps", type=int, default=800)
     ap.add_argument("--pre-steps", type=int, default=4000)
     ap.add_argument("--ft-steps", type=int, default=600)
     args = ap.parse_args()
@@ -337,6 +360,52 @@ def main():
             m3 = v3_model(sorted(set(sets)), np.arange(len(sets)))
             torch.save(m3.state_dict(), RUNS / "planner-v3.pt")
             print(f"salvato {RUNS / 'planner-v3.pt'}")
+    if args.v4_cv or args.v4_final:
+        from gand_dataset import human_templates
+
+        v3_state = torch.load(RUNS / "planner-v3.pt", map_location=DEVICE)
+        data = gand_plus_mixotic()
+        sets = np.array([m["set"] for m in data["meta"]])
+        src = np.array([m["fonte"] for m in data["meta"]])
+        kind = np.array([m.get("kind", "") for m in data["meta"]])
+
+        def v4_model(train_sets, idx):
+            kw = {"templates": human_templates(list(train_sets))}
+            return train(data, idx, args.v4_steps, init=v3_state, lr=1e-4, synth_share=12, synth_kwargs=kw)
+
+        if args.v4_cv:
+            v3 = TransitionPlanner(N_IN).to(DEVICE)
+            v3.load_state_dict(v3_state)
+            results = {}
+            for held in sorted(set(sets[src == "mixotic"])):
+                train_sets = sorted(set(sets) - {held})
+                print(f"--- set tenuto da parte: {held}", flush=True)
+                m4 = v4_model(train_sets, np.where(sets != held)[0])
+                models = {"v4": m4, "v3": v3}
+                te = np.where((sets == held) & (src == "mixotic") & np.isin(kind, ["inizio-0", "fine"]))[0]
+                r = {"n": int(len(te)), "crossfader": eval_xf(models, data, te)}
+                for nm, mdl in models.items():
+                    ev = evaluate(mdl, data, te)
+                    r[nm] = ev["modello"]
+                r["regole_bassswap"], r["regole_fade"], r["reale"] = ev["regole_bassswap"], ev["regole_fade"], ev["reale"]
+                gw = np.where((sets == held) & (src == "gand") & np.array([(m.get("pre"), m.get("post")) == (16, 8) for m in data["meta"]]))[0]
+                if len(gw):
+                    r["gandLarga"] = {"n": int(len(gw)), **eval_xf(models, data, gw)}
+                results[held] = r
+                print(json.dumps(r, ensure_ascii=False), flush=True)
+            tot = sum(r["n"] for r in results.values())
+            avg = lambda get: round(sum(get(r) * r["n"] for r in results.values()) / tot, 3)  # noqa: E731
+            summary = {}
+            for nm in ("v4", "v3", "regole_bassswap", "regole_fade", "reale"):
+                summary[nm] = {m: avg(lambda r, nm=nm, m=m: r[nm][m] or 0) for m in results[held][nm]}
+            summary["crossfader"] = {nm: {m: avg(lambda r, nm=nm, m=m: r["crossfader"][nm][m]) for m in results[held]["crossfader"][nm]}
+                                     for nm in results[held]["crossfader"]}
+            print("MEDIA", json.dumps(summary, ensure_ascii=False), flush=True)
+            (RUNS / "v4-cv.json").write_text(json.dumps({"passi": args.v4_steps, "perSet": results, "media": summary}, indent=1, ensure_ascii=False))
+        if args.v4_final:
+            m4 = v4_model(sorted(set(sets)), np.arange(len(sets)))
+            torch.save(m4.state_dict(), RUNS / "planner-v4.pt")
+            print(f"salvato {RUNS / 'planner-v4.pt'}", flush=True)
     if not (args.cv or args.final):
         return
     init = torch.load(pre_path, map_location=DEVICE)
