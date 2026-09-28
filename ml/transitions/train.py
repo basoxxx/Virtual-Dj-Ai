@@ -358,7 +358,7 @@ def run_v5(args) -> None:
     if args.v5_cv:
         v4 = TransitionPlanner(N_IN).to(DEVICE)
         v4.load_state_dict(v4_state)
-        groups = folds_of(sorted(set(sets)))
+        groups = [args.v5_held.split(",")] if args.v5_held else folds_of(sorted(set(sets)))
         chosen = [int(i) for i in args.v5_folds.split(",")] if args.v5_folds else range(len(groups))
         out_path = RUNS / "v5-cv.json"
         results = json.loads(out_path.read_text())["perGruppo"] if out_path.exists() and args.v5_folds else {}
@@ -426,6 +426,7 @@ def main():
     ap.add_argument("--v5-final", action="store_true", help="v5 su tutti i set (salva planner-v5.pt)")
     ap.add_argument("--v5-steps", type=int, default=800)
     ap.add_argument("--v5-folds", default="", help="solo questi gruppi della validazione incrociata (indici separati da virgola)")
+    ap.add_argument("--v5-held", default="", help="con --v5-cv: un solo gruppo con questi set tenuti da parte (es. set044,set285)")
     ap.add_argument("--v4-baseline", action="store_true", help="con --v5-cv: rifà anche la v4 per ogni gruppo (stessa ricetta, dati della v4)")
     ap.add_argument("--pre-steps", type=int, default=4000)
     ap.add_argument("--ft-steps", type=int, default=600)
