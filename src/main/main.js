@@ -303,7 +303,7 @@ function registerIpc() {
 
   // --- modelli su richiesta e parti separate (mashup) --------------------------------
   const userData = () => app.getPath('userData');
-  ipcMain.handle('models:status', (_e, name) => aiAssets.modelStatus(userData(), name));
+  ipcMain.handle('models:status', (_e, name) => aiAssets.modelStatus(userData(), name, path.join(RENDERER_DIR, 'models')));
   ipcMain.handle('models:download', (_e, name) => aiAssets.downloadModel(userData(), name, {
     fetchImpl,
     onProgress: (done, total) => send('models:progress', { name, done, total }),

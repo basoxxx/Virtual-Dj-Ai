@@ -13,6 +13,7 @@ files:
   - "!src/renderer/models/**"
   - src/renderer/models/beat_this-small0-int8.onnx
   - src/renderer/models/transition-planner-v4-int8.onnx
+  - src/renderer/models/htdemucs.onnx
   - package.json
   - "!**/*.map"
 
