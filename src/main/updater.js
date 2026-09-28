@@ -47,7 +47,7 @@ function releaseSummary(body = '') {
 
 async function checkForUpdates(currentVersion, { platform = process.platform, arch = process.arch, fetchImpl = fetch } = {}) {
   const res = await fetchImpl(API_LATEST, {
-    headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'Virtual-DJ-AI-Updater' },
+    headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'Segueo-Updater' },
     signal: AbortSignal.timeout(15000),
   });
   if (!res.ok) throw new Error(`GitHub ha risposto ${res.status}`);
@@ -78,14 +78,14 @@ function sha256File(file) {
 }
 
 /** Scarica l'installer mostrando l'avanzamento e ne verifica l'impronta. */
-async function download(asset, { dir = path.join(os.tmpdir(), 'virtual-dj-ai-update'), onProgress = () => {}, fetchImpl = fetch } = {}) {
+async function download(asset, { dir = path.join(os.tmpdir(), 'segueo-update'), onProgress = () => {}, fetchImpl = fetch } = {}) {
   fs.mkdirSync(dir, { recursive: true });
   const file = path.join(dir, asset.name);
   if (fs.existsSync(file) && asset.sha256 && (await sha256File(file)) === asset.sha256) {
     onProgress(asset.size, asset.size);
     return file;
   }
-  const res = await fetchImpl(asset.url, { headers: { 'User-Agent': 'Virtual-DJ-AI-Updater' } });
+  const res = await fetchImpl(asset.url, { headers: { 'User-Agent': 'Segueo-Updater' } });
   if (!res.ok || !res.body) throw new Error(`Download non riuscito (${res.status})`);
   const total = Number(res.headers.get('content-length')) || asset.size || 0;
   const tmp = `${file}.part`;
@@ -138,15 +138,16 @@ while kill -0 "$PID" 2>/dev/null; do sleep 0.5; done
 MNT=$(mktemp -d)
 hdiutil attach -nobrowse -readonly -mountpoint "$MNT" "$DMG" || { open "$DMG"; exit 1; }
 SRC=$(ls -d "$MNT"/*.app | head -n 1)
+DEST="$(dirname "$APP")/$(basename "$SRC")"
 rm -rf "$APP.old"
-if mv "$APP" "$APP.old" && ditto "$SRC" "$APP"; then
+if mv "$APP" "$APP.old" && ditto "$SRC" "$DEST"; then
   rm -rf "$APP.old"
 else
-  rm -rf "$APP"; mv "$APP.old" "$APP"
+  rm -rf "$DEST"; mv "$APP.old" "$APP"; DEST="$APP"
 fi
 hdiutil detach "$MNT" -quiet
-xattr -dr com.apple.quarantine "$APP" 2>/dev/null
-open "$APP"
+xattr -dr com.apple.quarantine "$DEST" 2>/dev/null
+open "$DEST"
 `,
     };
   }

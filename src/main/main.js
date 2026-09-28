@@ -8,6 +8,7 @@ const { Library, isAudioFile, AUDIO_EXTENSIONS } = require('./library');
 const { JsonStore } = require('./store');
 const llm = require('./llm');
 const updater = require('./updater');
+const migrate = require('./migrate');
 
 const RENDERER_DIR = path.join(__dirname, '..', 'renderer');
 const isDev = process.argv.includes('--dev');
@@ -49,7 +50,7 @@ function createWindow() {
     minWidth: 1180,
     minHeight: 720,
     backgroundColor: '#0d0f14',
-    title: 'Virtual DJ AI',
+    title: 'Segueo',
     icon: path.join(__dirname, '..', '..', 'build', 'icon.png'),
     show: false,
     webPreferences: {
@@ -219,7 +220,7 @@ function registerIpc() {
   // subito su disco, così anche set di ore non riempiono la memoria.
   ipcMain.handle('record:start', (_e, { sampleRate, channels }) => {
     if (recording) throw new Error('Registrazione già in corso');
-    const tmp = path.join(os.tmpdir(), `vdjai-rec-${Date.now()}.wav`);
+    const tmp = path.join(os.tmpdir(), `segueo-rec-${Date.now()}.wav`);
     const fd = fs.openSync(tmp, 'w');
     fs.writeSync(fd, Buffer.alloc(44));
     recording = { tmp, fd, sampleRate, channels, bytes: 0 };
@@ -318,7 +319,31 @@ function wavHeader(dataBytes, sampleRate, channels) {
   return b;
 }
 
-const gotLock = app.requestSingleInstanceLock();
+// Passaggio dal vecchio nome: sposta l'app (macOS) e copia i dati prima che Chromium apra la cartella.
+function migrateFromLegacyName() {
+  if (app.isPackaged && process.platform === 'darwin') {
+    const move = migrate.macBundleRename(process.execPath, app.getName());
+    if (move) {
+      try {
+        fs.renameSync(move.from, move.to);
+        app.relaunch({ execPath: move.execPath });
+        app.exit(0);
+        return true;
+      } catch (err) {
+        console.error('Rinomina dell\'app non riuscita:', err);
+      }
+    }
+  }
+  try {
+    migrate.migrateUserData(path.join(app.getPath('appData'), migrate.LEGACY_NAME), app.getPath('userData'));
+  } catch (err) {
+    console.error('Migrazione dei dati non riuscita:', err);
+  }
+  return false;
+}
+
+const relaunching = migrateFromLegacyName();
+const gotLock = !relaunching && app.requestSingleInstanceLock();
 if (!gotLock) {
   app.quit();
 } else {
