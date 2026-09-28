@@ -1,0 +1,664 @@
+{
+ "passi": 400,
+ "gruppi": [
+  [
+   "set044",
+   "set285"
+  ]
+ ],
+ "perGruppo": {
+  "0": {
+   "tenuti": [
+    "set044",
+    "set285"
+   ],
+   "corte": {
+    "n": 3,
+    "v5": {
+     "scontroBassi": 0.0,
+     "buchiVolume": 0.022,
+     "maeCrossfader": 0.134,
+     "maeEq": 0.18,
+     "mixErrDb": 1.28,
+     "eventiSuBattutaForte": 1.0,
+     "eventiSuFrase": 0.67
+    },
+    "v4": {
+     "scontroBassi": 0.104,
+     "buchiVolume": 0.022,
+     "maeCrossfader": 0.045,
+     "maeEq": 0.086,
+     "mixErrDb": 1.21,
+     "eventiSuBattutaForte": 1.0,
+     "eventiSuFrase": 0.5
+    },
+    "regole_bassswap": {
+     "scontroBassi": 0.0,
+     "buchiVolume": 0.022,
+     "maeCrossfader": 0.151,
+     "maeEq": 0.214,
+     "mixErrDb": 1.53,
+     "eventiSuBattutaForte": 1.0,
+     "eventiSuFrase": 0.0
+    },
+    "regole_fade": {
+     "scontroBassi": 0.241,
+     "buchiVolume": 0.022,
+     "maeCrossfader": 0.163,
+     "maeEq": 0.104,
+     "mixErrDb": 1.4,
+     "eventiSuBattutaForte": 1.0,
+     "eventiSuFrase": 0.0
+    },
+    "reale": {
+     "scontroBassi": 0.101,
+     "buchiVolume": 0.03,
+     "eventiSuBattutaForte": 0.67,
+     "eventiSuFrase": 0.33
+    },
+    "tempi": {
+     "v5": {
+      "maeCrossfader": 0.135,
+      "erroreInizioBattute": 21.0,
+      "erroreMetaBattute": 11.3,
+      "erroreFineBattute": 9.7,
+      "metaSuBattutaForte": 1.0
+     },
+     "v4": {
+      "maeCrossfader": 0.045,
+      "erroreInizioBattute": 2.7,
+      "erroreMetaBattute": 5.3,
+      "erroreFineBattute": 3.0,
+      "metaSuBattutaForte": 1.0
+     },
+     "regole_bassswap": {
+      "maeCrossfader": 0.152,
+      "erroreInizioBattute": 18.3,
+      "erroreMetaBattute": 19.3,
+      "erroreFineBattute": 12.7,
+      "metaSuBattutaForte": 1.0
+     },
+     "regole_fade": {
+      "maeCrossfader": 0.165,
+      "erroreInizioBattute": 25.3,
+      "erroreMetaBattute": 19.3,
+      "erroreFineBattute": 15.7,
+      "metaSuBattutaForte": 1.0
+     },
+     "umano": {
+      "maeCrossfader": 0.0,
+      "erroreInizioBattute": 0.0,
+      "erroreMetaBattute": 0.0,
+      "erroreFineBattute": 0.0,
+      "metaSuBattutaForte": 1.0
+     }
+    }
+   },
+   "lunghe": {
+    "n": 7,
+    "v5": {
+     "scontroBassi": 0.076,
+     "buchiVolume": 0.023,
+     "maeCrossfader": 0.199,
+     "maeEq": 0.157,
+     "mixErrDb": 1.72,
+     "eventiSuBattutaForte": 1.0,
+     "eventiSuFrase": 0.55
+    },
+    "v4": {
+     "scontroBassi": 0.247,
+     "buchiVolume": 0.015,
+     "maeCrossfader": 0.18,
+     "maeEq": 0.085,
+     "mixErrDb": 1.7,
+     "eventiSuBattutaForte": 0.78,
+     "eventiSuFrase": 0.33
+    },
+    "regole_bassswap": {
+     "scontroBassi": 0.0,
+     "buchiVolume": 0.018,
+     "maeCrossfader": 0.199,
+     "maeEq": 0.186,
+     "mixErrDb": 1.66,
+     "eventiSuBattutaForte": 0.86,
+     "eventiSuFrase": 0.0
+    },
+    "regole_fade": {
+     "scontroBassi": 0.172,
+     "buchiVolume": 0.017,
+     "maeCrossfader": 0.213,
+     "maeEq": 0.086,
+     "mixErrDb": 1.58,
+     "eventiSuBattutaForte": 0.86,
+     "eventiSuFrase": 0.0
+    },
+    "reale": {
+     "scontroBassi": 0.13,
+     "buchiVolume": 0.019,
+     "eventiSuBattutaForte": 0.77,
+     "eventiSuFrase": 0.0
+    },
+    "tempi": {
+     "v5": {
+      "maeCrossfader": 0.181,
+      "erroreInizioBattute": 20.7,
+      "erroreMetaBattute": 41.6,
+      "erroreFineBattute": 20.1,
+      "metaSuBattutaForte": 1.0
+     },
+     "v4": {
+      "maeCrossfader": 0.162,
+      "erroreInizioBattute": 14.9,
+      "erroreMetaBattute": 43.1,
+      "erroreFineBattute": 5.6,
+      "metaSuBattutaForte": 0.71
+     },
+     "regole_bassswap": {
+      "maeCrossfader": 0.184,
+      "erroreInizioBattute": 24.7,
+      "erroreMetaBattute": 41.4,
+      "erroreFineBattute": 21.0,
+      "metaSuBattutaForte": 0.86
+     },
+     "regole_fade": {
+      "maeCrossfader": 0.199,
+      "erroreInizioBattute": 30.1,
+      "erroreMetaBattute": 41.4,
+      "erroreFineBattute": 30.7,
+      "metaSuBattutaForte": 0.86
+     },
+     "umano": {
+      "maeCrossfader": 0.0,
+      "erroreInizioBattute": 0.0,
+      "erroreMetaBattute": 0.0,
+      "erroreFineBattute": 0.0,
+      "metaSuBattutaForte": 0.71
+     }
+    }
+   },
+   "finestre128": {
+    "n": 17,
+    "v5": {
+     "scontroBassi": 0.043,
+     "buchiVolume": 0.027,
+     "maeCrossfader": 0.186,
+     "maeEq": 0.156,
+     "mixErrDb": 1.6,
+     "eventiSuBattutaForte": 0.94,
+     "eventiSuFrase": 0.47
+    },
+    "v4": {
+     "scontroBassi": 0.153,
+     "buchiVolume": 0.025,
+     "maeCrossfader": 0.137,
+     "maeEq": 0.092,
+     "mixErrDb": 1.53,
+     "eventiSuBattutaForte": 0.92,
+     "eventiSuFrase": 0.36
+    },
+    "regole_bassswap": {
+     "scontroBassi": 0.0,
+     "buchiVolume": 0.027,
+     "maeCrossfader": 0.19,
+     "maeEq": 0.194,
+     "mixErrDb": 1.71,
+     "eventiSuBattutaForte": 0.71,
+     "eventiSuFrase": 0.06
+    },
+    "regole_fade": {
+     "scontroBassi": 0.187,
+     "buchiVolume": 0.026,
+     "maeCrossfader": 0.211,
+     "maeEq": 0.092,
+     "mixErrDb": 1.68,
+     "eventiSuBattutaForte": 0.71,
+     "eventiSuFrase": 0.06
+    },
+    "reale": {
+     "scontroBassi": 0.127,
+     "buchiVolume": 0.028,
+     "eventiSuBattutaForte": 0.74,
+     "eventiSuFrase": 0.06
+    },
+    "tempi": {
+     "v5": {
+      "maeCrossfader": 0.186,
+      "erroreInizioBattute": 18.0,
+      "erroreMetaBattute": 27.9,
+      "erroreFineBattute": 13.5,
+      "metaSuBattutaForte": 0.82
+     },
+     "v4": {
+      "maeCrossfader": 0.137,
+      "erroreInizioBattute": 7.5,
+      "erroreMetaBattute": 23.3,
+      "erroreFineBattute": 6.3,
+      "metaSuBattutaForte": 0.82
+     },
+     "regole_bassswap": {
+      "maeCrossfader": 0.19,
+      "erroreInizioBattute": 20.8,
+      "erroreMetaBattute": 26.5,
+      "erroreFineBattute": 15.9,
+      "metaSuBattutaForte": 0.71
+     },
+     "regole_fade": {
+      "maeCrossfader": 0.21,
+      "erroreInizioBattute": 27.7,
+      "erroreMetaBattute": 26.5,
+      "erroreFineBattute": 23.0,
+      "metaSuBattutaForte": 0.71
+     },
+     "umano": {
+      "maeCrossfader": 0.0,
+      "erroreInizioBattute": 0.0,
+      "erroreMetaBattute": 0.0,
+      "erroreFineBattute": 0.0,
+      "metaSuBattutaForte": 0.76
+     }
+    }
+   },
+   "gandLarga": {
+    "n": 9,
+    "v5": {
+     "maeCrossfader": 0.082,
+     "erroreInizioBattute": 8.2,
+     "erroreMetaBattute": 7.2,
+     "erroreFineBattute": 5.3,
+     "metaSuBattutaForte": 1.0
+    },
+    "v4": {
+     "maeCrossfader": 0.055,
+     "erroreInizioBattute": 7.8,
+     "erroreMetaBattute": 5.2,
+     "erroreFineBattute": 3.2,
+     "metaSuBattutaForte": 0.78
+    },
+    "regole_bassswap": {
+     "maeCrossfader": 0.096,
+     "erroreInizioBattute": 9.6,
+     "erroreMetaBattute": 10.7,
+     "erroreFineBattute": 3.2,
+     "metaSuBattutaForte": 0.78
+    },
+    "regole_fade": {
+     "maeCrossfader": 0.078,
+     "erroreInizioBattute": 4.9,
+     "erroreMetaBattute": 10.7,
+     "erroreFineBattute": 2.8,
+     "metaSuBattutaForte": 0.78
+    },
+    "umano": {
+     "maeCrossfader": 0.0,
+     "erroreInizioBattute": 0.0,
+     "erroreMetaBattute": 0.0,
+     "erroreFineBattute": 0.0,
+     "metaSuBattutaForte": 0.89
+    }
+   },
+   "minuti": 26.7,
+   "gandLargaFino256": {
+    "n": 10,
+    "v5": {
+     "maeCrossfader": 0.093,
+     "erroreInizioBattute": 9.9,
+     "erroreMetaBattute": 12.1,
+     "erroreFineBattute": 5.9,
+     "metaSuBattutaForte": 1.0
+    },
+    "v4": {
+     "maeCrossfader": 0.075,
+     "erroreInizioBattute": 9.6,
+     "erroreMetaBattute": 11.1,
+     "erroreFineBattute": 3.7,
+     "metaSuBattutaForte": 0.8
+    },
+    "regole_bassswap": {
+     "maeCrossfader": 0.092,
+     "erroreInizioBattute": 8.9,
+     "erroreMetaBattute": 10.9,
+     "erroreFineBattute": 4.3,
+     "metaSuBattutaForte": 0.8
+    },
+    "regole_fade": {
+     "maeCrossfader": 0.079,
+     "erroreInizioBattute": 5.0,
+     "erroreMetaBattute": 10.9,
+     "erroreFineBattute": 4.8,
+     "metaSuBattutaForte": 0.8
+    },
+    "umano": {
+     "maeCrossfader": 0.0,
+     "erroreInizioBattute": 0.0,
+     "erroreMetaBattute": 0.0,
+     "erroreFineBattute": 0.0,
+     "metaSuBattutaForte": 0.9
+    }
+   }
+  }
+ },
+ "media": {
+  "corte": {
+   "n": 3,
+   "v5": {
+    "scontroBassi": 0.0,
+    "buchiVolume": 0.022,
+    "maeCrossfader": 0.134,
+    "maeEq": 0.18,
+    "mixErrDb": 1.28,
+    "eventiSuBattutaForte": 1.0,
+    "eventiSuFrase": 0.67
+   },
+   "v4": {
+    "scontroBassi": 0.104,
+    "buchiVolume": 0.022,
+    "maeCrossfader": 0.045,
+    "maeEq": 0.086,
+    "mixErrDb": 1.21,
+    "eventiSuBattutaForte": 1.0,
+    "eventiSuFrase": 0.5
+   },
+   "regole_bassswap": {
+    "scontroBassi": 0.0,
+    "buchiVolume": 0.022,
+    "maeCrossfader": 0.151,
+    "maeEq": 0.214,
+    "mixErrDb": 1.53,
+    "eventiSuBattutaForte": 1.0,
+    "eventiSuFrase": 0.0
+   },
+   "regole_fade": {
+    "scontroBassi": 0.241,
+    "buchiVolume": 0.022,
+    "maeCrossfader": 0.163,
+    "maeEq": 0.104,
+    "mixErrDb": 1.4,
+    "eventiSuBattutaForte": 1.0,
+    "eventiSuFrase": 0.0
+   },
+   "reale": {
+    "scontroBassi": 0.101,
+    "buchiVolume": 0.03,
+    "eventiSuBattutaForte": 0.67,
+    "eventiSuFrase": 0.33
+   },
+   "tempi": {
+    "v5": {
+     "maeCrossfader": 0.135,
+     "erroreInizioBattute": 21.0,
+     "erroreMetaBattute": 11.3,
+     "erroreFineBattute": 9.7,
+     "metaSuBattutaForte": 1.0
+    },
+    "v4": {
+     "maeCrossfader": 0.045,
+     "erroreInizioBattute": 2.7,
+     "erroreMetaBattute": 5.3,
+     "erroreFineBattute": 3.0,
+     "metaSuBattutaForte": 1.0
+    },
+    "regole_bassswap": {
+     "maeCrossfader": 0.152,
+     "erroreInizioBattute": 18.3,
+     "erroreMetaBattute": 19.3,
+     "erroreFineBattute": 12.7,
+     "metaSuBattutaForte": 1.0
+    },
+    "regole_fade": {
+     "maeCrossfader": 0.165,
+     "erroreInizioBattute": 25.3,
+     "erroreMetaBattute": 19.3,
+     "erroreFineBattute": 15.7,
+     "metaSuBattutaForte": 1.0
+    },
+    "umano": {
+     "maeCrossfader": 0.0,
+     "erroreInizioBattute": 0.0,
+     "erroreMetaBattute": 0.0,
+     "erroreFineBattute": 0.0,
+     "metaSuBattutaForte": 1.0
+    }
+   }
+  },
+  "lunghe": {
+   "n": 7,
+   "v5": {
+    "scontroBassi": 0.076,
+    "buchiVolume": 0.023,
+    "maeCrossfader": 0.199,
+    "maeEq": 0.157,
+    "mixErrDb": 1.72,
+    "eventiSuBattutaForte": 1.0,
+    "eventiSuFrase": 0.55
+   },
+   "v4": {
+    "scontroBassi": 0.247,
+    "buchiVolume": 0.015,
+    "maeCrossfader": 0.18,
+    "maeEq": 0.085,
+    "mixErrDb": 1.7,
+    "eventiSuBattutaForte": 0.78,
+    "eventiSuFrase": 0.33
+   },
+   "regole_bassswap": {
+    "scontroBassi": 0.0,
+    "buchiVolume": 0.018,
+    "maeCrossfader": 0.199,
+    "maeEq": 0.186,
+    "mixErrDb": 1.66,
+    "eventiSuBattutaForte": 0.86,
+    "eventiSuFrase": 0.0
+   },
+   "regole_fade": {
+    "scontroBassi": 0.172,
+    "buchiVolume": 0.017,
+    "maeCrossfader": 0.213,
+    "maeEq": 0.086,
+    "mixErrDb": 1.58,
+    "eventiSuBattutaForte": 0.86,
+    "eventiSuFrase": 0.0
+   },
+   "reale": {
+    "scontroBassi": 0.13,
+    "buchiVolume": 0.019,
+    "eventiSuBattutaForte": 0.77,
+    "eventiSuFrase": 0.0
+   },
+   "tempi": {
+    "v5": {
+     "maeCrossfader": 0.181,
+     "erroreInizioBattute": 20.7,
+     "erroreMetaBattute": 41.6,
+     "erroreFineBattute": 20.1,
+     "metaSuBattutaForte": 1.0
+    },
+    "v4": {
+     "maeCrossfader": 0.162,
+     "erroreInizioBattute": 14.9,
+     "erroreMetaBattute": 43.1,
+     "erroreFineBattute": 5.6,
+     "metaSuBattutaForte": 0.71
+    },
+    "regole_bassswap": {
+     "maeCrossfader": 0.184,
+     "erroreInizioBattute": 24.7,
+     "erroreMetaBattute": 41.4,
+     "erroreFineBattute": 21.0,
+     "metaSuBattutaForte": 0.86
+    },
+    "regole_fade": {
+     "maeCrossfader": 0.199,
+     "erroreInizioBattute": 30.1,
+     "erroreMetaBattute": 41.4,
+     "erroreFineBattute": 30.7,
+     "metaSuBattutaForte": 0.86
+    },
+    "umano": {
+     "maeCrossfader": 0.0,
+     "erroreInizioBattute": 0.0,
+     "erroreMetaBattute": 0.0,
+     "erroreFineBattute": 0.0,
+     "metaSuBattutaForte": 0.71
+    }
+   }
+  },
+  "finestre128": {
+   "n": 17,
+   "v5": {
+    "scontroBassi": 0.043,
+    "buchiVolume": 0.027,
+    "maeCrossfader": 0.186,
+    "maeEq": 0.156,
+    "mixErrDb": 1.6,
+    "eventiSuBattutaForte": 0.94,
+    "eventiSuFrase": 0.47
+   },
+   "v4": {
+    "scontroBassi": 0.153,
+    "buchiVolume": 0.025,
+    "maeCrossfader": 0.137,
+    "maeEq": 0.092,
+    "mixErrDb": 1.53,
+    "eventiSuBattutaForte": 0.92,
+    "eventiSuFrase": 0.36
+   },
+   "regole_bassswap": {
+    "scontroBassi": 0.0,
+    "buchiVolume": 0.027,
+    "maeCrossfader": 0.19,
+    "maeEq": 0.194,
+    "mixErrDb": 1.71,
+    "eventiSuBattutaForte": 0.71,
+    "eventiSuFrase": 0.06
+   },
+   "regole_fade": {
+    "scontroBassi": 0.187,
+    "buchiVolume": 0.026,
+    "maeCrossfader": 0.211,
+    "maeEq": 0.092,
+    "mixErrDb": 1.68,
+    "eventiSuBattutaForte": 0.71,
+    "eventiSuFrase": 0.06
+   },
+   "reale": {
+    "scontroBassi": 0.127,
+    "buchiVolume": 0.028,
+    "eventiSuBattutaForte": 0.74,
+    "eventiSuFrase": 0.06
+   },
+   "tempi": {
+    "v5": {
+     "maeCrossfader": 0.186,
+     "erroreInizioBattute": 18.0,
+     "erroreMetaBattute": 27.9,
+     "erroreFineBattute": 13.5,
+     "metaSuBattutaForte": 0.82
+    },
+    "v4": {
+     "maeCrossfader": 0.137,
+     "erroreInizioBattute": 7.5,
+     "erroreMetaBattute": 23.3,
+     "erroreFineBattute": 6.3,
+     "metaSuBattutaForte": 0.82
+    },
+    "regole_bassswap": {
+     "maeCrossfader": 0.19,
+     "erroreInizioBattute": 20.8,
+     "erroreMetaBattute": 26.5,
+     "erroreFineBattute": 15.9,
+     "metaSuBattutaForte": 0.71
+    },
+    "regole_fade": {
+     "maeCrossfader": 0.21,
+     "erroreInizioBattute": 27.7,
+     "erroreMetaBattute": 26.5,
+     "erroreFineBattute": 23.0,
+     "metaSuBattutaForte": 0.71
+    },
+    "umano": {
+     "maeCrossfader": 0.0,
+     "erroreInizioBattute": 0.0,
+     "erroreMetaBattute": 0.0,
+     "erroreFineBattute": 0.0,
+     "metaSuBattutaForte": 0.76
+    }
+   }
+  },
+  "gandLarga": {
+   "n": 9,
+   "v5": {
+    "maeCrossfader": 0.082,
+    "erroreInizioBattute": 8.2,
+    "erroreMetaBattute": 7.2,
+    "erroreFineBattute": 5.3,
+    "metaSuBattutaForte": 1.0
+   },
+   "v4": {
+    "maeCrossfader": 0.055,
+    "erroreInizioBattute": 7.8,
+    "erroreMetaBattute": 5.2,
+    "erroreFineBattute": 3.2,
+    "metaSuBattutaForte": 0.78
+   },
+   "regole_bassswap": {
+    "maeCrossfader": 0.096,
+    "erroreInizioBattute": 9.6,
+    "erroreMetaBattute": 10.7,
+    "erroreFineBattute": 3.2,
+    "metaSuBattutaForte": 0.78
+   },
+   "regole_fade": {
+    "maeCrossfader": 0.078,
+    "erroreInizioBattute": 4.9,
+    "erroreMetaBattute": 10.7,
+    "erroreFineBattute": 2.8,
+    "metaSuBattutaForte": 0.78
+   },
+   "umano": {
+    "maeCrossfader": 0.0,
+    "erroreInizioBattute": 0.0,
+    "erroreMetaBattute": 0.0,
+    "erroreFineBattute": 0.0,
+    "metaSuBattutaForte": 0.89
+   }
+  },
+  "gandLargaFino256": {
+   "n": 10,
+   "v5": {
+    "maeCrossfader": 0.093,
+    "erroreInizioBattute": 9.9,
+    "erroreMetaBattute": 12.1,
+    "erroreFineBattute": 5.9,
+    "metaSuBattutaForte": 1.0
+   },
+   "v4": {
+    "maeCrossfader": 0.075,
+    "erroreInizioBattute": 9.6,
+    "erroreMetaBattute": 11.1,
+    "erroreFineBattute": 3.7,
+    "metaSuBattutaForte": 0.8
+   },
+   "regole_bassswap": {
+    "maeCrossfader": 0.092,
+    "erroreInizioBattute": 8.9,
+    "erroreMetaBattute": 10.9,
+    "erroreFineBattute": 4.3,
+    "metaSuBattutaForte": 0.8
+   },
+   "regole_fade": {
+    "maeCrossfader": 0.079,
+    "erroreInizioBattute": 5.0,
+    "erroreMetaBattute": 10.9,
+    "erroreFineBattute": 4.8,
+    "metaSuBattutaForte": 0.8
+   },
+   "umano": {
+    "maeCrossfader": 0.0,
+    "erroreInizioBattute": 0.0,
+    "erroreMetaBattute": 0.0,
+    "erroreFineBattute": 0.0,
+    "metaSuBattutaForte": 0.9
+   }
+  }
+ }
+}

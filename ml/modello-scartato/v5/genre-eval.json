@@ -1,0 +1,52 @@
+{
+ "nonClub": {
+  "brani": 24,
+  "planner-v4": {
+   "scontroBassi": 0.024,
+   "buchiVolume": 0.034,
+   "maeCrossfader": 0.106,
+   "maeEq": 0.066,
+   "mixErrDb": 1.05
+  },
+  "planner-v5": {
+   "scontroBassi": 0.008,
+   "buchiVolume": 0.035,
+   "maeCrossfader": 0.096,
+   "maeEq": 0.052,
+   "mixErrDb": 0.92
+  },
+  "regole_bassswap": {
+   "scontroBassi": 0.0,
+   "buchiVolume": 0.028
+  },
+  "regole_fade": {
+   "scontroBassi": 0.138,
+   "buchiVolume": 0.027
+  }
+ },
+ "club": {
+  "brani": 16,
+  "planner-v4": {
+   "scontroBassi": 0.042,
+   "buchiVolume": 0.047,
+   "maeCrossfader": 0.091,
+   "maeEq": 0.073,
+   "mixErrDb": 0.77
+  },
+  "planner-v5": {
+   "scontroBassi": 0.007,
+   "buchiVolume": 0.048,
+   "maeCrossfader": 0.079,
+   "maeEq": 0.06,
+   "mixErrDb": 0.7
+  },
+  "regole_bassswap": {
+   "scontroBassi": 0.0,
+   "buchiVolume": 0.045
+  },
+  "regole_fade": {
+   "scontroBassi": 0.163,
+   "buchiVolume": 0.035
+  }
+ }
+}
