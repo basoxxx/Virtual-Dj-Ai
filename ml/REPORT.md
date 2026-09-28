@@ -1008,3 +1008,37 @@ Per andare avanti con LUM!X o DJ Matrix servirebbe una di queste cose:
 1. i loro set in audio con la tracklist (per esempio le registrazioni dei loro programmi radio);
 2. i brani che suonano, per esempio da una tua playlist, da confrontare con `identify_tracks.py`;
 3. le tue transizioni registrate nell'app sulla stessa musica.
+
+## Giorno 11 — 28 settembre 2026 (tagli a raffica, stile LUM!X)
+
+Le transizioni di LUM!X non si possono imparare con crossfader ed EQ (giorno 10), ma dai suoi set allineati si
+misurano i **tempi** del suo stile. Misure sulle 31 coppie consecutive del suo guest mix (seconda metà degli episodi
+di Spinnin' Sessions) e del set all'ADE:
+
+| | LUM!X | Gabry Ponte (per confronto) |
+|---|---|---|
+| Battute suonate per brano (tratto riconosciuto, mediana) | **86** (circa 21 misure, 40 s) | 416 (circa 3 minuti) |
+| Entrata del brano successivo dopo il primo 20% | **32%** (spesso intorno alla misura 35) | 11% |
+| Entrata sulla battuta forte | 45% | |
+
+(I confini dei tratti riconosciuti sono approssimati: contano l'ordine di grandezza e la quota di entrate "dentro" il
+brano.)
+
+### Fatto
+
+- **Nuova transizione "Tagli a raffica (stile LUM!X)"** nel pannello AI DJ (`src/renderer/js/ai/rapid.js`):
+  - il brano in onda suona **16 o 24 misure** (in media 20, come le 21 di LUM!X) dal punto in cui è entrato;
+  - il cambio dura **1 misura**: l'uscente sale di filtro e perde i bassi nelle ultime 2 battute, poi taglio netto
+    sul battere;
+  - **una volta su tre** il successivo parte dal suo **drop**. Il drop è la prima frase da 8 misure, dopo la prima,
+    con energia della forma d'onda ≥ 85% della frase più forte e un salto rispetto alla precedente; se non c'è, il
+    brano parte dal punto di mix normale;
+  - il successivo parte una misura prima del taglio, così al taglio è esattamente sul suo punto d'ingresso;
+  - il diario dice le misure e il tipo di entrata.
+- **Prove:**
+  - `test/rapid.test.js`: drop su forma d'onda sintetica, 16/24 misure sulla griglia, entrata sul drop, filtro,
+    bassi e taglio, piano dell'AI DJ;
+  - `npm run check` 70/70, `npm test` 98/98;
+  - app vera (`ml/eval/electron/autodj-rapid.js`, coda di 3 brani, nessun "Mixa ora"): i due cambi li fa da sola.
+    Ogni brano resta in onda 46,2 e 46,8 s (24 misure), il cambio dura 1,85 s (una misura), il crossfader salta da un
+    lato all'altro alla fine della misura, il brano entrante è in onda a 2 s dal suo punto d'ingresso.
