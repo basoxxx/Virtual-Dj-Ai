@@ -24,6 +24,7 @@ import { knownActions } from './controllers/presets.js';
 import { GamepadController } from './controllers/gamepad.js';
 import { icon, withIcon } from './ui/icons.js';
 import { UpdateUI } from './ui/update-ui.js';
+import { AiView } from './ui/ai-view.js';
 
 const ACCENTS = ['#2ea8ff', '#ff6a3d'];
 
@@ -42,6 +43,8 @@ const DEFAULT_SETTINGS = {
     options: {},
   },
   updates: { auto: true },
+  // view: ultima vista usata, 'console' (classica) o 'ai' (dedicata all'AI DJ); startView: 'last', 'console' o 'ai'
+  ui: { view: 'console', startView: 'last' },
 };
 
 function merge(defaults, saved) {
@@ -153,8 +156,13 @@ class App {
       this.recBtn.setOn(e.detail);
       if (!e.detail) this.recTime.textContent = '';
     });
+    this.viewBtns = {
+      console: button('Console', { className: 'seg', title: 'Console classica: deck, mixer ed effetti a mano', onClick: () => this.setView('console') }),
+      ai: button(withIcon('sparkles', 'AI', 13), { className: 'seg', title: 'Vista AI: mix automatico e mashup (Ctrl+Shift+A)', onClick: () => this.setView('ai') }),
+    };
     const top = el('header', { class: 'topbar' },
       el('div', { class: 'logo' }, el('img', { class: 'logo-img', src: 'img/icon.png', alt: '' }), 'Segueo'),
+      el('div', { class: 'view-switch', role: 'group', 'aria-label': 'Vista' }, this.viewBtns.console, this.viewBtns.ai),
       this.progress,
       el('div', { class: 'spacer' }),
       this.updateUI.badge, this.recBtn, this.recTime, this.automixBtn, this.midiBadge,
@@ -240,7 +248,10 @@ class App {
       else this.library.renderRows();
     });
     const bottom = el('div', { class: 'bottom' }, libHost, sideHost);
-    root.append(top, waves, middle, bottom);
+    this.aiView = new AiView(el('section', {}), { app: this, accents: ACCENTS });
+    root.append(top, waves, middle, this.aiView.root, bottom);
+    const start = this.settings.ui.startView;
+    this.setView(start === 'console' || start === 'ai' ? start : this.settings.ui.view, { save: false });
 
     let libTimer = null;
     for (const d of this.decks) {
@@ -260,6 +271,19 @@ class App {
       d.addEventListener('pitch', rerender);
       d.addEventListener('state', rerender);
     }
+  }
+
+  /** Vista classica ('console') o dedicata all'AI ('ai'): l'AI DJ continua a mixare in entrambe. */
+  setView(view, { save = true } = {}) {
+    const v = view === 'ai' ? 'ai' : 'console';
+    this.view = v;
+    document.body.classList.toggle('view-ai', v === 'ai');
+    for (const [k, b] of Object.entries(this.viewBtns)) b.setOn(k === v);
+    if (save && this.settings.ui.view !== v) {
+      this.settings.ui.view = v;
+      this.saveSettings();
+    }
+    if (this.consoleEl) this.fitLayout();
   }
 
   masterDeck() {
@@ -344,6 +368,7 @@ class App {
         sampler: this.sampler.serialize(),
         ai: this.settings.ai,
         updates: this.settings.updates,
+        ui: this.settings.ui,
       });
     }, 300);
   }
@@ -395,6 +420,7 @@ class App {
     else if (cmd === 'help') this.openSettings('keys');
     else if (cmd === 'record') this.toggleRecording();
     else if (cmd === 'automix') this.automix.setEnabled(!this.automix.enabled);
+    else if (cmd === 'view') this.setView(this.view === 'ai' ? 'console' : 'ai');
   }
 
   showProgress(p) {
@@ -466,6 +492,7 @@ class App {
     add('cueMix', 'Cuffia: cue/master', 'knob', scale(this.mixerUI.cueMixKnob, 0, 1));
     add('mic', 'Microfono on air', 'button', (on) => on && this.mic.setOnAir(!this.mic.onAir), () => this.mic.onAir);
     add('automix', 'AI DJ on/off', 'button', (on) => on && this.automix.setEnabled(!this.automix.enabled), () => this.automix.enabled);
+    add('view', 'Vista Console/AI', 'button', (on) => on && this.setView(this.view === 'ai' ? 'console' : 'ai'), () => this.view === 'ai');
     add('aiMixNow', 'AI DJ: mixa ora', 'button', (on) => on && this.automix.mixNow(), () => Boolean(this.automix.transition));
     add('aiSkip', 'AI DJ: cambia prossimo brano', 'button', (on) => on && this.automix.skipNext());
     add('record', 'Registrazione', 'button', (on) => on && this.toggleRecording(), () => this.engine.recording);
@@ -491,6 +518,10 @@ class App {
     const c = this.consoleEl;
     if (!c) return;
     c.style.zoom = '';
+    if (this.view === 'ai') {
+      document.body.classList.remove('compact');
+      return;
+    }
     const natural = c.scrollHeight;
     const topbar = 44;
     const minBottom = Math.max(210, window.innerHeight * 0.27);
@@ -519,8 +550,12 @@ class App {
     const frame = () => {
       if (this.gamepad) this.gamepad.poll();
       for (const s of this.scrollers) s.draw();
-      for (const ui of this.deckUIs) ui.frame();
-      this.mixerUI.frame();
+      if (this.view === 'ai') {
+        this.aiView.frame();
+      } else {
+        for (const ui of this.deckUIs) ui.frame();
+        this.mixerUI.frame();
+      }
       if (this.engine.recording) this.recTime.textContent = formatTime((performance.now() - this.engine.recordStart) / 1000, false);
       const now = new Date();
       this.clock.textContent = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });

@@ -112,6 +112,7 @@ function buildMenu() {
       submenu: [
         { label: 'Avvia/Ferma registrazione', accelerator: 'CmdOrCtrl+R', click: () => send('menu', 'record') },
         { label: 'AI DJ (mix automatico)', accelerator: 'CmdOrCtrl+M', click: () => send('menu', 'automix') },
+        { label: 'Vista AI / console classica', accelerator: 'CmdOrCtrl+Shift+A', click: () => send('menu', 'view') },
       ],
     },
     {

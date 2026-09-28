@@ -760,7 +760,7 @@ export class AutoDJ extends EventTarget {
   }
 }
 
-const TRANSITION_NAMES = { bassswap: 'bass swap', filter: 'filtro', echo: 'echo out', fade: 'dissolvenza', cut: 'taglio sul beat', model: 'del modello AI' };
+export const TRANSITION_NAMES = { bassswap: 'bass swap', filter: 'filtro', echo: 'echo out', fade: 'dissolvenza', cut: 'taglio sul beat', model: 'del modello AI' };
 
 function label(t) {
   return t ? `${t.artist ? `${t.artist} - ` : ''}${t.title}` : '—';

@@ -126,6 +126,75 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 .wave-zoom { z-index: 1; position: absolute; right: 8px; top: 6px; display: flex; gap: 3px; opacity: 0; transition: opacity .15s; }
 .wave-wrap:hover .wave-zoom { opacity: 1; }
 
+/* --- Selettore di vista (Console / AI) ------------------------------------ */
+.view-switch { display: inline-flex; margin-left: 10px; padding: 2px; background: var(--panel-2); border-radius: 980px; gap: 2px; }
+.view-switch .btn.seg { padding: 4px 12px; border-radius: 980px; background: transparent; color: var(--dim); font-weight: 600; gap: 5px; display: inline-flex; align-items: center; }
+.view-switch .btn.seg:hover { color: var(--text); }
+.view-switch .btn.seg.on { background: var(--control-hover); color: var(--text); }
+.view-switch .btn.seg.on .icon { color: var(--accent); }
+
+/* --- Vista AI ------------------------------------------------------------- */
+.ai-stage { display: none; grid-template-columns: minmax(0, 1fr) 360px minmax(0, 1fr); gap: 8px; padding: 8px; min-height: 0; }
+body.view-ai .ai-stage { display: grid; }
+body.view-ai .console { display: none; }
+.ai-deck { background: var(--panel); border-radius: var(--radius-lg); padding: 12px 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; box-shadow: inset 0 0 0 1px transparent; transition: box-shadow .3s; }
+.ai-deck[data-role="air"], .ai-deck[data-role="out"], .ai-deck[data-role="in"] { box-shadow: inset 0 0 0 2px var(--deck-accent); }
+.ai-deck.empty .ai-title { color: var(--faint); }
+.ai-deck-head { display: flex; align-items: center; gap: 8px; }
+.ai-letter { font-weight: 700; font-size: 20px; color: var(--deck-accent); letter-spacing: -0.03em; }
+.ai-role { padding: 3px 10px; border-radius: 980px; background: var(--control); color: var(--dim); font-weight: 600; font-size: 11px; }
+.ai-deck[data-role="air"] .ai-role, .ai-deck[data-role="out"] .ai-role, .ai-deck[data-role="in"] .ai-role { background: var(--deck-accent); color: #000; }
+.ai-stem { padding: 3px 10px; border-radius: 980px; background: var(--panel-3); color: var(--warn); font-weight: 600; font-size: 11px; }
+.ai-time { color: var(--dim); font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ai-title { font-size: 22px; font-weight: 700; letter-spacing: -0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.ai-artist { color: var(--dim); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 20px; }
+.ai-stats { display: flex; gap: 22px; margin: 6px 0 8px; }
+.ai-stat { display: flex; flex-direction: column; gap: 2px; }
+.ai-num { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.ai-stat-label { color: var(--faint); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.ai-overview { height: 44px; min-height: 44px; margin-top: auto; pointer-events: none; }
+.ai-center { background: var(--panel); border-radius: var(--radius-lg); padding: 10px 16px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; min-width: 0; }
+.ai-ring-wrap { position: relative; width: 72px; height: 72px; flex: none; }
+.ai-ring { --p: 0; width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(var(--accent) calc(var(--p) * 360deg), var(--panel-3) 0); -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%); mask: radial-gradient(circle, transparent 60%, #000 61%); }
+.ai-ring.mixing { background: conic-gradient(var(--ok) calc(var(--p) * 360deg), var(--panel-3) 0); }
+.ai-ring-text { position: absolute; inset: 0; display: grid; place-items: center; font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ai-state { font-size: 15px; font-weight: 700; margin-top: 2px; }
+.ai-plan { color: var(--text); font-weight: 600; min-height: 16px; }
+.ai-why { color: var(--dim); font-size: 11px; min-height: 15px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ai-mash { color: var(--warn); font-weight: 600; font-size: 11px; }
+.ai-xf { display: flex; align-items: center; gap: 8px; width: 100%; color: var(--faint); font-weight: 700; font-size: 11px; margin: 2px 0 4px; }
+.ai-xf span:first-child { color: var(--a); }
+.ai-xf span:last-child { color: var(--b); }
+.ai-xf-track { position: relative; flex: 1; height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--a), var(--panel-3) 50%, var(--b)); }
+.ai-xf-thumb { position: absolute; top: 50%; width: 12px; height: 18px; border-radius: 4px; background: var(--text); transform: translate(-50%, -50%); }
+.btn.ai-power { width: 100%; padding: 8px; font-size: 14px; font-weight: 700; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.btn.ai-power.on { background: var(--ok); color: #000; }
+.ai-actions { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.ai-actions .btn { display: inline-flex; align-items: center; gap: 6px; }
+.btn.ai-pill { border-radius: 980px; }
+.btn.ai-pill.on { background: var(--accent); color: #fff; }
+.btn.ai-takeover { border-radius: 980px; box-shadow: inset 0 0 0 1px var(--hairline); background: transparent; }
+
+/* pannello AI DJ: nella console i gruppi scorrono in colonna, nella vista AI si affiancano */
+.am-group { display: contents; }
+.am-heading { display: none; }
+body.view-ai .bottom { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+body.view-ai .automix-pane.show { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; padding: 12px 14px; }
+body.view-ai .am-main { display: none; }
+body.view-ai .am-settings, body.view-ai .am-activity { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+body.view-ai .am-activity { height: 100%; min-height: 0; }
+body.view-ai .am-heading { display: flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+body.view-ai .am-heading .icon { color: var(--accent); }
+body.view-ai .ai-row { grid-template-columns: 96px 1fr; font-size: 12.5px; color: var(--text); }
+body.view-ai .ai-select { font-size: 12.5px; }
+body.view-ai .automix-pane .check { font-size: 12.5px; color: var(--text); }
+body.view-ai .ai-log { max-height: none; flex: 1; }
+/* libreria più stretta nella vista AI: niente barra laterale né colonne Genere, Album e ascolti */
+body.view-ai .library { grid-template-columns: minmax(0, 1fr); }
+body.view-ai .lib-sidebar { display: none; }
+body.view-ai .lib-grid { grid-template-columns: 2.4fr 1.6fr 58px 70px 52px; }
+body.view-ai .lib-grid > :nth-child(n+6) { display: none; }
+
 /* --- Console -------------------------------------------------------------- */
 .console { display: grid; grid-template-columns: 1fr 330px 1fr; gap: 8px; padding: 8px; min-height: 0; }
 
