@@ -276,11 +276,22 @@ def load_real() -> dict:
 V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0}
 
 
-def v5_data(window: str = "") -> dict:
-    """Gand (solo crossfader) + Mixotic dei 4 set di Gand + set Mixotic nuovi, un terzo delle estrazioni ciascuno."""
-    return combine([("gand", load_gand(window), V5_SHARES["gand"], 0.0),
-                    ("mixotic", load_mixotic(window), V5_SHARES["mixotic"], 1.0),
-                    ("mixotic-nuovi", load_mixotic_new(window), V5_SHARES["mixotic-nuovi"], 1.0)])
+def parse_shares(text: str) -> dict:
+    """"gand=1,mixotic=1" -> quote delle estrazioni reali per fonte (le fonti non nominate restano a 1)."""
+    out = dict(V5_SHARES)
+    for part in filter(None, text.split(",")):
+        k, v = part.split("=")
+        out[k.strip()] = float(v)
+    return out
+
+
+def v5_data(window: str = "", shares: dict | None = None) -> dict:
+    """Gand (solo crossfader) + Mixotic dei 4 set di Gand + set Mixotic nuovi (se ci sono); quote in `shares`
+    (di default un terzo delle estrazioni ciascuno, come per la v5)."""
+    sh = shares or V5_SHARES
+    return combine([("gand", load_gand(window), sh["gand"], 0.0),
+                    ("mixotic", load_mixotic(window), sh["mixotic"], 1.0),
+                    ("mixotic-nuovi", load_mixotic_new(window), sh["mixotic-nuovi"], 1.0)])
 
 
 def folds_of(sets: list[str]) -> list[list[str]]:
@@ -324,11 +335,14 @@ def average(results: list[dict]) -> dict | None:
 
 
 def run_v5(args) -> None:
+    """v5 e successive (--tag v6 ...): rifinitura della v4 con finestre fino a 256 battute."""
     from gand_dataset import human_templates
 
+    tag = args.tag
     v4_state = torch.load(RUNS / "planner-v4.pt", map_location=DEVICE)
-    data = v5_data()
-    short = v5_data("-128")
+    shares = parse_shares(args.v5_shares)
+    data = v5_data(shares=shares)
+    short = v5_data("-128", shares=shares)
     sets = np.array([m["set"] for m in data["meta"]])
     src = np.array([m["fonte"] for m in data["meta"]])
     kind = np.array([m.get("kind", "") for m in data["meta"]])
@@ -337,15 +351,15 @@ def run_v5(args) -> None:
     s_src = np.array([m["fonte"] for m in short["meta"]])
     s_kind = np.array([m.get("kind", "") for m in short["meta"]])
     wide_g = lambda d: np.array([(m.get("pre"), m.get("post")) == (16, 8) for m in d["meta"]])  # noqa: E731
-    print(f"v5: {len(sets)} finestre ({', '.join(f'{f} {int((src == f).sum())}' for f in sorted(set(src)))}), dispositivo {DEVICE}", flush=True)
+    print(f"{tag}: {len(sets)} finestre ({', '.join(f'{f} {int((src == f).sum())}' for f in sorted(set(src)))}), dispositivo {DEVICE}", flush=True)
 
     def v5_model(train_sets, idx, seed=0):
         # brani del generatore: niente brani dei set tenuti da parte (i nomi contengono il set)
         held = set(sets) - set(train_sets)
         files = [f for f in default_files() if not any(f"-{h}-" in f.name for h in held)]
         kw = {"templates": human_templates([s for s in train_sets if s.startswith("set")]), "lengths": LONG_LENGTHS}
-        return train(data, idx, args.v5_steps, init=v4_state, lr=1e-4, synth_share=12, synth_kwargs=kw, seed=seed,
-                     synth_files=files)
+        return train(data, idx, args.v5_steps, init=v4_state, lr=1e-4, synth_share=args.v5_synth_share, synth_kwargs=kw,
+                     seed=seed, synth_files=files)
 
     def v4_recipe(train_sets):
         """La v4 rifatta senza il gruppo tenuto da parte: v3 + dati della v4 (finestre da 128, 4 set)."""
@@ -360,14 +374,14 @@ def run_v5(args) -> None:
         v4.load_state_dict(v4_state)
         groups = [args.v5_held.split(",")] if args.v5_held else folds_of(sorted(set(sets)))
         chosen = [int(i) for i in args.v5_folds.split(",")] if args.v5_folds else range(len(groups))
-        out_path = RUNS / "v5-cv.json"
+        out_path = RUNS / f"{tag}-cv.json"
         results = json.loads(out_path.read_text())["perGruppo"] if out_path.exists() and args.v5_folds else {}
         for gi in chosen:
             held = groups[gi]
             train_sets = sorted(set(sets) - set(held))
             print(f"--- gruppo {gi}: tenuti da parte {held}", flush=True)
             t0 = time.time()
-            models = {"v5": v5_model(train_sets, np.where(~np.isin(sets, held))[0]), "v4": v4}
+            models = {tag: v5_model(train_sets, np.where(~np.isin(sets, held))[0]), "v4": v4}
             if args.v4_baseline:
                 models["v4_rifatta"] = v4_recipe(train_sets)
             mix = (np.isin(sets, held)) & (src != "gand") & np.isin(kind, ["inizio-0", "fine"])
@@ -393,13 +407,14 @@ def run_v5(args) -> None:
             print(json.dumps(r, ensure_ascii=False), flush=True)
             summary = {k: average([x.get(k) for x in results.values()])
                        for k in ("corte", "lunghe", "finestre128", "gandLarga", "gandLargaFino256")}
-            out_path.write_text(json.dumps({"passi": args.v5_steps, "gruppi": groups, "perGruppo": results, "media": summary},
+            cfg = {"passi": args.v5_steps, "sinteticiPerLotto": args.v5_synth_share, "quote": shares}
+            out_path.write_text(json.dumps({**cfg, "gruppi": groups, "perGruppo": results, "media": summary},
                                            indent=1, ensure_ascii=False))
         print("MEDIA", json.dumps(summary, ensure_ascii=False), flush=True)
     if args.v5_final:
         m5 = v5_model(sorted(set(sets)), np.arange(len(sets)))
-        torch.save(m5.state_dict(), RUNS / "planner-v5.pt")
-        print(f"salvato {RUNS / 'planner-v5.pt'}", flush=True)
+        torch.save(m5.state_dict(), RUNS / f"planner-{tag}.pt")
+        print(f"salvato {RUNS / f'planner-{tag}.pt'}", flush=True)
 
 
 def main():
@@ -427,6 +442,9 @@ def main():
     ap.add_argument("--v5-steps", type=int, default=800)
     ap.add_argument("--v5-folds", default="", help="solo questi gruppi della validazione incrociata (indici separati da virgola)")
     ap.add_argument("--v5-held", default="", help="con --v5-cv: un solo gruppo con questi set tenuti da parte (es. set044,set285)")
+    ap.add_argument("--tag", default="v5", help="nome del modello per --v5-cv/--v5-final (es. v6): planner-<tag>.pt, <tag>-cv.json")
+    ap.add_argument("--v5-shares", default="", help="quote delle fonti reali, es. gand=1,mixotic=1 (di default un terzo ciascuna)")
+    ap.add_argument("--v5-synth-share", type=int, default=12, help="transizioni sintetiche per lotto di 32")
     ap.add_argument("--v4-baseline", action="store_true", help="con --v5-cv: rifà anche la v4 per ogni gruppo (stessa ricetta, dati della v4)")
     ap.add_argument("--pre-steps", type=int, default=4000)
     ap.add_argument("--ft-steps", type=int, default=600)
