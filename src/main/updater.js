@@ -10,7 +10,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { spawn } = require('node:child_process');
 
-const REPO = 'basoxxx/Virtual-Dj-Ai';
+const REPO = 'basoxxx/Segueo';
 const API_LATEST = `https://api.github.com/repos/${REPO}/releases/latest`;
 
 /** Confronta due versioni "1.4.10" e "v1.5.0": >0 se a è più recente di b. */

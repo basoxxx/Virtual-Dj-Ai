@@ -1,6 +1,6 @@
 # Segueo
 
-🌐 **Sito:** https://basoxxx.github.io/Virtual-Dj-Ai/
+🌐 **Sito:** https://basoxxx.github.io/Segueo/
 
 Software DJ desktop per **Windows**, **macOS** e **Linux** con un'**AI che mixa in automatico**
 (anche collegata a un modello linguistico locale): due deck, mixer completo,

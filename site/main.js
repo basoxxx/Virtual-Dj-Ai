@@ -72,7 +72,7 @@
   // --- versione pubblicata -----------------------------------------------------
   const versionEl = document.querySelector('[data-version]');
   if (versionEl && window.fetch) {
-    fetch('https://api.github.com/repos/basoxxx/Virtual-Dj-Ai/releases/latest', { headers: { Accept: 'application/vnd.github+json' } })
+    fetch('https://api.github.com/repos/basoxxx/Segueo/releases/latest', { headers: { Accept: 'application/vnd.github+json' } })
       .then((r) => (r.ok ? r.json() : null))
       .then((rel) => {
         if (!rel || !rel.tag_name) return;

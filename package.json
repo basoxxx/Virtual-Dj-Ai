@@ -6,10 +6,10 @@
   "main": "src/main/main.js",
   "author": "basoxxx",
   "license": "MIT",
-  "homepage": "https://github.com/basoxxx/Virtual-Dj-Ai",
+  "homepage": "https://github.com/basoxxx/Segueo",
   "repository": {
     "type": "git",
-    "url": "https://github.com/basoxxx/Virtual-Dj-Ai.git"
+    "url": "https://github.com/basoxxx/Segueo.git"
   },
   "scripts": {
     "start": "electron .",

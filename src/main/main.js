@@ -130,7 +130,7 @@ function buildMenu() {
       label: 'Aiuto',
       submenu: [
         { label: 'Scorciatoie da tastiera', accelerator: 'F1', click: () => send('menu', 'help') },
-        { label: 'Pagina del progetto', click: () => shell.openExternal('https://github.com/basoxxx/Virtual-Dj-Ai') },
+        { label: 'Pagina del progetto', click: () => shell.openExternal('https://github.com/basoxxx/Segueo') },
       ],
     },
   ];
