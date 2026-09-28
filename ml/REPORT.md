@@ -648,3 +648,86 @@ portata a 1.6.0, così la 1.6 stabile aggiornerà anche chi ha la beta.
   Mixotic su Internet Archive (222, 230, 275) non hanno i brani originali.
 - Il tratto suonato viene dalla ricostruzione di Gand: dove la ricostruzione sbaglia, sbaglia anche la finestra.
 - Le transizioni vere durano spesso più di 128 battute: l'app per ora ne pianifica al massimo 32 (128 battute).
+
+## Giorno 7 — 28 settembre 2026 (modello C v5 nel cloud: più generi, transizioni lunghe, crossfader di Gand)
+
+Addestramento in un container cloud (4 CPU Xeon con AVX-512, 15 GB, niente GPU), con 2 ore di tempo in tutto.
+**Esito: la v5 non sostituisce la v4 nell'app.** Toglie quasi del tutto lo scontro dei bassi, ma imita i DJ veri
+peggio della v4 (vedi i numeri). Codice e dati sono pronti per rifarla meglio sul Mac (v6).
+
+### Fatto
+
+- **Pesi da ONNX** (`onnx_to_pt.py`): i checkpoint della v3 e della v4 ricavati dai file fp32 della release `models-v1`
+  (uscita identica a onnxruntime entro 1·10⁻⁶), così si riparte dalla v4 anche senza i `.pt` originali.
+- **Ricostruzione verificata:** con gli stessi dati scaricati da zero (dataset di Gand da Google Drive, mix Mixotic da
+  Internet Archive) i dataset tornano identici a quelli della v4: Gand 26 transizioni e 119 finestre (20 escluse
+  oltre 128 battute); Mixotic 22 transizioni, 59 finestre, fit mediano 0,265, metà crossfader contro Gand 12,0 s.
+- **Finestra da 256 battute** (obiettivo 2): `model.py` (i checkpoint da 128 si allargano al caricamento, stesse uscite
+  sulle finestre corte), `--window 128|256` nei costruttori dei dataset, lunghezze sintetiche fino a 256; l'ingresso
+  "lunghezza" resta L/128. Con 256 le transizioni di Gand diventano **41** (5 escluse invece di 20).
+- **Set Mixotic nuovi** (`mixotic_new_dataset.py`): tracklist dei set 222, 230, 275, 278, 282, 285 dai tag MP3 dei mix;
+  37 brani originali su 82 trovati su Internet Archive (netlabel, Creative Commons, molti non commerciali; il set 278
+  nessuno). Senza la ricostruzione di Gand l'allineamento è debole: **solo 3 transizioni affidabili** (set 285, fit
+  0,22-0,28). Negli altri set quasi nessun brano supera z ≥ 6; allargare le soglie (z ≥ 5) non ne aggiunge.
+  I link del "mixotic set" della JKU (Sonnleitner et al. 2016, tutti i brani originali) su Google Drive chiedono il login.
+- **Più generi** (obiettivo 1, `jamendo_features.py`): 40 brani MTG-Jamendo completi, 4 per gruppo (pop, rock, hip hop,
+  funk/soul, reggae/latin, house/techno, dance/trance, bass, chill, elettronica), più i 62 brani di Gand e i 37 dei set
+  nuovi nel generatore. Fuori dai generi da club la curva "umana" del generatore scambia sempre i bassi.
+- **App** (senza cambiare modello): finestra per versione del modello (`TRANSITION_MODEL_BEATS`, 128 per la v4, 256 per
+  la v5); 48 e 64 battute nel pannello AI DJ; con il modello, se le battute superano la finestra la transizione si
+  accorcia e il diario lo dice.
+- **v5** (`train.py --v5-final`): v4 + 400 passi (la v4 ne aveva 800: limite di tempo), lr 1e-4, lotti da 20 reali
+  (un terzo Gand, un terzo Mixotic, un terzo set nuovi) + 12 sintetici. 30 minuti su 2 thread.
+
+### Numeri misurati
+
+Validazione su **un solo gruppo** (`train.py --v5-cv --v5-held set044,set285 --v5-steps 400`, `v5-cv.json`): la v5 è
+addestrata senza i set 044 e 285; la v4 è quella rilasciata, che il 044 (Gand e Mixotic) lo **ha visto** in
+addestramento: il confronto la favorisce. Non c'è stato tempo per `--v4-baseline` (v4 rifatta senza il gruppo).
+
+| Mixotic tenuti da parte, finestre da 128 (17) | v5 | v4 | Regole: bass swap | Regole: dissolvenza | DJ vero |
+|---|---|---|---|---|---|
+| Errore crossfader | 0,186 | **0,137** | 0,190 | 0,211 | |
+| Errore EQ | 0,156 | **0,092** | 0,194 | 0,092 | |
+| Errore del suono (dB) | 1,60 | **1,53** | 1,71 | 1,68 | |
+| Errore d'inizio / fine (battute) | 18,0 / 13,5 | **7,5 / 6,3** | 20,8 / 15,9 | 27,7 / 23,0 | |
+| Scontro dei bassi | **4,3%** | 15,3% | 0% | 18,7% | 12,7% |
+| Eventi a inizio frase | 47% | 36% | 6% | 6% | 6% |
+
+Transizioni intere oltre 128 battute (7, fino a 256): errore crossfader v5 0,199, v4 0,180 (con la finestra
+allargata), scontro dei bassi v5 7,6%, v4 24,7%, DJ vero 13%.
+
+Crossfader di Gand, finestra larga, set 044 (9 finestre): v5 0,082, v4 0,055, dissolvenza 0,078. **L'obiettivo 3 non è
+raggiunto** (anche tenendo conto del vantaggio della v4 su questo set).
+
+Generi (`ml/eval/genre_eval.py`, 96 transizioni sintetiche per gruppo; brani anche nel generatore della v5, quindi è
+un controllo di comportamento): scontro dei bassi fuori dai generi da club **v5 0,8%**, v4 2,4% (dissolvenza 13,8%);
+generi da club v5 0,7%, v4 4,2%. Errore EQ contro il maestro sintetico: v5 0,052, v4 0,066.
+
+ONNX v5 (256 × 35 → 256 × 9): fp32 identico a PyTorch, int8 errore medio 0,0023 (massimo 0,17), 6,9 MB. Con la v5 al
+posto della v4 in `transition-planner.js` il test di parità con onnxruntime-web passa (7/7). `npm run check` 64/64,
+`npm test` 88 (82 passati, 6 saltati senza modelli scaricati, 0 falliti).
+
+### Lettura
+
+La v5 ha imparato le due regole nuove (scambiare i bassi, stare sulle frasi) ma ha perso i tempi dei DJ veri: parte
+circa 10 battute più lontano dal momento giusto. Cause probabili, da verificare sul Mac: metà dei passi della v4; un
+terzo delle estrazioni reali su sole 4 finestre dei set nuovi (ripetute moltissimo); il generatore con le lunghezze
+lunghe, che sposta il peso verso curve sintetiche.
+
+### Per la v6 (sul Mac)
+
+- Partire dalla v4 (`planner-v4.pt`, o `onnx_to_pt.py` dal file della release) con 800+ passi e `--v4-baseline` su tutti
+  i gruppi (`--v5-cv` senza `--v5-held`): serve il confronto giusto.
+- Quote delle fonti proporzionali ai dati (`V5_SHARES` in `train.py`): i set nuovi con 3 transizioni non devono pesare
+  un terzo.
+- Allineamento dei set nuovi: guardare le matrici di somiglianza (z tra 4 e 6) e usare le tracklist con i tempi, se si
+  trovano; cercare il "mixotic set" della JKU con i brani originali di tutti i 10 set.
+- Più generi con transizioni vere: servono mix non techno con i brani originali (per esempio le tue transizioni
+  registrate nell'app).
+- Per passare l'app alla v5 (o v6): caricare i file ONNX nella release `models-v1`, aggiungerli a
+  `src/main/models.json`, cambiare `TRANSITION_MODEL` e `TRANSITION_MODEL_BEATS` in `transition-planner.js` e
+  rigenerare `test/fixtures/transition-model/reference.json` con `export_onnx.py`.
+
+I file della v5 (`planner-v5.pt`, ONNX fp32 e int8) sono rimasti nel container e non sono nel repository: la v5 non
+entra nell'app, e con il codice di questo branch si rifà sul Mac.
