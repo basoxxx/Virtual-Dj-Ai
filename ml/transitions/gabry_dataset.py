@@ -38,10 +38,14 @@ MIN_Z_NO_CUE = 6.0
 BEFORE, AFTER = 45.0, 45.0  # secondi di tolleranza intorno ai cue
 
 
+AUDIO_EXT = {".m4a", ".webm", ".opus", ".mp3", ".ogg", ".wav", ".mp4"}
+
+
 def features() -> None:
-    for p in sorted((DATA / "mixes").glob("*.*")):
+    # solo file completi (niente .part/.ytdl dei download in corso)
+    for p in sorted(p for p in (DATA / "mixes").glob("*.*") if p.suffix in AUDIO_EXT):
         extract(p, FEAT, name=f"mix-{p.stem}")
-    for p in sorted((DATA / "tracks").glob("gp-*.*")):
+    for p in sorted(p for p in (DATA / "tracks").glob("gp-*.*") if p.suffix in AUDIO_EXT):
         try:
             extract(p, FEAT, name=p.stem)
         except Exception as err:
