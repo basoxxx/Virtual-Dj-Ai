@@ -82,7 +82,7 @@
     },
     {
       "file": "transition-planner-v4-int8.onnx",
-      "bundle": true,
+      "bundle": false,
       "bytes": 6815310,
       "sha256": "7f86fd416e84344d7a1b24bd3f3b3467228f42d708ccf85753af4a1dae1f05a6",
       "source": "Modello C v4: v3 rifinita anche su 22 transizioni di DJ set veri (Mixotic, curve di crossfader ed EQ stimate dal mix) e sul crossfader di Gand (solo in locale), int8 dinamico"
@@ -93,6 +93,20 @@
       "bytes": 25766251,
       "sha256": "ab903661d8d7df031c8361caff85fccc63a913c65da3e6a03addbef1263e0945",
       "source": "Modello C v4, fp32"
+    },
+    {
+      "file": "transition-planner-v6-int8.onnx",
+      "bundle": true,
+      "bytes": 6946394,
+      "sha256": "04bdb99c8da5829105d4b2580ba2171ba1413fb41cbe11b8339060dee8ceebf1",
+      "source": "Modello C v6: v4 + 1000 passi con finestre fino a 256 battute, Gand e Mixotic a metà, generatore con 10 gruppi di genere (MTG-Jamendo) e meno sintetici; int8 dinamico"
+    },
+    {
+      "file": "transition-planner-v6.onnx",
+      "bundle": false,
+      "bytes": 25897335,
+      "sha256": "91cf61ff32abcda1ec0ebfddb0af25474face63f9166c379d8c9058be230be1e",
+      "source": "Modello C v6, fp32"
     }
   ]
 }

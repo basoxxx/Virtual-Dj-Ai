@@ -38,8 +38,8 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
 4. **Esegue il mix**: sync di tempo e fase, crossfader, EQ, filtri ed effetti si muovono da soli (si vedono le manopole
    girare), poi riporta gradualmente il brano al suo BPM originale.
    Con **Transizioni → Modello AI (sperimentale)** le curve di crossfader, EQ basso/medio/alto e filtri le decide,
-   battuta per battuta, una rete neurale che gira sul computer (`ml/transitions/`); se non è disponibile si usano
-   le regole.
+   battuta per battuta, una rete neurale che gira sul computer (`ml/transitions/`), anche per transizioni lunghe
+   fino a 64 battute; se non è disponibile si usano le regole.
 5. **Remix dal vivo** (opzione): mentre un brano suona da solo l'AI lo ricompone sulle frasi della griglia con loop
    roll, eco, filtro in salita e ripetizione della frase appena suonata.
 6. **Mashup** (opzione): quando il brano successivo è compatibile per tonalità e tempo, il brano in onda passa alla
