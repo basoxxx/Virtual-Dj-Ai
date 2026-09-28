@@ -983,3 +983,28 @@ Su tua richiesta i modelli dell'app hanno il nome dell'app e la funzione:
 - Su 1001tracklists si possono leggere se risolvi tu il CAPTCHA nel browser.
 - In alternativa si può imparare il suo stile come "tagli a raffica": una transizione corta sul beat, senza curve,
   cioè un nuovo tipo di transizione per l'AI DJ invece di un altro modello.
+
+### Seguito: altri set di LUM!X e DJ Matrix
+
+- **LUM!X:** la ricerca su 1001tracklists ora funziona di nuovo e ha dato 3 mix nuovi con la tracklist completa
+  (Record Club Guest Mix 085 e 128, Lizard Print Guest Mix). L'audio però non è pubblico: Record Club va in onda su
+  Radio Record e il Lizard Print non si trova su SoundCloud, YouTube o Mixcloud. Su YouTube non ci sono altri suoi
+  set con la tracklist (SLAM! aprile 2023, Live from Amsterdam: né capitoli né descrizione).
+- **DJ Matrix** (su tua richiesta, stesse condizioni): nessuna tracklist su 1001tracklists (la ricerca trova il club
+  Matrix di Brescia e il duo drum & bass Matrix & Futurebound) né nei video. Ho scaricato il suo set per DAPP (2021,
+  62 min, audio in streaming) e scritto **`identify_tracks.py`**, che riconosce i brani di un mix senza tracklist
+  confrontandolo con i brani già analizzati:
+  - 8 campioni da 32 battute per brano, cercati in tutto il mix con un solo prodotto tra matrici;
+  - un brano è riconosciuto con il campione migliore a z ≥ 5 e un secondo a z ≥ 3,5 sulla stessa diagonale;
+  - tarato sul mix Spotlight di Gabry Ponte, che ha la tracklist: **20 brani su 30 trovati, nessun falso** su 453
+    che non ci sono (83 di Gabry Ponte e 400 della chiavetta);
+  - sul set di DJ Matrix, contro circa 1.300 brani (chiavetta, Gabry Ponte, LUM!X), trova **un solo brano**
+    ("Sono arrivati i caramba", dubbio). I brani che suonava nel 2021 non sono tra quelli che abbiamo.
+
+  Senza tracklist e senza i suoi brani non si possono ricavare le sue transizioni.
+- **Nessuna v8:** non sono arrivati dati affidabili nuovi. Lo stile dance resta la v7 (Gabry Ponte).
+
+Per andare avanti con LUM!X o DJ Matrix servirebbe una di queste cose:
+1. i loro set in audio con la tracklist (per esempio le registrazioni dei loro programmi radio);
+2. i brani che suonano, per esempio da una tua playlist, da confrontare con `identify_tracks.py`;
+3. le tue transizioni registrate nell'app sulla stessa musica.
