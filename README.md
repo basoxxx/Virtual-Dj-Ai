@@ -44,7 +44,7 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    roll, eco, filtro in salita e ripetizione della frase appena suonata.
 6. **Mashup** (opzione): quando il brano successivo è compatibile per tonalità e tempo, il brano in onda passa alla
    sola base e la **voce** del successivo entra a tempo per 16 battute, poi il mix prosegue. Voce e base vengono
-   separate sul computer con **Demucs v4** (il modello, 174 MB, si scarica dal pannello AI DJ la prima volta) e
+   separate sul computer con **Demucs v4** (il modello, 174 MB, è già incluso nell'installer) e
    salvate su disco. Il pulsante **STEM** di ogni deck passa tra brano completo, solo voce e solo base.
 
 Puoi lasciare scegliere all'AI dalla libreria o da una playlist, oppure darle una coda. I pulsanti **Mixa ora** e

@@ -46,7 +46,7 @@
     },
     {
       "file": "htdemucs.onnx",
-      "bundle": false,
+      "bundle": true,
       "onDemand": true,
       "bytes": 174264722,
       "sha256": "b9b27414530f0a08125ecb5b470191073bb81f7e1431df844169320a4c5e1a2f",

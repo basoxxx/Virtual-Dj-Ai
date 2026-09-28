@@ -25,9 +25,11 @@ function downloadedModel(userData, name) {
   return fs.existsSync(file) ? file : null;
 }
 
-function modelStatus(userData, name) {
+function modelStatus(userData, name, bundledDir = null) {
   const m = entry(name);
-  const file = downloadedModel(userData, name);
+  // incluso nell'installer ("bundle": true) oppure scaricato su richiesta
+  const bundled = bundledDir && path.join(bundledDir, name);
+  const file = bundled && fs.existsSync(bundled) ? bundled : downloadedModel(userData, name);
   const size = file ? fs.statSync(file).size : 0;
   return { name, installed: size === m.bytes, bytes: m.bytes };
 }
