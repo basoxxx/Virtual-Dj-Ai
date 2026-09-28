@@ -1,7 +1,7 @@
 // Client del worker del pianificatore delle transizioni (modello C, sperimentale).
 import { transitionInput } from './transition-model.js';
 
-export const TRANSITION_MODEL = 'transition-planner-v6-int8.onnx';
+export const TRANSITION_MODEL = 'segueo-transizioni-v7.onnx';
 // finestra del modello in battute: 128 per v1-v4, 256 dalla v5 (fino a 64 misure)
 export const TRANSITION_MODEL_BEATS = 256;
 

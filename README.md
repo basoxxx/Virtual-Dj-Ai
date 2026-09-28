@@ -167,6 +167,15 @@ I pesi non stanno nel repository: i file `.onnx` sono asset della GitHub Release
 `npm run models` scarica quelli inclusi nell'app (`--all` anche le altre varianti); CI e rilascio lo fanno
 prima di test e build. Senza modello l'app funziona con l'analisi classica.
 
+| File | Funzione | Origine |
+| --- | --- | --- |
+| `segueo-analisi-battute.onnx` | battute e battute forti dei brani (3,9 MB) | Beat This! small0 (CPJKU, MIT), int8 |
+| `segueo-transizioni-v7.onnx` | curve di crossfader, EQ e filtri delle transizioni dell'AI DJ (6,9 MB) | modello C di questo progetto (`ml/transitions/`), int8 |
+| `segueo-separazione-voce.onnx` | voce e base separate per i mashup (174 MB) | Demucs v4 htdemucs (Meta, codice MIT) |
+
+Nella release restano anche i nomi precedenti (`beat_this-small0-int8.onnx`, `transition-planner-v*.onnx`,
+`htdemucs.onnx`), usati dalle versioni già installate.
+
 Per rigenerarli (Python 3.12, vedi `ml/requirements.txt`):
 
 ```bash

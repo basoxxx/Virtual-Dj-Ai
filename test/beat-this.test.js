@@ -185,7 +185,7 @@ test('modelli: l\'app usa modelli inclusi nel pacchetto e scaricati da npm run m
   for (const m of manifest.models) assert.match(m.sha256, /^[0-9a-f]{64}$/);
 });
 
-const BUNDLED = `${MODELS}beat_this-small0-int8.onnx`;
+const BUNDLED = `${MODELS}segueo-analisi-battute.onnx`;
 test('Beat This! small0 int8: BPM e prima battuta forte su brani a tempo noto', { skip: !existsSync(BUNDLED) && 'modello non scaricato' }, async () => {
   const ort = await import('onnxruntime-web');
   ort.env.wasm.numThreads = 1;

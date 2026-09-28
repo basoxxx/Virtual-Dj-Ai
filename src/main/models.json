@@ -4,7 +4,7 @@
   "models": [
     {
       "file": "beat_this-small0-int8.onnx",
-      "bundle": true,
+      "bundle": false,
       "bytes": 3900736,
       "sha256": "7cdf1841dbb8ec44d456b93a9d5105b47d164eb48bc371db11f4a05f7be8111a",
       "source": "Beat This! small0 (CPJKU, MIT), ml/beat_this/export_onnx.py, int8 dinamico"
@@ -46,8 +46,7 @@
     },
     {
       "file": "htdemucs.onnx",
-      "bundle": true,
-      "onDemand": true,
+      "bundle": false,
       "bytes": 174264722,
       "sha256": "b9b27414530f0a08125ecb5b470191073bb81f7e1431df844169320a4c5e1a2f",
       "source": "Demucs v4 htdemucs (Meta, codice MIT; licenza dei pesi non dichiarata, uso deciso dall'utente), ml/mashup/export_demucs.py, fp32 senza STFT"
@@ -96,7 +95,7 @@
     },
     {
       "file": "transition-planner-v6-int8.onnx",
-      "bundle": true,
+      "bundle": false,
       "bytes": 6946394,
       "sha256": "04bdb99c8da5829105d4b2580ba2171ba1413fb41cbe11b8339060dee8ceebf1",
       "source": "Modello C v6: v4 + 1000 passi con finestre fino a 256 battute, Gand e Mixotic a metà, generatore con 10 gruppi di genere (MTG-Jamendo) e meno sintetici; int8 dinamico"
@@ -107,6 +106,35 @@
       "bytes": 25897335,
       "sha256": "91cf61ff32abcda1ec0ebfddb0af25474face63f9166c379d8c9058be230be1e",
       "source": "Modello C v6, fp32"
+    },
+    {
+      "file": "segueo-analisi-battute.onnx",
+      "bundle": true,
+      "bytes": 3900736,
+      "sha256": "7cdf1841dbb8ec44d456b93a9d5105b47d164eb48bc371db11f4a05f7be8111a",
+      "source": "Analisi di battute e battute forti: Beat This! small0 (CPJKU, MIT), int8 dinamico; stesso file di beat_this-small0-int8.onnx"
+    },
+    {
+      "file": "segueo-transizioni-v7.onnx",
+      "bundle": true,
+      "bytes": 6946394,
+      "sha256": "37dc1755ca4b4e648573be1ffeb2f85e5ca592832871d6ea3a3bfbcef4ff57f5",
+      "source": "Transizioni dell'AI DJ (modello C v7): v6 rifinita anche su 27 transizioni dei mix di Gabry Ponte (solo in locale), finestre fino a 256 battute; int8 dinamico"
+    },
+    {
+      "file": "segueo-transizioni-v7-fp32.onnx",
+      "bundle": false,
+      "bytes": 25897335,
+      "sha256": "33cce6c957c4b18bd186982cb176fad4cd1d8d37b6488bbbae85e63652bc3e00",
+      "source": "Transizioni dell'AI DJ v7, fp32"
+    },
+    {
+      "file": "segueo-separazione-voce.onnx",
+      "bundle": true,
+      "onDemand": true,
+      "bytes": 174264722,
+      "sha256": "b9b27414530f0a08125ecb5b470191073bb81f7e1431df844169320a4c5e1a2f",
+      "source": "Separazione di voce e base per i mashup: Demucs v4 htdemucs (Meta, codice MIT; licenza dei pesi non dichiarata, uso deciso dall'utente), fp32 senza STFT; stesso file di htdemucs.onnx"
     }
   ]
 }

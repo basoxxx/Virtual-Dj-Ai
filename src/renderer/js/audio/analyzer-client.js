@@ -2,7 +2,7 @@
 import { BT_SAMPLE_RATE } from '../dsp/beat-this.js';
 
 // modello Beat This! incluso nell'app (scaricato da npm run models)
-export const BEAT_MODEL = 'beat_this-small0-int8.onnx';
+export const BEAT_MODEL = 'segueo-analisi-battute.onnx';
 // dopo questo tempo senza richieste il worker si chiude: la memoria WASM del modello torna libera
 const IDLE_MS = 20000;
 
