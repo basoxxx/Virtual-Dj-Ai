@@ -27,6 +27,12 @@ from model import TransitionPlanner  # noqa: E402
 def convert(onnx_path: Path) -> dict:
     m = onnx.load(str(onnx_path))
     inits = {i.name: numpy_helper.to_array(i) for i in m.graph.initializer}
+    if "net.pos" not in inits:
+        # dalla v5 la tabella delle posizioni passa da uno slice e l'export la salva come costante senza nome
+        pos = [k for k, v in inits.items() if v.ndim == 3 and v.shape[0] == 1]
+        if len(pos) != 1:
+            raise SystemExit(f"tabella delle posizioni non trovata ({len(pos)} candidati)")
+        inits["net.pos"] = inits.pop(pos[0])
     net = TransitionPlanner(N_IN, max_beats=inits["net.pos"].shape[1])
     sd = net.state_dict()
     out = {}
