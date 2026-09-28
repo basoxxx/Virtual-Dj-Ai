@@ -26,10 +26,11 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
 
 1. **Analizza** in background tutta la libreria: BPM, beatgrid, tonalità (Camelot), energia 1–10,
    struttura del brano (intro, outro, frasi da 8 battute) e punti di mix. Battute e battute forti vengono da
-   **Beat This!**, una rete neurale open source (CPJKU, licenza MIT) che gira sul computer con la sola CPU;
+   **Segueo Analisi battute**, una rete neurale basata su Beat This! (CPJKU, licenza MIT) che gira sul computer con
+   la sola CPU;
    in **Impostazioni → AI locale → Motore di analisi** si può tornare all'analisi classica, che resta comunque
    il ripiego automatico se il modello manca o dà errore. L'analisi è ibrida: il classico dà subito BPM e forma
-   d'onda, Beat This! rifinisce poi battute, battuta forte e struttura in background.
+   d'onda, Segueo Analisi battute rifinisce poi battute, battuta forte e struttura in background.
 2. **Sceglie il brano successivo** tra quelli compatibili: tonalità armonica, BPM vicini (anche metà/doppio tempo),
    energia coerente con la strategia scelta (*mantieni*, *crescente*, *onde*, *rilassata*, *picco*), genere, varietà.
    Nel pannello "Diario dell'AI" spiega ogni scelta.
@@ -48,7 +49,8 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    roll, eco, filtro in salita e ripetizione della frase appena suonata.
 6. **Mashup** (opzione): quando il brano successivo è compatibile per tonalità e tempo, il brano in onda passa alla
    sola base e la **voce** del successivo entra a tempo per 16 battute, poi il mix prosegue. Voce e base vengono
-   separate sul computer con **Demucs v4** (il modello, 174 MB, è già incluso nell'installer) e
+   separate sul computer con **Segueo Separazione voce**, basato su Demucs v4 (il modello, 174 MB, è già incluso
+   nell'installer) e
    salvate su disco. Il pulsante **STEM** di ogni deck passa tra brano completo, solo voce e solo base.
 
 Puoi lasciare scegliere all'AI dalla libreria o da una playlist, oppure darle una coda. I pulsanti **Mixa ora** e

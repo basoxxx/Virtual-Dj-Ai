@@ -68,7 +68,7 @@ export class DeckUI {
     this.slipBtn = button('SLIP', { className: 'small toggle', title: 'Slip: dopo loop/scratch riprende dove sarebbe arrivato', onClick: () => d.setSlip(!d.slip) });
     this.revBtn = button('REV', { className: 'small toggle', title: 'Riproduzione al contrario', onClick: () => d.setReverse(!d.reverse) });
     this.censorBtn = button('CENSOR', { className: 'small', title: 'Tieni premuto: reverse momentaneo con slip', onDown: () => d.censor(true), onUp: () => d.censor(false) });
-    this.stemBtn = button('STEM', { className: 'small toggle', title: 'Brano completo / solo voce / solo base (separazione con Demucs, sul computer)', onClick: () => this.cycleStem() });
+    this.stemBtn = button('STEM', { className: 'small toggle', title: 'Brano completo / solo voce / solo base (Segueo Separazione voce, sul computer)', onClick: () => this.cycleStem() });
     const jogCol = el('div', { class: 'jog-col' }, this.jogCanvas,
       el('div', { class: 'row tight' }, this.vinylBtn, this.slipBtn, this.revBtn, this.censorBtn, this.stemBtn));
 
