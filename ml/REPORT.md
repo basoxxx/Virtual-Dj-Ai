@@ -732,3 +732,100 @@ lunghe, che sposta il peso verso curve sintetiche.
 I file della v5 (ONNX fp32 e int8, riferimenti per i test, risultati) sono sul branch `modello-v5-scartato`, in
 `ml/modello-scartato/v5`, fuori dalla beta; il checkpoint PyTorch si ricava con
 `onnx_to_pt.py ml/modello-scartato/v5/transition-planner-v5.onnx ml/data/runs/planner-v5.pt`.
+
+## Giorno 8 — 28 settembre 2026 (modello C v6 sul Mac)
+
+Punto di partenza: `main` (Segueo 1.6.10) con il codice della v5 (#13). I file della v5 scartata (ONNX, riferimenti,
+risultati) sono sul branch `modello-v5-scartato`, fuori da `main`.
+
+### Fatto
+
+- **Dati ricostruiti sul Mac** con il codice della v5: Gand 41 transizioni e 204 finestre fino a 256 battute (26 e 119
+  fino a 128), Mixotic 22 transizioni (46 finestre fino a 256, 59 fino a 128). Identici a quelli del cloud.
+- **"Mixotic set" della JKU** (Sonnleitner et al. 2016: 10 set, 723 brani originali, confini dei brani annotati,
+  CC BY-NC-ND 3.0): approvato da te per l'uso in locale, ma i tre link Google Drive della pagina
+  [cp.jku.at/datasets/fingerprinting](https://www.cp.jku.at/datasets/fingerprinting/) negano l'accesso anche con il
+  login (link vecchi senza chiave: servono i permessi del proprietario). Su tua decisione non ho chiesto l'accesso.
+  Non ho rifatto nemmeno i set Mixotic nuovi della v5 (3 transizioni, tracklist e brani messi insieme a mano nel cloud).
+- **Più generi:** 159 brani MTG-Jamendo (16 per gruppo, 15 per "bass") invece di 40. Un brano su 4 per gruppo (39)
+  resta fuori dal generatore (`split: test` in `selection.json`): il test dei generi ora è su brani mai visti.
+  12 minuti di estrazione delle caratteristiche.
+- **Correzioni:**
+  - generatore: con le finestre da 256 un brano uscente più corto della finestra mandava gli indici fuori dal brano;
+  - `genre_eval.py` sul dispositivo dell'addestramento (MPS);
+  - `export_onnx.py`: il controllo di parità con il dataset da 128 battute ora funziona anche sul modello da 256;
+  - `autodj-model.js`: `BARS=64` per provare le transizioni lunghe nell'app vera.
+- **Ricetta v6** (`train.py --v5-cv --v5-final --v4-baseline --tag v6 --v5-steps 1000 --v5-synth-share 8
+  --v5-shares gand=1,mixotic=1`), con le correzioni suggerite dal giorno 7:
+  - parte dalla v4 con 1000 passi (la v5 ne aveva 400);
+  - lotti da 24 transizioni reali, metà Gand e metà Mixotic, più 8 sintetiche (la v5 ne aveva 12);
+  - finestre fino a 256 battute;
+  - generatore con lunghezze fino a 256 e 10 gruppi di genere.
+  
+  Il confronto è finalmente giusto: per ogni gruppo tenuto da parte si rifà anche la v4 (stessa ricetta e stessi
+  dati della v4, senza quei set). 4 gruppi (044, 123, 281, 286 + NCS), 7,7 minuti per gruppo più 5 per il modello
+  finale (M1 Pro, MPS).
+
+### Numeri misurati
+
+Mixotic tenuti da parte, stesse finestre della valutazione della v4 (fino a 128 battute, 39 finestre; `v6-cv.json`):
+
+| | **v6** | v4 rifatta | Regole: bass swap | Regole: dissolvenza | DJ vero |
+|---|---|---|---|---|---|
+| Errore crossfader | **0,193** | 0,201 | 0,235 | 0,261 | |
+| Errore EQ | 0,154 | **0,150** | 0,206 | 0,104 | |
+| Errore del suono rispetto al mix (dB) | **1,96** | 2,05 | 2,22 | 2,15 | |
+| Errore d'inizio / fine (battute) | 12,3 / **21,7** | **9,1** / 22,4 | 18,0 / 23,6 | 25,8 / 27,7 | |
+| Scontro dei bassi | 7,1% | 8,2% | 0% | 18,1% | 12,3% |
+
+Transizioni intere:
+- **Corte** (fino a 128 battute, 5): crossfader **0,148** contro 0,192, EQ **0,159** contro 0,181, suono
+  **1,99** contro 2,13 dB.
+- **Lunghe** (129-256 battute, 17): crossfader **0,192** contro 0,198, EQ 0,150 contro **0,131**, suono 1,97 contro
+  **1,92** dB, fine 30,8 contro **26,6** battute, scontro dei bassi 12,3% contro 14,7% (DJ vero 12,1%).
+
+Crossfader di Gand con la finestra larga, set tenuti da parte (23 finestre): v6 **0,065**, v4 rifatta 0,099,
+dissolvenza 0,098, bass swap 0,120. Con finestre fino a 256 battute (41): **0,125** contro 0,154.
+L'obiettivo mancato dalla v5 (non peggiorare sul crossfader di Gand) ora è raggiunto.
+
+La v4 rilasciata sugli stessi dati ha 0,066 di errore del crossfader: ha visto tutti questi set in addestramento, quindi
+il confronto con lei non vale. Era anche il limite del confronto del giorno 7.
+
+Generi (`genre_eval.py`, 39 brani Jamendo **mai visti**, 96 transizioni sintetiche per gruppo; `genre-eval.json`):
+
+| Fuori dai generi da club / generi da club | **v6** | v4 | Regole: dissolvenza |
+|---|---|---|---|
+| Scontro dei bassi | **0,6% / 0,6%** | 2,3% / 3,7% | 12,6% / 13,5% |
+| Errore crossfader | **0,097 / 0,090** | 0,113 / 0,102 | |
+| Errore del suono (dB) | **1,10 / 0,98** | 1,33 / 1,08 | |
+| Buchi di volume | 4,3% / 4,8% | 3,4% / 4,9% | 4,2% / 3,1% |
+
+ONNX v6 (256 × 35 → 256 × 9): fp32 identico a PyTorch, int8 errore medio 0,0026 (massimo 0,24), 6,9 MB.
+
+Tempo e memoria per transizione (onnxruntime-web WASM, 1 thread, Node, mediana di 10):
+
+| Modello | Finestra | Tempo | Memoria (con il runtime) |
+|---|---|---|---|
+| v6 | 256 battute | 108 ms | +166 MB |
+| v4 | 128 battute | 50 ms | +163 MB |
+
+Si calcola una volta per transizione. `npm run check` 68/68, `npm test` 92/92.
+
+Nell'app vera (`ml/eval/electron/autodj-model.js`):
+
+| Transizione | Piano | Crossfader | EQ |
+|---|---|---|---|
+| 8 misure | "del modello AI" | completo, metà corsa al 28% della transizione | bass swap |
+| 64 misure (256 battute, impossibile con la v4) | "del modello AI" di 64 battute | completo, metà corsa al 43% | bass swap |
+
+**La v6 sostituisce la v4 nell'app** (`TRANSITION_MODEL_BEATS` 256: transizioni del modello fino a 64 misure).
+
+### Problemi aperti
+
+- Rispetto alla v4 rifatta la v6 è più lenta a partire sulle finestre da 128 battute (3 battute in più di errore) e
+  un po' peggio sugli EQ delle transizioni lunghe.
+- I DJ veri restano 4, tutti techno/minimal. La fonte migliore resta il set della JKU (serve che il proprietario dia
+  l'accesso), oppure le tue transizioni registrate nell'app.
+- Il branch `claude/modest-allen-h4hn41` ha un commit non unito ("Repository rinominato in Segueo") che punta a
+  `basoxxx/Segueo`: il repository su GitHub si chiama ancora `Virtual-Dj-Ai`, quindi il download dei modelli dà 404 e
+  la CI fallisce. Prima di unirlo va rinominato il repository su GitHub.
