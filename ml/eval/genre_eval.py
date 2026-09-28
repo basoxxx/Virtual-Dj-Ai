@@ -1,8 +1,8 @@
 """Transizioni sintetiche tra brani Jamendo per gruppo di genere (jamendo_features.py): modelli a confronto sulle
 misure di evaluate() di train.py, soprattutto lo scontro dei bassi fuori dai generi da club.
 
-Nota: i brani Jamendo sono anche nel generatore della v5, quindi è un controllo di comportamento (la v5 ha imparato a
-scambiare i bassi fuori dai generi da club?), non una misura su brani mai visti.
+Dalla v6 si usano solo i brani con split "test" della selezione, che il generatore non usa: misura su brani mai visti.
+(Per la v5 i brani erano anche nel generatore: era solo un controllo di comportamento.)
 
 Uso:  ml/.venv/bin/python ml/eval/genre_eval.py ml/data/runs/planner-v4.pt ml/data/runs/planner-v5.pt
 """
@@ -33,7 +33,9 @@ def main():
         models[Path(path).stem] = net.eval()
     out = {}
     for club in (False, True):
-        files = [JAMENDO_FEAT / f"jam-{r['id']}.npz" for r in sel if r["club"] == club]
+        # dalla v6 solo i brani tenuti fuori dal generatore (split "test"), se la selezione li distingue
+        test_only = any(r.get("split") == "test" for r in sel)
+        files = [JAMENDO_FEAT / f"jam-{r['id']}.npz" for r in sel if r["club"] == club and (not test_only or r.get("split") == "test")]
         files = [f for f in files if f.exists()]
         # stile "umano" escluso: si guardano le decisioni del modello, non le curve del maestro
         data = Synth(seed=7, files=files, lengths=LONG_LENGTHS).batch(96)

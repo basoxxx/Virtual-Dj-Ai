@@ -5,6 +5,8 @@ Solo in locale (ml/data/jamendo, fuori da git): l'audio serve solo a calcolare l
 Fino alla v4 il generatore usava brani da club (DJ Mix Dataset) e la musica dell'utente: qui si aggiungono pop,
 rock, hip hop, R&B, funk, reggae, latin, dance… con lo stesso numero di brani per gruppo di genere.
 
+Un brano su 4 di ogni gruppo ha split "test": resta fuori dal generatore e serve a ml/eval/genre_eval.py.
+
 Dati: archivi raw_30s/audio-low 00 e 01 (circa 1100 brani) e raw_30s_cleantags.tsv del repository MTG-Jamendo in
 ml/data/jamendo. Uscita: ml/data/jamendo/selection.json e ml/data/jamendo/features/jam-<id>.npz.
 
@@ -63,7 +65,8 @@ def select(per_group: int, seed: int = 0) -> list[dict]:
             # il primo genere che compare nei gruppi decide (un brano in un solo gruppo), al massimo 2 per artista
             if r["id"] in used or artists.get(r["artist"], 0) >= 2 or not set(tags) & set(r["genres"]):
                 continue
-            chosen.append({**r, "group": name, "club": club})
+            # un brano su 4 di ogni gruppo resta fuori dal generatore: test dei generi su brani mai visti (dalla v6)
+            chosen.append({**r, "group": name, "club": club, "split": "test" if n % 4 == 3 else "train"})
             used.add(r["id"])
             artists[r["artist"]] = artists.get(r["artist"], 0) + 1
             n += 1
