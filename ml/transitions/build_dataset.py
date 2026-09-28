@@ -24,7 +24,8 @@ from gains import SMOOTH, estimate, to_controls  # noqa: E402
 DATA = ML_DIR / "data" / "djmix"
 FEAT = DATA / "features"
 ALIGN = DATA / "alignments"
-MAX_BEATS = 128
+MAX_BEATS = 256
+LEN_NORM = 128  # l'ingresso "lunghezza" è L / 128 come fino alla v4 (oltre 128 battute supera 1)
 MIN_BEATS = 16
 MARGIN = 48  # battute cercate prima/dopo i tratti rilevati per le dissolvenze
 N_DECK = 16
@@ -84,7 +85,7 @@ def deck_features(f, k: np.ndarray) -> np.ndarray:
 
 def global_features(length: int, bpm_ratio: float) -> np.ndarray:
     j = np.arange(length)
-    return np.stack([j / length, np.full(length, length / MAX_BEATS), np.full(length, np.log2(bpm_ratio))], 1).astype(np.float32)
+    return np.stack([j / length, np.full(length, length / LEN_NORM), np.full(length, np.log2(bpm_ratio))], 1).astype(np.float32)
 
 
 def median_bpm(beats: np.ndarray) -> float:

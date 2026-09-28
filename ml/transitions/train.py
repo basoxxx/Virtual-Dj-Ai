@@ -22,7 +22,7 @@ ML_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ML_DIR / "transitions"))
 from build_dataset import N_IN  # noqa: E402
 from model import TransitionPlanner, count_params, losses, mix_power  # noqa: E402
-from synth import Synth  # noqa: E402
+from synth import LONG_LENGTHS, SHORT_LENGTHS, Synth, default_files  # noqa: E402
 
 DATA = ML_DIR / "data" / "djmix"
 RUNS = ML_DIR / "data" / "runs"
@@ -30,7 +30,12 @@ DEVICE = "mps" if torch.backends.mps.is_available() else "cpu"
 
 
 def to_t(batch: dict) -> dict:
-    return {k: torch.from_numpy(np.asarray(v)).to(DEVICE) for k, v in batch.items() if k in ("X", "Y", "P", "mask", "W", "MO")}
+    """Tensori del lotto, tagliati all'ultima battuta valida: con la finestra da 256 molte finestre sono corte e
+    l'attenzione costa col quadrato della lunghezza."""
+    valid = np.asarray(batch["mask"]).any(0)
+    T = int(np.nonzero(valid)[0][-1]) + 1 if valid.any() else 1
+    cut = lambda k, v: np.asarray(v)[:, :T] if k != "MO" else np.asarray(v)  # noqa: E731
+    return {k: torch.from_numpy(cut(k, v)).to(DEVICE) for k, v in batch.items() if k in ("X", "Y", "P", "mask", "W", "MO")}
 
 
 def rules_curves(style: str, L: int) -> np.ndarray:
@@ -217,24 +222,43 @@ def eval_xf(models: dict, data: dict, idx: np.ndarray) -> dict:
     return out
 
 
-def load_gand() -> dict:
-    d = np.load(ML_DIR / "data" / "werthen" / "transitions.npz")
+def load_npz(path: Path) -> dict:
+    d = np.load(path)
     out = {k: d[k] for k in ("X", "Y", "W", "P", "mask")}
     out["meta"] = json.loads(str(d["meta"]))
     return out
 
 
-def load_mixotic() -> dict:
-    d = np.load(ML_DIR / "data" / "mixotic" / "transitions.npz")
-    out = {k: d[k] for k in ("X", "Y", "W", "P", "mask")}
-    out["meta"] = json.loads(str(d["meta"]))
+def load_gand(window: str = "") -> dict:
+    """window: "" = finestre fino a 256 battute, "-128" = come fino alla v4."""
+    return load_npz(ML_DIR / "data" / "werthen" / f"transitions{window}.npz")
+
+
+def load_mixotic(window: str = "") -> dict:
+    return load_npz(ML_DIR / "data" / "mixotic" / f"transitions{window}.npz")
+
+
+def load_mixotic_new(window: str = "") -> dict | None:
+    """Set Mixotic senza ricostruzione di Gand (mixotic_new_dataset.py), se ci sono."""
+    path = ML_DIR / "data" / "mixotic" / f"transitions-nuovi{window}.npz"
+    return load_npz(path) if path.exists() else None
+
+
+def combine(parts: list[tuple[str, dict, float, float]]) -> dict:
+    """parts: (fonte, dati, quota delle estrazioni reali, mixer noto 0/1) -> un solo insieme con probabilità p."""
+    parts = [p for p in parts if p[1] is not None and len(p[1]["X"])]
+    tot = sum(p[2] for p in parts)
+    out = {k: np.concatenate([p[1][k] for p in parts]) for k in ("X", "Y", "W", "P", "mask")}
+    out["MO"] = np.concatenate([np.full(len(p[1]["X"]), p[3], np.float32) for p in parts])
+    out["p"] = np.concatenate([np.full(len(p[1]["X"]), p[2] / tot / len(p[1]["X"])) for p in parts])
+    out["meta"] = [{**x, "fonte": p[0]} for p in parts for x in p[1]["meta"]]
     return out
 
 
-def gand_plus_mixotic(share: float = 0.5) -> dict:
+def gand_plus_mixotic(share: float = 0.5, window: str = "-128") -> dict:
     """Gand (solo crossfader, niente mixer) + Mixotic (crossfader + EQ + mixer); `share` delle estrazioni reali
-    dai mix veri di Mixotic."""
-    g, m = load_gand(), load_mixotic()
+    dai mix veri di Mixotic. Finestre da 128 battute, come per la v4."""
+    g, m = load_gand(window), load_mixotic(window)
     out = {k: np.concatenate([g[k], m[k]]) for k in ("X", "Y", "W", "P", "mask")}
     out["MO"] = np.concatenate([np.zeros(len(g["X"]), np.float32), np.ones(len(m["X"]), np.float32)])
     out["p"] = np.concatenate([np.full(len(g["X"]), (1 - share) / len(g["X"])), np.full(len(m["X"]), share / len(m["X"]))])
@@ -247,6 +271,135 @@ def load_real() -> dict:
     out = {k: d[k] for k in ("X", "Y", "P", "mask")}
     out["meta"] = json.loads(str(d["meta"]))
     return out
+
+
+V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0}
+
+
+def v5_data(window: str = "") -> dict:
+    """Gand (solo crossfader) + Mixotic dei 4 set di Gand + set Mixotic nuovi, un terzo delle estrazioni ciascuno."""
+    return combine([("gand", load_gand(window), V5_SHARES["gand"], 0.0),
+                    ("mixotic", load_mixotic(window), V5_SHARES["mixotic"], 1.0),
+                    ("mixotic-nuovi", load_mixotic_new(window), V5_SHARES["mixotic-nuovi"], 1.0)])
+
+
+def folds_of(sets: list[str]) -> list[list[str]]:
+    """Gruppi per la validazione incrociata: un set "vecchio" (con Gand) e uno nuovo per gruppo."""
+    old = sorted(s for s in sets if s in ("set044", "set123", "set281", "set286"))
+    new = sorted(s for s in sets if s not in old and s != "setncs")
+    n = max(len(old), 1)
+    groups = [[o] for o in old] or [[]]
+    for i, s in enumerate(new):
+        groups[i % n].append(s)
+    groups[-1] += [s for s in sets if s == "setncs"]
+    return groups
+
+
+def evaluate_split(models: dict, data: dict, idx: np.ndarray) -> dict:
+    """Metriche d'imitazione (evaluate) dei modelli e delle regole sulle finestre idx; None se vuote."""
+    if not len(idx):
+        return None
+    r = {"n": int(len(idx))}
+    for nm, mdl in models.items():
+        ev = evaluate(mdl, data, idx)
+        r[nm] = ev["modello"]
+    r["regole_bassswap"], r["regole_fade"], r["reale"] = ev["regole_bassswap"], ev["regole_fade"], ev["reale"]
+    r["tempi"] = eval_xf(models, data, idx)
+    return r
+
+
+def average(results: list[dict]) -> dict | None:
+    """Media pesata sul numero di finestre di dizionari annidati di metriche."""
+    results = [r for r in results if r]
+    if not results:
+        return None
+    tot = sum(r["n"] for r in results)
+
+    def rec(vals):
+        if isinstance(vals[0][0], dict):
+            return {k: rec([(v[k], n) for v, n in vals if k in v]) for k in vals[0][0]}
+        num = [(v, n) for v, n in vals if v is not None]
+        return round(sum(v * n for v, n in num) / max(1, sum(n for _, n in num)), 3) if num else None
+    return {"n": tot, **{k: rec([(r[k], r["n"]) for r in results]) for k in results[0] if k != "n"}}
+
+
+def run_v5(args) -> None:
+    from gand_dataset import human_templates
+
+    v4_state = torch.load(RUNS / "planner-v4.pt", map_location=DEVICE)
+    data = v5_data()
+    short = v5_data("-128")
+    sets = np.array([m["set"] for m in data["meta"]])
+    src = np.array([m["fonte"] for m in data["meta"]])
+    kind = np.array([m.get("kind", "") for m in data["meta"]])
+    raw = np.array([m.get("rawLength", m.get("length", 0)) for m in data["meta"]])
+    s_sets = np.array([m["set"] for m in short["meta"]])
+    s_src = np.array([m["fonte"] for m in short["meta"]])
+    s_kind = np.array([m.get("kind", "") for m in short["meta"]])
+    wide_g = lambda d: np.array([(m.get("pre"), m.get("post")) == (16, 8) for m in d["meta"]])  # noqa: E731
+    print(f"v5: {len(sets)} finestre ({', '.join(f'{f} {int((src == f).sum())}' for f in sorted(set(src)))}), dispositivo {DEVICE}", flush=True)
+
+    def v5_model(train_sets, idx, seed=0):
+        # brani del generatore: niente brani dei set tenuti da parte (i nomi contengono il set)
+        held = set(sets) - set(train_sets)
+        files = [f for f in default_files() if not any(f"-{h}-" in f.name for h in held)]
+        kw = {"templates": human_templates([s for s in train_sets if s.startswith("set")]), "lengths": LONG_LENGTHS}
+        return train(data, idx, args.v5_steps, init=v4_state, lr=1e-4, synth_share=12, synth_kwargs=kw, seed=seed,
+                     synth_files=files)
+
+    def v4_recipe(train_sets):
+        """La v4 rifatta senza il gruppo tenuto da parte: v3 + dati della v4 (finestre da 128, 4 set)."""
+        v3_state = torch.load(RUNS / "planner-v3.pt", map_location=DEVICE)
+        d4 = gand_plus_mixotic()
+        s4 = np.array([m["set"] for m in d4["meta"]])
+        kw = {"templates": human_templates([s for s in train_sets if s.startswith("set")]), "lengths": SHORT_LENGTHS}
+        return train(d4, np.where(np.isin(s4, train_sets))[0], args.v4_steps, init=v3_state, lr=1e-4, synth_share=12, synth_kwargs=kw)
+
+    if args.v5_cv:
+        v4 = TransitionPlanner(N_IN).to(DEVICE)
+        v4.load_state_dict(v4_state)
+        groups = folds_of(sorted(set(sets)))
+        chosen = [int(i) for i in args.v5_folds.split(",")] if args.v5_folds else range(len(groups))
+        out_path = RUNS / "v5-cv.json"
+        results = json.loads(out_path.read_text())["perGruppo"] if out_path.exists() and args.v5_folds else {}
+        for gi in chosen:
+            held = groups[gi]
+            train_sets = sorted(set(sets) - set(held))
+            print(f"--- gruppo {gi}: tenuti da parte {held}", flush=True)
+            t0 = time.time()
+            models = {"v5": v5_model(train_sets, np.where(~np.isin(sets, held))[0]), "v4": v4}
+            if args.v4_baseline:
+                models["v4_rifatta"] = v4_recipe(train_sets)
+            mix = (np.isin(sets, held)) & (src != "gand") & np.isin(kind, ["inizio-0", "fine"])
+            s_mix = (np.isin(s_sets, held)) & (s_src != "gand") & np.isin(s_kind, ["inizio-0", "fine"])
+            r = {
+                "tenuti": held,
+                # transizioni intere fino a 256 battute: corte (<= 128) e lunghe (> 128)
+                "corte": evaluate_split(models, data, np.where(mix & (kind == "inizio-0") & (raw <= 128))[0]),
+                "lunghe": evaluate_split(models, data, np.where(mix & (kind == "inizio-0") & (raw > 128))[0]),
+                # le stesse finestre della valutazione della v4 (al massimo 128 battute, inizio e fine)
+                "finestre128": evaluate_split(models, short, np.where(s_mix)[0]),
+                "gandLarga": None,
+                "minuti": None,
+            }
+            gw = np.where(np.isin(s_sets, held) & (s_src == "gand") & wide_g(short))[0]
+            if len(gw):
+                r["gandLarga"] = {"n": int(len(gw)), **eval_xf(models, short, gw)}
+            gl = np.where(np.isin(sets, held) & (src == "gand") & wide_g(data))[0]
+            if len(gl):
+                r["gandLargaFino256"] = {"n": int(len(gl)), **eval_xf(models, data, gl)}
+            r["minuti"] = round((time.time() - t0) / 60, 1)
+            results[str(gi)] = r
+            print(json.dumps(r, ensure_ascii=False), flush=True)
+            summary = {k: average([x.get(k) for x in results.values()])
+                       for k in ("corte", "lunghe", "finestre128", "gandLarga", "gandLargaFino256")}
+            out_path.write_text(json.dumps({"passi": args.v5_steps, "gruppi": groups, "perGruppo": results, "media": summary},
+                                           indent=1, ensure_ascii=False))
+        print("MEDIA", json.dumps(summary, ensure_ascii=False), flush=True)
+    if args.v5_final:
+        m5 = v5_model(sorted(set(sets)), np.arange(len(sets)))
+        torch.save(m5.state_dict(), RUNS / "planner-v5.pt")
+        print(f"salvato {RUNS / 'planner-v5.pt'}", flush=True)
 
 
 def main():
@@ -269,6 +422,11 @@ def main():
     ap.add_argument("--v4-cv", action="store_true", help="v4: v3 rifinita anche sui mix veri di Mixotic (crossfader + EQ), un set tenuto da parte alla volta")
     ap.add_argument("--v4-final", action="store_true", help="v4 su tutti i set (salva planner-v4.pt)")
     ap.add_argument("--v4-steps", type=int, default=800)
+    ap.add_argument("--v5-cv", action="store_true", help="v5: v4 con finestra da 256 battute, set Mixotic nuovi e generatore con più generi; un gruppo di set tenuto da parte alla volta")
+    ap.add_argument("--v5-final", action="store_true", help="v5 su tutti i set (salva planner-v5.pt)")
+    ap.add_argument("--v5-steps", type=int, default=800)
+    ap.add_argument("--v5-folds", default="", help="solo questi gruppi della validazione incrociata (indici separati da virgola)")
+    ap.add_argument("--v4-baseline", action="store_true", help="con --v5-cv: rifà anche la v4 per ogni gruppo (stessa ricetta, dati della v4)")
     ap.add_argument("--pre-steps", type=int, default=4000)
     ap.add_argument("--ft-steps", type=int, default=600)
     args = ap.parse_args()
@@ -406,6 +564,9 @@ def main():
             m4 = v4_model(sorted(set(sets)), np.arange(len(sets)))
             torch.save(m4.state_dict(), RUNS / "planner-v4.pt")
             print(f"salvato {RUNS / 'planner-v4.pt'}", flush=True)
+
+    if args.v5_cv or args.v5_final:
+        run_v5(args)
     if not (args.cv or args.final):
         return
     init = torch.load(pre_path, map_location=DEVICE)

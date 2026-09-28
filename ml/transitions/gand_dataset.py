@@ -5,14 +5,16 @@ uso deciso dall'utente il 27/09/2026.
 Dal JSON di ogni set: clip (inizio nel mix, punto di partenza nel brano, fattore di velocità "stretch", lato A/B),
 eventi del crossfader (secondi, 0 = lato A, 1 = lato B, interpolazione lineare) e tratti in cui si muove.
 Per ogni tratto: brano uscente = clip sul lato di partenza, entrante = clip sull'altro lato; finestra dalla battuta
-forte (griglia del set, BPM costante) prima dell'inizio del movimento fino alla fine, al massimo 128 battute.
+forte (griglia del set, BPM costante) prima dell'inizio del movimento fino alla fine, al massimo --window battute
+(256, oppure 128 come fino alla v4: ml/data/werthen/transitions-128.npz).
 Obiettivo: solo il crossfader (0 = solo uscente, 1 = solo entrante); EQ e filtri esclusi dalla perdita.
 
-Uso:  ml/.venv/bin/python ml/transitions/gand_dataset.py   -> ml/data/werthen/transitions.npz
+Uso:  ml/.venv/bin/python ml/transitions/gand_dataset.py [--window 128]   -> ml/data/werthen/transitions[-128].npz
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -26,7 +28,8 @@ from gand_features import name_of  # noqa: E402
 
 ROOT = ML_DIR / "data" / "werthen" / "extracted"
 FEAT = ML_DIR / "data" / "werthen" / "features"
-OUT = ML_DIR / "data" / "werthen" / "transitions.npz"
+DATA = ML_DIR / "data" / "werthen"
+WINDOW = MAX_BEATS
 # pesi per controllo: solo il crossfader è noto
 XF_ONLY = np.array([1, 0, 0, 0, 0, 0, 0, 0, 0], np.float32)
 
@@ -95,7 +98,7 @@ def transitions_of_set(set_name: str, pre_beats: int = 0, post_beats: int = 4) -
         # finestra: dalla battuta forte prima del movimento (anticipata di pre_beats) fino a post_beats dopo
         t0 = np.floor(s / bar) * bar - pre_beats * beat
         L = int(np.ceil((e - t0) / beat)) + post_beats
-        if L > MAX_BEATS:
+        if L > WINDOW:
             too_long += 1
             continue
         times = t0 + np.arange(L) * beat
@@ -119,6 +122,11 @@ WINDOWS = [(0, 4), (4, 8), (8, 4), (16, 8), (32, 8)]
 
 
 def main():
+    global WINDOW
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--window", type=int, default=MAX_BEATS, help="finestra massima in battute (128 = come fino alla v4)")
+    WINDOW = ap.parse_args().window
+    out = DATA / ("transitions.npz" if WINDOW == MAX_BEATS else f"transitions-{WINDOW}.npz")
     items, skipped = [], 0
     for set_dir in sorted(p for p in ROOT.iterdir() if p.is_dir()):
         for pre, post in WINDOWS:
@@ -126,7 +134,7 @@ def main():
             items += tr
             if (pre, post) == WINDOWS[0]:
                 skipped += n
-                print(f"{set_dir.name}: {len(tr)} transizioni ({n} oltre 128 battute escluse)")
+                print(f"{set_dir.name}: {len(tr)} transizioni ({n} oltre {WINDOW} battute escluse)")
     n = len(items)
     X = np.zeros((n, MAX_BEATS, N_IN), np.float32)
     Y = np.zeros((n, MAX_BEATS, 9), np.float32)
@@ -136,7 +144,7 @@ def main():
         L = it["length"]
         X[i, :L], Y[i, :L], mask[i, :L], W[i, :L] = it["x"], it["y"], True, XF_ONLY
     meta = [{k: v for k, v in it.items() if k not in ("x", "y")} for it in items]
-    np.savez_compressed(OUT, X=X, Y=Y, W=W, P=np.zeros((n, MAX_BEATS, 9), np.float32), mask=mask, meta=json.dumps(meta))
+    np.savez_compressed(out, X=X, Y=Y, W=W, P=np.zeros((n, MAX_BEATS, 9), np.float32), mask=mask, meta=json.dumps(meta))
     dur = [m["beats"] for m in meta if (m["pre"], m["post"]) == WINDOWS[0]]
     print(f"{len(dur)} transizioni ({n} finestre in tutto), {skipped} escluse; durata del movimento: mediana "
           f"{np.median(dur):.0f} battute, min {min(dur):.0f}, max {max(dur):.0f}")

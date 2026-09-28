@@ -12,15 +12,16 @@ Controlli di affidabilità:
 - confronto indipendente con la ricostruzione di Gand: istante in cui il crossfader stimato dal mix vero passa
   metà corsa contro l'istante in cui lo passa il crossfader di Gand.
 
-Finestre (al massimo 128 battute, come nell'app): da quando B si sente, anticipata di 0/4/8/16 battute; per le
+Finestre (al massimo --window battute: 256, oppure 128 come fino alla v4): da quando B si sente, anticipata di 0/4/8/16 battute; per le
 transizioni più lunghe anche quella che finisce quando A non si sente più. Pesi: crossfader 1, EQ 0,5 scalato
 sull'udibilità del proprio deck (con il deck quasi muto l'EQ non si osserva), filtri 0 (non stimati).
 
-Uso:  ml/.venv/bin/python ml/transitions/mixotic_dataset.py   -> ml/data/mixotic/transitions.npz
+Uso:  ml/.venv/bin/python ml/transitions/mixotic_dataset.py [--window 128]   -> ml/data/mixotic/transitions[-128].npz
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -35,7 +36,7 @@ from gand_features import name_of  # noqa: E402
 
 GAND = ML_DIR / "data" / "werthen"
 MIX = ML_DIR / "data" / "mixotic"
-OUT = MIX / "transitions.npz"
+WINDOW = MAX_BEATS
 SETS = ["set044", "set123", "set281", "set286"]
 TOL = 48  # battute di scarto ammesse dalla diagonale prevista
 MAX_FIT = 0.5
@@ -137,13 +138,13 @@ def build(set_name: str) -> list[dict]:
         it["gandHalfTime"] = gand_half_time(set_name, it["idA"], it["idB"])
         it["rawLength"] = R
         fa, fb = feat(it["idA"]), feat(it["idB"])
-        L = min(R, MAX_BEATS)
+        L = min(R, WINDOW)
         for pre in PRE:
             if it["kB0"] - pre < 0 or it["kA0"] - pre < 0:
                 continue  # B (o A) non esiste così presto
-            out.append({**window(it, fa, fb, -pre, min(MAX_BEATS, L + pre)), "kind": f"inizio-{pre}", "pre": pre})
-        if R > MAX_BEATS:
-            out.append({**window(it, fa, fb, R - MAX_BEATS, MAX_BEATS), "kind": "fine", "pre": 0})
+            out.append({**window(it, fa, fb, -pre, min(WINDOW, L + pre)), "kind": f"inizio-{pre}", "pre": pre})
+        if R > WINDOW:
+            out.append({**window(it, fa, fb, R - WINDOW, WINDOW), "kind": "fine", "pre": 0})
     return out
 
 
@@ -163,6 +164,11 @@ def pack(items: list[dict]) -> dict:
 
 
 def main():
+    global WINDOW
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--window", type=int, default=MAX_BEATS, help="finestra massima in battute (128 = come fino alla v4)")
+    WINDOW = ap.parse_args().window
+    out = MIX / ("transitions.npz" if WINDOW == MAX_BEATS else f"transitions-{WINDOW}.npz")
     kept = []
     for s in SETS:
         tr = build(s)
@@ -176,12 +182,12 @@ def main():
             print(f"  {t['posA']:2d}->{t['posA'] + 1:2d}  battute {t['rawLength']:3d}  fit {t['fitError']:.3f}  "
                   f"metà crossfader {half}  vs Gand {dt}")
         kept += [t for t in tr if t["posA"] in ok]
-    np.savez_compressed(OUT, **pack(kept))
+    np.savez_compressed(out, **pack(kept))
     base = [t for t in kept if t["kind"] == "inizio-0"]
     dts = [abs(t["halfTime"] - t["gandHalfTime"]) for t in base if t["halfTime"] is not None and t["gandHalfTime"] is not None]
     raw = [t["rawLength"] for t in base]
     print(f"{len(base)} transizioni tenute ({len(kept)} finestre); durata completa: mediana {np.median(raw):.0f} battute "
-          f"(min {min(raw)}, max {max(raw)}, {sum(r > MAX_BEATS for r in raw)} oltre {MAX_BEATS}); "
+          f"(min {min(raw)}, max {max(raw)}, {sum(r > WINDOW for r in raw)} oltre {WINDOW}); "
           f"fit mediano {np.median([t['fitError'] for t in base]):.3f}; "
           f"metà crossfader vs Gand: mediana {np.median(dts):.1f} s su {len(dts)}")
 
