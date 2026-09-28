@@ -10,12 +10,12 @@ const require = createRequire(import.meta.url);
 const updater = require('../src/main/updater.js');
 
 const ASSETS = [
-  'Segueo-1.5.3-win-x64.msi',
-  'Segueo-win-x64.msi',
-  'Segueo-mac-arm64.dmg',
-  'Segueo-1.5.3-mac-arm64.dmg',
-  'Segueo-1.5.3-mac-x64.dmg',
-  'Segueo-linux-x86_64.AppImage',
+  'Virtual-DJ-AI-1.5.3-win-x64.msi',
+  'Virtual-DJ-AI-win-x64.msi',
+  'Virtual-DJ-AI-mac-arm64.dmg',
+  'Virtual-DJ-AI-1.5.3-mac-arm64.dmg',
+  'Virtual-DJ-AI-1.5.3-mac-x64.dmg',
+  'Virtual-DJ-AI-linux-x86_64.AppImage',
 ].map((name) => ({ name, browser_download_url: `https://example.test/${name}`, size: 10 }));
 
 test('compareVersions', () => {
@@ -26,10 +26,10 @@ test('compareVersions', () => {
 });
 
 test('pickAsset: installer giusto per sistema e architettura', () => {
-  assert.equal(updater.pickAsset(ASSETS, 'win32', 'x64').name, 'Segueo-1.5.3-win-x64.msi');
-  assert.equal(updater.pickAsset(ASSETS, 'darwin', 'arm64').name, 'Segueo-1.5.3-mac-arm64.dmg');
-  assert.equal(updater.pickAsset(ASSETS, 'darwin', 'x64').name, 'Segueo-1.5.3-mac-x64.dmg');
-  assert.equal(updater.pickAsset(ASSETS, 'linux', 'x64').name, 'Segueo-linux-x86_64.AppImage');
+  assert.equal(updater.pickAsset(ASSETS, 'win32', 'x64').name, 'Virtual-DJ-AI-1.5.3-win-x64.msi');
+  assert.equal(updater.pickAsset(ASSETS, 'darwin', 'arm64').name, 'Virtual-DJ-AI-1.5.3-mac-arm64.dmg');
+  assert.equal(updater.pickAsset(ASSETS, 'darwin', 'x64').name, 'Virtual-DJ-AI-1.5.3-mac-x64.dmg');
+  assert.equal(updater.pickAsset(ASSETS, 'linux', 'x64').name, 'Virtual-DJ-AI-linux-x86_64.AppImage');
   assert.equal(updater.pickAsset(ASSETS, 'freebsd', 'x64'), null);
 });
 
@@ -46,7 +46,7 @@ test('checkForUpdates: confronta con l\'ultima release e legge il digest', async
   const newer = await updater.checkForUpdates('1.4.5', { platform: 'darwin', arch: 'x64', fetchImpl });
   assert.equal(newer.available, true);
   assert.equal(newer.latest, '1.5.3');
-  assert.equal(newer.asset.name, 'Segueo-1.5.3-mac-x64.dmg');
+  assert.equal(newer.asset.name, 'Virtual-DJ-AI-1.5.3-mac-x64.dmg');
   assert.equal(newer.asset.sha256, 'abc');
   const same = await updater.checkForUpdates('1.5.3', { platform: 'darwin', arch: 'x64', fetchImpl });
   assert.equal(same.available, false);
@@ -83,16 +83,15 @@ test('download: verifica SHA-256 e rifiuta file alterati', async () => {
 });
 
 test('installScript: aspetta la chiusura, installa e riapre', () => {
-  const mac = updater.installScript('darwin', { pid: 42, installer: '/tmp/u/a.dmg', execPath: '/Applications/Segueo.app/Contents/MacOS/Segueo' });
+  const mac = updater.installScript('darwin', { pid: 42, installer: '/tmp/u/a.dmg', execPath: '/Applications/Virtual DJ AI.app/Contents/MacOS/Virtual DJ AI' });
   assert.match(mac.content, /kill -0 "\$PID"/);
-  assert.match(mac.content, /APP="\/Applications\/Segueo\.app"/);
+  assert.match(mac.content, /APP="\/Applications\/Virtual DJ AI\.app"/);
   assert.match(mac.content, /hdiutil attach/);
   assert.match(mac.content, /ditto/);
-  assert.match(mac.content, /DEST="\$\(dirname "\$APP"\)\/\$\(basename "\$SRC"\)"/);
-  assert.match(mac.content, /open "\$DEST"/);
-  const win = updater.installScript('win32', { pid: 7, installer: 'C:\\T\\a.msi', execPath: 'C:\\P\\Segueo.exe' });
+  assert.match(mac.content, /open "\$APP"/);
+  const win = updater.installScript('win32', { pid: 7, installer: 'C:\\T\\a.msi', execPath: 'C:\\P\\Virtual DJ AI.exe' });
   assert.match(win.content, /msiexec \/i "C:\\T\\a\.msi" \/passive/);
-  assert.match(win.content, /start "" "C:\\P\\Segueo\.exe"/);
+  assert.match(win.content, /start "" "C:\\P\\Virtual DJ AI\.exe"/);
   const lin = updater.installScript('linux', { pid: 1, installer: '/tmp/a.AppImage', appImage: '/home/u/VDJ.AppImage' });
   assert.match(lin.content, /mv "\/home\/u\/VDJ\.AppImage\.new" "\/home\/u\/VDJ\.AppImage"/);
   assert.equal(updater.installScript('linux', { pid: 1, installer: '/tmp/a' }), null);

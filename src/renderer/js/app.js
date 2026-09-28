@@ -148,7 +148,7 @@ class App {
       if (!e.detail) this.recTime.textContent = '';
     });
     const top = el('header', { class: 'topbar' },
-      el('div', { class: 'logo' }, el('img', { class: 'logo-img', src: 'img/icon.png', alt: '' }), 'Segueo'),
+      el('div', { class: 'logo' }, el('img', { class: 'logo-img', src: 'img/icon.png', alt: '' }), 'Virtual DJ ', el('b', {}, 'AI')),
       this.progress,
       el('div', { class: 'spacer' }),
       this.updateUI.badge, this.recBtn, this.recTime, this.automixBtn, this.midiBadge,

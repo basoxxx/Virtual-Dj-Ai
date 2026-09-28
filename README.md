@@ -1,8 +1,8 @@
-# Segueo
+# Virtual DJ AI
 
 🌐 **Sito:** https://basoxxx.github.io/Virtual-Dj-Ai/
 
-Software DJ desktop per **Windows**, **macOS** e **Linux** con un'**AI che mixa in automatico**
+Software DJ desktop per **Windows**, **macOS** e **Linux**, ispirato a VirtualDJ, con un'**AI che mixa in automatico**
 (anche collegata a un modello linguistico locale): due deck, mixer completo,
 effetti, sampler, microfono, ingressi linea dalla scheda audio, uscita cuffia separata, controller MIDI,
 registrazione del mix e automix.
@@ -12,13 +12,13 @@ Ad ogni push o merge su `main`, GitHub Actions compila e pubblica automaticament
 
 | Sistema | File |
 | --- | --- |
-| Windows 10/11 | `Segueo-<versione>-win-x64.msi` |
-| macOS Apple Silicon | `Segueo-<versione>-mac-arm64.dmg` |
-| macOS Intel | `Segueo-<versione>-mac-x64.dmg` |
-| Linux | `Segueo-<versione>-linux-x86_64.AppImage` |
+| Windows 10/11 | `Virtual-DJ-AI-<versione>-win-x64.msi` |
+| macOS Apple Silicon | `Virtual-DJ-AI-<versione>-mac-arm64.dmg` |
+| macOS Intel | `Virtual-DJ-AI-<versione>-mac-x64.dmg` |
+| Linux | `Virtual-DJ-AI-<versione>-linux-x86_64.AppImage` |
 
 > **macOS:** l'app non è firmata con un certificato Apple. Al primo avvio fai clic destro sull'app → **Apri**,
-> oppure esegui `xattr -cr "/Applications/Segueo.app"` nel Terminale.
+> oppure esegui `xattr -cr "/Applications/Virtual DJ AI.app"` nel Terminale.
 
 ## 🤖 AI DJ: mix automatico con AI locale
 
@@ -63,7 +63,7 @@ lo stato del programma (play, cue, sync, hot cue, loop, preascolto, effetti…).
 
 - **Qualsiasi altra console MIDI** si configura in un minuto con la **procedura guidata** (Impostazioni → 🎛 Console DJ):
   ti chiede un controllo alla volta. Ogni controllo si può anche correggere con **Learn** o invertire (⇅).
-- Le mappature si possono **esportare e importare** (file `.segueo.json`) per condividerle.
+- Le mappature si possono **esportare e importare** (file `.vdjai.json`) per condividerle.
 - I profili seguono la documentazione MIDI pubblica dei produttori; se su un modello un comando non risponde,
   basta correggerlo con Learn: le correzioni personali hanno sempre la precedenza.
 - **Gamepad** Xbox, PlayStation, Switch Pro e simili funzionano come console (play, cue, sync, crossfader sui grilletti, jog sugli stick).
