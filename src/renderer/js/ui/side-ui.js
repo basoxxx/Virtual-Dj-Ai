@@ -182,7 +182,7 @@ export class SideUI {
       if (this.mashCheck.checked && this.stems && this.stems.modelInstalled === false) toast('Per i mashup scarica il modello che separa voce e base', 'warn');
     });
     this.mashInfo = el('span', { class: 'mini-label' });
-    this.mashBtn = button('Scarica modello (174 MB)', { className: 'small', title: 'Demucs v4: separa voce e base dei brani, sul computer', onClick: async () => {
+    this.mashBtn = button('Scarica modello (174 MB)', { className: 'small', title: 'Segueo Separazione voce: separa voce e base dei brani, sul computer', onClick: async () => {
       this.mashBtn.disabled = true;
       try {
         if (await this.stems.downloadModel()) toast('Modello per i mashup installato');
@@ -308,7 +308,7 @@ export class SideUI {
     } else if (st.running) {
       text = `Separo voce e base: ${st.running.track.title} ${Math.round(st.running.progress * 100)}%${st.queue.length ? ` (+${st.queue.length} in coda)` : ''}`;
     } else if (st.modelInstalled === false) {
-      text = 'Per i mashup serve il modello Demucs (una volta sola)';
+      text = 'Per i mashup serve il modello Segueo Separazione voce (una volta sola)';
     } else if (st.modelInstalled) {
       text = 'Modello per i mashup installato';
     }

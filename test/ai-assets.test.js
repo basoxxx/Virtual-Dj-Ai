@@ -10,15 +10,15 @@ const aiAssets = require('../src/main/ai-assets.js');
 const manifest = require('../src/main/models.json');
 
 test('modelStatus: Demucs incluso nell\'installer risulta installato senza scaricarlo', () => {
-  const demucs = manifest.models.find((m) => m.file === 'htdemucs.onnx');
+  const demucs = manifest.models.find((m) => m.file === 'segueo-separazione-voce.onnx');
   assert.equal(demucs.bundle, true);
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'segueo-models-'));
   const userData = path.join(root, 'userData');
   const bundledDir = path.join(root, 'bundled');
-  assert.equal(aiAssets.modelStatus(userData, 'htdemucs.onnx', bundledDir).installed, false);
+  assert.equal(aiAssets.modelStatus(userData, 'segueo-separazione-voce.onnx', bundledDir).installed, false);
   fs.mkdirSync(bundledDir, { recursive: true });
-  fs.writeFileSync(path.join(bundledDir, 'htdemucs.onnx'), Buffer.alloc(demucs.bytes));
-  assert.equal(aiAssets.modelStatus(userData, 'htdemucs.onnx', bundledDir).installed, true);
-  assert.equal(aiAssets.modelStatus(userData, 'htdemucs.onnx').installed, false);
+  fs.writeFileSync(path.join(bundledDir, 'segueo-separazione-voce.onnx'), Buffer.alloc(demucs.bytes));
+  assert.equal(aiAssets.modelStatus(userData, 'segueo-separazione-voce.onnx', bundledDir).installed, true);
+  assert.equal(aiAssets.modelStatus(userData, 'segueo-separazione-voce.onnx').installed, false);
   fs.rmSync(root, { recursive: true, force: true });
 });

@@ -17,7 +17,7 @@ app.setPath('userData', tmp);
 fs.writeFileSync(path.join(tmp, 'settings.json'), JSON.stringify({ ai: { analysisEngine: 'classic', autoAnalyze: false } }));
 // il modello si copia invece di riscaricarlo (il download è provato a parte)
 fs.mkdirSync(path.join(tmp, 'models'));
-fs.copyFileSync(path.join(REPO, 'ml', 'data', 'onnx', 'htdemucs.onnx'), path.join(tmp, 'models', 'htdemucs.onnx'));
+fs.copyFileSync(path.join(REPO, 'ml', 'data', 'onnx', 'htdemucs.onnx'), path.join(tmp, 'models', 'segueo-separazione-voce.onnx'));
 require(path.join(REPO, 'src', 'main', 'main.js'));
 
 const MB = (b) => Math.round(b / 1048576);

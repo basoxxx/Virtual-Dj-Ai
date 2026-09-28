@@ -52,7 +52,7 @@
     <div class="stats-inner">
       <div class="stat reveal"><span class="stat-num">2</span><span class="stat-label">deck con scratch, keylock e sync</span></div>
       <div class="stat reveal"><span class="stat-num">35</span><span class="stat-label">console DJ riconosciute al volo</span></div>
-      <div class="stat reveal"><span class="stat-num">6</span><span class="stat-label">stili di transizione automatica</span></div>
+      <div class="stat reveal"><span class="stat-num">8</span><span class="stat-label">stili di transizione automatica</span></div>
       <div class="stat reveal"><span class="stat-num">0</span><span class="stat-label">dati inviati su internet</span></div>
     </div>
   </section>
@@ -79,7 +79,7 @@
       <li class="step reveal">
         <span class="step-num">03</span>
         <h3>Pianifica</h3>
-        <p>Sceglie il punto d'uscita all'inizio di una frase musicale e lo stile: bass swap, filtro, echo out, dissolvenza o taglio sul beat.</p>
+        <p>Sceglie il punto d'uscita all'inizio di una frase musicale e lo stile: bass swap, filtro, echo out, dissolvenza, taglio sul beat o tagli a raffica. Oppure lascia le curve al modello AI, in stile dance o techno.</p>
       </li>
       <li class="step reveal">
         <span class="step-num">04</span>
@@ -90,7 +90,7 @@
 
     <div class="ai-showcase">
       <figure class="ai-panel reveal">
-        <img src="img/ai-panel.jpg" alt="Pannello AI DJ con modalità, energia, transizioni, remix, mashup, coda e diario delle decisioni" loading="lazy">
+        <img src="img/ai-panel.jpg" alt="Pannello AI DJ a metà di una transizione con il modello AI in stile dance: modalità, energia, transizioni, remix, mashup, coda e diario delle decisioni" loading="lazy">
       </figure>
       <div class="ai-copy reveal">
         <h3>Ti dice sempre cosa sta facendo.</h3>
@@ -98,13 +98,14 @@
         <div class="log" role="presentation">
           <div><span>›</span>Prossimo: Nova Reyes — Golden Hour</div>
           <div class="log-dim">BPM 124 (−0,8%) · key 9B → 8B ✓ · energia 6 → 6</div>
-          <div class="log-dim">Transizione filtro di 16 battute alle 02:36 · brani compatibili</div>
+          <div class="log-dim">Transizione del modello AI (dance) di 16 battute alle 02:36 · curve previste dal modello AI, stile dance</div>
           <div><span>›</span>Mix in corso: Sunday Motion → Golden Hour</div>
         </div>
         <ul class="ticks">
           <li>Energia costante, crescente, a onde, rilassata o di picco</li>
           <li>Sceglie dalla libreria, da una playlist o dalla tua coda</li>
           <li>Crea scalette complete da una frase: "house al tramonto, poi sempre più energica"</li>
+          <li>Tre modi da DJ vero: dance con cambi corti e a tempo, techno con dissolvenze lunghe, tagli a raffica sul battere</li>
         </ul>
       </div>
     </div>
@@ -129,7 +130,14 @@
     <div class="soon-card reveal">
       <span class="pill">Incluso nell'app</span>
       <h2>Reti neurali nate<br>solo per mixare.</h2>
-      <p>Segueo contiene già tre modelli AI, tutti dentro l'installer: Beat This! trova i battiti e l'inizio di ogni battuta, il modello delle transizioni, allenato su DJ set veri, decide crossfader ed EQ, e Demucs separa voce e base per i mashup. Girano interamente sul tuo computer, con la sola CPU, senza connessione e senza abbonamenti.</p>
+      <p>Segueo contiene già quattro modelli AI, tutti dentro l'installer. Girano interamente sul tuo computer, con la sola CPU, senza connessione e senza abbonamenti.</p>
+      <dl class="model-list">
+        <div><dt>Segueo Analisi battute</dt><dd>Trova i battiti e l'inizio di ogni battuta. Basato su Beat This! (CPJKU).</dd></div>
+        <div><dt>Segueo Transizioni · dance</dt><dd>Decide crossfader, EQ e filtri battuta per battuta. Ha imparato i cambi corti e a tempo dei mix dance di Gabry Ponte.</dd></div>
+        <div><dt>Segueo Transizioni · techno</dt><dd>Lo stesso lavoro con le dissolvenze lunghe dei DJ set techno e minimal, anche per transizioni di 64 battute.</dd></div>
+        <div><dt>Segueo Separazione voce</dt><dd>Separa voce e base per i mashup. Basato su Demucs v4 (Meta).</dd></div>
+      </dl>
+      <p class="soon-note">I tagli a raffica seguono il ritmo misurato nei set di LUM!X: ogni brano suona 16-24 battute e il successivo entra con un taglio secco sul battere, una volta su tre direttamente dal suo drop. Segueo non è affiliato ai DJ citati.</p>
       <p class="soon-note">In più puoi collegare un modello linguistico locale (Ollama, LM Studio e compatibili) per scegliere i brani e creare scalette descritte a parole.</p>
     </div>
   </section>
@@ -229,7 +237,7 @@
         <p class="lead">Analisi, scelte e mix avvengono in locale. Se colleghi un modello linguistico, anche quello gira sulla tua macchina: nessun brano, titolo o dato lascia il PC.</p>
       </div>
       <figure class="split-shot reveal">
-        <img src="img/settings-ai.jpg" alt="Impostazioni dell'AI: motore di analisi Beat This!, vista all'avvio e modello linguistico locale facoltativo" loading="lazy">
+        <img src="img/settings-ai.jpg" alt="Impostazioni dell'AI: motore di analisi Segueo Analisi battute, vista all'avvio e modello linguistico locale facoltativo" loading="lazy">
       </figure>
     </div>
   </section>

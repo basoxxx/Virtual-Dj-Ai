@@ -732,3 +732,313 @@ lunghe, che sposta il peso verso curve sintetiche.
 I file della v5 (ONNX fp32 e int8, riferimenti per i test, risultati) sono sul branch `modello-v5-scartato`, in
 `ml/modello-scartato/v5`, fuori dalla beta; il checkpoint PyTorch si ricava con
 `onnx_to_pt.py ml/modello-scartato/v5/transition-planner-v5.onnx ml/data/runs/planner-v5.pt`.
+
+## Giorno 8 — 28 settembre 2026 (modello C v6 sul Mac)
+
+Punto di partenza: `main` (Segueo 1.6.10) con il codice della v5 (#13). I file della v5 scartata (ONNX, riferimenti,
+risultati) sono sul branch `modello-v5-scartato`, fuori da `main`.
+
+### Fatto
+
+- **Dati ricostruiti sul Mac** con il codice della v5: Gand 41 transizioni e 204 finestre fino a 256 battute (26 e 119
+  fino a 128), Mixotic 22 transizioni (46 finestre fino a 256, 59 fino a 128). Identici a quelli del cloud.
+- **"Mixotic set" della JKU** (Sonnleitner et al. 2016: 10 set, 723 brani originali, confini dei brani annotati,
+  CC BY-NC-ND 3.0): approvato da te per l'uso in locale, ma i tre link Google Drive della pagina
+  [cp.jku.at/datasets/fingerprinting](https://www.cp.jku.at/datasets/fingerprinting/) negano l'accesso anche con il
+  login (link vecchi senza chiave: servono i permessi del proprietario). Su tua decisione non ho chiesto l'accesso.
+  Non ho rifatto nemmeno i set Mixotic nuovi della v5 (3 transizioni, tracklist e brani messi insieme a mano nel cloud).
+- **Più generi:** 159 brani MTG-Jamendo (16 per gruppo, 15 per "bass") invece di 40. Un brano su 4 per gruppo (39)
+  resta fuori dal generatore (`split: test` in `selection.json`): il test dei generi ora è su brani mai visti.
+  12 minuti di estrazione delle caratteristiche.
+- **Correzioni:**
+  - generatore: con le finestre da 256 un brano uscente più corto della finestra mandava gli indici fuori dal brano;
+  - `genre_eval.py` sul dispositivo dell'addestramento (MPS);
+  - `export_onnx.py`: il controllo di parità con il dataset da 128 battute ora funziona anche sul modello da 256;
+  - `autodj-model.js`: `BARS=64` per provare le transizioni lunghe nell'app vera.
+- **Ricetta v6** (`train.py --v5-cv --v5-final --v4-baseline --tag v6 --v5-steps 1000 --v5-synth-share 8
+  --v5-shares gand=1,mixotic=1`), con le correzioni suggerite dal giorno 7:
+  - parte dalla v4 con 1000 passi (la v5 ne aveva 400);
+  - lotti da 24 transizioni reali, metà Gand e metà Mixotic, più 8 sintetiche (la v5 ne aveva 12);
+  - finestre fino a 256 battute;
+  - generatore con lunghezze fino a 256 e 10 gruppi di genere.
+  
+  Il confronto è finalmente giusto: per ogni gruppo tenuto da parte si rifà anche la v4 (stessa ricetta e stessi
+  dati della v4, senza quei set). 4 gruppi (044, 123, 281, 286 + NCS), 7,7 minuti per gruppo più 5 per il modello
+  finale (M1 Pro, MPS).
+
+### Numeri misurati
+
+Mixotic tenuti da parte, stesse finestre della valutazione della v4 (fino a 128 battute, 39 finestre; `v6-cv.json`):
+
+| | **v6** | v4 rifatta | Regole: bass swap | Regole: dissolvenza | DJ vero |
+|---|---|---|---|---|---|
+| Errore crossfader | **0,193** | 0,201 | 0,235 | 0,261 | |
+| Errore EQ | 0,154 | **0,150** | 0,206 | 0,104 | |
+| Errore del suono rispetto al mix (dB) | **1,96** | 2,05 | 2,22 | 2,15 | |
+| Errore d'inizio / fine (battute) | 12,3 / **21,7** | **9,1** / 22,4 | 18,0 / 23,6 | 25,8 / 27,7 | |
+| Scontro dei bassi | 7,1% | 8,2% | 0% | 18,1% | 12,3% |
+
+Transizioni intere:
+- **Corte** (fino a 128 battute, 5): crossfader **0,148** contro 0,192, EQ **0,159** contro 0,181, suono
+  **1,99** contro 2,13 dB.
+- **Lunghe** (129-256 battute, 17): crossfader **0,192** contro 0,198, EQ 0,150 contro **0,131**, suono 1,97 contro
+  **1,92** dB, fine 30,8 contro **26,6** battute, scontro dei bassi 12,3% contro 14,7% (DJ vero 12,1%).
+
+Crossfader di Gand con la finestra larga, set tenuti da parte (23 finestre): v6 **0,065**, v4 rifatta 0,099,
+dissolvenza 0,098, bass swap 0,120. Con finestre fino a 256 battute (41): **0,125** contro 0,154.
+L'obiettivo mancato dalla v5 (non peggiorare sul crossfader di Gand) ora è raggiunto.
+
+La v4 rilasciata sugli stessi dati ha 0,066 di errore del crossfader: ha visto tutti questi set in addestramento, quindi
+il confronto con lei non vale. Era anche il limite del confronto del giorno 7.
+
+Generi (`genre_eval.py`, 39 brani Jamendo **mai visti**, 96 transizioni sintetiche per gruppo; `genre-eval.json`):
+
+| Fuori dai generi da club / generi da club | **v6** | v4 | Regole: dissolvenza |
+|---|---|---|---|
+| Scontro dei bassi | **0,6% / 0,6%** | 2,3% / 3,7% | 12,6% / 13,5% |
+| Errore crossfader | **0,097 / 0,090** | 0,113 / 0,102 | |
+| Errore del suono (dB) | **1,10 / 0,98** | 1,33 / 1,08 | |
+| Buchi di volume | 4,3% / 4,8% | 3,4% / 4,9% | 4,2% / 3,1% |
+
+ONNX v6 (256 × 35 → 256 × 9): fp32 identico a PyTorch, int8 errore medio 0,0026 (massimo 0,24), 6,9 MB.
+
+Tempo e memoria per transizione (onnxruntime-web WASM, 1 thread, Node, mediana di 10):
+
+| Modello | Finestra | Tempo | Memoria (con il runtime) |
+|---|---|---|---|
+| v6 | 256 battute | 108 ms | +166 MB |
+| v4 | 128 battute | 50 ms | +163 MB |
+
+Si calcola una volta per transizione. `npm run check` 68/68, `npm test` 92/92.
+
+Nell'app vera (`ml/eval/electron/autodj-model.js`):
+
+| Transizione | Piano | Crossfader | EQ |
+|---|---|---|---|
+| 8 misure | "del modello AI" | completo, metà corsa al 28% della transizione | bass swap |
+| 64 misure (256 battute, impossibile con la v4) | "del modello AI" di 64 battute | completo, metà corsa al 43% | bass swap |
+
+**La v6 sostituisce la v4 nell'app** (`TRANSITION_MODEL_BEATS` 256: transizioni del modello fino a 64 misure).
+
+### Problemi aperti
+
+- Rispetto alla v4 rifatta la v6 è più lenta a partire sulle finestre da 128 battute (3 battute in più di errore) e
+  un po' peggio sugli EQ delle transizioni lunghe.
+- I DJ veri restano 4, tutti techno/minimal. La fonte migliore resta il set della JKU (serve che il proprietario dia
+  l'accesso), oppure le tue transizioni registrate nell'app.
+- Il branch `claude/modest-allen-h4hn41` ha un commit non unito ("Repository rinominato in Segueo") che punta a
+  `basoxxx/Segueo`: il repository su GitHub si chiama ancora `Virtual-Dj-Ai`, quindi il download dei modelli dà 404 e
+  la CI fallisce. Prima di unirlo va rinominato il repository su GitHub.
+
+## Giorno 9 — 28 settembre 2026 (modello C v7: le transizioni di Gabry Ponte)
+
+### Fatto
+
+- **Richiesta:** imparare dai DJ set di Gabry Ponte (mashup o mix live). Su tua decisione: audio con copyright solo in
+  locale (`ml/data/gabry`), solo per le caratteristiche; nel repository e nella release solo i pesi.
+- **Tracklist** da 1001tracklists (388 tracklist di Gabry Ponte), lette dal browser:
+  - scartati i live (San Siro 2025: ospiti sul palco, niente tempi né audio);
+  - dopo 6 pagine il sito ha chiesto la verifica "umana" e mi sono fermato;
+  - SPUTNIK Club, Record Club Guest Mix 135 e DJ Mag Brasil 031 sono lo stesso mix, quindi i mix distinti sono 4:
+
+  | Mix | Durata | Brani | Tempi (cue) |
+  |---|---|---|---|
+  | 1001Tracklists Spotlight Mix (2026) | 2 h | 34 | sì |
+  | EDM Identity Summer Sessions 2026 | 2 h | 36 | no |
+  | Tomorrowland Friendship Mix (2026) | 1 h | 19 | sì |
+  | SPUTNIK / Ibiza Series 031 (2025) | 1 h | 19 | no |
+
+- **Audio** (`gabry_download.py`):
+  - mix dai canali SoundCloud ufficiali;
+  - 83 brani su 103 da YouTube, scegliendo la versione con la durata della tracklist (entro 25 s) e il titolo;
+  - 20 non trovati, 2 rifiutati (HTTP 403);
+  - nessun login né cookie; pause di 6-15 s e arresto automatico ai rifiuti ripetuti.
+- **Allineamento** (`gabry_dataset.py`): con i tempi della tracklist ogni brano si cerca solo vicino al suo cue.
+  Nello Spotlight Mix 28 brani su 34 sono allineati, quasi tutti a pochi secondi dal cue. Soglie di z provate:
+  4/4 → 21 transizioni, 3/3,5 (con e senza tempi) → 27, con errore del fit mediano 0,161 invece di 0,177.
+- **Dataset:** 27 transizioni (36 finestre), fit mediano 0,161, metà crossfader a 9 s dal cue (mediana su 13).
+  Sono **corte**: mediana 68 battute (min 17, max 104), contro le 192 dei DJ techno di Mixotic. È lo stile
+  radiofonico di Gabry Ponte: circa 3 minuti per brano, cambi veloci e a tempo.
+- **v7** (`train.py --v5-cv --v5-final --tag v7 --v5-init planner-v6.pt --v5-steps 1000 --v5-synth-share 8
+  --v5-shares gand=1,mixotic=1,gabry=1`):
+  - parte dalla v6, 1000 passi;
+  - lotti da 24 transizioni reali (un terzo Gand, un terzo Mixotic, un terzo Gabry Ponte) più 8 sintetiche;
+  - 4 gruppi, ognuno con un set Mixotic e un mix di Gabry Ponte tenuti da parte;
+  - 5,2 minuti per gruppo più 5 per il modello finale.
+
+### Numeri misurati
+
+Mix di Gabry Ponte tenuti da parte (27 transizioni). Il confronto con la v6 è giusto: la v6 non ha mai sentito Gabry
+Ponte.
+
+| | **v7** | v6 | Regole: bass swap | Regole: dissolvenza | Gabry Ponte |
+|---|---|---|---|---|---|
+| Errore crossfader | **0,195** | 0,216 | 0,209 | 0,240 | |
+| Errore EQ | **0,112** | 0,184 | 0,195 | 0,100 | |
+| Errore del suono rispetto al mix (dB) | **1,63** | 1,79 | 2,04 | 1,79 | |
+| Errore d'inizio / fine (battute) | **3,2 / 2,2** | 10,3 / 8,2 | 9,1 / 7,5 | 12,5 / 10,5 | |
+| Scontro dei bassi | 10,4% | 0,3% | 0,1% | 13,4% | 10,2% |
+| Buchi di volume | 2,5% | 3,7% | 3,7% | 2,8% | 4,7% |
+
+**Il prezzo.** Per Mixotic e Gand la v6 qui ha visto tutti i set in addestramento, quindi i suoi numeri di oggi non
+valgono. Si confronta la v7 (senza il set tenuto da parte nella rifinitura, ma partita dalla v6) con la
+validazione giusta della v6 del giorno 8:
+
+| | v7 | v6 (validazione del giorno 8) |
+|---|---|---|
+| Mixotic (finestre fino a 128), errore crossfader | 0,199 | 0,193 |
+| Mixotic, errore EQ | 0,165 | 0,154 |
+| Mixotic, errore del suono (dB) | 2,05 | 1,96 |
+| Crossfader di Gand, finestra larga | 0,089 | 0,065 |
+
+La v7 ha preso i cambi più veloci di Gabry Ponte e perde un po' sulle dissolvenze lunghe della techno e sul DJ di Gand.
+
+Generi (39 brani Jamendo mai visti), fuori dai generi da club / generi da club:
+
+| | v7 | v6 |
+|---|---|---|
+| Scontro dei bassi | 0,7% / 0,7% | 0,6% / 0,6% |
+| Errore crossfader | 0,092 / 0,089 | 0,097 / 0,090 |
+| Errore del suono (dB) | 1,07 / 0,97 | 1,10 / 0,98 |
+
+ONNX v7: fp32 identico a PyTorch, int8 errore medio 0,0024 (massimo 0,39), 6,9 MB. Stessa architettura e finestra
+della v6 (108 ms per transizione, misurati il giorno 8). `npm run check` 68/68, `npm test` 92/92.
+
+Nell'app vera, con i file rinominati:
+- transizioni del modello da 8 e da 64 misure, crossfader completo e bass swap;
+- mashup con `segueo-separazione-voce.onnx`: separazione in 155 s e 112 s (come prima), sequenza dei deck
+  completo → base → base + voce del successivo, RAM di tutta l'app 5,27 GB durante mix e separazione (prima 5,24).
+
+**La v7 sostituisce la v6 nell'app.** È stata scelta per la musica dell'app (dance commerciale e italo dance, lo stile
+di Gabry Ponte); chi mixa techno a transizioni lunghe perde un po' (vedi sopra).
+
+### Nomi dei modelli
+
+Su tua richiesta i modelli dell'app hanno il nome dell'app e la funzione:
+
+| Prima | Ora | Funzione |
+|---|---|---|
+| `beat_this-small0-int8.onnx` | `segueo-analisi-battute.onnx` | battute e battute forti |
+| `transition-planner-v6-int8.onnx` | `segueo-transizioni-v7.onnx` | curve delle transizioni dell'AI DJ (ora la v7) |
+| `htdemucs.onnx` | `segueo-separazione-voce.onnx` | voce e base per i mashup |
+
+- Byte identici, stesso SHA-256.
+- Crediti e licenze (Beat This! e Demucs, MIT) restano in `models.json` e nelle licenze dell'app.
+- Nella release `models-v1` restano anche i file con i nomi vecchi: le versioni già installate li scaricano ancora
+  così.
+
+### Problemi aperti
+
+- Le transizioni sono 27, di un solo DJ e da 4 mix radiofonici. Per i live (San Siro, mashup con cantanti sul palco)
+  servono tempi e audio migliori.
+- 1001tracklists blocca dopo poche pagine: per altri mix le tracklist vanno lette a mano.
+- Si potrebbero tenere v6 (techno, transizioni lunghe) e v7 (stile Gabry Ponte) come due stili da scegliere nel
+  pannello AI DJ.
+
+## Giorno 10 — 28 settembre 2026 (due stili nel pannello; LUM!X)
+
+### Fatto
+
+- **Scelta dello stile nel pannello AI DJ** (Transizioni):
+  - "Modello AI · dance (Gabry Ponte)" usa `segueo-transizioni-dance-v7.onnx`;
+  - "Modello AI · techno, mix lunghi" usa `segueo-transizioni-techno-v6.onnx`;
+  - i file sono la v7 e la v6 con i nomi nuovi (byte identici);
+  - `TRANSITION_STYLES` in `transition-planner.js` dà a ogni stile file e finestra;
+  - il worker tiene una sessione per modello: cambiare stile non ricarica nulla;
+  - il diario dice quale stile ha usato;
+  - lo stile dance mantiene il valore `model`, quindi le impostazioni salvate restano valide.
+- **LUM!X come DJ di addestramento** (`dj_sets_download.py` e `dj_sets_dataset.py`, generalizzati da quelli di Gabry
+  Ponte con `--dj gabry|lumix`; il dataset di Gabry Ponte torna identico: 27 transizioni, fit 0,161):
+  - 1001tracklists ora chiede un CAPTCHA, e non lo risolvo;
+  - le tracklist vengono dai capitoli YouTube del set all'ADE (SLAM!, 41 min, solo titoli) e dalle descrizioni di
+    4 episodi di Spinnin' Sessions con il suo guest mix (468, 492, 537, 542: circa 30 minuti ciascuno);
+  - audio dai canali ufficiali (SoundCloud di Spinnin' Sessions, SLAM!) o dall'archivio YouTube di Spinnin';
+  - 39 brani su 49 da YouTube (6 titoli dell'ADE non trovati, 4 rifiutati con 403, nessun blocco anti-bot).
+- **Risultato: una sola transizione affidabile di LUM!X** (su 10 trovate: 4 con l'ordine incoerente, le altre con
+  errore del fit tra 0,6 e 0,8; con la soglia a 0,7 sarebbero 4). Il motivo è lo stile:
+  - nei guest mix i brani durano 20-40 s e si sovrappongono a raffica (nell'episodio 468 sette brani cadono tutti tra
+    41,7 e 42,7 minuti);
+  - molti sono VIP, edit e remix suoi non pubblicati, diversi dalle versioni su YouTube;
+  - la stima delle curve richiede tratti in cui ogni brano suona da solo e versioni uguali a quelle suonate.
+
+  **Non ho addestrato una v8** su una transizione ripetuta: avrebbe insegnato rumore. La fonte `lumix` resta in
+  `train.py` con quota 0, pronta.
+- **Prove:**
+  - `npm run check` 68/68, `npm test` 94/94: nuovi test sugli stili del pannello e parità con onnxruntime-web di
+    entrambi i modelli;
+  - app vera, 16 misure (`STYLE=model|model-techno` in `autodj-model.js`):
+
+  | Stile | Crossfader a metà corsa | Bassi |
+  |---|---|---|
+  | dance | al 44% della transizione | scambio tra il 63% e il 69% |
+  | techno | al 55% | A tagliati al 63%, B mai aperti del tutto |
+
+  - l'etichetta lunga dello stile techno veniva troncata nel pannello: accorciata e ricontrollata in uno screenshot
+    dell'app.
+
+### Per LUM!X (se si vuole riprovare)
+
+- Servono set in cui suona brani interi pubblicati, con tracklist a tempi: festival o club, non i guest mix
+  radiofonici a raffica.
+- Su 1001tracklists si possono leggere se risolvi tu il CAPTCHA nel browser.
+- In alternativa si può imparare il suo stile come "tagli a raffica": una transizione corta sul beat, senza curve,
+  cioè un nuovo tipo di transizione per l'AI DJ invece di un altro modello.
+
+### Seguito: altri set di LUM!X e DJ Matrix
+
+- **LUM!X:** la ricerca su 1001tracklists ora funziona di nuovo e ha dato 3 mix nuovi con la tracklist completa
+  (Record Club Guest Mix 085 e 128, Lizard Print Guest Mix). L'audio però non è pubblico: Record Club va in onda su
+  Radio Record e il Lizard Print non si trova su SoundCloud, YouTube o Mixcloud. Su YouTube non ci sono altri suoi
+  set con la tracklist (SLAM! aprile 2023, Live from Amsterdam: né capitoli né descrizione).
+- **DJ Matrix** (su tua richiesta, stesse condizioni): nessuna tracklist su 1001tracklists (la ricerca trova il club
+  Matrix di Brescia e il duo drum & bass Matrix & Futurebound) né nei video. Ho scaricato il suo set per DAPP (2021,
+  62 min, audio in streaming) e scritto **`identify_tracks.py`**, che riconosce i brani di un mix senza tracklist
+  confrontandolo con i brani già analizzati:
+  - 8 campioni da 32 battute per brano, cercati in tutto il mix con un solo prodotto tra matrici;
+  - un brano è riconosciuto con il campione migliore a z ≥ 5 e un secondo a z ≥ 3,5 sulla stessa diagonale;
+  - tarato sul mix Spotlight di Gabry Ponte, che ha la tracklist: **20 brani su 30 trovati, nessun falso** su 453
+    che non ci sono (83 di Gabry Ponte e 400 della chiavetta);
+  - sul set di DJ Matrix, contro circa 1.300 brani (chiavetta, Gabry Ponte, LUM!X), trova **un solo brano**
+    ("Sono arrivati i caramba", dubbio). I brani che suonava nel 2021 non sono tra quelli che abbiamo.
+
+  Senza tracklist e senza i suoi brani non si possono ricavare le sue transizioni.
+- **Nessuna v8:** non sono arrivati dati affidabili nuovi. Lo stile dance resta la v7 (Gabry Ponte).
+
+Per andare avanti con LUM!X o DJ Matrix servirebbe una di queste cose:
+1. i loro set in audio con la tracklist (per esempio le registrazioni dei loro programmi radio);
+2. i brani che suonano, per esempio da una tua playlist, da confrontare con `identify_tracks.py`;
+3. le tue transizioni registrate nell'app sulla stessa musica.
+
+## Giorno 11 — 28 settembre 2026 (tagli a raffica, stile LUM!X)
+
+Le transizioni di LUM!X non si possono imparare con crossfader ed EQ (giorno 10), ma dai suoi set allineati si
+misurano i **tempi** del suo stile. Misure sulle 31 coppie consecutive del suo guest mix (seconda metà degli episodi
+di Spinnin' Sessions) e del set all'ADE:
+
+| | LUM!X | Gabry Ponte (per confronto) |
+|---|---|---|
+| Battute suonate per brano (tratto riconosciuto, mediana) | **86** (circa 21 misure, 40 s) | 416 (circa 3 minuti) |
+| Entrata del brano successivo dopo il primo 20% | **32%** (spesso intorno alla misura 35) | 11% |
+| Entrata sulla battuta forte | 45% | |
+
+(I confini dei tratti riconosciuti sono approssimati: contano l'ordine di grandezza e la quota di entrate "dentro" il
+brano.)
+
+### Fatto
+
+- **Nuova transizione "Tagli a raffica (stile LUM!X)"** nel pannello AI DJ (`src/renderer/js/ai/rapid.js`):
+  - il brano in onda suona **16 o 24 misure** (in media 20, come le 21 di LUM!X) dal punto in cui è entrato;
+  - il cambio dura **1 misura**: l'uscente sale di filtro e perde i bassi nelle ultime 2 battute, poi taglio netto
+    sul battere;
+  - **una volta su tre** il successivo parte dal suo **drop**. Il drop è la prima frase da 8 misure, dopo la prima,
+    con energia della forma d'onda ≥ 85% della frase più forte e un salto rispetto alla precedente; se non c'è, il
+    brano parte dal punto di mix normale;
+  - il successivo parte una misura prima del taglio, così al taglio è esattamente sul suo punto d'ingresso;
+  - il diario dice le misure e il tipo di entrata.
+- **Prove:**
+  - `test/rapid.test.js`: drop su forma d'onda sintetica, 16/24 misure sulla griglia, entrata sul drop, filtro,
+    bassi e taglio, piano dell'AI DJ;
+  - `npm run check` 70/70, `npm test` 98/98;
+  - app vera (`ml/eval/electron/autodj-rapid.js`, coda di 3 brani, nessun "Mixa ora"): i due cambi li fa da sola.
+    Ogni brano resta in onda 46,2 e 46,8 s (24 misure), il cambio dura 1,85 s (una misura), il crossfader salta da un
+    lato all'altro alla fine della misura, il brano entrante è in onda a 2 s dal suo punto d'ingresso.

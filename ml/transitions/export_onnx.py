@@ -82,6 +82,11 @@ def main():
     if data_path.exists():
         d = np.load(data_path)
         X, M = d["X"][:16], d["mask"][:16].astype(np.float32)
+        # dataset da 128 battute, modello dalla v5 da 256: battute in più a zero e fuori dalla maschera
+        pad = MAX_BEATS - X.shape[1]
+        if pad > 0:
+            X = np.pad(X, ((0, 0), (0, pad), (0, 0)))
+            M = np.pad(M, ((0, 0), (0, pad)))
     else:
         X = rng.normal(0, 1, (16, MAX_BEATS, N_IN)).astype(np.float32)
         M = np.ones((16, MAX_BEATS), np.float32)

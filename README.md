@@ -26,25 +26,31 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
 
 1. **Analizza** in background tutta la libreria: BPM, beatgrid, tonalità (Camelot), energia 1–10,
    struttura del brano (intro, outro, frasi da 8 battute) e punti di mix. Battute e battute forti vengono da
-   **Beat This!**, una rete neurale open source (CPJKU, licenza MIT) che gira sul computer con la sola CPU;
+   **Segueo Analisi battute**, una rete neurale basata su Beat This! (CPJKU, licenza MIT) che gira sul computer con
+   la sola CPU;
    in **Impostazioni → AI locale → Motore di analisi** si può tornare all'analisi classica, che resta comunque
    il ripiego automatico se il modello manca o dà errore. L'analisi è ibrida: il classico dà subito BPM e forma
-   d'onda, Beat This! rifinisce poi battute, battuta forte e struttura in background.
+   d'onda, Segueo Analisi battute rifinisce poi battute, battuta forte e struttura in background.
 2. **Sceglie il brano successivo** tra quelli compatibili: tonalità armonica, BPM vicini (anche metà/doppio tempo),
    energia coerente con la strategia scelta (*mantieni*, *crescente*, *onde*, *rilassata*, *picco*), genere, varietà.
    Nel pannello "Diario dell'AI" spiega ogni scelta.
 3. **Pianifica la transizione** sul punto di uscita del brano, allineata alla battuta forte, e sceglie lo stile:
    **bass swap** con gli EQ, **filtro**, **echo out** (per tempi incompatibili), **dissolvenza** o **taglio sul beat**.
+   Con **Transizioni → Tagli a raffica (stile LUM!X)** ogni brano suona 16-24 misure e il successivo entra con un
+   taglio secco sul battere dopo una misura di filtro, una volta su tre direttamente dal suo drop (tempi misurati
+   sui set di LUM!X).
 4. **Esegue il mix**: sync di tempo e fase, crossfader, EQ, filtri ed effetti si muovono da soli (si vedono le manopole
    girare), poi riporta gradualmente il brano al suo BPM originale.
-   Con **Transizioni → Modello AI (sperimentale)** le curve di crossfader, EQ basso/medio/alto e filtri le decide,
-   battuta per battuta, una rete neurale che gira sul computer (`ml/transitions/`); se non è disponibile si usano
-   le regole.
+   Con **Transizioni → Modello AI** le curve di crossfader, EQ basso/medio/alto e filtri le decide, battuta per
+   battuta, una rete neurale che gira sul computer (`ml/transitions/`), anche per transizioni lunghe fino a 64
+   battute. Due stili: **dance** (imparato dai mix di Gabry Ponte: cambi corti e a tempo) e **techno**
+   (imparato da DJ set techno e minimal: dissolvenze lunghe). Se il modello non è disponibile si usano le regole.
 5. **Remix dal vivo** (opzione): mentre un brano suona da solo l'AI lo ricompone sulle frasi della griglia con loop
    roll, eco, filtro in salita e ripetizione della frase appena suonata.
 6. **Mashup** (opzione): quando il brano successivo è compatibile per tonalità e tempo, il brano in onda passa alla
    sola base e la **voce** del successivo entra a tempo per 16 battute, poi il mix prosegue. Voce e base vengono
-   separate sul computer con **Demucs v4** (il modello, 174 MB, è già incluso nell'installer) e
+   separate sul computer con **Segueo Separazione voce**, basato su Demucs v4 (il modello, 174 MB, è già incluso
+   nell'installer) e
    salvate su disco. Il pulsante **STEM** di ogni deck passa tra brano completo, solo voce e solo base.
 
 Puoi lasciare scegliere all'AI dalla libreria o da una playlist, oppure darle una coda. I pulsanti **Mixa ora** e
@@ -166,6 +172,16 @@ I pesi non stanno nel repository: i file `.onnx` sono asset della GitHub Release
 [`models-v1`](../../releases/tag/models-v1), elencati con dimensione e SHA-256 in `src/main/models.json`.
 `npm run models` scarica quelli inclusi nell'app (`--all` anche le altre varianti); CI e rilascio lo fanno
 prima di test e build. Senza modello l'app funziona con l'analisi classica.
+
+| File | Funzione | Origine |
+| --- | --- | --- |
+| `segueo-analisi-battute.onnx` | battute e battute forti dei brani (3,9 MB) | Beat This! small0 (CPJKU, MIT), int8 |
+| `segueo-transizioni-dance-v7.onnx` | transizioni dell'AI DJ, stile dance: curve di crossfader, EQ e filtri (6,9 MB) | modello C di questo progetto (`ml/transitions/`), int8 |
+| `segueo-transizioni-techno-v6.onnx` | transizioni dell'AI DJ, stile techno (6,9 MB) | modello C, int8 |
+| `segueo-separazione-voce.onnx` | voce e base separate per i mashup (174 MB) | Demucs v4 htdemucs (Meta, codice MIT) |
+
+Nella release restano anche i nomi precedenti (`beat_this-small0-int8.onnx`, `transition-planner-v*.onnx`,
+`segueo-transizioni-v7.onnx`, `htdemucs.onnx`), usati dalle versioni già installate.
 
 Per rigenerarli (Python 3.12, vedi `ml/requirements.txt`):
 

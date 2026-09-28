@@ -11,9 +11,10 @@ files:
   - src/**/*
   # modelli AI: solo quelli con "bundle": true in src/main/models.json
   - "!src/renderer/models/**"
-  - src/renderer/models/beat_this-small0-int8.onnx
-  - src/renderer/models/transition-planner-v4-int8.onnx
-  - src/renderer/models/htdemucs.onnx
+  - src/renderer/models/segueo-analisi-battute.onnx
+  - src/renderer/models/segueo-transizioni-dance-v7.onnx
+  - src/renderer/models/segueo-transizioni-techno-v6.onnx
+  - src/renderer/models/segueo-separazione-voce.onnx
   - package.json
   - "!**/*.map"
 

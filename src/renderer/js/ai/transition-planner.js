@@ -1,9 +1,21 @@
 // Client del worker del pianificatore delle transizioni (modello C, sperimentale).
 import { transitionInput } from './transition-model.js';
 
-export const TRANSITION_MODEL = 'transition-planner-v4-int8.onnx';
-// finestra del modello in battute: 128 per v1-v4, 256 per la v5 (fino a 64 misure)
-export const TRANSITION_MODEL_BEATS = 128;
+// Modelli delle transizioni per stile (pannello AI DJ → Transizioni); beats = finestra del modello in battute
+// (128 per v1-v4, 256 dalla v5: fino a 64 misure).
+// - dance: imparato dai mix di Gabry Ponte (cambi corti e a tempo, v7)
+// - techno: imparato dai DJ set techno/minimal di Mixotic e dal crossfader di Gand (dissolvenze lunghe, v6)
+export const TRANSITION_STYLES = {
+  model: { file: 'segueo-transizioni-dance-v7.onnx', beats: 256, name: 'dance' },
+  'model-techno': { file: 'segueo-transizioni-techno-v6.onnx', beats: 256, name: 'techno' },
+};
+export const TRANSITION_MODEL = TRANSITION_STYLES.model.file; // stile predefinito
+export const TRANSITION_MODEL_BEATS = TRANSITION_STYLES.model.beats;
+
+/** Lo stile di transizione scelto usa un modello AI? */
+export function isModelStyle(style) {
+  return Object.prototype.hasOwnProperty.call(TRANSITION_STYLES, style);
+}
 
 let worker = null;
 let seq = 0;
@@ -30,15 +42,17 @@ function getWorker() {
 
 /**
  * Curve della transizione (L battute × 9 controlli) dal brano in onda `from` (da fromStart s)
- * al successivo `to` (da toStart s). from/to: { waveform, bpm, gridOffset, duration }.
+ * al successivo `to` (da toStart s). from/to: { waveform, bpm, gridOffset, duration }; style: chiave di
+ * TRANSITION_STYLES.
  */
-export async function planCurves(from, fromStart, to, toStart, bars, { timeoutMs = 5000 } = {}) {
+export async function planCurves(from, fromStart, to, toStart, bars, { style = 'model', timeoutMs = 5000 } = {}) {
   if (!from.waveform || !to.waveform || !(from.bpm > 0) || !(to.bpm > 0)) throw new Error('analisi dei brani incompleta');
-  const { x, mask, length } = transitionInput(from, fromStart, to, toStart, bars * 4, TRANSITION_MODEL_BEATS);
+  const m = TRANSITION_STYLES[style] || TRANSITION_STYLES.model;
+  const { x, mask, length } = transitionInput(from, fromStart, to, toStart, bars * 4, m.beats);
   const id = ++seq;
   const curves = await new Promise((resolve, reject) => {
     pending.set(id, { resolve, reject });
-    getWorker().postMessage({ id, model: TRANSITION_MODEL, beats: TRANSITION_MODEL_BEATS, x, mask }, [x.buffer, mask.buffer]);
+    getWorker().postMessage({ id, model: m.file, beats: m.beats, x, mask }, [x.buffer, mask.buffer]);
     setTimeout(() => {
       if (pending.delete(id)) reject(new Error('il modello non ha risposto in tempo'));
     }, timeoutMs);

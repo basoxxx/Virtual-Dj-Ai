@@ -1,8 +1,8 @@
 """Transizioni sintetiche tra brani Jamendo per gruppo di genere (jamendo_features.py): modelli a confronto sulle
 misure di evaluate() di train.py, soprattutto lo scontro dei bassi fuori dai generi da club.
 
-Nota: i brani Jamendo sono anche nel generatore della v5, quindi è un controllo di comportamento (la v5 ha imparato a
-scambiare i bassi fuori dai generi da club?), non una misura su brani mai visti.
+Dalla v6 si usano solo i brani con split "test" della selezione, che il generatore non usa: misura su brani mai visti.
+(Per la v5 i brani erano anche nel generatore: era solo un controllo di comportamento.)
 
 Uso:  ml/.venv/bin/python ml/eval/genre_eval.py ml/data/runs/planner-v4.pt ml/data/runs/planner-v5.pt
 """
@@ -21,7 +21,7 @@ sys.path.insert(0, str(ML_DIR / "transitions"))
 from build_dataset import N_IN  # noqa: E402
 from model import TransitionPlanner  # noqa: E402
 from synth import JAMENDO_FEAT, LONG_LENGTHS, Synth  # noqa: E402
-from train import evaluate  # noqa: E402
+from train import DEVICE, evaluate  # noqa: E402
 
 
 def main():
@@ -29,11 +29,13 @@ def main():
     models = {}
     for path in sys.argv[1:]:
         net = TransitionPlanner(N_IN)
-        net.load_state_dict(torch.load(path, map_location="cpu"))
-        models[Path(path).stem] = net.eval()
+        net.load_state_dict(torch.load(path, map_location=DEVICE))
+        models[Path(path).stem] = net.to(DEVICE).eval()
     out = {}
     for club in (False, True):
-        files = [JAMENDO_FEAT / f"jam-{r['id']}.npz" for r in sel if r["club"] == club]
+        # dalla v6 solo i brani tenuti fuori dal generatore (split "test"), se la selezione li distingue
+        test_only = any(r.get("split") == "test" for r in sel)
+        files = [JAMENDO_FEAT / f"jam-{r['id']}.npz" for r in sel if r["club"] == club and (not test_only or r.get("split") == "test")]
         files = [f for f in files if f.exists()]
         # stile "umano" escluso: si guardano le decisioni del modello, non le curve del maestro
         data = Synth(seed=7, files=files, lengths=LONG_LENGTHS).batch(96)

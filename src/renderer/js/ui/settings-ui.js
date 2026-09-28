@@ -292,11 +292,11 @@ function aiPage(app) {
     } catch {
       installed = false;
     }
-    engineStatus.textContent = installed ? 'Modello Beat This! installato' : 'Modello Beat This! non installato: si usa l\'analisi classica';
+    engineStatus.textContent = installed ? 'Modello Segueo Analisi battute installato' : 'Modello Segueo Analisi battute non installato: si usa l\'analisi classica';
     engineStatus.className = `ai-test ${installed ? 'ok' : 'warn'}`;
   };
   const engine = select([
-    { value: 'ai', label: 'AI (Beat This!)' },
+    { value: 'ai', label: 'AI (Segueo Analisi battute)' },
     { value: 'classic', label: 'Classico' },
   ], ai.analysisEngine, (v) => {
     ai.analysisEngine = v;
@@ -315,9 +315,9 @@ function aiPage(app) {
   });
   return el('div', { class: 'settings-page' },
     el('div', { class: 'section-title' }, 'AI DJ integrata'),
-    el('p', { class: 'field-hint' }, 'L\'AI DJ funziona sempre, anche offline: analizza BPM, tonalità, energia e struttura dei brani, sceglie il successivo in modo armonico, trova il punto di mix sulle frasi musicali e crea transizioni (bass swap, filtro, echo out, dissolvenza) muovendo mixer ed effetti. Si attiva dal pannello "AI DJ" o con Ctrl+M.'),
+    el('p', { class: 'field-hint' }, 'L\'AI DJ funziona sempre, anche offline: analizza BPM, tonalità, energia e struttura dei brani, sceglie il successivo in modo armonico, trova il punto di mix sulle frasi musicali e crea transizioni (bass swap, filtro, echo out, dissolvenza, tagli a raffica o con il modello AI, in stile dance o techno) muovendo mixer ed effetti. Si attiva dal pannello "AI DJ" o con Ctrl+M.'),
     el('label', { class: 'check' }, auto, 'Analizza automaticamente i nuovi brani della libreria in background'),
-    field('Motore di analisi', engine, 'L\'analisi classica dà subito BPM e forma d\'onda; con l\'AI, Beat This! (una rete neurale che gira sul computer, solo con la CPU) rifinisce poi in background battute, battuta forte e struttura. Se il modello manca o dà errore resta l\'analisi classica. Le griglie corrette a mano non vengono toccate.'),
+    field('Motore di analisi', engine, 'L\'analisi classica dà subito BPM e forma d\'onda; con l\'AI, Segueo Analisi battute (una rete neurale che gira sul computer, solo con la CPU) rifinisce poi in background battute, battuta forte e struttura. Se il modello manca o dà errore resta l\'analisi classica. Le griglie corrette a mano non vengono toccate.'),
     engineStatus,
     el('div', { class: 'section-title' }, 'Vista'),
     field('Vista all\'avvio', select([
@@ -513,7 +513,7 @@ async function aboutPage(app) {
     el('div', {}, `Versione ${info.version}`),
     el('div', { class: 'field-hint' }, `${info.platform} ${info.arch} · Electron ${info.electron}`),
     el('p', {}, 'Software DJ open source con AI DJ che mixa in automatico (anche con un modello linguistico locale): 2 deck con scratch, keylock e sync, mixer a 3 bande con filtri, 2 effetti per deck, sampler, microfono, ingressi linea dalla scheda audio, uscita cuffia separata, controller MIDI e registrazione del mix.'),
-    el('p', { class: 'field-hint' }, 'Analisi di battute e battute forti: Beat This! (Institute of Computational Perception, JKU Linz, licenza MIT) eseguito con ONNX Runtime Web (Microsoft, licenza MIT).'),
+    el('p', { class: 'field-hint' }, 'Modelli AI di Segueo: Analisi battute (basato su Beat This!, Institute of Computational Perception, JKU Linz, licenza MIT), Transizioni dance e techno (modelli di Segueo), Separazione voce (basato su Demucs v4, Meta, codice con licenza MIT), eseguiti con ONNX Runtime Web (Microsoft, licenza MIT).'),
     updatesSection(app));
 }
 

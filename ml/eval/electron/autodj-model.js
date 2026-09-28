@@ -9,7 +9,11 @@ const os = require('node:os');
 
 const REPO = path.join(__dirname, '..', '..', '..');
 const AUDIO = path.join(REPO, 'ml', 'data', 'audio', 'cc');
-const OUT = path.join(REPO, 'ml', 'data', 'reference', 'autodj-model.json');
+// BARS=64 per una transizione lunga (dalla v5 il modello ha una finestra da 256 battute)
+const BARS = Number(process.env.BARS) || 8;
+// STYLE=model-techno per lo stile techno (predefinito: model, stile dance)
+const STYLE = process.env.STYLE || 'model';
+const OUT = path.join(REPO, 'ml', 'data', 'reference', `autodj-model-${STYLE}-${BARS}.json`);
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'vdjai-autodj-'));
 app.setPath('userData', tmp);
 fs.writeFileSync(path.join(tmp, 'settings.json'), JSON.stringify({ ai: { analysisEngine: 'ai', autoAnalyze: false } }));
@@ -28,8 +32,10 @@ app.whenReady().then(async () => {
     const res = await dj.api.addFiles(${JSON.stringify(files)});
     dj.library.setLibrary(res.snapshot);
     const t = dj.library.lib.tracks;
+    // transizione lunga: tonalità uguale, altrimenti il piano sceglie un filtro corto (8 battute) per non stonare
+    if (${BARS} > 8) for (const x of t) { x.key = 'Am'; await dj.api.updateTrack(x.id, { key: 'Am' }); }
     const a = dj.automix;
-    a.setOptions({ mode: 'queue', style: 'model', bars: 8 });
+    a.setOptions({ mode: 'queue', style: '${STYLE}', bars: ${BARS} });
     a.setQueue([t.find((x) => x.path.endsWith('Realizer.mp3')), t.find((x) => x.path.endsWith('Miami Viceroy.mp3'))]);
     a.setEnabled(true);
     // si aspetta il piano completo: con il modello le curve arrivano dopo l'analisi di entrambi i brani
@@ -39,7 +45,7 @@ app.whenReady().then(async () => {
     const samples = [];
     const ctl = () => dj.mixerUI.controls;
     let started = false;
-    for (let i = 0; i < 800; i++) {
+    for (let i = 0; i < 800 * Math.max(1, ${BARS} / 8); i++) {
       if (a.transition) started = true;
       if (started) {
         const c = ctl();

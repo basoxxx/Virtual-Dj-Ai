@@ -3,7 +3,8 @@
 // ed esegue la transizione muovendo crossfader, EQ, filtri ed effetti come un DJ.
 import { rankCandidates, planTransition, transitionState, buildSet, keyScore } from './selector.js';
 import { formatTime } from '../dsp/analysis.js';
-import { planCurves, TRANSITION_MODEL_BEATS } from './transition-planner.js';
+import { planCurves, isModelStyle, TRANSITION_STYLES } from './transition-planner.js';
+import { rapidTiming } from './rapid.js';
 import { curvesAt } from './transition-model.js';
 import { needsAiRefine } from '../audio/analyzer-client.js';
 import { planRemix, REMIX_ACTIONS } from './remix.js';
@@ -230,6 +231,7 @@ export class AutoDJ extends EventTarget {
       }
       this.warnedEmpty = false;
       deck._aiReady = false;
+      deck._aiEntry = deck.position || 0;
       this.resetChannel(deck);
       this.engine.setCrossfader(this.side(deck));
       deck.setPitch(0);
@@ -296,9 +298,10 @@ export class AutoDJ extends EventTarget {
 
   makePlan(cur, next) {
     // con il modello si decide come in automatico (sync, ripiego), poi le curve vengono dal modello
-    const wantModel = this.options.style === 'model';
+    const wantModel = isModelStyle(this.options.style);
     const t = planTransition(cur.track, next.track, { style: wantModel ? 'auto' : this.options.style, bars: this.options.bars });
     t.wantModel = wantModel && t.sync;
+    if (wantModel) t.modelStyle = this.options.style;
     const bar = cur.beatLength * 4;
     const transTrackSec = Math.max(bar, t.bars * bar);
     let startAt = cur.track.mixOut && cur.track.mixOut < cur.duration - 4 ? cur.track.mixOut : cur.duration - transTrackSec - 8;
@@ -310,6 +313,12 @@ export class AutoDJ extends EventTarget {
     startAt = cur.gridOffset + n * bar;
     if (startAt + transTrackSec > cur.duration) startAt = Math.max(cur.position + 0.2, cur.duration - transTrackSec - 0.5);
     const mixIn = next.track.mixIn != null && next.track.mixIn < next.duration / 2 ? next.track.mixIn : next.gridOffset || 0;
+    if (t.type === 'rapid') {
+      // tagli a raffica: il brano in onda suona solo 16-24 misure da dove è entrato, il successivo a volte dal drop
+      const r = rapidTiming(cur, next, { entry: cur._aiEntry || 0, defaultMixIn: mixIn, random: this.random });
+      const why = `stile LUM!X: ${r.playBars} misure, ${r.fromDrop ? 'entrata sul drop' : 'entrata dal punto di mix'}`;
+      return { ...t, why, from: cur, fromTrack: cur.track, to: next, toTrack: next.track, startAt: r.startAt, mixIn: r.mixIn, transTrackSec: r.transTrackSec };
+    }
     return { ...t, from: cur, fromTrack: cur.track, to: next, toTrack: next.track, startAt, mixIn, transTrackSec };
   }
 
@@ -320,19 +329,20 @@ export class AutoDJ extends EventTarget {
     const ready = () => plan.from.waveform && plan.to.waveform && plan.from.bpm && plan.to.bpm;
     for (let i = 0; i < 300 && !ready() && this.enabled; i++) await sleep(100);
     // il modello conosce transizioni fino alla sua finestra (32 misure fino alla v4, 64 dalla v5)
-    const maxBars = TRANSITION_MODEL_BEATS / 4;
+    const style = plan.modelStyle || 'model';
+    const maxBars = TRANSITION_STYLES[style].beats / 4;
     if (plan.bars > maxBars) {
       this.say(`Il modello delle transizioni arriva a ${maxBars} battute: transizione accorciata da ${plan.bars}`);
       plan.bars = maxBars;
       plan.transTrackSec = Math.min(plan.transTrackSec, maxBars * plan.from.beatLength * 4);
     }
     try {
-      const { curves, length } = await planCurves(info(plan.from), plan.startAt, info(plan.to), plan.mixIn, plan.bars);
+      const { curves, length } = await planCurves(info(plan.from), plan.startAt, info(plan.to), plan.mixIn, plan.bars, { style });
       plan.curves = curves;
       plan.curveLength = length;
       plan.fallbackType = plan.type;
-      plan.type = 'model';
-      plan.why = 'curve previste dal modello sperimentale';
+      plan.type = style;
+      plan.why = `curve previste dal modello AI, stile ${TRANSITION_STYLES[style].name}`;
     } catch (err) {
       this.say(`Modello delle transizioni non disponibile (${err.message}): uso le regole`);
     }
@@ -485,6 +495,7 @@ export class AutoDJ extends EventTarget {
     }, tail);
     this.resetChannel(to, { allEq });
     to._aiReady = false;
+    to._aiEntry = to.position; // punto del brano in cui è andato in onda (per i tagli a raffica)
     this.history.push(to.track);
     this.step++;
     this.plan = null;
@@ -760,7 +771,7 @@ export class AutoDJ extends EventTarget {
   }
 }
 
-export const TRANSITION_NAMES = { bassswap: 'bass swap', filter: 'filtro', echo: 'echo out', fade: 'dissolvenza', cut: 'taglio sul beat', model: 'del modello AI' };
+export const TRANSITION_NAMES = { bassswap: 'bass swap', filter: 'filtro', echo: 'echo out', fade: 'dissolvenza', cut: 'taglio sul beat', rapid: 'a raffica (stile LUM!X)', model: 'del modello AI (dance)', 'model-techno': 'del modello AI (techno)' };
 
 function label(t) {
   return t ? `${t.artist ? `${t.artist} - ` : ''}${t.title}` : '—';
