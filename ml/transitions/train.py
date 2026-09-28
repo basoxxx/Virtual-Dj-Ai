@@ -273,7 +273,9 @@ def load_real() -> dict:
     return out
 
 
-V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0, "gabry": 1.0, "lumix": 1.0}
+# lumix a 0: dai suoi set (brani di 20-40 s in rapida successione, VIP ed edit non pubblicati) esce una sola
+# transizione affidabile, che ripetuta in un quinto dei lotti insegnerebbe rumore (vedi REPORT, giorno 10)
+V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0, "gabry": 1.0, "lumix": 0.0}
 
 
 def parse_shares(text: str) -> dict:
