@@ -124,6 +124,11 @@ figcaption { font-size: 14px; color: var(--ink-3); margin-top: 16px; text-align:
 .soon-card h2 { font-size: clamp(38px, 5.4vw, 60px); line-height: 1.06; margin-bottom: 26px; }
 .soon-card p { font-size: 21px; line-height: 1.42; color: var(--ink-2); max-width: 720px; }
 .soon-card .soon-note { font-size: 16px; color: var(--ink-3); margin-top: 22px; max-width: 560px; }
+.model-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; margin: 34px 0 0; max-width: 760px; text-align: left; }
+.model-list div { border-top: 1px solid var(--line); padding-top: 14px; }
+.model-list dt { font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.model-list dd { margin: 0; font-size: 15px; line-height: 1.45; color: var(--ink-2); }
+@media (max-width: 640px) { .model-list { grid-template-columns: 1fr; } }
 /* la sottile riga A/B richiama i due deck, senza effetti luminosi */
 .soon-card::after { content: ""; display: block; width: 120px; height: 3px; margin-top: 44px; border-radius: 2px; background: linear-gradient(90deg, var(--deck-a) 50%, var(--deck-b) 50%); }
 
