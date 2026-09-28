@@ -273,7 +273,7 @@ def load_real() -> dict:
     return out
 
 
-V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0, "gabry": 1.0}
+V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0, "gabry": 1.0, "lumix": 1.0}
 
 
 def parse_shares(text: str) -> dict:
@@ -285,9 +285,9 @@ def parse_shares(text: str) -> dict:
     return out
 
 
-def load_gabry(window: str = "") -> dict | None:
-    """Transizioni dei mix di Gabry Ponte (gabry_dataset.py, dalla v7), se ci sono."""
-    path = ML_DIR / "data" / "gabry" / f"transitions{window}.npz"
+def load_dj(dj: str, window: str = "") -> dict | None:
+    """Transizioni dei mix di un DJ (dj_sets_dataset.py: gabry dalla v7, lumix dalla v8), se ci sono."""
+    path = ML_DIR / "data" / dj / f"transitions{window}.npz"
     return load_npz(path) if path.exists() else None
 
 
@@ -298,7 +298,8 @@ def v5_data(window: str = "", shares: dict | None = None) -> dict:
     return combine([("gand", load_gand(window), sh["gand"], 0.0),
                     ("mixotic", load_mixotic(window), sh["mixotic"], 1.0),
                     ("mixotic-nuovi", load_mixotic_new(window), sh["mixotic-nuovi"], 1.0),
-                    ("gabry", load_gabry(window), sh["gabry"], 1.0)])
+                    ("gabry", load_dj("gabry", window), sh["gabry"], 1.0),
+                    ("lumix", load_dj("lumix", window), sh["lumix"], 1.0)])
 
 
 def folds_of(sets: list[str]) -> list[list[str]]:
@@ -393,9 +394,10 @@ def run_v5(args) -> None:
             models = {tag: v5_model(train_sets, np.where(~np.isin(sets, held))[0]), base_name: v4}
             if args.v4_baseline:
                 models["v4_rifatta"] = v4_recipe(train_sets)
-            mix = (np.isin(sets, held)) & (src != "gand") & (src != "gabry") & np.isin(kind, ["inizio-0", "fine"])
-            gab = (np.isin(sets, held)) & (src == "gabry") & np.isin(kind, ["inizio-0", "fine"])
-            s_mix = (np.isin(s_sets, held)) & (s_src != "gand") & (s_src != "gabry") & np.isin(s_kind, ["inizio-0", "fine"])
+            dance = np.isin(src, ["gabry", "lumix"])
+            mix = (np.isin(sets, held)) & (src != "gand") & ~dance & np.isin(kind, ["inizio-0", "fine"])
+            held_kind = np.isin(sets, held) & np.isin(kind, ["inizio-0", "fine"])
+            s_mix = (np.isin(s_sets, held)) & (s_src != "gand") & ~np.isin(s_src, ["gabry", "lumix"]) & np.isin(s_kind, ["inizio-0", "fine"])
             r = {
                 "tenuti": held,
                 # transizioni intere fino a 256 battute: corte (<= 128) e lunghe (> 128)
@@ -404,7 +406,9 @@ def run_v5(args) -> None:
                 # le stesse finestre della valutazione della v4 (al massimo 128 battute, inizio e fine)
                 "finestre128": evaluate_split(models, short, np.where(s_mix)[0]),
                 # mix di Gabry Ponte tenuti da parte (dalla v7): finestre dall'entrata di B e finali, fino a 256
-                "gabry": evaluate_split(models, data, np.where(gab)[0]),
+                "gabry": evaluate_split(models, data, np.where(held_kind & (src == "gabry"))[0]),
+                # mix di LUM!X tenuti da parte (dalla v8)
+                "lumix": evaluate_split(models, data, np.where(held_kind & (src == "lumix"))[0]),
                 "gandLarga": None,
                 "minuti": None,
             }
@@ -418,7 +422,7 @@ def run_v5(args) -> None:
             results[str(gi)] = r
             print(json.dumps(r, ensure_ascii=False), flush=True)
             summary = {k: average([x.get(k) for x in results.values()])
-                       for k in ("corte", "lunghe", "finestre128", "gabry", "gandLarga", "gandLargaFino256")}
+                       for k in ("corte", "lunghe", "finestre128", "gabry", "lumix", "gandLarga", "gandLargaFino256")}
             cfg = {"passi": args.v5_steps, "sinteticiPerLotto": args.v5_synth_share, "quote": shares}
             out_path.write_text(json.dumps({**cfg, "gruppi": groups, "perGruppo": results, "media": summary},
                                            indent=1, ensure_ascii=False))
