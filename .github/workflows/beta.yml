@@ -96,7 +96,7 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: Virtual DJ AI ${{ github.ref_name }}
+          name: Segueo ${{ github.ref_name }}
           prerelease: true
           make_latest: false
           body_path: docs/release-notes/${{ github.ref_name }}.md

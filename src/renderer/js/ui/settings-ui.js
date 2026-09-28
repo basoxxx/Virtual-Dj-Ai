@@ -397,7 +397,7 @@ function midiPage(app) {
     const blob = new Blob([midi.exportMapping()], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'mappatura-console.vdjai.json';
+    a.download = 'mappatura-console.segueo.json';
     a.click();
   } });
   const importBtn = button('Importa…', { className: 'small', onClick: () => {
@@ -500,7 +500,7 @@ function keysPage() {
 async function aboutPage(app) {
   const info = await app.api.appInfo();
   return el('div', { class: 'settings-page about' },
-    el('div', { class: 'about-logo' }, 'VIRTUAL DJ AI'),
+    el('div', { class: 'about-logo' }, 'SEGUEO'),
     el('div', {}, `Versione ${info.version}`),
     el('div', { class: 'field-hint' }, `${info.platform} ${info.arch} · Electron ${info.electron}`),
     el('p', {}, 'Software DJ open source con AI DJ che mixa in automatico (anche con un modello linguistico locale): 2 deck con scratch, keylock e sync, mixer a 3 bande con filtri, 2 effetti per deck, sampler, microfono, ingressi linea dalla scheda audio, uscita cuffia separata, controller MIDI e registrazione del mix.'),

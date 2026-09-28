@@ -1,6 +1,6 @@
 Beat This! beat tracker (codice e pesi dei modelli)
 https://github.com/CPJKU/beat_this
-Modelli usati da Virtual DJ AI: small0 (e varianti final0), esportati in ONNX con ml/beat_this/export_onnx.py.
+Modelli usati da Segueo: small0 (e varianti final0), esportati in ONNX con ml/beat_this/export_onnx.py.
 
 MIT License
 
