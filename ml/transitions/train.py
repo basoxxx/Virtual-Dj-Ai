@@ -273,7 +273,7 @@ def load_real() -> dict:
     return out
 
 
-V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0}
+V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0, "gabry": 1.0}
 
 
 def parse_shares(text: str) -> dict:
@@ -285,13 +285,20 @@ def parse_shares(text: str) -> dict:
     return out
 
 
+def load_gabry(window: str = "") -> dict | None:
+    """Transizioni dei mix di Gabry Ponte (gabry_dataset.py, dalla v7), se ci sono."""
+    path = ML_DIR / "data" / "gabry" / f"transitions{window}.npz"
+    return load_npz(path) if path.exists() else None
+
+
 def v5_data(window: str = "", shares: dict | None = None) -> dict:
     """Gand (solo crossfader) + Mixotic dei 4 set di Gand + set Mixotic nuovi (se ci sono); quote in `shares`
     (di default un terzo delle estrazioni ciascuno, come per la v5)."""
     sh = shares or V5_SHARES
     return combine([("gand", load_gand(window), sh["gand"], 0.0),
                     ("mixotic", load_mixotic(window), sh["mixotic"], 1.0),
-                    ("mixotic-nuovi", load_mixotic_new(window), sh["mixotic-nuovi"], 1.0)])
+                    ("mixotic-nuovi", load_mixotic_new(window), sh["mixotic-nuovi"], 1.0),
+                    ("gabry", load_gabry(window), sh["gabry"], 1.0)])
 
 
 def folds_of(sets: list[str]) -> list[list[str]]:
@@ -339,7 +346,9 @@ def run_v5(args) -> None:
     from gand_dataset import human_templates
 
     tag = args.tag
-    v4_state = torch.load(RUNS / "planner-v4.pt", map_location=DEVICE)
+    # punto di partenza (v4 per v5 e v6, v6 per la v7): è anche il modello di confronto
+    base_name = Path(args.v5_init).stem.replace("planner-", "")
+    v4_state = torch.load(RUNS / args.v5_init, map_location=DEVICE)
     shares = parse_shares(args.v5_shares)
     data = v5_data(shares=shares)
     short = v5_data("-128", shares=shares)
@@ -381,11 +390,12 @@ def run_v5(args) -> None:
             train_sets = sorted(set(sets) - set(held))
             print(f"--- gruppo {gi}: tenuti da parte {held}", flush=True)
             t0 = time.time()
-            models = {tag: v5_model(train_sets, np.where(~np.isin(sets, held))[0]), "v4": v4}
+            models = {tag: v5_model(train_sets, np.where(~np.isin(sets, held))[0]), base_name: v4}
             if args.v4_baseline:
                 models["v4_rifatta"] = v4_recipe(train_sets)
-            mix = (np.isin(sets, held)) & (src != "gand") & np.isin(kind, ["inizio-0", "fine"])
-            s_mix = (np.isin(s_sets, held)) & (s_src != "gand") & np.isin(s_kind, ["inizio-0", "fine"])
+            mix = (np.isin(sets, held)) & (src != "gand") & (src != "gabry") & np.isin(kind, ["inizio-0", "fine"])
+            gab = (np.isin(sets, held)) & (src == "gabry") & np.isin(kind, ["inizio-0", "fine"])
+            s_mix = (np.isin(s_sets, held)) & (s_src != "gand") & (s_src != "gabry") & np.isin(s_kind, ["inizio-0", "fine"])
             r = {
                 "tenuti": held,
                 # transizioni intere fino a 256 battute: corte (<= 128) e lunghe (> 128)
@@ -393,6 +403,8 @@ def run_v5(args) -> None:
                 "lunghe": evaluate_split(models, data, np.where(mix & (kind == "inizio-0") & (raw > 128))[0]),
                 # le stesse finestre della valutazione della v4 (al massimo 128 battute, inizio e fine)
                 "finestre128": evaluate_split(models, short, np.where(s_mix)[0]),
+                # mix di Gabry Ponte tenuti da parte (dalla v7): finestre dall'entrata di B e finali, fino a 256
+                "gabry": evaluate_split(models, data, np.where(gab)[0]),
                 "gandLarga": None,
                 "minuti": None,
             }
@@ -406,7 +418,7 @@ def run_v5(args) -> None:
             results[str(gi)] = r
             print(json.dumps(r, ensure_ascii=False), flush=True)
             summary = {k: average([x.get(k) for x in results.values()])
-                       for k in ("corte", "lunghe", "finestre128", "gandLarga", "gandLargaFino256")}
+                       for k in ("corte", "lunghe", "finestre128", "gabry", "gandLarga", "gandLargaFino256")}
             cfg = {"passi": args.v5_steps, "sinteticiPerLotto": args.v5_synth_share, "quote": shares}
             out_path.write_text(json.dumps({**cfg, "gruppi": groups, "perGruppo": results, "media": summary},
                                            indent=1, ensure_ascii=False))
@@ -445,6 +457,7 @@ def main():
     ap.add_argument("--tag", default="v5", help="nome del modello per --v5-cv/--v5-final (es. v6): planner-<tag>.pt, <tag>-cv.json")
     ap.add_argument("--v5-shares", default="", help="quote delle fonti reali, es. gand=1,mixotic=1 (di default un terzo ciascuna)")
     ap.add_argument("--v5-synth-share", type=int, default=12, help="transizioni sintetiche per lotto di 32")
+    ap.add_argument("--v5-init", default="planner-v4.pt", help="checkpoint di partenza (e di confronto), es. planner-v6.pt per la v7")
     ap.add_argument("--v4-baseline", action="store_true", help="con --v5-cv: rifà anche la v4 per ogni gruppo (stessa ricetta, dati della v4)")
     ap.add_argument("--pre-steps", type=int, default=4000)
     ap.add_argument("--ft-steps", type=int, default=600)
