@@ -59,6 +59,11 @@ test('modello C: tensore d\'ingresso, maschera e caratteristiche globali', () =>
   assert.equal(x[40 * TM_INPUTS + 15], 0);
   assert.equal(x[64 * TM_INPUTS + g], 0);
   assert.equal(transitionInput(from, 10, to, 0, 400).length, TM_MAX_BEATS);
+  // finestra da 256 (v5): l'ingresso lunghezza resta L / 128
+  const long = transitionInput(from, 10, to, 0.1, 200, 256);
+  assert.equal(long.length, 200);
+  assert.equal(long.x.length, 256 * TM_INPUTS);
+  assert.equal(long.x[5 * TM_INPUTS + g + 1], 200 / 128);
 });
 
 test('modello C: lettura delle curve tra una battuta e l\'altra', () => {
@@ -91,8 +96,8 @@ test('modello C int8 con onnxruntime-web: curve come onnxruntime Python', { skip
   const s = await ort.InferenceSession.create(new Uint8Array(readFileSync(path)), { executionProviders: ['wasm'] });
   try {
     const res = await s.run({
-      x: new ort.Tensor('float32', Float32Array.from(ref.model.x), [1, TM_MAX_BEATS, TM_INPUTS]),
-      mask: new ort.Tensor('float32', Float32Array.from(ref.model.mask), [1, TM_MAX_BEATS]),
+      x: new ort.Tensor('float32', Float32Array.from(ref.model.x), [1, ref.model.mask.length, TM_INPUTS]),
+      mask: new ort.Tensor('float32', Float32Array.from(ref.model.mask), [1, ref.model.mask.length]),
     });
     let maxErr = 0;
     for (let i = 0; i < res.controls.data.length; i++) {

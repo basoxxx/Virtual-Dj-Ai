@@ -2,7 +2,10 @@
 // Qui ci sono le parti pure, usate dal worker e dai test: ingressi per battuta dei due deck, identici a
 // ml/transitions/build_dataset.py, e lettura delle curve previste battuta per battuta.
 
+// finestra del modello in battute (beat): 128 fino alla v4, 256 dalla v5 (vedi TRANSITION_MODEL_BEATS)
 export const TM_MAX_BEATS = 128;
+// l'ingresso "lunghezza" è sempre L / 128, come LEN_NORM in ml/transitions/build_dataset.py
+export const TM_LEN_NORM = 128;
 export const TM_DECK = 16;
 export const TM_INPUTS = 2 * TM_DECK + 3;
 // uscite per battuta: crossfader 0..1, EQ del deck uscente e dell'entrante (basso/medio/alto, -1..0 = fino a -30 dB), filtri -1..1
@@ -73,14 +76,14 @@ export function gridBeats(deck, start, L) {
 }
 
 /**
- * Tensore d'ingresso (128 × 35) e maschera (128) per una transizione di L battute:
+ * Tensore d'ingresso (maxBeats × 35) e maschera (maxBeats) per una transizione di L battute:
  * `from` parte da fromStart secondi, `to` da toStart (come nel piano dell'AI DJ).
  * from/to: { waveform, bpm, gridOffset, duration } del brano (BPM originale, senza pitch).
  */
-export function transitionInput(from, fromStart, to, toStart, L) {
-  L = Math.max(1, Math.min(TM_MAX_BEATS, Math.round(L)));
-  const x = new Float32Array(TM_MAX_BEATS * TM_INPUTS);
-  const mask = new Float32Array(TM_MAX_BEATS);
+export function transitionInput(from, fromStart, to, toStart, L, maxBeats = TM_MAX_BEATS) {
+  L = Math.max(1, Math.min(maxBeats, Math.round(L)));
+  const x = new Float32Array(maxBeats * TM_INPUTS);
+  const mask = new Float32Array(maxBeats);
   const decks = [[from, fromStart], [to, toStart]].map(([d, start]) => {
     const g = gridBeats(d, start, L);
     return deckBlock(g.t, perBeatWave(d.waveform, g.t, g.beat), g.pos, g.bar, d.duration, g.present);
@@ -91,7 +94,7 @@ export function transitionInput(from, fromStart, to, toStart, L) {
     x.set(decks[0].subarray(j * TM_DECK, (j + 1) * TM_DECK), o);
     x.set(decks[1].subarray(j * TM_DECK, (j + 1) * TM_DECK), o + TM_DECK);
     x[o + 2 * TM_DECK] = j / L;
-    x[o + 2 * TM_DECK + 1] = L / TM_MAX_BEATS;
+    x[o + 2 * TM_DECK + 1] = L / TM_LEN_NORM;
     x[o + 2 * TM_DECK + 2] = ratio;
     mask[j] = 1;
   }

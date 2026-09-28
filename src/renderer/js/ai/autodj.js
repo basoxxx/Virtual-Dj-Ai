@@ -3,7 +3,7 @@
 // ed esegue la transizione muovendo crossfader, EQ, filtri ed effetti come un DJ.
 import { rankCandidates, planTransition, transitionState, buildSet, keyScore } from './selector.js';
 import { formatTime } from '../dsp/analysis.js';
-import { planCurves } from './transition-planner.js';
+import { planCurves, TRANSITION_MODEL_BEATS } from './transition-planner.js';
 import { curvesAt } from './transition-model.js';
 import { needsAiRefine } from '../audio/analyzer-client.js';
 import { planRemix, REMIX_ACTIONS } from './remix.js';
@@ -319,6 +319,13 @@ export class AutoDJ extends EventTarget {
     // il modello usa forma d'onda e griglia di entrambi i brani: si aspetta la fine dell'analisi (max 30 s)
     const ready = () => plan.from.waveform && plan.to.waveform && plan.from.bpm && plan.to.bpm;
     for (let i = 0; i < 300 && !ready() && this.enabled; i++) await sleep(100);
+    // il modello conosce transizioni fino alla sua finestra (32 misure fino alla v4, 64 dalla v5)
+    const maxBars = TRANSITION_MODEL_BEATS / 4;
+    if (plan.bars > maxBars) {
+      this.say(`Il modello delle transizioni arriva a ${maxBars} battute: transizione accorciata da ${plan.bars}`);
+      plan.bars = maxBars;
+      plan.transTrackSec = Math.min(plan.transTrackSec, maxBars * plan.from.beatLength * 4);
+    }
     try {
       const { curves, length } = await planCurves(info(plan.from), plan.startAt, info(plan.to), plan.mixIn, plan.bars);
       plan.curves = curves;

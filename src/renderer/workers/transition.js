@@ -22,12 +22,12 @@ function session(model) {
 }
 
 self.onmessage = async (e) => {
-  const { id, model, x, mask } = e.data;
+  const { id, model, beats = TM_MAX_BEATS, x, mask } = e.data;
   try {
     const { ort, s } = await session(model);
     const res = await s.run({
-      x: new ort.Tensor('float32', x, [1, TM_MAX_BEATS, TM_INPUTS]),
-      mask: new ort.Tensor('float32', mask, [1, TM_MAX_BEATS]),
+      x: new ort.Tensor('float32', x, [1, beats, TM_INPUTS]),
+      mask: new ort.Tensor('float32', mask, [1, beats]),
     });
     const curves = new Float32Array(res.controls.data);
     self.postMessage({ id, curves }, [curves.buffer]);

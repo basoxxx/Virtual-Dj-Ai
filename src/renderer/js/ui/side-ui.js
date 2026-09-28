@@ -156,7 +156,7 @@ export class SideUI {
     this.sourceSel = select([{ value: 'library', label: 'Tutta la libreria' }], opt.source, (v) => setOpt({ source: v }), 'ai-select');
     this.strategySel = select(Object.entries(STRATEGIES).map(([value, label]) => ({ value, label })), opt.strategy, (v) => setOpt({ strategy: v }), 'ai-select');
     this.styleSel = select(Object.entries(TRANSITIONS).map(([value, label]) => ({ value, label })), opt.style, (v) => setOpt({ style: v }), 'ai-select');
-    this.barsSel = select([4, 8, 16, 32].map((b) => ({ value: String(b), label: `${b} battute` })), String(opt.bars), (v) => setOpt({ bars: Number(v) }), 'ai-select');
+    this.barsSel = select([4, 8, 16, 32, 48, 64].map((b) => ({ value: String(b), label: `${b} battute` })), String(opt.bars), (v) => setOpt({ bars: Number(v) }), 'ai-select');
     const llmCheck = el('input', { type: 'checkbox' });
     llmCheck.checked = opt.useLLM;
     llmCheck.addEventListener('change', () => {
