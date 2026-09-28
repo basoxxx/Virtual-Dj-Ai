@@ -157,8 +157,9 @@ class Synth:
         r = self.rng
         ia, ib = r.choice(len(self.tracks), 2, replace=False, p=self.p)
         fa, fb = self.tracks[ia], self.tracks[ib]
-        L = int(r.choice(self.lengths))
         na, nb = len(fa["beats"]), len(fb["beats"])
+        # con le finestre lunghe (fino a 256) il brano uscente può essere più corto della finestra
+        L = min(int(r.choice(self.lengths)), na)
         # A: spesso sul suo outro vero (fino a 8 battute prima), altrimenti una battuta forte nell'ultimo 45%
         cand = np.array([], int)
         if self.use_outro and fa["outro"] is not None and r.random() < 0.6:
