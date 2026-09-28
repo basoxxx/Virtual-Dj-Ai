@@ -22,6 +22,9 @@ from features import FINE_EQ_BAND  # noqa: E402
 
 FEAT = ML_DIR / "data" / "djmix" / "features"
 USB_FEAT = ML_DIR / "data" / "usb" / "features"
+GAND_FEAT = ML_DIR / "data" / "werthen" / "features"
+MIXOTIC_FEAT = ML_DIR / "data" / "mixotic" / "tracks" / "features"
+JAMENDO_FEAT = ML_DIR / "data" / "jamendo" / "features"
 
 
 DJ_GENRES = {"electronic", "dance", "techno", "house", "trance", "deep house", "tech house", "bass & garage",
@@ -41,10 +44,18 @@ def dj_weights(files: list[Path]) -> np.ndarray:
     if inv_path.exists():
         for it in json.loads(inv_path.read_text()):
             info[f"usb-{zlib.crc32(it['path'].encode()):08x}"] = it
+    jam = {}
+    jam_path = ML_DIR / "data" / "jamendo" / "selection.json"
+    if jam_path.exists():
+        jam = {f"jam-{it['id']}": it for it in json.loads(jam_path.read_text())}
     w = []
     for f in files:
-        if f.name.startswith("yt-"):
-            w.append(3.0)
+        if f.name.startswith(("yt-", "gand-", "mixotic-")):
+            w.append(3.0)  # brani dei DJ set (DJ Mix Dataset, Gand, Mixotic)
+            continue
+        if f.stem in jam:
+            # Jamendo: generi da club come i brani da DJ, gli altri un po' meno (ma tutti presenti)
+            w.append(3.0 if jam[f.stem].get("club") else 1.5)
             continue
         it = info.get(f.stem)
         if not it:
@@ -58,9 +69,16 @@ def dj_weights(files: list[Path]) -> np.ndarray:
 
 
 def default_files() -> list[Path]:
-    """Brani del DJ Mix Dataset e della cartella musicale dell'utente (ml/transitions/usb_features.py)."""
-    return sorted(FEAT.glob("yt-*.npz")) + sorted(USB_FEAT.glob("usb-*.npz"))
-LENGTHS = [32, 48, 64, 64, 96, 128]
+    """Brani del DJ Mix Dataset, della cartella musicale dell'utente (ml/transitions/usb_features.py), dei set di
+    Gand e Mixotic e della selezione Jamendo con più generi (ml/transitions/jamendo_features.py), se ci sono."""
+    return (sorted(FEAT.glob("yt-*.npz")) + sorted(USB_FEAT.glob("usb-*.npz")) + sorted(GAND_FEAT.glob("gand-*.npz"))
+            + sorted(MIXOTIC_FEAT.glob("mixotic-*.npz")) + sorted(JAMENDO_FEAT.glob("jam-*.npz")))
+
+
+# lunghezze delle finestre sintetiche (battute): fino alla v4 al massimo 128, dalla v5 anche transizioni lunghe
+SHORT_LENGTHS = [32, 48, 64, 64, 96, 128]
+LONG_LENGTHS = [32, 48, 64, 64, 96, 128, 128, 160, 192, 256]
+LENGTHS = SHORT_LENGTHS
 
 
 def ease(t: np.ndarray) -> np.ndarray:
@@ -97,8 +115,10 @@ class Synth:
     weights: peso di campionamento dei brani (dj_weights)."""
 
     def __init__(self, seed: int = 0, files: list[Path] | None = None, templates: list[dict] | None = None,
-                 weights: np.ndarray | str | None = None, human_share: float = 0.35, use_outro: bool = True):
+                 weights: np.ndarray | str | None = None, human_share: float = 0.35, use_outro: bool = True,
+                 lengths: list[int] | None = None):
         self.rng = np.random.default_rng(seed)
+        self.lengths = lengths or LENGTHS
         files = files or default_files()
         # weights: None = pesi da DJ, "uniform" = tutti uguali (generatore della v1/v2)
         if isinstance(weights, str) and weights == "uniform":
@@ -117,6 +137,7 @@ class Synth:
                 d["outro"] = outro_start(d)
                 ibi = np.diff(d["beats"])
                 steady = np.median(np.abs(ibi - np.median(ibi))) / np.median(ibi) < 0.05
+                d["club"] = wf >= 3.0
                 self.tracks.append(d)
                 w.append(wf * (1.0 if steady else 0.5))
         self.p = np.array(w) / np.sum(w)
@@ -125,7 +146,7 @@ class Synth:
         r = self.rng
         ia, ib = r.choice(len(self.tracks), 2, replace=False, p=self.p)
         fa, fb = self.tracks[ia], self.tracks[ib]
-        L = int(r.choice(LENGTHS))
+        L = int(r.choice(self.lengths))
         na, nb = len(fa["beats"]), len(fb["beats"])
         # A: spesso sul suo outro vero (fino a 8 battute prima), altrimenti una battuta forte nell'ultimo 45%
         cand = np.array([], int)
@@ -171,7 +192,7 @@ class Synth:
         w = int(ok[0]) if len(ok) else int(L // 2)
         end = L - int(r.integers(0, 9))
         if r.random() < self.human_share:
-            return self.human_curve(y, L, bars, phrase)
+            return self.human_curve(y, L, bars, phrase, club=bool(fa["club"] and fb["club"]))
         style = r.choice(["swap", "blend", "fade", "cut"], p=[0.45, 0.3, 0.15, 0.1])
         if style == "swap":
             hold = int(r.choice([0, 0, 8, 16]))
@@ -194,9 +215,11 @@ class Synth:
             y[:, 0] = (np.arange(L) >= w).astype(np.float32)
         return y
 
-    def human_curve(self, y: np.ndarray, L: int, bars: np.ndarray, phrase: np.ndarray) -> np.ndarray:
+    def human_curve(self, y: np.ndarray, L: int, bars: np.ndarray, phrase: np.ndarray, club: bool = True) -> np.ndarray:
         """Crossfader con la forma e la durata di una transizione umana (dataset di Gand), che parte su una
-        battuta forte (spesso a inizio frase); bass swap dove l'umano passa la metà (6 volte su 10)."""
+        battuta forte (spesso a inizio frase); bass swap dove l'umano passa la metà (6 volte su 10). Se uno dei
+        due brani non è da club (Jamendo: pop, rock, hip hop…) i bassi si scambiano sempre: nelle dissolvenze
+        lunghe di questi generi due linee di basso insieme si sentono (dalla v5)."""
         r = self.rng
         t = self.templates[int(r.integers(len(self.templates)))]
         D = int(np.clip(round(t["beats"]), 4, L - 2))
@@ -205,7 +228,7 @@ class Synth:
         j = np.arange(L)
         shape = np.asarray(t["shape"])
         y[:, 0] = np.where(j < s, 0, np.where(j >= s + D, 1, np.interp((j - s) / max(1, D), np.linspace(0, 1, len(shape)), shape)))
-        if r.random() < 0.6:
+        if not club or r.random() < 0.6:
             half = int(np.argmax(y[:, 0] >= 0.5))
             swap = int(bars[np.argmin(np.abs(bars - half))]) if len(bars) else half
             y[:, 4] = np.where(j < swap, -1, 0)

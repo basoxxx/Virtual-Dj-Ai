@@ -15,7 +15,7 @@ import torch
 from torch import nn
 
 N_OUT = 9
-MAX_BEATS = 128
+MAX_BEATS = 256  # finestra massima (battute = beat); fino alla v4 era 128
 
 
 class Block(nn.Module):
@@ -39,22 +39,37 @@ class Block(nn.Module):
 
 
 class TransitionPlanner(nn.Module):
-    def __init__(self, n_in: int, d: int = 256, layers: int = 8, heads: int = 4, ff: int = 1024, dropout: float = 0.1):
+    def __init__(self, n_in: int, d: int = 256, layers: int = 8, heads: int = 4, ff: int = 1024, dropout: float = 0.1,
+                 max_beats: int = MAX_BEATS):
         super().__init__()
         self.inp = nn.Sequential(nn.Linear(n_in, d), nn.GELU(), nn.Linear(d, d))
-        self.pos = nn.Parameter(torch.randn(1, MAX_BEATS, d) * 0.02)
+        self.pos = nn.Parameter(torch.randn(1, max_beats, d) * 0.02)
         self.blocks = nn.ModuleList(Block(d, heads, ff, dropout) for _ in range(layers))
         self.norm = nn.LayerNorm(d)
         self.out = nn.Linear(d, N_OUT)
 
+    def load_state_dict(self, state, strict: bool = True, assign: bool = False):
+        # i checkpoint fino alla v4 hanno 128 posizioni: si allargano alla finestra del modello
+        return super().load_state_dict(widen(state, self.pos.shape[1]), strict=strict, assign=assign)
+
     def forward(self, x: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
-        """x: (B, 128, n_in); mask: (B, 128) 1 = battuta valida. Restituisce (B, 128, 9)."""
+        """x: (B, T, n_in) con T <= max_beats; mask: (B, T) 1 = battuta valida. Restituisce (B, T, 9)."""
         bias = (1.0 - mask[:, None, None, :].float()) * -1e4
-        h = self.inp(x) + self.pos
+        h = self.inp(x) + self.pos[:, : x.shape[1]]
         for blk in self.blocks:
             h = blk(h, bias)
         o = self.out(self.norm(h))
         return torch.cat([torch.sigmoid(o[..., :1]), -torch.sigmoid(o[..., 1:7]), torch.tanh(o[..., 7:9])], -1)
+
+
+def widen(state: dict, max_beats: int = MAX_BEATS) -> dict:
+    """Checkpoint con finestra più corta (v1-v4: 128) -> finestra max_beats. Le posizioni note restano identiche
+    (stesse uscite sulle finestre corte); quelle nuove partono dall'ultima e si imparano nella rifinitura."""
+    pos = state["pos"]
+    if pos.shape[1] >= max_beats:
+        return state
+    extra = pos[:, -1:].expand(-1, max_beats - pos.shape[1], -1)
+    return {**state, "pos": torch.cat([pos, extra], 1).clone()}
 
 
 def crossfader_gains(xf: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
