@@ -729,5 +729,6 @@ lunghe, che sposta il peso verso curve sintetiche.
   `src/main/models.json`, cambiare `TRANSITION_MODEL` e `TRANSITION_MODEL_BEATS` in `transition-planner.js` e
   rigenerare `test/fixtures/transition-model/reference.json` con `export_onnx.py`.
 
-I file della v5 (`planner-v5.pt`, ONNX fp32 e int8) sono rimasti nel container e non sono nel repository: la v5 non
-entra nell'app, e con il codice di questo branch si rifà sul Mac.
+I file della v5 (ONNX fp32 e int8, riferimenti per i test, risultati) sono sul branch `modello-v5-scartato`, in
+`ml/modello-scartato/v5`, fuori dalla beta; il checkpoint PyTorch si ricava con
+`onnx_to_pt.py ml/modello-scartato/v5/transition-planner-v5.onnx ml/data/runs/planner-v5.pt`.
