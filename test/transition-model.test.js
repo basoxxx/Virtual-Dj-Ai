@@ -87,26 +87,55 @@ test('modello C: il piano dell\'AI DJ chiede le curve al modello solo con il syn
   assert.equal(dj.makePlan(deck(128, 'Am'), next).wantModel, true);
   const far = { ...deck(90, 'Am'), track: { bpm: 90, key: 'Am', energy: 6 } };
   assert.equal(dj.makePlan(deck(128, 'Am'), far).wantModel, false);
+  assert.equal(dj.makePlan(deck(128, 'Am'), next).modelStyle, 'model');
+  // stile techno: stesso piano, modello diverso
+  dj.options.style = 'model-techno';
+  const techno = dj.makePlan(deck(128, 'Am'), next);
+  assert.equal(techno.wantModel, true);
+  assert.equal(techno.modelStyle, 'model-techno');
+  dj.options.style = 'bassswap';
+  assert.equal(dj.makePlan(deck(128, 'Am'), next).wantModel, false);
 });
 
-const path = MODELS + TRANSITION_MODEL;
-test('modello C int8 con onnxruntime-web: curve come onnxruntime Python', { skip: !existsSync(path) && 'modello non scaricato' }, async () => {
-  const ort = await import('onnxruntime-web');
-  ort.env.wasm.numThreads = 1;
-  const s = await ort.InferenceSession.create(new Uint8Array(readFileSync(path)), { executionProviders: ['wasm'] });
-  try {
-    const res = await s.run({
-      x: new ort.Tensor('float32', Float32Array.from(ref.model.x), [1, ref.model.mask.length, TM_INPUTS]),
-      mask: new ort.Tensor('float32', Float32Array.from(ref.model.mask), [1, ref.model.mask.length]),
-    });
-    let maxErr = 0;
-    for (let i = 0; i < res.controls.data.length; i++) {
-      if (!ref.model.mask[Math.floor(i / 9)]) continue;
-      maxErr = Math.max(maxErr, Math.abs(res.controls.data[i] - ref.model.int8[i]));
-    }
-    // i kernel int8 di WASM arrotondano diversamente da quelli nativi (vedi Beat This!)
-    assert.ok(maxErr < 0.05, `errore massimo ${maxErr}`);
-  } finally {
-    await s.release();
+test('modello C: ogni stile di transizione del pannello ha il suo modello e la sua finestra', async () => {
+  const { TRANSITIONS } = await import('../src/renderer/js/ai/selector.js');
+  const { TRANSITION_STYLES, isModelStyle } = await import('../src/renderer/js/ai/transition-planner.js');
+  const modelStyles = Object.keys(TRANSITIONS).filter(isModelStyle);
+  assert.deepEqual(modelStyles.sort(), Object.keys(TRANSITION_STYLES).sort());
+  const files = Object.values(TRANSITION_STYLES).map((m) => m.file);
+  assert.equal(new Set(files).size, files.length);
+  for (const m of Object.values(TRANSITION_STYLES)) {
+    assert.match(m.file, /^segueo-transizioni-[a-z]+-v\d+\.onnx$/);
+    assert.ok([128, 256].includes(m.beats));
   }
 });
+
+// parità di ogni stile con onnxruntime Python: riferimenti da ml/transitions/export_onnx.py
+// (reference.json per lo stile predefinito, reference-techno.json per la v6 dello stile techno)
+const PARITY = [
+  [TRANSITION_MODEL, ref],
+  ['segueo-transizioni-techno-v6.onnx', JSON.parse(readFileSync(fileURLToPath(new URL('./fixtures/transition-model/reference-techno.json', import.meta.url)), 'utf8'))],
+];
+for (const [file, r] of PARITY) {
+  const path = MODELS + file;
+  test(`modello C int8 con onnxruntime-web (${file}): curve come onnxruntime Python`, { skip: !existsSync(path) && 'modello non scaricato' }, async () => {
+    const ort = await import('onnxruntime-web');
+    ort.env.wasm.numThreads = 1;
+    const s = await ort.InferenceSession.create(new Uint8Array(readFileSync(path)), { executionProviders: ['wasm'] });
+    try {
+      const res = await s.run({
+        x: new ort.Tensor('float32', Float32Array.from(r.model.x), [1, r.model.mask.length, TM_INPUTS]),
+        mask: new ort.Tensor('float32', Float32Array.from(r.model.mask), [1, r.model.mask.length]),
+      });
+      let maxErr = 0;
+      for (let i = 0; i < res.controls.data.length; i++) {
+        if (!r.model.mask[Math.floor(i / 9)]) continue;
+        maxErr = Math.max(maxErr, Math.abs(res.controls.data[i] - r.model.int8[i]));
+      }
+      // i kernel int8 di WASM arrotondano diversamente da quelli nativi (vedi Beat This!)
+      assert.ok(maxErr < 0.05, `errore massimo ${maxErr}`);
+    } finally {
+      await s.release();
+    }
+  });
+}

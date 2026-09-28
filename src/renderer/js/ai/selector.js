@@ -17,7 +17,9 @@ export const TRANSITIONS = {
   echo: 'Echo out',
   fade: 'Dissolvenza',
   cut: 'Taglio sul beat',
-  model: 'Modello AI (sperimentale)',
+  // modelli di transizione per stile (vedi TRANSITION_STYLES in transition-planner.js)
+  model: 'Modello AI · dance (Gabry Ponte, LUM!X)',
+  'model-techno': 'Modello AI · techno (transizioni lunghe)',
 };
 
 /** Rapporto di tempo più vicino a 1 considerando metà/doppio tempo. */

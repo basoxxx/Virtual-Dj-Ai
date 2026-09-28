@@ -3,22 +3,20 @@
 import { loadOrt, fetchModel } from '../js/dsp/ort-loader.js';
 import { TM_MAX_BEATS, TM_INPUTS } from '../js/ai/transition-model.js';
 
-let current = null; // { model, promise }
+// una sessione per modello (stili dance e techno): cambiare stile non ricarica il modello già usato
+const sessions = new Map(); // model -> promise di { ort, s }
 
 function session(model) {
-  if (!current || current.model !== model) {
+  if (!sessions.has(model)) {
     const promise = (async () => {
       const ort = await loadOrt();
       const s = await ort.InferenceSession.create(await fetchModel(model), { executionProviders: ['wasm'], graphOptimizationLevel: 'all' });
       return { ort, s };
     })();
-    const entry = { model, promise };
-    promise.catch(() => {
-      if (current === entry) current = null;
-    });
-    current = entry;
+    promise.catch(() => sessions.delete(model));
+    sessions.set(model, promise);
   }
-  return current.promise;
+  return sessions.get(model);
 }
 
 self.onmessage = async (e) => {
