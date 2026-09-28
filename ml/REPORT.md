@@ -934,3 +934,52 @@ Su tua richiesta i modelli dell'app hanno il nome dell'app e la funzione:
 - 1001tracklists blocca dopo poche pagine: per altri mix le tracklist vanno lette a mano.
 - Si potrebbero tenere v6 (techno, transizioni lunghe) e v7 (stile Gabry Ponte) come due stili da scegliere nel
   pannello AI DJ.
+
+## Giorno 10 — 28 settembre 2026 (due stili nel pannello; LUM!X)
+
+### Fatto
+
+- **Scelta dello stile nel pannello AI DJ** (Transizioni):
+  - "Modello AI · dance (Gabry Ponte)" usa `segueo-transizioni-dance-v7.onnx`;
+  - "Modello AI · techno, mix lunghi" usa `segueo-transizioni-techno-v6.onnx`;
+  - i file sono la v7 e la v6 con i nomi nuovi (byte identici);
+  - `TRANSITION_STYLES` in `transition-planner.js` dà a ogni stile file e finestra;
+  - il worker tiene una sessione per modello: cambiare stile non ricarica nulla;
+  - il diario dice quale stile ha usato;
+  - lo stile dance mantiene il valore `model`, quindi le impostazioni salvate restano valide.
+- **LUM!X come DJ di addestramento** (`dj_sets_download.py` e `dj_sets_dataset.py`, generalizzati da quelli di Gabry
+  Ponte con `--dj gabry|lumix`; il dataset di Gabry Ponte torna identico: 27 transizioni, fit 0,161):
+  - 1001tracklists ora chiede un CAPTCHA, e non lo risolvo;
+  - le tracklist vengono dai capitoli YouTube del set all'ADE (SLAM!, 41 min, solo titoli) e dalle descrizioni di
+    4 episodi di Spinnin' Sessions con il suo guest mix (468, 492, 537, 542: circa 30 minuti ciascuno);
+  - audio dai canali ufficiali (SoundCloud di Spinnin' Sessions, SLAM!) o dall'archivio YouTube di Spinnin';
+  - 39 brani su 49 da YouTube (6 titoli dell'ADE non trovati, 4 rifiutati con 403, nessun blocco anti-bot).
+- **Risultato: una sola transizione affidabile di LUM!X** (su 10 trovate: 4 con l'ordine incoerente, le altre con
+  errore del fit tra 0,6 e 0,8; con la soglia a 0,7 sarebbero 4). Il motivo è lo stile:
+  - nei guest mix i brani durano 20-40 s e si sovrappongono a raffica (nell'episodio 468 sette brani cadono tutti tra
+    41,7 e 42,7 minuti);
+  - molti sono VIP, edit e remix suoi non pubblicati, diversi dalle versioni su YouTube;
+  - la stima delle curve richiede tratti in cui ogni brano suona da solo e versioni uguali a quelle suonate.
+
+  **Non ho addestrato una v8** su una transizione ripetuta: avrebbe insegnato rumore. La fonte `lumix` resta in
+  `train.py` con quota 0, pronta.
+- **Prove:**
+  - `npm run check` 68/68, `npm test` 94/94: nuovi test sugli stili del pannello e parità con onnxruntime-web di
+    entrambi i modelli;
+  - app vera, 16 misure (`STYLE=model|model-techno` in `autodj-model.js`):
+
+  | Stile | Crossfader a metà corsa | Bassi |
+  |---|---|---|
+  | dance | al 44% della transizione | scambio tra il 63% e il 69% |
+  | techno | al 55% | A tagliati al 63%, B mai aperti del tutto |
+
+  - l'etichetta lunga dello stile techno veniva troncata nel pannello: accorciata e ricontrollata in uno screenshot
+    dell'app.
+
+### Per LUM!X (se si vuole riprovare)
+
+- Servono set in cui suona brani interi pubblicati, con tracklist a tempi: festival o club, non i guest mix
+  radiofonici a raffica.
+- Su 1001tracklists si possono leggere se risolvi tu il CAPTCHA nel browser.
+- In alternativa si può imparare il suo stile come "tagli a raffica": una transizione corta sul beat, senza curve,
+  cioè un nuovo tipo di transizione per l'AI DJ invece di un altro modello.
