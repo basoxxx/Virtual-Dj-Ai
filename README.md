@@ -50,6 +50,11 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
 Puoi lasciare scegliere all'AI dalla libreria o da una playlist, oppure darle una coda. I pulsanti **Mixa ora** e
 **Cambia prossimo** permettono di intervenire in qualsiasi momento.
 
+**Vista AI.** Con il selettore **Console | AI** in alto (o `Ctrl+Shift+A`) l'app passa a una vista dedicata al mix
+automatico e ai mashup: brano in onda e prossimo in grande, avanzamento della transizione, crossfader, pulsanti per
+AI DJ, mashup e remix, e le impostazioni dell'AI DJ in evidenza accanto a coda e diario. L'AI continua a mixare anche
+tornando alla **Console**, dove puoi intervenire a mano sopra il suo mix. La vista scelta viene ricordata.
+
 ### Modello linguistico locale (facoltativo)
 
 Per scelte ancora più "umane" e per creare scalette descritte a parole (es. *"deep house al tramonto, poi sempre più
