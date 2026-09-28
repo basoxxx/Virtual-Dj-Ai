@@ -1,0 +1,98 @@
+{
+  "repo": "basoxxx/Virtual-Dj-Ai",
+  "release": "models-v1",
+  "models": [
+    {
+      "file": "beat_this-small0-int8.onnx",
+      "bundle": true,
+      "bytes": 3900736,
+      "sha256": "7cdf1841dbb8ec44d456b93a9d5105b47d164eb48bc371db11f4a05f7be8111a",
+      "source": "Beat This! small0 (CPJKU, MIT), ml/beat_this/export_onnx.py, int8 dinamico"
+    },
+    {
+      "file": "beat_this-small0.onnx",
+      "bundle": false,
+      "bytes": 9043951,
+      "sha256": "f42a942a9a212b47dc9126ed036a30814b21eaad99ae59c246a2d964c61401d1",
+      "source": "Beat This! small0 (CPJKU, MIT), ml/beat_this/export_onnx.py, fp32"
+    },
+    {
+      "file": "beat_this-final0-int8.onnx",
+      "bundle": false,
+      "bytes": 22209392,
+      "sha256": "6997acb94945bd62307c16d14cb776dd0e96cc01595ee793d49eb1a5f970d1d6",
+      "source": "Beat This! final0 (CPJKU, MIT), ml/beat_this/export_onnx.py, int8 dinamico"
+    },
+    {
+      "file": "beat_this-final0.onnx",
+      "bundle": false,
+      "bytes": 81651009,
+      "sha256": "cee641c66588bc6182fd445d3a4b2889113a952514227d21174f19284232e987",
+      "source": "Beat This! final0 (CPJKU, MIT), ml/beat_this/export_onnx.py, fp32"
+    },
+    {
+      "file": "transition-planner-v1-int8.onnx",
+      "bundle": false,
+      "bytes": 6815310,
+      "sha256": "1672325644c5fedb80037cd40d0330b7a7a347bac0d473908cbf48149168a86c",
+      "source": "Modello C (pianificatore delle transizioni) v1, ml/transitions, int8 dinamico; addestrato su transizioni sintetiche"
+    },
+    {
+      "file": "transition-planner-v1.onnx",
+      "bundle": false,
+      "bytes": 25766251,
+      "sha256": "d41ad454ce3d6c3d1ffc56f9a1d12a288653650bb9881c6daff0aa193aec0978",
+      "source": "Modello C (pianificatore delle transizioni) v1, ml/transitions, fp32"
+    },
+    {
+      "file": "htdemucs.onnx",
+      "bundle": false,
+      "onDemand": true,
+      "bytes": 174264722,
+      "sha256": "b9b27414530f0a08125ecb5b470191073bb81f7e1431df844169320a4c5e1a2f",
+      "source": "Demucs v4 htdemucs (Meta, codice MIT; licenza dei pesi non dichiarata, uso deciso dall'utente), ml/mashup/export_demucs.py, fp32 senza STFT"
+    },
+    {
+      "file": "transition-planner-v2-int8.onnx",
+      "bundle": false,
+      "bytes": 6815310,
+      "sha256": "dfa1ee0313bcbe83b54a19a70dc37ab01310067df3feeb3f5309030ea4cd7fe0",
+      "source": "Modello C v2: v1 rifinito sul crossfader di 26 transizioni umane (dataset della tesi di Gand, solo in locale), int8 dinamico"
+    },
+    {
+      "file": "transition-planner-v2.onnx",
+      "bundle": false,
+      "bytes": 25766251,
+      "sha256": "010dab1ddcfd9016f023a246840685edd74ea40e60494d945fad61fab03bdcb8",
+      "source": "Modello C v2, fp32"
+    },
+    {
+      "file": "transition-planner-v3-int8.onnx",
+      "bundle": false,
+      "bytes": 6815310,
+      "sha256": "6f1ed3446f5f5848f97e4f39c10dd11bf4866688a088ed5b968444fcdc4f599b",
+      "source": "Modello C v3: sintetico con brani da DJ, outro e forme del crossfader umano, rifinito su 26 transizioni umane con finestre variabili (dataset di Gand, solo in locale), int8 dinamico"
+    },
+    {
+      "file": "transition-planner-v3.onnx",
+      "bundle": false,
+      "bytes": 25766251,
+      "sha256": "d551380c37587dc43d7dad384e0b7b448344cca1435348425cf4fc92ce9ae546",
+      "source": "Modello C v3, fp32"
+    },
+    {
+      "file": "transition-planner-v4-int8.onnx",
+      "bundle": true,
+      "bytes": 6815310,
+      "sha256": "7f86fd416e84344d7a1b24bd3f3b3467228f42d708ccf85753af4a1dae1f05a6",
+      "source": "Modello C v4: v3 rifinita anche su 22 transizioni di DJ set veri (Mixotic, curve di crossfader ed EQ stimate dal mix) e sul crossfader di Gand (solo in locale), int8 dinamico"
+    },
+    {
+      "file": "transition-planner-v4.onnx",
+      "bundle": false,
+      "bytes": 25766251,
+      "sha256": "ab903661d8d7df031c8361caff85fccc63a913c65da3e6a03addbef1263e0945",
+      "source": "Modello C v4, fp32"
+    }
+  ]
+}

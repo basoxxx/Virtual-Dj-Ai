@@ -19,7 +19,8 @@ const LOOP_SIZES = [
 ];
 
 export class DeckUI {
-  constructor(root, deck, { accent, side, getOther, onRequestLoad, inputDevices }) {
+  constructor(root, deck, { accent, side, getOther, onRequestLoad, inputDevices, stems }) {
+    this.stems = stems;
     this.root = root;
     this.deck = deck;
     this.accent = accent;
@@ -67,8 +68,9 @@ export class DeckUI {
     this.slipBtn = button('SLIP', { className: 'small toggle', title: 'Slip: dopo loop/scratch riprende dove sarebbe arrivato', onClick: () => d.setSlip(!d.slip) });
     this.revBtn = button('REV', { className: 'small toggle', title: 'Riproduzione al contrario', onClick: () => d.setReverse(!d.reverse) });
     this.censorBtn = button('CENSOR', { className: 'small', title: 'Tieni premuto: reverse momentaneo con slip', onDown: () => d.censor(true), onUp: () => d.censor(false) });
+    this.stemBtn = button('STEM', { className: 'small toggle', title: 'Brano completo / solo voce / solo base (separazione con Demucs, sul computer)', onClick: () => this.cycleStem() });
     const jogCol = el('div', { class: 'jog-col' }, this.jogCanvas,
-      el('div', { class: 'row tight' }, this.vinylBtn, this.slipBtn, this.revBtn, this.censorBtn));
+      el('div', { class: 'row tight' }, this.vinylBtn, this.slipBtn, this.revBtn, this.censorBtn, this.stemBtn));
 
     // trasporto
     this.cueBtn = button('CUE', { className: 'transport cue', onDown: () => d.cueDown(), onUp: () => d.cueUp() });
@@ -260,8 +262,33 @@ export class DeckUI {
     this.refresh();
   }
 
+  /** STEM: brano completo → solo voce → solo base; se il brano non è separato, lo separa. */
+  async cycleStem() {
+    const d = this.deck;
+    const track = d.track;
+    if (!track || !this.stems) return;
+    try {
+      if (!(await this.stems.has(track))) {
+        if (!(await this.stems.checkModel())) {
+          toast('Scarica prima il modello per separare voce e base (pannello AI DJ)', 'warn');
+          return;
+        }
+        toast(`Separo voce e base di "${track.title}": l'avanzamento è nel pannello AI DJ`);
+        await this.stems.ensure(track);
+        toast(`Voce e base di "${track.title}" pronte: premi STEM per sceglierle`);
+        return;
+      }
+      const order = ['full', 'vocals', 'instrumental'];
+      await d.setStem(order[(order.indexOf(d.stem || 'full') + 1) % order.length]);
+    } catch (err) {
+      toast(err.message, 'error');
+    }
+  }
+
   refresh() {
     const d = this.deck;
+    this.stemBtn.textContent = { vocals: 'VOCE', instrumental: 'BASE' }[d.stem] || 'STEM';
+    this.stemBtn.setOn(Boolean(d.stem) && d.stem !== 'full');
     this.playBtn.setOn(d.playing);
     this.playBtn.textContent = d.playing ? 'PAUSA' : 'PLAY';
     this.cueBtn.setOn(!d.playing && d.loaded && Math.abs(d.position - d.cuePoint) < 0.02);

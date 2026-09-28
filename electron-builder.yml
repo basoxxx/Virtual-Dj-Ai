@@ -1,7 +1,7 @@
 appId: com.basoxxx.virtualdjai
-productName: Virtual DJ AI
+productName: Segueo
 copyright: Copyright © 2026 basoxxx
-artifactName: "Virtual-DJ-AI-${version}-${os}-${arch}.${ext}"
+artifactName: "Segueo-${version}-${os}-${arch}.${ext}"
 
 directories:
   output: dist
@@ -9,6 +9,10 @@ directories:
 
 files:
   - src/**/*
+  # modelli AI: solo quelli con "bundle": true in src/main/models.json
+  - "!src/renderer/models/**"
+  - src/renderer/models/beat_this-small0-int8.onnx
+  - src/renderer/models/transition-planner-v4-int8.onnx
   - package.json
   - "!**/*.map"
 
@@ -27,7 +31,7 @@ msi:
   runAfterFinish: true
   createDesktopShortcut: true
   createStartMenuShortcut: true
-  shortcutName: Virtual DJ AI
+  shortcutName: Segueo
   upgradeCode: a95433b2-0269-4ba4-9613-c071d0de679c
 
 mac:
@@ -40,11 +44,11 @@ mac:
     - target: dmg
       arch: [x64, arm64]
   extendInfo:
-    NSMicrophoneUsageDescription: Virtual DJ AI usa il microfono e gli ingressi audio della scheda audio per mixarli dal vivo.
-    NSAudioCaptureUsageDescription: Virtual DJ AI usa gli ingressi audio per mixare sorgenti esterne.
+    NSMicrophoneUsageDescription: Segueo usa il microfono e gli ingressi audio della scheda audio per mixarli dal vivo.
+    NSAudioCaptureUsageDescription: Segueo usa gli ingressi audio per mixare sorgenti esterne.
 
 dmg:
-  title: Virtual DJ AI ${version}
+  title: Segueo ${version}
   contents:
     - x: 130
       y: 220

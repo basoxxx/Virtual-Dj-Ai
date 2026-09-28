@@ -9,6 +9,8 @@ import { MidiManager } from './midi.js';
 import { AutoDJ } from './ai/autodj.js';
 import { LocalLLM } from './ai/llm.js';
 import { BatchAnalyzer } from './ai/batch-analyzer.js';
+import { configureAnalysis } from './audio/analyzer-client.js';
+import { StemManager } from './ai/stems.js';
 import { DeckUI } from './ui/deck-ui.js';
 import { MixerUI } from './ui/mixer-ui.js';
 import { LibraryUI } from './ui/library-ui.js';
@@ -36,6 +38,7 @@ const DEFAULT_SETTINGS = {
   ai: {
     llm: false, provider: 'ollama', endpoint: 'http://localhost:11434', model: '', apiKey: '',
     autoAnalyze: true,
+    analysisEngine: 'ai',
     options: {},
   },
   updates: { auto: true },
@@ -60,6 +63,7 @@ class App {
 
   async start() {
     this.settings = merge(DEFAULT_SETTINGS, await api.getSettings());
+    configureAnalysis({ engine: this.settings.ai.analysisEngine });
     this.engine = new AudioEngine();
     await this.engine.init({ latency: this.settings.audio.latency });
     this.engine.addEventListener('error', (e) => toast(e.detail, 'error'));
@@ -77,7 +81,9 @@ class App {
     await this.sampler.init(this.settings.sampler);
     this.llm = new LocalLLM(() => this.settings.ai);
     this.analyzer = new BatchAnalyzer(this.engine.ctx);
+    this.stems = new StemManager({ isBusy: () => this.analyzer.running });
     this.automix = new AutoDJ({
+      stems: this.stems,
       engine: this.engine,
       decks: this.decks,
       getControls: () => this.mixerUI.controls,
@@ -148,7 +154,7 @@ class App {
       if (!e.detail) this.recTime.textContent = '';
     });
     const top = el('header', { class: 'topbar' },
-      el('div', { class: 'logo' }, el('img', { class: 'logo-img', src: 'img/icon.png', alt: '' }), 'Virtual DJ ', el('b', {}, 'AI')),
+      el('div', { class: 'logo' }, el('img', { class: 'logo-img', src: 'img/icon.png', alt: '' }), 'Segueo'),
       this.progress,
       el('div', { class: 'spacer' }),
       this.updateUI.badge, this.recBtn, this.recTime, this.automixBtn, this.midiBadge,
@@ -186,6 +192,7 @@ class App {
       side: i === 0 ? 'left' : 'right',
       getOther: () => this.decks[1 - i],
       onRequestLoad: (e) => this.onDeckDrop(d, e),
+      stems: this.stems,
     }));
     this.mixerUI = new MixerUI(mixer, { engine: this.engine, strips: this.strips, decks: this.decks, mic: this.mic, sampler: this.sampler, accents: ACCENTS });
 
@@ -202,6 +209,7 @@ class App {
       getMasterDeck: () => this.masterDeck(),
     });
     this.sideUI = new SideUI(sideHost, {
+      stems: this.stems,
       sampler: this.sampler,
       automix: this.automix,
       onSamplerChange: () => {
@@ -221,7 +229,7 @@ class App {
     });
     this.library.addEventListener('changed', () => {
       this.sideUI.refreshSources();
-      if (this.settings.ai.autoAnalyze && !this.analyzer.running) {
+      if (this.settings.ai.autoAnalyze && !this.analyzer.running && !this.stems.running) {
         clearTimeout(this.analyzeTimer);
         this.analyzeTimer = setTimeout(() => this.analyzer.run(this.library.lib.tracks), 3000);
       }

@@ -48,6 +48,13 @@ class DeckProcessor extends AudioWorkletProcessor {
         this.loopActive = false;
         this.ended = false;
         break;
+      case 'swap':
+        // altra versione dello stesso brano (es. solo voce o solo base): posizione, loop e riproduzione restano
+        this.L = m.left;
+        this.R = m.right || m.left;
+        this.len = this.L.length;
+        if (this.pos > this.len) this.pos = this.len;
+        break;
       case 'unload':
         this.L = this.R = null;
         this.len = 0;

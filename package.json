@@ -1,7 +1,7 @@
 {
-  "name": "virtual-dj-ai",
-  "productName": "Virtual DJ AI",
-  "version": "1.5.0",
+  "name": "segueo",
+  "productName": "Segueo",
+  "version": "1.6.0",
   "description": "Software DJ con AI DJ che mixa in automatico (anche con LLM locale): 2 deck, mixer, effetti, sampler, microfono, ingressi linea, MIDI, registrazione.",
   "main": "src/main/main.js",
   "author": "basoxxx",
@@ -16,6 +16,8 @@
     "dev": "electron . --dev",
     "test": "node --test \"test/**/*.test.js\"",
     "check": "node scripts/check-syntax.js",
+    "postinstall": "node scripts/vendor-ort.js",
+    "models": "node scripts/download-models.js",
     "icons": "node scripts/generate-icon.js",
     "dist": "electron-builder --publish never",
     "dist:win": "electron-builder --win msi --publish never",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "electron": "^38.8.6",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.0.12",
+    "onnxruntime-web": "1.30.0"
   }
 }

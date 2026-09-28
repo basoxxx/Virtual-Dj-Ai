@@ -1,7 +1,7 @@
 // Deck: caricamento traccia, trasporto, cue stile CDJ, 8 hot cue, loop, beat jump,
 // pitch/keylock, sync di tempo e fase, slip mode, reverse/censor, ingresso linea.
 import { api } from '../api.js';
-import { analyze, analysisPatch } from './analyzer-client.js';
+import { analyze, analysisPatch, analysisEngine, refineWithAi } from './analyzer-client.js';
 import { FxSlot } from './effects.js';
 import { shiftKey } from '../dsp/analysis.js';
 
@@ -131,6 +131,9 @@ export class Deck extends EventTarget {
       const right = audio.numberOfChannels > 1 ? audio.getChannelData(1) : left;
       this.post({ type: 'unload' });
       this.post({ type: 'load', left, right });
+      // versione completa (per tornarci dopo solo voce / solo base)
+      this.fullBuffers = { left, right };
+      this.stem = 'full';
       this.post({ type: 'seek', pos: 0 });
       this.track = track;
       this.duration = audio.duration;
@@ -164,7 +167,7 @@ export class Deck extends EventTarget {
           this.emit('cover', c);
         }
       });
-      this.runAnalysis(track, [left, right === left ? left : right], audio.sampleRate);
+      this.runAnalysis(track, [left, right === left ? left : right], audio.sampleRate, bytes);
       return true;
     } catch (err) {
       this.loading = false;
@@ -174,12 +177,13 @@ export class Deck extends EventTarget {
     }
   }
 
-  async runAnalysis(track, channels, sampleRate) {
+  async runAnalysis(track, channels, sampleRate, encoded) {
     const needBeat = !track.analyzed || !track.bpm;
     const needKey = !track.key;
     this.emit('analyzing', true);
     try {
-      const res = await analyze(channels, sampleRate, { bpm: needBeat, key: needKey, knownBpm: track.bpm || 0, knownOffset: track.gridOffset || 0 });
+      // prima il classico (risultati subito), poi con il motore AI la rifinitura in background
+      const res = await analyze(channels, sampleRate, { engine: 'classic', bpm: needBeat, key: needKey, knownBpm: track.bpm || 0, knownOffset: track.gridOffset || 0 });
       if (this.track !== track) return;
       this.waveform = res.waveform;
       const patch = analysisPatch(res, this.duration);
@@ -205,11 +209,45 @@ export class Deck extends EventTarget {
     } finally {
       this.emit('analyzing', false);
     }
+    if (needBeat && analysisEngine() === 'ai' && this.track === track) await this.refineAnalysis(track, channels, sampleRate, encoded);
+  }
+
+  /** Rifinitura AI (Beat This!) di griglia, battuta forte e struttura dopo l'analisi classica. */
+  async refineAnalysis(track, channels, sampleRate, encoded) {
+    let res;
+    try {
+      res = await refineWithAi(channels, sampleRate, encoded);
+    } catch (err) {
+      console.warn('Rifinitura AI non riuscita', err);
+    }
+    if (!res || !res.beat || res.beat.engine !== 'ai') {
+      track.aiRefineFailed = true;
+      return;
+    }
+    if (track.bpmEngine === 'manual') return; // griglia corretta a mano nel frattempo
+    const patch = analysisPatch(res, this.duration);
+    delete patch.gain;
+    Object.assign(track, patch);
+    api.updateTrack(track.id, patch);
+    // un deck in riproduzione cambia solo fase e battuta forte, non il tempo: chi è in sync non salta
+    if (this.track !== track || (this.playing && Math.abs(res.beat.bpm - this.bpm) >= 0.5)) return;
+    const atCue = Math.abs(this.position - this.cuePoint) < 0.01 && !this.playing;
+    this.bpm = res.beat.bpm;
+    this.gridOffset = res.beat.offset;
+    if (atCue && (!track.hotcues || track.hotcues[0] == null)) {
+      this.cuePoint = this.gridOffset;
+      this.seek(this.cuePoint);
+    }
+    this.fx.forEach((f) => f.setBpm(this.effectiveBpm));
+    this.emit('analyzed', track);
+    this.emit('state');
   }
 
   eject() {
     if (this.playing) return false;
     this.post({ type: 'unload' });
+    this.fullBuffers = null;
+    this.stem = 'full';
     this.track = null;
     this.duration = 0;
     this.waveform = null;
@@ -339,6 +377,32 @@ export class Deck extends EventTarget {
   }
 
   // --- Loop ----------------------------------------------------------------------------
+
+  /**
+   * Versione del brano in riproduzione: 'full', 'vocals' (solo voce) o 'instrumental' (solo base), dalle
+   * parti separate salvate su disco (mashup). Lo scambio non ferma né sposta il brano.
+   */
+  async setStem(kind) {
+    if (!this.track || !this.fullBuffers) return false;
+    if (kind === (this.stem || 'full')) return true;
+    const track = this.track;
+    let left;
+    let right;
+    if (kind === 'full') {
+      ({ left, right } = this.fullBuffers);
+    } else {
+      const bytes = await api.readStem(track.id, kind);
+      if (!bytes) throw new Error('parte separata non disponibile');
+      const audio = await this.ctx.decodeAudioData(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
+      left = audio.getChannelData(0);
+      right = audio.numberOfChannels > 1 ? audio.getChannelData(1) : left;
+    }
+    if (this.track !== track) return false;
+    this.post({ type: 'swap', left, right });
+    this.stem = kind;
+    this.emit('state');
+    return true;
+  }
 
   sendLoop() {
     this.post({ type: 'loop', in: this.loop.in * this.sampleRate, out: this.loop.out * this.sampleRate, active: this.loop.active });
@@ -510,7 +574,8 @@ export class Deck extends EventTarget {
       if (this.track) {
         this.track.bpm = this.bpm;
         this.track.gridOffset = this.gridOffset;
-        api.updateTrack(this.track.id, { bpm: this.bpm, gridOffset: this.gridOffset });
+        this.track.bpmEngine = 'manual';
+        api.updateTrack(this.track.id, { bpm: this.bpm, gridOffset: this.gridOffset, bpmEngine: 'manual' });
       }
       this.fx.forEach((f) => f.setBpm(this.effectiveBpm));
       this.emit('state');
@@ -523,7 +588,8 @@ export class Deck extends EventTarget {
     this.gridOffset = this.position % this.beatLength;
     if (this.track) {
       this.track.gridOffset = this.gridOffset;
-      api.updateTrack(this.track.id, { gridOffset: this.gridOffset });
+      this.track.bpmEngine = 'manual';
+      api.updateTrack(this.track.id, { gridOffset: this.gridOffset, bpmEngine: 'manual' });
     }
     this.emit('state');
   }
@@ -533,7 +599,8 @@ export class Deck extends EventTarget {
     this.bpm = bpm;
     if (this.track) {
       this.track.bpm = bpm;
-      api.updateTrack(this.track.id, { bpm });
+      this.track.bpmEngine = 'manual';
+      api.updateTrack(this.track.id, { bpm, bpmEngine: 'manual' });
     }
     this.fx.forEach((f) => f.setBpm(this.effectiveBpm));
     this.emit('state');

@@ -23,6 +23,7 @@ function createBrowserApi() {
     settings = {};
   }
   let rec = null;
+  const stems = new Map();
   const snapshot = () => structuredClone(lib);
 
   const registerFile = (file) => {
@@ -144,6 +145,15 @@ function createBrowserApi() {
       return a.download;
     },
     requestMic: async () => true,
+    // mashup: nel browser niente download di modelli; le parti separate restano in memoria
+    modelStatus: async (name) => ({ name, installed: false, bytes: 0 }),
+    downloadModel: async () => {
+      throw new Error('Disponibile solo nell\'app installata');
+    },
+    stemsStatus: async (trackId) => ({ vocals: stems.has(`${trackId}:vocals`), instrumental: stems.has(`${trackId}:instrumental`) }),
+    saveStem: async (trackId, kind, bytes) => Boolean(stems.set(`${trackId}:${kind}`, bytes)),
+    readStem: async (trackId, kind) => stems.get(`${trackId}:${kind}`),
+    systemMemory: async () => ({ totalMB: (navigator.deviceMemory || 4) * 1024, freeMB: 0 }),
     aiModels: async ({ provider, endpoint }) => {
       const b = endpoint.replace(/\/+$/, '');
       if (provider === 'ollama') return ((await (await fetch(`${b}/api/tags`)).json()).models || []).map((m) => m.name);

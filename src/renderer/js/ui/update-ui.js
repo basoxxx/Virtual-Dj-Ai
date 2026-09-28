@@ -54,7 +54,7 @@ export class UpdateUI {
         this.badge.replaceChildren(icon('refresh', 13), el('span', {}, `Aggiorna a ${this.info.latest}`));
         if (!manual && !this.notified) {
           this.notified = true;
-          toast(`È disponibile Virtual DJ AI ${this.info.latest}`, 'ok', 5000);
+          toast(`È disponibile Segueo ${this.info.latest}`, 'ok', 5000);
         }
       } else if (manual) {
         toast(`Hai già l'ultima versione (${this.info.current})`, 'ok');
@@ -118,7 +118,7 @@ export class UpdateUI {
       const result = await this.api.updateInstall();
       if (result === 'manual') {
         toast(navigator.platform.startsWith('Mac')
-          ? 'Si è aperto l\'installer: trascina Virtual DJ AI nella cartella Applicazioni'
+          ? 'Si è aperto l\'installer: trascina Segueo nella cartella Applicazioni'
           : 'Si è aperto l\'installer: completa l\'installazione per aggiornare', 'ok', 8000);
         this.closeDialog();
       } else {
@@ -139,7 +139,7 @@ export class UpdateUI {
     body.push(el('div', { class: 'update-head' },
       this.iconImg || (this.iconImg = el('img', { class: 'update-icon', src: 'img/icon.png', alt: '' })),
       el('div', {},
-        el('div', { class: 'modal-title' }, `Virtual DJ AI ${i.latest}`),
+        el('div', { class: 'modal-title' }, `Segueo ${i.latest}`),
         el('div', { class: 'field-hint' }, `Hai la versione ${i.current} · ${mb(i.asset.size)}`))));
     if (i.notes && i.notes.length) {
       body.push(el('div', { class: 'section-label' }, 'NOVITÀ'), el('ul', { class: 'update-notes' }, i.notes.map((n) => el('li', {}, n))));

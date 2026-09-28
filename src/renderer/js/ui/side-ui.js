@@ -7,8 +7,9 @@ import { BatchAnalyzer } from '../ai/batch-analyzer.js';
 import { icon, withIcon } from './icons.js';
 
 export class SideUI {
-  constructor(root, { sampler, automix, onSamplerChange, getTrack, analyzer, getPlaylists, getAllTracks, onAiOptions, openAiSettings, llm }) {
+  constructor(root, { sampler, automix, onSamplerChange, getTrack, analyzer, getPlaylists, getAllTracks, onAiOptions, openAiSettings, llm, stems }) {
     this.root = root;
+    this.stems = stems;
     this.sampler = sampler;
     this.automix = automix;
     this.onSamplerChange = onSamplerChange;
@@ -155,7 +156,7 @@ export class SideUI {
     this.sourceSel = select([{ value: 'library', label: 'Tutta la libreria' }], opt.source, (v) => setOpt({ source: v }), 'ai-select');
     this.strategySel = select(Object.entries(STRATEGIES).map(([value, label]) => ({ value, label })), opt.strategy, (v) => setOpt({ strategy: v }), 'ai-select');
     this.styleSel = select(Object.entries(TRANSITIONS).map(([value, label]) => ({ value, label })), opt.style, (v) => setOpt({ style: v }), 'ai-select');
-    this.barsSel = select([4, 8, 16, 32].map((b) => ({ value: String(b), label: `${b} battute` })), String(opt.bars), (v) => setOpt({ bars: Number(v) }), 'ai-select');
+    this.barsSel = select([4, 8, 16, 32, 48, 64].map((b) => ({ value: String(b), label: `${b} battute` })), String(opt.bars), (v) => setOpt({ bars: Number(v) }), 'ai-select');
     const llmCheck = el('input', { type: 'checkbox' });
     llmCheck.checked = opt.useLLM;
     llmCheck.addEventListener('change', () => {
@@ -171,6 +172,30 @@ export class SideUI {
     const tempoCheck = el('input', { type: 'checkbox' });
     tempoCheck.checked = opt.returnTempo;
     tempoCheck.addEventListener('change', () => setOpt({ returnTempo: tempoCheck.checked }));
+    this.remixCheck = el('input', { type: 'checkbox' });
+    this.remixCheck.checked = Boolean(opt.remix);
+    this.remixCheck.addEventListener('change', () => setOpt({ remix: this.remixCheck.checked }));
+    this.mashCheck = el('input', { type: 'checkbox' });
+    this.mashCheck.checked = Boolean(opt.mashup);
+    this.mashCheck.addEventListener('change', () => {
+      setOpt({ mashup: this.mashCheck.checked });
+      if (this.mashCheck.checked && this.stems && this.stems.modelInstalled === false) toast('Per i mashup scarica il modello che separa voce e base', 'warn');
+    });
+    this.mashInfo = el('span', { class: 'mini-label' });
+    this.mashBtn = button('Scarica modello (174 MB)', { className: 'small', title: 'Demucs v4: separa voce e base dei brani, sul computer', onClick: async () => {
+      this.mashBtn.disabled = true;
+      try {
+        if (await this.stems.downloadModel()) toast('Modello per i mashup installato');
+      } catch (err) {
+        toast(`Download non riuscito: ${err.message}`, 'error');
+      } finally {
+        this.mashBtn.disabled = false;
+      }
+    } });
+    if (this.stems) {
+      this.stems.addEventListener('change', () => this.refreshStems());
+      this.stems.checkModel();
+    }
     this.llmBadge = el('span', { class: 'llm-badge' });
 
     this.prompt = el('textarea', { class: 'ai-prompt', rows: '2', placeholder: 'Descrivi il set (es. "house anni 2000 in crescendo per un aperitivo")' });
@@ -226,6 +251,9 @@ export class SideUI {
       row('Transizioni', this.styleSel),
       row('Durata mix', this.barsSel),
       el('label', { class: 'check' }, tempoCheck, 'Ritorna al BPM originale dopo il mix'),
+      el('label', { class: 'check' }, this.remixCheck, 'Remix dal vivo: loop, eco e filtri sulle frasi'),
+      el('label', { class: 'check' }, this.mashCheck, 'Mashup: voce del prossimo brano sulla base di quello in onda'),
+      el('div', { class: 'row tight' }, this.mashInfo, this.mashBtn),
       el('label', { class: 'check' }, llmCheck, 'Usa AI locale (LLM)', this.llmBadge,
         button(icon('gear', 13), { className: 'tiny ghost', title: 'Configura AI locale', onClick: () => this.openAiSettings() })),
       this.prompt,
@@ -265,9 +293,29 @@ export class SideUI {
     this.logEl.scrollTop = this.logEl.scrollHeight;
   }
 
+  refreshStems() {
+    const st = this.stems;
+    if (!st) return;
+    let text = '';
+    if (st.downloading) {
+      const { done, total } = st.downloading;
+      text = `Download del modello: ${total ? Math.round((done / total) * 100) : 0}%`;
+    } else if (st.running) {
+      text = `Separo voce e base: ${st.running.track.title} ${Math.round(st.running.progress * 100)}%${st.queue.length ? ` (+${st.queue.length} in coda)` : ''}`;
+    } else if (st.modelInstalled === false) {
+      text = 'Per i mashup serve il modello Demucs (una volta sola)';
+    } else if (st.modelInstalled) {
+      text = 'Modello per i mashup installato';
+    }
+    this.mashInfo.textContent = text;
+    this.mashBtn.style.display = st.modelInstalled === false && !st.downloading ? '' : 'none';
+  }
+
   refreshAutomix() {
     const a = this.automix;
     const o = a.options;
+    this.remixCheck.checked = Boolean(o.remix);
+    this.mashCheck.checked = Boolean(o.mashup);
     this.amToggle.textContent = a.enabled ? 'AI DJ attivo' : 'Avvia AI DJ';
     this.amToggle.setOn(a.enabled);
     this.modeSel.value = o.mode;

@@ -17,6 +17,7 @@ export const TRANSITIONS = {
   echo: 'Echo out',
   fade: 'Dissolvenza',
   cut: 'Taglio sul beat',
+  model: 'Modello AI (sperimentale)',
 };
 
 /** Rapporto di tempo più vicino a 1 considerando metà/doppio tempo. */

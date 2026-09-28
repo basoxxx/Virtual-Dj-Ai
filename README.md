@@ -1,8 +1,8 @@
-# Virtual DJ AI
+# Segueo
 
 🌐 **Sito:** https://basoxxx.github.io/Virtual-Dj-Ai/
 
-Software DJ desktop per **Windows**, **macOS** e **Linux**, ispirato a VirtualDJ, con un'**AI che mixa in automatico**
+Software DJ desktop per **Windows**, **macOS** e **Linux** con un'**AI che mixa in automatico**
 (anche collegata a un modello linguistico locale): due deck, mixer completo,
 effetti, sampler, microfono, ingressi linea dalla scheda audio, uscita cuffia separata, controller MIDI,
 registrazione del mix e automix.
@@ -12,20 +12,24 @@ Ad ogni push o merge su `main`, GitHub Actions compila e pubblica automaticament
 
 | Sistema | File |
 | --- | --- |
-| Windows 10/11 | `Virtual-DJ-AI-<versione>-win-x64.msi` |
-| macOS Apple Silicon | `Virtual-DJ-AI-<versione>-mac-arm64.dmg` |
-| macOS Intel | `Virtual-DJ-AI-<versione>-mac-x64.dmg` |
-| Linux | `Virtual-DJ-AI-<versione>-linux-x86_64.AppImage` |
+| Windows 10/11 | `Segueo-<versione>-win-x64.msi` |
+| macOS Apple Silicon | `Segueo-<versione>-mac-arm64.dmg` |
+| macOS Intel | `Segueo-<versione>-mac-x64.dmg` |
+| Linux | `Segueo-<versione>-linux-x86_64.AppImage` |
 
 > **macOS:** l'app non è firmata con un certificato Apple. Al primo avvio fai clic destro sull'app → **Apri**,
-> oppure esegui `xattr -cr "/Applications/Virtual DJ AI.app"` nel Terminale.
+> oppure esegui `xattr -cr "/Applications/Segueo.app"` nel Terminale.
 
 ## 🤖 AI DJ: mix automatico con AI locale
 
 Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
 
 1. **Analizza** in background tutta la libreria: BPM, beatgrid, tonalità (Camelot), energia 1–10,
-   struttura del brano (intro, outro, frasi da 8 battute) e punti di mix.
+   struttura del brano (intro, outro, frasi da 8 battute) e punti di mix. Battute e battute forti vengono da
+   **Beat This!**, una rete neurale open source (CPJKU, licenza MIT) che gira sul computer con la sola CPU;
+   in **Impostazioni → AI locale → Motore di analisi** si può tornare all'analisi classica, che resta comunque
+   il ripiego automatico se il modello manca o dà errore. L'analisi è ibrida: il classico dà subito BPM e forma
+   d'onda, Beat This! rifinisce poi battute, battuta forte e struttura in background.
 2. **Sceglie il brano successivo** tra quelli compatibili: tonalità armonica, BPM vicini (anche metà/doppio tempo),
    energia coerente con la strategia scelta (*mantieni*, *crescente*, *onde*, *rilassata*, *picco*), genere, varietà.
    Nel pannello "Diario dell'AI" spiega ogni scelta.
@@ -33,6 +37,15 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    **bass swap** con gli EQ, **filtro**, **echo out** (per tempi incompatibili), **dissolvenza** o **taglio sul beat**.
 4. **Esegue il mix**: sync di tempo e fase, crossfader, EQ, filtri ed effetti si muovono da soli (si vedono le manopole
    girare), poi riporta gradualmente il brano al suo BPM originale.
+   Con **Transizioni → Modello AI (sperimentale)** le curve di crossfader, EQ basso/medio/alto e filtri le decide,
+   battuta per battuta, una rete neurale che gira sul computer (`ml/transitions/`); se non è disponibile si usano
+   le regole.
+5. **Remix dal vivo** (opzione): mentre un brano suona da solo l'AI lo ricompone sulle frasi della griglia con loop
+   roll, eco, filtro in salita e ripetizione della frase appena suonata.
+6. **Mashup** (opzione): quando il brano successivo è compatibile per tonalità e tempo, il brano in onda passa alla
+   sola base e la **voce** del successivo entra a tempo per 16 battute, poi il mix prosegue. Voce e base vengono
+   separate sul computer con **Demucs v4** (il modello, 174 MB, si scarica dal pannello AI DJ la prima volta) e
+   salvate su disco. Il pulsante **STEM** di ogni deck passa tra brano completo, solo voce e solo base.
 
 Puoi lasciare scegliere all'AI dalla libreria o da una playlist, oppure darle una coda. I pulsanti **Mixa ora** e
 **Cambia prossimo** permettono di intervenire in qualsiasi momento.
@@ -63,7 +76,7 @@ lo stato del programma (play, cue, sync, hot cue, loop, preascolto, effetti…).
 
 - **Qualsiasi altra console MIDI** si configura in un minuto con la **procedura guidata** (Impostazioni → 🎛 Console DJ):
   ti chiede un controllo alla volta. Ogni controllo si può anche correggere con **Learn** o invertire (⇅).
-- Le mappature si possono **esportare e importare** (file `.vdjai.json`) per condividerle.
+- Le mappature si possono **esportare e importare** (file `.segueo.json`) per condividerle.
 - I profili seguono la documentazione MIDI pubblica dei produttori; se su un modello un comando non risponde,
   basta correggerlo con Learn: le correzioni personali hanno sempre la precedenza.
 - **Gamepad** Xbox, PlayStation, Switch Pro e simili funzionano come console (play, cue, sync, crossfader sui grilletti, jog sugli stick).
@@ -115,6 +128,7 @@ npm start          # avvia l'app
 npm run dev        # avvia con gli strumenti sviluppatore
 npm test           # test: analisi audio, motore deck, AI DJ, console MIDI e gamepad
 npm run check      # controllo di sintassi
+npm run models     # scarica i modelli AI (GitHub Release models-v1) in src/renderer/models/
 npm run dist:win   # installer .msi (su Windows)
 npm run dist:mac   # installer .dmg (su macOS)
 npm run dist:linux # AppImage (su Linux)
@@ -131,13 +145,39 @@ src/renderer/      interfaccia e motore audio (Web Audio API + AudioWorklet)
   js/controllers/  profili delle console DJ, gamepad
   js/ui/           componenti grafici
   worklets/        riproduzione dei deck (scratch, loop, keylock) e registrazione
-  workers/         analisi dei brani in background
+  workers/         analisi dei brani in background (Beat This! con onnxruntime-web, solo CPU)
+  vendor/          file di onnxruntime-web copiati da npm install (esclusi da git)
+  models/          modelli ONNX scaricati da npm run models (esclusi da git)
+ml/                modelli AI: ambiente Python, export ONNX, valutazioni e REPORT.md con le misure
+  beat_this/       Beat This! in ONNX        transitions/  modello delle transizioni (dati, addestramento)
+  mashup/          Demucs in ONNX (voce e base)
 .github/workflows/ CI, pubblicazione automatica delle release e del sito
 site/              sito GitHub Pages (foto reali dell'interfaccia)
 ```
+
+### Modelli AI
+
+I pesi non stanno nel repository: i file `.onnx` sono asset della GitHub Release
+[`models-v1`](../../releases/tag/models-v1), elencati con dimensione e SHA-256 in `src/main/models.json`.
+`npm run models` scarica quelli inclusi nell'app (`--all` anche le altre varianti); CI e rilascio lo fanno
+prima di test e build. Senza modello l'app funziona con l'analisi classica.
+
+Per rigenerarli (Python 3.12, vedi `ml/requirements.txt`):
+
+```bash
+uv venv --python 3.12 ml/.venv && uv pip install --python ml/.venv/bin/python -r ml/requirements.txt
+ml/.venv/bin/python ml/beat_this/export_onnx.py   # ONNX fp32 + int8 in ml/data/onnx, riferimenti per i test
+```
+
+Misure, confronti e problemi aperti sono in [`ml/REPORT.md`](ml/REPORT.md).
 
 ### Rilascio
 
 Il workflow `.github/workflows/release.yml` si attiva su ogni push su `main` (quindi anche su ogni merge di una
 pull request): esegue i test, costruisce MSI/DMG/AppImage su runner Windows/macOS/Linux e crea la release
 `v<major>.<minor>.<numero build>`. Per cambiare major/minor modifica `version` in `package.json`.
+
+Le versioni di prova partono da un branch con un tag `v<versione>-beta.<n>` (o `-alpha.<n>`), per esempio
+`git tag v1.6.0-beta.1 && git push origin v1.6.0-beta.1`: il workflow `.github/workflows/beta.yml` esegue gli stessi
+test e build e pubblica una **pre-release** con le note di `docs/release-notes/<tag>.md`. Le pre-release non
+diventano "latest": il sito e gli aggiornamenti automatici continuano a proporre l'ultima versione stabile.
