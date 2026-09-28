@@ -1,5 +1,5 @@
-"""Transizioni di Gabry Ponte dai suoi mix (dalla v7): tracklist di 1001tracklists, mix e brani scaricati da
-gabry_download.py, tutto solo in locale in ml/data/gabry.
+"""Transizioni di DJ veri dai loro mix (Gabry Ponte dalla v7, LUM!X dalla v8): tracklist, mix e brani scaricati da
+dj_sets_download.py, tutto solo in locale in ml/data/<dj>.
 
 Allineamento come per i set Mixotic nuovi (align.py: diagonali nella matrice di somiglianza brano × mix, un
 candidato per brano con inizi crescenti nell'ordine della tracklist). Quando la tracklist ha i tempi ("cue", dove
@@ -11,8 +11,8 @@ mix coerente con la tracklist).
 Controllo indipendente (solo con i cue): istante in cui il crossfader stimato passa metà corsa contro il cue del
 brano entrante.
 
-Uso:  ml/.venv/bin/python ml/transitions/gabry_dataset.py [--window 128]
-      -> ml/data/gabry/features/, alignments/<mix>.json, transitions[-128].npz
+Uso:  ml/.venv/bin/python ml/transitions/dj_sets_dataset.py --dj gabry|lumix [--window 128]
+      -> ml/data/<dj>/features/, alignments/<mix>.json, transitions[-128].npz
 """
 
 from __future__ import annotations
@@ -31,11 +31,13 @@ from build_dataset import MAX_BEATS, transitions_of_mix  # noqa: E402
 from features import extract  # noqa: E402
 from mixotic_dataset import AUDIBLE, MAX_FIT, PRE, SMOOTH, pack, window  # noqa: E402
 
-DATA = ML_DIR / "data" / "gabry"
+DATA = ML_DIR / "data" / "gabry"  # cambia con --dj
 FEAT = DATA / "features"
+PREFIX = {"gabry": "gp-", "lumix": "lx-"}
 # soglie di z più basse che per i set Mixotic nuovi (6): con i tempi della tracklist, o anche solo con l'ordine, i
 # brani dei mix radiofonici si susseguono senza buchi; provate 4/4, 3/4, 3/3,5: con 3/3,5 le transizioni tenute
 # passano da 21 a 27 con errore del fit mediano 0,161 (0,177 con 4/4) e metà crossfader a 9 s dal cue
+DJ = "gabry"
 MIN_Z = 3.0
 MIN_Z_NO_CUE = 3.5
 BEFORE, AFTER = 45.0, 45.0  # secondi di tolleranza intorno ai cue
@@ -48,7 +50,7 @@ def features() -> None:
     # solo file completi (niente .part/.ytdl dei download in corso)
     for p in sorted(p for p in (DATA / "mixes").glob("*.*") if p.suffix in AUDIO_EXT):
         extract(p, FEAT, name=f"mix-{p.stem}")
-    for p in sorted(p for p in (DATA / "tracks").glob("gp-*.*") if p.suffix in AUDIO_EXT):
+    for p in sorted(p for p in (DATA / "tracks").glob("*-*.*") if p.suffix in AUDIO_EXT):
         try:
             extract(p, FEAT, name=p.stem)
         except Exception as err:
@@ -135,7 +137,7 @@ def build(key: str, mix: dict, win: int) -> tuple[list[dict], dict]:
         a_det, b_det = det[it["posA"]], det[it["posA"] + 1]
         if not a_det[0] < b_det[0] < a_det[1] + 64:
             it["fitError"] = max(it["fitError"], 9.0)  # ordine nel mix incoerente: scartata
-        it["set"] = f"gp-{key}"
+        it["set"] = f"{PREFIX[DJ]}{key}"
         it["rawLength"] = R = it["length"]
         xf = it["y"][:, 0]
         j_half = int(np.argmax(xf >= 0.5)) if (xf >= 0.5).any() else None
@@ -153,10 +155,14 @@ def build(key: str, mix: dict, win: int) -> tuple[list[dict], dict]:
 
 
 def main():
+    global DATA, FEAT, DJ
     ap = argparse.ArgumentParser()
+    ap.add_argument("--dj", choices=sorted(PREFIX), default="gabry")
     ap.add_argument("--window", type=int, default=MAX_BEATS, help="finestra massima in battute (128 = come fino alla v4)")
     ap.add_argument("--no-features", action="store_true", help="non ricalcolare le caratteristiche mancanti")
     args = ap.parse_args()
+    DJ, DATA = args.dj, ML_DIR / "data" / args.dj
+    FEAT = DATA / "features"
     win = args.window
     if not args.no_features:
         features()
