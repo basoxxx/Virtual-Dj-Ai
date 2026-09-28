@@ -39,7 +39,7 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    girare), poi riporta gradualmente il brano al suo BPM originale.
    Con **Transizioni → Modello AI** le curve di crossfader, EQ basso/medio/alto e filtri le decide, battuta per
    battuta, una rete neurale che gira sul computer (`ml/transitions/`), anche per transizioni lunghe fino a 64
-   battute. Due stili: **dance** (imparato dai mix di Gabry Ponte e LUM!X: cambi corti e a tempo) e **techno**
+   battute. Due stili: **dance** (imparato dai mix di Gabry Ponte: cambi corti e a tempo) e **techno**
    (imparato da DJ set techno e minimal: dissolvenze lunghe). Se il modello non è disponibile si usano le regole.
 5. **Remix dal vivo** (opzione): mentre un brano suona da solo l'AI lo ricompone sulle frasi della griglia con loop
    roll, eco, filtro in salita e ripetizione della frase appena suonata.
@@ -171,7 +171,7 @@ prima di test e build. Senza modello l'app funziona con l'analisi classica.
 | File | Funzione | Origine |
 | --- | --- | --- |
 | `segueo-analisi-battute.onnx` | battute e battute forti dei brani (3,9 MB) | Beat This! small0 (CPJKU, MIT), int8 |
-| `segueo-transizioni-dance-v8.onnx` | transizioni dell'AI DJ, stile dance: curve di crossfader, EQ e filtri (6,9 MB) | modello C di questo progetto (`ml/transitions/`), int8 |
+| `segueo-transizioni-dance-v7.onnx` | transizioni dell'AI DJ, stile dance: curve di crossfader, EQ e filtri (6,9 MB) | modello C di questo progetto (`ml/transitions/`), int8 |
 | `segueo-transizioni-techno-v6.onnx` | transizioni dell'AI DJ, stile techno (6,9 MB) | modello C, int8 |
 | `segueo-separazione-voce.onnx` | voce e base separate per i mashup (174 MB) | Demucs v4 htdemucs (Meta, codice MIT) |
 

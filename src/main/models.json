@@ -116,7 +116,7 @@
     },
     {
       "file": "segueo-transizioni-v7.onnx",
-      "bundle": true,
+      "bundle": false,
       "bytes": 6946394,
       "sha256": "37dc1755ca4b4e648573be1ffeb2f85e5ca592832871d6ea3a3bfbcef4ff57f5",
       "source": "Transizioni dell'AI DJ (modello C v7): v6 rifinita anche su 27 transizioni dei mix di Gabry Ponte (solo in locale), finestre fino a 256 battute; int8 dinamico"
@@ -135,6 +135,20 @@
       "bytes": 174264722,
       "sha256": "b9b27414530f0a08125ecb5b470191073bb81f7e1431df844169320a4c5e1a2f",
       "source": "Separazione di voce e base per i mashup: Demucs v4 htdemucs (Meta, codice MIT; licenza dei pesi non dichiarata, uso deciso dall'utente), fp32 senza STFT; stesso file di htdemucs.onnx"
+    },
+    {
+      "file": "segueo-transizioni-dance-v7.onnx",
+      "bundle": true,
+      "bytes": 6946394,
+      "sha256": "37dc1755ca4b4e648573be1ffeb2f85e5ca592832871d6ea3a3bfbcef4ff57f5",
+      "source": "Transizioni dell'AI DJ, stile dance (modello C v7: v6 rifinita sui mix di Gabry Ponte); int8 dinamico, stesso file di segueo-transizioni-v7.onnx"
+    },
+    {
+      "file": "segueo-transizioni-techno-v6.onnx",
+      "bundle": true,
+      "bytes": 6946394,
+      "sha256": "04bdb99c8da5829105d4b2580ba2171ba1413fb41cbe11b8339060dee8ceebf1",
+      "source": "Transizioni dell'AI DJ, stile techno (modello C v6: DJ set techno/minimal di Mixotic e crossfader di Gand, finestre fino a 256 battute); int8 dinamico, stesso file di transition-planner-v6-int8.onnx"
     }
   ]
 }
