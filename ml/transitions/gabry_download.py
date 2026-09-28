@@ -99,7 +99,7 @@ def score(entry: dict, t: dict) -> float | None:
 
 def download(url: str, dest_stem: Path) -> Path | None:
     opts = {"format": "bestaudio/best", "outtmpl": str(dest_stem) + ".%(ext)s", "quiet": True, "no_warnings": True,
-            "noplaylist": True, "noprogress": True, "sleep_interval": 4, "max_sleep_interval": 10, "sleep_interval_requests": 1}
+            "noplaylist": True, "noprogress": True, "sleep_interval": 6, "max_sleep_interval": 15, "sleep_interval_requests": 1}
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(url, download=True)
     files = list(dest_stem.parent.glob(dest_stem.name + ".*"))
@@ -129,7 +129,7 @@ def main():
             print(f"mix {key}: {path.name if path else 'ERRORE'} ({info.get('duration')} s)", flush=True)
             log({"kind": "mix", "mix": key, "url": url, "file": path.name if path else None, "duration": info.get("duration")})
     if args.tracks:
-        seen, done = {}, 0
+        seen, done, refused = {}, 0, 0
         for mix in lists.values():
             for t in mix["tracks"]:
                 seen.setdefault(t["id"], t)
@@ -138,6 +138,7 @@ def main():
                 continue
             if args.limit and done >= args.limit:
                 break
+            time.sleep(4)  # pausa anche tra le sole ricerche
             query = f"ytsearch8:{t['artist']} - {t['title']}"
             try:
                 with yt_dlp.YoutubeDL({"quiet": True, "no_warnings": True, "extract_flat": True}) as ydl:
@@ -159,10 +160,13 @@ def main():
             except Exception as err:  # blocco anti-bot o video non disponibile: si registra e si prosegue
                 print(f"ERRORE {t['artist']} - {t['title']}: {str(err)[:120]}", flush=True)
                 log({"kind": "track", "id": tid, "query": query, "error": str(err)[:300]})
-                if "Sign in to confirm" in str(err):
-                    print("YouTube chiede la verifica anti-bot: mi fermo", flush=True)
+                refused = refused + 1 if "403" in str(err) else 0
+                if "Sign in to confirm" in str(err) or refused >= 3:
+                    # nessun login né cookie: il limite è solo sull'indirizzo IP, meglio fermarsi subito
+                    print("YouTube chiede la verifica anti-bot o rifiuta i download: mi fermo", flush=True)
                     break
-            time.sleep(2)
+                continue
+            refused = 0
 
 
 if __name__ == "__main__":

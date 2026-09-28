@@ -33,8 +33,11 @@ from mixotic_dataset import AUDIBLE, MAX_FIT, PRE, SMOOTH, pack, window  # noqa:
 
 DATA = ML_DIR / "data" / "gabry"
 FEAT = DATA / "features"
-MIN_Z = 4.0  # con i tempi della tracklist bastano diagonali meno nette che senza (6 per Mixotic nuovi)
-MIN_Z_NO_CUE = 6.0
+# soglie di z più basse che per i set Mixotic nuovi (6): con i tempi della tracklist, o anche solo con l'ordine, i
+# brani dei mix radiofonici si susseguono senza buchi; provate 4/4, 3/4, 3/3,5: con 3/3,5 le transizioni tenute
+# passano da 21 a 27 con errore del fit mediano 0,161 (0,177 con 4/4) e metà crossfader a 9 s dal cue
+MIN_Z = 3.0
+MIN_Z_NO_CUE = 3.5
 BEFORE, AFTER = 45.0, 45.0  # secondi di tolleranza intorno ai cue
 
 
