@@ -43,7 +43,8 @@ const DEFAULT_SETTINGS = {
     options: {},
   },
   updates: { auto: true },
-  ui: { view: 'console' }, // 'console' (classica) oppure 'ai' (vista dedicata all'AI DJ)
+  // view: ultima vista usata, 'console' (classica) o 'ai' (dedicata all'AI DJ); startView: 'last', 'console' o 'ai'
+  ui: { view: 'console', startView: 'last' },
 };
 
 function merge(defaults, saved) {
@@ -249,7 +250,8 @@ class App {
     const bottom = el('div', { class: 'bottom' }, libHost, sideHost);
     this.aiView = new AiView(el('section', {}), { app: this, accents: ACCENTS });
     root.append(top, waves, middle, this.aiView.root, bottom);
-    this.setView(this.settings.ui.view, { save: false });
+    const start = this.settings.ui.startView;
+    this.setView(start === 'console' || start === 'ai' ? start : this.settings.ui.view, { save: false });
 
     let libTimer = null;
     for (const d of this.decks) {

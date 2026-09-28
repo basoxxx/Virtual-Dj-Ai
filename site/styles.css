@@ -110,6 +110,12 @@ figcaption { font-size: 14px; color: var(--ink-3); margin-top: 16px; text-align:
 .waves-shot { max-width: 1200px; margin: 104px auto 0; padding: 0 22px; }
 .waves-shot img { border-radius: 12px; border: 1px solid #2a2a2c; }
 .dark figcaption { color: var(--dark-ink-2); }
+.view-copy { max-width: 780px; margin: 120px auto 0; padding: 0 22px; text-align: center; }
+.view-copy h3 { font-size: clamp(30px, 3.6vw, 40px); line-height: 1.1; margin-bottom: 18px; }
+.view-copy p { font-size: 19px; color: var(--dark-ink-2); line-height: 1.45; }
+.view-copy strong { color: var(--dark-ink); font-weight: 600; }
+.view-shot { max-width: 1200px; margin: 48px auto 0; padding: 0 22px; }
+.view-shot img { width: 100%; border-radius: 14px; border: 1px solid #2a2a2c; box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .8); }
 
 /* --- In arrivo --------------------------------------------------------------- */
 .soon { padding: 128px 22px; background: var(--bg); }

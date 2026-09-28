@@ -319,6 +319,15 @@ function aiPage(app) {
     el('label', { class: 'check' }, auto, 'Analizza automaticamente i nuovi brani della libreria in background'),
     field('Motore di analisi', engine, 'L\'analisi classica dà subito BPM e forma d\'onda; con l\'AI, Beat This! (una rete neurale che gira sul computer, solo con la CPU) rifinisce poi in background battute, battuta forte e struttura. Se il modello manca o dà errore resta l\'analisi classica. Le griglie corrette a mano non vengono toccate.'),
     engineStatus,
+    el('div', { class: 'section-title' }, 'Vista'),
+    field('Vista all\'avvio', select([
+      { value: 'last', label: 'L\'ultima usata' },
+      { value: 'console', label: 'Console classica' },
+      { value: 'ai', label: 'Vista AI (mix automatico e mashup)' },
+    ], app.settings.ui.startView || 'last', (v) => {
+      app.settings.ui.startView = v;
+      app.saveSettings();
+    }), 'La vista si cambia in ogni momento con Console | AI in alto o con Ctrl+Shift+A. L\'AI DJ si accende solo quando lo decidi tu, in qualsiasi vista.'),
     el('div', { class: 'section-title' }, 'Modello linguistico locale (facoltativo)'),
     el('p', { class: 'field-hint' }, 'Collega un LLM che gira sul tuo computer per scegliere i brani con "gusto" e creare scalette descritte a parole ("set deep house al tramonto"). Nessun dato esce dal tuo PC. Installa Ollama da ollama.com, poi nel terminale: ollama pull llama3.2'),
     el('label', { class: 'check' }, enable, 'Usa il modello locale'),
