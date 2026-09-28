@@ -829,3 +829,108 @@ Nell'app vera (`ml/eval/electron/autodj-model.js`):
 - Il branch `claude/modest-allen-h4hn41` ha un commit non unito ("Repository rinominato in Segueo") che punta a
   `basoxxx/Segueo`: il repository su GitHub si chiama ancora `Virtual-Dj-Ai`, quindi il download dei modelli dà 404 e
   la CI fallisce. Prima di unirlo va rinominato il repository su GitHub.
+
+## Giorno 9 — 28 settembre 2026 (modello C v7: le transizioni di Gabry Ponte)
+
+### Fatto
+
+- **Richiesta:** imparare dai DJ set di Gabry Ponte (mashup o mix live). Su tua decisione: audio con copyright solo in
+  locale (`ml/data/gabry`), solo per le caratteristiche; nel repository e nella release solo i pesi.
+- **Tracklist** da 1001tracklists (388 tracklist di Gabry Ponte), lette dal browser:
+  - scartati i live (San Siro 2025: ospiti sul palco, niente tempi né audio);
+  - dopo 6 pagine il sito ha chiesto la verifica "umana" e mi sono fermato;
+  - SPUTNIK Club, Record Club Guest Mix 135 e DJ Mag Brasil 031 sono lo stesso mix, quindi i mix distinti sono 4:
+
+  | Mix | Durata | Brani | Tempi (cue) |
+  |---|---|---|---|
+  | 1001Tracklists Spotlight Mix (2026) | 2 h | 34 | sì |
+  | EDM Identity Summer Sessions 2026 | 2 h | 36 | no |
+  | Tomorrowland Friendship Mix (2026) | 1 h | 19 | sì |
+  | SPUTNIK / Ibiza Series 031 (2025) | 1 h | 19 | no |
+
+- **Audio** (`gabry_download.py`):
+  - mix dai canali SoundCloud ufficiali;
+  - 83 brani su 103 da YouTube, scegliendo la versione con la durata della tracklist (entro 25 s) e il titolo;
+  - 20 non trovati, 2 rifiutati (HTTP 403);
+  - nessun login né cookie; pause di 6-15 s e arresto automatico ai rifiuti ripetuti.
+- **Allineamento** (`gabry_dataset.py`): con i tempi della tracklist ogni brano si cerca solo vicino al suo cue.
+  Nello Spotlight Mix 28 brani su 34 sono allineati, quasi tutti a pochi secondi dal cue. Soglie di z provate:
+  4/4 → 21 transizioni, 3/3,5 (con e senza tempi) → 27, con errore del fit mediano 0,161 invece di 0,177.
+- **Dataset:** 27 transizioni (36 finestre), fit mediano 0,161, metà crossfader a 9 s dal cue (mediana su 13).
+  Sono **corte**: mediana 68 battute (min 17, max 104), contro le 192 dei DJ techno di Mixotic. È lo stile
+  radiofonico di Gabry Ponte: circa 3 minuti per brano, cambi veloci e a tempo.
+- **v7** (`train.py --v5-cv --v5-final --tag v7 --v5-init planner-v6.pt --v5-steps 1000 --v5-synth-share 8
+  --v5-shares gand=1,mixotic=1,gabry=1`):
+  - parte dalla v6, 1000 passi;
+  - lotti da 24 transizioni reali (un terzo Gand, un terzo Mixotic, un terzo Gabry Ponte) più 8 sintetiche;
+  - 4 gruppi, ognuno con un set Mixotic e un mix di Gabry Ponte tenuti da parte;
+  - 5,2 minuti per gruppo più 5 per il modello finale.
+
+### Numeri misurati
+
+Mix di Gabry Ponte tenuti da parte (27 transizioni). Il confronto con la v6 è giusto: la v6 non ha mai sentito Gabry
+Ponte.
+
+| | **v7** | v6 | Regole: bass swap | Regole: dissolvenza | Gabry Ponte |
+|---|---|---|---|---|---|
+| Errore crossfader | **0,195** | 0,216 | 0,209 | 0,240 | |
+| Errore EQ | **0,112** | 0,184 | 0,195 | 0,100 | |
+| Errore del suono rispetto al mix (dB) | **1,63** | 1,79 | 2,04 | 1,79 | |
+| Errore d'inizio / fine (battute) | **3,2 / 2,2** | 10,3 / 8,2 | 9,1 / 7,5 | 12,5 / 10,5 | |
+| Scontro dei bassi | 10,4% | 0,3% | 0,1% | 13,4% | 10,2% |
+| Buchi di volume | 2,5% | 3,7% | 3,7% | 2,8% | 4,7% |
+
+**Il prezzo.** Per Mixotic e Gand la v6 qui ha visto tutti i set in addestramento, quindi i suoi numeri di oggi non
+valgono. Si confronta la v7 (senza il set tenuto da parte nella rifinitura, ma partita dalla v6) con la
+validazione giusta della v6 del giorno 8:
+
+| | v7 | v6 (validazione del giorno 8) |
+|---|---|---|
+| Mixotic (finestre fino a 128), errore crossfader | 0,199 | 0,193 |
+| Mixotic, errore EQ | 0,165 | 0,154 |
+| Mixotic, errore del suono (dB) | 2,05 | 1,96 |
+| Crossfader di Gand, finestra larga | 0,089 | 0,065 |
+
+La v7 ha preso i cambi più veloci di Gabry Ponte e perde un po' sulle dissolvenze lunghe della techno e sul DJ di Gand.
+
+Generi (39 brani Jamendo mai visti), fuori dai generi da club / generi da club:
+
+| | v7 | v6 |
+|---|---|---|
+| Scontro dei bassi | 0,7% / 0,7% | 0,6% / 0,6% |
+| Errore crossfader | 0,092 / 0,089 | 0,097 / 0,090 |
+| Errore del suono (dB) | 1,07 / 0,97 | 1,10 / 0,98 |
+
+ONNX v7: fp32 identico a PyTorch, int8 errore medio 0,0024 (massimo 0,39), 6,9 MB. Stessa architettura e finestra
+della v6 (108 ms per transizione, misurati il giorno 8). `npm run check` 68/68, `npm test` 92/92.
+
+Nell'app vera, con i file rinominati:
+- transizioni del modello da 8 e da 64 misure, crossfader completo e bass swap;
+- mashup con `segueo-separazione-voce.onnx`: separazione in 155 s e 112 s (come prima), sequenza dei deck
+  completo → base → base + voce del successivo, RAM di tutta l'app 5,27 GB durante mix e separazione (prima 5,24).
+
+**La v7 sostituisce la v6 nell'app.** È stata scelta per la musica dell'app (dance commerciale e italo dance, lo stile
+di Gabry Ponte); chi mixa techno a transizioni lunghe perde un po' (vedi sopra).
+
+### Nomi dei modelli
+
+Su tua richiesta i modelli dell'app hanno il nome dell'app e la funzione:
+
+| Prima | Ora | Funzione |
+|---|---|---|
+| `beat_this-small0-int8.onnx` | `segueo-analisi-battute.onnx` | battute e battute forti |
+| `transition-planner-v6-int8.onnx` | `segueo-transizioni-v7.onnx` | curve delle transizioni dell'AI DJ (ora la v7) |
+| `htdemucs.onnx` | `segueo-separazione-voce.onnx` | voce e base per i mashup |
+
+- Byte identici, stesso SHA-256.
+- Crediti e licenze (Beat This! e Demucs, MIT) restano in `models.json` e nelle licenze dell'app.
+- Nella release `models-v1` restano anche i file con i nomi vecchi: le versioni già installate li scaricano ancora
+  così.
+
+### Problemi aperti
+
+- Le transizioni sono 27, di un solo DJ e da 4 mix radiofonici. Per i live (San Siro, mashup con cantanti sul palco)
+  servono tempi e audio migliori.
+- 1001tracklists blocca dopo poche pagine: per altri mix le tracklist vanno lette a mano.
+- Si potrebbero tenere v6 (techno, transizioni lunghe) e v7 (stile Gabry Ponte) come due stili da scegliere nel
+  pannello AI DJ.
