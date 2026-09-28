@@ -21,7 +21,7 @@ sys.path.insert(0, str(ML_DIR / "transitions"))
 from build_dataset import N_IN  # noqa: E402
 from model import TransitionPlanner  # noqa: E402
 from synth import JAMENDO_FEAT, LONG_LENGTHS, Synth  # noqa: E402
-from train import evaluate  # noqa: E402
+from train import DEVICE, evaluate  # noqa: E402
 
 
 def main():
@@ -29,8 +29,8 @@ def main():
     models = {}
     for path in sys.argv[1:]:
         net = TransitionPlanner(N_IN)
-        net.load_state_dict(torch.load(path, map_location="cpu"))
-        models[Path(path).stem] = net.eval()
+        net.load_state_dict(torch.load(path, map_location=DEVICE))
+        models[Path(path).stem] = net.to(DEVICE).eval()
     out = {}
     for club in (False, True):
         # dalla v6 solo i brani tenuti fuori dal generatore (split "test"), se la selezione li distingue
