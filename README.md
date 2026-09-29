@@ -55,7 +55,9 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
 
 **Mashup preparati prima del set.** Nella scheda **MASHUP** del pannello laterale scegli una **base** e una **voce**
 (trascinandole dalla libreria, con il pulsante **+** sul brano selezionato o dal menu del brano → *Mashup: usa come
-base/voce*). L'app controlla tonalità e tempo, propone i brani compatibili e con **Salva e prepara** separa subito voce
+base/voce*), oppure lascia scegliere all'AI: **✨** in una casella sceglie il brano più compatibile con quello
+nell'altra, **✨ Sceglie l'AI** propone tutta la coppia, e a ogni tocco arriva un'alternativa (mai un mashup già
+salvato). L'app controlla tonalità e tempo, propone i brani compatibili e con **Salva e prepara** separa subito voce
 e base e trova la frase in cui entra la voce: tutto resta salvato nella libreria, così durante il set non c'è niente da
 calcolare. Ogni mashup si prova sui deck (**▶ Prova**: base sul deck A, voce sul deck B, a tempo) e si ritocca: punto
 della base in cui entra la voce, punto da cui parte la voce (frecce di 4 battute, Maiusc per 1) e durata (8, 16 o 32

@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import {
-  mashupCompatibility, suggestPartners, vocalEntryFrom, autoBaseStart, barNumber, stepPoint, savedStartAt, FADE_BARS,
+  mashupCompatibility, suggestPartners, pickPartner, pickPair, vocalEntryFrom, autoBaseStart, barNumber, stepPoint, savedStartAt, FADE_BARS,
 } from '../src/renderer/js/ai/mashup-plan.js';
 import { AutoDJ } from '../src/renderer/js/ai/autodj.js';
 
@@ -35,6 +35,28 @@ test('mashup: proposte ordinate, senza il brano stesso né brani non analizzati 
   assert.deepEqual(suggestPartners(base, pool).map((c) => c.track.id), [2, 7, 3]);
   assert.equal(suggestPartners(base, pool, { limit: 1 }).length, 1);
   assert.deepEqual(suggestPartners(T(9, 0, ''), pool), []);
+});
+
+test('mashup: l\'AI sceglie il brano che manca, una proposta nuova a ogni pressione, mai un mashup già salvato', () => {
+  const base = T(1, 124, 'Am');
+  const pool = [base, T(2, 124, 'Am'), T(3, 128, 'Em'), T(4, 124, 'F#'), T(7, 125, 'C')];
+  assert.equal(pickPartner(base, pool).id, 2);
+  assert.equal(pickPartner(base, pool, { tried: new Set([2]) }).id, 7);
+  assert.equal(pickPartner(base, pool, { tried: new Set([2, 7]) }).id, 3);
+  assert.equal(pickPartner(base, pool, { tried: new Set([2, 7, 3]) }), null); // 4 non è compatibile
+  assert.equal(pickPartner(base, pool, { isSaved: (id) => id === 2 }).id, 7);
+});
+
+test('mashup: l\'AI sceglie base e voce, la coppia più compatibile tra quelle non ancora proposte o salvate', () => {
+  const pool = [T(1, 124, 'Am'), T(2, 124, 'Am'), T(3, 100, 'F#'), T(4, 0, '')];
+  const first = pickPair(pool, { random: () => 0 });
+  assert.deepEqual([first.base.id, first.vocal.id].sort(), [1, 2]);
+  // provate entrambe le direzioni della coppia (o salvate): non resta nulla di compatibile
+  assert.equal(pickPair(pool, { tried: new Set(['1:2', '2:1']) }), null);
+  assert.equal(pickPair(pool, { isSaved: () => true }), null);
+  const other = pickPair(pool, { tried: new Set([`${first.base.id}:${first.vocal.id}`]) });
+  assert.deepEqual([other.base.id, other.vocal.id], [first.vocal.id, first.base.id]);
+  assert.equal(pickPair([T(3, 100, 'F#')]), null);
 });
 
 test('mashup: la voce entra all\'inizio della frase di 4 battute in cui si sente', () => {
