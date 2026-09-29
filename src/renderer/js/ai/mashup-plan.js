@@ -42,6 +42,36 @@ export function suggestPartners(track, pool, { limit = 6 } = {}) {
 }
 
 /**
+ * Scelta dell'AI per il ruolo che manca: il brano più compatibile con `track` che non è già stato proposto
+ * (`tried`, id) e non forma un mashup già salvato (`isSaved(id)`); null se non ce ne sono.
+ */
+export function pickPartner(track, pool, { tried = new Set(), isSaved = () => false } = {}) {
+  const c = suggestPartners(track, pool, { limit: Infinity }).find((x) => !tried.has(x.track.id) && !isSaved(x.track.id));
+  return c ? c.track : null;
+}
+
+/**
+ * Coppia base + voce scelta dall'AI: tra alcune basi prese a caso, quella con il compagno più compatibile.
+ * `tried` (chiavi "base:voce") e `isSaved(baseId, vocalId)` escludono le coppie già proposte o già salvate.
+ */
+export function pickPair(pool, { tried = new Set(), isSaved = () => false, random = Math.random, tries = 24, maxBases = 200 } = {}) {
+  const bases = pool.filter((t) => t && t.bpm && t.key);
+  for (let i = bases.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [bases[i], bases[j]] = [bases[j], bases[i]];
+  }
+  let best = null;
+  let found = 0;
+  for (const base of bases.slice(0, maxBases)) {
+    const c = suggestPartners(base, pool, { limit: Infinity }).find((x) => !tried.has(`${base.id}:${x.track.id}`) && !isSaved(base.id, x.track.id));
+    if (!c) continue;
+    if (!best || c.score > best.score) best = { base, vocal: c.track, score: c.score };
+    if (++found >= tries) break;
+  }
+  return best && { base: best.base, vocal: best.vocal };
+}
+
+/**
  * Inizio (s) della prima frase di 4 battute in cui la voce è ben presente. `samples` è la sola voce (mono),
  * misurata battuta per battuta sulla griglia del brano.
  */

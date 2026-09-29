@@ -1,13 +1,16 @@
-// Scheda MASHUP: i mashup si creano prima del set (la base di un brano con la voce di un altro). L'app separa
-// subito voce e base e li salva nella libreria; si provano sui deck, si ritoccano, e durante il set l'AI DJ li
-// esegue quando i due brani vanno in onda uno dopo l'altro.
+// Scheda MASHUP: i mashup si creano prima del set (la base di un brano con la voce di un altro), scegliendo i brani
+// a mano o lasciandoli scegliere all'AI. L'app separa subito voce e base e li salva nella libreria; si provano sui
+// deck, si ritoccano, e durante il set l'AI DJ li esegue quando i due brani vanno in onda uno dopo l'altro.
 import { el, button, toast, select, confirmDialog } from './controls.js';
 import { icon, withIcon } from './icons.js';
 import { formatTime, camelotOf } from '../dsp/analysis.js';
-import { MASHUP_BARS, DEFAULT_MASHUP_BARS, mashupCompatibility, suggestPartners, autoBaseStart, barNumber, stepPoint } from '../ai/mashup-plan.js';
+import {
+  MASHUP_BARS, DEFAULT_MASHUP_BARS, mashupCompatibility, suggestPartners, pickPartner, pickPair, autoBaseStart, barNumber, stepPoint,
+} from '../ai/mashup-plan.js';
 
 const ROLES = { base: 'BASE', vocal: 'VOCE' };
 const PLACEHOLDERS = { base: 'Trascina qui il brano di cui usare la base', vocal: 'Trascina qui il brano di cui usare la voce' };
+const OTHER = { base: 'vocal', vocal: 'base' };
 
 function label(t) {
   return t ? `${t.artist ? `${t.artist} - ` : ''}${t.title || 'Senza titolo'}` : 'brano non più in libreria';
@@ -29,7 +32,8 @@ export class MashupUI {
   constructor({ app }) {
     this.app = app;
     this.mashups = app.mashups;
-    this.draft = { base: null, vocal: null, bars: DEFAULT_MASHUP_BARS };
+    this.draft = { base: null, vocal: null, bars: DEFAULT_MASHUP_BARS, ai: new Set() }; // ai: ruoli scelti dall'AI
+    this.aiTried = { key: null, ids: new Set() }; // proposte dell'AI già fatte: a ogni pressione ne arriva un'altra
     this.openId = null; // mashup salvato aperto per i ritocchi
     this.preview = null; // { id, starting } mashup in prova sui deck
     this.rendered = null; // elenco disegnato: si ridisegna solo quando cambia (non a ogni avanzamento)
@@ -55,10 +59,11 @@ export class MashupUI {
       this.draft.bars = Number(v);
     }, 'ai-select');
     const swap = button('⇅ Scambia', { className: 'small', title: 'Scambia base e voce', onClick: () => {
-      const { base, vocal } = this.draft;
-      Object.assign(this.draft, { base: vocal, vocal: base });
+      const { base, vocal, ai } = this.draft;
+      Object.assign(this.draft, { base: vocal, vocal: base, ai: new Set([...ai].map((r) => OTHER[r])) });
       this.renderDraft();
     } });
+    const aiBoth = button(withIcon('sparkles', 'Sceglie l\'AI', 13), { className: 'small', title: 'L\'AI propone una base e una voce compatibili per tonalità e tempo (premi di nuovo per un\'altra coppia)', onClick: () => this.aiPick() });
     this.saveBtn = button(withIcon('sparkles', 'Salva e prepara', 13), { className: 'small primary', title: 'Salva il mashup e separa subito voce e base dei due brani', onClick: () => this.saveDraft() });
     this.suggestTitle = el('div', { class: 'section-label' });
     this.suggest = el('div', { class: 'mash-suggest' });
@@ -70,7 +75,7 @@ export class MashupUI {
     this.list = el('div', { class: 'mash-list' });
     return el('div', { class: 'tab-pane mashup-pane' },
       el('div', { class: 'mash-group' },
-        el('div', { class: 'section-label' }, 'NUOVO MASHUP'),
+        el('div', { class: 'row tight' }, el('span', { class: 'section-label' }, 'NUOVO MASHUP'), el('span', { class: 'spacer' }), aiBoth),
         ...slots,
         el('div', { class: 'row tight' }, swap, this.barsSel),
         this.compat,
@@ -91,11 +96,12 @@ export class MashupUI {
       if (t) this.useTrack(t, role);
       else toast('Seleziona prima un brano nella libreria', 'warn');
     } });
+    const ai = button(icon('sparkles', 13), { className: 'tiny', title: `Lo sceglie l'AI: ${role === 'base' ? 'la base' : 'la voce'} più compatibile (premi di nuovo per un'altra proposta)`, onClick: () => this.aiPick(role) });
     const clear = button('×', { className: 'tiny ghost', title: 'Togli il brano', onClick: () => this.useTrack(null, role) });
     const node = el('div', { class: 'mash-slot' },
       el('span', { class: `mash-tag ${role}` }, ROLES[role]),
       el('div', { class: 'mash-slot-body' }, title, meta),
-      pick, clear);
+      el('div', { class: 'mash-slot-btns' }, ai, pick, clear));
     node.addEventListener('dragover', (e) => {
       e.preventDefault();
       node.classList.add('drop');
@@ -107,15 +113,61 @@ export class MashupUI {
       const t = this.app.library.track(e.dataTransfer.getData('text/x-track-id'));
       if (t) this.useTrack(t, role);
     });
-    this.parts[role] = { title, meta, clear };
+    this.parts[role] = { title, meta, clear, ai };
     return node;
   }
 
   /** Il brano diventa la base o la voce del nuovo mashup (anche dal menu della libreria). */
-  useTrack(track, role) {
+  useTrack(track, role, { byAi = false } = {}) {
     this.draft[role] = track;
-    const other = role === 'base' ? 'vocal' : 'base';
+    if (byAi) this.draft.ai.add(role);
+    else this.draft.ai.delete(role);
+    const other = OTHER[role];
     if (track && this.draft[other] && this.draft[other].id === track.id) this.draft[other] = null;
+    this.renderDraft();
+  }
+
+  /**
+   * L'AI sceglie il brano del ruolo indicato, compatibile con quello già scelto nell'altra casella; senza l'altro
+   * brano (o dal pulsante in alto) sceglie tutta la coppia. A ogni pressione propone un'alternativa.
+   */
+  aiPick(role = null) {
+    const pool = this.app.library.lib.tracks;
+    const saved = (baseId, vocalId) => Boolean(this.mashups.find(baseId, vocalId));
+    const anchor = role && this.draft[OTHER[role]];
+    if (anchor) {
+      const key = `${role}:${anchor.id}`;
+      if (this.aiTried.key !== key) this.aiTried = { key, ids: new Set() };
+      if (this.draft[role]) this.aiTried.ids.add(this.draft[role].id);
+      const isSaved = (id) => (role === 'vocal' ? saved(anchor.id, id) : saved(id, anchor.id));
+      let t = pickPartner(anchor, pool, { tried: this.aiTried.ids, isSaved });
+      if (!t && this.aiTried.ids.size) {
+        // proposte finite: si ricomincia dalla migliore
+        this.aiTried.ids.clear();
+        t = pickPartner(anchor, pool, { isSaved });
+      }
+      if (!t) {
+        toast(anchor.bpm ? `Nessun brano analizzato ha tonalità e tempo compatibili con ${label(anchor)}` : 'Il brano non è ancora analizzato', 'warn');
+        return;
+      }
+      this.aiTried.ids.add(t.id);
+      this.useTrack(t, role, { byAi: true });
+      return;
+    }
+    if (this.aiTried.key !== 'pair') this.aiTried = { key: 'pair', ids: new Set() };
+    const { base, vocal } = this.draft;
+    if (base && vocal) this.aiTried.ids.add(`${base.id}:${vocal.id}`);
+    let pair = pickPair(pool, { tried: this.aiTried.ids, isSaved: saved });
+    if (!pair && this.aiTried.ids.size) {
+      this.aiTried.ids.clear();
+      pair = pickPair(pool, { isSaved: saved });
+    }
+    if (!pair) {
+      toast('Nella libreria non ci sono ancora due brani analizzati con tonalità e tempo compatibili', 'warn');
+      return;
+    }
+    this.aiTried.ids.add(`${pair.base.id}:${pair.vocal.id}`);
+    Object.assign(this.draft, { base: pair.base, vocal: pair.vocal, ai: new Set(['base', 'vocal']) });
     this.renderDraft();
   }
 
@@ -125,8 +177,10 @@ export class MashupUI {
       const p = this.parts[role];
       p.title.textContent = t ? label(t) : PLACEHOLDERS[role];
       p.title.classList.toggle('empty', !t);
-      p.meta.textContent = t ? trackInfo(t) : '';
+      p.meta.textContent = t ? `${trackInfo(t)}${this.draft.ai.has(role) ? ' · scelto dall\'AI' : ''}` : '';
       p.clear.hidden = !t;
+      // l'AI riempie questa casella (o tutta la coppia se l'altra è vuota); non sostituisce un brano scelto a mano da solo
+      p.ai.hidden = Boolean(t && !this.draft[OTHER[role]] && !this.draft.ai.has(role));
     }
     const { base, vocal } = this.draft;
     this.compat.replaceChildren(...this.compatNotes(base, vocal));
@@ -150,7 +204,7 @@ export class MashupUI {
   }
 
   compatNotes(base, vocal) {
-    if (!base || !vocal) return [el('div', { class: 'mash-note' }, 'Trascina i brani dalla libreria, oppure selezionali e premi +. Con un solo brano l\'app propone quelli compatibili.')];
+    if (!base || !vocal) return [el('div', { class: 'mash-note' }, 'Trascina i brani dalla libreria, selezionali e premi +, oppure premi ✨ e li sceglie l\'AI per tonalità e tempo. Con un solo brano l\'app propone quelli compatibili.')];
     const c = mashupCompatibility(base, vocal);
     if (!c.known) return [el('div', { class: 'mash-note warn' }, 'BPM o tonalità ancora da analizzare: il controllo arriva dopo l\'analisi')];
     const keys = `${camelotOf(vocal.key)} su ${camelotOf(base.key)}`;
@@ -163,7 +217,7 @@ export class MashupUI {
   async saveDraft() {
     const { base, vocal, bars } = this.draft;
     if (!base || !vocal) {
-      toast('Scegli sia la base sia la voce', 'warn');
+      toast(`Scegli anche ${base ? 'la voce' : vocal ? 'la base' : 'la base e la voce'}, oppure premi ✨ e li sceglie l'AI`, 'warn');
       return;
     }
     const dup = this.mashups.find(base.id, vocal.id);
@@ -185,7 +239,7 @@ export class MashupUI {
     }
     try {
       const m = await this.mashups.save({ baseId: base.id, vocalId: vocal.id, bars, baseStart: null, vocalStart: null });
-      this.draft = { base: null, vocal: null, bars };
+      this.draft = { base: null, vocal: null, bars, ai: new Set() };
       this.openId = m.id;
       this.renderDraft();
       this.mashups.prepare(m.id);
@@ -254,8 +308,8 @@ export class MashupUI {
     ].filter(Boolean).join(' · ');
     const name = (role, t) => el('div', { class: 'mash-name' }, el('span', { class: `mash-tag ${role}` }, ROLES[role]), el('span', { class: 'mash-name-text' }, label(t)));
     const node = el('div', { class: `mash-item ${live ? 'live' : ''}` },
-      el('div', { class: 'mash-item-head' }, el('div', { class: 'mash-names' }, name('vocal', vocal), name('base', base)), status),
-      el('div', { class: 'mash-meta' }, meta),
+      el('div', { class: 'mash-names' }, name('vocal', vocal), name('base', base)),
+      el('div', { class: 'mash-state' }, status, el('span', { class: 'mash-meta' }, meta)),
       actions);
     if (open) node.append(this.editor(m, base, vocal));
     return node;
@@ -266,10 +320,11 @@ export class MashupUI {
     const baseAt = m.baseStart ?? autoBaseStart(base, m.bars);
     const point = (text, sec, track, auto, onStep, onAuto, autoTitle) => el('div', { class: 'mash-point' },
       el('span', { class: 'mash-point-label' }, text),
-      button('◀', { className: 'tiny', title: 'Indietro di 4 battute (Maiusc: 1 battuta)', onClick: (e) => onStep(e.shiftKey ? -1 : -4) }),
-      el('span', { class: 'mash-point-value' }, `${formatTime(sec, false)} · battuta ${barNumber(sec, track)}${auto ? ' · auto' : ''}`),
-      button('▶', { className: 'tiny', title: 'Avanti di 4 battute (Maiusc: 1 battuta)', onClick: (e) => onStep(e.shiftKey ? 1 : 4) }),
-      button('Auto', { className: 'tiny ghost', title: autoTitle, onClick: onAuto }));
+      el('div', { class: 'mash-point-ctl' },
+        button('◀', { className: 'tiny', title: 'Indietro di 4 battute (Maiusc: 1 battuta)', onClick: (e) => onStep(e.shiftKey ? -1 : -4) }),
+        el('span', { class: 'mash-point-value' }, `${formatTime(sec, false)} · battuta ${barNumber(sec, track)}${auto ? ' · auto' : ''}`),
+        button('▶', { className: 'tiny', title: 'Avanti di 4 battute (Maiusc: 1 battuta)', onClick: (e) => onStep(e.shiftKey ? 1 : 4) }),
+        button('Auto', { className: 'tiny ghost', title: autoTitle, onClick: onAuto })));
     return el('div', { class: 'mash-editor' },
       point('Entra sulla base a', baseAt, base, m.baseStart == null,
         (bars) => this.edit(m.id, { baseStart: stepPoint(baseAt, bars, base) }),
