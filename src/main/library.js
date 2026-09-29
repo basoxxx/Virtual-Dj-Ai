@@ -1,4 +1,4 @@
-// Libreria musicale: scansione cartelle locali, metadati, playlist, cronologia.
+// Libreria musicale: scansione cartelle locali, metadati, playlist, cronologia, mashup preparati.
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
@@ -102,6 +102,7 @@ class Library {
       tracks: {},
       playlists: [],
       history: [],
+      mashups: [],
     });
   }
 
@@ -116,6 +117,7 @@ class Library {
       tracks: Object.values(d.tracks),
       playlists: d.playlists,
       history: d.history.slice(-500),
+      mashups: d.mashups,
     };
   }
 
@@ -174,6 +176,7 @@ class Library {
   removeTrack(id) {
     delete this.data.tracks[id];
     for (const p of this.data.playlists) p.tracks = p.tracks.filter((t) => t !== id);
+    this.data.mashups = this.data.mashups.filter((m) => m.baseId !== id && m.vocalId !== id);
     this.store.save();
   }
 
@@ -234,6 +237,34 @@ class Library {
     if (!p) return;
     const [item] = p.tracks.splice(from, 1);
     p.tracks.splice(to, 0, item);
+    this.store.save();
+  }
+
+  /**
+   * Mashup preparato prima del set: base di un brano e voce di un altro. Crea o aggiorna (stesso id);
+   * baseStart e vocalStart sono secondi nei due brani, null = scelti in automatico.
+   */
+  saveMashup(m) {
+    if (!m || m.baseId === m.vocalId || !this.data.tracks[m.baseId] || !this.data.tracks[m.vocalId]) throw new Error('Mashup non valido');
+    const sec = (v) => (typeof v === 'number' && Number.isFinite(v) && v >= 0 ? v : null);
+    const mashup = {
+      id: typeof m.id === 'string' && m.id ? m.id : crypto.randomUUID(),
+      baseId: m.baseId,
+      vocalId: m.vocalId,
+      bars: Number.isInteger(m.bars) && m.bars >= 4 && m.bars <= 64 ? m.bars : 16,
+      baseStart: sec(m.baseStart),
+      vocalStart: sec(m.vocalStart),
+      created: Number(m.created) || Date.now(),
+    };
+    const i = this.data.mashups.findIndex((x) => x.id === mashup.id);
+    if (i >= 0) this.data.mashups[i] = mashup;
+    else this.data.mashups.push(mashup);
+    this.store.save();
+    return mashup;
+  }
+
+  deleteMashup(id) {
+    this.data.mashups = this.data.mashups.filter((m) => m.id !== id);
     this.store.save();
   }
 

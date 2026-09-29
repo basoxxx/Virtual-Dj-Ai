@@ -2,6 +2,7 @@
 // separazione in un worker (un brano alla volta) e file WAV salvati nella cartella dati dell'utente.
 import { api } from '../api.js';
 import { DEMUCS_SR } from '../dsp/demucs.js';
+import { vocalEntryFrom } from './mashup-plan.js';
 
 export const SEPARATION_MODEL = 'segueo-separazione-voce.onnx';
 
@@ -65,6 +66,19 @@ export class StemManager extends EventTarget {
   /** Byte del WAV con la sola voce del brano (già separato). */
   readVocals(track) {
     return api.readStem(track.id, 'vocals');
+  }
+
+  /** Inizio (s) della prima frase di 4 battute in cui si sente bene la voce del brano (già separato). */
+  async vocalEntry(track, bpm = track.bpm) {
+    const bytes = await this.readVocals(track);
+    const ctx = new OfflineAudioContext(1, 1, 22050);
+    const audio = await ctx.decodeAudioData(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
+    return vocalEntryFrom(audio.getChannelData(0), audio.sampleRate, bpm, track.gridOffset || 0);
+  }
+
+  /** Dimentica l'errore di separazione del brano, così si può riprovare (su richiesta dell'utente). */
+  clearFailure(track) {
+    this.failed.delete(track.id);
   }
 
   /** Separa il brano se serve (in coda, uno alla volta); si risolve quando voce e base sono su disco. */

@@ -206,6 +206,8 @@ function registerIpc() {
   ipcMain.handle('playlist:add', (_e, id, trackIds) => library.addToPlaylist(id, trackIds));
   ipcMain.handle('playlist:remove', (_e, id, index) => library.removeFromPlaylist(id, index));
   ipcMain.handle('playlist:move', (_e, id, from, to) => library.movePlaylistItem(id, from, to));
+  ipcMain.handle('mashup:save', (_e, m) => library.saveMashup(m));
+  ipcMain.handle('mashup:delete', (_e, id) => library.deleteMashup(id));
 
   ipcMain.handle('file:read', async (_e, file) => {
     if (typeof file !== 'string' || !isAudioFile(file)) throw new Error('Formato non supportato');

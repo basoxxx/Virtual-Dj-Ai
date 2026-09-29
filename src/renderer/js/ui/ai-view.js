@@ -9,6 +9,7 @@ import { TRANSITION_NAMES } from '../ai/autodj.js';
 
 const STEM_LABELS = { vocals: 'Solo voce', instrumental: 'Solo base' };
 const MASHUP_LABELS = { preparing: 'Mashup: preparo voce e base…', ready: 'Mashup pronto', failed: 'Mashup non disponibile' };
+const SAVED_LABELS = { preparing: 'Mashup salvato: controllo voce e base…', ready: 'Mashup salvato pronto', failed: 'Mashup salvato non disponibile' };
 
 class DeckCard {
   constructor(deck, accent) {
@@ -146,7 +147,7 @@ export class AiView {
       this.planEl.textContent = a.enabled ? '' : 'Accendi l\'AI DJ: sceglie i brani e mixa da sola';
       this.whyEl.textContent = '';
     }
-    const mash = plan && plan.mashup ? MASHUP_LABELS[plan.mashup.status] || '' : '';
+    const mash = plan && plan.mashup ? (plan.mashup.saved ? SAVED_LABELS : MASHUP_LABELS)[plan.mashup.status] || '' : '';
     this.mashEl.textContent = mash;
     this.mashEl.hidden = !mash;
 

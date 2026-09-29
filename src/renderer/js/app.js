@@ -11,6 +11,7 @@ import { LocalLLM } from './ai/llm.js';
 import { BatchAnalyzer } from './ai/batch-analyzer.js';
 import { configureAnalysis } from './audio/analyzer-client.js';
 import { StemManager } from './ai/stems.js';
+import { MashupManager } from './ai/mashups.js';
 import { DeckUI } from './ui/deck-ui.js';
 import { MixerUI } from './ui/mixer-ui.js';
 import { LibraryUI } from './ui/library-ui.js';
@@ -25,6 +26,7 @@ import { GamepadController } from './controllers/gamepad.js';
 import { icon, withIcon } from './ui/icons.js';
 import { UpdateUI } from './ui/update-ui.js';
 import { AiView } from './ui/ai-view.js';
+import { MashupUI } from './ui/mashup-ui.js';
 
 const ACCENTS = ['#2ea8ff', '#ff6a3d'];
 
@@ -85,8 +87,10 @@ class App {
     this.llm = new LocalLLM(() => this.settings.ai);
     this.analyzer = new BatchAnalyzer(this.engine.ctx);
     this.stems = new StemManager({ isBusy: () => this.analyzer.running });
+    this.mashups = new MashupManager({ stems: this.stems, getTrack: (id) => this.library.track(id) });
     this.automix = new AutoDJ({
       stems: this.stems,
+      getMashups: () => this.mashups.list,
       engine: this.engine,
       decks: this.decks,
       getControls: () => this.mixerUI.controls,
@@ -215,8 +219,14 @@ class App {
         toast(`${tracks.length} brani in coda AI DJ`);
       },
       getMasterDeck: () => this.masterDeck(),
+      onMashup: (track, role) => {
+        this.mashupUI.useTrack(track, role);
+        this.sideUI.show('mashup');
+      },
     });
+    this.mashupUI = new MashupUI({ app: this });
     this.sideUI = new SideUI(sideHost, {
+      tabs: [{ id: 'mashup', label: 'MASHUP', pane: this.mashupUI.root }],
       stems: this.stems,
       sampler: this.sampler,
       automix: this.automix,
@@ -237,6 +247,7 @@ class App {
     });
     this.library.addEventListener('changed', () => {
       this.sideUI.refreshSources();
+      this.mashups.setList(this.library.lib.mashups);
       if (this.settings.ai.autoAnalyze && !this.analyzer.running && !this.stems.running) {
         clearTimeout(this.analyzeTimer);
         this.analyzeTimer = setTimeout(() => this.analyzer.run(this.library.lib.tracks), 3000);

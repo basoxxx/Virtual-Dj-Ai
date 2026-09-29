@@ -19,11 +19,12 @@ const COLUMNS = [
 ];
 
 export class LibraryUI extends EventTarget {
-  constructor(root, { onLoad, onQueue, getMasterDeck }) {
+  constructor(root, { onLoad, onQueue, getMasterDeck, onMashup }) {
     super();
     this.root = root;
     this.onLoad = onLoad;
     this.onQueue = onQueue;
+    this.onMashup = onMashup;
     this.getMasterDeck = getMasterDeck;
     this.lib = { folders: [], tracks: [], playlists: [], history: [] };
     this.byId = new Map();
@@ -388,6 +389,8 @@ export class LibraryUI extends EventTarget {
       { label: 'Carica sul deck A', run: () => this.onLoad(t, 'A') },
       { label: 'Carica sul deck B', run: () => this.onLoad(t, 'B') },
       { label: `Aggiungi ad Automix (${sel.length})`, run: () => this.onQueue(sel) },
+      { label: 'Mashup: usa come base', run: () => this.onMashup(t, 'base') },
+      { label: 'Mashup: usa come voce', run: () => this.onMashup(t, 'vocal') },
       { sep: true },
       ...this.lib.playlists.map((p) => ({ label: `Aggiungi a "${p.name}"`, run: async () => {
         await api.addToPlaylist(p.id, sel.map((x) => x.id));

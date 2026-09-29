@@ -15,7 +15,7 @@ function pickFiles(accept = 'audio/*', multiple = true, directory = false) {
 
 function createBrowserApi() {
   const files = new Map();
-  const lib = { folders: [], tracks: [], playlists: [], history: [] };
+  const lib = { folders: [], tracks: [], playlists: [], history: [], mashups: [] };
   let settings = {};
   try {
     settings = JSON.parse(localStorage.getItem('vdjai-settings') || '{}');
@@ -74,6 +74,7 @@ function createBrowserApi() {
     rescan: async () => snapshot(),
     removeTrack: async (id) => {
       lib.tracks = lib.tracks.filter((t) => t.id !== id);
+      lib.mashups = lib.mashups.filter((m) => m.baseId !== id && m.vocalId !== id);
       return snapshot();
     },
     updateTrack: async (id, patch) => {
@@ -114,6 +115,16 @@ function createBrowserApi() {
       if (!p) return;
       const [item] = p.tracks.splice(from, 1);
       p.tracks.splice(to, 0, item);
+    },
+    saveMashup: async (m) => {
+      const mashup = { bars: 16, baseStart: null, vocalStart: null, created: Date.now(), ...m, id: m.id || crypto.randomUUID() };
+      const i = lib.mashups.findIndex((x) => x.id === mashup.id);
+      if (i >= 0) lib.mashups[i] = mashup;
+      else lib.mashups.push(mashup);
+      return structuredClone(mashup);
+    },
+    deleteMashup: async (id) => {
+      lib.mashups = lib.mashups.filter((m) => m.id !== id);
     },
     readFile: async (path) => {
       const file = files.get(path);

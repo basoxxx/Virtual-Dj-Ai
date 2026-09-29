@@ -23,6 +23,8 @@ contextBridge.exposeInMainWorld('api', {
   addToPlaylist: invoke('playlist:add'),
   removeFromPlaylist: invoke('playlist:remove'),
   movePlaylistItem: invoke('playlist:move'),
+  saveMashup: invoke('mashup:save'),
+  deleteMashup: invoke('mashup:delete'),
 
   readFile: invoke('file:read'),
   getCover: invoke('file:cover'),

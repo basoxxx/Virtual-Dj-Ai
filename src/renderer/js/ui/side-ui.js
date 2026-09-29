@@ -1,4 +1,4 @@
-// Pannello laterale: sampler a 8 pad e coda Automix.
+// Pannello laterale: AI DJ (coda e diario), altre schede (es. MASHUP) e sampler a 8 pad.
 import { el, button, knob, toast, select } from './controls.js';
 import { api } from '../api.js';
 import { formatTime, camelotOf } from '../dsp/analysis.js';
@@ -7,8 +7,9 @@ import { BatchAnalyzer } from '../ai/batch-analyzer.js';
 import { icon, withIcon } from './icons.js';
 
 export class SideUI {
-  constructor(root, { sampler, automix, onSamplerChange, getTrack, analyzer, getPlaylists, getAllTracks, onAiOptions, openAiSettings, llm, stems }) {
+  constructor(root, { sampler, automix, onSamplerChange, getTrack, analyzer, getPlaylists, getAllTracks, onAiOptions, openAiSettings, llm, stems, tabs = [] }) {
     this.root = root;
+    this.extraTabs = tabs; // { id, label, pane } tra AI DJ e SAMPLER
     this.stems = stems;
     this.sampler = sampler;
     this.automix = automix;
@@ -36,6 +37,7 @@ export class SideUI {
       this.tabs[id] = { t, pane };
     };
     addTab('automix', 'AI DJ', this.buildAutomix());
+    for (const t of this.extraTabs) addTab(t.id, t.label, t.pane);
     addTab('sampler', 'SAMPLER', this.buildSampler());
     r.append(tabBar, panes);
     this.show('automix');

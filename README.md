@@ -53,6 +53,16 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    nell'installer) e
    salvate su disco. Il pulsante **STEM** di ogni deck passa tra brano completo, solo voce e solo base.
 
+**Mashup preparati prima del set.** Nella scheda **MASHUP** del pannello laterale scegli una **base** e una **voce**
+(trascinandole dalla libreria, con il pulsante **+** sul brano selezionato o dal menu del brano → *Mashup: usa come
+base/voce*). L'app controlla tonalità e tempo, propone i brani compatibili e con **Salva e prepara** separa subito voce
+e base e trova la frase in cui entra la voce: tutto resta salvato nella libreria, così durante il set non c'è niente da
+calcolare. Ogni mashup si prova sui deck (**▶ Prova**: base sul deck A, voce sul deck B, a tempo) e si ritocca: punto
+della base in cui entra la voce, punto da cui parte la voce (frecce di 4 battute, Maiusc per 1) e durata (8, 16 o 32
+battute). **+ Coda** mette in coda all'AI DJ la base e poi la voce: quando i due brani vanno in onda uno dopo l'altro
+l'AI DJ fa quel mashup, anche con l'opzione Mashup spenta; con l'opzione accesa, dopo una base sceglie da sola la sua
+voce. Utile soprattutto sui computer con 8 GB di RAM, dove separare durante il mix è pesante.
+
 Puoi lasciare scegliere all'AI dalla libreria o da una playlist, oppure darle una coda. I pulsanti **Mixa ora** e
 **Cambia prossimo** permettono di intervenire in qualsiasi momento.
 
@@ -124,7 +134,7 @@ lo stato del programma (play, cue, sync, hot cue, loop, preascolto, effetti…).
 - Libreria con cartelle musicali, ricerca istantanea, ordinamento, playlist, cronologia, più suonati
 - Evidenziazione dei brani compatibili (BPM vicino, tonalità armonica) col deck in onda
 - **Sampler** a 8 pad con suoni inclusi (air horn, sirena, riser…) e campioni personalizzabili
-- **AI DJ** (vedi sopra) con coda, scalette automatiche e AI locale
+- **AI DJ** (vedi sopra) con coda, scalette automatiche, mashup preparati e AI locale
 - **Registrazione** del mix in WAV (scritta su disco in streaming, adatta a set di ore)
 - **Console DJ**: riconoscimento automatico, LED, procedura guidata, MIDI learn, gamepad (vedi sopra)
 - Scorciatoie da tastiera (F1 per l'elenco)

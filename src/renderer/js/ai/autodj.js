@@ -8,6 +8,7 @@ import { rapidTiming } from './rapid.js';
 import { curvesAt } from './transition-model.js';
 import { needsAiRefine } from '../audio/analyzer-client.js';
 import { planRemix, REMIX_ACTIONS } from './remix.js';
+import { FADE_BARS, MASHUP_MIN_KEY, DEFAULT_MASHUP_BARS, savedStartAt } from './mashup-plan.js';
 
 const DEFAULT_OPTIONS = {
   mode: 'ai', // 'ai' = sceglie l'AI, 'queue' = segue la coda
@@ -23,9 +24,10 @@ const DEFAULT_OPTIONS = {
 };
 
 export class AutoDJ extends EventTarget {
-  constructor({ engine, decks, getControls, getPool, llm, stems = null, random = Math.random }) {
+  constructor({ engine, decks, getControls, getPool, llm, stems = null, getMashups = () => [], random = Math.random }) {
     super();
     this.stems = stems;
+    this.getMashups = getMashups; // mashup salvati nella scheda MASHUP
     this.random = random;
     this.engine = engine;
     this.decks = decks;
@@ -165,6 +167,9 @@ export class AutoDJ extends EventTarget {
       pool = this.sourcePool().filter((t) => !recent.has(t.id));
     }
     if (!pool.length) return null;
+    // con l'opzione mashup, dopo la base di un mashup salvato arriva il brano della sua voce
+    const saved = this.options.mashup && currentTrack ? this.getMashups().find((m) => m.baseId === currentTrack.id && pool.some((t) => t.id === m.vocalId)) : null;
+    if (saved) return { track: pool.find((t) => t.id === saved.vocalId), reason: 'mashup salvato con il brano in onda' };
     // si preferiscono i brani già analizzati (BPM e tonalità noti)
     const analyzed = pool.filter((t) => t.bpm);
     const candidatesPool = analyzed.length >= 3 ? analyzed : pool;
@@ -281,15 +286,17 @@ export class AutoDJ extends EventTarget {
       if (!this.enabled) return;
       this.plan = this.makePlan(cur, next);
       if (this.plan.wantModel) await this.attachModelCurves(this.plan);
-      if (this.options.mashup) {
+      if (this.options.mashup && this.stems) {
         // il brano successivo si separa subito: quando andrà in onda la sua base sarà già pronta
-        if (this.stems) this.stems.ensure(next.track).catch(() => {});
-        this.prepareMashup(this.plan);
+        this.stems.ensure(next.track).catch(() => {});
       }
+      if (this.plan.saved) this.prepareSavedMashup(this.plan);
+      else if (this.options.mashup) this.prepareMashup(this.plan);
       this.resetChannel(next);
       next.seek(this.plan.mixIn);
       this.say(`Prossimo: ${label(next.track)} — ${reason}`);
-      this.say(`   Transizione ${TRANSITION_NAMES[this.plan.type] || this.plan.type} di ${this.plan.bars} battute alle ${formatTime(this.plan.startAt, false)} (${this.plan.why})`);
+      if (this.plan.saved) this.say(`   Mashup salvato alle ${formatTime(this.plan.startAt, false)}: voce per ${this.plan.saved.bars || DEFAULT_MASHUP_BARS} battute`);
+      else this.say(`   Transizione ${TRANSITION_NAMES[this.plan.type] || this.plan.type} di ${this.plan.bars} battute alle ${formatTime(this.plan.startAt, false)} (${this.plan.why})`);
       this.emit();
     } finally {
       this.selecting = false;
@@ -297,6 +304,18 @@ export class AutoDJ extends EventTarget {
   }
 
   makePlan(cur, next) {
+    const plan = this.planFor(cur, next);
+    // mashup salvato nella scheda MASHUP: la voce entra dove è stato deciso (se quel punto non è già passato)
+    const saved = this.getMashups().find((m) => m.baseId === cur.track.id && m.vocalId === next.track.id);
+    if (saved) {
+      plan.saved = saved;
+      const at = savedStartAt(saved, cur);
+      if (at != null) plan.startAt = at;
+    }
+    return plan;
+  }
+
+  planFor(cur, next) {
     // con il modello si decide come in automatico (sync, ripiego), poi le curve vengono dal modello
     const wantModel = isModelStyle(this.options.style);
     const t = planTransition(cur.track, next.track, { style: wantModel ? 'auto' : this.options.style, bars: this.options.bars });
@@ -524,13 +543,13 @@ export class AutoDJ extends EventTarget {
 
   /** Con l'opzione mashup e due brani compatibili prepara in background voce e base di entrambi. */
   async prepareMashup(plan) {
-    if (!this.stems || !plan.sync || keyScore(plan.fromTrack.key, plan.toTrack.key) < 0.75) return;
+    if (!this.stems || !plan.sync || keyScore(plan.fromTrack.key, plan.toTrack.key) < MASHUP_MIN_KEY) return;
     plan.mashup = { status: 'preparing' };
     try {
       if (!(await this.stems.checkModel())) throw new Error('scarica prima il modello per separare voce e base (pannello AI DJ)');
       this.say(`Mashup: preparo voce e base di ${label(plan.toTrack)} e ${label(plan.fromTrack)}`);
       await Promise.all([this.stems.ensure(plan.fromTrack), this.stems.ensure(plan.toTrack)]);
-      const vocalStart = await this.vocalEntry(plan.to, plan.toTrack);
+      const vocalStart = await this.stems.vocalEntry(plan.toTrack, plan.toTrack.bpm || plan.to.bpm);
       if (this.plan !== plan) return;
       plan.mashup = { status: 'ready', vocalStart };
       this.say(`Mashup pronto: la voce di ${label(plan.toTrack)} entrerà sulla base di ${label(plan.fromTrack)}`);
@@ -540,36 +559,35 @@ export class AutoDJ extends EventTarget {
     }
   }
 
-  /** Inizio (s) della prima frase di 4 battute in cui la voce del brano è ben presente. */
-  async vocalEntry(deck, track) {
-    const bytes = await this.stems.readVocals(track);
-    const ctx = new OfflineAudioContext(1, 1, 22050);
-    const audio = await ctx.decodeAudioData(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
-    const x = audio.getChannelData(0);
-    const bar = (60 / (track.bpm || deck.bpm)) * 4;
-    const offset = track.gridOffset || 0;
-    const rms = [];
-    for (let t = offset; t + bar < audio.duration; t += bar) {
-      let s = 0;
-      const a = Math.floor(t * 22050);
-      const b = Math.floor((t + bar) * 22050);
-      for (let i = a; i < b; i += 4) s += x[i] * x[i];
-      rms.push(Math.sqrt(s / ((b - a) / 4)));
+  /**
+   * Mashup salvato nella scheda MASHUP: si fa anche con l'opzione mashup spenta e senza controlli di tonalità
+   * (l'ha scelto il DJ). Voce e base di solito sono già su disco; se mancano si separano adesso.
+   */
+  async prepareSavedMashup(plan) {
+    const { saved } = plan;
+    plan.mashup = { status: 'preparing', saved: true };
+    try {
+      if (!this.stems) throw new Error('separazione di voce e base non disponibile');
+      await Promise.all([this.stems.ensure(plan.fromTrack), this.stems.ensure(plan.toTrack)]);
+      const vocalStart = saved.vocalStart ?? await this.stems.vocalEntry(plan.toTrack, plan.toTrack.bpm || plan.to.bpm);
+      if (this.plan !== plan) return;
+      plan.mashup = { status: 'ready', saved: true, vocalStart, bars: saved.bars || DEFAULT_MASHUP_BARS };
+      this.say(`Mashup salvato pronto: la voce di ${label(plan.toTrack)} entrerà sulla base di ${label(plan.fromTrack)}`);
+    } catch (err) {
+      plan.mashup = { status: 'failed', saved: true };
+      this.say(`Mashup salvato non possibile (${err.message}): transizione normale`);
     }
-    const max = Math.max(...rms, 1e-9);
-    const first = rms.findIndex((v) => v > 0.3 * max);
-    return offset + Math.max(0, Math.floor(Math.max(0, first) / 4) * 4) * bar;
   }
 
   /**
    * Transizione mashup: il brano in onda passa alla sola base, entra la voce del prossimo a tempo per
-   * 16 battute, poi il prossimo torna completo e il primo sfuma in 8 battute.
+   * 16 battute (o quelle del mashup salvato), poi il prossimo torna completo e il primo sfuma in 8 battute.
    */
   async beginMashup(from, to, plan) {
     const beat = from.beatLength;
     const remaining = from.duration - from.position;
-    const fadeBars = 8;
-    const mashBars = Math.max(4, Math.min(16, Math.floor(remaining / (4 * beat)) - fadeBars));
+    const fadeBars = FADE_BARS;
+    const mashBars = Math.max(4, Math.min(plan.mashup.bars || DEFAULT_MASHUP_BARS, Math.floor(remaining / (4 * beat)) - fadeBars));
     this.transition = {
       from, to, plan, controls: this.getControls(), mashup: true, mashBars, fadeBars, applied: {},
       start: performance.now(), duration: (((mashBars + fadeBars) * 4 * beat) / from.tempo) * 1000,
