@@ -1,13 +1,22 @@
 // Analisi in background della libreria (BPM, tonalità, energia, punti di mix)
-// così l'AI DJ conosce i brani prima ancora di caricarli.
+// così l'AI DJ conosce i brani prima ancora di caricarli. Con librerie grandi dura ore: prima i brani che servono
+// subito (priorità) e pausa quando c'è da separare voce e base (la separazione non aspetta tutta la libreria).
 import { api } from '../api.js';
 import { analyze, analysisPatch, analysisEngine, isFullyAnalyzed, needsAiRefine, refineWithAi } from '../audio/analyzer-client.js';
 
 export class BatchAnalyzer extends EventTarget {
-  constructor(ctx) {
+  /**
+   * priority(): funzione (brano) -> numero, rifatta a ogni brano: prima i numeri più bassi.
+   * shouldYield(): true finché l'analisi deve restare in pausa tra un brano e l'altro.
+   */
+  constructor(ctx, { priority = () => () => 0, shouldYield = () => false } = {}) {
     super();
     this.ctx = ctx;
+    this.priority = priority;
+    this.shouldYield = shouldYield;
     this.running = false;
+    this.stepping = false; // un brano in analisi in questo momento
+    this.paused = false;
     this.stopRequested = false;
     this.done = 0;
     this.total = 0;
@@ -15,7 +24,7 @@ export class BatchAnalyzer extends EventTarget {
   }
 
   emit() {
-    this.dispatchEvent(new CustomEvent('progress', { detail: { running: this.running, done: this.done, total: this.total, current: this.current } }));
+    this.dispatchEvent(new CustomEvent('progress', { detail: { running: this.running, paused: this.paused, done: this.done, total: this.total, current: this.current } }));
   }
 
   static pending(tracks) {
@@ -24,6 +33,36 @@ export class BatchAnalyzer extends EventTarget {
 
   stop() {
     this.stopRequested = true;
+  }
+
+  /** Il prossimo brano da analizzare: quello con priorità più alta (a parità, nell'ordine della lista). */
+  next(list) {
+    const rank = this.priority();
+    let best = 0;
+    let bestRank = rank(list[0]);
+    for (let i = 1; i < list.length && bestRank > 0; i++) {
+      const r = rank(list[i]);
+      if (r < bestRank) {
+        best = i;
+        bestRank = r;
+      }
+    }
+    return list.splice(best, 1)[0];
+  }
+
+  /** Tra un brano e l'altro: resta in pausa finché serve (es. separazione di voce e base in corso). */
+  async yieldIfNeeded() {
+    while (!this.stopRequested && this.shouldYield()) {
+      if (!this.paused) {
+        this.paused = true;
+        this.emit();
+      }
+      await new Promise((r) => setTimeout(r, 500));
+    }
+    if (this.paused) {
+      this.paused = false;
+      this.emit();
+    }
   }
 
   async decode(t) {
@@ -49,8 +88,10 @@ export class BatchAnalyzer extends EventTarget {
     const refine = tracks.filter((t) => needsAiRefine(t) || (!isFullyAnalyzed(t) && analysisEngine() === 'ai')).length;
     this.total = first.length + refine;
     this.emit();
-    for (const t of first) {
+    while (first.length) {
+      await this.yieldIfNeeded();
       if (this.stopRequested) break;
+      const t = this.next(first);
       await this.step(t, async () => {
         const { audio, channels } = await this.decode(t);
         const res = await analyze(channels, audio.sampleRate, {
@@ -67,8 +108,11 @@ export class BatchAnalyzer extends EventTarget {
         t.analysisFailed = true;
       });
     }
-    for (const t of tracks.filter(needsAiRefine)) {
+    const second = tracks.filter(needsAiRefine);
+    while (second.length) {
+      await this.yieldIfNeeded();
       if (this.stopRequested) break;
+      const t = this.next(second);
       await this.step(t, async () => {
         const { bytes, audio, channels } = await this.decode(t);
         const res = await refineWithAi(channels, audio.sampleRate, bytes);
@@ -87,6 +131,7 @@ export class BatchAnalyzer extends EventTarget {
 
   async step(t, work, onError) {
     this.current = t;
+    this.stepping = true;
     this.emit();
     try {
       const patch = await work();
@@ -98,6 +143,7 @@ export class BatchAnalyzer extends EventTarget {
       onError();
       console.warn('Analisi fallita', t.path, err);
     }
+    this.stepping = false;
     this.done++;
     this.emit();
     // lascia respirare l'interfaccia

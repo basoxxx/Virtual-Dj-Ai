@@ -40,8 +40,13 @@ export class MashupUI {
     this.statusEls = new Map();
     this.root = this.build();
     this.mashups.addEventListener('change', () => this.refresh());
+    // durante l'analisi della libreria le proposte si aggiornano al massimo una volta al secondo
     app.analyzer.addEventListener('progress', () => {
-      if (this.draft.base || this.draft.vocal) this.renderDraft();
+      if ((!this.draft.base && !this.draft.vocal) || this.draftTimer) return;
+      this.draftTimer = setTimeout(() => {
+        this.draftTimer = null;
+        this.renderDraft();
+      }, 1000);
     });
     app.automix.addEventListener('change', () => {
       if (app.automix.enabled && this.preview) this.stopPreview();

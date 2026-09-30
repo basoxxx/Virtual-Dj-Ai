@@ -167,6 +167,12 @@ export class Deck extends EventTarget {
           this.emit('cover', c);
         }
       });
+      // l'energia per battuta (remix dal vivo) non viaggia con la libreria: si chiede solo per il brano caricato
+      if (!track.barEnergy && track.analyzed && api.getTrack) {
+        api.getTrack(track.id).then((full) => {
+          if (full && full.barEnergy && !track.barEnergy) track.barEnergy = full.barEnergy;
+        }).catch(() => {});
+      }
       this.runAnalysis(track, [left, right === left ? left : right], audio.sampleRate, bytes);
       return true;
     } catch (err) {

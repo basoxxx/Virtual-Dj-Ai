@@ -31,6 +31,9 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    in **Impostazioni → AI locale → Motore di analisi** si può tornare all'analisi classica, che resta comunque
    il ripiego automatico se il modello manca o dà errore. L'analisi è ibrida: il classico dà subito BPM e forma
    d'onda, Segueo Analisi battute rifinisce poi battute, battuta forte e struttura in background.
+   Ogni brano si analizza una volta sola (i risultati restano nella libreria). Con librerie grandi l'analisi parte
+   dai brani che servono subito (sui deck, in coda, nei mashup, nella playlist dell'AI DJ) e si mette in pausa mentre
+   si separano voce e base, così i mashup non aspettano la fine di tutta la libreria.
 2. **Sceglie il brano successivo** tra quelli compatibili: tonalità armonica, BPM vicini (anche metà/doppio tempo),
    energia coerente con la strategia scelta (*mantieni*, *crescente*, *onde*, *rilassata*, *picco*), genere, varietà.
    Nel pannello "Diario dell'AI" spiega ogni scelta.

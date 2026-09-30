@@ -3,9 +3,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 class JsonStore {
-  constructor(file, defaults) {
+  /** delay: attesa (ms) prima di scrivere; più lunga per file grandi aggiornati spesso (libreria). */
+  constructor(file, defaults, { delay = 400 } = {}) {
     this.file = file;
     this.defaults = defaults;
+    this.delay = delay;
     this.data = structuredClone(defaults);
     this.timer = null;
     this.load();
@@ -22,7 +24,7 @@ class JsonStore {
 
   save() {
     clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.flush(), 400);
+    this.timer = setTimeout(() => this.flush(), this.delay);
   }
 
   flush() {

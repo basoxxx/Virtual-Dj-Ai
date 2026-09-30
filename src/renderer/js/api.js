@@ -72,11 +72,13 @@ function createBrowserApi() {
     registerFile,
     removeFolder: async () => snapshot(),
     rescan: async () => snapshot(),
-    removeTrack: async (id) => {
-      lib.tracks = lib.tracks.filter((t) => t.id !== id);
-      lib.mashups = lib.mashups.filter((m) => m.baseId !== id && m.vocalId !== id);
-      return snapshot();
+    removeTrack: async (ids) => {
+      const gone = new Set([].concat(ids));
+      lib.tracks = lib.tracks.filter((t) => !gone.has(t.id));
+      lib.mashups = lib.mashups.filter((m) => !gone.has(m.baseId) && !gone.has(m.vocalId));
+      return true;
     },
+    getTrack: async (id) => lib.tracks.find((t) => t.id === id) || null,
     updateTrack: async (id, patch) => {
       const t = lib.tracks.find((x) => x.id === id);
       if (t) Object.assign(t, patch);
@@ -90,6 +92,7 @@ function createBrowserApi() {
         lib.history.push({ id, at: t.lastPlayed });
       }
     },
+    getPlaylists: async () => structuredClone(lib.playlists),
     createPlaylist: async (name) => {
       const p = { id: crypto.randomUUID(), name, tracks: [] };
       lib.playlists.push(p);

@@ -81,20 +81,32 @@ export function targetEnergy(strategy, currentEnergy, step) {
   }
 }
 
+// parole di ogni genere, calcolate una volta: i generi diversi in una libreria sono pochi, i confronti migliaia
+const GENRE_WORDS = new Map();
+function genreWords(g) {
+  let words = GENRE_WORDS.get(g);
+  if (!words) {
+    words = g.toLowerCase().split(/[,/;&]+|\s+/).filter((w) => w.length > 2);
+    if (GENRE_WORDS.size > 5000) GENRE_WORDS.clear();
+    GENRE_WORDS.set(g, words);
+  }
+  return words;
+}
+
 function genreSimilarity(a, b) {
   if (!a || !b) return 0.5;
-  const ta = new Set(a.toLowerCase().split(/[,/;&]+|\s+/).filter((w) => w.length > 2));
-  const tb = b.toLowerCase().split(/[,/;&]+|\s+/).filter((w) => w.length > 2);
-  if (!ta.size || !tb.length) return 0.5;
-  return tb.some((w) => ta.has(w)) ? 1 : 0.2;
+  const ta = genreWords(a);
+  const tb = genreWords(b);
+  if (!ta.length || !tb.length) return 0.5;
+  return tb.some((w) => ta.includes(w)) ? 1 : 0.2;
 }
 
 /**
- * Valuta un candidato rispetto al brano in onda.
+ * Valuta un candidato rispetto al brano in onda. Con explain: false niente spiegazioni (servono solo per i brani
+ * mostrati: calcolarle per tutta la libreria costa più del punteggio).
  * @returns {{score:number, reasons:string[]}}
  */
-export function scoreCandidate(current, cand, { strategy = 'steady', step = 0, recent = new Set(), random = Math.random } = {}) {
-  const reasons = [];
+export function scoreCandidate(current, cand, { strategy = 'steady', step = 0, recent = new Set(), random = Math.random, explain = true } = {}) {
   if (!current) {
     const e = cand.energy || 5;
     const want = strategy === 'peak' ? 9 : strategy === 'chill' ? 3 : 5;
@@ -109,19 +121,28 @@ export function scoreCandidate(current, cand, { strategy = 'steady', step = 0, r
   if (current.artist && cand.artist && current.artist === cand.artist) score -= 0.08;
   if (recent.has(cand.id)) score -= 1;
   if (cand.playCount) score -= Math.min(0.05, cand.playCount * 0.005);
-
-  const r = tempoRatio(current.bpm, cand.bpm);
-  if (r) reasons.push(`BPM ${cand.bpm.toFixed(0)} (${r >= 1 ? '+' : ''}${((r - 1) * 100).toFixed(1)}%)`);
-  if (cand.key) reasons.push(`key ${camelotOf(current.key) || '?'}→${camelotOf(cand.key)}${k >= 0.9 ? ' ✓' : ''}`);
-  if (cand.energy) reasons.push(`energia ${current.energy || '?'}→${cand.energy}`);
-  return { score, reasons };
+  return { score, reasons: explain ? reasonsFor(current, cand) : [] };
 }
 
-export function rankCandidates(current, pool, opts = {}) {
-  return pool
+/** Perché un candidato va bene dopo il brano in onda (tempo, tonalità, energia). */
+function reasonsFor(current, cand) {
+  const reasons = [];
+  const r = tempoRatio(current.bpm, cand.bpm);
+  if (r) reasons.push(`BPM ${cand.bpm.toFixed(0)} (${r >= 1 ? '+' : ''}${((r - 1) * 100).toFixed(1)}%)`);
+  if (cand.key) reasons.push(`key ${camelotOf(current.key) || '?'}→${camelotOf(cand.key)}${keyScore(current.key, cand.key) >= 0.9 ? ' ✓' : ''}`);
+  if (cand.energy) reasons.push(`energia ${current.energy || '?'}→${cand.energy}`);
+  return reasons;
+}
+
+/** Candidati in ordine di punteggio; con limit solo i migliori (e le spiegazioni solo per quelli). */
+export function rankCandidates(current, pool, { limit = Infinity, ...opts } = {}) {
+  const ranked = pool
     .filter((t) => !current || t.id !== current.id)
-    .map((t) => ({ track: t, ...scoreCandidate(current, t, opts) }))
-    .sort((a, b) => b.score - a.score);
+    .map((t) => ({ track: t, ...scoreCandidate(current, t, { ...opts, explain: false }) }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+  if (current) for (const c of ranked) c.reasons = reasonsFor(current, c.track);
+  return ranked;
 }
 
 /** Costruisce una scaletta concatenando le scelte migliori. */
@@ -131,9 +152,18 @@ export function buildSet(pool, { length = 20, strategy = 'steady', seed = null, 
   let current = seed;
   if (seed) recent.add(seed.id);
   for (let step = 0; step < length; step++) {
-    const ranked = rankCandidates(current, pool.filter((t) => !recent.has(t.id)), { strategy, step, recent, random });
-    if (!ranked.length) break;
-    const pick = ranked[0].track;
+    // basta il migliore: una passata sola invece di ordinare tutta la libreria a ogni brano
+    let pick = null;
+    let best = -Infinity;
+    for (const t of pool) {
+      if (recent.has(t.id) || (current && t.id === current.id)) continue;
+      const { score } = scoreCandidate(current, t, { strategy, step, recent, random, explain: false });
+      if (score > best) {
+        best = score;
+        pick = t;
+      }
+    }
+    if (!pick) break;
     set.push(pick);
     recent.add(pick.id);
     current = pick;

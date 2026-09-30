@@ -85,8 +85,13 @@ class App {
     this.sampler = new Sampler(this.engine);
     await this.sampler.init(this.settings.sampler);
     this.llm = new LocalLLM(() => this.settings.ai);
-    this.analyzer = new BatchAnalyzer(this.engine.ctx);
-    this.stems = new StemManager({ isBusy: () => this.analyzer.running });
+    this.analyzer = new BatchAnalyzer(this.engine.ctx, {
+      priority: () => this.analysisPriority(),
+      // la separazione (circa 3 GB) non va mai insieme all'analisi: l'analisi si ferma tra un brano e l'altro
+      shouldYield: () => Boolean(this.stems.running || this.stems.queue.length),
+    });
+    // la separazione aspetta solo il brano in analisi in quel momento, non tutta la libreria
+    this.stems = new StemManager({ isBusy: () => this.analyzer.stepping });
     this.mashups = new MashupManager({ stems: this.stems, getTrack: (id) => this.library.track(id) });
     this.automix = new AutoDJ({
       stems: this.stems,
@@ -245,10 +250,12 @@ class App {
       },
       openAiSettings: () => this.openSettings('ai'),
     });
+    this.library.addEventListener('playlists', () => this.sideUI.refreshSources());
     this.library.addEventListener('changed', () => {
       this.sideUI.refreshSources();
       this.mashups.setList(this.library.lib.mashups);
-      if (this.settings.ai.autoAnalyze && !this.analyzer.running && !this.stems.running) {
+      // l'analisi cede il passo alla separazione di voce e base: si può avviare anche mentre separa
+      if (this.settings.ai.autoAnalyze && !this.analyzer.running) {
         clearTimeout(this.analyzeTimer);
         this.analyzeTimer = setTimeout(() => this.analyzer.run(this.library.lib.tracks), 3000);
       }
@@ -282,6 +289,30 @@ class App {
       d.addEventListener('pitch', rerender);
       d.addEventListener('state', rerender);
     }
+  }
+
+  /**
+   * Ordine dell'analisi della libreria: prima i brani sui deck, in coda all'AI DJ e dei mashup che si stanno
+   * creando o preparando (0), poi quelli della playlist dell'AI DJ e dei mashup salvati (1), poi tutti gli altri (2).
+   */
+  analysisPriority() {
+    const now = new Set(this.automix.queue.map((t) => t.id));
+    for (const d of this.decks) if (d.track) now.add(d.track.id);
+    const draft = this.mashupUI ? this.mashupUI.draft : {};
+    for (const t of [draft.base, draft.vocal]) if (t) now.add(t.id);
+    for (const id of this.mashups.preparing) {
+      const m = this.mashups.get(id);
+      if (m) now.add(m.baseId).add(m.vocalId);
+    }
+    const soon = new Set();
+    const src = this.automix.options.source;
+    const playlist = src && src !== 'library' && this.library.lib.playlists.find((p) => p.id === src);
+    if (playlist) playlist.tracks.forEach((id) => soon.add(id));
+    for (const m of this.mashups.list) {
+      soon.add(m.baseId);
+      soon.add(m.vocalId);
+    }
+    return (t) => (now.has(t.id) ? 0 : soon.has(t.id) ? 1 : 2);
   }
 
   /** Vista classica ('console') o dedicata all'AI ('ai'): l'AI DJ continua a mixare in entrambe. */
