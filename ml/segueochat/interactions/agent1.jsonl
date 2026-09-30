@@ -1,0 +1,636 @@
+{"text": "tirala su dai che qui si dorme", "labels": {"strategy": "rise"}}
+{"text": "la pista è morta, svegliali", "labels": {"strategy": "rise"}}
+{"text": "Alza un po' l'energia", "labels": {"strategy": "rise"}}
+{"text": "piu energia per favore", "labels": {"strategy": "rise"}}
+{"text": "facciamo un crescendo da qui a mezzanotte", "labels": {"strategy": "rise"}}
+{"text": "sali piano piano, voglio che la serata cresca", "labels": {"strategy": "rise"}}
+{"text": "dai gas!!", "labels": {"strategy": "rise"}}
+{"text": "comincia a scaldare la pista", "labels": {"strategy": "rise"}}
+{"text": "build up graduale, senza fretta ma sempre più su", "labels": {"strategy": "rise"}}
+{"text": "ragazzi si stanno annoiando, dagli un po' di carica", "labels": {"strategy": "rise"}}
+{"text": "mettici più tiro", "labels": {"strategy": "rise"}}
+{"text": "serve più hype qui", "labels": {"strategy": "rise"}}
+{"text": "la gente è ferma ai bordi, portali in pista con qualcosa di più carico", "labels": {"strategy": "rise"}}
+{"text": "vai in crescendo", "labels": {"strategy": "rise"}}
+{"text": "pompa un po' di più dai", "labels": {"strategy": "rise"}}
+{"text": "sembra un funerale, tira su", "labels": {"strategy": "rise"}}
+{"text": "fa salire la temperatura", "labels": {"strategy": "rise"}}
+{"text": "ok adesso possiamo spingere un po' di più", "labels": {"strategy": "rise"}}
+{"text": "alza il livello gradualmente", "labels": {"strategy": "rise"}}
+{"text": "un pezzo alla volta sempre più energici", "labels": {"strategy": "rise"}}
+{"text": "scalda l'ambiente", "labels": {"strategy": "rise"}}
+{"text": "oh ma è moscia sta roba, dacci dentro", "labels": {"strategy": "rise"}}
+{"text": "sveglia sveglia! più ritmo", "labels": {"strategy": "rise"}}
+{"text": "vorrei che l'energia salisse un po' alla volta fino al picco", "labels": {"strategy": "rise"}}
+{"text": "tirala sù", "labels": {"strategy": "rise"}}
+{"text": "piu carica ragazzo", "labels": {"strategy": "rise"}}
+{"text": "fai crescere la serata", "labels": {"strategy": "rise"}}
+{"text": "energia in salita per favore", "labels": {"strategy": "rise"}}
+{"text": "dobbiamo accendere la pista", "labels": {"strategy": "rise"}}
+{"text": "metti roba un po' più movimentata", "labels": {"strategy": "rise"}}
+{"text": "pezzi più carichi", "labels": {"strategy": "rise"}}
+{"text": "aumenta l'intensità", "labels": {"strategy": "rise"}}
+{"text": "daje, riempi sta pista con qualcosa di più energico", "labels": {"strategy": "rise"}}
+{"text": "fra, alza il tiro", "labels": {"strategy": "rise"}}
+{"text": "stiamo scendendo troppo, riportala su", "labels": {"strategy": "rise"}}
+{"text": "massacro totale", "labels": {"strategy": "peak"}}
+{"text": "roba potente, solo bombe", "labels": {"strategy": "peak"}}
+{"text": "adesso picchia duro", "labels": {"strategy": "peak"}}
+{"text": "solo banger da qui in poi", "labels": {"strategy": "peak"}}
+{"text": "massima energia!!!", "labels": {"strategy": "peak"}}
+{"text": "voglio i pezzi più forti che hai", "labels": {"strategy": "peak"}}
+{"text": "è il momento del picco, spacca tutto", "labels": {"strategy": "peak"}}
+{"text": "fuoco e fiamme, niente pezzi deboli", "labels": {"strategy": "peak"}}
+{"text": "tutto al massimo", "labels": {"strategy": "peak"}}
+{"text": "picco della serata, metti il meglio del meglio", "labels": {"strategy": "peak"}}
+{"text": "distruggili", "labels": {"strategy": "peak"}}
+{"text": "mena forte", "labels": {"strategy": "peak"}}
+{"text": "solo hit che fanno saltare", "labels": {"strategy": "peak"}}
+{"text": "full power", "labels": {"strategy": "peak"}}
+{"text": "dai che è l'una, adesso si spinge a tutta", "labels": {"strategy": "peak"}}
+{"text": "non voglio sentire un pezzo sotto il 100%", "labels": {"strategy": "peak"}}
+{"text": "metti le cartucce migliori", "labels": {"strategy": "peak"}}
+{"text": "botta dopo botta", "labels": {"strategy": "peak"}}
+{"text": "peak time, vai", "labels": {"strategy": "peak"}}
+{"text": "fai esplodere la pista", "labels": {"strategy": "peak"}}
+{"text": "calma", "labels": {"strategy": "chill"}}
+{"text": "rilassiamoci un attimo", "labels": {"strategy": "chill"}}
+{"text": "abbassa i toni", "labels": {"strategy": "chill"}}
+{"text": "roba più tranquilla per favore", "labels": {"strategy": "chill"}}
+{"text": "fai respirare la pista", "labels": {"strategy": "chill"}}
+{"text": "troppa botta, rallenta un po' con l'energia", "labels": {"strategy": "chill"}}
+{"text": "atmosfera più soft adesso che stanno cenando", "labels": {"strategy": "chill"}}
+{"text": "piano piano, meno energia", "labels": {"strategy": "chill"}}
+{"text": "vibe rilassata", "labels": {"strategy": "chill"}}
+{"text": "scendi un po'", "labels": {"strategy": "chill"}}
+{"text": "sono le 5, portali giù dolcemente", "labels": {"strategy": "chill"}}
+{"text": "la gente è cotta, falli rifiatare", "labels": {"strategy": "chill"}}
+{"text": "meno cassa dritta, più atmosfera", "labels": {"strategy": "chill"}}
+{"text": "calmiamoci un po' con sti pezzi", "labels": {"strategy": "chill"}}
+{"text": "qualcosa di più chill", "labels": {"strategy": "chill"}}
+{"text": "stai esagerando, abbassa l'intensità", "labels": {"strategy": "chill"}}
+{"text": "musica da aperitivo, tranquilla", "labels": {"strategy": "chill"}}
+{"text": "defaticante per favore", "labels": {"strategy": "chill"}}
+{"text": "fammi un momento soft", "labels": {"strategy": "chill"}}
+{"text": "cala un po'", "labels": {"strategy": "chill"}}
+{"text": "troppo aggressivo, ammorbidisci", "labels": {"strategy": "chill"}}
+{"text": "tieni questa energia", "labels": {"strategy": "steady"}}
+{"text": "resta così come sei, perfetto il livello", "labels": {"strategy": "steady"}}
+{"text": "non salire e non scendere", "labels": {"strategy": "steady"}}
+{"text": "mantieni il tiro attuale", "labels": {"strategy": "steady"}}
+{"text": "stabile così", "labels": {"strategy": "steady"}}
+{"text": "energia costante per favore", "labels": {"strategy": "steady"}}
+{"text": "non cambiare il mood, va benissimo", "labels": {"strategy": "steady"}}
+{"text": "tieni la pista a questo livello", "labels": {"strategy": "steady"}}
+{"text": "continua su questa linea senza strafare", "labels": {"strategy": "steady"}}
+{"text": "fermo qui con l'intensità", "labels": {"strategy": "steady"}}
+{"text": "piatto, sempre uguale, niente sbalzi", "labels": {"strategy": "steady"}}
+{"text": "tienila lì", "labels": {"strategy": "steady"}}
+{"text": "mantieni l'energia com'è adesso", "labels": {"strategy": "steady"}}
+{"text": "su e giù", "labels": {"strategy": "wave"}}
+{"text": "alterna pezzi forti e momenti più calmi", "labels": {"strategy": "wave"}}
+{"text": "fai le montagne russe", "labels": {"strategy": "wave"}}
+{"text": "un po' botta e un po' respiro", "labels": {"strategy": "wave"}}
+{"text": "alti e bassi, così non si stancano", "labels": {"strategy": "wave"}}
+{"text": "fai onde: sali, scendi, risali", "labels": {"strategy": "wave"}}
+{"text": "ogni tanto falli respirare e poi ripicchia", "labels": {"strategy": "wave"}}
+{"text": "alterna energia alta e bassa", "labels": {"strategy": "wave"}}
+{"text": "un pezzo tosto e uno tranquillo, a turno", "labels": {"strategy": "wave"}}
+{"text": "dai un andamento a onda al set", "labels": {"strategy": "wave"}}
+{"text": "non sempre a palla, alterna", "labels": {"strategy": "wave"}}
+{"text": "picchi e pause", "labels": {"strategy": "wave"}}
+{"text": "saliscendi continuo", "labels": {"strategy": "wave"}}
+{"text": "vorrei una serata a ondate", "labels": {"strategy": "wave"}}
+{"text": "alza l'energia con tagli secchi sul beat", "labels": {"strategy": "rise", "style": "cut"}}
+{"text": "calma, transizioni lunghe e morbide", "labels": {"strategy": "chill", "style": "fade", "bars": "long"}}
+{"text": "massacro, tagli a raffica stile LUM!X", "labels": {"strategy": "peak", "style": "rapid"}}
+{"text": "tirala su e fai lo scambio dei bassi", "labels": {"strategy": "rise", "style": "bassswap"}}
+{"text": "rilassiamoci, chiudi i pezzi con l'echo", "labels": {"strategy": "chill", "style": "echo"}}
+{"text": "su e giù, usando il filtro nei passaggi", "labels": {"strategy": "wave", "style": "filter"}}
+{"text": "tieni l'energia così ma mixa più lungo", "labels": {"strategy": "steady", "bars": "long"}}
+{"text": "solo bombe e mix corti", "labels": {"strategy": "peak", "bars": "short"}}
+{"text": "più carica, stile Gabry Ponte", "labels": {"strategy": "rise", "style": "model"}}
+{"text": "picchia duro, mixa in stile techno", "labels": {"strategy": "peak", "style": "model-techno"}}
+{"text": "abbassa i toni e fai mix lunghissimi, tipo 64 battute", "labels": {"strategy": "chill", "bars": "verylong"}}
+{"text": "dai crescendo, e accorcia i mix a 8 battute", "labels": {"strategy": "rise", "bars": "short"}}
+{"text": "alterna alti e bassi, le transizioni decidile tu", "labels": {"strategy": "wave", "style": "auto"}}
+{"text": "botta piena, cut netti e mix brevi", "labels": {"strategy": "peak", "style": "cut", "bars": "short"}}
+{"text": "fai respirare con dissolvenze morbide", "labels": {"strategy": "chill", "style": "fade"}}
+{"text": "scalda la pista, entra coi pezzi col filtro", "labels": {"strategy": "rise", "style": "filter"}}
+{"text": "resta a questo livello, e usa il bass swap", "labels": {"strategy": "steady", "style": "bassswap"}}
+{"text": "tutto al massimo, pezzi cortissimi uno dopo l'altro", "labels": {"strategy": "peak", "style": "rapid"}}
+{"text": "calma piatta, uscite in echo e mix lunghi", "labels": {"strategy": "chill", "style": "echo", "bars": "long"}}
+{"text": "svegliali con quel tipo di mix dance alla Gabry Ponte", "labels": {"strategy": "rise", "style": "model"}}
+{"text": "montagne russe ma coi mix lunghi", "labels": {"strategy": "wave", "bars": "long"}}
+{"text": "roba potente, tagli sul beat e via", "labels": {"strategy": "peak", "style": "cut"}}
+{"text": "scendi, blend techno lunghissimi da 64 battute", "labels": {"strategy": "chill", "style": "model-techno", "bars": "verylong"}}
+{"text": "sali piano, basso swap e passaggi da 32 battute", "labels": {"strategy": "rise", "style": "bassswap", "bars": "long"}}
+{"text": "mantieni, però le transizioni falle sfumate", "labels": {"strategy": "steady", "style": "fade"}}
+{"text": "picco! mix veloci", "labels": {"strategy": "peak", "bars": "short"}}
+{"text": "atmosfera più soft, apri e chiudi col filtro", "labels": {"strategy": "chill", "style": "filter"}}
+{"text": "la pista è morta, fai la raffica di pezzi corti tipo lumix", "labels": {"strategy": "rise", "style": "rapid"}}
+{"text": "su e giu con stacchi netti", "labels": {"strategy": "wave", "style": "cut"}}
+{"text": "meno energia, passaggi lunghi", "labels": {"strategy": "chill", "bars": "long"}}
+{"text": "massima potenza, stile techno nei mix", "labels": {"strategy": "peak", "style": "model-techno"}}
+{"text": "crescendo, e quando esci usa l'eco", "labels": {"strategy": "rise", "style": "echo"}}
+{"text": "energia uguale, mix più corti però", "labels": {"strategy": "steady", "bars": "short"}}
+{"text": "tira su, per le transizioni fai tu", "labels": {"strategy": "rise", "style": "auto"}}
+{"text": "rilassa l'ambiente, e passa i bassi con l'EQ", "labels": {"strategy": "chill", "style": "bassswap"}}
+{"text": "spacca tutto a raffica, mix da 8", "labels": {"strategy": "peak", "style": "rapid", "bars": "short"}}
+{"text": "alterna momenti forti e calmi, sfumature lunghe", "labels": {"strategy": "wave", "style": "fade", "bars": "long"}}
+{"text": "fammi un'ora tranquilla con fade lunghissimi", "labels": {"strategy": "chill", "style": "fade", "bars": "verylong"}}
+{"text": "dai tiro con cut decisi", "labels": {"strategy": "rise", "style": "cut"}}
+{"text": "bombe dance tipo gabry ponte, a tutta", "labels": {"strategy": "peak", "style": "model"}}
+{"text": "tieni costante e usa l'echo out", "labels": {"strategy": "steady", "style": "echo"}}
+{"text": "voglio un crescendo lento con transizioni lunghe", "labels": {"strategy": "rise", "bars": "long"}}
+{"text": "potenza massima e scambi di basso puliti", "labels": {"strategy": "peak", "style": "bassswap"}}
+{"text": "più calmo ma coi tagli secchi", "labels": {"strategy": "chill", "style": "cut"}}
+{"text": "a ondate, e ogni tanto una raffica di pezzi corti", "labels": {"strategy": "wave", "style": "rapid"}}
+{"text": "sali con mix techno lunghi da 32", "labels": {"strategy": "rise", "style": "model-techno", "bars": "long"}}
+{"text": "calma ma mix corti", "labels": {"strategy": "chill", "bars": "short"}}
+{"text": "picchia, filtro e mix veloci", "labels": {"strategy": "peak", "style": "filter", "bars": "short"}}
+{"text": "stessa energia, stile dance", "labels": {"strategy": "steady", "style": "model"}}
+{"text": "più hype ma con fade dolci", "labels": {"strategy": "rise", "style": "fade"}}
+{"text": "ok ragazzi adesso si fa sul serio: energia in salita, cut sul beat, 8 battute max", "labels": {"strategy": "rise", "style": "cut", "bars": "short"}}
+{"text": "ci serve un momento di pausa, fai uscire le tracce in eco e scegli roba più leggera", "labels": {"strategy": "chill", "style": "echo"}}
+{"text": "voglio il delirio, tipo LUM!X, pezzi a raffica e solo bombe", "labels": {"strategy": "peak", "style": "rapid"}}
+{"text": "fammi un set ad onde, scambiando i bassi, passaggi belli lunghi", "labels": {"strategy": "wave", "style": "bassswap", "bars": "long"}}
+{"text": "lentamente verso l'alto, con filtri e mix da 48 battute", "labels": {"strategy": "rise", "style": "filter", "bars": "long"}}
+{"text": "non toccare l'energia, transizioni scegli tu ma lunghe", "labels": {"strategy": "steady", "style": "auto", "bars": "long"}}
+{"text": "fai respirare la gente con dei blend techno lunghi e ipnotici", "labels": {"strategy": "chill", "style": "model-techno"}}
+{"text": "niente sfumature, cut netti e pezzi che spaccano", "labels": {"strategy": "peak", "style": "cut"}}
+{"text": "facciamola alla Gabry Ponte, più carica, cassa e mani in alto", "labels": {"strategy": "rise", "style": "model"}}
+{"text": "sfuma lento, abbassa l'energia", "labels": {"strategy": "chill", "style": "fade", "bars": "long"}}
+{"text": "mix corti con echo, energia che sale e scende", "labels": {"strategy": "wave", "style": "echo", "bars": "short"}}
+{"text": "energia massima ma mix lunghissimi tipo 64 battute", "labels": {"strategy": "peak", "bars": "verylong"}}
+{"text": "swappa i bassi e tira su il livello", "labels": {"strategy": "rise", "style": "bassswap"}}
+{"text": "filtro nei passaggi, energia uguale a ora", "labels": {"strategy": "steady", "style": "filter"}}
+{"text": "scendi un po' di intensità, lo stile dei passaggi lascialo a te", "labels": {"strategy": "chill", "style": "auto"}}
+{"text": "piu tiro, tagli a raffica e battute corte", "labels": {"strategy": "rise", "style": "rapid", "bars": "short"}}
+{"text": "massacro in stile techno, blend da 32 battute", "labels": {"strategy": "peak", "style": "model-techno", "bars": "long"}}
+{"text": "più rilassato, transizioni di basso lunghe", "labels": {"strategy": "chill", "style": "bassswap", "bars": "long"}}
+{"text": "alterna cariche dance e pause, stile Gabry", "labels": {"strategy": "wave", "style": "model"}}
+{"text": "echo out e mix brevi, e fai salire l'energia", "labels": {"strategy": "rise", "style": "echo", "bars": "short"}}
+{"text": "tranquillizza la situazione, e i passaggi falli con dissolvenza", "labels": {"strategy": "chill", "style": "fade"}}
+{"text": "il meglio che hai, pezzi fortissimi, i passaggi come preferisci", "labels": {"strategy": "peak", "style": "auto"}}
+{"text": "mantieni la vibe, ma mixa con tagli e brevi", "labels": {"strategy": "steady", "style": "cut", "bars": "short"}}
+{"text": "crescendo lunghissimo, fade da 64 battute", "labels": {"strategy": "rise", "style": "fade", "bars": "verylong"}}
+{"text": "rimani su questa intensità però passa alla modalità raffica, pezzi brevi uno dopo l'altro", "labels": {"strategy": "steady", "style": "rapid"}}
+{"text": "fai il picco, e uscite con l'eco", "labels": {"strategy": "peak", "style": "echo"}}
+{"text": "dopo sto delirio fai rifiatare, passaggi più lunghi", "labels": {"strategy": "chill", "bars": "long"}}
+{"text": "dai una botta di energia, taglia netto sul primo beat", "labels": {"strategy": "rise", "style": "cut"}}
+{"text": "voglio respiri e ripartenze, con il filtro, mix lunghi", "labels": {"strategy": "wave", "style": "filter", "bars": "long"}}
+{"text": "bomba dopo bomba, bass swap veloce, 8 battute", "labels": {"strategy": "peak", "style": "bassswap", "bars": "short"}}
+{"text": "calma ma resta sul mixaggio techno, lungo e ipnotico", "labels": {"strategy": "chill", "style": "model-techno"}}
+{"text": "dance alla gabry ponte, mix corti, tirala su", "labels": {"strategy": "rise", "style": "model", "bars": "short"}}
+{"text": "stessa energia di adesso, echo e passaggi lunghi", "labels": {"strategy": "steady", "style": "echo", "bars": "long"}}
+{"text": "spingi a tutta però i passaggi morbidi sfumati", "labels": {"strategy": "peak", "style": "fade"}}
+{"text": "metti il filtro passa alto nei mix e alza l'energia gradualmente", "labels": {"strategy": "rise", "style": "filter"}}
+{"text": "fai su e giù, mix veloci, lo stile scegli tu", "labels": {"strategy": "wave", "style": "auto", "bars": "short"}}
+{"text": "ultimi pezzi della nottata: abbassa l'energia, echo e mix a 64", "labels": {"strategy": "chill", "style": "echo", "bars": "verylong"}}
+{"text": "crescendo con bass swap rapidi da 8 battute", "labels": {"strategy": "rise", "style": "bassswap", "bars": "short"}}
+{"text": "LUM!X mode e pezzi potenti", "labels": {"strategy": "peak", "style": "rapid"}}
+{"text": "tieni l'energia e fai blend techno lunghissimi", "labels": {"strategy": "steady", "style": "model-techno", "bars": "verylong"}}
+{"text": "più soft, filtro, mix corti", "labels": {"strategy": "chill", "style": "filter", "bars": "short"}}
+{"text": "la gente vuole di più: alza e usa l'echo nelle uscite", "labels": {"strategy": "rise", "style": "echo"}}
+{"text": "a tutta birra, tagli e basta, 8 battute", "labels": {"strategy": "peak", "style": "cut", "bars": "short"}}
+{"text": "alterna ma con sfumature dolci", "labels": {"strategy": "wave", "style": "fade"}}
+{"text": "salita lentissima, mix da 64 battute", "labels": {"strategy": "rise", "bars": "verylong"}}
+{"text": "più tranquilli e bass swap veloci", "labels": {"strategy": "chill", "style": "bassswap", "bars": "short"}}
+{"text": "pezzi da stadio in stile dance italiano tipo Gabry Ponte", "labels": {"strategy": "peak", "style": "model"}}
+{"text": "resta così e taglia secco", "labels": {"strategy": "steady", "style": "cut"}}
+{"text": "fai salire la tensione con transizioni in stile techno", "labels": {"strategy": "rise", "style": "model-techno"}}
+{"text": "momento rilassato: energia giù e transizioni infinite da 64 battute", "labels": {"strategy": "chill", "bars": "verylong"}}
+{"text": "voglio un andamento ondulato, e nei passaggi scambia i bassi", "labels": {"strategy": "wave", "style": "bassswap"}}
+{"text": "spacca, e usa il filtro", "labels": {"strategy": "peak", "style": "filter"}}
+{"text": "piano piano verso l'alto con dissolvenze lunghe", "labels": {"strategy": "rise", "style": "fade", "bars": "long"}}
+{"text": "abbassa l'energia ma resta in stile dance", "labels": {"strategy": "chill", "style": "model"}}
+{"text": "energia invariata, transizioni automatiche", "labels": {"strategy": "steady", "style": "auto"}}
+{"text": "per i prossimi 3 pezzi tirala su", "labels": {"strategy": "rise", "temporary": "yes"}}
+{"text": "solo per un paio di brani fai respirare la pista", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "per un po' solo bombe, poi vediamo", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "più energia e solo house", "labels": {"strategy": "rise", "genre": "include"}}
+{"text": "massacro, solo techno", "labels": {"strategy": "peak", "genre": "include"}}
+{"text": "rilassiamoci con della deep house", "labels": {"strategy": "chill", "genre": "include"}}
+{"text": "sali ma niente reggaeton", "labels": {"strategy": "rise", "genre": "exclude"}}
+{"text": "spingi al massimo e buttaci dentro anche un po' di edm", "labels": {"strategy": "peak", "genre": "add"}}
+{"text": "crea una scaletta house in crescendo", "labels": {"set": "build", "strategy": "rise", "genre": "include"}}
+{"text": "fammi un set a onde di un'ora", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "prepara una playlist lounge tranquilla per l'aperitivo", "labels": {"set": "build", "strategy": "chill", "genre": "include"}}
+{"text": "preparami una setlist solo di bombe per il peak time", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "fai partire la musica e vai in crescendo", "labels": {"strategy": "rise", "control": "start"}}
+{"text": "questo pezzo è troppo pesante, cambialo subito e scendi un po'", "labels": {"strategy": "chill", "control": "mixNow"}}
+{"text": "via questo pezzo moscio, metti subito una bomba", "labels": {"strategy": "peak", "control": "mixNow"}}
+{"text": "tirala su e fai un po' di remix live con loop ed effetti", "labels": {"strategy": "rise", "remix": "on"}}
+{"text": "calma e basta effetti", "labels": {"strategy": "chill", "remix": "off"}}
+{"text": "tieni questa energia, ma che pezzo è questo?", "labels": {"strategy": "steady", "info": "now"}}
+{"text": "alza un po' l'energia, e dimmi quando mixi", "labels": {"strategy": "rise", "info": "next"}}
+{"text": "scegli tu i pezzi, con un andamento a onde", "labels": {"strategy": "wave", "mode": "ai"}}
+{"text": "metti in coda Electric Dreams e poi solo bombe", "labels": {"strategy": "peak", "queue": "add"}}
+{"text": "metti Golden Hour come prossima e poi sali", "labels": {"strategy": "rise", "queue": "playNext"}}
+{"text": "meno energia, e dopo il mix torna al bpm originale", "labels": {"strategy": "chill", "returnTempo": "on"}}
+{"text": "attiva i mashup automatici e spingi al massimo", "labels": {"strategy": "peak", "mashupOpt": "on"}}
+{"text": "fammi un mashup e poi tirala su", "labels": {"strategy": "rise", "mashup": "auto"}}
+{"text": "per i prossimi due pezzi calma e fade morbidi", "labels": {"strategy": "chill", "temporary": "yes", "style": "fade"}}
+{"text": "per 4 brani solo roba potente, mix corti", "labels": {"strategy": "peak", "temporary": "yes", "bars": "short"}}
+{"text": "togli i filtri di genere e alza l'energia", "labels": {"strategy": "rise", "genre": "clear"}}
+{"text": "niente techno per un po', roba più tranquilla", "labels": {"strategy": "chill", "genre": "exclude", "temporary": "yes"}}
+{"text": "non chiudere, continua così con questa energia", "labels": {"strategy": "steady", "control": "resume"}}
+{"text": "abbassa l'energia e dopo questo pezzo chiudiamo", "labels": {"strategy": "chill", "control": "endAfterCurrent"}}
+{"text": "il prossimo che hai preparato è troppo lento, cambialo e sali", "labels": {"strategy": "rise", "control": "skip"}}
+{"text": "solo dance, a tutta, stile Gabry Ponte", "labels": {"strategy": "peak", "genre": "include", "style": "model"}}
+{"text": "alterna un po' e aggiungi qualche pezzo latin", "labels": {"strategy": "wave", "genre": "add"}}
+{"text": "deep house rilassata, mix lunghi", "labels": {"strategy": "chill", "genre": "include", "bars": "long"}}
+{"text": "melodic techno in salita, transizioni stile techno", "labels": {"strategy": "rise", "genre": "include", "style": "model-techno"}}
+{"text": "remix live con loop e filtri, e pezzi a tutta energia", "labels": {"strategy": "peak", "remix": "on"}}
+{"text": "perché hai messo un pezzo così pesante? calmati", "labels": {"strategy": "chill", "info": "why"}}
+{"text": "come sei impostato? comunque alza l'energia", "labels": {"strategy": "rise", "info": "settings"}}
+{"text": "per un paio di pezzi rimani su questo livello", "labels": {"strategy": "steady", "temporary": "yes"}}
+{"text": "scaletta anni 90 che parte piano e finisce a bomba", "labels": {"set": "build", "strategy": "rise", "genre": "include"}}
+{"text": "mi prepari un set tranquillo per la cena?", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "playlist afro house a ondate", "labels": {"set": "build", "strategy": "wave", "genre": "include"}}
+{"text": "bombe si ma niente commerciale", "labels": {"strategy": "peak", "genre": "exclude"}}
+{"text": "sali e mettici pure un po' di funk", "labels": {"strategy": "rise", "genre": "add"}}
+{"text": "torna alla vista AI e abbassa l'energia", "labels": {"strategy": "chill", "view": "ai"}}
+{"text": "decidi tu cosa mettere, ma fai salire la serata", "labels": {"strategy": "rise", "mode": "ai"}}
+{"text": "niente mashup automatici e un po' più soft", "labels": {"strategy": "chill", "mashupOpt": "off"}}
+{"text": "resta al nuovo bpm e dai il massimo", "labels": {"strategy": "peak", "returnTempo": "off"}}
+{"text": "aggiungi Night Drive alla coda e scalda un po'", "labels": {"strategy": "rise", "queue": "add"}}
+{"text": "parti col botto!", "labels": {"strategy": "peak", "control": "start"}}
+{"text": "per mezz'ora fai su e giù", "labels": {"strategy": "wave", "temporary": "yes"}}
+{"text": "solo per i prossimi tre brani: più energia e tagli netti", "labels": {"strategy": "rise", "temporary": "yes", "style": "cut"}}
+{"text": "adesso lounge e musica tranquilla, siamo all'aperitivo", "labels": {"strategy": "chill", "genre": "include"}}
+{"text": "roba potente, drum and bass", "labels": {"strategy": "peak", "genre": "include"}}
+{"text": "per un po' tech house sempre più tirata", "labels": {"strategy": "rise", "genre": "include", "temporary": "yes"}}
+{"text": "niente trap, pezzi più morbidi e fade lunghi", "labels": {"strategy": "chill", "genre": "exclude", "style": "fade", "bars": "long"}}
+{"text": "creami una playlist di 20 pezzi di techno pesante", "labels": {"set": "build", "strategy": "peak", "genre": "include"}}
+{"text": "fai un mashup con la voce di Golden Hour sulla base di Night Drive e poi alza l'energia", "labels": {"strategy": "rise", "mashup": "explicit"}}
+{"text": "a onde, e quando un pezzo suona da solo fai un po' di remix live", "labels": {"strategy": "wave", "remix": "on"}}
+{"text": "cosa c'è dopo? spero qualcosa di più calmo, abbassa l'energia", "labels": {"strategy": "chill", "info": "next"}}
+{"text": "solo la mia coda, energia costante", "labels": {"strategy": "steady", "mode": "queue"}}
+{"text": "basta con sta lagna, passa al prossimo e da qui in poi solo pezzi forti", "labels": {"strategy": "peak", "control": "mixNow"}}
+{"text": "sali con la dance anni 90", "labels": {"strategy": "rise", "genre": "include"}}
+{"text": "qualsiasi genere va bene, ma più tranquillo", "labels": {"strategy": "chill", "genre": "clear"}}
+{"text": "10 minuti di reggaeton, solo le hit più potenti", "labels": {"strategy": "peak", "genre": "include", "temporary": "yes"}}
+{"text": "dopo ogni mix riporta il tempo originale e intanto sali", "labels": {"strategy": "rise", "returnTempo": "on"}}
+{"text": "svuota la coda e vai più tranquillo", "labels": {"strategy": "chill", "queue": "clear"}}
+{"text": "mescola la coda e fai su e giù", "labels": {"strategy": "wave", "queue": "shuffle"}}
+{"text": "togli Moonlight dalla coda, troppo lenta, voglio solo pezzi potentissimi", "labels": {"strategy": "peak", "queue": "remove"}}
+{"text": "fammi una scaletta tech house che sale piano piano", "labels": {"set": "build", "strategy": "rise", "genre": "include"}}
+{"text": "fai tutto tu: pezzi, transizioni, energia uguale a ora", "labels": {"strategy": "steady", "style": "auto", "mode": "ai"}}
+{"text": "per i prossimi 5 pezzi solo disco, rilassata", "labels": {"strategy": "chill", "temporary": "yes", "genre": "include"}}
+{"text": "cosa sai fare? intanto tira su la pista", "labels": {"strategy": "rise", "info": "help"}}
+{"text": "fammi vedere la console, e massima energia", "labels": {"strategy": "peak", "view": "console"}}
+{"text": "no aspetta non finire, continua e anzi alza", "labels": {"strategy": "rise", "control": "resume"}}
+{"text": "via questo rap, basta rap, qualcosa di più soft", "labels": {"strategy": "chill", "control": "mixNow", "genre": "exclude"}}
+{"text": "aggiungi anche afro house, energia su, bass swap", "labels": {"strategy": "rise", "genre": "add", "style": "bassswap"}}
+{"text": "playlist di un'ora con saliscendi", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "che pezzo è? voglio solo roba così potente", "labels": {"strategy": "peak", "info": "now"}}
+{"text": "musica soft anni 80", "labels": {"strategy": "chill", "genre": "include"}}
+{"text": "ok passiamo alla trance e tiriamola su", "labels": {"strategy": "rise", "genre": "include"}}
+{"text": "metti i mashup automatici, transizioni a scelta tua, e sali", "labels": {"strategy": "rise", "mashupOpt": "on", "style": "auto"}}
+{"text": "scendi di energia e metti qualche loop leggero mentre suona", "labels": {"strategy": "chill", "remix": "on"}}
+{"text": "non tornare al bpm originale, resta, e mantieni l'energia", "labels": {"strategy": "steady", "returnTempo": "off"}}
+{"text": "per i prossimi 20 minuti pop in crescendo", "labels": {"strategy": "rise", "temporary": "yes", "genre": "include"}}
+{"text": "scaletta reggaeton e latin solo hit potenti", "labels": {"set": "build", "strategy": "peak", "genre": "include"}}
+{"text": "metti anche qualche pezzo di nu disco, più morbido", "labels": {"strategy": "chill", "genre": "add"}}
+{"text": "avvia l'ai dj, scegli tu e fai crescere", "labels": {"strategy": "rise", "control": "start", "mode": "ai"}}
+{"text": "per un paio di minuti raffica di bombe stile lumix", "labels": {"strategy": "peak", "temporary": "yes", "style": "rapid"}}
+{"text": "melodic techno con alti e bassi, passaggi lunghi", "labels": {"strategy": "wave", "genre": "include", "bars": "long"}}
+{"text": "passa alla schermata console e intanto cala l'energia", "labels": {"strategy": "chill", "view": "console"}}
+{"text": "che c'è in coda? metti roba più carica", "labels": {"strategy": "rise", "info": "queue"}}
+{"text": "restiamo sulla progressive house, stesso livello", "labels": {"strategy": "steady", "genre": "include"}}
+{"text": "metti Fuoco subito dopo, e da lì a tutta", "labels": {"strategy": "peak", "queue": "playNext"}}
+{"text": "più morbido: fade e torna al bpm originale dopo il mix", "labels": {"strategy": "chill", "returnTempo": "on", "style": "fade"}}
+{"text": "accendi i mashup e fai salire l'hype", "labels": {"strategy": "rise", "mashupOpt": "on"}}
+{"text": "il prossimo non mi convince, cambialo, e alterna di più", "labels": {"strategy": "wave", "control": "skip"}}
+{"text": "scaletta lounge e deep house per un brunch rilassato", "labels": {"set": "build", "strategy": "chill", "genre": "include"}}
+{"text": "loop, effetti, tagli a raffica: devastali", "labels": {"strategy": "peak", "remix": "on", "style": "rapid"}}
+{"text": "per un'oretta niente commerciale e sali", "labels": {"strategy": "rise", "genre": "exclude", "temporary": "yes"}}
+{"text": "riepilogo delle impostazioni? l'energia comunque tienila così", "labels": {"strategy": "steady", "info": "settings"}}
+{"text": "non chiudere ancora, continua ma con roba soft", "labels": {"strategy": "chill", "control": "resume"}}
+{"text": "oh zio dai più tiro che non si muove nessuno", "labels": {"strategy": "rise"}}
+{"text": "metti le mazzate", "labels": {"strategy": "peak"}}
+{"text": "damme più energia", "labels": {"strategy": "rise"}}
+{"text": "voglio sentire la cassa che picchia, solo banger", "labels": {"strategy": "peak"}}
+{"text": "bro calma un attimo che ci stiamo sfondando", "labels": {"strategy": "chill"}}
+{"text": "la vibe è piatta, spingi", "labels": {"strategy": "rise"}}
+{"text": "drop su drop, niente pause", "labels": {"strategy": "peak"}}
+{"text": "tone down, vibe più chill", "labels": {"strategy": "chill"}}
+{"text": "fai respirare e poi ripartire, tipo onde", "labels": {"strategy": "wave"}}
+{"text": "mo tiramela su 'sta serata", "labels": {"strategy": "rise"}}
+{"text": "nn cambiare niente con l'energia, va bn così", "labels": {"strategy": "steady"}}
+{"text": "+ energia pls", "labels": {"strategy": "rise"}}
+{"text": "full energy only bangers", "labels": {"strategy": "peak"}}
+{"text": "slow down please, troppa roba", "labels": {"strategy": "chill"}}
+{"text": "fa na cosa, alza er tiro", "labels": {"strategy": "rise"}}
+{"text": "scatenali", "labels": {"strategy": "peak"}}
+{"text": "ammazza che botta, scendi un po' con l'energia", "labels": {"strategy": "chill"}}
+{"text": "sta a mori la pista, tirala su", "labels": {"strategy": "rise"}}
+{"text": "dolce dolce adesso", "labels": {"strategy": "chill"}}
+{"text": "hardcore mode: solo i pezzi più tosti", "labels": {"strategy": "peak"}}
+{"text": "piu hype piu hype piu hype", "labels": {"strategy": "rise"}}
+{"text": "voglio vedere la pista salire e scendere", "labels": {"strategy": "wave"}}
+{"text": "keep it steady", "labels": {"strategy": "steady"}}
+{"text": "energia in aumento gradule", "labels": {"strategy": "rise"}}
+{"text": "pompa al masimo", "labels": {"strategy": "peak"}}
+{"text": "rilasiati un po", "labels": {"strategy": "chill"}}
+{"text": "facciamo salire la febbre del sabato sera", "labels": {"strategy": "rise"}}
+{"text": "mood tramonto, calmo", "labels": {"strategy": "chill"}}
+{"text": "dai tutto quello che hai", "labels": {"strategy": "peak"}}
+{"text": "metti benzina sul fuoco", "labels": {"strategy": "rise"}}
+{"text": "resta in quota", "labels": {"strategy": "steady"}}
+{"text": "alterna un pezzo di spinta e uno di respiro", "labels": {"strategy": "wave"}}
+{"text": "meno cattiveria, più eleganza", "labels": {"strategy": "chill"}}
+{"text": "piano piano portali in alto", "labels": {"strategy": "rise"}}
+{"text": "vai di artiglieria pesante", "labels": {"strategy": "peak"}}
+{"text": "stacca un attimo il piede dall'acceleratore", "labels": {"strategy": "chill"}}
+{"text": "premi sull'acceleratore", "labels": {"strategy": "rise"}}
+{"text": "mettili al tappeto", "labels": {"strategy": "peak"}}
+{"text": "la gente vuole ballare, dagli qualcosa di più carico", "labels": {"strategy": "rise"}}
+{"text": "la gente sta chiacchierando, qualcosa di più soft in sottofondo", "labels": {"strategy": "chill"}}
+{"text": "comincia a far salire l'onda", "labels": {"strategy": "rise"}}
+{"text": "energia a fisarmonica", "labels": {"strategy": "wave"}}
+{"text": "non spingere di più, ma neanche calare", "labels": {"strategy": "steady"}}
+{"text": "siamo al culmine, il meglio adesso", "labels": {"strategy": "peak"}}
+{"text": "adesso è il momento di salire", "labels": {"strategy": "rise"}}
+{"text": "ok abbiamo spinto abbastanza, scendiamo", "labels": {"strategy": "chill"}}
+{"text": "carica la pista", "labels": {"strategy": "rise"}}
+{"text": "fai tremare i muri con i pezzi più potenti", "labels": {"strategy": "peak"}}
+{"text": "ci vuole un po' di relax", "labels": {"strategy": "chill"}}
+{"text": "non ti addormentare, alza il ritmo", "labels": {"strategy": "rise"}}
+{"text": "a manetta coi pezzi forti", "labels": {"strategy": "peak"}}
+{"text": "rallentiamo i giri", "labels": {"strategy": "chill"}}
+{"text": "un po' di dinamica: forte, piano, forte", "labels": {"strategy": "wave"}}
+{"text": "così è perfetto, non cambiare energia", "labels": {"strategy": "steady"}}
+{"text": "bisogna risvegliare sti zombie", "labels": {"strategy": "rise"}}
+{"text": "ora esplosione totale", "labels": {"strategy": "peak"}}
+{"text": "fai una pausa di energia", "labels": {"strategy": "chill"}}
+{"text": "voglio sudare, alza l'energia", "labels": {"strategy": "rise"}}
+{"text": "ancora più su", "labels": {"strategy": "rise"}}
+{"text": "più giù con l'energia", "labels": {"strategy": "chill"}}
+{"text": "il massimo, subito", "labels": {"strategy": "peak"}}
+{"text": "coccolali un po'", "labels": {"strategy": "chill"}}
+{"text": "dopo ogni botta dagli un attimo di tregua", "labels": {"strategy": "wave"}}
+{"text": "scaldiamo i motori", "labels": {"strategy": "rise"}}
+{"text": "pedale a tavoletta", "labels": {"strategy": "peak"}}
+{"text": "mantieni questa temperatura", "labels": {"strategy": "steady"}}
+{"text": "abbassiamo la temperatura", "labels": {"strategy": "chill"}}
+{"text": "più groove, più spinta", "labels": {"strategy": "rise"}}
+{"text": "devastazione!!", "labels": {"strategy": "peak"}}
+{"text": "troppo casino, qualcosa di più delicato", "labels": {"strategy": "chill"}}
+{"text": "fai decollare la serata", "labels": {"strategy": "rise"}}
+{"text": "ogni tre pezzi uno più calmo", "labels": {"strategy": "wave"}}
+{"text": "tieni botta così", "labels": {"strategy": "steady"}}
+{"text": "voglio pezzi che spaccano e basta", "labels": {"strategy": "peak"}}
+{"text": "atterraggio morbido", "labels": {"strategy": "chill"}}
+{"text": "a poco a poco sempre più intenso", "labels": {"strategy": "rise"}}
+{"text": "Svegliaaaa", "labels": {"strategy": "rise"}}
+{"text": "BOMBEEEE", "labels": {"strategy": "peak"}}
+{"text": "shhh più tranquillo", "labels": {"strategy": "chill"}}
+{"text": "lascia l'energia così, non mi toccare niente", "labels": {"strategy": "steady"}}
+{"text": "ci vuole una scossa", "labels": {"strategy": "rise"}}
+{"text": "voglio il caos", "labels": {"strategy": "peak"}}
+{"text": "dai tregua alla gente", "labels": {"strategy": "chill"}}
+{"text": "onde di energia, dai", "labels": {"strategy": "wave"}}
+{"text": "un bel crescendo fino alle 2", "labels": {"strategy": "rise"}}
+{"text": "solo tracce da peak time", "labels": {"strategy": "peak"}}
+{"text": "vai su pezzi più rilassati", "labels": {"strategy": "chill"}}
+{"text": "nei prossimi due pezzi alza", "labels": {"strategy": "rise", "temporary": "yes"}}
+{"text": "per un attimo abbassa l'energia", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "dieci minuti di delirio poi torni normale", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "per le prossime 6 tracce alterna", "labels": {"strategy": "wave", "temporary": "yes"}}
+{"text": "per qualche brano non cambiare energia", "labels": {"strategy": "steady", "temporary": "yes"}}
+{"text": "la gente si sta muovendo, spingiamo di più adesso", "labels": {"strategy": "rise"}}
+{"text": "metti quelli che fanno alzare le mani a tutti", "labels": {"strategy": "peak"}}
+{"text": "vibes morbide, soft soft", "labels": {"strategy": "chill"}}
+{"text": "voglio più energia nella stanza", "labels": {"strategy": "rise"}}
+{"text": "livello giusto, restaci", "labels": {"strategy": "steady"}}
+{"text": "dai un po di pepe", "labels": {"strategy": "rise"}}
+{"text": "troppo pepe, meno", "labels": {"strategy": "chill"}}
+{"text": "metti il carico da novanta", "labels": {"strategy": "peak"}}
+{"text": "fai crescere la tensione", "labels": {"strategy": "rise"}}
+{"text": "allenta la tensione", "labels": {"strategy": "chill"}}
+{"text": "tensione e rilascio, in continuazione", "labels": {"strategy": "wave"}}
+{"text": "non mollare ma nemmeno esagerare, così", "labels": {"strategy": "steady"}}
+{"text": "la pista chiede di più", "labels": {"strategy": "rise"}}
+{"text": "fai tagli netti sul beat", "labels": {"style": "cut"}}
+{"text": "transizzioni morbide per favore", "labels": {"style": "fade"}}
+{"text": "esci con l'echo", "labels": {"style": "echo"}}
+{"text": "usa il filtro nei passaggi", "labels": {"style": "filter"}}
+{"text": "scambia i bassi con l'EQ", "labels": {"style": "bassswap"}}
+{"text": "modalità raffica, stile LUM!X", "labels": {"style": "rapid"}}
+{"text": "mixa come Gabry Ponte", "labels": {"style": "model"}}
+{"text": "fai blend lunghi stile techno", "labels": {"style": "model-techno"}}
+{"text": "le transizioni scegli tu", "labels": {"style": "auto"}}
+{"text": "mix più corti", "labels": {"bars": "short"}}
+{"text": "fai i mix più lunghi, tipo 32 battute", "labels": {"bars": "long"}}
+{"text": "mixa lunghissimo, 64 battute", "labels": {"bars": "verylong"}}
+{"text": "16 battute vanno bene", "labels": {}}
+{"text": "stacchi secchi e 8 battute", "labels": {"style": "cut", "bars": "short"}}
+{"text": "sfumature da 48 battute", "labels": {"style": "fade", "bars": "long"}}
+{"text": "attiva il remix live", "labels": {"remix": "on"}}
+{"text": "togli loop ed effetti, lascia suonare i pezzi puliti", "labels": {"remix": "off"}}
+{"text": "accendi i mashup automatici", "labels": {"mashupOpt": "on"}}
+{"text": "disattiva i mashup", "labels": {"mashupOpt": "off"}}
+{"text": "dopo il mix torna al bpm originale del pezzo", "labels": {"returnTempo": "on"}}
+{"text": "resta al nuovo bpm, non tornare indietro", "labels": {"returnTempo": "off"}}
+{"text": "scegli tu i pezzi", "labels": {"mode": "ai"}}
+{"text": "suona solo la mia coda", "labels": {"mode": "queue"}}
+{"text": "parti", "labels": {"control": "start"}}
+{"text": "avvia l'ai dj", "labels": {"control": "start"}}
+{"text": "ferma tutto", "labels": {"control": "stop"}}
+{"text": "spegni, abbiamo finito", "labels": {"control": "stop"}}
+{"text": "cambia subito pezzo", "labels": {"control": "mixNow"}}
+{"text": "sto pezzo fa schifo, via", "labels": {"control": "mixNow"}}
+{"text": "il prossimo non mi piace, scegline un altro", "labels": {"control": "skip"}}
+{"text": "cambia la traccia che hai preparato dopo, non questa", "labels": {"control": "skip"}}
+{"text": "questo è l'ultimo pezzo", "labels": {"control": "endAfterCurrent"}}
+{"text": "dopo questa chiudiamo", "labels": {"control": "endAfterCurrent"}}
+{"text": "anzi no, non chiudere, vai avanti", "labels": {"control": "resume"}}
+{"text": "continua a suonare, niente chiusura", "labels": {"control": "resume"}}
+{"text": "metti Golden Hour in coda", "labels": {"queue": "add"}}
+{"text": "aggiungi Northern Lights di Nova Reyes alla lista", "labels": {"queue": "add"}}
+{"text": "Parallel come prossima", "labels": {"queue": "playNext"}}
+{"text": "dopo questo metti Glass City di Kaito Mori", "labels": {"queue": "playNext"}}
+{"text": "togli Low Tide dalla coda", "labels": {"queue": "remove"}}
+{"text": "elimina Open Water dalla lista", "labels": {"queue": "remove"}}
+{"text": "svuta la coda", "labels": {"queue": "clear"}}
+{"text": "mescola la coda", "labels": {"queue": "shuffle"}}
+{"text": "solo house", "labels": {"genre": "include"}}
+{"text": "voglio techno", "labels": {"genre": "include"}}
+{"text": "niente reggaeton", "labels": {"genre": "exclude"}}
+{"text": "basta trap per stasera", "labels": {"genre": "exclude"}}
+{"text": "metti anche un po' di italo disco", "labels": {"genre": "add"}}
+{"text": "va bene qualsiasi genere", "labels": {"genre": "clear"}}
+{"text": "togli i filtri sui generi", "labels": {"genre": "clear"}}
+{"text": "preparami una scaletta", "labels": {"set": "build"}}
+{"text": "crea una playlist anni 80 di un'ora", "labels": {"set": "build", "genre": "include"}}
+{"text": "fammi un mashup", "labels": {"mashup": "auto"}}
+{"text": "mashup con la voce di Afterglow sulla base di Weightless", "labels": {"mashup": "explicit"}}
+{"text": "metti la voce di Summer Rain di Aurelia Vance sopra lo strumentale di Electric Dreams", "labels": {"mashup": "explicit"}}
+{"text": "che pezzo è questo?", "labels": {"info": "now"}}
+{"text": "chi canta?", "labels": {"info": "now"}}
+{"text": "cosa metti dopo?", "labels": {"info": "next"}}
+{"text": "quando mixi?", "labels": {"info": "next"}}
+{"text": "perché hai scelto questo pezzo?", "labels": {"info": "why"}}
+{"text": "cosa c'è in coda?", "labels": {"info": "queue"}}
+{"text": "come sei impostato?", "labels": {"info": "settings"}}
+{"text": "cosa sai fare?", "labels": {"info": "help"}}
+{"text": "aiuto", "labels": {"info": "help"}}
+{"text": "mostrami la vista AI", "labels": {"view": "ai"}}
+{"text": "passa alla console", "labels": {"view": "console"}}
+{"text": "ciao!", "labels": {"talk": "hello"}}
+{"text": "buonasera Segueo", "labels": {"talk": "hello"}}
+{"text": "grazie mille", "labels": {"talk": "thanks"}}
+{"text": "grande, stai spaccando", "labels": {"talk": "thanks"}}
+{"text": "che tempo fa domani?", "labels": {"talk": "offtopic"}}
+{"text": "mi racconti una barzelletta?", "labels": {"talk": "offtopic"}}
+{"text": "alza il volume", "labels": {}}
+{"text": "accendi il microfono", "labels": {}}
+{"text": "metti le luci stroboscopiche", "labels": {}}
+{"text": "la gente balla", "labels": {}}
+{"text": "è mezzanotte", "labels": {}}
+{"text": "che bella serata", "labels": {}}
+{"text": "echo out nei passaggi e remix live mentre suona", "labels": {"style": "echo", "remix": "on"}}
+{"text": "avvia e suona solo la mia lista", "labels": {"control": "start", "mode": "queue"}}
+{"text": "svuota la coda e scegli tu", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "metti subito Neon Nights, adesso", "labels": {"queue": "playNext", "control": "mixNow"}}
+{"text": "niente hip hop e tagli secchi", "labels": {"genre": "exclude", "style": "cut"}}
+{"text": "attiva mashup automatici e torna al tempo originale dopo ogni mix", "labels": {"mashupOpt": "on", "returnTempo": "on"}}
+{"text": "come mai questa traccia?", "labels": {"info": "why"}}
+{"text": "ferma l'ai e passa alla console", "labels": {"control": "stop", "view": "console"}}
+{"text": "mescola la mia coda e suona solo quella", "labels": {"queue": "shuffle", "mode": "queue"}}
+{"text": "per i prossimi pezzi anche un po' di funk", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "per tre brani mix brevi", "labels": {"bars": "short", "temporary": "yes"}}
+{"text": "solo techno con transizioni in stile techno", "labels": {"style": "model-techno", "genre": "include"}}
+{"text": "finito questo pezzo stacchiamo", "labels": {"control": "endAfterCurrent"}}
+{"text": "scaletta reggaeton per la festa in spiaggia", "labels": {"set": "build", "genre": "include"}}
+{"text": "puoi mettere in coda Paradise City?", "labels": {"queue": "add"}}
+{"text": "solo drum and bass e resta al nuovo tempo", "labels": {"genre": "include", "returnTempo": "off"}}
+{"text": "fai tu le transizioni, lunghe", "labels": {"style": "auto", "bars": "long"}}
+{"text": "per un po' fai remix live", "labels": {"remix": "on", "temporary": "yes"}}
+{"text": "fai un mashup adesso ma poi niente mashup automatici", "labels": {"mashup": "auto", "mashupOpt": "off"}}
+{"text": "il prossimo è rap, cambialo, niente rap", "labels": {"control": "skip", "genre": "exclude"}}
+{"text": "dimmi un riepilogo di come sei settato", "labels": {"info": "settings"}}
+{"text": "fammi vedere la coda", "labels": {"info": "queue"}}
+{"text": "fai partire l'ai dj e scegli tu i brani", "labels": {"mode": "ai", "control": "start"}}
+{"text": "che caldo qui dentro", "labels": {}}
+{"text": "stanno arrivando gli ultimi ospiti", "labels": {}}
+{"text": "ordinami una pizza", "labels": {"talk": "offtopic"}}
+{"text": "bravo, serata perfetta", "labels": {"talk": "thanks"}}
+{"text": "cavolo è pieno stasera", "labels": {}}
+{"text": "hey ciao come va?", "labels": {"talk": "hello"}}
+{"text": "come funziona sta chat?", "labels": {"info": "help"}}
+{"text": "torna alla schermata dell'intelligenza artificiale", "labels": {"view": "ai"}}
+{"text": "abbassa il volume che i vicini si lamentano", "labels": {}}
+{"text": "passaggi lunghi con lo scambio dei bassi", "labels": {"style": "bassswap", "bars": "long"}}
+{"text": "voglio sentire Mare Blu subito dopo questa", "labels": {"queue": "playNext"}}
+{"text": "aggiungi Estate alla coda", "labels": {"queue": "add"}}
+{"text": "in coda anche Moonlight di Leo Marin", "labels": {"queue": "add"}}
+{"text": "Fuoco toglila, non la voglio", "labels": {"queue": "remove"}}
+{"text": "cancella tutta la lista di attesa", "labels": {"queue": "clear"}}
+{"text": "metti in ordine casuale la coda", "labels": {"queue": "shuffle"}}
+{"text": "stasera solo afro house", "labels": {"genre": "include"}}
+{"text": "vai di latin", "labels": {"genre": "include"}}
+{"text": "zero edm", "labels": {"genre": "exclude"}}
+{"text": "senza pop per favore", "labels": {"genre": "exclude"}}
+{"text": "butta dentro qualche pezzo hip hop", "labels": {"genre": "add"}}
+{"text": "aggiungi anche della progressive house ogni tanto", "labels": {"genre": "add"}}
+{"text": "genere libero", "labels": {"genre": "clear"}}
+{"text": "fammi un set di minimal di 45 minuti", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea una setlist per stasera", "labels": {"set": "build"}}
+{"text": "prepara una scaletta revival anni 90 per la festa della scuola", "labels": {"set": "build", "genre": "include"}}
+{"text": "mashup a sorpresa!", "labels": {"mashup": "auto"}}
+{"text": "voce di Sunday Motion su strumentale di Golden Hour", "labels": {"mashup": "explicit"}}
+{"text": "puoi mashuppare Neon Nights e Paradise City? acapella della prima sulla base della seconda", "labels": {"mashup": "explicit"}}
+{"text": "mashup automatici sì", "labels": {"mashupOpt": "on"}}
+{"text": "niente più mashup automatici, grazie", "labels": {"mashupOpt": "off"}}
+{"text": "ogni tanto metti loop e filtri mentre il pezzo suona da solo", "labels": {"remix": "on"}}
+{"text": "basta remix live", "labels": {"remix": "off"}}
+{"text": "riporta il bpm all'originale dopo ogni transizione", "labels": {"returnTempo": "on"}}
+{"text": "mantieni il tempo nuovo dopo il mix", "labels": {"returnTempo": "off"}}
+{"text": "usa solo i pezzi che ho messo io", "labels": {"mode": "queue"}}
+{"text": "fai tu, scegli le tracce", "labels": {"mode": "ai"}}
+{"text": "dai via!", "labels": {"control": "start"}}
+{"text": "facciamo partire il set", "labels": {"control": "start"}}
+{"text": "stop", "labels": {"control": "stop"}}
+{"text": "basta musica, spegni tutto", "labels": {"control": "stop"}}
+{"text": "next! subito", "labels": {"control": "mixNow"}}
+{"text": "passa al prossimo pezzo ora", "labels": {"control": "mixNow"}}
+{"text": "la prossima traccia che hai scelto cambiala", "labels": {"control": "skip"}}
+{"text": "chiudi il set dopo questo brano", "labels": {"control": "endAfterCurrent"}}
+{"text": "ok ripensamento, vai avanti a suonare", "labels": {"control": "resume"}}
+{"text": "come si chiama sto pezzo", "labels": {"info": "now"}}
+{"text": "che metti dopo sta traccia?", "labels": {"info": "next"}}
+{"text": "tra quanto cambi?", "labels": {"info": "next"}}
+{"text": "xke hai messo sta roba?", "labels": {"info": "why"}}
+{"text": "quanti pezzi ho in coda?", "labels": {"info": "queue"}}
+{"text": "che impostazioni stai usando?", "labels": {"info": "settings"}}
+{"text": "che comandi posso darti?", "labels": {"info": "help"}}
+{"text": "fammi vedere i deck", "labels": {"view": "console"}}
+{"text": "vista ai", "labels": {"view": "ai"}}
+{"text": "salve", "labels": {"talk": "hello"}}
+{"text": "grazie sei un mito", "labels": {"talk": "thanks"}}
+{"text": "chi ha vinto la partita ieri?", "labels": {"talk": "offtopic"}}
+{"text": "quanto fa 15 per 12?", "labels": {"talk": "offtopic"}}
+{"text": "luci più basse per favore", "labels": {}}
+{"text": "il microfono non funziona", "labels": {}}
+{"text": "stanno ballando tutti", "labels": {}}
+{"text": "la festa è iniziata alle 10", "labels": {}}
+{"text": "siamo in 200 stasera", "labels": {}}
+{"text": "niente tagli, solo sfumature", "labels": {"style": "fade"}}
+{"text": "più tagli e meno fade", "labels": {"style": "cut"}}
+{"text": "echo e passaggi brevi", "labels": {"style": "echo", "bars": "short"}}
+{"text": "filtro lento su 64 battute", "labels": {"style": "filter", "bars": "verylong"}}
+{"text": "pezzi cortissimi uno dietro l'altro", "labels": {"style": "rapid"}}
+{"text": "stile dance anni 2000 tipo Gabry Ponte nei mix", "labels": {"style": "model"}}
+{"text": "mixaggio techno, 48 battute", "labels": {"style": "model-techno", "bars": "long"}}
+{"text": "mixa a 16 battute", "labels": {}}
+{"text": "8 battute", "labels": {"bars": "short"}}
+{"text": "allunga le transizioni", "labels": {"bars": "long"}}
+{"text": "transizioni infinite, lunghissime", "labels": {"bars": "verylong"}}
+{"text": "aggiungi Weightless in coda e dimmi cosa c'è dopo", "labels": {"queue": "add", "info": "next"}}
+{"text": "metti Afterglow come prossima ed esci con l'echo", "labels": {"queue": "playNext", "style": "echo"}}
+{"text": "scegli tu ma niente trap", "labels": {"genre": "exclude", "mode": "ai"}}
+{"text": "fammi una playlist senza reggaeton", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "via subito sto reggaeton, e niente più reggaeton", "labels": {"control": "mixNow", "genre": "exclude"}}
+{"text": "top!", "labels": {"talk": "thanks"}}
+{"text": "ehilà", "labels": {"talk": "hello"}}
+{"text": "ok", "labels": {}}
+{"text": "vabbè", "labels": {}}
+{"text": "interessante", "labels": {}}
+{"text": "cosa posso chiederti?", "labels": {"info": "help"}}
+{"text": "avvia e fai tu le transizioni", "labels": {"control": "start", "style": "auto"}}
+{"text": "metti Summer Rain in coda e suona solo la coda", "labels": {"mode": "queue", "queue": "add"}}
+{"text": "bass swap e torna al bpm di partenza", "labels": {"returnTempo": "on", "style": "bassswap"}}
+{"text": "per mezz'ora solo italo disco", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "playlist con anche qualche pezzo anni 80", "labels": {"genre": "add", "set": "build"}}
+{"text": "facci sentire un mashup tuo", "labels": {"mashup": "auto"}}
+{"text": "accendi mashup automatici e remix live", "labels": {"mashupOpt": "on", "remix": "on"}}
+{"text": "niente effetti e fade puliti", "labels": {"remix": "off", "style": "fade"}}
+{"text": "no quella dopo no, cambiala", "labels": {"control": "skip"}}
+{"text": "last track", "labels": {"control": "endAfterCurrent"}}
+{"text": "non è finita, continua", "labels": {"control": "resume"}}
+{"text": "che strategia stai usando?", "labels": {"info": "settings"}}
+{"text": "motivo di questa scelta?", "labels": {"info": "why"}}
+{"text": "voglio vedere la console", "labels": {"view": "console"}}
+{"text": "mi prenoti un taxi per le 4?", "labels": {"talk": "offtopic"}}
+{"text": "scrivimi una poesia", "labels": {"talk": "offtopic"}}
+{"text": "ho sete", "labels": {}}
+{"text": "domani si lavora", "labels": {}}
+{"text": "sono arrivati gli amici di Marco", "labels": {}}
+{"text": "metti più luce sulla consolle", "labels": {}}
+{"text": "il subwoofer gracchia", "labels": {}}
+{"text": "solo dance e stile gabry ponte", "labels": {"genre": "include", "style": "model"}}
+{"text": "scaletta house e tech house per le 23", "labels": {"set": "build", "genre": "include"}}
+{"text": "mettimi Northern Lights come prossimo pezzo", "labels": {"queue": "playNext"}}
+{"text": "leva Night Drive dalla coda", "labels": {"queue": "remove"}}
+{"text": "mettimi in lista Glass City", "labels": {"queue": "add"}}
+{"text": "genere libero e scegli tu", "labels": {"genre": "clear", "mode": "ai"}}
+{"text": "per un paio di pezzi mix lunghi", "labels": {"bars": "long", "temporary": "yes"}}
+{"text": "solo per i prossimi 3 pezzi tagli netti", "labels": {"style": "cut", "temporary": "yes"}}
+{"text": "grazie, perfetto", "labels": {"talk": "thanks"}}
+{"text": "buongiorno!", "labels": {"talk": "hello"}}
+{"text": "chi è l'artista?", "labels": {"info": "now"}}
+{"text": "cosa c'è in lista?", "labels": {"info": "queue"}}

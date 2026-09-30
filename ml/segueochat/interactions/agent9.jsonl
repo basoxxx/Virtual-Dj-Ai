@@ -1,0 +1,225 @@
+{"text": "ciao Segueo, eccomi qui stasera per la festa di laurea di Giulia", "labels": {"talk": "hello"}}
+{"text": "buonasera a te, sono appena arrivato al locale e sto sistemando le casse", "labels": {"talk": "hello"}}
+{"text": "ehi ciao, prima volta che ti uso a un matrimonio, piacere di conoscerti", "labels": {"talk": "hello"}}
+{"text": "salve Segueo, qui è Luca dal Bagno Paradiso di Rimini, tutto a posto?", "labels": {"talk": "hello"}}
+{"text": "buongiorno! siamo al brunch in terrazza e il sole è già alto", "labels": {"talk": "hello"}}
+{"text": "ciao bello, sono tornato dalla pausa sigaretta, come andiamo qui dentro?", "labels": {"talk": "hello"}}
+{"text": "hey ciao a tutti, il gruppo della festa aziendale ti saluta", "labels": {"talk": "hello"}}
+{"text": "buonasera, piacere, sono la wedding planner e seguirò la serata con te", "labels": {"talk": "hello"}}
+{"text": "ciao Segueo, ti scrivo dal telefono perché il portatile è dietro al bancone", "labels": {"talk": "hello"}}
+{"text": "ehilà, eccomi di nuovo al circolo del tennis per la seconda serata", "labels": {"talk": "hello"}}
+{"text": "ciao ciao, sono Sara, stasera ti faccio compagnia alla festa in spiaggia", "labels": {"talk": "hello"}}
+{"text": "buonasera Segueo, la sala del ristorante si sta riempiendo piano piano", "labels": {"talk": "hello"}}
+{"text": "grazie mille, la pista è piena da un'ora e nessuno si siede", "labels": {"talk": "thanks"}}
+{"text": "complimenti davvero, la sposa è venuta a dirmi che la musica è perfetta", "labels": {"talk": "thanks"}}
+{"text": "sei un fenomeno, il proprietario del locale vuole richiamarti sabato prossimo", "labels": {"talk": "thanks"}}
+{"text": "grazie per il passaggio di prima, la gente è esplosa sul drop", "labels": {"talk": "thanks"}}
+{"text": "bravissimo Segueo, quel cambio a mezzanotte è stato da brividi", "labels": {"talk": "thanks"}}
+{"text": "ti ringrazio tanto, senza di te stasera al diciottesimo era un disastro", "labels": {"talk": "thanks"}}
+{"text": "mitico, i ragazzi della festa di laurea ti stanno applaudendo tutti", "labels": {"talk": "thanks"}}
+{"text": "grazie grazie grazie, il cliente è super soddisfatto della serata", "labels": {"talk": "thanks"}}
+{"text": "che spettacolo, anche i nonni si sono alzati a ballare, grazie davvero", "labels": {"talk": "thanks"}}
+{"text": "davvero ottimo lavoro, la selezione di questa sera è stata impeccabile", "labels": {"talk": "thanks"}}
+{"text": "grz mille bro, al bar tutti chiedono chi sta mettendo la musica", "labels": {"talk": "thanks"}}
+{"text": "un applauso a te, il compleanno di mia sorella è stato un successo", "labels": {"talk": "thanks"}}
+{"text": "sai per caso a che ora chiude la farmacia di turno qui vicino", "labels": {"talk": "offtopic"}}
+{"text": "mi aiuti a scrivere il discorso per il testimone dello sposo", "labels": {"talk": "offtopic"}}
+{"text": "quante sedie servono per una sala da duecento posti secondo te", "labels": {"talk": "offtopic"}}
+{"text": "conosci un buon ristorante aperto dopo mezzanotte qui in zona Navigli", "labels": {"talk": "offtopic"}}
+{"text": "che risultato ha fatto l'Inter stasera, qui tutti me lo chiedono", "labels": {"talk": "offtopic"}}
+{"text": "mi traduci in inglese un messaggio per gli ospiti americani della festa", "labels": {"talk": "offtopic"}}
+{"text": "alza il volume della cassa di sinistra che si sente poco", "labels": {}}
+{"text": "accendi le luci laser sopra la pista quando parte il ritornello", "labels": {}}
+{"text": "passami il microfono che la testimone vuole fare un discorso", "labels": {}}
+{"text": "spegni il condizionatore in sala che la gente sta congelando", "labels": {}}
+{"text": "ferma quel ragazzo che sta salendo sul palco con il drink", "labels": {}}
+{"text": "metti in carica il mio telefono dietro alla consolle per favore", "labels": {}}
+{"text": "chiudi la porta del backstage che entra il freddo dal parcheggio", "labels": {}}
+{"text": "cambia le lampadine rosse del bancone che sono bruciate da ieri", "labels": {}}
+{"text": "ieri sera il dj del locale accanto ha fatto un mashup pazzesco", "labels": {}}
+{"text": "l'anno scorso alla stessa festa avevano messo solo reggaeton tutta la notte", "labels": {}}
+{"text": "il proprietario mi ha appena detto che domani sera chiudiamo prima", "labels": {}}
+{"text": "la gente continua a venire alla consolle a chiedere dediche", "labels": {}}
+{"text": "alza i bassi sul mixer della sala che le casse suonano vuote", "labels": {}}
+{"text": "accendi la macchina del fumo appena parte il prossimo ritornello", "labels": {}}
+{"text": "metti il microfono wireless sul tavolo degli sposi per i discorsi", "labels": {}}
+{"text": "domani devo ricordarmi di scaricare nuova musica house per la festa", "labels": {}}
+{"text": "mi piacerebbe un giorno imparare a fare i passaggi con il filtro come te", "labels": {}}
+{"text": "il barista dice che ha finito il ghiaccio e i limoni", "labels": {}}
+{"text": "quella ragazza vicino al bancone ha chiesto se sei un vero dj", "labels": {}}
+{"text": "la festa è iniziata alle nove e finirà verso le tre", "labels": {}}
+{"text": "ho appena parcheggiato la macchina, fra cinque minuti sono in consolle", "labels": {}}
+{"text": "abbassa le tende della sala che entra ancora luce dal tramonto", "labels": {}}
+{"text": "apri le finestre sul retro che dentro non si respira più", "labels": {}}
+{"text": "il fonico sta sistemando i cavi del palco dietro alle casse", "labels": {}}
+{"text": "accendi i fari colorati sul giardino appena fa buio", "labels": {}}
+{"text": "alza il gain del microfono che il presentatore non si sente", "labels": {}}
+{"text": "sposta le casse più vicino alla pista che dietro non arriva niente", "labels": {}}
+{"text": "da quando hai messo quel pezzo la pista si è riempita di colpo", "labels": {}}
+{"text": "mio cugino ascolta solo techno ma stasera purtroppo non è venuto", "labels": {}}
+{"text": "il gruppo dal vivo suona fino alle dieci, poi tocca a noi", "labels": {}}
+{"text": "accendi lo schermo grande con le foto degli sposi durante la cena", "labels": {}}
+{"text": "la torta arriva tra dieci minuti, i camerieri stanno preparando i piatti", "labels": {}}
+{"text": "metti in pausa il proiettore con il video della laurea", "labels": {}}
+{"text": "chiama il buttafuori che all'ingresso c'è un po' di confusione", "labels": {}}
+{"text": "abbassa la luce stroboscopica che alla signora dà fastidio agli occhi", "labels": {}}
+{"text": "ho sentito dire che stasera il locale è sold out, pazzesco", "labels": {}}
+{"text": "prima di andare via ricordati di staccare la corrente al mixer", "labels": {}}
+{"text": "il cantante vuole provare il microfono prima del suo set acustico", "labels": {}}
+{"text": "le casse del giardino gracchiano, qualcuno controlli il cavo rosso", "labels": {}}
+{"text": "alza un pelo il volume generale ma solo in terrazza, grazie", "labels": {}}
+{"text": "aspetta che finisco di mangiare il panino e poi ti dico", "labels": {}}
+{"text": "stasera sono stanchissimo, ho dormito tre ore dopo il matrimonio di ieri", "labels": {}}
+{"text": "il cliente vuole vedere cosa sta facendo l'AI, torna alla schermata ai per favore", "labels": {"view": "ai"}}
+{"text": "ho finito di smanettare con i cursori, rimettimi la vista dell'AI DJ", "labels": {"view": "ai"}}
+{"text": "sul tablet appoggiato al bancone mostrami la pagina dell'ai invece del mixer", "labels": {"view": "ai"}}
+{"text": "passa alla vista ai e intanto dimmi cosa hai in coda per la cena", "labels": {"view": "ai", "info": "queue"}}
+{"text": "torna alla schermata AI e da adesso scegli tu i pezzi per l'aperitivo", "labels": {"view": "ai", "mode": "ai"}}
+{"text": "apri la vista ai che voglio far vedere al proprietario come funziona", "labels": {"view": "ai"}}
+{"text": "rimetti la schermata dell'intelligenza artificiale e spegni il remix live che stona", "labels": {"view": "ai", "remix": "off"}}
+{"text": "dalla console torna alla vista ai, e mescola la coda del dopocena", "labels": {"view": "ai", "queue": "shuffle"}}
+{"text": "il dj ospite vuole mettere le mani sui piatti, passa alla console", "labels": {"view": "console"}}
+{"text": "mostrami la console con le forme d'onda che devo controllare il beatgrid", "labels": {"view": "console"}}
+{"text": "fammi vedere il mixer, cioè la schermata console, che provo un cambio io", "labels": {"view": "console"}}
+{"text": "apri la console e ferma l'ai dj che il set lo chiudo io a mano", "labels": {"view": "console", "control": "stop"}}
+{"text": "vai sulla vista console e accendi i mashup automatici per la seconda parte", "labels": {"view": "console", "mashupOpt": "on"}}
+{"text": "passa alla console, il testimone vuole vedere i deck mentre suona Golden Hour", "labels": {"view": "console"}}
+{"text": "mettimi la schermata console e tieni il ritorno al bpm originale acceso", "labels": {"view": "console", "returnTempo": "on"}}
+{"text": "switcha sulla console che il fotografo vuole una foto dello schermo con i deck", "labels": {"view": "console"}}
+{"text": "la gente ha adorato il mashup di prima, attiva i mashup automatici per il resto della serata", "labels": {"mashupOpt": "on"}}
+{"text": "durante l'after party voglio i mashup automatici sempre accesi, fai tu gli abbinamenti", "labels": {"mashupOpt": "on"}}
+{"text": "riaccendi i mashup automatici adesso che la cena è finita e si balla", "labels": {"mashupOpt": "on"}}
+{"text": "alla festa dei diciott'anni i ragazzi impazziscono per i mashup, lasciali sempre attivi in automatico", "labels": {"mashupOpt": "on"}}
+{"text": "per i prossimi quattro pezzi abilita i mashup in automatico, poi vediamo", "labels": {"mashupOpt": "on", "temporary": "yes"}}
+{"text": "accendi l'opzione mashup automatici e intanto dimmi come sei impostato", "labels": {"mashupOpt": "on", "info": "settings"}}
+{"text": "imposta i mashup automatici su acceso e scegli tu i pezzi da qui a mezzanotte", "labels": {"mashupOpt": "on", "mode": "ai"}}
+{"text": "abbiamo un pubblico giovane stasera, via libera ai mashup automatici e al remix live", "labels": {"mashupOpt": "on", "remix": "on"}}
+{"text": "ai matrimoni le voci sovrapposte confondono i nonni, spegni i mashup automatici", "labels": {"mashupOpt": "off"}}
+{"text": "durante i discorsi degli sposi niente mashup automatici, disattivali subito", "labels": {"mashupOpt": "off"}}
+{"text": "l'ultimo mashup automatico era stonato, toglili proprio fino a fine serata", "labels": {"mashupOpt": "off"}}
+{"text": "per il primo ballo degli sposi disattiva i mashup automatici e fai una sfumata lunga", "labels": {"mashupOpt": "off", "style": "fade", "bars": "long"}}
+{"text": "il cliente vuole sentire le canzoni originali, niente mashup automatici e niente remix live", "labels": {"mashupOpt": "off", "remix": "off"}}
+{"text": "spegni i mashup in automatico solo per la mezz'ora del buffet", "labels": {"mashupOpt": "off", "temporary": "yes"}}
+{"text": "basta mashup automatici, la sala lounge vuole brani interi e puliti, tieni l'energia bassa", "labels": {"mashupOpt": "off", "strategy": "chill"}}
+{"text": "mashup automatici off stasera, al circolo del golf sono tutti puristi", "labels": {"mashupOpt": "off"}}
+{"text": "dopo ogni transizione riporta il brano al suo bpm originale, le voci suonano strane", "labels": {"returnTempo": "on"}}
+{"text": "la cantante si lamenta che le canzoni sembrano accelerate, torna al tempo originale dopo il mix", "labels": {"returnTempo": "on"}}
+{"text": "attiva il ritorno al tempo originale, a questa festa anni 80 i pezzi devono suonare giusti", "labels": {"returnTempo": "on"}}
+{"text": "per i lenti del matrimonio fai tornare ogni pezzo alla sua velocità naturale dopo il cambio", "labels": {"returnTempo": "on"}}
+{"text": "riporta i bpm all'originale dopo ogni passaggio e usa il bass swap nei cambi", "labels": {"returnTempo": "on", "style": "bassswap"}}
+{"text": "dopo il mix rimetti il pezzo al suo tempo e rallenta un po' l'energia per la cena", "labels": {"returnTempo": "on", "strategy": "chill"}}
+{"text": "il ritorno al tempo originale riaccendilo, qualcuno l'ha spento durante il pomeriggio", "labels": {"returnTempo": "on"}}
+{"text": "metti in coda Summer Rain e dopo il mix fai tornare i pezzi al loro bpm originale", "labels": {"queue": "add", "returnTempo": "on"}}
+{"text": "stiamo a 128 da un'ora e la pista regge, dopo il mix resta sul nuovo bpm", "labels": {"returnTempo": "off"}}
+{"text": "non riportare i pezzi al loro tempo originale, sennò la pista perde il ritmo ogni volta", "labels": {"returnTempo": "off"}}
+{"text": "disattiva il ritorno al tempo, alla serata techno il bpm deve restare costante", "labels": {"returnTempo": "off"}}
+{"text": "dopo i passaggi tieni la velocità nuova e fai tagli secchi, stile club di Ibiza", "labels": {"returnTempo": "off", "style": "cut"}}
+{"text": "il groove sta funzionando, rimani al bpm del mix e alza un po' la tensione", "labels": {"returnTempo": "off", "strategy": "rise"}}
+{"text": "per il resto dell'after resta sul tempo nuovo e mixa con blend da 64 battute", "labels": {"returnTempo": "off", "bars": "verylong"}}
+{"text": "ritorno al tempo originale spento per favore, ogni volta si sente il rallentamento", "labels": {"returnTempo": "off"}}
+{"text": "ok ragazzi adesso non tornare più al bpm originale e aggiungi un po' di tech house", "labels": {"returnTempo": "off", "genre": "add"}}
+{"text": "mentre suona il pezzo da solo metti qualche loop ed echo, accendi il remix live", "labels": {"remix": "on"}}
+{"text": "la pista si annoia sui pezzi lunghi, attiva il remix dal vivo con filtri e loop", "labels": {"remix": "on"}}
+{"text": "stasera al beach party il remix live acceso ci sta benissimo, vai pure", "labels": {"remix": "on"}}
+{"text": "per i prossimi due brani fai giocare il remix live, poi lo rispegni", "labels": {"remix": "on", "temporary": "yes"}}
+{"text": "accendi il remix live e metti Fuoco come prossimo pezzo che lo chiedono al bar", "labels": {"remix": "on", "queue": "playNext"}}
+{"text": "dai più movimento ai brani con il remix dal vivo e alterna momenti carichi e calmi", "labels": {"remix": "on", "strategy": "wave"}}
+{"text": "remix live acceso, mashup automatici spenti, per questa festa universitaria va bene così", "labels": {"remix": "on", "mashupOpt": "off"}}
+{"text": "attiva gli effetti live sul pezzo, loop e filtri, e poi fammi vedere la console", "labels": {"remix": "on", "view": "console"}}
+{"text": "il remix live copre la voce della sposa nel video, spegnilo subito", "labels": {"remix": "off"}}
+{"text": "basta loop ed effetti sopra i pezzi, disattiva il remix dal vivo per la cena", "labels": {"remix": "off"}}
+{"text": "al compleanno della nonna niente remix live, i pezzi devono restare puliti", "labels": {"remix": "off"}}
+{"text": "spegni il remix live per i prossimi tre brani, c'è il discorso del capo", "labels": {"remix": "off", "temporary": "yes"}}
+{"text": "togli il remix live e torna al bpm originale dopo ogni mix, grazie", "labels": {"remix": "off", "returnTempo": "on"}}
+{"text": "il remix dal vivo sta facendo un casino con gli echo, spegnilo e usa passaggi col filtro", "labels": {"remix": "off", "style": "filter"}}
+{"text": "disattiva il remix live e chiudi il set dopo questo pezzo, il locale chiude", "labels": {"remix": "off", "control": "endAfterCurrent"}}
+{"text": "niente più remix live da qui a fine serata, la gente vuole cantare i ritornelli", "labels": {"remix": "off"}}
+{"text": "sono il cugino dello sposo e non ho mai usato questa app, cosa sai fare?", "labels": {"info": "help"}}
+{"text": "mi fai un elenco dei comandi che posso scriverti durante la festa?", "labels": {"info": "help"}}
+{"text": "prima che inizi la cerimonia spiegami come funzionano i tuoi comandi", "labels": {"info": "help"}}
+{"text": "ciao, il dj titolare è malato, mi spieghi cosa posso chiederti in chat?", "labels": {"info": "help"}}
+{"text": "che tipo di richieste accetti? tipo generi, coda, mashup, come funziona?", "labels": {"info": "help"}}
+{"text": "aiuto, sono nel panico in mezzo alla festa, cosa posso fare con te?", "labels": {"info": "help"}}
+{"text": "mostrami l'aiuto con tutte le cose che sai fare e intanto fai partire qualcosa di soft", "labels": {"info": "help", "control": "start", "strategy": "chill"}}
+{"text": "spiegami cosa sai fare e intanto mettimi la vista ai sul tablet", "labels": {"info": "help", "view": "ai"}}
+{"text": "la festeggiata vuole sapere quali canzoni hai in coda per la torta", "labels": {"info": "queue"}}
+{"text": "prima del primo ballo dimmi che pezzi ci sono in coda adesso", "labels": {"info": "queue"}}
+{"text": "mi elenchi i brani che ho messo in coda questo pomeriggio?", "labels": {"info": "queue"}}
+{"text": "quanti pezzi ci sono ancora in coda prima della chiusura del locale?", "labels": {"info": "queue"}}
+{"text": "controlla la coda e dimmi se c'è ancora Northern Lights che la sposa la aspetta", "labels": {"info": "queue"}}
+{"text": "cosa c'è in lista d'attesa? il testimone dice di aver chiesto tre pezzi", "labels": {"info": "queue"}}
+{"text": "dimmi la coda e poi svuotala che ricominciamo da capo per l'after", "labels": {"info": "queue", "queue": "clear"}}
+{"text": "fammi sapere cosa hai in coda e metti Afterglow come prossima per la sposa", "labels": {"info": "queue", "queue": "playNext"}}
+{"text": "perché dopo il lento hai messo proprio sto pezzo tamarro? spiegamelo", "labels": {"info": "why"}}
+{"text": "il proprietario chiede come mai hai scelto questa canzone per l'apertura", "labels": {"info": "why"}}
+{"text": "sono curioso, per quale motivo hai scelto questo brano a quest'ora?", "labels": {"info": "why"}}
+{"text": "come mai hai messo Parallel dopo Night Drive? mi spieghi il ragionamento", "labels": {"info": "why"}}
+{"text": "spiegami la scelta di questo pezzo, la sala si è un po' svuotata", "labels": {"info": "why"}}
+{"text": "perché proprio questa traccia adesso? comunque cambiala subito che la pista si svuota", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "qual è il motivo della scelta? e dopo mescola la coda che è troppo prevedibile", "labels": {"info": "why", "queue": "shuffle"}}
+{"text": "perché hai scelto questo brano per la cena? tra l'altro spegni i mashup automatici", "labels": {"info": "why", "mashupOpt": "off"}}
+{"text": "è arrivata la polizia municipale per il rumore, ferma subito la musica", "labels": {"control": "stop"}}
+{"text": "sta per iniziare il discorso del sindaco, spegni l'ai dj adesso", "labels": {"control": "stop"}}
+{"text": "stop a tutto, è saltata la corrente in cucina e dobbiamo controllare", "labels": {"control": "stop"}}
+{"text": "ferma la musica adesso, la sposa sta per lanciare il bouquet", "labels": {"control": "stop"}}
+{"text": "interrompi il set, il locale ha chiuso e i buttafuori stanno sgomberando", "labels": {"control": "stop"}}
+{"text": "spegni tutto per favore, c'è stato un malore in mezzo alla pista", "labels": {"control": "stop"}}
+{"text": "metti in pausa l'ai dj che arriva la band dal vivo per il loro set", "labels": {"control": "stop"}}
+{"text": "ferma l'ai dj e passa alla console, prendo io i comandi per l'ultima ora", "labels": {"control": "stop", "view": "console"}}
+{"text": "no aspetta, non chiudere il set, il proprietario ci ha dato un'altra ora", "labels": {"control": "resume"}}
+{"text": "avevo detto ultimo pezzo ma la gente vuole ancora ballare, continua", "labels": {"control": "resume"}}
+{"text": "annulla la chiusura, il festeggiato ha appena offerto un altro giro", "labels": {"control": "resume"}}
+{"text": "non finire dopo questa traccia, gli sposi sono ancora in pista", "labels": {"control": "resume"}}
+{"text": "ci ho ripensato, vai avanti con il set fino alle quattro", "labels": {"control": "resume"}}
+{"text": "continua a suonare, la chiusura è slittata alle tre, e alza un pochino", "labels": {"control": "resume", "strategy": "rise"}}
+{"text": "non chiudere più, prosegui e da adesso scegli tu i pezzi del dopo mezzanotte", "labels": {"control": "resume", "mode": "ai"}}
+{"text": "dimentica la chiusura, andiamo avanti e riaccendi i mashup automatici", "labels": {"control": "resume", "mashupOpt": "on"}}
+{"text": "la coda è piena di richieste dei ragazzini, cancellala tutta", "labels": {"queue": "clear"}}
+{"text": "svuota completamente la coda, ricominciamo da zero per il dopocena", "labels": {"queue": "clear"}}
+{"text": "quei pezzi in coda erano per l'aperitivo, eliminali tutti adesso", "labels": {"queue": "clear"}}
+{"text": "azzera la lista dei brani in coda, lo sposo ha cambiato idea", "labels": {"queue": "clear"}}
+{"text": "elimina tutto quello che c'è in coda e scegli tu i pezzi da qui in poi", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "pulisci la coda e fammi una scaletta nuova di house per l'after party", "labels": {"queue": "clear", "set": "build", "genre": "include"}}
+{"text": "svuota la coda, metti la vista ai e resta sul bpm nuovo dopo i mix", "labels": {"queue": "clear", "view": "ai", "returnTempo": "off"}}
+{"text": "togli tutto dalla coda, tanto al matrimonio nessuno ha chiesto quei pezzi", "labels": {"queue": "clear"}}
+{"text": "la coda sembra una playlist in ordine alfabetico, mescolala un po'", "labels": {"queue": "shuffle"}}
+{"text": "rimescola i pezzi in coda, gli ospiti si accorgono che vanno per artista", "labels": {"queue": "shuffle"}}
+{"text": "metti la coda in ordine casuale prima che arrivino gli invitati", "labels": {"queue": "shuffle"}}
+{"text": "mescola la mia coda e suona solo quella, niente scelte tue stasera", "labels": {"queue": "shuffle", "mode": "queue"}}
+{"text": "shuffle della coda e passa subito al pezzo dopo, questo non va proprio", "labels": {"queue": "shuffle", "control": "mixNow"}}
+{"text": "dai una mescolata alla lista d'attesa e usa l'echo nei cambi", "labels": {"queue": "shuffle", "style": "echo"}}
+{"text": "per il secondo tempo della festa mescola la coda e spingi l'energia", "labels": {"queue": "shuffle", "strategy": "rise"}}
+{"text": "mischia i brani in coda, sono tutti dello stesso artista uno dietro l'altro", "labels": {"queue": "shuffle"}}
+{"text": "la sala del ristorante inizia a svuotarsi, tieni questa energia costante fino al dolce", "labels": {"strategy": "steady"}}
+{"text": "è l'una e il club è pieno, voglio solo i pezzi più potenti che hai", "labels": {"strategy": "peak"}}
+{"text": "per la festa in piscina alterna pezzi carichi e pezzi rilassati, a onde", "labels": {"strategy": "wave"}}
+{"text": "i ragazzi del liceo vogliono i tagli a raffica tipo LUM!X, pezzi cortissimi uno dietro l'altro", "labels": {"style": "rapid"}}
+{"text": "alla sagra del paese fai lo stile dance alla Gabry Ponte che tutti conoscono", "labels": {"style": "model"}}
+{"text": "siamo in un capannone industriale a Berlino, stile techno con blend lunghi e ipnotici", "labels": {"style": "model-techno"}}
+{"text": "non ho voglia di pensarci, decidi tu come fare i passaggi per tutta la cena", "labels": {"style": "auto"}}
+{"text": "i cambi di prima erano troppo lunghi per questa gente, fai mix da otto battute", "labels": {"bars": "short"}}
+{"text": "all'alba in spiaggia voglio transizioni infinite da 64 battute, piano piano", "labels": {"bars": "verylong"}}
+{"text": "sono le dieci e mezza, fai partire l'ai dj con qualcosa di morbido per l'ingresso", "labels": {"control": "start", "strategy": "chill"}}
+{"text": "questo pezzo ha svuotato la pista in dieci secondi, cambialo adesso", "labels": {"control": "mixNow"}}
+{"text": "il pezzo che hai preparato dopo l'abbiamo già sentito alle undici, sostituiscilo", "labels": {"control": "skip"}}
+{"text": "il locale chiude alle due, dopo questa canzone chiudi il set", "labels": {"control": "endAfterCurrent"}}
+{"text": "la mamma della sposa chiede Mare Blu di Leo Marin, mettila in coda", "labels": {"queue": "add"}}
+{"text": "il testimone vuole Estate subito dopo questo pezzo per il suo ingresso", "labels": {"queue": "playNext"}}
+{"text": "lo sposo odia Low Tide di Silas Hart, toglila dalla coda prima che parta", "labels": {"queue": "remove"}}
+{"text": "ai matrimoni funziona sempre, per il resto della serata solo commerciale e pop", "labels": {"genre": "include"}}
+{"text": "i ragazzi dell'erasmus non sopportano il reggaeton, niente reggaeton stasera", "labels": {"genre": "exclude"}}
+{"text": "visto che ci sono tanti over 50 aggiungi anche un po' di anni 80 qua e là", "labels": {"genre": "add"}}
+{"text": "la festa è mista, va bene qualsiasi genere, togli pure il filtro sui generi", "labels": {"genre": "clear"}}
+{"text": "preparami una scaletta di due ore per il matrimonio di sabato, pop e dance in crescendo", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "al taglio della torta fai un mashup a sorpresa scelto da te", "labels": {"mashup": "auto"}}
+{"text": "per l'ingresso degli sposi voce di Golden Hour sulla strumentale di Weightless", "labels": {"mashup": "explicit"}}
+{"text": "il cameriere mi chiede il titolo, cosa stai suonando in questo momento?", "labels": {"info": "now"}}
+{"text": "tra quanto fai il prossimo cambio? devo dare il segnale al fotografo", "labels": {"info": "next"}}
+{"text": "prima di lasciarti da solo dimmi come sei impostato: strategia, stile e battute", "labels": {"info": "settings"}}
+{"text": "solo per i prossimi tre pezzi usa i passaggi con l'echo, poi torna come prima", "labels": {"temporary": "yes", "style": "echo"}}
+{"text": "il capo della festa aziendale vuole solo la nostra lista, suona soltanto i pezzi in coda", "labels": {"mode": "queue"}}
+{"text": "la gente al bancone sta cantando, tienimi questo livello di energia e passaggi col filtro", "labels": {"strategy": "steady", "style": "filter"}}
+{"text": "mezzanotte in discoteca, via con i tagli secchi sul beat e picco totale", "labels": {"style": "cut", "strategy": "peak"}}
+{"text": "per il pranzo di comunione in giardino fai mix lunghi da 32 battute con sfumate", "labels": {"bars": "long", "style": "fade"}}
+{"text": "all'after del sabato prova un mashup con la voce di Neon Nights sopra la base di Glass City", "labels": {"mashup": "explicit"}}
+{"text": "visto che gli invitati ballano sui classici, fammi una scaletta revival e anni 90 per mezzanotte", "labels": {"set": "build", "genre": "include"}}

@@ -1,0 +1,220 @@
+{"text": "la pista sembra un funerale, dobbiamo svegliarli un po' alla volta", "labels": {"strategy": "rise"}}
+{"text": "sono tutti al bancone a chiacchierare, tienimi l'energia bassa ancora per mezz'ora", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "adesso la gente è bella calda, non mollare e tieni questo livello", "labels": {"strategy": "steady"}}
+{"text": "voglio una serata come le montagne russe, su e giù continuamente", "labels": {"strategy": "wave"}}
+{"text": "è l'una e mezza e la pista è stracolma, sgancia le bombe atomiche", "labels": {"strategy": "peak"}}
+{"text": "fai salire la temperatura piano piano come una pentola sul fuoco", "labels": {"strategy": "rise"}}
+{"text": "siamo al top, la gente salta sui divanetti: resta esattamente su questa vibe", "labels": {"strategy": "steady"}}
+{"text": "dopo il brindisi accendi la miccia e porta tutto su di giri", "labels": {"strategy": "rise"}}
+{"text": "il dj prima di noi ha lasciato la pista in fiamme, mantieni il fuoco acceso", "labels": {"strategy": "steady"}}
+{"text": "fai respirare la sala: un pezzo tirato e poi uno più morbido, così a ciclo", "labels": {"strategy": "wave"}}
+{"text": "per i prossimi due pezzi vai giù di giri che stanno servendo i dolci", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "alle tre di notte voglio solo mazzate, niente riempitivi", "labels": {"strategy": "peak"}}
+{"text": "questo è un aperitivo in terrazza col tramonto, vai morbido e rilassato", "labels": {"strategy": "chill"}}
+{"text": "siamo in fase decollo, accelera come un aereo sulla pista", "labels": {"strategy": "rise"}}
+{"text": "i ragazzi dell'addio al celibato sono carichissimi, dagli roba che pesta forte al massimo", "labels": {"strategy": "peak"}}
+{"text": "la sala è mezza vuota e la gente è stanca, abbassa i giri del motore", "labels": {"strategy": "chill"}}
+{"text": "fai un'altalena di energia così la gente ha il tempo di bere tra un picco e l'altro", "labels": {"strategy": "wave"}}
+{"text": "i nonni stanno ancora ballando il liscio, non stravolgere niente e resta sul ritmo attuale", "labels": {"strategy": "steady"}}
+{"text": "da qui a mezzanotte voglio una salita continua, come una rampa", "labels": {"strategy": "rise"}}
+{"text": "il festeggiato ha appena spento le candeline: sparaci addosso la roba più potente che hai", "labels": {"strategy": "peak"}}
+{"text": "troppa adrenalina in giro, la gente è sudata marcia, dai un po' di tregua per un paio di brani", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "non accelerare e non frenare, tieni la macchina in quinta a velocità costante", "labels": {"strategy": "steady"}}
+{"text": "alterna momenti da pelle d'oca e momenti per riprendere fiato fino alla fine", "labels": {"strategy": "wave"}}
+{"text": "la gente ha appena finito di mangiare, ancora niente di pesante ma fai crescere lentamente", "labels": {"strategy": "rise"}}
+{"text": "sta per arrivare il momento clou della serata: da ora solo bangers senza pietà", "labels": {"strategy": "peak"}}
+{"text": "hype a mille per i prossimi tre pezzi, poi torna come prima", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "questa pista va scaldata come un motore diesel, con calma ma senza mai fermarsi", "labels": {"strategy": "rise"}}
+{"text": "i vicini hanno chiamato due volte, tieni un'energia più soft e meno aggressiva", "labels": {"strategy": "chill"}}
+{"text": "sembra una sala d'attesa dal dentista, dai una scossa elettrica a questa gente", "labels": {"strategy": "rise"}}
+{"text": "la gente è morta, alza l'energia e fai cambi più corti e secchi", "labels": {"strategy": "rise", "bars": "short", "style": "cut"}}
+{"text": "siamo al momento clou della festa di laurea, solo pezzi devastanti e tagli netti sul beat", "labels": {"strategy": "peak", "style": "cut"}}
+{"text": "adesso che servono il caffè vai più rilassato con sfumature lunghe e morbide", "labels": {"strategy": "chill", "style": "fade", "bars": "long"}}
+{"text": "i ragazzi vogliono saltare: più energia e mettici dentro anche un po' di reggaeton", "labels": {"strategy": "rise", "genre": "add"}}
+{"text": "la pista è piena di universitari, crescendo fino alle due e niente musica commerciale", "labels": {"strategy": "rise", "genre": "exclude"}}
+{"text": "mood da spiaggia al tramonto: calma, solo deep house e passaggi lunghi", "labels": {"strategy": "chill", "genre": "include", "bars": "long"}}
+{"text": "è tardi e sono rimasti i duri e puri, spingi al massimo con techno in stile berlinese", "labels": {"strategy": "peak", "genre": "include", "style": "model-techno"}}
+{"text": "i passaggi sembrano incidenti stradali, fammeli più morbidi come una dissolvenza al cinema", "labels": {"style": "fade"}}
+{"text": "voglio che i pezzi si sciolgano uno nell'altro come gelato al sole", "labels": {"style": "fade"}}
+{"text": "basta con queste sfumature infinite, dammi tagli secchi come una ghigliottina sul beat", "labels": {"style": "cut"}}
+{"text": "quando entri col pezzo nuovo scambia i bassi, che le due casse insieme impastano tutto", "labels": {"style": "bassswap"}}
+{"text": "i bassi dei due brani si pestano i piedi durante il mix, gestiscili con l'eq e fai lo swap", "labels": {"style": "bassswap"}}
+{"text": "fai entrare il pezzo nuovo da dietro un filtro, come se si aprisse una porta", "labels": {"style": "filter"}}
+{"text": "chiudi ogni brano lasciando una coda di eco che rimbalza nella sala", "labels": {"style": "echo"}}
+{"text": "la festa è per ragazzini di sedici anni che si annoiano in fretta: tagli a raffica come LUM!X", "labels": {"style": "rapid"}}
+{"text": "voglio un set da tiktok, brani cortissimi sparati uno dietro l'altro senza respiro", "labels": {"style": "rapid"}}
+{"text": "stasera il pubblico è della riviera romagnola, i cambi falli alla Gabry Ponte", "labels": {"style": "model"}}
+{"text": "qui siamo in un capannone industriale: transizioni da techno lunghe e ipnotiche, come nei club di Berlino", "labels": {"style": "model-techno", "bars": "long"}}
+{"text": "non saprei che tipo di transizione usare, decidi tu caso per caso in base al pezzo", "labels": {"style": "auto"}}
+{"text": "i cambi durano troppo e la gente si confonde: accorciali a 8 battute al massimo", "labels": {"bars": "short"}}
+{"text": "voglio blend lunghissimi, tipo 64 battute, che nessuno si accorga del cambio", "labels": {"bars": "verylong"}}
+{"text": "i passaggi sono troppo frettolosi, dagli più respiro, tipo 32 battute", "labels": {"bars": "long"}}
+{"text": "le transizioni sembrano un sorpasso in autostrada, falle più lunghe e graduali", "labels": {"bars": "long", "style": "fade"}}
+{"text": "per i prossimi tre cambi usa il filtro, poi torna come facevi prima", "labels": {"style": "filter", "temporary": "yes"}}
+{"text": "solo per il prossimo paio di passaggi fai uscire il pezzo con un eco bello lungo", "labels": {"style": "echo", "temporary": "yes"}}
+{"text": "in questo momento di caos in pista fai tagli rapidi e cambi da otto battute", "labels": {"style": "cut", "bars": "short"}}
+{"text": "la gente adesso balla in cerchio e vuole ritmo: bass swap e passaggi da 32 battute", "labels": {"style": "bassswap", "bars": "long"}}
+{"text": "per mezz'ora falli durare un'eternità, 64 battute di blend lento", "labels": {"bars": "verylong", "temporary": "yes"}}
+{"text": "i cambi a 16 battute vanno benissimo, però aggiungi un po' di filtro in uscita", "labels": {"style": "filter"}}
+{"text": "le transizioni che fai sono troppo piatte, usa l'eco quando chiudi i pezzi più cantati", "labels": {"style": "echo"}}
+{"text": "mi piace come stai mixando, ma prova a fare dei cambi più veloci e meno pesanti", "labels": {"bars": "short"}}
+{"text": "per i prossimi 4 brani vai in modalità a raffica, poi riprendi i mix normali", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "il pubblico qui è di fissati coi club berlinesi, mix lunghissimi e stile techno per tutto il set", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "quando c'è un pezzo con il cantato, sfumalo dolcemente invece di tagliarlo di netto", "labels": {"style": "fade"}}
+{"text": "sto passaggio è sembrato un frontale tra due camion, i prossimi cambi più morbidi e lunghi per favore", "labels": {"style": "fade", "bars": "long"}}
+{"text": "lascia che sia tu a decidere come fare le transizioni ma rendile più corte", "labels": {"style": "auto", "bars": "short"}}
+{"text": "quando un pezzo va da solo troppo a lungo, giocaci su con loop ed effetti per tenerlo vivo", "labels": {"remix": "on"}}
+{"text": "gli effetti che metti sopra i brani stanno disturbando la sposa, lasciali puliti", "labels": {"remix": "off"}}
+{"text": "per i prossimi due pezzi niente loop né filtri live, voglio sentire le canzoni originali", "labels": {"remix": "off", "temporary": "yes"}}
+{"text": "dai un po' di pepe ai pezzi con qualche loop e filtro mentre suonano, e alza l'energia", "labels": {"remix": "on", "strategy": "rise"}}
+{"text": "stasera il pubblico è giovane, attiva i mashup automatici quando ti sembra il caso", "labels": {"mashupOpt": "on"}}
+{"text": "i mashup automatici di prima hanno confuso tutti, disattivali per il resto della serata", "labels": {"mashupOpt": "off"}}
+{"text": "la gente adora i mashup, lasciali accesi e intanto fanne partire uno tu adesso", "labels": {"mashupOpt": "on", "mashup": "auto"}}
+{"text": "dopo ogni mix il pezzo nuovo deve tornare alla sua velocità originale, sennò le voci sembrano strane", "labels": {"returnTempo": "on"}}
+{"text": "quando finisci il cambio resta al bpm nuovo, non voglio sbalzi di tempo in pista", "labels": {"returnTempo": "off"}}
+{"text": "i cantanti sembrano Topo Gigio, riporta il tempo originale dopo i mix", "labels": {"returnTempo": "on"}}
+{"text": "tieni il tempo del mix anche dopo, che la gente sta ballando in sincro con questo ritmo", "labels": {"returnTempo": "off"}}
+{"text": "voglio la voce di Golden Hour sopra la base strumentale di Night Drive per il ballo degli sposi", "labels": {"mashup": "explicit"}}
+{"text": "per sorprendere gli invitati fai un mashup a sorpresa con due pezzi che scegli tu", "labels": {"mashup": "auto"}}
+{"text": "prendi l'acappella di Mare Blu di Leo Marin e mettila sul beat di Paradise City", "labels": {"mashup": "explicit"}}
+{"text": "mashup fra Weightless e Open Water, voce della prima sopra la seconda, per favore", "labels": {"mashup": "explicit"}}
+{"text": "preparami una scaletta per il matrimonio di mia cugina, dall'aperitivo al taglio della torta", "labels": {"set": "build"}}
+{"text": "mi serve un set di un'ora per la festa aziendale di venerdì, niente di troppo aggressivo", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "costruisci una playlist di due ore di afro house per la festa in piscina di sabato", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara un set in crescendo per i diciotto anni di Marta, deve esplodere a mezzanotte", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "crea la scaletta per una serata anni 80 e 90 in un pub di provincia", "labels": {"set": "build", "genre": "include"}}
+{"text": "per l'inaugurazione del negozio mi serve un set di sottofondo elegante e rilassato", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "fammi una setlist per la notte bianca in piazza, alternando pezzi forti e momenti calmi", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "organizzami un set per l'after party della maratona, niente techno per favore", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "mi prepari una scaletta per la cena di gala con del jazz e della lounge?", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara il set per il warm up del club di sabato, un'ora e mezza tra 118 e 122 bpm", "labels": {"set": "build"}}
+{"text": "costruisci una scaletta per la festa di halloween al liceo, piena di bangers al massimo", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "voglio una playlist per il pranzo della domenica in agriturismo, rilassata e con un po' di italo disco", "labels": {"set": "build", "strategy": "chill", "genre": "add"}}
+{"text": "prepara una scaletta di 30 brani per la festa di laurea di Andrea, solo roba commerciale", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi serve un set di chiusura per la serata in spiaggia, da far calare dolcemente l'energia", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "crea un set di tre ore per un rave in un capannone, techno e solo techno", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara la scaletta per l'addio al nubilato di Chiara, tanto reggaeton e latin", "labels": {"set": "build", "genre": "include"}}
+{"text": "fammi una playlist per il compleanno di mio padre che compie settant'anni, tanta disco e funk", "labels": {"set": "build", "genre": "include"}}
+{"text": "costruisci un set per la festa di capodanno che sale fino al countdown e poi esplode", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "per la sfilata di moda mi serve un set elegante di melodic techno che cresce lentamente", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "alle undici arrivano i ragazzi del torneo di padel, prepara un set a tutta potenza", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "oh ma sta canzone che hai messo come si chiama? me lo chiedono tutti", "labels": {"info": "now"}}
+{"text": "scusa, la ragazza al bar vuole sapere il titolo di questo pezzo", "labels": {"info": "now"}}
+{"text": "chi è l'artista di questa traccia che sta andando adesso?", "labels": {"info": "now"}}
+{"text": "cosa hai in mente di mettere dopo questo pezzo? sono curioso", "labels": {"info": "next"}}
+{"text": "tra quanto parte il cambio? devo andare in bagno e non voglio perdermelo", "labels": {"info": "next"}}
+{"text": "qual è la prossima traccia che hai preparato sul deck?", "labels": {"info": "next"}}
+{"text": "perché proprio questo brano adesso? mi sembra fuori contesto", "labels": {"info": "why"}}
+{"text": "come mai hai scelto una canzone così lenta con la pista piena?", "labels": {"info": "why"}}
+{"text": "quanti pezzi mi restano ancora in coda prima che finisca la lista?", "labels": {"info": "queue"}}
+{"text": "fammi un elenco di quello che ho messo in coda finora", "labels": {"info": "queue"}}
+{"text": "ricordami come ti ho impostato: energia, stile dei cambi e tutto il resto", "labels": {"info": "settings"}}
+{"text": "che stile di transizione stai usando in questo momento, e quante battute?", "labels": {"info": "settings"}}
+{"text": "stai pescando dalla libreria o stai seguendo la mia coda adesso?", "labels": {"info": "settings"}}
+{"text": "sono nuovo, che tipo di cose ti posso chiedere in questa chat?", "labels": {"info": "help"}}
+{"text": "mi fai un esempio di comandi che capisci? non so da dove partire", "labels": {"info": "help"}}
+{"text": "cosa sta suonando? e intanto per i prossimi due pezzi più energia", "labels": {"info": "now", "strategy": "rise", "temporary": "yes"}}
+{"text": "che pezzo arriva dopo? intanto aggiungi Low Tide alla coda", "labels": {"info": "next", "queue": "add"}}
+{"text": "perché hai smesso di fare i mashup? rimettili pure in automatico", "labels": {"info": "why", "mashupOpt": "on"}}
+{"text": "che stai mettendo adesso? sembra un pezzo nu disco, mettine altri così ogni tanto", "labels": {"info": "now", "genre": "add"}}
+{"text": "la sposa ha chiesto Golden Hour per il primo ballo, mettila subito dopo questa canzone", "labels": {"queue": "playNext"}}
+{"text": "il testimone vuole assolutamente Fuoco di Kaito Mori, aggiungilo in coda per più tardi", "labels": {"queue": "add"}}
+{"text": "il festeggiato odia Electric Dreams, levala dalla coda prima che parta", "labels": {"queue": "remove"}}
+{"text": "la coda è diventata un casino di richieste, svuotala e riparti a scegliere tu", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "la lista degli invitati è troppo prevedibile, rimescola tutta la coda in ordine casuale", "labels": {"queue": "shuffle"}}
+{"text": "questo pezzo sta svuotando la pista, cambialo subito e metti roba più ballabile", "labels": {"control": "mixNow", "strategy": "rise"}}
+{"text": "il brano che hai preparato dopo è troppo lento per quest'ora, sostituiscilo e spingi", "labels": {"control": "skip", "strategy": "rise"}}
+{"text": "sono le due e il locale deve chiudere, finisci questa canzone con calma e poi basta", "labels": {"control": "endAfterCurrent"}}
+{"text": "il gestore ci ha concesso un'altra mezz'ora, quindi annulla la chiusura e continua a far ballare", "labels": {"control": "resume"}}
+{"text": "gli sposi stanno entrando in sala adesso, fai partire la musica con qualcosa di emozionante e tranquillo", "labels": {"control": "start", "strategy": "chill"}}
+{"text": "c'è un'emergenza in sala, spegni tutto immediatamente senza aspettare la fine", "labels": {"control": "stop"}}
+{"text": "il festeggiato ha preparato la sua lista a casa, suona solo quella e non aggiungere niente", "labels": {"mode": "queue"}}
+{"text": "non conosco bene il pubblico stasera, quindi i pezzi scegli tu dalla libreria come ti pare", "labels": {"mode": "ai"}}
+{"text": "vado a salutare i parenti: per i prossimi tre brani scegli tu, poi riprendi la mia coda", "labels": {"mode": "ai", "temporary": "yes"}}
+{"text": "la pista è piena di ragazzi latini, aggiungi un po' di reggaeton ogni tanto e alza il ritmo", "labels": {"genre": "add", "strategy": "rise"}}
+{"text": "qui il pubblico è sulla sessantina, niente trap né rap per tutta la serata", "labels": {"genre": "exclude"}}
+{"text": "stasera festa a tema anni 90, solo pezzi di quegli anni e cambi alla Gabry Ponte", "labels": {"genre": "include", "style": "model"}}
+{"text": "la gente si lamenta del troppo commerciale, per un po' levalo e metti roba più underground", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "dimentica i generi che ti avevo detto prima, adesso va bene qualsiasi cosa purché si balli", "labels": {"genre": "clear"}}
+{"text": "per i prossimi due brani solo afro house con transizioni lunghe, poi vediamo", "labels": {"genre": "include", "bars": "long", "temporary": "yes"}}
+{"text": "questa canzone la sanno tutti ma ha stufato, next e intanto metti Neon Nights come prossima", "labels": {"control": "mixNow", "queue": "playNext"}}
+{"text": "passa alla console che è arrivato il dj ospite e vuole mixare a mano", "labels": {"view": "console"}}
+{"text": "il dj ospite ha finito il suo set, rimettimi la schermata dell'ai e riparti tu", "labels": {"view": "ai", "control": "start"}}
+{"text": "mettimi la vista ai che voglio controllare cosa stai facendo coi pezzi", "labels": {"view": "ai"}}
+{"text": "che serata ragazzi, grazie Segueo, stai facendo un lavoro della madonna", "labels": {"talk": "thanks"}}
+{"text": "buonasera Segueo, stasera suoniamo a un matrimonio in collina, sei pronto?", "labels": {"talk": "hello"}}
+{"text": "mi sai dire che tempo farà domani a Rimini per il concerto all'aperto?", "labels": {"talk": "offtopic"}}
+{"text": "prenotami un tavolo per due al ristorante giapponese dopo la serata", "labels": {"talk": "offtopic"}}
+{"text": "per i prossimi 20 minuti fai onde di energia e tagli secchi, poi torna come prima", "labels": {"strategy": "wave", "style": "cut", "temporary": "yes"}}
+{"text": "la gente sta cantando a squarciagola, tieni questa energia e niente mashup automatici per un po'", "labels": {"strategy": "steady", "mashupOpt": "off", "temporary": "yes"}}
+{"text": "i ragazzi dell'erasmus vogliono ballare, parti col latin e fai cambi veloci", "labels": {"control": "start", "genre": "include", "bars": "short"}}
+{"text": "appena finisce il discorso del testimone riparti con la musica, ma tranquilla per un paio di pezzi", "labels": {"control": "start", "strategy": "chill", "temporary": "yes"}}
+{"text": "la pista si è raffreddata di colpo con questo pezzo, cambialo e fai un filtro nel passaggio", "labels": {"control": "mixNow", "style": "filter"}}
+{"text": "il prossimo che hai scelto è un lento mentre tutti saltano, trovane un altro più carico", "labels": {"control": "skip", "strategy": "rise"}}
+{"text": "stanno arrivando i carabinieri per il rumore, ultima canzone e poi chiudiamo tutto", "labels": {"control": "endAfterCurrent"}}
+{"text": "la festa è ancora viva e nessuno se ne vuole andare, vai avanti e non chiudere il set", "labels": {"control": "resume"}}
+{"text": "per la prossima mezz'ora solo dance commerciale con cambi stile Gabry Ponte", "labels": {"genre": "include", "style": "model", "temporary": "yes"}}
+{"text": "solo per i prossimi tre brani niente techno, la gente ha bisogno di respirare", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "per un paio di pezzi prova il remix live con loop ed eco, vediamo come reagiscono", "labels": {"remix": "on", "temporary": "yes"}}
+{"text": "per i prossimi cinque brani mix corti e secchi, siamo nel momento dei salti", "labels": {"bars": "short", "style": "cut", "temporary": "yes"}}
+{"text": "per un po' fai i cambi a raffica tipo LUM!X, i ragazzi sono in fissa con quello stile", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "per i prossimi tre pezzi chill totale, sta partendo la proiezione delle foto degli sposi", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "solo per il prossimo brano fai uno scambio di bassi pulito, voglio sentire come suona", "labels": {"style": "bassswap", "temporary": "yes"}}
+{"text": "per le prossime due tracce resta al bpm del mix, poi fai come vuoi", "labels": {"returnTempo": "off", "temporary": "yes"}}
+{"text": "per i prossimi 4 brani massima potenza, i ragazzi della squadra hanno vinto il campionato", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "finché non arriva la torta, tieni l'energia costante e i passaggi lunghi", "labels": {"strategy": "steady", "bars": "long", "temporary": "yes"}}
+{"text": "per qualche pezzo fai dissolvenze lunghissime, la sposa sta ballando con il papà", "labels": {"style": "fade", "bars": "verylong", "temporary": "yes"}}
+{"text": "per i prossimi due pezzi metti solo roba anni 80 che c'è la zia che vuole ballare", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "la festa di quartiere sta decollando: più energia, bass swap nei cambi e tieni i mashup accesi", "labels": {"strategy": "rise", "style": "bassswap", "mashupOpt": "on"}}
+{"text": "il gruppo di amici del sud vuole ballare: metti un po' di latin, alza il tiro e cambi rapidi", "labels": {"genre": "add", "strategy": "rise", "bars": "short"}}
+{"text": "adesso che è arrivata la torta rallenta con calma e fai sfumature da film romantico", "labels": {"strategy": "chill", "style": "fade"}}
+{"text": "l'aperitivo è finito e la gente comincia a muoversi, sali gradualmente con passaggi lunghi e filtrati", "labels": {"strategy": "rise", "bars": "long", "style": "filter"}}
+{"text": "questo pezzo è troppo cupo per una festa di compleanno, cambialo e niente minimal per il resto della serata", "labels": {"control": "mixNow", "genre": "exclude"}}
+{"text": "la festa in barca sta per iniziare, fai partire la musica e scegli tu i pezzi dalla libreria", "labels": {"control": "start", "mode": "ai"}}
+{"text": "la professoressa in pensione vuole ascoltare solo i suoi pezzi: segui la mia lista e cambi dolci", "labels": {"mode": "queue", "style": "fade"}}
+{"text": "i ragazzi del calcetto hanno chiesto Paradise City, mettila subito dopo e con un taglio netto", "labels": {"queue": "playNext", "style": "cut"}}
+{"text": "al pub sono tutti fan del rock ma noi andiamo di funk: solo funk e disco con cambi morbidi", "labels": {"genre": "include", "style": "fade"}}
+{"text": "il capo ha detto che la cena aziendale deve finire con stile, questo è l'ultimo pezzo e chiudilo con un eco", "labels": {"control": "endAfterCurrent", "style": "echo"}}
+{"text": "la gente non vuole andare via dalla spiaggia, non chiudere e continua con roba più tranquilla", "labels": {"control": "resume", "strategy": "chill"}}
+{"text": "il brano in arrivo è della stessa artista di prima, cambialo e metti Summer Rain al suo posto", "labels": {"control": "skip", "queue": "playNext"}}
+{"text": "questo remix sta durando un'eternità e la pista si annoia, passa oltre con un cambio da otto battute", "labels": {"control": "mixNow", "bars": "short"}}
+{"text": "ho messo in coda le richieste degli sposi, mischiale un po' e suona solo quelle", "labels": {"queue": "shuffle", "mode": "queue"}}
+{"text": "la zia vuole Estate di Leo Marin, aggiungila alla lista e dopo fai un bel crescendo", "labels": {"queue": "add", "strategy": "rise"}}
+{"text": "i bambini della festa di compleanno sono esausti, calma l'energia e togli gli effetti live", "labels": {"strategy": "chill", "remix": "off"}}
+{"text": "la pista è ipnotizzata da questo groove, tieni l'energia così e fai passaggi lunghissimi da 64 battute", "labels": {"strategy": "steady", "bars": "verylong"}}
+{"text": "dopo il lancio del bouquet spara i pezzi più forti con tagli a raffica, ma solo per cinque minuti", "labels": {"strategy": "peak", "style": "rapid", "temporary": "yes"}}
+{"text": "siamo in un rooftop al tramonto: deep house, energia bassa e ritorna sempre al tempo originale dei brani", "labels": {"genre": "include", "strategy": "chill", "returnTempo": "on"}}
+{"text": "il pubblico è misto, ogni tanto infila un pezzo anni 80 e mantieni l'energia com'è", "labels": {"genre": "add", "strategy": "steady"}}
+{"text": "la gente ha smesso di ballare durante questo pezzo, cambialo subito e fallo uscire con l'eco", "labels": {"control": "mixNow", "style": "echo"}}
+{"text": "sono arrivati gli amici dello sposo carichi a molla: più energia, solo techno e mix corti", "labels": {"strategy": "rise", "genre": "include", "bars": "short"}}
+{"text": "la cerimonia in giardino è finita, avvia la musica per il rinfresco con della lounge soft", "labels": {"control": "start", "genre": "include", "strategy": "chill"}}
+{"text": "la gente si è fermata tutta a guardare i fuochi d'artificio fuori", "labels": {}}
+{"text": "alza un po' il volume che in fondo alla sala non si sente niente", "labels": {}}
+{"text": "dopo questa canzone vado un attimo a fumare una sigaretta fuori", "labels": {}}
+{"text": "il prossimo gruppo di invitati arriva con il pullman verso le undici", "labels": {}}
+{"text": "l'ultimo treno per Milano parte alle 23:40, qualcuno dovrà andare via", "labels": {}}
+{"text": "finalmente la festa è partita, guarda come salta la gente in pista", "labels": {}}
+{"text": "accendi le luci stroboscopiche quando arriva il ritornello del prossimo pezzo", "labels": {}}
+{"text": "passami il microfono che devo annunciare il taglio della torta tra poco", "labels": {}}
+{"text": "il fonico dice che le casse di destra si sono fermate di nuovo", "labels": {}}
+{"text": "abbassa i bassi che fanno vibrare i bicchieri sui tavoli del buffet", "labels": {}}
+{"text": "il buttafuori ha chiuso la porta, dentro siamo già in trecento", "labels": {}}
+{"text": "questa canzone la cantava mia madre in macchina quando ero piccolo", "labels": {}}
+{"text": "stasera la gente si è scatenata presto, non me lo aspettavo proprio", "labels": {}}
+{"text": "il dj della sala accanto ha appena smesso di suonare, si sente il silenzio", "labels": {}}
+{"text": "domani sera torniamo qui per il compleanno di Luca, stesso locale", "labels": {}}
+{"text": "la sposa ha detto che il pezzo di prima l'ha fatta piangere dall'emozione", "labels": {}}
+{"text": "ho visto che la gente ha cominciato a stancarsi verso l'una", "labels": {}}
+{"text": "la macchina del fumo si è inceppata, spegnila e riaccendila tra cinque minuti", "labels": {}}
+{"text": "mi hanno detto che il bar chiude dopo questa canzone, incredibile", "labels": {}}
+{"text": "metti più luce sulla consolle che non vedo niente dei cavi", "labels": {}}
+{"text": "il set del mese scorso era venuto meglio, secondo me", "labels": {}}
+{"text": "la playlist che ha fatto mio cugino per il viaggio era orrenda", "labels": {}}
+{"text": "la gente sta aspettando in fila al guardaroba, c'è un caos", "labels": {}}
+{"text": "ieri sera in questo locale hanno fatto solo techno fino all'alba", "labels": {}}
+{"text": "la coda al bar è lunghissima, servirebbero altri due baristi", "labels": {}}
+{"text": "ho cambiato le pile al radiomicrofono prima di iniziare la cerimonia", "labels": {}}
+{"text": "l'ultimo pezzo del dj di ieri era una bomba, me lo ricordo ancora", "labels": {}}
+{"text": "il mixer della sala piccola ha smesso di funzionare di nuovo", "labels": {}}
+{"text": "regola il volume delle spie che il cantante non si sente", "labels": {}}
+{"text": "quando è partito il ritornello tutti hanno alzato le mani al cielo", "labels": {}}

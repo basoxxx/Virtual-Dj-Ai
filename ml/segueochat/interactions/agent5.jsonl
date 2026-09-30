@@ -1,0 +1,625 @@
+{"text": "solo house per i prossimi tre pezzi", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "Per un paio di canzoni metti solo afro house", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "per il prossimo pezzo vai di deep house tra 118 e 122 bpm", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo melodic techno sotto i 126 bpm e fai salire piano piano", "labels": {"genre": "include", "strategy": "rise"}}
+{"text": "fino a mezzanotte solo lounge", "labels": {"genre": "include"}}
+{"text": "dopo mezzanotte voglio techno, quella seria", "labels": {"genre": "include"}}
+{"text": "per i prossimi 2 brani anni 90 e più energia", "labels": {"genre": "include", "strategy": "rise", "temporary": "yes"}}
+{"text": "voglio sentire solo italo disco per un po'", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo pop commerciale per 3 canzoni poi vediamo", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "reggaeton e latin solo per il prossimo paio di pezzi", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "da adesso in poi solo progressive house", "labels": {"genre": "include"}}
+{"text": "drum and bass per i prossimi tre, alza il tiro", "labels": {"genre": "include", "strategy": "rise", "temporary": "yes"}}
+{"text": "solo house tra 122 e 126, transizioni lunghe", "labels": {"genre": "include", "bars": "long"}}
+{"text": "funky per due pezzi e poi torna a quello di prima", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "fammi sentire techno, solo techno, nient'altro", "labels": {"genre": "include"}}
+{"text": "per il prossimo brano solo minimal e passaggio col filtro", "labels": {"genre": "include", "style": "filter", "temporary": "yes"}}
+{"text": "minimal per un po', con mix lunghi", "labels": {"genre": "include", "bars": "long", "temporary": "yes"}}
+{"text": "edm e solo bombe per i prossimi 4 pezzi", "labels": {"genre": "include", "strategy": "peak", "temporary": "yes"}}
+{"text": "per qualche pezzo metti deep house, con calma", "labels": {"genre": "include", "strategy": "chill", "temporary": "yes"}}
+{"text": "solo hip hop e rap sotto i 100 bpm", "labels": {"genre": "include"}}
+{"text": "fammi un blocchetto di disco per il prossimo paio di brani", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo afro house max 124 bpm", "labels": {"genre": "include"}}
+{"text": "vai con la techno ma sempre sopra i 130 bpm", "labels": {"genre": "include"}}
+{"text": "voglio solo roba latina per le prossime 3 canzoni", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo lounge, calma totale", "labels": {"genre": "include", "strategy": "chill"}}
+{"text": "lounge per il prossimo brano, giusto per far rifiatare la pista", "labels": {"genre": "include", "strategy": "chill", "temporary": "yes"}}
+{"text": "house e basta", "labels": {"genre": "include"}}
+{"text": "solo trance anni 90 per un po'", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo techno melodica stasera", "labels": {"genre": "include"}}
+{"text": "per 2 pezzi tech house con tagli netti", "labels": {"genre": "include", "style": "cut", "temporary": "yes"}}
+{"text": "per un pezzo solo fai un passaggio in echo e metti trance", "labels": {"style": "echo", "genre": "include", "temporary": "yes"}}
+{"text": "voglio del rap, ma giusto per un paio di tracce", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "stile Gabry Ponte e solo dance per i prossimi tre", "labels": {"style": "model", "genre": "include", "temporary": "yes"}}
+{"text": "mixa in stile techno e metti solo melodic techno", "labels": {"style": "model-techno", "genre": "include"}}
+{"text": "deep house e transizioni morbide per un po'", "labels": {"genre": "include", "style": "fade", "temporary": "yes"}}
+{"text": "prossime due: solo drum and bass", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "per un po' vai solo di disco e alterna alti e bassi", "labels": {"genre": "include", "strategy": "wave", "temporary": "yes"}}
+{"text": "DAJE CON LA TECHNO, SOLO QUELLA", "labels": {"genre": "include"}}
+{"text": "jamme uagliò, solo reggaeton pe' du pezzi", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "amunì, metti house fino alla fine della serata", "labels": {"genre": "include"}}
+{"text": "solo tech house 124-127 bpm, energia costante", "labels": {"genre": "include", "strategy": "steady"}}
+{"text": "mantieni questa vibe ma solo afro house", "labels": {"genre": "include", "strategy": "steady"}}
+{"text": "for the next 3 tracks solo techno, thx", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "prossimo brano: nu disco, mix col filtro", "labels": {"genre": "include", "style": "filter", "temporary": "yes"}}
+{"text": "anni 80 per un paio di pezzi, qui sono tutti over 40", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "voglio trance, crescendo fino al drop grosso", "labels": {"genre": "include", "strategy": "rise"}}
+{"text": "solo commerciale finché non arriva la torta", "labels": {"genre": "include"}}
+{"text": "solo musica dance fino all'una", "labels": {"genre": "include"}}
+{"text": "house solo per il prossimo brano, poi decidi tu", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "metti revival per un po', 70 80 90", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "vai solo di edm per i prossimi pezzi e tagli secchi", "labels": {"genre": "include", "style": "cut", "temporary": "yes"}}
+{"text": "hip hop old school per tre pezzi, poi basta", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "progressive e passaggi di 32 battute", "labels": {"genre": "include", "bars": "long"}}
+{"text": "solo melodic techno e mixa lunghissimo, tipo 64 battute", "labels": {"genre": "include", "bars": "verylong"}}
+{"text": "deep house per un po', energia bassa", "labels": {"genre": "include", "strategy": "chill", "temporary": "yes"}}
+{"text": "per le prossime 2 canzoni solo pop e cambi veloci", "labels": {"genre": "include", "bars": "short", "temporary": "yes"}}
+{"text": "solo drum and bass, tagli a raffica stile LUM!X", "labels": {"genre": "include", "style": "rapid"}}
+{"text": "un paio di pezzi trap e poi torna normale", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo afro per un po' e scambia i bassi nei mix", "labels": {"genre": "include", "style": "bassswap", "temporary": "yes"}}
+{"text": "metti solo disco e funk tra 115 e 120 bpm", "labels": {"genre": "include"}}
+{"text": "per un paio di pezzi solo latin, e vai a onde su e giù", "labels": {"genre": "include", "strategy": "wave", "temporary": "yes"}}
+{"text": "soltanto tech house da qui a fine serata", "labels": {"genre": "include"}}
+{"text": "x i prox 3 pezzi solo techno", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "x un po solo deep", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo commerciale pr i prossimi 2 brani", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "basta con il reggaeton, davvero", "labels": {"genre": "exclude"}}
+{"text": "lascia perdere la trap stasera", "labels": {"genre": "exclude"}}
+{"text": "non se ne può più di commerciale", "labels": {"genre": "exclude"}}
+{"text": "zero edm grazie", "labels": {"genre": "exclude"}}
+{"text": "evita la techno per il prossimo brano", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "techno no grazie", "labels": {"genre": "exclude"}}
+{"text": "per un po' niente hip hop", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "nn ne posso piu della tech house", "labels": {"genre": "exclude"}}
+{"text": "basta trance x favore", "labels": {"genre": "exclude"}}
+{"text": "stasera niente rap, per tutta la serata", "labels": {"genre": "exclude"}}
+{"text": "evita drum and bass, è troppo veloce per questa gente", "labels": {"genre": "exclude"}}
+{"text": "levami il commerciale per un paio di brani", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "per un po' evita la roba anni 80", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "no techno fino alle due", "labels": {"genre": "exclude"}}
+{"text": "stop con la minimal che la pista si svuota", "labels": {"genre": "exclude"}}
+{"text": "evita i pezzi reggaeton per un po'", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "basta tech house pls", "labels": {"genre": "exclude"}}
+{"text": "commerciale no grazie, siamo in un club", "labels": {"genre": "exclude"}}
+{"text": "hai ragione, lascia perdere la dance", "labels": {"genre": "exclude"}}
+{"text": "via la trap per i prossimi pezzi", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "per il prossimo pezzo niente house", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "evita il latin, grazie mille", "labels": {"genre": "exclude"}}
+{"text": "via la dance commerciale", "labels": {"genre": "exclude"}}
+{"text": "lascia stare il revival, non è il pubblico giusto", "labels": {"genre": "exclude"}}
+{"text": "ancora trance?? basta", "labels": {"genre": "exclude"}}
+{"text": "niente anni 90 per i prossimi tre pezzi", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "ahò basta co' sta minimal", "labels": {"genre": "exclude"}}
+{"text": "belin, ancora reggaeton? toglilo", "labels": {"genre": "exclude"}}
+{"text": "no hip hop please, it's a house party", "labels": {"genre": "exclude"}}
+{"text": "senza techno per un po', e abbassa l'energia", "labels": {"genre": "exclude", "strategy": "chill", "temporary": "yes"}}
+{"text": "niente pop per 2 pezzi e alza l'energia", "labels": {"genre": "exclude", "strategy": "rise", "temporary": "yes"}}
+{"text": "evita la trap e fai passaggi più corti", "labels": {"genre": "exclude", "bars": "short"}}
+{"text": "la drum and bass lasciala perdere fino a mezzanotte", "labels": {"genre": "exclude"}}
+{"text": "non se ne può più di sta dance anni 90, per un paio di pezzi evitala", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "mettici anche un po' di disco", "labels": {"genre": "add"}}
+{"text": "aggiungi qualche pezzo funk ogni tanto", "labels": {"genre": "add"}}
+{"text": "metti un po' di latin in mezzo alla house", "labels": {"genre": "add"}}
+{"text": "aggiungi un pizzico di nu disco al mix", "labels": {"genre": "add"}}
+{"text": "metti pure un po' di anni 80 se ci stanno", "labels": {"genre": "add"}}
+{"text": "un po' di afro in aggiunta ci starebbe bene", "labels": {"genre": "add"}}
+{"text": "mettici dentro anche qualche pezzo reggaeton, la gente lo chiede", "labels": {"genre": "add"}}
+{"text": "Metti anche un po' di pop ogni tanto, per alleggerire", "labels": {"genre": "add"}}
+{"text": "aggiungi anche della house, non solo techno", "labels": {"genre": "add"}}
+{"text": "un po' di reggaeton ci sta ma solo per 2 pezzi", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "dai mettici dentro un po' di hip hop", "labels": {"genre": "add"}}
+{"text": "va bene qualsiasi genere adesso", "labels": {"genre": "clear"}}
+{"text": "togli i filtri sui generi", "labels": {"genre": "clear"}}
+{"text": "ok ora suona di tutto, genere libero", "labels": {"genre": "clear"}}
+{"text": "qualunque genere va bene, decidi tu", "labels": {"genre": "clear"}}
+{"text": "puoi tornare a mischiare i generi", "labels": {"genre": "clear"}}
+{"text": "gira su qualsiasi genere, non importa", "labels": {"genre": "clear"}}
+{"text": "niente più generi fissi", "labels": {"genre": "clear"}}
+{"text": "Ok torniamo a tutti i generi, anche il commerciale va bene", "labels": {"genre": "clear"}}
+{"text": "torna al genere libero dopo questo pezzo", "labels": {"genre": "clear"}}
+{"text": "per i prossimi tre pezzi fai tagli netti", "labels": {"style": "cut", "temporary": "yes"}}
+{"text": "solo per un paio di canzoni alza l'energia", "labels": {"strategy": "rise", "temporary": "yes"}}
+{"text": "per il prossimo brano fai una sfumatura lunga", "labels": {"style": "fade", "bars": "long", "temporary": "yes"}}
+{"text": "per un po' tienila tranquilla", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "per un po' vai a onde, su e giù", "labels": {"strategy": "wave", "temporary": "yes"}}
+{"text": "solo bombe per i prossimi 2", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "per i prossimi quattro brani mixa col filtro", "labels": {"style": "filter", "temporary": "yes"}}
+{"text": "per un paio di pezzi usa l'echo in uscita", "labels": {"style": "echo", "temporary": "yes"}}
+{"text": "prossimi 3 pezzi: bass swap e 32 battute", "labels": {"style": "bassswap", "bars": "long", "temporary": "yes"}}
+{"text": "per un po' transizioni corte, 8 battute", "labels": {"bars": "short", "temporary": "yes"}}
+{"text": "per le prossime due tracce stile LUM!X, tagli a raffica", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "per un pezzo o due fai il remix live con loop e filtri", "labels": {"remix": "on", "temporary": "yes"}}
+{"text": "per un paio di brani niente remix live", "labels": {"remix": "off", "temporary": "yes"}}
+{"text": "per il prossimo mix resta al nuovo bpm", "labels": {"returnTempo": "off", "temporary": "yes"}}
+{"text": "per un po' suona solo la mia coda", "labels": {"mode": "queue", "temporary": "yes"}}
+{"text": "per i prossimi tre scegli tu i pezzi, poi torna alla mia lista", "labels": {"mode": "ai", "temporary": "yes"}}
+{"text": "attiva i mashup automatici per un po'", "labels": {"mashupOpt": "on", "temporary": "yes"}}
+{"text": "per un paio di pezzi spegni i mashup automatici", "labels": {"mashupOpt": "off", "temporary": "yes"}}
+{"text": "mix lunghissimi per i prossimi due, 64 battute", "labels": {"bars": "verylong", "temporary": "yes"}}
+{"text": "per un po' tieni l'energia com'è", "labels": {"strategy": "steady", "temporary": "yes"}}
+{"text": "stile techno per i prossimi 3 mix", "labels": {"style": "model-techno", "temporary": "yes"}}
+{"text": "per 2 pezzi fai lo stile Gabry Ponte", "labels": {"style": "model", "temporary": "yes"}}
+{"text": "per il prossimo passaggio scegli tu come mixare", "labels": {"style": "auto", "temporary": "yes"}}
+{"text": "solo per questo mix usa il filtro", "labels": {"style": "filter", "temporary": "yes"}}
+{"text": "fino a mezzanotte tienila calma", "labels": {"strategy": "chill"}}
+{"text": "da mezzanotte in poi solo bombe", "labels": {"strategy": "peak"}}
+{"text": "per tutta la serata transizioni lunghe", "labels": {"bars": "long"}}
+{"text": "fino alle due fai un crescendo", "labels": {"strategy": "rise"}}
+{"text": "da ora in avanti tagli netti", "labels": {"style": "cut"}}
+{"text": "per il resto della serata niente mashup automatici", "labels": {"mashupOpt": "off"}}
+{"text": "fino a mezzanotte solo musica dance, poi vediamo", "labels": {"genre": "include"}}
+{"text": "fino all'una niente techno", "labels": {"genre": "exclude"}}
+{"text": "dalle due in poi aggiungi un po' di techno", "labels": {"genre": "add"}}
+{"text": "afro house, mix col bass swap, tra 120 e 123", "labels": {"genre": "include", "style": "bassswap"}}
+{"text": "techno pesante e tagli sul beat", "labels": {"genre": "include", "style": "cut"}}
+{"text": "disco e nu disco con dissolvenze morbide", "labels": {"genre": "include", "style": "fade"}}
+{"text": "solo trance e passaggi con l'echo", "labels": {"genre": "include", "style": "echo"}}
+{"text": "progressive, filtro nei passaggi e sali piano", "labels": {"genre": "include", "style": "filter", "strategy": "rise"}}
+{"text": "tech house a ondate, alterna pezzi forti e più soft", "labels": {"genre": "include", "strategy": "wave"}}
+{"text": "commerciale a raffica, pezzi cortissimi uno dopo l'altro", "labels": {"genre": "include", "style": "rapid"}}
+{"text": "niente edm e mix più lunghi", "labels": {"genre": "exclude", "bars": "long"}}
+{"text": "zero reggaeton e mantieni l'energia", "labels": {"genre": "exclude", "strategy": "steady"}}
+{"text": "evita trap, e tieni tutto più chill", "labels": {"genre": "exclude", "strategy": "chill"}}
+{"text": "aggiungi un po' di funk e sfuma dolce", "labels": {"genre": "add", "style": "fade"}}
+{"text": "un po' di disco in aggiunta e crescendo verso l'una", "labels": {"genre": "add", "strategy": "rise"}}
+{"text": "genere libero ma solo pezzi fortissimi", "labels": {"genre": "clear", "strategy": "peak"}}
+{"text": "tutti i generi vanno bene, passaggi da 8 battute", "labels": {"genre": "clear", "bars": "short"}}
+{"text": "qualsiasi genere, tu mixa come vuoi", "labels": {"genre": "clear", "style": "auto"}}
+{"text": "passiamo alla techno", "labels": {"genre": "include"}}
+{"text": "cambiamo genere: vai sulla deep", "labels": {"genre": "include"}}
+{"text": "adesso voglio latin", "labels": {"genre": "include"}}
+{"text": "mi metti della disco per i prossimi 2?", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "hai della drum and bass? mettila per un po'", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "si passa all'hip hop per un paio di tracce", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "vai tutto sulla minimal", "labels": {"genre": "include"}}
+{"text": "resta sulla house", "labels": {"genre": "include"}}
+{"text": "rimani su tech house tra 125 e 128", "labels": {"genre": "include"}}
+{"text": "focus sull'afro house", "labels": {"genre": "include"}}
+{"text": "mood italo disco, only", "labels": {"genre": "include"}}
+{"text": "mi piacerebbe sentire solo pezzi reggaeton adesso", "labels": {"genre": "include"}}
+{"text": "potresti mettere soltanto trance?", "labels": {"genre": "include"}}
+{"text": "trap e rap e basta per i prossimi 3 brani", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "toglimi la techno", "labels": {"genre": "exclude"}}
+{"text": "non voglio sentire commerciale", "labels": {"genre": "exclude"}}
+{"text": "escludi la drum and bass", "labels": {"genre": "exclude"}}
+{"text": "mai più edm stasera", "labels": {"genre": "exclude"}}
+{"text": "basta anni 90, abbiamo dato", "labels": {"genre": "exclude"}}
+{"text": "smettila con l'hip hop", "labels": {"genre": "exclude"}}
+{"text": "per 3 pezzi niente latin", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "ti prego niente pop", "labels": {"genre": "exclude"}}
+{"text": "la tech house ha stancato, via", "labels": {"genre": "exclude"}}
+{"text": "evita progressive per le prossime 2", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "disco basta, per un po'", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "con la trance abbiamo chiuso", "labels": {"genre": "exclude"}}
+{"text": "non mettere trap nemmeno per sbaglio", "labels": {"genre": "exclude"}}
+{"text": "ogni tanto buttaci un pezzo latin", "labels": {"genre": "add"}}
+{"text": "inserisci anche qualche traccia afro", "labels": {"genre": "add"}}
+{"text": "allarga un po' anche alla deep house", "labels": {"genre": "add"}}
+{"text": "oltre alla house metti anche un po' di tech house", "labels": {"genre": "add"}}
+{"text": "puoi aggiungere un po' di italo disco?", "labels": {"genre": "add"}}
+{"text": "ci sta anche un pezzo hip hop ogni tanto", "labels": {"genre": "add"}}
+{"text": "un tocco di funk in più", "labels": {"genre": "add"}}
+{"text": "mischia con un po' di anni 80", "labels": {"genre": "add"}}
+{"text": "includi anche la trance nel giro", "labels": {"genre": "add"}}
+{"text": "aggiungi un po' di edm per i prossimi pezzi", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "anche un po' di minimal per un paio di brani", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "reset dei generi", "labels": {"genre": "clear"}}
+{"text": "libera tutti i generi", "labels": {"genre": "clear"}}
+{"text": "non mi interessa il genere, basta che si balli", "labels": {"genre": "clear"}}
+{"text": "cancella il filtro reggaeton", "labels": {"genre": "clear"}}
+{"text": "genere: qualsiasi", "labels": {"genre": "clear"}}
+{"text": "dimentica quello che ho detto sui generi", "labels": {"genre": "clear"}}
+{"text": "ok la techno ha finito, torna a tutto", "labels": {"genre": "clear"}}
+{"text": "any genre, fai tu", "labels": {"genre": "clear"}}
+{"text": "per i prossimi 2 brani fai tutti i generi, poi torni alla house", "labels": {"genre": "clear", "temporary": "yes"}}
+{"text": "per un po' lascia perdere i filtri di genere", "labels": {"genre": "clear", "temporary": "yes"}}
+{"text": "fai partire il set", "labels": {"control": "start"}}
+{"text": "vai, parti con la musica", "labels": {"control": "start"}}
+{"text": "accendi l'AI DJ e scegli tu i pezzi", "labels": {"control": "start", "mode": "ai"}}
+{"text": "start!", "labels": {"control": "start"}}
+{"text": "ferma tutto", "labels": {"control": "stop"}}
+{"text": "stop, spegni l'ai dj", "labels": {"control": "stop"}}
+{"text": "stacca tutto, abbiamo finito", "labels": {"control": "stop"}}
+{"text": "fermati un attimo che c'è il discorso degli sposi", "labels": {"control": "stop"}}
+{"text": "cambia adesso, questo pezzo non va", "labels": {"control": "mixNow"}}
+{"text": "togli sta traccia, mixa ora", "labels": {"control": "mixNow"}}
+{"text": "next! questo è moscio", "labels": {"control": "mixNow"}}
+{"text": "mixa adesso con un taglio secco", "labels": {"control": "mixNow", "style": "cut"}}
+{"text": "cambia ora e fai il passaggio col filtro", "labels": {"control": "mixNow", "style": "filter"}}
+{"text": "la prossima che hai preparato non mi piace, cambiala", "labels": {"control": "skip"}}
+{"text": "sostituisci il pezzo che viene dopo", "labels": {"control": "skip"}}
+{"text": "quello in arrivo no, trovane un altro", "labels": {"control": "skip"}}
+{"text": "chiudi dopo questa", "labels": {"control": "endAfterCurrent"}}
+{"text": "questa è l'ultima, poi stop", "labels": {"control": "endAfterCurrent"}}
+{"text": "ultimo pezzo e chiudiamo", "labels": {"control": "endAfterCurrent"}}
+{"text": "dopo questo pezzo termina il set", "labels": {"control": "endAfterCurrent"}}
+{"text": "no aspetta non chiudere, continua", "labels": {"control": "resume"}}
+{"text": "continua a suonare, niente chiusura", "labels": {"control": "resume"}}
+{"text": "annulla la chiusura, la gente vuole ancora", "labels": {"control": "resume"}}
+{"text": "altri pezzi! non finire", "labels": {"control": "resume"}}
+{"text": "metti Golden Hour in coda", "labels": {"queue": "add"}}
+{"text": "aggiungi Night Drive di Nova Reyes alla coda", "labels": {"queue": "add"}}
+{"text": "in coda anche Northern Lights", "labels": {"queue": "add"}}
+{"text": "mettimi Paradise City in lista", "labels": {"queue": "add"}}
+{"text": "dopo questa metti Low Tide", "labels": {"queue": "playNext"}}
+{"text": "la prossima deve essere Electric Dreams", "labels": {"queue": "playNext"}}
+{"text": "subito dopo Fuoco di Leo Marin", "labels": {"queue": "playNext"}}
+{"text": "fai suonare Mare Blu come prossimo pezzo", "labels": {"queue": "playNext"}}
+{"text": "togli Summer Rain dalla coda", "labels": {"queue": "remove"}}
+{"text": "Glass City levala dalla lista", "labels": {"queue": "remove"}}
+{"text": "rimuovi Weightless dalla coda per favore", "labels": {"queue": "remove"}}
+{"text": "svuota la coda", "labels": {"queue": "clear"}}
+{"text": "cancella tutta la lista", "labels": {"queue": "clear"}}
+{"text": "pulisci la coda e scegli tu", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "mescola la coda", "labels": {"queue": "shuffle"}}
+{"text": "shuffle della lista pls", "labels": {"queue": "shuffle"}}
+{"text": "mischia l'ordine dei pezzi in coda", "labels": {"queue": "shuffle"}}
+{"text": "aggiungi Open Water e Sunday Motion alla coda", "labels": {"queue": "add"}}
+{"text": "in coda Estate di Aurelia Vance, e mixa più corto", "labels": {"queue": "add", "bars": "short"}}
+{"text": "cosa sta suonando?", "labels": {"info": "now"}}
+{"text": "che pezzo è questo?", "labels": {"info": "now"}}
+{"text": "titolo di sta traccia??", "labels": {"info": "now"}}
+{"text": "cosa metti dopo?", "labels": {"info": "next"}}
+{"text": "quando mixi?", "labels": {"info": "next"}}
+{"text": "tra quanto cambi traccia?", "labels": {"info": "next"}}
+{"text": "perché hai scelto questo pezzo?", "labels": {"info": "why"}}
+{"text": "come mai questa traccia?", "labels": {"info": "why"}}
+{"text": "perche proprio questa", "labels": {"info": "why"}}
+{"text": "cosa c'è in coda?", "labels": {"info": "queue"}}
+{"text": "fammi vedere i pezzi che ho in coda", "labels": {"info": "queue"}}
+{"text": "quanti pezzi ho in coda?", "labels": {"info": "queue"}}
+{"text": "come sei impostato adesso?", "labels": {"info": "settings"}}
+{"text": "riassumi le impostazioni", "labels": {"info": "settings"}}
+{"text": "che strategia stai usando?", "labels": {"info": "settings"}}
+{"text": "stai filtrando qualche genere?", "labels": {"info": "settings"}}
+{"text": "hai qualche filtro di genere attivo in questo momento?", "labels": {"info": "settings"}}
+{"text": "cosa sai fare?", "labels": {"info": "help"}}
+{"text": "aiuto, come ti uso?", "labels": {"info": "help"}}
+{"text": "help", "labels": {"info": "help"}}
+{"text": "che comandi capisci?", "labels": {"info": "help"}}
+{"text": "posso chiederti di mettere solo un genere? come funziona", "labels": {"info": "help"}}
+{"text": "crea una scaletta house in crescendo", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "preparami un set di un'ora", "labels": {"set": "build"}}
+{"text": "fammi una playlist per l'aperitivo, roba lounge e tranquilla", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "costruisci una scaletta per la festa, niente reggaeton", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "prepara un set techno che sale fino al picco", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "mi fai una setlist anni 80 e 90?", "labels": {"set": "build", "genre": "include"}}
+{"text": "scaletta per il matrimonio, commerciale e dance", "labels": {"set": "build", "genre": "include"}}
+{"text": "fammi un mashup", "labels": {"mashup": "auto"}}
+{"text": "dai un mashup a sorpresa, scegli tu", "labels": {"mashup": "auto"}}
+{"text": "mashup con la voce di Golden Hour sulla base di Night Drive", "labels": {"mashup": "explicit"}}
+{"text": "prendi l'acappella di Moonlight e mettila sopra lo strumentale di Parallel", "labels": {"mashup": "explicit"}}
+{"text": "voglio un mashup tra Fuoco e Estate: voce di Fuoco, base di Estate", "labels": {"mashup": "explicit"}}
+{"text": "attiva i mashup automatici", "labels": {"mashupOpt": "on"}}
+{"text": "spegni i mashup automatici", "labels": {"mashupOpt": "off"}}
+{"text": "niente mashup stasera", "labels": {"mashupOpt": "off"}}
+{"text": "fammi vedere la console", "labels": {"view": "console"}}
+{"text": "torna alla schermata ai", "labels": {"view": "ai"}}
+{"text": "passa alla vista console", "labels": {"view": "console"}}
+{"text": "apri la vista AI", "labels": {"view": "ai"}}
+{"text": "scegli tu i pezzi", "labels": {"mode": "ai"}}
+{"text": "suona solo la mia coda", "labels": {"mode": "queue"}}
+{"text": "da ora usa solo la mia lista", "labels": {"mode": "queue"}}
+{"text": "fai tu, pesca dalla libreria", "labels": {"mode": "ai"}}
+{"text": "attiva il remix live", "labels": {"remix": "on"}}
+{"text": "fai loop ed effetti quando c'è un pezzo solo", "labels": {"remix": "on"}}
+{"text": "spegni il remix dal vivo", "labels": {"remix": "off"}}
+{"text": "basta loop e filtri sulle tracce, lasciale pulite", "labels": {"remix": "off"}}
+{"text": "dopo il mix torna al bpm originale del pezzo", "labels": {"returnTempo": "on"}}
+{"text": "resta al nuovo bpm dopo il passaggio", "labels": {"returnTempo": "off"}}
+{"text": "rimetti il tempo originale dopo ogni mix", "labels": {"returnTempo": "on"}}
+{"text": "non tornare al tempo originale, tieni quello", "labels": {"returnTempo": "off"}}
+{"text": "tieni questa energia", "labels": {"strategy": "steady"}}
+{"text": "alza l'energia", "labels": {"strategy": "rise"}}
+{"text": "alterna momenti carichi e momenti tranquilli", "labels": {"strategy": "wave"}}
+{"text": "calma un po'", "labels": {"strategy": "chill"}}
+{"text": "solo bangers adesso", "labels": {"strategy": "peak"}}
+{"text": "massima energia, fuoco!", "labels": {"strategy": "peak"}}
+{"text": "transizioni più lunghe", "labels": {"bars": "long"}}
+{"text": "mixa più corto", "labels": {"bars": "short"}}
+{"text": "passaggi di 64 battute", "labels": {"bars": "verylong"}}
+{"text": "transizioni da 16 battute", "labels": {}}
+{"text": "scambia i bassi quando mixi", "labels": {"style": "bassswap"}}
+{"text": "usa il filtro nei passaggi", "labels": {"style": "filter"}}
+{"text": "chiudi i pezzi con l'echo", "labels": {"style": "echo"}}
+{"text": "sfuma dolce", "labels": {"style": "fade"}}
+{"text": "tagli secchi sul beat", "labels": {"style": "cut"}}
+{"text": "mixa come vuoi tu", "labels": {"style": "auto"}}
+{"text": "stile Gabry Ponte", "labels": {"style": "model"}}
+{"text": "mixa in stile techno", "labels": {"style": "model-techno"}}
+{"text": "tagli a raffica tipo LUM!X", "labels": {"style": "rapid"}}
+{"text": "la gente balla", "labels": {}}
+{"text": "è mezzanotte", "labels": {}}
+{"text": "che bella serata", "labels": {}}
+{"text": "pista piena ragazzi", "labels": {}}
+{"text": "sta arrivando la torta", "labels": {}}
+{"text": "il locale chiude alle 4", "labels": {}}
+{"text": "sono arrivati gli sposi", "labels": {}}
+{"text": "mamma mia che caldo qui dentro", "labels": {}}
+{"text": "stanno impazzendo tutti sul drop", "labels": {}}
+{"text": "questo pezzo lo conosco!", "labels": {}}
+{"text": "tra poco arriva il vocalist", "labels": {}}
+{"text": "la sala è ancora mezza vuota", "labels": {}}
+{"text": "i ragazzi al tavolo 5 cantano tutto", "labels": {}}
+{"text": "fra dieci minuti c'è il brindisi", "labels": {}}
+{"text": "vediamo come va", "labels": {}}
+{"text": "interessante questa scelta", "labels": {}}
+{"text": "la techno qui piace tantissimo", "labels": {}}
+{"text": "l'anno scorso qui andava forte il reggaeton", "labels": {}}
+{"text": "io da ragazzo ascoltavo solo italo disco", "labels": {}}
+{"text": "la house è il mio genere preferito", "labels": {}}
+{"text": "ieri il DJ prima di me ha messo solo commerciale per tre ore", "labels": {}}
+{"text": "il pubblico è misto, giovani e meno giovani", "labels": {}}
+{"text": "siamo a 124 bpm più o meno", "labels": {}}
+{"text": "la vibe è perfetta stasera", "labels": {}}
+{"text": "sti ragazzi sono fuori di testa lol", "labels": {}}
+{"text": "alza il volume", "labels": {}}
+{"text": "abbassa un po' il volume che si lamentano i vicini", "labels": {}}
+{"text": "metti il microfono", "labels": {}}
+{"text": "accendi le luci stroboscopiche", "labels": {}}
+{"text": "attiva la macchina del fumo", "labels": {}}
+{"text": "dammi il microfono che faccio un annuncio", "labels": {}}
+{"text": "volume a palla!", "labels": {}}
+{"text": "ciao!", "labels": {"talk": "hello"}}
+{"text": "buonasera Segueo", "labels": {"talk": "hello"}}
+{"text": "ehi ci sei?", "labels": {"talk": "hello"}}
+{"text": "uè bella", "labels": {"talk": "hello"}}
+{"text": "hola", "labels": {"talk": "hello"}}
+{"text": "ciao Segueo, pronta per stasera?", "labels": {"talk": "hello"}}
+{"text": "grazie!", "labels": {"talk": "thanks"}}
+{"text": "bravissimo, grande mix", "labels": {"talk": "thanks"}}
+{"text": "top quel passaggio", "labels": {"talk": "thanks"}}
+{"text": "sei un grande", "labels": {"talk": "thanks"}}
+{"text": "grazie mille, perfetto così", "labels": {"talk": "thanks"}}
+{"text": "che banger, complimenti per la scelta", "labels": {"talk": "thanks"}}
+{"text": "perfetta la transizione, grazie", "labels": {"talk": "thanks"}}
+{"text": "che tempo fa domani?", "labels": {"talk": "offtopic"}}
+{"text": "scrivimi una poesia", "labels": {"talk": "offtopic"}}
+{"text": "quanto fa 12 per 8?", "labels": {"talk": "offtopic"}}
+{"text": "chi ha vinto la partita ieri?", "labels": {"talk": "offtopic"}}
+{"text": "ordinami una pizza", "labels": {"talk": "offtopic"}}
+{"text": "mi consigli un ristorante a Milano?", "labels": {"talk": "offtopic"}}
+{"text": "raccontami una barzelletta", "labels": {"talk": "offtopic"}}
+{"text": "non superare i 128 bpm", "labels": {}}
+{"text": "resta tra 120 e 124 bpm", "labels": {}}
+{"text": "tieni i bpm sui 125", "labels": {}}
+{"text": "sotto i 110 bpm per favore", "labels": {}}
+{"text": "massimo 130 bpm", "labels": {}}
+{"text": "parti con la house e fai un crescendo", "labels": {"control": "start", "genre": "include", "strategy": "rise"}}
+{"text": "fai partire il set, solo techno, tagli sul beat", "labels": {"control": "start", "genre": "include", "style": "cut"}}
+{"text": "basta reggaeton, cambia subito questo pezzo", "labels": {"genre": "exclude", "control": "mixNow"}}
+{"text": "questa trap toglila adesso e niente più trap", "labels": {"control": "mixNow", "genre": "exclude"}}
+{"text": "la prossima è reggaeton? cambiala e niente reggaeton per un po'", "labels": {"control": "skip", "genre": "exclude", "temporary": "yes"}}
+{"text": "perché hai messo trap?", "labels": {"info": "why"}}
+{"text": "scegli tu, ma solo house", "labels": {"mode": "ai", "genre": "include"}}
+{"text": "metti Golden Hour in coda e poi vai solo di deep house", "labels": {"queue": "add", "genre": "include"}}
+{"text": "mashup automatici on e aggiungi un po' di pop", "labels": {"mashupOpt": "on", "genre": "add"}}
+{"text": "solo techno e remix live acceso", "labels": {"genre": "include", "remix": "on"}}
+{"text": "solo house e dopo ogni mix torna al tempo originale", "labels": {"genre": "include", "returnTempo": "on"}}
+{"text": "chiudi dopo questa, e intanto sfuma lento", "labels": {"control": "endAfterCurrent", "style": "fade"}}
+{"text": "cosa sta suonando adesso di preciso?", "labels": {"info": "now"}}
+{"text": "cosa suoni dopo? mettimi Afterglow come prossima", "labels": {"info": "next", "queue": "playNext"}}
+{"text": "togli Parallel dalla coda, non la voglio", "labels": {"queue": "remove"}}
+{"text": "svuota la coda e passa in modalità AI", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "mescola la lista e suona solo quella", "labels": {"queue": "shuffle", "mode": "queue"}}
+{"text": "fammi un mashup e poi alza l'energia", "labels": {"mashup": "auto", "strategy": "rise"}}
+{"text": "voce di Northern Lights sulla base di Low Tide, mashup ora", "labels": {"mashup": "explicit"}}
+{"text": "passa alla console e ferma tutto", "labels": {"view": "console", "control": "stop"}}
+{"text": "torna alla vista AI e dimmi cosa stai suonando", "labels": {"view": "ai", "info": "now"}}
+{"text": "remix live off e transizioni più lunghe", "labels": {"remix": "off", "bars": "long"}}
+{"text": "torna al bpm originale dopo il mix e usa il bass swap", "labels": {"returnTempo": "on", "style": "bassswap"}}
+{"text": "resta al nuovo tempo e fai passaggi col filtro", "labels": {"returnTempo": "off", "style": "filter"}}
+{"text": "alterna alti e bassi con tagli netti", "labels": {"strategy": "wave", "style": "cut"}}
+{"text": "tieni l'energia costante e sfuma morbido", "labels": {"strategy": "steady", "style": "fade"}}
+{"text": "crescendo con mix di 32 battute", "labels": {"strategy": "rise", "bars": "long"}}
+{"text": "calmati e fai transizioni lunghissime", "labels": {"strategy": "chill", "bars": "verylong"}}
+{"text": "solo pezzi potentissimi e tagli rapidi stile LUM!X", "labels": {"strategy": "peak", "style": "rapid"}}
+{"text": "modalità coda, e mixa in stile Gabry Ponte", "labels": {"mode": "queue", "style": "model"}}
+{"text": "scegli tu i pezzi e anche come mixare", "labels": {"mode": "ai", "style": "auto"}}
+{"text": "fai partire tutto e attiva i mashup automatici", "labels": {"control": "start", "mashupOpt": "on"}}
+{"text": "come stai mixando? filtro o bass swap?", "labels": {"info": "settings"}}
+{"text": "che fai dopo questo? mixi presto?", "labels": {"info": "next"}}
+{"text": "come mai hai cambiato genere?", "labels": {"info": "why"}}
+{"text": "che cosa puoi fare con i generi?", "labels": {"info": "help"}}
+{"text": "mi dici cosa c'è in lista e se ci sono pezzi house?", "labels": {"info": "queue"}}
+{"text": "Per una manciata di pezzi fammi sentire la tech house", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "3-4 pezzi di afro e poi decidi tu", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "giusto un paio di tracce di italo disco per i nostalgici", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "per un pochino solo deep, poi riprendi come prima", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo per il prossimo pezzo un classico anni 80", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "dai un giro di reggaeton, due pezzi massimo", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "le prossime tre tutte trance", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "vorrei che per i prossimi brani suonassi solo techno melodica, con passaggi lunghi", "labels": {"genre": "include", "bars": "long", "temporary": "yes"}}
+{"text": "ok ragazzi adesso 3 pezzi di hip hop e poi si torna alla house", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "per un po' solo drum and bass e massima energia", "labels": {"genre": "include", "strategy": "peak", "temporary": "yes"}}
+{"text": "metti la disco per un paio di pezzi, transizioni col filtro", "labels": {"genre": "include", "style": "filter", "temporary": "yes"}}
+{"text": "per il pross brano fai minimal", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "una botta di edm per i prossimi due", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo latin per 2-3 canzoni, la sposa è argentina", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "Per le prossime quattro solo progressive, energia costante", "labels": {"genre": "include", "strategy": "steady", "temporary": "yes"}}
+{"text": "per un po' vai di trap sotto i 145 bpm", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "commerciale solo per questo giro di pezzi, poi torni alla house", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "per i prossimi 2 solo reggaeton e mashup automatici attivi", "labels": {"genre": "include", "mashupOpt": "on", "temporary": "yes"}}
+{"text": "voglio sentire un paio di pezzi di rap italiano e basta", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo anni 90 per un po', mix brevi", "labels": {"genre": "include", "bars": "short", "temporary": "yes"}}
+{"text": "prossimi 3: dance, stile Gabry Ponte, crescendo", "labels": {"genre": "include", "style": "model", "strategy": "rise", "temporary": "yes"}}
+{"text": "prossimi tre brani solo techno, mixati in stile techno", "labels": {"genre": "include", "style": "model-techno", "temporary": "yes"}}
+{"text": "per un po' mettiamo solo lounge, che servono la cena", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "fino al taglio della torta solo lounge", "labels": {"genre": "include"}}
+{"text": "Solo afro house finché non arriva il vocalist", "labels": {"genre": "include"}}
+{"text": "per stanotte solo house", "labels": {"genre": "include"}}
+{"text": "per un paio di pezzi evita la roba commerciale, voglio vedere come reagiscono", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "per le prossime 3 niente latin, grazie", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "stop reggaeton per un po'", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "no grazie alla trance, almeno per i prossimi due", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "evitami la minimal per qualche pezzo", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "non se ne può più di pop, levalo per un po'", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "zero dance anni 90 per il prossimo brano", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "lascia perdere l'edm, per sempre", "labels": {"genre": "exclude"}}
+{"text": "per tutta la sera evita l'hip hop", "labels": {"genre": "exclude"}}
+{"text": "sta techno ha rotto, niente techno", "labels": {"genre": "exclude"}}
+{"text": "no commerciale, qui vogliono roba underground", "labels": {"genre": "exclude"}}
+{"text": "evita il revival stasera, siamo in un club di giovani", "labels": {"genre": "exclude"}}
+{"text": "Evita disco e funk", "labels": {"genre": "exclude"}}
+{"text": "niente reggaeton ne latin", "labels": {"genre": "exclude"}}
+{"text": "zero hip hop, zero rap, zero trap", "labels": {"genre": "exclude"}}
+{"text": "basta italo disco, ci siamo capiti", "labels": {"genre": "exclude"}}
+{"text": "evita la deep, è troppo soft per quest'ora", "labels": {"genre": "exclude"}}
+{"text": "niente pop e alza un po' l'energia", "labels": {"genre": "exclude", "strategy": "rise"}}
+{"text": "no house per un po' e fai tagli netti", "labels": {"genre": "exclude", "style": "cut", "temporary": "yes"}}
+{"text": "evita la minimal per i prossimi 3 e fai mix più corti", "labels": {"genre": "exclude", "bars": "short", "temporary": "yes"}}
+{"text": "lascia perdere l'afro per un paio di brani e vai a onde", "labels": {"genre": "exclude", "strategy": "wave", "temporary": "yes"}}
+{"text": "aggiungi un po' di reggaeton per i prossimi 3", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "per un po' infila anche qualche pezzo funk", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "anche un po' di commerciale, giusto per le ragazze che lo chiedono", "labels": {"genre": "add"}}
+{"text": "puoi infilare qualche pezzo latin qua e là?", "labels": {"genre": "add"}}
+{"text": "allarga anche un po' alla progressive", "labels": {"genre": "add"}}
+{"text": "aggiungi qualche traccia melodic techno al mix", "labels": {"genre": "add"}}
+{"text": "oltre alla deep mettici anche dell'afro", "labels": {"genre": "add"}}
+{"text": "vorrei anche un po' di anni 90 ogni tanto", "labels": {"genre": "add"}}
+{"text": "ci metti anche qualcosa di nu disco?", "labels": {"genre": "add"}}
+{"text": "un pizzico di trap, poca eh", "labels": {"genre": "add"}}
+{"text": "aggiungi un po' di hip hop e alterna l'energia", "labels": {"genre": "add", "strategy": "wave"}}
+{"text": "mettici anche un po' di house e fai crescere", "labels": {"genre": "add", "strategy": "rise"}}
+{"text": "aggiungi qualche pezzo dance per un paio di brani, stile Gabry Ponte", "labels": {"genre": "add", "style": "model", "temporary": "yes"}}
+{"text": "un po' di edm in aggiunta, e tagli secchi", "labels": {"genre": "add", "style": "cut"}}
+{"text": "aggiungici qualche lounge ma solo per il prossimo pezzo", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "fine della parte techno, adesso genere libero", "labels": {"genre": "clear"}}
+{"text": "rimuovi tutti i filtri di genere e alza l'energia", "labels": {"genre": "clear", "strategy": "rise"}}
+{"text": "togli la restrizione sulla house", "labels": {"genre": "clear"}}
+{"text": "genere indifferente, basta che spacchi", "labels": {"genre": "clear"}}
+{"text": "ok basta limiti di genere", "labels": {"genre": "clear"}}
+{"text": "puoi suonare qualsiasi cosa da adesso", "labels": {"genre": "clear"}}
+{"text": "fai tutti i generi ma resta sotto i 128", "labels": {"genre": "clear"}}
+{"text": "annulla il filtro sul latin", "labels": {"genre": "clear"}}
+{"text": "va bene tutto come genere, ora mixa più lungo", "labels": {"genre": "clear", "bars": "long"}}
+{"text": "torna a pescare da tutti i generi e scegli tu i pezzi", "labels": {"genre": "clear", "mode": "ai"}}
+{"text": "per il prossimo paio di pezzi va bene qualsiasi genere", "labels": {"genre": "clear", "temporary": "yes"}}
+{"text": "cambia subito e niente più techno per un po'", "labels": {"control": "mixNow", "genre": "exclude", "temporary": "yes"}}
+{"text": "leva sto pezzo e vai di house", "labels": {"control": "mixNow", "genre": "include"}}
+{"text": "parti con solo lounge per un po'", "labels": {"control": "start", "genre": "include", "temporary": "yes"}}
+{"text": "avvia il set con un po' di afro in aggiunta", "labels": {"control": "start", "genre": "add"}}
+{"text": "cosa stai suonando? è techno? evitala", "labels": {"info": "now", "genre": "exclude"}}
+{"text": "perché ancora trap? avevo detto niente trap", "labels": {"info": "why", "genre": "exclude"}}
+{"text": "metti Neon Nights in coda e poi solo nu disco per un paio di pezzi", "labels": {"queue": "add", "genre": "include", "temporary": "yes"}}
+{"text": "suona solo la mia coda ma per un po' niente hip hop", "labels": {"mode": "queue", "genre": "exclude", "temporary": "yes"}}
+{"text": "prepara un set di un'ora solo afro house in crescendo", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "costruisci una scaletta di 20 pezzi di disco e funk, energia a onda", "labels": {"set": "build", "genre": "include", "strategy": "wave"}}
+{"text": "fammi un set lounge per la cena tra 100 e 115 bpm", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea una playlist da matrimonio, niente trap", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "mashup automatici on, e per i prossimi 3 solo pop", "labels": {"mashupOpt": "on", "genre": "include", "temporary": "yes"}}
+{"text": "ragazzi la pista si sta svuotando, per i prossimi tre pezzi solo reggaeton e latin che qui li adorano", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "ok la gente è cotta, per un paio di pezzi calma e deep house, poi si riparte", "labels": {"genre": "include", "strategy": "chill", "temporary": "yes"}}
+{"text": "senti Segueo, per i prossimi 4 pezzi voglio un giro di progressive house con blend da 32 battute, poi torni a quello che stavi facendo", "labels": {"genre": "include", "bars": "long", "temporary": "yes"}}
+{"text": "mi raccomando niente EDM tutta la sera, il proprietario la odia", "labels": {"genre": "exclude"}}
+{"text": "tra 122 e 126 bpm e solo tech house, fai salire", "labels": {"genre": "include", "strategy": "rise"}}
+{"text": "restiamo sui 120 bpm con la disco", "labels": {"genre": "include"}}
+{"text": "only techno bangers per i prossimi 3", "labels": {"genre": "include", "strategy": "peak", "temporary": "yes"}}
+{"text": "drop dopo drop, solo edm hype", "labels": {"genre": "include", "strategy": "peak"}}
+{"text": "vibe latina per un paio di tracks", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "blend lunghi e deep house, chill vibes", "labels": {"genre": "include", "bars": "long", "strategy": "chill"}}
+{"text": "no more trap bro", "labels": {"genre": "exclude"}}
+{"text": "add some funk, ci sta", "labels": {"genre": "add"}}
+{"text": "any genre ok, just keep the hype", "labels": {"genre": "clear", "strategy": "steady"}}
+{"text": "sollo house x 2 pezzi", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "basat reggaeton", "labels": {"genre": "exclude"}}
+{"text": "aggiungi un po di funck", "labels": {"genre": "add"}}
+{"text": "evita la tecno per un po", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "qualsiasi genere va bne", "labels": {"genre": "clear"}}
+{"text": "solo trans per i prossimi tre", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "niente hiphop", "labels": {"genre": "exclude"}}
+{"text": "per 2 pezzi soli metti tecno minimal e poi basta", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "voglio un crescendo di tech house tra 124 e 128 per i prossimi 5 brani", "labels": {"genre": "include", "strategy": "rise", "temporary": "yes"}}
+{"text": "dai che la xe ora de techno, solo quela", "labels": {"genre": "include"}}
+{"text": "icché tu metti? solo house per piacere", "labels": {"genre": "include"}}
+{"text": "famme sentì 'n po' de disco, pe' 'na coppia de pezzi", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "ue' Segueo, basta cu 'sta trap", "labels": {"genre": "exclude"}}
+{"text": "per il prossimo brano metti afro house e fai il passaggio con l'echo", "labels": {"genre": "include", "style": "echo", "temporary": "yes"}}
+{"text": "per un po' drum and bass, taglia secco sul beat", "labels": {"genre": "include", "style": "cut", "temporary": "yes"}}
+{"text": "due pezzi di anni 80 con dissolvenza lunga", "labels": {"genre": "include", "style": "fade", "bars": "long", "temporary": "yes"}}
+{"text": "Italo disco per i prossimi tre con bass swap", "labels": {"genre": "include", "style": "bassswap", "temporary": "yes"}}
+{"text": "per un po' tech house e remix live acceso, loop e filtri", "labels": {"genre": "include", "remix": "on", "temporary": "yes"}}
+{"text": "solo per i prossimi due brani resta al nuovo bpm e metti techno", "labels": {"returnTempo": "off", "genre": "include", "temporary": "yes"}}
+{"text": "per un paio di pezzi scegli tu i brani, ma solo hip hop", "labels": {"mode": "ai", "genre": "include", "temporary": "yes"}}
+{"text": "evita trance e edm per un po', la pista vuole groove", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "lascia perdere il commerciale per i prossimi 4 pezzi, la pista vuole underground", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "no grazie alla drum and bass, è presto", "labels": {"genre": "exclude"}}
+{"text": "per un po' anche un po' di disco nel mix", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "prossimi due brani: mettici anche un po' di reggaeton", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "qualsiasi genere per un paio di brani, poi vediamo", "labels": {"genre": "clear", "temporary": "yes"}}
+{"text": "house vocale per il prossimo paio di pezzi", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "tre tracce di melodic e poi rimetti tutto com'era", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "adesso qualcosa di hip hop, solo per il prossimo", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "per un po' tieni l'energia bassa e metti lounge o deep", "labels": {"genre": "include", "strategy": "chill", "temporary": "yes"}}
+{"text": "abbassa i giri per un paio di pezzi", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "facciamo salire la pista per i prossimi tre brani", "labels": {"strategy": "rise", "temporary": "yes"}}
+{"text": "per un paio di brani solo i pezzi più forti che hai", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "per il prossimo mix taglia di netto", "labels": {"style": "cut", "temporary": "yes"}}
+{"text": "giusto per il prossimo passaggio scambia i bassi", "labels": {"style": "bassswap", "temporary": "yes"}}
+{"text": "per un po' mix brevi, 8 battute max", "labels": {"bars": "short", "temporary": "yes"}}
+{"text": "per i prossimi due fai l'onda, uno carico e uno tranquillo", "labels": {"strategy": "wave", "temporary": "yes"}}
+{"text": "per un po' niente mashup automatici", "labels": {"mashupOpt": "off", "temporary": "yes"}}
+{"text": "solo per il prossimo passaggio torna al bpm originale", "labels": {"returnTempo": "on", "temporary": "yes"}}
+{"text": "fino a mezzanotte transizioni morbide", "labels": {"style": "fade"}}
+{"text": "fino a mezzanotte tieni l'energia così com'è", "labels": {"strategy": "steady"}}
+{"text": "dopo le due mixa in stile techno", "labels": {"style": "model-techno"}}
+{"text": "fino a mezzanotte niente trap, poi vediamo", "labels": {"genre": "exclude"}}
+{"text": "fino alla fine del buffet solo lounge e sfumature", "labels": {"genre": "include", "style": "fade"}}
+{"text": "per tutta la serata va bene qualsiasi genere", "labels": {"genre": "clear"}}
+{"text": "da qui in poi anche un po' di techno ogni tanto", "labels": {"genre": "add"}}
+{"text": "bpm tra 118 e 124, solo deep e afro", "labels": {"genre": "include"}}
+{"text": "stai sotto i 125 bpm e togli la techno", "labels": {"genre": "exclude"}}
+{"text": "sopra i 128 bpm, niente house lenta", "labels": {"genre": "exclude"}}
+{"text": "reggaeton tra 90 e 100 bpm, mettine un po' in aggiunta", "labels": {"genre": "add"}}
+{"text": "tieni 126 bpm fisso e va bene qualsiasi genere", "labels": {"genre": "clear"}}
+{"text": "trance con passaggi lunghissimi da 64 battute per un po'", "labels": {"genre": "include", "bars": "verylong", "temporary": "yes"}}
+{"text": "reggaeton a raffica, pezzi brevi uno dietro l'altro, per 3 brani", "labels": {"genre": "include", "style": "rapid", "temporary": "yes"}}
+{"text": "anni 90 dance stile Gabry Ponte fino a mezzanotte", "labels": {"genre": "include", "style": "model"}}
+{"text": "techno fino alla chiusura, mixata in stile techno", "labels": {"genre": "include", "style": "model-techno"}}
+{"text": "commerciale per un po' e tagli veloci sul beat", "labels": {"genre": "include", "style": "cut", "temporary": "yes"}}
+{"text": "funk e disco, sfumature lunghe, per un paio di pezzi", "labels": {"genre": "include", "style": "fade", "bars": "long", "temporary": "yes"}}
+{"text": "aggiungi della trap ma solo per un paio di pezzi e crescendo", "labels": {"genre": "add", "strategy": "rise", "temporary": "yes"}}
+{"text": "ferma la musica, c'è un problema all'ingresso", "labels": {"control": "stop"}}
+{"text": "riparti", "labels": {"control": "start"}}
+{"text": "rimetti in moto l'ai dj", "labels": {"control": "start"}}
+{"text": "cambia pezzo ORA", "labels": {"control": "mixNow"}}
+{"text": "questo pezzo è una noia, via", "labels": {"control": "mixNow"}}
+{"text": "il prossimo che hai scelto non va bene, scegline un altro", "labels": {"control": "skip"}}
+{"text": "cambia la traccia pronta come prossima, non quella che sta andando", "labels": {"control": "skip"}}
+{"text": "ultimo brano, poi si chiude il locale", "labels": {"control": "endAfterCurrent"}}
+{"text": "fai finire il set dopo questo pezzo", "labels": {"control": "endAfterCurrent"}}
+{"text": "aspetta, non chiudere ancora!", "labels": {"control": "resume"}}
+{"text": "mettimi in coda Afterglow di Silas Hart", "labels": {"queue": "add"}}
+{"text": "aggiungi Moonlight alla lista", "labels": {"queue": "add"}}
+{"text": "dopo questa suona Summer Rain", "labels": {"queue": "playNext"}}
+{"text": "come prossimo pezzo Paradise City di Jonah Wilde", "labels": {"queue": "playNext"}}
+{"text": "leva Electric Dreams dalla coda", "labels": {"queue": "remove"}}
+{"text": "via tutto dalla coda", "labels": {"queue": "clear"}}
+{"text": "chi è l'artista di questo pezzo?", "labels": {"info": "now"}}
+{"text": "quanto manca al prossimo mix?", "labels": {"info": "next"}}
+{"text": "perché hai messo sto pezzo lento?", "labels": {"info": "why"}}
+{"text": "che pezzi ci sono in coda adesso?", "labels": {"info": "queue"}}
+{"text": "dimmi le impostazioni attuali", "labels": {"info": "settings"}}
+{"text": "che stile di transizione stai usando?", "labels": {"info": "settings"}}
+{"text": "come funzioni?", "labels": {"info": "help"}}
+{"text": "prepara una scaletta per la serata", "labels": {"set": "build"}}
+{"text": "fammi un set per un compleanno di 50enni, anni 80 e 90", "labels": {"set": "build", "genre": "include"}}
+{"text": "buttaci un mashup automatico ogni tanto", "labels": {"mashupOpt": "on"}}
+{"text": "fai un mashup adesso con due pezzi a caso", "labels": {"mashup": "auto"}}
+{"text": "metti la voce di Weightless sopra la base di Glass City", "labels": {"mashup": "explicit"}}
+{"text": "mostra la console", "labels": {"view": "console"}}
+{"text": "vista ai per favore", "labels": {"view": "ai"}}
+{"text": "scegli tu cosa suonare", "labels": {"mode": "ai"}}
+{"text": "suona la mia playlist e basta", "labels": {"mode": "queue"}}
+{"text": "remix live acceso", "labels": {"remix": "on"}}
+{"text": "niente loop sulle tracce", "labels": {"remix": "off"}}
+{"text": "dopo il passaggio rimetti il bpm originale", "labels": {"returnTempo": "on"}}
+{"text": "grazie mille Segueo", "labels": {"talk": "thanks"}}
+{"text": "buonanotte a tutti", "labels": {"talk": "hello"}}
+{"text": "quanto costa un taxi per l'aeroporto?", "labels": {"talk": "offtopic"}}
+{"text": "prenotami un tavolo per domani sera", "labels": {"talk": "offtopic"}}
+{"text": "la gente sta cantando a squarciagola", "labels": {}}
+{"text": "il DJ ospite arriva all'una", "labels": {}}
+{"text": "metti le luci blu adesso", "labels": {}}
+{"text": "metti più riverbero sul microfono", "labels": {}}
+{"text": "ok capito", "labels": {}}

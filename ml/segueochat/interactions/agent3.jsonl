@@ -1,0 +1,625 @@
+{"text": "vai, fai partire la musica", "labels": {"control": "start"}}
+{"text": "accendi l ai dj", "labels": {"control": "start"}}
+{"text": "dai che si comincia!", "labels": {"control": "start"}}
+{"text": "parti tu con il set", "labels": {"control": "start"}}
+{"text": "avvia il dj automatico per favore", "labels": {"control": "start"}}
+{"text": "inizia a suonare", "labels": {"control": "start"}}
+{"text": "musica maestro!", "labels": {"control": "start"}}
+{"text": "ok siamo pronti, attacca", "labels": {"control": "start"}}
+{"text": "dai, fai partire la festa che la gente è arrivata", "labels": {"control": "start"}}
+{"text": "start", "labels": {"control": "start"}}
+{"text": "play", "labels": {"control": "start"}}
+{"text": "comincia pure, la sala è piena", "labels": {"control": "start"}}
+{"text": "lancia il set", "labels": {"control": "start"}}
+{"text": "puoi partire con la musica?", "labels": {"control": "start"}}
+{"text": "metti su un po' di musica", "labels": {"control": "start"}}
+{"text": "rimetti la musica, la pausa è finita", "labels": {"control": "start"}}
+{"text": "riaccendi la musica dopo i discorsi", "labels": {"control": "start"}}
+{"text": "partiamo col set, scegli tu i pezzi", "labels": {"control": "start", "mode": "ai"}}
+{"text": "avvia l'ai dj e suona solo la mia coda", "labels": {"control": "start", "mode": "queue"}}
+{"text": "parti con qualcosa di morbido per l'aperitivo", "labels": {"control": "start", "strategy": "chill"}}
+{"text": "fai partire la musica con della deep house tranquilla", "labels": {"control": "start", "genre": "include", "strategy": "chill"}}
+{"text": "attacca subito forte, tech house a manetta", "labels": {"control": "start", "genre": "include", "strategy": "peak"}}
+{"text": "inizia soft e poi cresci piano piano", "labels": {"control": "start", "strategy": "rise"}}
+{"text": "accendi e vai in crescendo tutta la sera", "labels": {"control": "start", "strategy": "rise"}}
+{"text": "via con la musica!", "labels": {"control": "start"}}
+{"text": "si parte! avvia", "labels": {"control": "start"}}
+{"text": "daje, falla partire", "labels": {"control": "start"}}
+{"text": "oh, parti che è tardi", "labels": {"control": "start"}}
+{"text": "accendi segueo e comincia a mixare", "labels": {"control": "start"}}
+{"text": "ok, puoi cominciare a suonare quando vuoi", "labels": {"control": "start"}}
+{"text": "fai partire l'ai dj con cambi lunghi e morbidi", "labels": {"control": "start", "bars": "long", "style": "fade"}}
+{"text": "avvia il set e metti Golden Hour per prima", "labels": {"control": "start", "queue": "playNext"}}
+{"text": "parti con Night Drive di Nova Reyes", "labels": {"control": "start", "queue": "playNext"}}
+{"text": "apri le danze tu", "labels": {"control": "start"}}
+{"text": "avvia la riproduzione automatica", "labels": {"control": "start"}}
+{"text": "fai iniziare la serata con del funk", "labels": {"control": "start", "genre": "include"}}
+{"text": "manda la musica!", "labels": {"control": "start"}}
+{"text": "fai partire la musica ma solo i brani che ho messo io", "labels": {"control": "start", "mode": "queue"}}
+{"text": "partiamo, e i pezzi decidili tu strada facendo", "labels": {"control": "start", "mode": "ai"}}
+{"text": "inizia il dj set x favore", "labels": {"control": "start"}}
+{"text": "avvia pure, tanto la gente sta entrando", "labels": {"control": "start"}}
+{"text": "accendi la musica di sottofondo per la cena", "labels": {"control": "start", "strategy": "chill"}}
+{"text": "riattacca con la musica, la torta è stata tagliata", "labels": {"control": "start"}}
+{"text": "fai ripartire il set dopo la pausa", "labels": {"control": "start"}}
+{"text": "inzia a mixare", "labels": {"control": "start"}}
+{"text": "parti con la techno, a tutto gas", "labels": {"control": "start", "genre": "include", "strategy": "peak"}}
+{"text": "fai partire la musica e passa alla vista ai", "labels": {"control": "start", "view": "ai"}}
+{"text": "accendi il dj e mostrami la console", "labels": {"control": "start", "view": "console"}}
+{"text": "Segueo, tocca a te. Parti", "labels": {"control": "start"}}
+{"text": "siamo live tra 10 secondi... vai!", "labels": {"control": "start"}}
+{"text": "fai partire il dj automatico, io vado a salutare gli ospiti", "labels": {"control": "start"}}
+{"text": "ACCENDI LA MUSICA", "labels": {"control": "start"}}
+{"text": "dai che aspettiamo te, attacca col primo pezzo", "labels": {"control": "start"}}
+{"text": "parti con qualche pezzo anni 80 per scaldare", "labels": {"control": "start", "genre": "include"}}
+{"text": "metti in moto il set e fai tu la selezione", "labels": {"control": "start", "mode": "ai"}}
+{"text": "ferma tutto", "labels": {"control": "stop"}}
+{"text": "stop stop stop", "labels": {"control": "stop"}}
+{"text": "spegni la muscia", "labels": {"control": "stop"}}
+{"text": "basta musica per ora", "labels": {"control": "stop"}}
+{"text": "mett in pausa", "labels": {"control": "stop"}}
+{"text": "pausa, ci sono i discorsi degli sposi", "labels": {"control": "stop"}}
+{"text": "fermati subbito", "labels": {"control": "stop"}}
+{"text": "stacca la musica, c'è un problema", "labels": {"control": "stop"}}
+{"text": "spegni l'ai dj", "labels": {"control": "stop"}}
+{"text": "interrompi il set adesso", "labels": {"control": "stop"}}
+{"text": "ferma la riproduzione", "labels": {"control": "stop"}}
+{"text": "stop immediato!", "labels": {"control": "stop"}}
+{"text": "chiudi tutto adesso, non aspettare la fine del pezzo", "labels": {"control": "stop"}}
+{"text": "fermati ora, non dopo", "labels": {"control": "stop"}}
+{"text": "spegni, abbiamo finito", "labels": {"control": "stop"}}
+{"text": "ferma la musica che è arrivata la polizia", "labels": {"control": "stop"}}
+{"text": "ferma il dj automatico, prendo io il controllo", "labels": {"control": "stop"}}
+{"text": "stoppa", "labels": {"control": "stop"}}
+{"text": "stoppa tutto e fammi vedere la console", "labels": {"control": "stop", "view": "console"}}
+{"text": "stoppa la musica e cancella tutta la coda", "labels": {"control": "stop", "queue": "clear"}}
+{"text": "spegni subito, è saltata la corrente in cucina", "labels": {"control": "stop"}}
+{"text": "musica off", "labels": {"control": "stop"}}
+{"text": "basta così, spegni adesso", "labels": {"control": "stop"}}
+{"text": "interrompi, devo fare un annuncio", "labels": {"control": "stop"}}
+{"text": "blocca tutto", "labels": {"control": "stop"}}
+{"text": "stacca tutto, la serata è finita", "labels": {"control": "stop"}}
+{"text": "ferma tutto un attimo, ripartiamo tra 5 minuti", "labels": {"control": "stop"}}
+{"text": "si è rotto qualcosa, ferma la musica", "labels": {"control": "stop"}}
+{"text": "spengi tutto", "labels": {"control": "stop"}}
+{"text": "famo 'na pausa, ferma", "labels": {"control": "stop"}}
+{"text": "chiudi subito il set", "labels": {"control": "stop"}}
+{"text": "spegni adesso, senza aspettare che finisca il brano", "labels": {"control": "stop"}}
+{"text": "ok stop, per stasera basta", "labels": {"control": "stop"}}
+{"text": "pausa caffè, ferma la musica", "labels": {"control": "stop"}}
+{"text": "puoi spegnere segueo?", "labels": {"control": "stop"}}
+{"text": "spegni la musica e torna alla vista ai", "labels": {"control": "stop", "view": "ai"}}
+{"text": "ferma subito, c'è uno che sta male in pista", "labels": {"control": "stop"}}
+{"text": "hey fermati un attimo che parla il sindaco", "labels": {"control": "stop"}}
+{"text": "dopo questa basta", "labels": {"control": "endAfterCurrent"}}
+{"text": "ULTIMO PEZZO", "labels": {"control": "endAfterCurrent"}}
+{"text": "questo e l'ultimo brano della serata", "labels": {"control": "endAfterCurrent"}}
+{"text": "chiudiamo con qeusta", "labels": {"control": "endAfterCurrent"}}
+{"text": "finisci questo pezzo e poi stop", "labels": {"control": "endAfterCurrent"}}
+{"text": "lascia finire questa canzone e poi spegni", "labels": {"control": "endAfterCurrent"}}
+{"text": "chiudi il set quando finisce questo brano", "labels": {"control": "endAfterCurrent"}}
+{"text": "dopo questo brano ci fermiamo", "labels": {"control": "endAfterCurrent"}}
+{"text": "non mettere altro dopo qeusta", "labels": {"control": "endAfterCurrent"}}
+{"text": "questa e poi a casa", "labels": {"control": "endAfterCurrent"}}
+{"text": "ultima canzone, poi si chiude", "labels": {"control": "endAfterCurrent"}}
+{"text": "facciamo che questa è l'ultima", "labels": {"control": "endAfterCurrent"}}
+{"text": "chiudiamo qui dopo questo pezzo", "labels": {"control": "endAfterCurrent"}}
+{"text": "quando finisce questa fermati", "labels": {"control": "endAfterCurrent"}}
+{"text": "finito questo pezzo spegni tutto", "labels": {"control": "endAfterCurrent"}}
+{"text": "dopo questo niente più musica", "labels": {"control": "endAfterCurrent"}}
+{"text": "basta dopo questo, il locale chiude", "labels": {"control": "endAfterCurrent"}}
+{"text": "ok, questo è l'ultimo, poi chiudi", "labels": {"control": "endAfterCurrent"}}
+{"text": "fine serata dopo questo brano", "labels": {"control": "endAfterCurrent"}}
+{"text": "non preparare il prossimo, chiudiamo con questo", "labels": {"control": "endAfterCurrent"}}
+{"text": "last track, poi stop", "labels": {"control": "endAfterCurrent"}}
+{"text": "last one!", "labels": {"control": "endAfterCurrent"}}
+{"text": "questo è l'ultimo giro, poi basta musica", "labels": {"control": "endAfterCurrent"}}
+{"text": "dopo sta canzone chiudiamo baracca", "labels": {"control": "endAfterCurrent"}}
+{"text": "a fine brano stoppa", "labels": {"control": "endAfterCurrent"}}
+{"text": "finisci il pezzo che sta andando e chiudi il set", "labels": {"control": "endAfterCurrent"}}
+{"text": "questa è l'ultima, grazie a tutti", "labels": {"control": "endAfterCurrent"}}
+{"text": "chiudiamo dopo questa, bravo segueo", "labels": {"control": "endAfterCurrent"}}
+{"text": "l'ultima canzone è questa", "labels": {"control": "endAfterCurrent"}}
+{"text": "vai fino alla fine di questa e poi chiudi", "labels": {"control": "endAfterCurrent"}}
+{"text": "ultimo pezzo e poi chiudiamo, niente altri mix", "labels": {"control": "endAfterCurrent"}}
+{"text": "questo pezzo chiude la serata", "labels": {"control": "endAfterCurrent"}}
+{"text": "termina il set dopo il brano in corso", "labels": {"control": "endAfterCurrent"}}
+{"text": "quando finisce la canzone attuale chiudi tutto", "labels": {"control": "endAfterCurrent"}}
+{"text": "dopo queta basta", "labels": {"control": "endAfterCurrent"}}
+{"text": "ulitmo pezzo raga", "labels": {"control": "endAfterCurrent"}}
+{"text": "fai finire questa e poi basta musica per stanotte", "labels": {"control": "endAfterCurrent"}}
+{"text": "stiamo chiudendo, questa è l'ultima", "labels": {"control": "endAfterCurrent"}}
+{"text": "chiudi il set in bellezza con questo pezzo", "labels": {"control": "endAfterCurrent"}}
+{"text": "dopo questa si va a dormire", "labels": {"control": "endAfterCurrent"}}
+{"text": "e l'ultimo brano, non mixare piu", "labels": {"control": "endAfterCurrent"}}
+{"text": "ok ci siamo, ultima traccia", "labels": {"control": "endAfterCurrent"}}
+{"text": "chiudi quando finisce, non fermarla adesso", "labels": {"control": "endAfterCurrent"}}
+{"text": "non fermare adesso, aspetta la fine di questo pezzo e poi chiudi", "labels": {"control": "endAfterCurrent"}}
+{"text": "ultimo pezzo e poi mostrami la console", "labels": {"control": "endAfterCurrent", "view": "console"}}
+{"text": "chiudi dopo questa, e dimmi cosa c'era ancora in coda", "labels": {"control": "endAfterCurrent", "info": "queue"}}
+{"text": "dopo questa canzone basta, la sala va liberata", "labels": {"control": "endAfterCurrent"}}
+{"text": "ok abbiamo fatto le 4, il gestore dice di chiudere: finisci questo pezzo e spegni", "labels": {"control": "endAfterCurrent"}}
+{"text": "Ultimo brano. Poi chiudi tu il set", "labels": {"control": "endAfterCurrent"}}
+{"text": "sta finendo la festa, questo è l'ultimo che suoni", "labels": {"control": "endAfterCurrent"}}
+{"text": "this is the last one, dopo chiudi", "labels": {"control": "endAfterCurrent"}}
+{"text": "chiudiamo in dolcezza: questa è l'ultima", "labels": {"control": "endAfterCurrent"}}
+{"text": "lascia andare questa fino in fondo, poi fine", "labels": {"control": "endAfterCurrent"}}
+{"text": "ultimo pezzo ok? dopo spengo io le luci", "labels": {"control": "endAfterCurrent"}}
+{"text": "no aspetta, non chiudere! vai avanti", "labels": {"control": "resume"}}
+{"text": "non fermarti mai stasera!", "labels": {"control": "resume"}}
+{"text": "annulla la chiusura", "labels": {"control": "resume"}}
+{"text": "ho cambiato idea, continuiamo", "labels": {"control": "resume"}}
+{"text": "la gente vuole ancora, vai avanit", "labels": {"control": "resume"}}
+{"text": "niente ultimo pezzo, si continua", "labels": {"control": "resume"}}
+{"text": "continua a suonare dopo questa", "labels": {"control": "resume"}}
+{"text": "non e finita andiamo avanti", "labels": {"control": "resume"}}
+{"text": "aspetta, non spegnere dopo questo brano, continua", "labels": {"control": "resume"}}
+{"text": "ancora musica! non chiudere", "labels": {"control": "resume"}}
+{"text": "il proprietario ha detto che possiamo andare avanti un'altra ora, continua", "labels": {"control": "resume"}}
+{"text": "riprendi, non era l'ultimo", "labels": {"control": "resume"}}
+{"text": "dimentica quello che ho detto, non chiudere", "labels": {"control": "resume"}}
+{"text": "vai avanti tutta la notte", "labels": {"control": "resume"}}
+{"text": "no no, non era l'ultimo pezzo", "labels": {"control": "resume"}}
+{"text": "prolunghiamo, continua a mixare", "labels": {"control": "resume"}}
+{"text": "tieni viva la serata, niente chiusura", "labels": {"control": "resume"}}
+{"text": "si va avanti fino all'alba", "labels": {"control": "resume"}}
+{"text": "ancora un po' dai, non chiudere", "labels": {"control": "resume"}}
+{"text": "contrordine: continuiamo", "labels": {"control": "resume"}}
+{"text": "revoca la fine del set", "labels": {"control": "resume"}}
+{"text": "continua il set dopo questo pezzo, non fermarti", "labels": {"control": "resume"}}
+{"text": "non ti fermare!", "labels": {"control": "resume"}}
+{"text": "keep going, niente stop", "labels": {"control": "resume"}}
+{"text": "vai avanti, non chiudere, e alza un po' l'energia", "labels": {"control": "resume", "strategy": "rise"}}
+{"text": "continua ma più tranquillo", "labels": {"control": "resume", "strategy": "chill"}}
+{"text": "continua a suonare, i pezzi scegli tu", "labels": {"control": "resume", "mode": "ai"}}
+{"text": "annulla lo stop a fine brano e vai avanti con la mia coda", "labels": {"control": "resume", "mode": "queue"}}
+{"text": "non chiudere, metti ancora Summer Rain", "labels": {"control": "resume", "queue": "add"}}
+{"text": "nun chiude', vai avanti", "labels": {"control": "resume"}}
+{"text": "non finire qui, la pista è piena", "labels": {"control": "resume"}}
+{"text": "continua continua continua", "labels": {"control": "resume"}}
+{"text": "mantieni la musica accesa anche dopo questo pezzo", "labels": {"control": "resume"}}
+{"text": "anulla la chiusura", "labels": {"control": "resume"}}
+{"text": "non smettere di suonare", "labels": {"control": "resume"}}
+{"text": "andiamo avanti a oltranza", "labels": {"control": "resume"}}
+{"text": "la festa non finisce qui, continua", "labels": {"control": "resume"}}
+{"text": "il gestore ha detto che possiamo sforare, quindi niente chiusura", "labels": {"control": "resume"}}
+{"text": "ops, ho detto ultimo pezzo per sbaglio, continua pure", "labels": {"control": "resume"}}
+{"text": "non chiudre ancora ti prego", "labels": {"control": "resume"}}
+{"text": "CAMBIA PEZZO", "labels": {"control": "mixNow"}}
+{"text": "questa non mi piace passa alla prossima", "labels": {"control": "mixNow"}}
+{"text": "next!", "labels": {"control": "mixNow"}}
+{"text": "vai avanti, sta canzone è una palla", "labels": {"control": "mixNow"}}
+{"text": "cambia sbuito, la pista si svuota", "labels": {"control": "mixNow"}}
+{"text": "skippa qsta", "labels": {"control": "mixNow"}}
+{"text": "levala", "labels": {"control": "mixNow"}}
+{"text": "togli sto pezzo", "labels": {"control": "mixNow"}}
+{"text": "mixa adesso", "labels": {"control": "mixNow"}}
+{"text": "fai subito il cambio", "labels": {"control": "mixNow"}}
+{"text": "questo brano è troppo lento, cambialo ora", "labels": {"control": "mixNow"}}
+{"text": "basta con questa canzone!!!", "labels": {"control": "mixNow"}}
+{"text": "passa al prossimo brano adesos", "labels": {"control": "mixNow"}}
+{"text": "salta questo pezzo", "labels": {"control": "mixNow"}}
+{"text": "ma che è sta roba? cambia subito", "labels": {"control": "mixNow"}}
+{"text": "avanti il prossimo", "labels": {"control": "mixNow"}}
+{"text": "non si balla con questa, via", "labels": {"control": "mixNow"}}
+{"text": "prossima traccia", "labels": {"control": "mixNow"}}
+{"text": "porta dentro il prossimo pezzo ora", "labels": {"control": "mixNow"}}
+{"text": "anticipa il mix, cambia adesso", "labels": {"control": "mixNow"}}
+{"text": "questa l'hanno già sentita tre volte stasera, cambia", "labels": {"control": "mixNow"}}
+{"text": "brano sbagliato, cambialo subito", "labels": {"control": "mixNow"}}
+{"text": "taglia questa e vai col prossimo", "labels": {"control": "mixNow"}}
+{"text": "non aspettare la fine, mixa ora", "labels": {"control": "mixNow"}}
+{"text": "sta canzone e brutta forte, next", "labels": {"control": "mixNow"}}
+{"text": "cambia che la gente se ne va", "labels": {"control": "mixNow"}}
+{"text": "dai cambia sto mattone", "labels": {"control": "mixNow"}}
+{"text": "questa è troppo lunga, passa oltre", "labels": {"control": "mixNow"}}
+{"text": "via questo pezzo", "labels": {"control": "mixNow"}}
+{"text": "oh cambia 'sta roba", "labels": {"control": "mixNow"}}
+{"text": "skip this one bro", "labels": {"control": "mixNow"}}
+{"text": "mixa subito col prossimo, questa è morta", "labels": {"control": "mixNow"}}
+{"text": "cambia brano che la sposa lo odia", "labels": {"control": "mixNow"}}
+{"text": "manda avanti", "labels": {"control": "mixNow"}}
+{"text": "cambai pezzo", "labels": {"control": "mixNow"}}
+{"text": "passa alla prosima", "labels": {"control": "mixNow"}}
+{"text": "questa canzone non la vuole nessuno, cambiala", "labels": {"control": "mixNow"}}
+{"text": "troppo triste sto pezzo, vai avanti", "labels": {"control": "mixNow"}}
+{"text": "cambia ora e metti più energia", "labels": {"control": "mixNow", "strategy": "rise"}}
+{"text": "cambia subito con un taglio secco", "labels": {"control": "mixNow", "style": "cut"}}
+{"text": "passa al prossimo con un eco", "labels": {"control": "mixNow", "style": "echo"}}
+{"text": "vai avanti adesso con un cambio corto", "labels": {"control": "mixNow", "bars": "short"}}
+{"text": "cambia pezzo e basta reggaeton", "labels": {"control": "mixNow", "genre": "exclude"}}
+{"text": "questa è troppo commerciale, cambia e niente commerciale per un po'", "labels": {"control": "mixNow", "genre": "exclude", "temporary": "yes"}}
+{"text": "passa subito a Glass City", "labels": {"control": "mixNow", "queue": "playNext"}}
+{"text": "cambia adesso e metti Neon Nights di Kaito Mori", "labels": {"control": "mixNow", "queue": "playNext"}}
+{"text": "cambia questa e fammi vedere la vista ai", "labels": {"control": "mixNow", "view": "ai"}}
+{"text": "perche hai messo sta roba? cambiala subito", "labels": {"control": "mixNow", "info": "why"}}
+{"text": "cambia, e da qui in poi scegli tu, non seguire più la mia lista", "labels": {"control": "mixNow", "mode": "ai"}}
+{"text": "questo pezzo non l'ho scelto io: cambia e suona solo la mia coda", "labels": {"control": "mixNow", "mode": "queue"}}
+{"text": "cambia in fretta, la pista si sta raffreddando, dammi qualcosa di tosto", "labels": {"control": "mixNow", "strategy": "rise"}}
+{"text": "questo è un lentone, cambia", "labels": {"control": "mixNow"}}
+{"text": "aò cambia", "labels": {"control": "mixNow"}}
+{"text": "fai il mix subito, non ce la faccio più con questa", "labels": {"control": "mixNow"}}
+{"text": "accorcia questa e passa al successivo", "labels": {"control": "mixNow"}}
+{"text": "cambia al volo", "labels": {"control": "mixNow"}}
+{"text": "passa alla successiva", "labels": {"control": "mixNow"}}
+{"text": "cambia pezzo per favore, è stonato", "labels": {"control": "mixNow"}}
+{"text": "subito il prossimo!", "labels": {"control": "mixNow"}}
+{"text": "ok cambia", "labels": {"control": "mixNow"}}
+{"text": "sto brano non c'entra niente, passa oltre", "labels": {"control": "mixNow"}}
+{"text": "cambia canzone", "labels": {"control": "mixNow"}}
+{"text": "mixa ora nella prossima con il filtro", "labels": {"control": "mixNow", "style": "filter"}}
+{"text": "troppo lenta, next e alza il ritmo", "labels": {"control": "mixNow", "strategy": "rise"}}
+{"text": "droppa il prossimo adesso", "labels": {"control": "mixNow"}}
+{"text": "cambia sta traccia, la vibe è sbagliata", "labels": {"control": "mixNow"}}
+{"text": "raga la sposa dice che questa le ricorda l'ex, cambiala subito per carità", "labels": {"control": "mixNow"}}
+{"text": "cosa stai suonando? cambia che non mi piace", "labels": {"control": "mixNow", "info": "now"}}
+{"text": "fuori questa, dentro la prossima", "labels": {"control": "mixNow"}}
+{"text": "il prossimo pezzo che hai scelto non va bene, cambialo", "labels": {"control": "skip"}}
+{"text": "la prossima non mi piace, scegline un'altra", "labels": {"control": "skip"}}
+{"text": "cambia la traccia che hai preparato", "labels": {"control": "skip"}}
+{"text": "salta il prossimo barno", "labels": {"control": "skip"}}
+{"text": "quello che viene dopo non va, metti altro", "labels": {"control": "skip"}}
+{"text": "non mettere quella che hai in canna, trovane un'altra", "labels": {"control": "skip"}}
+{"text": "il brano successivo cambialo, questa invece lasciala", "labels": {"control": "skip"}}
+{"text": "lascia suonare questa ma cambia la prossima", "labels": {"control": "skip"}}
+{"text": "questa va bene, e quella dopo che non mi convince", "labels": {"control": "skip"}}
+{"text": "sostituisci il prossimo pezzo", "labels": {"control": "skip"}}
+{"text": "no, non quella dopo, un'altra", "labels": {"control": "skip"}}
+{"text": "la canzone preparata e sbagliata, cambiala", "labels": {"control": "skip"}}
+{"text": "il pezzo pronto per il mix non mi piace, prendine un altro", "labels": {"control": "skip"}}
+{"text": "salta quella in arrivo", "labels": {"control": "skip"}}
+{"text": "ricalcola il prossimo brano", "labels": {"control": "skip"}}
+{"text": "il prossimo lo hanno già sentito, cambialo", "labels": {"control": "skip"}}
+{"text": "scegli un altro pezzo per dopo pls", "labels": {"control": "skip"}}
+{"text": "dopo questa non mettere quella che hai scelto, metti altro", "labels": {"control": "skip"}}
+{"text": "la next track che hai caricato fa schifo", "labels": {"control": "skip"}}
+{"text": "cambia il pezzo caricato sul deck in attesa", "labels": {"control": "skip"}}
+{"text": "il prossimo e troppo lento cambialo", "labels": {"control": "skip"}}
+{"text": "quella dopo no dai, troppo commerciale", "labels": {"control": "skip"}}
+{"text": "prossimo pezzo: bocciato, trovane un altro", "labels": {"control": "skip"}}
+{"text": "scarta la traccia successiva e pescane un'altra", "labels": {"control": "skip"}}
+{"text": "cambia quello dopo", "labels": {"control": "skip"}}
+{"text": "il successivo non c'entra con la serata, sostituiscilo", "labels": {"control": "skip"}}
+{"text": "cambia la prosima, non questa", "labels": {"control": "skip"}}
+{"text": "quello che hai messo come prossimo cambialo", "labels": {"control": "skip"}}
+{"text": "skippa la prossima", "labels": {"control": "skip"}}
+{"text": "skip the next one, non quello che suona", "labels": {"control": "skip"}}
+{"text": "che c'è dopo? no, cambialo", "labels": {"control": "skip", "info": "next"}}
+{"text": "il prossimo che hai scelto è moscio, cambialo e alza l'energia", "labels": {"control": "skip", "strategy": "rise"}}
+{"text": "cambia il prossimo, e niente trap", "labels": {"control": "skip", "genre": "exclude"}}
+{"text": "la traccia dopo sostituiscila con Paradise City", "labels": {"control": "skip", "queue": "playNext"}}
+{"text": "cambia il prossimo pezzo con qualcosa di più tranquillo", "labels": {"control": "skip", "strategy": "chill"}}
+{"text": "il brano in arrivo è uguale a quello di prima, cambialo", "labels": {"control": "skip"}}
+{"text": "nah, il prossimo no", "labels": {"control": "skip"}}
+{"text": "rifai la scelta del prossimo brano", "labels": {"control": "skip"}}
+{"text": "il pezzo dopo non lo mettere", "labels": {"control": "skip"}}
+{"text": "prossima traccia: cambiala", "labels": {"control": "skip"}}
+{"text": "trova un altro brano da mettere dopo questo", "labels": {"control": "skip"}}
+{"text": "quello che hai pronto non è adatto, cambia scelta", "labels": {"control": "skip"}}
+{"text": "il prossimo ha un bpm troppo diverso, prendine un altro", "labels": {"control": "skip"}}
+{"text": "evita il pezzo che hai preparato, scegli altro", "labels": {"control": "skip"}}
+{"text": "la prossima è una lagna, sostituiscila", "labels": {"control": "skip"}}
+{"text": "non mi piace quella che arriva dopo", "labels": {"control": "skip"}}
+{"text": "cambia il next, lascia andare questa", "labels": {"control": "skip"}}
+{"text": "il successivo è sbagliato, scegline un altro tu", "labels": {"control": "skip"}}
+{"text": "meglio un altro pezzo dopo questo, quello che hai caricato no", "labels": {"control": "skip"}}
+{"text": "la prossima canzone non va, e passa alla console", "labels": {"control": "skip", "view": "console"}}
+{"text": "senti, il brano che hai messo in canna dopo questo è troppo simile, cercane uno diverso", "labels": {"control": "skip"}}
+{"text": "al posto di quella che hai preparato metti Weightless", "labels": {"control": "skip", "queue": "playNext"}}
+{"text": "la prox cambiala", "labels": {"control": "skip"}}
+{"text": "no quella che viene dopo proprio no, ce l'hanno appena chiesta di togliere", "labels": {"control": "skip"}}
+{"text": "perché hai preparato quella dopo? cambiala", "labels": {"control": "skip", "info": "why"}}
+{"text": "sceglitu i pezzi da ora in poi", "labels": {"mode": "ai"}}
+{"text": "decidi tu cosa sonare", "labels": {"mode": "ai"}}
+{"text": "fai tu, pesca dalla libreria", "labels": {"mode": "ai"}}
+{"text": "lascia perdere la mia lista, improvvisa tu", "labels": {"mode": "ai"}}
+{"text": "non seguire piu la coda, scegli tu", "labels": {"mode": "ai"}}
+{"text": "modalità ai", "labels": {"mode": "ai"}}
+{"text": "passa in modalità automatica, le tracce le scegli tu", "labels": {"mode": "ai"}}
+{"text": "vai a braccio, scegli liberamente i brani", "labels": {"mode": "ai"}}
+{"text": "usa tutta la libreria e decidi tu", "labels": {"mode": "ai"}}
+{"text": "pensa tu alla musica", "labels": {"mode": "ai"}}
+{"text": "mi fido di te, metti i brani che vuoi", "labels": {"mode": "ai"}}
+{"text": "quando finisce la mia lista continua tu a scegliere", "labels": {"mode": "ai"}}
+{"text": "da adesso sei tu il dj, scegli le canzoni", "labels": {"mode": "ai"}}
+{"text": "prendi tu il controllo della selezione", "labels": {"mode": "ai"}}
+{"text": "ignora la coda, vai libero", "labels": {"mode": "ai"}}
+{"text": "scegli tu per i prossimi 3 brani, poi torna alla mia lista", "labels": {"mode": "ai", "temporary": "yes"}}
+{"text": "scegli tu i pezzi, ma solo house", "labels": {"mode": "ai", "genre": "include"}}
+{"text": "decidi tu, basta che non sia reggaeton", "labels": {"mode": "ai", "genre": "exclude"}}
+{"text": "seleziona tu i brani e fai una serata in crescendo", "labels": {"mode": "ai", "strategy": "rise"}}
+{"text": "scegli tu la musica, io vado a mangiare", "labels": {"mode": "ai"}}
+{"text": "basta coda, fai tu", "labels": {"mode": "ai"}}
+{"text": "puoi scegliere tu le canzoni?", "labels": {"mode": "ai"}}
+{"text": "modalita automatica per favore", "labels": {"mode": "ai"}}
+{"text": "torna a scegliere tu", "labels": {"mode": "ai"}}
+{"text": "selezione libera dalla libreria, grazie", "labels": {"mode": "ai"}}
+{"text": "la scelta dei brani la lascio a te", "labels": {"mode": "ai"}}
+{"text": "ai mode on", "labels": {"mode": "ai"}}
+{"text": "fai tu la selezione che io non ho tempo", "labels": {"mode": "ai"}}
+{"text": "non limitarti alla mia lista, aggiungi tu quello che serve", "labels": {"mode": "ai"}}
+{"text": "azzera la coda e scegli tu", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "suona sollo la mia coda", "labels": {"mode": "queue"}}
+{"text": "attieniti alla mia lista, niente di tuo", "labels": {"mode": "queue"}}
+{"text": "solo i brani ke ho messo io", "labels": {"mode": "queue"}}
+{"text": "non scegliere tu, usa la mia playlist", "labels": {"mode": "queue"}}
+{"text": "modalita coda", "labels": {"mode": "queue"}}
+{"text": "segui la scaletta che ho caricato io", "labels": {"mode": "queue"}}
+{"text": "voglio sentire solo quello che ho in coda", "labels": {"mode": "queue"}}
+{"text": "niente scelte tue stasera, solo la lista", "labels": {"mode": "queue"}}
+{"text": "usa esclusivamente la coda", "labels": {"mode": "queue"}}
+{"text": "suona la mia lista in ordine", "labels": {"mode": "queue"}}
+{"text": "da ora comanda la mia coda", "labels": {"mode": "queue"}}
+{"text": "basta improvvisare, torna alla mia lista", "labels": {"mode": "queue"}}
+{"text": "smetti di scegliere tu, metti solo i miei pezzi", "labels": {"mode": "queue"}}
+{"text": "passa alla modalità lista", "labels": {"mode": "queue"}}
+{"text": "riproduci solo i brani in coda, nient'altro", "labels": {"mode": "queue"}}
+{"text": "ho preparato io la lista, suona quella", "labels": {"mode": "queue"}}
+{"text": "la sposa ha scelto i pezzi, suona solo quelli in coda", "labels": {"mode": "queue"}}
+{"text": "suona solo la mia lista e mischiala", "labels": {"mode": "queue", "queue": "shuffle"}}
+{"text": "solo la mia coda, e aggiungi Moonlight", "labels": {"mode": "queue", "queue": "add"}}
+{"text": "segui la mia coda con cambi lunghi", "labels": {"mode": "queue", "bars": "long"}}
+{"text": "solo la coda per i prossimi 4 pezzi", "labels": {"mode": "queue", "temporary": "yes"}}
+{"text": "queue mode", "labels": {"mode": "queue"}}
+{"text": "niente pezzi a caso, solo quelli della coda", "labels": {"mode": "queue"}}
+{"text": "usa la lista che ti ho dato, non la libreria", "labels": {"mode": "queue"}}
+{"text": "rispetta la mia lista", "labels": {"mode": "queue"}}
+{"text": "solo roba mia, niente suggerimenti tuoi", "labels": {"mode": "queue"}}
+{"text": "suona solo cio che ho in lista", "labels": {"mode": "queue"}}
+{"text": "i pezzi li scelgo io, tu mixali e basta", "labels": {"mode": "queue"}}
+{"text": "la gente si è fermata a mangiare", "labels": {}}
+{"text": "alza il volume", "labels": {}}
+{"text": "abbassa un po' il volume che non sento chi parla", "labels": {}}
+{"text": "metti il microfono, devo fare gli auguri", "labels": {}}
+{"text": "spegni le luci della pista", "labels": {}}
+{"text": "accendi le luci laser", "labels": {}}
+{"text": "dopo questa canzone vado a fumare", "labels": {}}
+{"text": "la torta arriva dopo questo pezzo", "labels": {}}
+{"text": "il prossimo dj arriva alle due", "labels": {}}
+{"text": "ultimo giro di shot al bar!", "labels": {}}
+{"text": "la festa è partita alla grande", "labels": {}}
+{"text": "finalmente la gente ha iniziato a ballare", "labels": {}}
+{"text": "il bar chiude tra mezz'ora", "labels": {}}
+{"text": "si è fermato il condizionatore, fa caldissimo", "labels": {}}
+{"text": "alza i bassi", "labels": {}}
+{"text": "abbassa gli alti, fischiano", "labels": {}}
+{"text": "la pista si sta svuotando piano piano", "labels": {}}
+{"text": "non si sente niente dalla cassa di sinistra", "labels": {}}
+{"text": "la sposa si sta cambiando", "labels": {}}
+{"text": "tra poco chiudono le porte del locale", "labels": {}}
+{"text": "il fonico ha spento la cassa spia", "labels": {}}
+{"text": "la gente ha smesso di ballare per le foto", "labels": {}}
+{"text": "questa canzone me la ricordo dal liceo", "labels": {}}
+{"text": "il prossimo weekend suoniamo a Rimini", "labels": {}}
+{"text": "alla fine della serata c'è il taglio della torta", "labels": {}}
+{"text": "accendi la macchina del fumo", "labels": {}}
+{"text": "metti più volume sulle casse del bar", "labels": {}}
+{"text": "il microfono gracchia, sistemalo", "labels": {}}
+{"text": "stiamo aspettando gli sposi, sono fermi nel traffico", "labels": {}}
+{"text": "la gente è ancora al buffet", "labels": {}}
+{"text": "il pezzo sta andando benissimo, la gente canta", "labels": {}}
+{"text": "cambio palco tra 10 minuti", "labels": {}}
+{"text": "dopo questa vado a prendere da bere, torno subito", "labels": {}}
+{"text": "mi sa che dopo la mezzanotte la gente se ne va", "labels": {}}
+{"text": "gli invitati hanno cominciato ad andare via", "labels": {}}
+{"text": "ho appena finito di montare le casse", "labels": {}}
+{"text": "volume a palla!!", "labels": {}}
+{"text": "tieni questa energia, va benissimo", "labels": {"strategy": "steady"}}
+{"text": "resta su questo livello", "labels": {"strategy": "steady"}}
+{"text": "non alzare e non abbassare, mantieni", "labels": {"strategy": "steady"}}
+{"text": "stai sul groove attuale", "labels": {"strategy": "steady"}}
+{"text": "spingi di piu!", "labels": {"strategy": "rise"}}
+{"text": "carica la pista, dai", "labels": {"strategy": "rise"}}
+{"text": "fai salire l'hype", "labels": {"strategy": "rise"}}
+{"text": "serve più tiro", "labels": {"strategy": "rise"}}
+{"text": "costruisci pian piano fino a mezzanotte", "labels": {"strategy": "rise"}}
+{"text": "su e giù tutta la sera, alterna momenti forti e pause", "labels": {"strategy": "wave"}}
+{"text": "fai a onde: un banger e poi un respiro", "labels": {"strategy": "wave"}}
+{"text": "alterna pezzi carichi e pezzi soft", "labels": {"strategy": "wave"}}
+{"text": "rallenta un po l'energia", "labels": {"strategy": "chill"}}
+{"text": "tranqui, vai più soft", "labels": {"strategy": "chill"}}
+{"text": "atmosfera rilassata, niente di aggressivo", "labels": {"strategy": "chill"}}
+{"text": "abbassa i giri che stanno cenando", "labels": {"strategy": "chill"}}
+{"text": "vibe da tramonto, calma", "labels": {"strategy": "chill"}}
+{"text": "adesso solo bombe", "labels": {"strategy": "peak"}}
+{"text": "solo i pezzi più potenti che hai", "labels": {"strategy": "peak"}}
+{"text": "dammi il massimo, solo banger", "labels": {"strategy": "peak"}}
+{"text": "full power fino alla fine", "labels": {"strategy": "peak"}}
+{"text": "tira fuori l'artiglieria pesante", "labels": {"strategy": "peak"}}
+{"text": "adesso a manetta con l'energia!!", "labels": {"strategy": "peak"}}
+{"text": "raffredda un po' la pista per un paio di pezzi", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "per i prossimi 3 brani spingi al massimo", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "per un po' tieni tutto costante", "labels": {"strategy": "steady", "temporary": "yes"}}
+{"text": "piu energia e cambi piu lunghi", "labels": {"strategy": "rise", "bars": "long"}}
+{"text": "fai crescere la serata e metti un po' di afro house", "labels": {"strategy": "rise", "genre": "add"}}
+{"text": "calma e dissolvenze morbide", "labels": {"strategy": "chill", "style": "fade"}}
+{"text": "piu carica ragazzi, la gente vuole saltare", "labels": {"strategy": "rise"}}
+{"text": "scegli tu come fare i passaggi", "labels": {"style": "auto"}}
+{"text": "stile di mix automatico", "labels": {"style": "auto"}}
+{"text": "le transizioni decidile tu", "labels": {"style": "auto"}}
+{"text": "fai lo swap dei bassi quando mixi", "labels": {"style": "bassswap"}}
+{"text": "mixa con bass swap", "labels": {"style": "bassswap"}}
+{"text": "incrocia i bassi con l'eq nei passaggi", "labels": {"style": "bassswap"}}
+{"text": "usa il filtro passa alto nei cambi", "labels": {"style": "filter"}}
+{"text": "transizioni filtrate", "labels": {"style": "filter"}}
+{"text": "esci con l'eco", "labels": {"style": "echo"}}
+{"text": "echo out su ogni pezzo", "labels": {"style": "echo"}}
+{"text": "chiudi i brani con un echo", "labels": {"style": "echo"}}
+{"text": "sfumature dolci tra i brnai", "labels": {"style": "fade"}}
+{"text": "crossfade morbido", "labels": {"style": "fade"}}
+{"text": "passaggi smooth", "labels": {"style": "fade"}}
+{"text": "tagli sechi sul beat", "labels": {"style": "cut"}}
+{"text": "cambi netti, niente sfumature", "labels": {"style": "cut"}}
+{"text": "cut sul primo battito", "labels": {"style": "cut"}}
+{"text": "mixa a raffica stile lumix", "labels": {"style": "rapid"}}
+{"text": "pezzi cortissimi uno dietro l'altro", "labels": {"style": "rapid"}}
+{"text": "tagli a raffica, tipo LUM!X", "labels": {"style": "rapid"}}
+{"text": "vai in modalità rapid fire", "labels": {"style": "rapid"}}
+{"text": "voglio i cambi alla Gabry Ponte", "labels": {"style": "model"}}
+{"text": "stile dance da discoteca, alla ponte", "labels": {"style": "model"}}
+{"text": "mixa come un dj techno berlinese", "labels": {"style": "model-techno"}}
+{"text": "transizioni in stile techno", "labels": {"style": "model-techno"}}
+{"text": "stile techno, blend infiniti", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "per i prossimi 2 cambi usa il filtro", "labels": {"style": "filter", "temporary": "yes"}}
+{"text": "per un po' chiudi i pezzi con l'eco", "labels": {"style": "echo", "temporary": "yes"}}
+{"text": "tagli secchi e passaggi corti", "labels": {"style": "cut", "bars": "short"}}
+{"text": "fai tu lo stile ma con mix lunghi", "labels": {"style": "auto", "bars": "long"}}
+{"text": "mix da 8 battute", "labels": {"bars": "short"}}
+{"text": "cambi velocissimi", "labels": {"bars": "short"}}
+{"text": "accorcia le transizioni", "labels": {"bars": "short"}}
+{"text": "transizioni da 32 battute", "labels": {"bars": "long"}}
+{"text": "alluga i mix", "labels": {"bars": "long"}}
+{"text": "blend più lunghi, tipo 48 battute", "labels": {"bars": "long"}}
+{"text": "mix lunghissimi da 64 battute", "labels": {"bars": "verylong"}}
+{"text": "fai durare i passaggi un'eternità", "labels": {"bars": "verylong"}}
+{"text": "transizioni di 16 battute", "labels": {}}
+{"text": "mix lunghi solo per i prossimi due pezzi", "labels": {"bars": "long", "temporary": "yes"}}
+{"text": "cambi a 16 battute con il filtro", "labels": {"style": "filter"}}
+{"text": "attiva il remix live", "labels": {"remix": "on"}}
+{"text": "fai qualche loop mentre il pezzo va da solo", "labels": {"remix": "on"}}
+{"text": "aggiungi effetti e filtri durante i brani", "labels": {"remix": "on"}}
+{"text": "lascia i pezzi puliti, niente remix", "labels": {"remix": "off"}}
+{"text": "disattiva i loop e gli effetti live", "labels": {"remix": "off"}}
+{"text": "smetti di giocare con gli effetti", "labels": {"remix": "off"}}
+{"text": "remix off", "labels": {"remix": "off"}}
+{"text": "ravviva i pezzi con echi e loop, e più energia", "labels": {"remix": "on", "strategy": "rise"}}
+{"text": "abilita i mashup in automatico", "labels": {"mashupOpt": "on"}}
+{"text": "mashup on", "labels": {"mashupOpt": "on"}}
+{"text": "puoi fare mashup quando vuoi durante il set", "labels": {"mashupOpt": "on"}}
+{"text": "spegni i mashup", "labels": {"mashupOpt": "off"}}
+{"text": "basta mashup, pezzi originali", "labels": {"mashupOpt": "off"}}
+{"text": "disattiva l'opzione mashup", "labels": {"mashupOpt": "off"}}
+{"text": "per un po' niente mashup automatici", "labels": {"mashupOpt": "off", "temporary": "yes"}}
+{"text": "attiva i mashup automatici e fanne subito uno", "labels": {"mashupOpt": "on", "mashup": "auto"}}
+{"text": "dopo il mix torna al bpm orginale del pezzo", "labels": {"returnTempo": "on"}}
+{"text": "riporta il tempo originale dopo ogni cambio", "labels": {"returnTempo": "on"}}
+{"text": "ogni brano deve tornare alla sua velocità", "labels": {"returnTempo": "on"}}
+{"text": "resta al nuovo bpm dopo il mix", "labels": {"returnTempo": "off"}}
+{"text": "non tornare al tempo originale", "labels": {"returnTempo": "off"}}
+{"text": "tieni il bpm del mix, non cambiarlo dopo", "labels": {"returnTempo": "off"}}
+{"text": "lascia il tempo com'è dopo la transizione", "labels": {"returnTempo": "off"}}
+{"text": "torna al bpm originale e fai cambi lunghi", "labels": {"returnTempo": "on", "bars": "long"}}
+{"text": "agigungi Afterglow in coda", "labels": {"queue": "add"}}
+{"text": "metti in lista Weightless di Aurelia Vance", "labels": {"queue": "add"}}
+{"text": "ci metti anche Low Tide?", "labels": {"queue": "add"}}
+{"text": "mettimi in coda Electric Dreams", "labels": {"queue": "add"}}
+{"text": "prima o poi metti Open Water", "labels": {"queue": "add"}}
+{"text": "più tardi voglio Mare Blu", "labels": {"queue": "add"}}
+{"text": "dopo questa metti Sunday Motion", "labels": {"queue": "playNext"}}
+{"text": "il prossimo deve essere Fuoco", "labels": {"queue": "playNext"}}
+{"text": "subito dopo metti Estate di Leo Marin", "labels": {"queue": "playNext"}}
+{"text": "fai partire Moonlight come prossima", "labels": {"queue": "playNext"}}
+{"text": "come next metti Parallel", "labels": {"queue": "playNext"}}
+{"text": "togli northern lights dalla lsita", "labels": {"queue": "remove"}}
+{"text": "leva Paradise City dalla coda", "labels": {"queue": "remove"}}
+{"text": "non mettere più Electric Dreams, toglila dalla coda", "labels": {"queue": "remove"}}
+{"text": "cancella Summer Rain dalla coda", "labels": {"queue": "remove"}}
+{"text": "svuota la lista", "labels": {"queue": "clear"}}
+{"text": "cancela tutta la coda", "labels": {"queue": "clear"}}
+{"text": "mischia la coda", "labels": {"queue": "shuffle"}}
+{"text": "shuffle della lista", "labels": {"queue": "shuffle"}}
+{"text": "metti la coda in ordine casuale", "labels": {"queue": "shuffle"}}
+{"text": "aggiungi Golden Hour e Night Drive alla coda", "labels": {"queue": "add"}}
+{"text": "metti Neon Nights come prossima e fai un cambio con l'eco", "labels": {"queue": "playNext", "style": "echo"}}
+{"text": "dopo questo pezzo voglio Afterglow di Silas Hart", "labels": {"queue": "playNext"}}
+{"text": "stasera si va di tecno e basta", "labels": {"genre": "include"}}
+{"text": "voglio afro house", "labels": {"genre": "include"}}
+{"text": "solo roba anni 90", "labels": {"genre": "include"}}
+{"text": "metti italo disco", "labels": {"genre": "include"}}
+{"text": "niente trap", "labels": {"genre": "exclude"}}
+{"text": "evita il rap x favore", "labels": {"genre": "exclude"}}
+{"text": "zero commerciale", "labels": {"genre": "exclude"}}
+{"text": "basta techno", "labels": {"genre": "exclude"}}
+{"text": "stop al reggaeton", "labels": {"genre": "exclude"}}
+{"text": "ogni tanto un pezzo latin", "labels": {"genre": "add"}}
+{"text": "aggiungi un po' di funk nel mix", "labels": {"genre": "add"}}
+{"text": "infila anche qualche pezzo nu disco", "labels": {"genre": "add"}}
+{"text": "mescola anche un po' di revival anni 80", "labels": {"genre": "add"}}
+{"text": "qualsiasi genere va bene ora", "labels": {"genre": "clear"}}
+{"text": "togli i filtri sui generi", "labels": {"genre": "clear"}}
+{"text": "non importa il genere, basta che si balli", "labels": {"genre": "clear"}}
+{"text": "solo melodic techno tra 122 e 126 bpm", "labels": {"genre": "include"}}
+{"text": "per i prossimi 3 pezzi solo drum and bass", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo house e cambi con bass swap", "labels": {"genre": "include", "style": "bassswap"}}
+{"text": "niente edm, e più tranquillo", "labels": {"genre": "exclude", "strategy": "chill"}}
+{"text": "un po' di disco in mezzo e più energia", "labels": {"genre": "add", "strategy": "rise"}}
+{"text": "solo progressive house e mix lunghi", "labels": {"genre": "include", "bars": "long"}}
+{"text": "trance e solo pezzi potentissimi", "labels": {"genre": "include", "strategy": "peak"}}
+{"text": "basta hip hop per stasera grazie", "labels": {"genre": "exclude"}}
+{"text": "crea una scaletta per un matrimonio", "labels": {"set": "build"}}
+{"text": "preparami un set di un'ora di deep house in crescendo", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "fammi una playlist per l'aperitivo, roba chill", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "costruisci un set techno di 2 ore", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara una setlist anni 80 e 90", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi fai una scaletta a onde per stasera?", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "organizza un set per una festa in spiaggia senza reggaeton", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "crea una playlist di 15 pezzi tra 120 e 124 bpm", "labels": {"set": "build"}}
+{"text": "componi un set che finisce col botto", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "genera un set di un'ora e mezza", "labels": {"set": "build"}}
+{"text": "fai un mashup tu", "labels": {"mashup": "auto"}}
+{"text": "sorprendimi con un mashup", "labels": {"mashup": "auto"}}
+{"text": "fammi sentire un mashup a sorpresa", "labels": {"mashup": "auto"}}
+{"text": "la voce di Afterglow sulla base di Neon Nights", "labels": {"mashup": "explicit"}}
+{"text": "metti l'acappella di Summer Rain sopra la strumentale di Parallel", "labels": {"mashup": "explicit"}}
+{"text": "mashup tra Golden Hour e Low Tide", "labels": {"mashup": "explicit"}}
+{"text": "voglio il vocal di Fuoco sopra il beat di Glass City", "labels": {"mashup": "explicit"}}
+{"text": "fai un mashup di Moonlight e Electric Dreams, voce della prima", "labels": {"mashup": "explicit"}}
+{"text": "cosa suona adeso?", "labels": {"info": "now"}}
+{"text": "che pezzo è questo??", "labels": {"info": "now"}}
+{"text": "titolo di questa traccia?", "labels": {"info": "now"}}
+{"text": "chi canta?", "labels": {"info": "now"}}
+{"text": "cosa metti dopo?", "labels": {"info": "next"}}
+{"text": "quando mixi?", "labels": {"info": "next"}}
+{"text": "tra qunato cambi pezzo?", "labels": {"info": "next"}}
+{"text": "qual e il prossimo brano", "labels": {"info": "next"}}
+{"text": "perché questa canzone?", "labels": {"info": "why"}}
+{"text": "come mai hai sclto questo?", "labels": {"info": "why"}}
+{"text": "perche hai cambiato cosi presto?", "labels": {"info": "why"}}
+{"text": "cosa c'è in lista?", "labels": {"info": "queue"}}
+{"text": "quanti pezzi ho in coda?", "labels": {"info": "queue"}}
+{"text": "fammi vedere la coda", "labels": {"info": "queue"}}
+{"text": "come sei impostato adesso?", "labels": {"info": "settings"}}
+{"text": "riepilogo delle impostazioni?", "labels": {"info": "settings"}}
+{"text": "stai scegliendo tu o segui la mia lista?", "labels": {"info": "settings"}}
+{"text": "che energia hai impostato?", "labels": {"info": "settings"}}
+{"text": "sei in modalità coda o ai?", "labels": {"info": "settings"}}
+{"text": "cosa sai fare?", "labels": {"info": "help"}}
+{"text": "aiuto", "labels": {"info": "help"}}
+{"text": "come funziona sta chat?", "labels": {"info": "help"}}
+{"text": "che comandi posso darti?", "labels": {"info": "help"}}
+{"text": "vai alla console", "labels": {"view": "console"}}
+{"text": "mostrami la schermata ai", "labels": {"view": "ai"}}
+{"text": "apri la vista console", "labels": {"view": "console"}}
+{"text": "torna alla vista dell'ai dj", "labels": {"view": "ai"}}
+{"text": "fammi vedere i deck", "labels": {"view": "console"}}
+{"text": "schermata ai per favore", "labels": {"view": "ai"}}
+{"text": "passa alla console che voglio mixare io", "labels": {"view": "console"}}
+{"text": "ciao segueo", "labels": {"talk": "hello"}}
+{"text": "buonasera dj", "labels": {"talk": "hello"}}
+{"text": "ehi, ci sei?", "labels": {"talk": "hello"}}
+{"text": "hey", "labels": {"talk": "hello"}}
+{"text": "salve", "labels": {"talk": "hello"}}
+{"text": "we raga", "labels": {"talk": "hello"}}
+{"text": "grazie mille", "labels": {"talk": "thanks"}}
+{"text": "sei un grande", "labels": {"talk": "thanks"}}
+{"text": "bravo, stai spaccando", "labels": {"talk": "thanks"}}
+{"text": "ottimo lavoro stasera", "labels": {"talk": "thanks"}}
+{"text": "grazie davvero, serata top", "labels": {"talk": "thanks"}}
+{"text": "thx", "labels": {"talk": "thanks"}}
+{"text": "che ore sono a new york?", "labels": {"talk": "offtopic"}}
+{"text": "chiamami un taxi", "labels": {"talk": "offtopic"}}
+{"text": "quanto fa 7 per 8?", "labels": {"talk": "offtopic"}}
+{"text": "chi ha vinto la partita ieri?", "labels": {"talk": "offtopic"}}
+{"text": "scrivimi una poesia", "labels": {"talk": "offtopic"}}
+{"text": "come si fa la carbonara?", "labels": {"talk": "offtopic"}}
+{"text": "a che ora chiude il locale?", "labels": {"talk": "offtopic"}}
+{"text": "consigliami un ristorante a roma", "labels": {"talk": "offtopic"}}
+{"text": "che bella serata", "labels": {}}
+{"text": "è già mezzanotte, incredibile", "labels": {}}
+{"text": "la gente balla tantissimo", "labels": {}}
+{"text": "oggi è il compleanno di Giulia", "labels": {}}
+{"text": "fa un caldo in pista pazzesco", "labels": {}}
+{"text": "sono arrivati altri 50 invitati", "labels": {}}
+{"text": "ho un po' di sonno", "labels": {}}
+{"text": "stasera c'è il pienone", "labels": {}}
+{"text": "dì al buttafuori di fermare la gente all'ingresso, siamo pieni", "labels": {"talk": "offtopic"}}

@@ -50,11 +50,9 @@ contextBridge.exposeInMainWorld('api', {
   saveStem: invoke('stems:save'),
   readStem: invoke('stems:read'),
   systemMemory: invoke('system:memory'),
-  aiModels: invoke('ai:models'),
   updateCheck: invoke('update:check'),
   updateDownload: invoke('update:download'),
   updateInstall: invoke('update:install'),
-  aiChat: invoke('ai:chat'),
 
   on: (channel, handler) => {
     const allowed = ['menu', 'library:progress', 'update:progress', 'models:progress'];

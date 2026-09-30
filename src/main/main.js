@@ -6,7 +6,6 @@ const os = require('node:os');
 const { pathToFileURL } = require('node:url');
 const { Library, isAudioFile, AUDIO_EXTENSIONS } = require('./library');
 const { JsonStore } = require('./store');
-const llm = require('./llm');
 const updater = require('./updater');
 const aiAssets = require('./ai-assets');
 const migrate = require('./migrate');
@@ -113,6 +112,7 @@ function buildMenu() {
         { label: 'Avvia/Ferma registrazione', accelerator: 'CmdOrCtrl+R', click: () => send('menu', 'record') },
         { label: 'AI DJ (mix automatico)', accelerator: 'CmdOrCtrl+M', click: () => send('menu', 'automix') },
         { label: 'Vista AI / console classica', accelerator: 'CmdOrCtrl+Shift+A', click: () => send('menu', 'view') },
+        { label: 'SegueoChat', accelerator: 'CmdOrCtrl+K', click: () => send('menu', 'chat') },
       ],
     },
     {
@@ -319,8 +319,6 @@ function registerIpc() {
   ipcMain.handle('stems:read', (_e, trackId, kind) => aiAssets.readStem(userData(), trackId, kind));
   ipcMain.handle('system:memory', () => ({ totalMB: Math.round(os.totalmem() / 1048576), freeMB: Math.round(os.freemem() / 1048576) }));
 
-  ipcMain.handle('ai:models', (_e, cfg) => llm.listModels(cfg || {}));
-  ipcMain.handle('ai:chat', (_e, req) => llm.chat(req || {}));
 
   ipcMain.handle('media:requestMic', async () => {
     if (process.platform !== 'darwin') return true;

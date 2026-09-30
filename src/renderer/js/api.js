@@ -168,23 +168,6 @@ function createBrowserApi() {
     saveStem: async (trackId, kind, bytes) => Boolean(stems.set(`${trackId}:${kind}`, bytes)),
     readStem: async (trackId, kind) => stems.get(`${trackId}:${kind}`),
     systemMemory: async () => ({ totalMB: (navigator.deviceMemory || 4) * 1024, freeMB: 0 }),
-    aiModels: async ({ provider, endpoint }) => {
-      const b = endpoint.replace(/\/+$/, '');
-      if (provider === 'ollama') return ((await (await fetch(`${b}/api/tags`)).json()).models || []).map((m) => m.name);
-      const v1 = /\/v1$/.test(b) ? b : `${b}/v1`;
-      return ((await (await fetch(`${v1}/models`)).json()).data || []).map((m) => m.id);
-    },
-    aiChat: async ({ provider, endpoint, model, messages, temperature }) => {
-      const b = endpoint.replace(/\/+$/, '');
-      const headers = { 'Content-Type': 'application/json' };
-      if (provider === 'ollama') {
-        const r = await fetch(`${b}/api/chat`, { method: 'POST', headers, body: JSON.stringify({ model, messages, stream: false, format: 'json', options: { temperature } }) });
-        return (await r.json()).message.content;
-      }
-      const v1 = /\/v1$/.test(b) ? b : `${b}/v1`;
-      const r = await fetch(`${v1}/chat/completions`, { method: 'POST', headers, body: JSON.stringify({ model, messages, temperature }) });
-      return (await r.json()).choices[0].message.content;
-    },
     on: () => () => {},
   };
 }

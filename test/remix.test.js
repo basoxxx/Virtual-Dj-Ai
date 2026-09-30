@@ -56,7 +56,7 @@ test('mashup: si prepara solo con tonalità compatibili, sync e modello installa
   const { AutoDJ } = await import('../src/renderer/js/ai/autodj.js');
   const log = [];
   const stems = { checkModel: async () => false, ensure: async () => true };
-  const dj = new AutoDJ({ engine: {}, decks: [], getControls: () => ({}), getPool: () => [], llm: null, stems });
+  const dj = new AutoDJ({ engine: {}, decks: [], getControls: () => ({}), getPool: () => [], stems });
   dj.say = (t) => log.push(t);
   const plan = (fromKey, toKey, sync = true) => ({ sync, fromTrack: { title: 'A', key: fromKey }, toTrack: { title: 'B', key: toKey } });
   const far = plan('Am', 'F#');

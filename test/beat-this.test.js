@@ -177,9 +177,10 @@ test('modelli: l\'app usa modelli inclusi nel pacchetto e scaricati da npm run m
   const { TRANSITION_STYLES } = await import('../src/renderer/js/ai/transition-planner.js');
   // stems.js usa window (api.js): il nome del modello si legge dal sorgente
   const SEPARATION_MODEL = readFileSync(new URL('../src/renderer/js/ai/stems.js', import.meta.url), 'utf8').match(/SEPARATION_MODEL = '([^']+)'/)[1];
+  const { CHAT_MODEL } = await import('../src/renderer/js/ai/chat-model.js');
   const manifest = JSON.parse(readFileSync(new URL('../src/main/models.json', import.meta.url), 'utf8'));
   const bundled = manifest.models.filter((m) => m.bundle).map((m) => m.file);
-  const used = [BEAT_MODEL, SEPARATION_MODEL, ...Object.values(TRANSITION_STYLES).map((m) => m.file)];
+  const used = [BEAT_MODEL, SEPARATION_MODEL, CHAT_MODEL, ...Object.values(TRANSITION_STYLES).map((m) => m.file)];
   for (const f of used) assert.ok(bundled.includes(f), `${f} non è tra i modelli inclusi`);
   const builder = readFileSync(new URL('../electron-builder.yml', import.meta.url), 'utf8');
   const listed = [...builder.matchAll(/^\s+- src\/renderer\/models\/(\S+\.onnx)$/gm)].map((m) => m[1]);

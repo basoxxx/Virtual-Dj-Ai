@@ -134,7 +134,7 @@ function setup({ mashups = [], options = {}, pool = [] } = {}) {
   const next = deck('B', vocal, 0);
   const log = [];
   const stems = { ensure: async () => true, checkModel: async () => true, vocalEntry: async () => 64.5 };
-  const dj = new AutoDJ({ engine: {}, decks: [cur, next], getControls: () => ({}), getPool: () => pool, llm: null, stems, getMashups: () => mashups, random: () => 0 });
+  const dj = new AutoDJ({ engine: {}, decks: [cur, next], getControls: () => ({}), getPool: () => pool, stems, getMashups: () => mashups, random: () => 0 });
   dj.say = (t) => log.push(t);
   dj.setOptions({ style: 'bassswap', ...options });
   return { dj, cur, next, base, vocal, log };
