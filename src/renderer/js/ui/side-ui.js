@@ -4,10 +4,12 @@ import { api } from '../api.js';
 import { formatTime, camelotOf } from '../dsp/analysis.js';
 import { STRATEGIES, TRANSITIONS } from '../ai/selector.js';
 import { BatchAnalyzer } from '../ai/batch-analyzer.js';
-import { icon, withIcon } from './icons.js';
+import { describeFilters, describeTemporary } from '../ai/segueochat.js';
+import { NO_FILTERS } from '../ai/selector.js';
+import { withIcon } from './icons.js';
 
 export class SideUI {
-  constructor(root, { sampler, automix, onSamplerChange, getTrack, analyzer, getPlaylists, getAllTracks, onAiOptions, openAiSettings, llm, stems, tabs = [] }) {
+  constructor(root, { sampler, automix, onSamplerChange, getTrack, analyzer, getPlaylists, getAllTracks, onAiOptions, planSet, openChat, stems, tabs = [] }) {
     this.root = root;
     this.extraTabs = tabs; // { id, label, pane } tra AI DJ e SAMPLER
     this.stems = stems;
@@ -19,8 +21,8 @@ export class SideUI {
     this.getPlaylists = getPlaylists;
     this.getAllTracks = getAllTracks;
     this.onAiOptions = onAiOptions;
-    this.openAiSettings = openAiSettings;
-    this.llm = llm;
+    this.planSet = planSet; // scaletta da una descrizione, capita come in SegueoChat
+    this.openChat = openChat;
     this.build();
   }
 
@@ -159,18 +161,6 @@ export class SideUI {
     this.strategySel = select(Object.entries(STRATEGIES).map(([value, label]) => ({ value, label })), opt.strategy, (v) => setOpt({ strategy: v }), 'ai-select');
     this.styleSel = select(Object.entries(TRANSITIONS).map(([value, label]) => ({ value, label })), opt.style, (v) => setOpt({ style: v }), 'ai-select');
     this.barsSel = select([4, 8, 16, 32, 48, 64].map((b) => ({ value: String(b), label: `${b} battute` })), String(opt.bars), (v) => setOpt({ bars: Number(v) }), 'ai-select');
-    const llmCheck = el('input', { type: 'checkbox' });
-    llmCheck.checked = opt.useLLM;
-    llmCheck.addEventListener('change', () => {
-      if (llmCheck.checked && !this.llm.enabled) {
-        toast('Configura prima l\'AI locale (Ollama, LM Studio…) nelle impostazioni', 'warn');
-        llmCheck.checked = false;
-        this.openAiSettings();
-        return;
-      }
-      setOpt({ useLLM: llmCheck.checked });
-    });
-    this.llmCheck = llmCheck;
     const tempoCheck = el('input', { type: 'checkbox' });
     tempoCheck.checked = opt.returnTempo;
     tempoCheck.addEventListener('change', () => setOpt({ returnTempo: tempoCheck.checked }));
@@ -198,16 +188,15 @@ export class SideUI {
       this.stems.addEventListener('change', () => this.refreshStems());
       this.stems.checkModel();
     }
-    this.llmBadge = el('span', { class: 'llm-badge' });
+    // indicazioni date a SegueoChat: filtri, cambi per i prossimi brani, chiusura del set
+    this.directives = el('div', { class: 'am-directives' });
 
     this.prompt = el('textarea', { class: 'ai-prompt', rows: '2', placeholder: 'Descrivi il set (es. "house anni 2000 in crescendo per un aperitivo")' });
-    this.prompt.value = opt.notes || '';
     this.prompt.addEventListener('keydown', (e) => e.stopPropagation());
-    this.prompt.addEventListener('change', () => setOpt({ notes: this.prompt.value.trim() }));
-    const genBtn = button(withIcon('sparkles', 'Crea scaletta', 13), { className: 'small primary', title: 'Genera la coda con l\'AI', onClick: async () => {
+    const genBtn = button(withIcon('sparkles', 'Crea scaletta', 13), { className: 'small primary', title: 'Genera la coda: genere, energia e durata dalla descrizione, capiti come in SegueoChat', onClick: async () => {
       genBtn.disabled = true;
       try {
-        const tracks = await a.generateSet({ request: this.prompt.value.trim(), length: 15 });
+        const { tracks } = await this.planSet(this.prompt.value.trim());
         a.setQueue(tracks);
         if (tracks.length) toast(`Scaletta pronta: ${tracks.length} brani in coda`);
       } catch (err) {
@@ -260,8 +249,7 @@ export class SideUI {
         el('label', { class: 'check' }, this.remixCheck, 'Remix dal vivo: loop, eco e filtri sulle frasi'),
         el('label', { class: 'check' }, this.mashCheck, 'Mashup: voce del prossimo brano sulla base di quello in onda'),
         el('div', { class: 'row tight' }, this.mashInfo, this.mashBtn),
-        el('label', { class: 'check' }, llmCheck, 'Usa AI locale (LLM)', this.llmBadge,
-          button(icon('gear', 13), { className: 'tiny ghost', title: 'Configura AI locale', onClick: () => this.openAiSettings() })),
+        this.directives,
         this.prompt,
         el('div', { class: 'row tight' }, genBtn,
           button('Mescola', { className: 'small', onClick: () => a.shuffle() }),
@@ -272,6 +260,25 @@ export class SideUI {
         el('div', { class: 'row tight' }, this.anaBtn, this.anaInfo),
         el('div', { class: 'section-label' }, 'DIARIO DELL\'AI'),
         this.logEl));
+  }
+
+  refreshDirectives() {
+    const a = this.automix;
+    const rows = [];
+    const row = (text, action, label, title) => el('div', { class: 'am-directive' }, el('span', {}, text),
+      button(label, { className: 'tiny ghost', title, onClick: action }));
+    const f = describeFilters(a.options.filters);
+    if (f) rows.push(row(`Filtri: ${f}`, () => a.setOptions({ filters: NO_FILTERS }), '×', 'Togli i filtri: tutti i generi e tutti i BPM'));
+    if (a.temp) {
+      rows.push(row(`Per altri ${a.temp.remaining} brani: ${describeTemporary(Object.keys(a.temp.restore), a.options)}`, () => {
+        const { restore } = a.temp;
+        a.temp = null;
+        a.setOptions(restore);
+      }, '×', 'Torna subito alle impostazioni di prima'));
+    }
+    if (a.endAfterCurrent) rows.push(row('Chiudo il set dopo il brano in onda', () => a.setEndAfterCurrent(false), 'Continua', 'Il set continua'));
+    this.directives.replaceChildren(...rows);
+    this.directives.hidden = !rows.length;
   }
 
   refreshSources() {
@@ -331,9 +338,7 @@ export class SideUI {
     this.strategySel.value = o.strategy;
     this.styleSel.value = o.style;
     this.barsSel.value = String(o.bars);
-    this.llmCheck.checked = o.useLLM && this.llm.enabled;
-    this.llmBadge.textContent = this.llm.enabled ? this.llm.getConfig().model : 'non configurata';
-    this.llmBadge.classList.toggle('on', this.llm.enabled);
+    this.refreshDirectives();
     this.amList.innerHTML = '';
     if (!a.queue.length) this.amList.append(el('div', { class: 'am-empty' }, o.mode === 'ai' ? 'Coda vuota: l\'AI sceglie dalla sorgente' : 'Coda vuota'));
     a.queue.forEach((t, i) => {

@@ -80,7 +80,7 @@ test('modello C: lettura delle curve tra una battuta e l\'altra', () => {
 
 test('modello C: il piano dell\'AI DJ chiede le curve al modello solo con il sync', async () => {
   const { AutoDJ } = await import('../src/renderer/js/ai/autodj.js');
-  const dj = new AutoDJ({ engine: {}, decks: [], getControls: () => ({}), getPool: () => [], llm: null });
+  const dj = new AutoDJ({ engine: {}, decks: [], getControls: () => ({}), getPool: () => [] });
   dj.options.style = 'model';
   const deck = (bpm, key) => ({ track: { bpm, key, energy: 5, mixOut: 100 }, beatLength: 60 / bpm, duration: 200, position: 0, gridOffset: 0.1, tempo: 1 });
   const next = { ...deck(127, 'Am'), track: { bpm: 127, key: 'Am', energy: 6, mixIn: 0.1 } };

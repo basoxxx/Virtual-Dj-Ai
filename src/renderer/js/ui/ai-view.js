@@ -71,6 +71,7 @@ export class AiView {
     this.skipBtn = button(withIcon('skip', 'Cambia prossimo', 14), { title: 'Scarta il brano preparato', onClick: () => a.skipNext() });
     this.mashBtn = button('Mashup', { className: 'ai-pill toggle', toggle: true, title: 'Voce del prossimo brano sulla base di quello in onda', onClick: () => this.toggleOption('mashCheck') });
     this.remixBtn = button('Remix dal vivo', { className: 'ai-pill toggle', toggle: true, title: 'Loop, eco e filtri sulle frasi mentre un brano suona da solo', onClick: () => this.toggleOption('remixCheck') });
+    this.chatBtn = button(withIcon('chat', 'Chat', 14), { title: 'SegueoChat: di\' all\'AI DJ come suonare (Ctrl+K)', onClick: () => app.openChat() });
     this.takeOver = button(withIcon('sliders', 'Console', 14), { className: 'ai-takeover', title: 'Passa alla console per mixare a mano sopra l\'AI (l\'AI continua)', onClick: () => app.setView('console') });
 
     const center = el('div', { class: 'ai-center' },
@@ -78,7 +79,7 @@ export class AiView {
       this.status, this.planEl, this.whyEl, this.mashEl,
       el('div', { class: 'ai-xf', title: 'Crossfader' }, el('span', {}, 'A'), el('div', { class: 'ai-xf-track' }, this.xfThumb), el('span', {}, 'B')),
       this.power,
-      el('div', { class: 'ai-actions' }, this.mixNowBtn, this.skipBtn),
+      el('div', { class: 'ai-actions' }, this.mixNowBtn, this.skipBtn, this.chatBtn),
       el('div', { class: 'ai-actions' }, this.mashBtn, this.remixBtn, this.takeOver));
 
     root.classList.add('ai-stage');

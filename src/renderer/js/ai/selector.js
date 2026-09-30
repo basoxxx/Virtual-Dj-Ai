@@ -23,6 +23,26 @@ export const TRANSITIONS = {
   'model-techno': 'Modello AI · techno, mix lunghi',
 };
 
+const fold = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+/** Filtri sui brani chiesti al DJ (SegueoChat): generi da tenere o evitare, BPM minimo e massimo (0 = nessuno). */
+export const NO_FILTERS = Object.freeze({ genres: [], exclude: [], bpmMin: 0, bpmMax: 0 });
+
+export function hasFilters(f) {
+  return Boolean(f && ((f.genres && f.genres.length) || (f.exclude && f.exclude.length) || f.bpmMin || f.bpmMax));
+}
+
+/** Il brano rispetta i filtri? Il genere si confronta per parole ("techno" vale anche per "Melodic Techno"). */
+export function matchesFilters(t, f) {
+  if (!hasFilters(f)) return true;
+  const genre = fold(t.genre);
+  if (f.genres && f.genres.length && !f.genres.some((g) => genre.includes(fold(g)))) return false;
+  if (f.exclude && f.exclude.some((g) => genre.includes(fold(g)))) return false;
+  if (f.bpmMin && !(t.bpm >= f.bpmMin)) return false;
+  if (f.bpmMax && !(t.bpm <= f.bpmMax)) return false;
+  return true;
+}
+
 /** Rapporto di tempo più vicino a 1 considerando metà/doppio tempo. */
 export function tempoRatio(fromBpm, toBpm) {
   if (!fromBpm || !toBpm) return 0;

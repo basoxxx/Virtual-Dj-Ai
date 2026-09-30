@@ -15,6 +15,7 @@ files:
   - src/renderer/models/segueo-transizioni-dance-v7.onnx
   - src/renderer/models/segueo-transizioni-techno-v6.onnx
   - src/renderer/models/segueo-separazione-voce.onnx
+  - src/renderer/models/segueo-chat.onnx
   - package.json
   - "!**/*.map"
 

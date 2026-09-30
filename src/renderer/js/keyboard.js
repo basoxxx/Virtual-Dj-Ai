@@ -20,6 +20,7 @@ export const SHORTCUTS = [
   ['Ctrl/Cmd + R', 'Avvia/ferma registrazione'],
   ['Ctrl/Cmd + M', 'AI DJ on/off'],
   ['Ctrl/Cmd + Shift + A', 'Vista AI / console classica'],
+  ['Ctrl/Cmd + K', 'SegueoChat: di\' all\'AI DJ come suonare'],
   ['Ctrl/Cmd + ,', 'Impostazioni'],
   ['F1', 'Questa guida'],
 ];
@@ -81,6 +82,11 @@ export function installKeyboard(app) {
     if (mod && e.shiftKey && e.code === 'KeyA' && !app.api.isElectron) {
       e.preventDefault();
       app.setView(app.view === 'ai' ? 'console' : 'ai');
+      return;
+    }
+    if (mod && e.code === 'KeyK' && !app.api.isElectron) {
+      e.preventDefault();
+      app.openChat();
       return;
     }
     if (mod && e.code === 'KeyM' && !app.api.isElectron) {

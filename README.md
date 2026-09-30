@@ -3,7 +3,7 @@
 🌐 **Sito:** https://basoxxx.github.io/Virtual-Dj-Ai/
 
 Software DJ desktop per **Windows**, **macOS** e **Linux** con un'**AI che mixa in automatico**
-(anche collegata a un modello linguistico locale): due deck, mixer completo,
+e **SegueoChat** per dirle come suonare: due deck, mixer completo,
 effetti, sampler, microfono, ingressi linea dalla scheda audio, uscita cuffia separata, controller MIDI,
 registrazione del mix e automix.
 
@@ -20,7 +20,7 @@ Ad ogni push o merge su `main`, GitHub Actions compila e pubblica automaticament
 > **macOS:** l'app non è firmata con un certificato Apple. Al primo avvio fai clic destro sull'app → **Apri**,
 > oppure esegui `xattr -cr "/Applications/Segueo.app"` nel Terminale.
 
-## 🤖 AI DJ: mix automatico con AI locale
+## 🤖 AI DJ: mix automatico con AI sul computer
 
 Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
 
@@ -28,7 +28,7 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    struttura del brano (intro, outro, frasi da 8 battute) e punti di mix. Battute e battute forti vengono da
    **Segueo Analisi battute**, una rete neurale basata su Beat This! (CPJKU, licenza MIT) che gira sul computer con
    la sola CPU;
-   in **Impostazioni → AI locale → Motore di analisi** si può tornare all'analisi classica, che resta comunque
+   in **Impostazioni → AI → Motore di analisi** si può tornare all'analisi classica, che resta comunque
    il ripiego automatico se il modello manca o dà errore. L'analisi è ibrida: il classico dà subito BPM e forma
    d'onda, Segueo Analisi battute rifinisce poi battute, battuta forte e struttura in background.
    Ogni brano si analizza una volta sola (i risultati restano nella libreria). Con librerie grandi l'analisi parte
@@ -76,17 +76,35 @@ automatico e ai mashup: brano in onda e prossimo in grande, avanzamento della tr
 AI DJ, mashup e remix, e le impostazioni dell'AI DJ in evidenza accanto a coda e diario. L'AI continua a mixare anche
 tornando alla **Console**, dove puoi intervenire a mano sopra il suo mix. La vista scelta viene ricordata.
 
-### Modello linguistico locale (facoltativo)
+### 💬 SegueoChat: di' all'AI DJ come suonare
 
-Per scelte ancora più "umane" e per creare scalette descritte a parole (es. *"deep house al tramonto, poi sempre più
-energica"*) puoi collegare un **LLM che gira sul tuo computer**. Nessun dato esce dal PC.
+Nella scheda **CHAT** del pannello laterale (o con `Ctrl/Cmd+K`, o dal pulsante **SegueoChat** nella vista AI) si parla
+all'AI DJ in italiano, anche mentre suona:
 
-1. Installa [Ollama](https://ollama.com) e scarica un modello: `ollama pull llama3.2`
-   (in alternativa LM Studio, llama.cpp server, Jan o LocalAI: qualsiasi server compatibile OpenAI).
-2. In **Impostazioni → 🤖 AI locale** attiva "Usa il modello locale", premi **Rileva modelli** e **Prova**.
-3. Nel pannello AI DJ spunta **Usa AI locale (LLM)**, scrivi la richiesta e premi **✨ Crea scaletta**.
+- **energia**: *"più energia"*, *"in crescendo"*, *"rilassata"*, *"a onde"*, *"picco"*
+- **transizioni**: *"bass swap"*, *"con il filtro"*, *"echo"*, *"dissolvenze lunghe"*, *"tagli a raffica"*, *"stile dance"*,
+  *"stile techno"*, *"mix da 32 battute"*
+- **generi e BPM**: *"solo techno"*, *"niente house"*, *"anche un po' di deep house"*, *"tra 120 e 126 BPM"*,
+  *"togli i filtri"*: l'AI DJ sceglie solo i brani che li rispettano
+- **brani e coda**: *"metti Golden Hour come prossimo"*, *"aggiungi Night Drive"*, *"svuota la coda"*
+- **set**: *"crea una scaletta di 20 brani house in crescendo"*, *"per i prossimi 3 brani tagli a raffica"* (poi torna
+  com'era), *"chiudi il set dopo questo"*, *"fai un mashup"*, *"voce di Golden Hour sulla base di Glass City"*
+- **comandi e domande**: *"parti"*, *"fermati"*, *"mixa ora"*, *"cambia il prossimo"*, *"cosa suoni?"*,
+  *"qual è il prossimo?"*, *"perché?"*, *"come stai suonando?"*
 
-Se il modello non risponde, l'AI DJ continua da sola con il motore interno.
+I comandi li capisce subito un interprete integrato; i tanti altri modi di dirlo (*"la pista è morta, svegliala un
+po'"*, *"i cambi falli durare di più"*, *"questo pezzo è brutto, cambialo"*) li capisce **Segueo Chat**, un modello
+addestrato apposta su frasi generate e oltre 5.000 interazioni scritte, incluso nell'app (2 MB, pochi millisecondi,
+senza internet). Su 1.098 messaggi di prova mai visti insieme capiscono l'82% delle richieste, contro il 43% del solo
+interprete; sulle frasi scritte a mano il 95% contro il 60% (dettagli e limiti in `ml/REPORT.md`). Nessun messaggio
+esce dal computer. Ogni risposta ha **Annulla**; filtri, cambi temporanei e chiusura del set
+restano visibili (e si tolgono con un clic) nel pannello AI DJ, e ogni modifica finisce nel diario dell'AI.
+
+### Scalette descritte a parole
+
+Nel pannello AI DJ scrivi com'è il set (*"deep house al tramonto, poi sempre più energica"*, *"20 brani techno per
+l'after"*) e premi **✨ Crea scaletta**: genere, energia e numero di brani li capisce SegueoChat (interprete e modello
+Segueo Chat), il motore interno sceglie i brani compatibili e li mette in coda. Lo stesso si può chiedere in chat.
 
 ## 🎛 Console DJ supportate
 
@@ -139,7 +157,7 @@ lo stato del programma (play, cue, sync, hot cue, loop, preascolto, effetti…).
 - Libreria con cartelle musicali, ricerca istantanea, ordinamento, playlist, cronologia, più suonati
 - Evidenziazione dei brani compatibili (BPM vicino, tonalità armonica) col deck in onda
 - **Sampler** a 8 pad con suoni inclusi (air horn, sirena, riser…) e campioni personalizzabili
-- **AI DJ** (vedi sopra) con coda, scalette automatiche, mashup preparati e AI locale
+- **AI DJ** (vedi sopra) con coda, scalette automatiche, mashup preparati e SegueoChat
 - **Registrazione** del mix in WAV (scritta su disco in streaming, adatta a set di ore)
 - **Console DJ**: riconoscimento automatico, LED, procedura guidata, MIDI learn, gamepad (vedi sopra)
 - Scorciatoie da tastiera (F1 per l'elenco)
@@ -167,7 +185,7 @@ src/main/          processo principale Electron (finestre, libreria, file, regis
 src/renderer/      interfaccia e motore audio (Web Audio API + AudioWorklet)
   js/audio/        engine, deck, mixer, effetti, sampler, microfono
   js/dsp/          analisi BPM/beatgrid/tonalità/forma d'onda/struttura, WAV
-  js/ai/           AI DJ: selezione brani, transizioni, LLM locale, analisi libreria
+  js/ai/           AI DJ: selezione brani, transizioni, SegueoChat, analisi libreria
   js/controllers/  profili delle console DJ, gamepad
   js/ui/           componenti grafici
   worklets/        riproduzione dei deck (scratch, loop, keylock) e registrazione
@@ -176,7 +194,7 @@ src/renderer/      interfaccia e motore audio (Web Audio API + AudioWorklet)
   models/          modelli ONNX scaricati da npm run models (esclusi da git)
 ml/                modelli AI: ambiente Python, export ONNX, valutazioni e REPORT.md con le misure
   beat_this/       Beat This! in ONNX        transitions/  modello delle transizioni (dati, addestramento)
-  mashup/          Demucs in ONNX (voce e base)
+  mashup/          Demucs in ONNX (voce e base)     segueochat/  modello Segueo Chat (frasi, addestramento, prove)
 .github/workflows/ CI, pubblicazione automatica delle release e del sito
 site/              sito GitHub Pages (foto reali dell'interfaccia)
 ```
@@ -194,6 +212,7 @@ prima di test e build. Senza modello l'app funziona con l'analisi classica.
 | `segueo-transizioni-dance-v7.onnx` | transizioni dell'AI DJ, stile dance: curve di crossfader, EQ e filtri (6,9 MB) | modello C di questo progetto (`ml/transitions/`), int8 |
 | `segueo-transizioni-techno-v6.onnx` | transizioni dell'AI DJ, stile techno (6,9 MB) | modello C, int8 |
 | `segueo-separazione-voce.onnx` | voce e base separate per i mashup (174 MB) | Demucs v4 htdemucs (Meta, codice MIT) |
+| `segueo-chat.onnx` | capisce i messaggi di SegueoChat (2,1 MB) | modello di questo progetto (`ml/segueochat/`), int8 |
 
 Nella release restano anche i nomi precedenti dei modelli di transizione e separazione (`transition-planner-v*.onnx`,
 `segueo-transizioni-v7.onnx`, `htdemucs.onnx`), usati dalle versioni già installate.

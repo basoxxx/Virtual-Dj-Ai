@@ -56,7 +56,7 @@ test('tagli a raffica: filtro e bassi sull\'uscente, taglio netto alla fine dell
 
 test('tagli a raffica: il piano dell\'AI DJ usa i tempi di LUM!X', async () => {
   const { AutoDJ } = await import('../src/renderer/js/ai/autodj.js');
-  const dj = new AutoDJ({ engine: {}, decks: [], getControls: () => ({}), getPool: () => [], llm: null, random: () => 0.1 });
+  const dj = new AutoDJ({ engine: {}, decks: [], getControls: () => ({}), getPool: () => [], random: () => 0.1 });
   dj.options.style = 'rapid';
   const cur = { track: { bpm: 120, key: 'Am', energy: 5 }, beatLength: 0.5, duration: 240, position: 1, gridOffset: 0, tempo: 1, _aiEntry: 0 };
   const next = { track: { bpm: 120, key: 'Am', energy: 6, mixIn: 0 }, beatLength: 0.5, duration: 240, gridOffset: 0, bpm: 120, waveform: waveform(240, 48) };

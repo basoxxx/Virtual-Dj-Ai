@@ -1,0 +1,656 @@
+{"text": "mi prepari una scaletta per l'aperitivo? roba tranquilla, un'oretta", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "crea una setlist di 20 brani per un matrimonio", "labels": {"set": "build"}}
+{"text": "fammi una playlist per il compleanno di mia sorella, pop e commerciale", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara un set di due ore house in crescendo", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "scaletta per l'after, solo techno e minimal", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi serve un set per un beach party al tramonto, afro house", "labels": {"set": "build", "genre": "include"}}
+{"text": "organizzami una tracklist per la festa aziendale, musica soft di sottofondo, 40 pezzi", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "preparami un warm-up di un'ora, parti basso e sali piano piano", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "fammi un closing set di 45 minuti, voglio chiudere col botto, solo bombe", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "costruisci una scaletta di 15 tracce deep house per l'aperitivo in terrazza", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi fai una playlist per stasera? senza reggaeton per favore", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "prepara una scaletta anni 90 per una festa di compleanno dei 40 anni", "labels": {"set": "build", "genre": "include"}}
+{"text": "genera un set di 2 ore che alterna momenti tranquilli e pezzi carichi", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "setlist per matrimonio, un'ora di lounge per la cena", "labels": {"set": "build", "genre": "include"}}
+{"text": "fammi una scaletta a caso di 30 brani, qualsiasi genere", "labels": {"set": "build", "genre": "clear"}}
+{"text": "prepara la scaletta per il closing, tutta in salita fino all'ultimo pezzo", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "puoi creare un set per un after in spiaggia? melodic techno, tra 120 e 124 bpm", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea scaletta aperitivo nu disco e funk", "labels": {"set": "build", "genre": "include"}}
+{"text": "Setlist per la festa aziendale di venerdì, commerciale e pop, niente di strano", "labels": {"set": "build", "genre": "include"}}
+{"text": "ho bisogno di una playlist per un compleanno di bambini, un'ora e mezza", "labels": {"set": "build"}}
+{"text": "prepra una scaleta per il warm up, tech house", "labels": {"set": "build", "genre": "include"}}
+{"text": "fammi un set tutto a onde, su e giù, per due ore", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "mettimi insieme 25 pezzi per l'aperitivo, vibe rilassata", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "tirami fuori una tracklist trance per il closing", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea un set dance anni 2000 per il matrimonio, roba che conoscono tutti", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi prepari un set da un'ora che mantenga sempre la stessa energia?", "labels": {"set": "build", "strategy": "steady"}}
+{"text": "scaletta per il beach party: reggaeton e latin", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara un set per l'after senza commerciale", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "organizza una playlist per il compleanno di Marco, 50 brani, tutto revival anni 80", "labels": {"set": "build", "genre": "include"}}
+{"text": "puoi farmi una scaletta per il matrimonio di sabato? un paio d'ore", "labels": {"set": "build"}}
+{"text": "crea un warm-up soft di 40 minuti", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "voglio una setlist per chiudere la serata, crescendo finale", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "set per aperitivo lounge e deep house, grazie", "labels": {"set": "build", "genre": "include"}}
+{"text": "fai una scaletta hip hop e rap per una festa in casa", "labels": {"set": "build", "genre": "include"}}
+{"text": "costruiscimi un set drum and bass di un'ora per l'after", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi crei una playlist con un po' di tutto per la festa aziendale?", "labels": {"set": "build", "genre": "clear"}}
+{"text": "prepara una scaletta di 12 pezzi per il primo ballo e il dopo cena, stile matrimonio", "labels": {"set": "build"}}
+{"text": "Crea un set di 90 minuti italo disco e nu disco, energia costante", "labels": {"set": "build", "genre": "include", "strategy": "steady"}}
+{"text": "ciao! mi fai una scaletta per l'aperitivo di domani?", "labels": {"set": "build"}}
+{"text": "scaletta after party, solo i pezzi più potenti che hai", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "prepara una playlist edm per il compleanno, bella carica fin dall'inizio", "labels": {"set": "build", "genre": "include", "strategy": "peak"}}
+{"text": "setlist per warm up: techno ma leggera, senza spingere", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "mi prepari la scaletta per stasera? parto alle 22 e chiudo all'una", "labels": {"set": "build"}}
+{"text": "crea un set per beach party, niente techno", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "genera una playlist di 3 ore per l'after, progressive e melodic", "labels": {"set": "build", "genre": "include"}}
+{"text": "facciamo una scaletta per un compleanno dei 18 anni: trap, reggaeton, commerciale", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi serve un set chill per un aperitivo in barca", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "prepara la setlist del closing, deve salire tantissimo nell'ultima mezz'ora", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "fammi una playlist per la cena aziendale, musica di sottofondo, nulla di ballabile", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "scaletta per matrimonio: anni 70, 80 e 90, due ore", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea una tracklist di 18 brani con alti e bassi", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "puoi prepararmi un set afro house per il tramonto?", "labels": {"set": "build", "genre": "include"}}
+{"text": "fai tu una scaletta per l'aperitivo, genere libero", "labels": {"set": "build", "genre": "clear"}}
+{"text": "prepara un warm-up di mezz'ora e poi fallo partire", "labels": {"set": "build", "control": "start"}}
+{"text": "crea una scaletta tech house di un'ora e avvia il set", "labels": {"set": "build", "genre": "include", "control": "start"}}
+{"text": "Scaletta per la festa di laurea di Giulia, pop e hit del momento", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi organizzi un set di due ore per la festa in spiaggia, energia sempre al massimo", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "genera una setlist per l'after hour, minimal e deep, che vada in crescendo", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "mi fai una scaletta di 10 pezzi per il taglio della torta e subito dopo?", "labels": {"set": "build"}}
+{"text": "prepara un set senza rap, per un matrimonio", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "compleanno di mio padre, 60 anni: mi fai una playlist di revival?", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea una scaletta per aperitivo in piscina, un'ora, disco e funk", "labels": {"set": "build", "genre": "include"}}
+{"text": "setlist di 2 ore per festa aziendale, parti tranquillo e poi alza", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "puoi creare una playlist che vada su e giù per il beach party", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "voglio un set techno di 3 ore per l'after, sempre la stessa botta", "labels": {"set": "build", "genre": "include", "strategy": "steady"}}
+{"text": "fammi un set da warm-up, niente bombe, lascia spazio al dj dopo", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "mi prepari una scaletta per il closing di stanotte con tutti i banger", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "prepara 30 brani per il compleanno, qualsiasi genere va bene", "labels": {"set": "build", "genre": "clear"}}
+{"text": "fai una playlist per l'aperitivo aziendale senza trap e senza rap", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "crea un set progressive house di 75 minuti", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi serve una scaletta per stasera in un locale piccolo, dance e commerciale", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara la setlist per l'after", "labels": {"set": "build"}}
+{"text": "scaletta x beach party 2 ore reggaeton", "labels": {"set": "build", "genre": "include"}}
+{"text": "creami una scaletta tranquilla per un brunch", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "set di un'ora per un compleanno, pezzi allegri", "labels": {"set": "build"}}
+{"text": "Mi fai una scaletta di musica anni 80 per una festa a tema?", "labels": {"set": "build", "genre": "include"}}
+{"text": "costruisci una setlist per il warm-up alternando groove lenti e pezzi più tirati", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "prepara un set drum and bass e trap per l'after, 90 minuti", "labels": {"set": "build", "genre": "include"}}
+{"text": "fammi una scaletta per il closing ma senza techno", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "mi prepari un set per una festa aziendale di 3 ore? commerciale, niente roba strana", "labels": {"set": "build", "genre": "include"}}
+{"text": "scaletta per un matrimonio in campagna, sempre più carica man mano che va avanti la serata", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "fai un set per il beach party con tanta afro house e deep", "labels": {"set": "build", "genre": "include"}}
+{"text": "Crea una setlist per l'after: minimal, 4 ore", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi faresti una playlist per un compleanno a tema anni 90?", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara un warm up house da un'ora e mezza, energia costante", "labels": {"set": "build", "genre": "include", "strategy": "steady"}}
+{"text": "setlist per chiudere: solo i pezzi più forti in assoluto", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "genera una scaletta per il pranzo di matrimonio, tutto soft", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "crea una scaletta di 20 pezzi e partiamo", "labels": {"set": "build", "control": "start"}}
+{"text": "fammi un set da 2 ore, decidi tu la scaletta", "labels": {"set": "build"}}
+{"text": "prepara una tracklist per la festa di capodanno aziendale, edm e dance", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea un set per l'aperitivo sulla spiaggia, afro e latin, bello morbido", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "mi fai una scaletta per il closing di domenica? tanta trance", "labels": {"set": "build", "genre": "include"}}
+{"text": "voglio una playlist di 40 minuti per il warm-up, qualsiasi genere tranne commerciale", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "scaletta di 2 ore per festa aziendale che alterna momenti per parlare e momenti per ballare", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "prepara un set per un after in cascina, techno dall'inizio alla fine", "labels": {"set": "build", "genre": "include"}}
+{"text": "fai una setlist tutta di hit pop, per un compleanno di ventenni", "labels": {"set": "build", "genre": "include"}}
+{"text": "creami un set di un'ora e mezza nu disco per l'aperitivo, che cresca piano", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "per stasera mi prepari una scaletta? festa di compleanno in casa, 40 persone", "labels": {"set": "build"}}
+{"text": "crea una set list per il matrimonio con musica italiana anni 80 e 90", "labels": {"set": "build", "genre": "include"}}
+{"text": "che pezzo è questo?", "labels": {"info": "now"}}
+{"text": "oh ma che roba è?", "labels": {"info": "now"}}
+{"text": "sto pezzo come si chiama", "labels": {"info": "now"}}
+{"text": "chi canta?", "labels": {"info": "now"}}
+{"text": "chi canta sta canzone", "labels": {"info": "now"}}
+{"text": "cosa stai suonando adesso?", "labels": {"info": "now"}}
+{"text": "cosa sta suonando ora", "labels": {"info": "now"}}
+{"text": "titolo del brano attuale?", "labels": {"info": "now"}}
+{"text": "di chi è questa traccia?", "labels": {"info": "now"}}
+{"text": "ma questa è Golden Hour di Nova Reyes?", "labels": {"info": "now"}}
+{"text": "come si chiama il pezzo che sta andando", "labels": {"info": "now"}}
+{"text": "che canzone è?? la gente la sta chiedendo", "labels": {"info": "now"}}
+{"text": "artista di questo brano?", "labels": {"info": "now"}}
+{"text": "cosa c'è in onda?", "labels": {"info": "now"}}
+{"text": "cosa sta girando sul deck adesso", "labels": {"info": "now"}}
+{"text": "mi dici il titolo di quello che suona?", "labels": {"info": "now"}}
+{"text": "ma sto banger chi l'ha fatto", "labels": {"info": "now"}}
+{"text": "che traccia è partita?", "labels": {"info": "now"}}
+{"text": "che cosa stai mettendo", "labels": {"info": "now"}}
+{"text": "cos'è che suona ora? bellissimo", "labels": {"info": "now"}}
+{"text": "chi è l'artista?", "labels": {"info": "now"}}
+{"text": "scusa, che brano è questo? mi piace un sacco", "labels": {"info": "now"}}
+{"text": "questa chi la canta, Aurelia Vance?", "labels": {"info": "now"}}
+{"text": "come si chiamava questo pezzo", "labels": {"info": "now"}}
+{"text": "cosa sta sunando", "labels": {"info": "now"}}
+{"text": "ke pezzo è", "labels": {"info": "now"}}
+{"text": "info sul brano in riproduzione", "labels": {"info": "now"}}
+{"text": "dimmi cosa sta andando adesso", "labels": {"info": "now"}}
+{"text": "come si chiama e di chi è il pezzo attuale?", "labels": {"info": "now"}}
+{"text": "che genere è questo pezzo?", "labels": {"info": "now"}}
+{"text": "ehi segueo, che canzone è?", "labels": {"info": "now"}}
+{"text": "cosa hai messo adesso?", "labels": {"info": "now"}}
+{"text": "sto remix di chi è", "labels": {"info": "now"}}
+{"text": "che musica è questa", "labels": {"info": "now"}}
+{"text": "pezzo attuale?", "labels": {"info": "now"}}
+{"text": "cosa suona", "labels": {"info": "now"}}
+{"text": "il brano in corso come si chiama?", "labels": {"info": "now"}}
+{"text": "che cos'è sto drop pazzesco?", "labels": {"info": "now"}}
+{"text": "questo è Night Drive o sbaglio?", "labels": {"info": "now"}}
+{"text": "cosa stai passando in questo momento? una ragazza lo vuole sapere", "labels": {"info": "now"}}
+{"text": "ma chi l'ha prodotta questa?", "labels": {"info": "now"}}
+{"text": "e dopo?", "labels": {"info": "next"}}
+{"text": "cosa metti dopo?", "labels": {"info": "next"}}
+{"text": "qual è il prossimo pezzo?", "labels": {"info": "next"}}
+{"text": "quando mixi?", "labels": {"info": "next"}}
+{"text": "quanto manca al cambio?", "labels": {"info": "next"}}
+{"text": "tra quanto cambi pezzo?", "labels": {"info": "next"}}
+{"text": "che traccia hai preparato come prossima?", "labels": {"info": "next"}}
+{"text": "cosa viene dopo questo?", "labels": {"info": "next"}}
+{"text": "prossimo brano?", "labels": {"info": "next"}}
+{"text": "quando parte il prossimo?", "labels": {"info": "next"}}
+{"text": "quanto dura ancora questa?", "labels": {"info": "next"}}
+{"text": "fra quanto entra la prossima?", "labels": {"info": "next"}}
+{"text": "hai già deciso cosa mettere dopo?", "labels": {"info": "next"}}
+{"text": "dopo questa che c'è", "labels": {"info": "next"}}
+{"text": "cosa c'è sul prossimo deck?", "labels": {"info": "next"}}
+{"text": "quando fai la transizione?", "labels": {"info": "next"}}
+{"text": "ma quando cambi che sto pezzo è lunghissimo", "labels": {"info": "next"}}
+{"text": "a che ora parte il prossimo mix più o meno", "labels": {"info": "next"}}
+{"text": "il prossimo pezzo chi è?", "labels": {"info": "next"}}
+{"text": "che mi metti dopo?", "labels": {"info": "next"}}
+{"text": "dopo cosa suoni", "labels": {"info": "next"}}
+{"text": "quanti minuti mancano al mix?", "labels": {"info": "next"}}
+{"text": "tra quanto parte il blend?", "labels": {"info": "next"}}
+{"text": "mi dici il prossimo brano in scaletta?", "labels": {"info": "next"}}
+{"text": "che arriva dopo?", "labels": {"info": "next"}}
+{"text": "cosa hai pronto per dopo?", "labels": {"info": "next"}}
+{"text": "e poi cosa suoni?", "labels": {"info": "next"}}
+{"text": "qual'è la prossima traccia", "labels": {"info": "next"}}
+{"text": "prossima canzone quale sarà?", "labels": {"info": "next"}}
+{"text": "quando entra il prossimo?", "labels": {"info": "next"}}
+{"text": "manca tanto al prossimo cambio?", "labels": {"info": "next"}}
+{"text": "prossimo mix fra quanto?", "labels": {"info": "next"}}
+{"text": "cosa c'è dopo Golden Hour?", "labels": {"info": "next"}}
+{"text": "dopo questa cosa hai caricato?", "labels": {"info": "next"}}
+{"text": "che pezzo segue?", "labels": {"info": "next"}}
+{"text": "hai in mente cosa mettere dopo? dimmi", "labels": {"info": "next"}}
+{"text": "quando mixi il prossimo, tra un minuto?", "labels": {"info": "next"}}
+{"text": "e il prossimo cos'è", "labels": {"info": "next"}}
+{"text": "cosa pensi di mettere come prossimo pezzo", "labels": {"info": "next"}}
+{"text": "mi fai sapere quando cambi?", "labels": {"info": "next"}}
+{"text": "quale sarà la prossima", "labels": {"info": "next"}}
+{"text": "perché hai scelto questo pezzo?", "labels": {"info": "why"}}
+{"text": "perche proprio questa?", "labels": {"info": "why"}}
+{"text": "come mai hai messo sta traccia?", "labels": {"info": "why"}}
+{"text": "motivo di questa scelta?", "labels": {"info": "why"}}
+{"text": "perché questo brano adesso?", "labels": {"info": "why"}}
+{"text": "cosa ti ha fatto scegliere questa canzone?", "labels": {"info": "why"}}
+{"text": "ma perché sta roba?", "labels": {"info": "why"}}
+{"text": "spiegami perché hai messo Night Drive", "labels": {"info": "why"}}
+{"text": "come mai questa traccia dopo quella di prima?", "labels": {"info": "why"}}
+{"text": "perché hai cambiato genere all'improvviso?", "labels": {"info": "why"}}
+{"text": "che criterio hai usato per sceglierla?", "labels": {"info": "why"}}
+{"text": "perché hai scelto un pezzo così lento adesso?", "labels": {"info": "why"}}
+{"text": "come mai hai scelto proprio lui?", "labels": {"info": "why"}}
+{"text": "perché hai messo Fuoco? non c'entra niente", "labels": {"info": "why"}}
+{"text": "per quale ragione hai messo questo?", "labels": {"info": "why"}}
+{"text": "perché questo e non un altro?", "labels": {"info": "why"}}
+{"text": "come mai questa scelta? curioso", "labels": {"info": "why"}}
+{"text": "ma perchè hai messo sta canzone, spiegami", "labels": {"info": "why"}}
+{"text": "perché proprio Parallel di Kaito Mori?", "labels": {"info": "why"}}
+{"text": "come l'hai scelto questo brano?", "labels": {"info": "why"}}
+{"text": "mi spieghi la scelta del pezzo?", "labels": {"info": "why"}}
+{"text": "percé questa??", "labels": {"info": "why"}}
+{"text": "che c'entra sto pezzo? perché l'hai messo", "labels": {"info": "why"}}
+{"text": "come mai hai optato per questa traccia?", "labels": {"info": "why"}}
+{"text": "per quale motivo hai messo Low Tide?", "labels": {"info": "why"}}
+{"text": "perché hai scelto un brano con la voce proprio ora?", "labels": {"info": "why"}}
+{"text": "cosa c'entra questa con quella di prima? perché?", "labels": {"info": "why"}}
+{"text": "spiega la scelta di questa traccia", "labels": {"info": "why"}}
+{"text": "come mai questo? stavamo andando bene con la house", "labels": {"info": "why"}}
+{"text": "cosa c'è in coda?", "labels": {"info": "queue"}}
+{"text": "che pezzi hai in coda", "labels": {"info": "queue"}}
+{"text": "fammi vedere la coda", "labels": {"info": "queue"}}
+{"text": "quanti brani ci sono in coda?", "labels": {"info": "queue"}}
+{"text": "cosa hai in lista?", "labels": {"info": "queue"}}
+{"text": "mostrami la coda", "labels": {"info": "queue"}}
+{"text": "c'è ancora Golden Hour in coda?", "labels": {"info": "queue"}}
+{"text": "elenco dei brani in coda?", "labels": {"info": "queue"}}
+{"text": "la coda com'è messa?", "labels": {"info": "queue"}}
+{"text": "che c'è nella mia lista?", "labels": {"info": "queue"}}
+{"text": "cosa rimane in coda", "labels": {"info": "queue"}}
+{"text": "quanti pezzi mancano nella coda?", "labels": {"info": "queue"}}
+{"text": "dimmi i prossimi 5 in coda", "labels": {"info": "queue"}}
+{"text": "ho messo Afterglow in coda, c'è?", "labels": {"info": "queue"}}
+{"text": "leggimi la coda", "labels": {"info": "queue"}}
+{"text": "cos'hai messo in coda finora", "labels": {"info": "queue"}}
+{"text": "la coda è vuota?", "labels": {"info": "queue"}}
+{"text": "quali brani sono in lista d'attesa?", "labels": {"info": "queue"}}
+{"text": "com'è la coda adesso", "labels": {"info": "queue"}}
+{"text": "coda?", "labels": {"info": "queue"}}
+{"text": "c'è qualcosa in coda o vai a caso?", "labels": {"info": "queue"}}
+{"text": "fammi un riepilogo della coda", "labels": {"info": "queue"}}
+{"text": "in coda cosa abbiamo", "labels": {"info": "queue"}}
+{"text": "quante tracce restano nella lista?", "labels": {"info": "queue"}}
+{"text": "come sei impostato?", "labels": {"info": "settings"}}
+{"text": "riassunto delle impostazioni", "labels": {"info": "settings"}}
+{"text": "che impostazioni hai adesso?", "labels": {"info": "settings"}}
+{"text": "come stai mixando? che stile usi?", "labels": {"info": "settings"}}
+{"text": "quante battute fai nei mix?", "labels": {"info": "settings"}}
+{"text": "i mashup automatici sono attivi?", "labels": {"info": "settings"}}
+{"text": "il remix live è acceso?", "labels": {"info": "settings"}}
+{"text": "che strategia stai seguendo?", "labels": {"info": "settings"}}
+{"text": "in che modalità sei, coda o AI?", "labels": {"info": "settings"}}
+{"text": "dimmi come sei settato", "labels": {"info": "settings"}}
+{"text": "fammi un recap della configurazione", "labels": {"info": "settings"}}
+{"text": "che transizioni stai facendo?", "labels": {"info": "settings"}}
+{"text": "hai qualche filtro di genere attivo?", "labels": {"info": "settings"}}
+{"text": "torni al bpm originale dopo il mix?", "labels": {"info": "settings"}}
+{"text": "stai usando lo stile Gabry Ponte?", "labels": {"info": "settings"}}
+{"text": "qual è la tua configurazione attuale?", "labels": {"info": "settings"}}
+{"text": "come sei messo a impostazioni", "labels": {"info": "settings"}}
+{"text": "sei in crescendo o stai tenendo costante?", "labels": {"info": "settings"}}
+{"text": "che settaggi hai?", "labels": {"info": "settings"}}
+{"text": "mi fai un riepilogo di come stai lavorando?", "labels": {"info": "settings"}}
+{"text": "il mashup è on o off?", "labels": {"info": "settings"}}
+{"text": "che lunghezza hanno le transizioni?", "labels": {"info": "settings"}}
+{"text": "hai i generi filtrati?", "labels": {"info": "settings"}}
+{"text": "com'è configurato l'auto dj", "labels": {"info": "settings"}}
+{"text": "stato delle impostazioni pls", "labels": {"info": "settings"}}
+{"text": "stai suonando solo la coda o scegli tu?", "labels": {"info": "settings"}}
+{"text": "quali opzioni hai attive?", "labels": {"info": "settings"}}
+{"text": "setup attuale?", "labels": {"info": "settings"}}
+{"text": "sei in modalità techno?", "labels": {"info": "settings"}}
+{"text": "impostazioni?", "labels": {"info": "settings"}}
+{"text": "cosa sai fare?", "labels": {"info": "help"}}
+{"text": "aiuto", "labels": {"info": "help"}}
+{"text": "help", "labels": {"info": "help"}}
+{"text": "che comandi posso darti?", "labels": {"info": "help"}}
+{"text": "fammi qualche esempio di cosa posso chiederti", "labels": {"info": "help"}}
+{"text": "come funzioni?", "labels": {"info": "help"}}
+{"text": "cosa posso scriverti?", "labels": {"info": "help"}}
+{"text": "come ti uso?", "labels": {"info": "help"}}
+{"text": "quali sono le cose che puoi fare", "labels": {"info": "help"}}
+{"text": "mi fai vedere degli esempi?", "labels": {"info": "help"}}
+{"text": "come faccio a chiederti un mashup?", "labels": {"info": "help"}}
+{"text": "puoi fare scalette?", "labels": {"info": "help"}}
+{"text": "sai fare i mashup?", "labels": {"info": "help"}}
+{"text": "sai mixare stile techno?", "labels": {"info": "help"}}
+{"text": "istruzioni?", "labels": {"info": "help"}}
+{"text": "non so cosa scriverti, aiutami", "labels": {"info": "help"}}
+{"text": "che tipo di richieste capisci?", "labels": {"info": "help"}}
+{"text": "come si usa sta chat?", "labels": {"info": "help"}}
+{"text": "elenco comandi", "labels": {"info": "help"}}
+{"text": "che posso fare qui?", "labels": {"info": "help"}}
+{"text": "mi spieghi come funziona segueo chat?", "labels": {"info": "help"}}
+{"text": "cosa capisci?", "labels": {"info": "help"}}
+{"text": "come ti dico di cambiare genere?", "labels": {"info": "help"}}
+{"text": "sei capace di fare una setlist?", "labels": {"info": "help"}}
+{"text": "guida rapida?", "labels": {"info": "help"}}
+{"text": "ho bisogno di aiuto con i comandi", "labels": {"info": "help"}}
+{"text": "posso chiederti di saltare un pezzo?", "labels": {"info": "help"}}
+{"text": "esempi di frasi?", "labels": {"info": "help"}}
+{"text": "cosa puoi fare per me stasera?", "labels": {"info": "help"}}
+{"text": "come funziona la coda?", "labels": {"info": "help"}}
+{"text": "aiutooo come si fa", "labels": {"info": "help"}}
+{"text": "quali stili di transizione conosci?", "labels": {"info": "help"}}
+{"text": "puoi fare set con i tagli veloci?", "labels": {"info": "help"}}
+{"text": "cosa stai suonando? comunque dopo vai più carico", "labels": {"info": "now", "strategy": "rise"}}
+{"text": "che pezzo è? fantastico, grazie!", "labels": {"info": "now"}}
+{"text": "e dopo cosa metti? magari qualcosa di più tranquillo", "labels": {"info": "next", "strategy": "chill"}}
+{"text": "perché hai messo questa? cambiala subito", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "cosa c'è in coda? svuotala pure", "labels": {"info": "queue", "queue": "clear"}}
+{"text": "come sei impostato? metti transizioni più lunghe", "labels": {"info": "settings", "bars": "long"}}
+{"text": "quando cambi? fallo con un bel filtro", "labels": {"info": "next", "style": "filter"}}
+{"text": "cosa metti dopo? niente reggaeton eh", "labels": {"info": "next", "genre": "exclude"}}
+{"text": "tra quanto mixi? usa l'eco stavolta", "labels": {"info": "next", "style": "echo"}}
+{"text": "prepara un set per il closing e fai partire subito", "labels": {"set": "build", "control": "start"}}
+{"text": "crea una scaletta house di un'ora, transizioni lunghe", "labels": {"set": "build", "genre": "include", "bars": "long"}}
+{"text": "scaletta per aperitivo con dissolvenze morbide", "labels": {"set": "build", "style": "fade"}}
+{"text": "prepara un set techno per l'after e mixa in stile techno", "labels": {"set": "build", "genre": "include", "style": "model-techno"}}
+{"text": "setlist dance per il compleanno, stile Gabry Ponte", "labels": {"set": "build", "genre": "include", "style": "model"}}
+{"text": "fammi una playlist per il matrimonio e attiva i mashup automatici", "labels": {"set": "build", "mashupOpt": "on"}}
+{"text": "scaletta per l'after senza mashup", "labels": {"set": "build", "mashupOpt": "off"}}
+{"text": "set per festa aziendale, remix live spento", "labels": {"set": "build", "remix": "off"}}
+{"text": "come sei impostato adesso? spegni il remix live", "labels": {"info": "settings", "remix": "off"}}
+{"text": "che stai suonando? alza l'energia per un paio di pezzi", "labels": {"info": "now", "strategy": "rise", "temporary": "yes"}}
+{"text": "com'è la coda? mettici anche Summer Rain", "labels": {"info": "queue", "queue": "add"}}
+{"text": "cosa sai fare? tipo i mashup?", "labels": {"info": "help"}}
+{"text": "ciao, cosa stai mettendo?", "labels": {"info": "now"}}
+{"text": "buonasera! mi prepari un set per l'aperitivo?", "labels": {"set": "build"}}
+{"text": "grazie! e dopo che metti?", "labels": {"info": "next"}}
+{"text": "bella questa, come si chiama?", "labels": {"info": "now"}}
+{"text": "top! chi è l'artista?", "labels": {"info": "now"}}
+{"text": "cosa hai messo come prossimo? no dai cambialo", "labels": {"info": "next", "control": "skip"}}
+{"text": "cosa c'è in coda? mescolala un po'", "labels": {"info": "queue", "queue": "shuffle"}}
+{"text": "fammi vedere la coda e togli Neon Nights", "labels": {"info": "queue", "queue": "remove"}}
+{"text": "come sei settato? passa in modalità coda", "labels": {"info": "settings", "mode": "queue"}}
+{"text": "che modalità stai usando? scegli tu i pezzi da ora", "labels": {"info": "settings", "mode": "ai"}}
+{"text": "prepara una playlist per l'after e passa alla vista AI", "labels": {"set": "build", "view": "ai"}}
+{"text": "mi fai una scaletta per il closing, con tagli secchi a tempo?", "labels": {"set": "build", "style": "cut"}}
+{"text": "prepara un set a raffica stile LUM!X per il compleanno", "labels": {"set": "build", "style": "rapid"}}
+{"text": "crea un set per il warm up con mix brevi da 8 battute", "labels": {"set": "build", "bars": "short"}}
+{"text": "fai una scaletta per l'aperitivo con mix lunghissimi, 64 battute", "labels": {"set": "build", "bars": "verylong"}}
+{"text": "genera una playlist per l'after, e dopo ogni mix torna al bpm originale", "labels": {"set": "build", "returnTempo": "on"}}
+{"text": "crea un set di un'ora e mezza, bass swap su tutti i mix", "labels": {"set": "build", "style": "bassswap"}}
+{"text": "fammi un set house, e le transizioni decidile tu", "labels": {"set": "build", "genre": "include", "style": "auto"}}
+{"text": "cosa stai suonando? mi pare Northern Lights", "labels": {"info": "now"}}
+{"text": "e dopo Glass City cosa viene?", "labels": {"info": "next"}}
+{"text": "quanto manca al mix? intanto accorcia le transizioni", "labels": {"info": "next", "bars": "short"}}
+{"text": "tra quanto cambi? vai col taglio netto", "labels": {"info": "next", "style": "cut"}}
+{"text": "perché hai messo sta roba? per le prossime 2 tracce torna alla house", "labels": {"info": "why", "genre": "include", "temporary": "yes"}}
+{"text": "che impostazioni hai? da adesso decidi tu come mixare", "labels": {"info": "settings", "style": "auto"}}
+{"text": "aiuto, come si fa a fare un mashup? fammene uno tu intanto", "labels": {"info": "help", "mashup": "auto"}}
+{"text": "quali comandi hai? intanto fai partire la musica", "labels": {"info": "help", "control": "start"}}
+{"text": "hai una scaletta per l'aperitivo? creala tu", "labels": {"set": "build"}}
+{"text": "puoi preparare un set di 30 pezzi per il compleanno e suonare solo quelli in coda?", "labels": {"set": "build", "mode": "queue"}}
+{"text": "creami un set anni 80 e 90, e niente mashup per favore", "labels": {"set": "build", "genre": "include", "mashupOpt": "off"}}
+{"text": "prepara un set per il beach party e metti anche qualche mashup automatico", "labels": {"set": "build", "mashupOpt": "on"}}
+{"text": "scaletta per closing, genere libero, ma con crescendo", "labels": {"set": "build", "genre": "clear", "strategy": "rise"}}
+{"text": "prepara un set per l'aperitivo e togli i filtri di genere", "labels": {"set": "build", "genre": "clear"}}
+{"text": "che stile di mix stai usando? passa al filtro", "labels": {"info": "settings", "style": "filter"}}
+{"text": "quante battute stai usando? portale a 32", "labels": {"info": "settings", "bars": "long"}}
+{"text": "il remix live è attivo? se no accendilo", "labels": {"info": "settings", "remix": "on"}}
+{"text": "i mashup automatici sono accesi? spegnili", "labels": {"info": "settings", "mashupOpt": "off"}}
+{"text": "torni al tempo originale? preferisco restare al nuovo bpm", "labels": {"info": "settings", "returnTempo": "off"}}
+{"text": "cosa c'è in coda? metti Weightless come prossima", "labels": {"info": "queue", "queue": "playNext"}}
+{"text": "che pezzo è questo, Paradise City? bellissimo", "labels": {"info": "now"}}
+{"text": "cosa suoni ora? dai spingi di più", "labels": {"info": "now", "strategy": "rise"}}
+{"text": "cos'è sta roba lenta? passa alla prossima", "labels": {"info": "now", "control": "mixNow"}}
+{"text": "oh ma che roba è? togli", "labels": {"info": "now", "control": "mixNow"}}
+{"text": "perché stai andando così piano? voglio i banger", "labels": {"info": "why", "strategy": "peak"}}
+{"text": "e dopo? mi raccomando qualcosa di dance", "labels": {"info": "next", "genre": "include"}}
+{"text": "prossimo pezzo quale? fallo entrare con un echo", "labels": {"info": "next", "style": "echo"}}
+{"text": "cosa sta suonando ora? chiudi dopo questa", "labels": {"info": "now", "control": "endAfterCurrent"}}
+{"text": "come sei impostato? ok, fai partire", "labels": {"info": "settings", "control": "start"}}
+{"text": "prepara un set di 2 ore per festa aziendale e fammi vedere la vista AI", "labels": {"set": "build", "view": "ai"}}
+{"text": "crea la scaletta per il compleanno e torna alla console", "labels": {"set": "build", "view": "console"}}
+{"text": "scaletta per aperitivo al lago, un'ora, deep house, bella morbida", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "chi canta questa? comunque più avanti metti un po' di disco", "labels": {"info": "now", "genre": "add"}}
+{"text": "cosa hai in coda? aggiungi Open Water di Leo Marin", "labels": {"info": "queue", "queue": "add"}}
+{"text": "perché Estate? toglila dalla coda", "labels": {"info": "why", "queue": "remove"}}
+{"text": "che pezzo hai preparato dopo? mettici Moonlight invece", "labels": {"info": "next", "queue": "playNext"}}
+{"text": "come sei configurato? alterna un po' l'energia", "labels": {"info": "settings", "strategy": "wave"}}
+{"text": "quando mixi? stavolta fai un bass swap", "labels": {"info": "next", "style": "bassswap"}}
+{"text": "sto pezzo chi lo canta? fammi un mashup con qualcosa di tuo", "labels": {"info": "now", "mashup": "auto"}}
+{"text": "dopo cosa metti? fai un mashup tra la voce di Afterglow e la base di Low Tide", "labels": {"info": "next", "mashup": "explicit"}}
+{"text": "che traccia è? tienila più a lungo, allunga i mix", "labels": {"info": "now", "bars": "long"}}
+{"text": "prepara un set per l'after, stile techno, blend da 64 battute", "labels": {"set": "build", "style": "model-techno", "bars": "verylong"}}
+{"text": "fai una scaletta per il compleanno con tagli rapidi stile LUM!X e tanta trap", "labels": {"set": "build", "style": "rapid", "genre": "include"}}
+{"text": "crea un warm-up deep house, mix lunghi e filtro", "labels": {"set": "build", "genre": "include", "bars": "long", "style": "filter"}}
+{"text": "mi fai un set per matrimonio in stile dance come Gabry Ponte, bello carico?", "labels": {"set": "build", "style": "model", "strategy": "peak"}}
+{"text": "setlist per aperitivo, remix live acceso", "labels": {"set": "build", "remix": "on"}}
+{"text": "prepara la scaletta per il beach party e restate sui bpm nuovi dopo i mix", "labels": {"set": "build", "returnTempo": "off"}}
+{"text": "dimmi come sei impostato e poi vai in crescendo", "labels": {"info": "settings", "strategy": "rise"}}
+{"text": "che mi puoi fare? crea una scaletta per l'after intanto", "labels": {"info": "help", "set": "build"}}
+{"text": "come si usa? prepara una playlist per l'aperitivo va", "labels": {"info": "help", "set": "build"}}
+{"text": "qual è la prossima? tanto chiudiamo dopo questa", "labels": {"info": "next", "control": "endAfterCurrent"}}
+{"text": "cosa sta andando? mettilo in coda anche per dopo, e poi Parallel", "labels": {"info": "now", "queue": "add"}}
+{"text": "quanto manca? no aspetta non chiudere, continua a suonare", "labels": {"info": "next", "control": "resume"}}
+{"text": "perché hai messo Neon Nights? per ora solo pezzi dal mio elenco", "labels": {"info": "why", "mode": "queue"}}
+{"text": "in coda che c'è? se è vuota scegli tu", "labels": {"info": "queue", "mode": "ai"}}
+{"text": "dai spingi di più", "labels": {"strategy": "rise"}}
+{"text": "tieni questa energia, va benissimo così", "labels": {"strategy": "steady"}}
+{"text": "alterna pezzi tosti e momenti più calmi", "labels": {"strategy": "wave"}}
+{"text": "abbassa un po' l'energia, la gente è stanca", "labels": {"strategy": "chill"}}
+{"text": "solo bombe da ora in poi", "labels": {"strategy": "peak"}}
+{"text": "portala su piano piano", "labels": {"strategy": "rise"}}
+{"text": "mantieni il livello costante", "labels": {"strategy": "steady"}}
+{"text": "calma calma, qualcosa di più soft", "labels": {"strategy": "chill"}}
+{"text": "facciamo un po' di saliscendi", "labels": {"strategy": "wave"}}
+{"text": "voglio il picco, massima energia!!", "labels": {"strategy": "peak"}}
+{"text": "sali di brutto", "labels": {"strategy": "rise"}}
+{"text": "piu chill per favore", "labels": {"strategy": "chill"}}
+{"text": "resta su questa vibe", "labels": {"strategy": "steady"}}
+{"text": "fai a onde per un po'", "labels": {"strategy": "wave", "temporary": "yes"}}
+{"text": "solo banger per i prossimi 3 brani", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "rallenta un po' per un paio di pezzi", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "fai tu le transizioni", "labels": {"style": "auto"}}
+{"text": "mixa scambiando i bassi", "labels": {"style": "bassswap"}}
+{"text": "usa il bass swap", "labels": {"style": "bassswap"}}
+{"text": "transizioni col filtro", "labels": {"style": "filter"}}
+{"text": "chiudi i pezzi con l'eco", "labels": {"style": "echo"}}
+{"text": "echo out sul prossimo cambio", "labels": {"style": "echo"}}
+{"text": "sfuma dolcemente", "labels": {"style": "fade"}}
+{"text": "transizioni morbide, dissolvenze lente", "labels": {"style": "fade"}}
+{"text": "tagli secchi sul beat", "labels": {"style": "cut"}}
+{"text": "cut netti a tempo", "labels": {"style": "cut"}}
+{"text": "vai a raffica, pezzi cortissimi uno dopo l'altro", "labels": {"style": "rapid"}}
+{"text": "stile LUM!X!", "labels": {"style": "rapid"}}
+{"text": "mixa come Gabry Ponte", "labels": {"style": "model"}}
+{"text": "stile dance alla Gabry Ponte per favore", "labels": {"style": "model"}}
+{"text": "blend techno lunghi, stile techno", "labels": {"style": "model-techno"}}
+{"text": "passa allo stile techno", "labels": {"style": "model-techno"}}
+{"text": "mix più corti", "labels": {"bars": "short"}}
+{"text": "8 battute bastano", "labels": {"bars": "short"}}
+{"text": "transizioni più lunghe", "labels": {"bars": "long"}}
+{"text": "fai mix da 32 battute", "labels": {"bars": "long"}}
+{"text": "mix lunghissimi, 64 battute", "labels": {"bars": "verylong"}}
+{"text": "allunga tantissimo i blend, proprio al massimo", "labels": {"bars": "verylong"}}
+{"text": "fai i mix a 16 battute", "labels": {}}
+{"text": "attiva il remix live", "labels": {"remix": "on"}}
+{"text": "metti loop e filtri mentre il pezzo suona da solo", "labels": {"remix": "on"}}
+{"text": "basta effetti live sul pezzo, lascialo pulito", "labels": {"remix": "off"}}
+{"text": "spegni il remix", "labels": {"remix": "off"}}
+{"text": "attiva i mashup automatici", "labels": {"mashupOpt": "on"}}
+{"text": "niente mashup stasera", "labels": {"mashupOpt": "off"}}
+{"text": "mashup automatici on", "labels": {"mashupOpt": "on"}}
+{"text": "disattiva i mashup", "labels": {"mashupOpt": "off"}}
+{"text": "dopo il mix torna al bpm originale del pezzo", "labels": {"returnTempo": "on"}}
+{"text": "resta al nuovo bpm", "labels": {"returnTempo": "off"}}
+{"text": "non tornare al tempo originale", "labels": {"returnTempo": "off"}}
+{"text": "rimetti il tempo originale dopo ogni transizione", "labels": {"returnTempo": "on"}}
+{"text": "scegli tu i pezzi", "labels": {"mode": "ai"}}
+{"text": "suona solo la mia coda", "labels": {"mode": "queue"}}
+{"text": "passa in modalità AI", "labels": {"mode": "ai"}}
+{"text": "solo la mia lista, niente altro", "labels": {"mode": "queue"}}
+{"text": "parti!", "labels": {"control": "start"}}
+{"text": "avvia l'ai dj", "labels": {"control": "start"}}
+{"text": "fai partire la musica", "labels": {"control": "start"}}
+{"text": "stop", "labels": {"control": "stop"}}
+{"text": "ferma tutto", "labels": {"control": "stop"}}
+{"text": "spegni tutto, abbiamo finito", "labels": {"control": "stop"}}
+{"text": "cambia subito", "labels": {"control": "mixNow"}}
+{"text": "via questo pezzo", "labels": {"control": "mixNow"}}
+{"text": "manda il prossimo adesso", "labels": {"control": "mixNow"}}
+{"text": "il prossimo che hai preparato non va, cambialo", "labels": {"control": "skip"}}
+{"text": "scegli un altro brano come prossimo", "labels": {"control": "skip"}}
+{"text": "salta quello dopo, non questo", "labels": {"control": "skip"}}
+{"text": "ultimo pezzo, poi chiudi", "labels": {"control": "endAfterCurrent"}}
+{"text": "chiudi dopo questa", "labels": {"control": "endAfterCurrent"}}
+{"text": "no aspetta, non chiudere, continua", "labels": {"control": "resume"}}
+{"text": "annulla la chiusura, andiamo avanti", "labels": {"control": "resume"}}
+{"text": "metti in coda Golden Hour", "labels": {"queue": "add"}}
+{"text": "aggiungi Night Drive di Jonah Wilde alla coda", "labels": {"queue": "add"}}
+{"text": "Afterglow come prossima", "labels": {"queue": "playNext"}}
+{"text": "suona Electric Dreams subito dopo questa", "labels": {"queue": "playNext"}}
+{"text": "togli Estate dalla coda", "labels": {"queue": "remove"}}
+{"text": "rimuovi Moonlight dalla lista", "labels": {"queue": "remove"}}
+{"text": "svuota la coda", "labels": {"queue": "clear"}}
+{"text": "cancella tutta la coda", "labels": {"queue": "clear"}}
+{"text": "mescola la coda", "labels": {"queue": "shuffle"}}
+{"text": "shuffle della lista", "labels": {"queue": "shuffle"}}
+{"text": "solo techno", "labels": {"genre": "include"}}
+{"text": "voglio house", "labels": {"genre": "include"}}
+{"text": "niente reggaeton", "labels": {"genre": "exclude"}}
+{"text": "basta commerciale", "labels": {"genre": "exclude"}}
+{"text": "metti anche un po' di funk", "labels": {"genre": "add"}}
+{"text": "aggiungi qualche pezzo latin qua e là", "labels": {"genre": "add"}}
+{"text": "togli i filtri di genere", "labels": {"genre": "clear"}}
+{"text": "qualsiasi genere va bene", "labels": {"genre": "clear"}}
+{"text": "fammi un mashup", "labels": {"mashup": "auto"}}
+{"text": "fai un mashup tu, scegli i pezzi", "labels": {"mashup": "auto"}}
+{"text": "mashup con la voce di Golden Hour sulla base di Night Drive", "labels": {"mashup": "explicit"}}
+{"text": "metti la voce di Summer Rain sopra la strumentale di Parallel", "labels": {"mashup": "explicit"}}
+{"text": "vai alla vista AI", "labels": {"view": "ai"}}
+{"text": "torna alla console", "labels": {"view": "console"}}
+{"text": "fammi vedere i deck", "labels": {"view": "console"}}
+{"text": "schermata ai", "labels": {"view": "ai"}}
+{"text": "più carica e transizioni corte", "labels": {"strategy": "rise", "bars": "short"}}
+{"text": "solo techno, stile techno e mix lunghissimi", "labels": {"genre": "include", "style": "model-techno", "bars": "verylong"}}
+{"text": "spegni i mashup e attiva il remix live", "labels": {"mashupOpt": "off", "remix": "on"}}
+{"text": "metti Glass City in coda e poi mescola tutto", "labels": {"queue": "shuffle"}}
+{"text": "niente trap e fai i tagli sul beat", "labels": {"genre": "exclude", "style": "cut"}}
+{"text": "per i prossimi due pezzi vai di filtro e mix corti", "labels": {"style": "filter", "bars": "short", "temporary": "yes"}}
+{"text": "scegli tu i brani e spingi al massimo", "labels": {"mode": "ai", "strategy": "peak"}}
+{"text": "svuota la coda e passa alla modalità AI", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "aggiungi un po' di afro house e alza piano l'energia", "labels": {"genre": "add", "strategy": "rise"}}
+{"text": "fai partire il set con la house", "labels": {"control": "start", "genre": "include"}}
+{"text": "parti con mix lunghi e dissolvenze", "labels": {"control": "start", "bars": "long", "style": "fade"}}
+{"text": "stop dopo questo pezzo e grazie a tutti", "labels": {"control": "endAfterCurrent"}}
+{"text": "cambia subito e metti Fuoco di Silas Hart", "labels": {"control": "mixNow", "queue": "playNext"}}
+{"text": "per un po' solo deep house, poi vediamo", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "tagli a raffica per i prossimi 4 brani", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "mashup automatici on e rimani sul bpm nuovo", "labels": {"mashupOpt": "on", "returnTempo": "off"}}
+{"text": "torna alla vista ai e fai un mashup", "labels": {"view": "ai", "mashup": "auto"}}
+{"text": "ok abbassa l'energia e usa l'eco nelle uscite", "labels": {"strategy": "chill", "style": "echo"}}
+{"text": "togli Mare Blu e Paradise City dalla coda", "labels": {"queue": "remove"}}
+{"text": "qualsiasi genere, ma mantieni l'energia", "labels": {"genre": "clear", "strategy": "steady"}}
+{"text": "vai di bass swap e mix da 32", "labels": {"style": "bassswap", "bars": "long"}}
+{"text": "stile gabry ponte e solo dance per stasera", "labels": {"style": "model", "genre": "include"}}
+{"text": "passa alla console e ferma tutto", "labels": {"view": "console", "control": "stop"}}
+{"text": "la gente balla", "labels": {}}
+{"text": "è mezzanotte", "labels": {}}
+{"text": "che bella serata", "labels": {}}
+{"text": "alza il volume", "labels": {}}
+{"text": "metti il microfono", "labels": {}}
+{"text": "accendi le luci", "labels": {}}
+{"text": "pista piena!", "labels": {}}
+{"text": "il locale si sta riempiendo", "labels": {}}
+{"text": "ok", "labels": {}}
+{"text": "va bene", "labels": {}}
+{"text": "vediamo", "labels": {}}
+{"text": "abbassa il volume che i vicini si lamentano", "labels": {}}
+{"text": "attiva il microfono per il discorso degli sposi", "labels": {}}
+{"text": "fra poco arriva la torta", "labels": {}}
+{"text": "c'è tanta gente al bar", "labels": {}}
+{"text": "boh", "labels": {}}
+{"text": "sono le 2, la gente comincia ad andare", "labels": {}}
+{"text": "gli sposi stanno entrando in sala", "labels": {}}
+{"text": "fa caldissimo qui dentro", "labels": {}}
+{"text": "le luci strobo sono fortissime", "labels": {}}
+{"text": "hmm", "labels": {}}
+{"text": "tutti con le mani in alto", "labels": {}}
+{"text": "sta per iniziare il brindisi", "labels": {}}
+{"text": "fumo in pista!", "labels": {}}
+{"text": "spegni le luci", "labels": {}}
+{"text": "aumenta il volume del master", "labels": {}}
+{"text": "sto arrivando in consolle tra 5 minuti", "labels": {}}
+{"text": "il bar ha finito il ghiaccio lol", "labels": {}}
+{"text": "mamma mia che caldo", "labels": {}}
+{"text": "la festeggiata è appena arrivata", "labels": {}}
+{"text": "vabbè", "labels": {}}
+{"text": "ci sono tipo 300 persone", "labels": {}}
+{"text": "il fonico dice che va tutto bene", "labels": {}}
+{"text": "alza un po' le casse di destra", "labels": {}}
+{"text": "sto registrando una storia", "labels": {}}
+{"text": "stasera c'è il pienone", "labels": {}}
+{"text": "ho perso il telefono in pista", "labels": {}}
+{"text": "il proprietario del locale è contento", "labels": {}}
+{"text": "tra mezz'ora c'è il taglio della torta", "labels": {}}
+{"text": "okok", "labels": {}}
+{"text": "che ore sono?", "labels": {"talk": "offtopic"}}
+{"text": "che tempo fa domani?", "labels": {"talk": "offtopic"}}
+{"text": "chi ha vinto la partita dell'Inter?", "labels": {"talk": "offtopic"}}
+{"text": "come si fa la carbonara?", "labels": {"talk": "offtopic"}}
+{"text": "quanto fa 15 per 12?", "labels": {"talk": "offtopic"}}
+{"text": "mi chiami un taxi?", "labels": {"talk": "offtopic"}}
+{"text": "raccontami una barzelletta", "labels": {"talk": "offtopic"}}
+{"text": "dove posso mangiare una pizza qui vicino?", "labels": {"talk": "offtopic"}}
+{"text": "traduci buonasera in inglese", "labels": {"talk": "offtopic"}}
+{"text": "chi è il presidente della repubblica?", "labels": {"talk": "offtopic"}}
+{"text": "scrivimi una mail per il capo", "labels": {"talk": "offtopic"}}
+{"text": "quanti gol ha fatto Lautaro quest'anno?", "labels": {"talk": "offtopic"}}
+{"text": "piove domani a Milano?", "labels": {"talk": "offtopic"}}
+{"text": "mi consigli un film per stasera?", "labels": {"talk": "offtopic"}}
+{"text": "qual è la capitale dell'Australia?", "labels": {"talk": "offtopic"}}
+{"text": "come sta andando la borsa?", "labels": {"talk": "offtopic"}}
+{"text": "ricetta del tiramisù?", "labels": {"talk": "offtopic"}}
+{"text": "a che ora chiude la farmacia?", "labels": {"talk": "offtopic"}}
+{"text": "ciao", "labels": {"talk": "hello"}}
+{"text": "buonasera segueo", "labels": {"talk": "hello"}}
+{"text": "ehi ciao!", "labels": {"talk": "hello"}}
+{"text": "salve", "labels": {"talk": "hello"}}
+{"text": "buongiorno!", "labels": {"talk": "hello"}}
+{"text": "ciao segueo, ci sei?", "labels": {"talk": "hello"}}
+{"text": "yo bro", "labels": {"talk": "hello"}}
+{"text": "grazie mille", "labels": {"talk": "thanks"}}
+{"text": "grande!", "labels": {"talk": "thanks"}}
+{"text": "sei un mito", "labels": {"talk": "thanks"}}
+{"text": "bella scelta, bravo", "labels": {"talk": "thanks"}}
+{"text": "perfetto, grazie", "labels": {"talk": "thanks"}}
+{"text": "top", "labels": {"talk": "thanks"}}
+{"text": "grazie, stai andando alla grande", "labels": {"talk": "thanks"}}
+{"text": "madonna che mix, complimenti", "labels": {"talk": "thanks"}}
+{"text": "spacchi!", "labels": {"talk": "thanks"}}
+{"text": "yo, che traccia è sta bomba?", "labels": {"info": "now"}}
+{"text": "chi è sto artista?? spacca", "labels": {"info": "now"}}
+{"text": "cos'è questo, un remix di Moonlight?", "labels": {"info": "now"}}
+{"text": "che è sta roba", "labels": {"info": "now"}}
+{"text": "come si kiama?", "labels": {"info": "now"}}
+{"text": "sai dirmi il titolo?", "labels": {"info": "now"}}
+{"text": "dopo che c'è?", "labels": {"info": "next"}}
+{"text": "quanto ci metti a cambiare?", "labels": {"info": "next"}}
+{"text": "il prox pezzo?", "labels": {"info": "next"}}
+{"text": "next track?", "labels": {"info": "next"}}
+{"text": "what's next? cioè cosa metti dopo", "labels": {"info": "next"}}
+{"text": "perché sta scelta bro?", "labels": {"info": "why"}}
+{"text": "why questa?", "labels": {"info": "why"}}
+{"text": "che logica hai usato per scegliere questo pezzo?", "labels": {"info": "why"}}
+{"text": "coda attuale?", "labels": {"info": "queue"}}
+{"text": "quanti pezzi ho messo in coda?", "labels": {"info": "queue"}}
+{"text": "come stai settato ora, recap veloce", "labels": {"info": "settings"}}
+{"text": "cosa hai attivo tra remix, mashup e tempo?", "labels": {"info": "settings"}}
+{"text": "cosa puoi fare esattamente?", "labels": {"info": "help"}}
+{"text": "come ti devo parlare?", "labels": {"info": "help"}}
+{"text": "mi dai una mano a capire come usarti?", "labels": {"info": "help"}}
+{"text": "yo segueo, buildami un set per l'after, solo banger techno", "labels": {"set": "build", "genre": "include", "strategy": "peak"}}
+{"text": "mi serve la tracklist per il warm-up delle 23, deep e minimal, niente hype", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "setlist aperitivo pls", "labels": {"set": "build"}}
+{"text": "scalettina per l'aperitivo? 20 pezzi max", "labels": {"set": "build"}}
+{"text": "ce la fai a prepararmi un set per un matrimonio di 150 invitati?", "labels": {"set": "build"}}
+{"text": "Prepara la scaletta del compleanno: si parte soft e si arriva al delirio", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "mi imposti una playlist per la festa aziendale? niente trap", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "voglio un set per il beach party con vibe estiva, latin e reggaeton", "labels": {"set": "build", "genre": "include"}}
+{"text": "genera una scaletta per il warm up, max 122 bpm, house", "labels": {"set": "build", "genre": "include"}}
+{"text": "scaletta per stasera tra 124 e 128 bpm, tech house", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi fai un set di un'ora e un quarto? disco e funk, groove costante", "labels": {"set": "build", "genre": "include", "strategy": "steady"}}
+{"text": "organizza una setlist per il matrimonio, niente techno e niente drum and bass", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "crea un set che parte chill e poi esplode, per il compleanno", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "preparami na playlist per l'aperitivo, roba lounge", "labels": {"set": "build", "genre": "include"}}
+{"text": "me fai 'na scaletta pe' l'after? tutta techno", "labels": {"set": "build", "genre": "include"}}
+{"text": "fammi 'na setlist per stasera, deciditela tu", "labels": {"set": "build"}}
+{"text": "costruisci un set per un after in riva al mare, afro house e melodic, sempre sullo stesso livello", "labels": {"set": "build", "genre": "include", "strategy": "steady"}}
+{"text": "crea una scaleta di 2 ore x la festa aziendale", "labels": {"set": "build"}}
+{"text": "setlsit per il compleanno di luca, 30 pezzi, commerciale", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara un playlist dance per il matrimonio", "labels": {"set": "build", "genre": "include"}}
+{"text": "faccio un aperitivo in giardino, mi prepari qualcosa di tranquillo da un'ora?", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "domani ho un beach party, preparami un set di tre ore", "labels": {"set": "build"}}
+{"text": "stasera suono al closing, mi fai una tracklist con crescendo finale?", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "creami un set di 16 brani che alterni energia alta e bassa", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "mi componi una setlist per il warm-up? progressive, costante", "labels": {"set": "build", "genre": "include", "strategy": "steady"}}
+{"text": "tracklist per l'after di sabato: techno e minimal", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara un set per l'aperitivo evitando la roba commerciale", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "ho un matrimonio domenica, puoi prepararmi la scaletta per il dopocena?", "labels": {"set": "build"}}
+{"text": "voglio una playlist per la festa aziendale, solo hit italiane anni 80", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea un set tech house, un'ora, energia al massimo dall'inizio", "labels": {"set": "build", "genre": "include", "strategy": "peak"}}
+{"text": "fai una playlist hype per il beach party, solo banger", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "mi fai un set da 2 ore tutto vibes chill per la spiaggia", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "scaletta per l'aperitivo aziendale, qualsiasi genere, basta che sia elegante", "labels": {"set": "build", "genre": "clear"}}
+{"text": "prepara una playlist per il compleanno, generi a tua scelta", "labels": {"set": "build", "genre": "clear"}}
+{"text": "prepara un set di warm-up per il dj che viene dopo di me, deep house a bassa energia", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "genera una setlist per un after lunghissimo, 5 ore, techno a ondate", "labels": {"set": "build", "genre": "include", "strategy": "wave"}}
+{"text": "puoi fare una scaletta per un matrimonio con pop, dance e commerciale?", "labels": {"set": "build", "genre": "include"}}
+{"text": "fammi un closing set trance con i pezzi più epici e potenti", "labels": {"set": "build", "genre": "include", "strategy": "peak"}}
+{"text": "mi prepari al volo una scaletta di 10 pezzi?", "labels": {"set": "build"}}
+{"text": "prepara una scaletta per il beach party e parti subito", "labels": {"set": "build", "control": "start"}}
+{"text": "per l'aperitivo di stasera creami un set nu disco, che salga piano piano", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "fammi una playlist per la festa dei 50 anni di mia madre, italo disco e anni 80", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea un set per l'after con drum and bass, un'ora e mezza, costante", "labels": {"set": "build", "genre": "include", "strategy": "steady"}}
+{"text": "prepara una setlist di 25 brani per l'aperitivo, senza hip hop", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "SCALETTA PER IL MATRIMONIO, 3 ORE, GRAZIE", "labels": {"set": "build"}}
+{"text": "mi serve un blend di pezzi per un'ora di warm up, fai tu", "labels": {"set": "build"}}
+{"text": "oh mi fai una playlist edm da urlo per il compleanno di Sara", "labels": {"set": "build", "genre": "include"}}
+{"text": "puoi mettermi in fila un set per l'aperitivo? house, niente di troppo tirato", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "hey, prepara la setlist per la festa aziendale: dance anni 90 e revival", "labels": {"set": "build", "genre": "include"}}
+{"text": "scaletta closing: prima tranquilla, poi sempre più su fino alla fine", "labels": {"set": "build", "strategy": "rise"}}

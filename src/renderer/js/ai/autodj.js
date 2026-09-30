@@ -1,7 +1,7 @@
-// AI DJ: mixa in automatico. Sceglie il brano successivo (motore interno o LLM locale),
+// AI DJ: mixa in automatico. Sceglie il brano successivo (motore interno, indicazioni di SegueoChat),
 // lo precarica, calcola il punto di mix allineato alle frasi, sincronizza tempo e fase
 // ed esegue la transizione muovendo crossfader, EQ, filtri ed effetti come un DJ.
-import { rankCandidates, planTransition, transitionState, buildSet, keyScore } from './selector.js';
+import { rankCandidates, planTransition, transitionState, buildSet, keyScore, matchesFilters, hasFilters, NO_FILTERS } from './selector.js';
 import { formatTime } from '../dsp/analysis.js';
 import { planCurves, isModelStyle, TRANSITION_STYLES } from './transition-planner.js';
 import { rapidTiming } from './rapid.js';
@@ -16,15 +16,14 @@ const DEFAULT_OPTIONS = {
   strategy: 'steady',
   style: 'auto',
   bars: 16,
-  useLLM: false,
   returnTempo: true,
-  notes: '',
   remix: false, // remix dal vivo mentre un brano suona da solo
   mashup: false, // voce del prossimo brano sulla base di quello in onda (serve il modello Demucs)
+  filters: NO_FILTERS, // generi e BPM chiesti a SegueoChat (si sostituisce sempre per intero, mai modificato)
 };
 
 export class AutoDJ extends EventTarget {
-  constructor({ engine, decks, getControls, getPool, llm, stems = null, getMashups = () => [], random = Math.random }) {
+  constructor({ engine, decks, getControls, getPool, stems = null, getMashups = () => [], random = Math.random }) {
     super();
     this.stems = stems;
     this.getMashups = getMashups; // mashup salvati nella scheda MASHUP
@@ -33,7 +32,6 @@ export class AutoDJ extends EventTarget {
     this.decks = decks;
     this.getControls = getControls;
     this.getPool = getPool;
-    this.llm = llm;
     this.options = { ...DEFAULT_OPTIONS };
     this.queue = [];
     this.enabled = false;
@@ -44,6 +42,8 @@ export class AutoDJ extends EventTarget {
     this.selecting = false;
     this.timer = null;
     this.step = 0;
+    this.endAfterCurrent = false; // "chiudi il set dopo questo brano"
+    this.temp = null; // impostazioni per i prossimi N brani: { remaining, restore }
   }
 
   // --- compatibilità con la vecchia coda Automix ---------------------------------
@@ -72,6 +72,65 @@ export class AutoDJ extends EventTarget {
     // la pianificazione dipende dalle opzioni: si ricalcola
     if (this.plan && !this.transition) this.plan = null;
     this.emit();
+    this.emit('options');
+  }
+
+  /** Opzioni da salvare: durante un cambio temporaneo valgono quelle a cui si tornerà. */
+  savedOptions() {
+    return { ...this.options, ...(this.temp ? this.temp.restore : {}) };
+  }
+
+  /** Cambia alcune opzioni solo per i prossimi `count` brani, poi torna a quelle di prima. */
+  setTemporary(patch, count) {
+    const restore = { ...(this.temp ? this.temp.restore : {}) };
+    for (const k of Object.keys(patch)) if (!(k in restore)) restore[k] = this.options[k];
+    this.temp = { remaining: Math.max(1, Math.round(count)), restore };
+    this.setOptions(patch);
+  }
+
+  /** Un brano in più è andato in onda: conta i brani dei cambi temporanei. */
+  onTrackOnAir() {
+    if (!this.temp) return;
+    this.temp.remaining--;
+    if (this.temp.remaining > 0) return;
+    const { restore } = this.temp;
+    this.temp = null;
+    this.say('Finiti i brani con le impostazioni temporanee: torno a quelle di prima');
+    this.setOptions(restore);
+  }
+
+  /** Il set finisce con il brano in onda (on = false lo fa continuare). */
+  setEndAfterCurrent(on) {
+    this.endAfterCurrent = Boolean(on);
+    if (!this.transition) {
+      // il brano già preparato non entra più (o si riprepara per continuare)
+      this.plan = null;
+      for (const d of this.decks) if (!d.playing) d._aiReady = false;
+    }
+    this.say(on ? 'Chiudo il set con il brano in onda' : 'Il set continua');
+    this.emit();
+  }
+
+  /**
+   * Brani che rispettano i filtri. Finiti quelli non ancora suonati si riprende da quelli meno recenti (widen);
+   * se nessun brano li rispetta si ignorano, per non fermare il set.
+   */
+  filterPool(pool, widen = () => []) {
+    const f = this.options.filters;
+    if (!hasFilters(f)) return pool;
+    const ok = pool.filter((t) => matchesFilters(t, f));
+    if (ok.length) return ok;
+    const again = widen().filter((t) => matchesFilters(t, f));
+    if (again.length) return again;
+    // pochi brani del genere chiesto, tutti suonati da poco: si riprende quello suonato meno di recente
+    const current = this.current() && this.current().track;
+    const last = new Map(this.history.map((t, i) => [t.id, i]));
+    const oldest = this.sourcePool().filter((t) => matchesFilters(t, f) && (!current || t.id !== current.id))
+      .sort((a, b) => (last.get(a.id) ?? -1) - (last.get(b.id) ?? -1));
+    if (oldest.length) return oldest.slice(0, Math.max(1, Math.floor(oldest.length / 2)));
+    if (!this.warnedFilters) this.say('Nessun brano rispetta i filtri scelti: per ora li ignoro');
+    this.warnedFilters = true;
+    return pool;
   }
 
   setQueue(tracks) {
@@ -150,6 +209,7 @@ export class AutoDJ extends EventTarget {
   }
 
   async pickNext(currentTrack) {
+    if (this.endAfterCurrent) return null;
     if (this.queue.length) {
       const t = this.queue.shift();
       this.emit();
@@ -159,14 +219,14 @@ export class AutoDJ extends EventTarget {
     const played = new Set(this.history.map((t) => t.id));
     if (currentTrack) played.add(currentTrack.id);
     for (const d of this.decks) if (d.track) played.add(d.track.id);
+    // libreria esaurita: si ricomincia evitando solo gli ultimi brani
+    const recent = new Set(this.history.slice(-5).map((t) => t.id));
+    if (currentTrack) recent.add(currentTrack.id);
+    const notRecent = () => this.sourcePool().filter((t) => !recent.has(t.id));
     let pool = this.sourcePool().filter((t) => !played.has(t.id));
-    if (!pool.length) {
-      // libreria esaurita: si ricomincia evitando solo gli ultimi brani
-      const recent = new Set(this.history.slice(-5).map((t) => t.id));
-      if (currentTrack) recent.add(currentTrack.id);
-      pool = this.sourcePool().filter((t) => !recent.has(t.id));
-    }
+    if (!pool.length) pool = notRecent();
     if (!pool.length) return null;
+    pool = this.filterPool(pool, notRecent);
     // con l'opzione mashup, dopo la base di un mashup salvato arriva il brano della sua voce
     const saved = this.options.mashup && currentTrack ? this.getMashups().find((m) => m.baseId === currentTrack.id && pool.some((t) => t.id === m.vocalId)) : null;
     if (saved) return { track: pool.find((t) => t.id === saved.vocalId), reason: 'mashup salvato con il brano in onda' };
@@ -174,20 +234,6 @@ export class AutoDJ extends EventTarget {
     const analyzed = pool.filter((t) => t.bpm);
     const candidatesPool = analyzed.length >= 3 ? analyzed : pool;
     const top = rankCandidates(currentTrack, candidatesPool, { strategy: this.options.strategy, step: this.step, recent: played, limit: 12 });
-    if (this.options.useLLM && this.llm && this.llm.enabled) {
-      try {
-        this.say('Chiedo all\'AI locale quale brano mettere…');
-        const res = await this.llm.chooseNext(currentTrack, top.map((c) => c.track), {
-          strategy: this.options.strategy,
-          history: this.history,
-          notes: this.options.notes,
-        });
-        if (res) return { track: top[res.index].track, reason: `AI locale: ${res.reason || 'scelta del modello'}` };
-        this.say('Risposta dell\'AI locale non valida: uso il motore interno');
-      } catch (err) {
-        this.say(`AI locale non disponibile (${err.message}): uso il motore interno`);
-      }
-    }
     const best = top[0];
     return best ? { track: best.track, reason: best.reasons.join(' · ') } : null;
   }
@@ -198,6 +244,13 @@ export class AutoDJ extends EventTarget {
     if (!this.enabled || this.selecting || this.transition) return;
     const cur = this.current();
     if (!cur) {
+      if (this.endAfterCurrent && this.history.length) {
+        // l'ultimo brano è finito: il set è chiuso
+        this.endAfterCurrent = false;
+        this.say('Set finito');
+        this.setEnabled(false);
+        return;
+      }
       await this.startFirst();
       return;
     }
@@ -264,7 +317,7 @@ export class AutoDJ extends EventTarget {
       } else {
         const pick = await this.pickNext(cur.track);
         if (!pick) {
-          if (!this.warnedEnd) this.say('Nessun altro brano disponibile: il set finirà con questo brano');
+          if (!this.warnedEnd && !this.endAfterCurrent) this.say('Nessun altro brano disponibile: il set finirà con questo brano');
           this.warnedEnd = true;
           this.plan = { from: cur, fromTrack: cur.track, startAt: Infinity };
           return;
@@ -378,6 +431,14 @@ export class AutoDJ extends EventTarget {
     this.plan.startAt = cur.gridOffset + n * bar;
     this.plan.transTrackSec = Math.min(this.plan.transTrackSec, Math.max(bar, cur.duration - this.plan.startAt - 0.5));
     this.say('Mix anticipato alla prossima battuta');
+  }
+
+  /** Il brano già preparato (non ancora in onda) si rimette in discussione: si riparte dalla coda. */
+  replanNext() {
+    if (this.transition) return;
+    this.plan = null;
+    for (const d of this.decks) if (!d.playing) d._aiReady = false;
+    this.emit();
   }
 
   /** Scarta il brano preparato e ne sceglie un altro. */
@@ -518,6 +579,7 @@ export class AutoDJ extends EventTarget {
     this.step++;
     this.plan = null;
     this.say(`In onda: ${label(to.track)}`);
+    this.onTrackOnAir();
     if (this.options.returnTempo && Math.abs(to.pitch) > 0.05) this.rampTempo(to);
     this.emit();
   }
@@ -746,29 +808,19 @@ export class AutoDJ extends EventTarget {
 
   // --- scalette ---------------------------------------------------------------------
 
-  async generateSet({ request = '', length = 15 } = {}) {
-    const pool = this.sourcePool();
-    if (!pool.length) throw new Error('La libreria è vuota');
+  /** Scaletta per la coda. strategy e filters valgono solo per questa scaletta (di solito quelle del set). */
+  async generateSet({ length = 15, strategy = this.options.strategy, filters = this.options.filters } = {}) {
+    const all = this.sourcePool();
+    if (!all.length) throw new Error('La libreria è vuota');
+    const pool = hasFilters(filters) ? all.filter((t) => matchesFilters(t, filters)) : all;
+    if (!pool.length) throw new Error('Nessun brano della libreria rispetta i filtri richiesti');
     const cur = this.current();
-    if (request && this.options.useLLM && this.llm && this.llm.enabled) {
-      this.say(`Chiedo all'AI locale una scaletta: "${request}"`);
-      try {
-        const res = await this.llm.buildSet(request, pool, length);
-        if (res.tracks.length) {
-          this.say(`Scaletta AI "${res.title || 'senza titolo'}": ${res.tracks.length} brani. ${res.reason || ''}`);
-          return res.tracks;
-        }
-        this.say('L\'AI locale non ha restituito brani validi: uso il motore interno');
-      } catch (err) {
-        this.say(`AI locale non disponibile (${err.message}): uso il motore interno`);
-      }
-    }
     const set = buildSet(pool.filter((t) => t.bpm || pool.length < 5), {
       length,
-      strategy: this.options.strategy,
+      strategy,
       seed: cur ? cur.track : null,
     });
-    this.say(`Scaletta creata dal motore interno: ${set.length} brani (${this.options.strategy})`);
+    this.say(`Scaletta creata dal motore interno: ${set.length} brani (${strategy})`);
     return set;
   }
 

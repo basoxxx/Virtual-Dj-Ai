@@ -1,0 +1,628 @@
+{"text": "ok la pista è piena ma i passaggi sono troppo secchi, ammorbidiscili un po e buttaci dentro qualche pezzo afro house", "labels": {"style": "fade", "genre": "add"}}
+{"text": "alza l'energia e fai mix più corti", "labels": {"strategy": "rise", "bars": "short"}}
+{"text": "basta reggaeton per stasera, e i cambi falli col filtro", "labels": {"genre": "exclude", "style": "filter"}}
+{"text": "dai spingi di piu e metti in coda Neon Nights", "labels": {"strategy": "rise", "queue": "add"}}
+{"text": "cambia subito sto pezzo e poi calma un attimo le cose", "labels": {"control": "mixNow", "strategy": "chill"}}
+{"text": "per i prossimi tre pezzi solo techno e fammi transizioni belle lunghe", "labels": {"temporary": "yes", "genre": "include", "bars": "long"}}
+{"text": "fammi una scaletta di un'ora deep house che parte tranquilla e poi cresce", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "metti Golden Hour come prossima e fai il cambio con l'echo", "labels": {"queue": "playNext", "style": "echo"}}
+{"text": "togli Parallel dalla coda, e poi niente più trap", "labels": {"queue": "remove", "genre": "exclude"}}
+{"text": "mescola la coda e fai partire il set", "labels": {"queue": "shuffle", "control": "start"}}
+{"text": "accendi il remix live e anche i mashup automatici", "labels": {"remix": "on", "mashupOpt": "on"}}
+{"text": "spegni gli effetti live tipo loop e roba varia, e dopo ogni mix torna al bpm originale", "labels": {"remix": "off", "returnTempo": "on"}}
+{"text": "suona solo la mia lista e mixa con i bassi", "labels": {"mode": "queue", "style": "bassswap"}}
+{"text": "scegli tu i pezzi, io non ho preparato niente, e tienila su questa energia", "labels": {"mode": "ai", "strategy": "steady"}}
+{"text": "vai coi tagli secchi a tempo e mix brevi, tipo 8 battute", "labels": {"style": "cut", "bars": "short"}}
+{"text": "stile Gabry Ponte e solo bombe da qui in avanti", "labels": {"style": "model", "strategy": "peak"}}
+{"text": "fai un mashup con la voce di Summer Rain sulla base di Night Drive, e intanto passa al pezzo dopo", "labels": {"mashup": "explicit", "control": "mixNow"}}
+{"text": "cosa c'è in coda? e intanto metti Moonlight", "labels": {"info": "queue", "queue": "add"}}
+{"text": "ma perché hai messo sta roba? cambiala subito", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "ultimo pezzo questo, poi basta. fammi vedere la console", "labels": {"control": "endAfterCurrent", "view": "console"}}
+{"text": "no aspetta non chiudere, continua e alza un po", "labels": {"control": "resume", "strategy": "rise"}}
+{"text": "crea una playlist di pop anni 90 e per ora niente mashup automatici", "labels": {"set": "build", "genre": "include", "mashupOpt": "off"}}
+{"text": "cmq nn mi piace il prossimo che hai preparato, cambialo e aggiungi qualcosa di disco", "labels": {"control": "skip", "genre": "add"}}
+{"text": "voglio onde, un po su un po giu, e cambi col filtro", "labels": {"strategy": "wave", "style": "filter"}}
+{"text": "da ora dance commerciale e stile Gabry Ponte", "labels": {"genre": "include", "style": "model"}}
+{"text": "passa allo stile techno, blend infiniti da 64 battute", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "tagli a raffica stile LUM!X per un paio di minuti, poi torniamo normali", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "mettimi sulla schermata AI e dimmi come sei impostato", "labels": {"view": "ai", "info": "settings"}}
+{"text": "passa alla console che voglio mixare io, tu fermati", "labels": {"view": "console", "control": "stop"}}
+{"text": "aiuto, che comandi posso darti? e intanto fai partire la musica", "labels": {"info": "help", "control": "start"}}
+{"text": "ciao! parti con qualcosa di chill", "labels": {"control": "start", "strategy": "chill"}}
+{"text": "grazie mille, ora però alza il tiro", "labels": {"strategy": "rise"}}
+{"text": "buonasera, mi fai una scaletta per un aperitivo lounge?", "labels": {"set": "build", "genre": "include"}}
+{"text": "mix più lunghi e remix live acceso", "labels": {"bars": "long", "remix": "on"}}
+{"text": "cambi troppo presto, allunga i mix", "labels": {"bars": "long"}}
+{"text": "da adesso solo house, basta", "labels": {"genre": "include"}}
+{"text": "metti Afterglow di Aurelia Vance subito dopo, poi accendi i mashup automatici", "labels": {"queue": "playNext", "mashupOpt": "on"}}
+{"text": "svuota la coda, lascia scegliere a te", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "ok basta coda, pensa tu ai brani e vai di crescendo", "labels": {"mode": "ai", "strategy": "rise"}}
+{"text": "resta al nuovo bpm dopo i mix e usa lo swap dei bassi", "labels": {"returnTempo": "off", "style": "bassswap"}}
+{"text": "per un po' fai cambi con l'echo e più corti", "labels": {"temporary": "yes", "style": "echo", "bars": "short"}}
+{"text": "qualsiasi genere va bene ora, e decidi tu come mixare", "labels": {"genre": "clear", "style": "auto"}}
+{"text": "togli i filtri di genere e mescola la coda", "labels": {"genre": "clear", "queue": "shuffle"}}
+{"text": "che sta suonando? mi piace un sacco, grazie", "labels": {"info": "now"}}
+{"text": "fammi un mashup a caso tu e poi calma un po", "labels": {"mashup": "auto", "strategy": "chill"}}
+{"text": "la gente si sta stancando, rallenta un po l'energia e fai cambi morbidi", "labels": {"strategy": "chill", "style": "fade"}}
+{"text": "quando mixi? e metti Low Tide in coda", "labels": {"info": "next", "queue": "add"}}
+{"text": "come mai questa canzone? comunque la prossima cambiala", "labels": {"info": "why", "control": "skip"}}
+{"text": "allora ascolta stasera è un matrimonio quindi niente techno e tieni l'energia costante che ci sono anche i nonni", "labels": {"genre": "exclude", "strategy": "steady"}}
+{"text": "ok ok bella ma adesso voglio il picco massimo solo banger e cambi a tagli secchi", "labels": {"strategy": "peak", "style": "cut"}}
+{"text": "oh ma sto pezzo è lentissimo, cambialo ora e metti più energia", "labels": {"control": "mixNow", "strategy": "rise"}}
+{"text": "ho messo un po di pezzi in coda, suona solo quelli e mescolali", "labels": {"mode": "queue", "queue": "shuffle"}}
+{"text": "puoi fare mix da 32 battute con il filtro per i prossimi 4 brani", "labels": {"bars": "long", "style": "filter", "temporary": "yes"}}
+{"text": "AVVIA IL SET E VAI DI TECH HOUSE", "labels": {"control": "start", "genre": "include"}}
+{"text": "prepara una scaletta afro house per stasera, sui 122 bpm, che salga piano piano", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "metti Paradise City in coda e anche un po di revival", "labels": {"queue": "add", "genre": "add"}}
+{"text": "basta mashup automatici, e il remix live pure spegnilo", "labels": {"mashupOpt": "off", "remix": "off"}}
+{"text": "dimmi cosa c'è in lista e se puoi toglici Estate", "labels": {"info": "queue", "queue": "remove"}}
+{"text": "mettimi la vista console e fai tu la scelta dei pezzi", "labels": {"view": "console", "mode": "ai"}}
+{"text": "su e giù di energia tutta la notte, ogni tanto un momento calmo e poi di nuovo su, e usa i bassi per mixare", "labels": {"strategy": "wave", "style": "bassswap"}}
+{"text": "mi fai la voce di Fuoco sopra la base di Mare Blu? e dopo alza il ritmo", "labels": {"mashup": "explicit", "strategy": "rise"}}
+{"text": "salta quello che hai preparato dopo, non è adatto, e fai transizioni cortissime", "labels": {"control": "skip", "bars": "short"}}
+{"text": "finiamo con questo pezzo, grazie a tutti", "labels": {"control": "endAfterCurrent"}}
+{"text": "no dai continuiamo ancora un po e metti un po di anni 80", "labels": {"control": "resume", "genre": "add"}}
+{"text": "ciao Segueo come sei impostato adesso", "labels": {"info": "settings"}}
+{"text": "perché hai scelto Weightless? tra l'altro togli la trap per favore", "labels": {"info": "why", "genre": "exclude"}}
+{"text": "tienila tranquilla per i prossimi due pezzi, poi ne parliamo", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "vai con remix live e ritorno al tempo originale dopo i passaggi", "labels": {"remix": "on", "returnTempo": "on"}}
+{"text": "la sposa vuole Summer Rain come prossima canzone e poi solo pop", "labels": {"queue": "playNext", "genre": "include"}}
+{"text": "mettici Northern Lights in coda, e le transizioni lasciale decidere a te", "labels": {"queue": "add", "style": "auto"}}
+{"text": "voglio techno pesante e il massimo dell'energia", "labels": {"genre": "include", "strategy": "peak"}}
+{"text": "crea un set di un'ora e mezza nu disco e funk con onde di energia", "labels": {"set": "build", "genre": "include", "strategy": "wave"}}
+{"text": "cambio adesso con un taglio secco", "labels": {"control": "mixNow", "style": "cut"}}
+{"text": "rimetti la visuale ai e spiegami cosa sai fare", "labels": {"view": "ai", "info": "help"}}
+{"text": "dopo il mix resta sul bpm nuovo, e mix lunghi 48 battute", "labels": {"returnTempo": "off", "bars": "long"}}
+{"text": "fai partire l'ai dj con la mia coda", "labels": {"control": "start", "mode": "queue"}}
+{"text": "accendi i mashup e fammene uno subito tu", "labels": {"mashupOpt": "on", "mashup": "auto"}}
+{"text": "tieni questa vibe ma niente latin", "labels": {"strategy": "steady", "genre": "exclude"}}
+{"text": "allora... la festa sta morendo. alza, alza, e metti un po di edm", "labels": {"strategy": "rise", "genre": "add"}}
+{"text": "uff troppo caos, dacci una calmata e transizioni lunghe", "labels": {"strategy": "chill", "bars": "long"}}
+{"text": "mashup di Electric Dreams con Open Water, voce della prima e strumentale della seconda, e poi fai tagli a raffica", "labels": {"mashup": "explicit", "style": "rapid"}}
+{"text": "spegni i remix live solo per i prossimi pezzi", "labels": {"remix": "off", "temporary": "yes"}}
+{"text": "rimuovi Moonlight dalla lista e dimmi cosa rimane", "labels": {"queue": "remove", "info": "queue"}}
+{"text": "aggiungi Sunday Motion di Leo Marin e fai partire", "labels": {"queue": "add", "control": "start"}}
+{"text": "adesso solo la mia coda, niente scelte tue, e fai i passaggi con l'eco", "labels": {"mode": "queue", "style": "echo"}}
+{"text": "dammi 10 minuti di tagli rapidissimi stile lumix e poi torna normale", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "ok alternare pezzi carichi e pezzi soft, e deep house", "labels": {"strategy": "wave", "genre": "include"}}
+{"text": "cosa hai preparato dopo? no anzi cambialo direttamente", "labels": {"info": "next", "control": "skip"}}
+{"text": "fai partire la musica, set in crescendo, mix da 8 battute", "labels": {"control": "start", "strategy": "rise", "bars": "short"}}
+{"text": "basta così per stasera, spegni tutto e grazie", "labels": {"control": "stop"}}
+{"text": "per i prossimi 5 brani house e cambi col filtro, poi torna come prima", "labels": {"temporary": "yes", "genre": "include", "style": "filter"}}
+{"text": "bpm tra 124 e 128 e tieni costante l'energia", "labels": {"strategy": "steady"}}
+{"text": "oh fammi vedere la console e metti Glass City subito dopo", "labels": {"view": "console", "queue": "playNext"}}
+{"text": "aggiungi un po di italo disco e resta al bpm del mix", "labels": {"genre": "add", "returnTempo": "off"}}
+{"text": "scaletta commerciale per un diciottesimo che vada in crescendo", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "dimmi perché hai messo sto pezzo e tieni questa energia che va bene", "labels": {"info": "why", "strategy": "steady"}}
+{"text": "mix automatici decidi tu e mashup automatici spenti", "labels": {"style": "auto", "mashupOpt": "off"}}
+{"text": "cmq nn mi piace sto pezzo cambialo subito e metti qlc di piu tranquillo", "labels": {"control": "mixNow", "strategy": "chill"}}
+{"text": "xke hai messo sta roba?? cambiala dai", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "raga metti in coda neon nights e nn fare mashup automatici", "labels": {"queue": "add", "mashupOpt": "off"}}
+{"text": "vai vai vai spingi tutto al massimo", "labels": {"strategy": "peak"}}
+{"text": "allora senti tipo la gente vuole ballare latino quindi metti reggaeton e alza un po lenergia grazie", "labels": {"genre": "include", "strategy": "rise"}}
+{"text": "bro fai cut secchi e più hype", "labels": {"style": "cut", "strategy": "rise"}}
+{"text": "cambia il prossimo brano nn quello che suona", "labels": {"control": "skip"}}
+{"text": "pls ferma la musica un attimo", "labels": {"control": "stop"}}
+{"text": "ora metti su techno e fai blend lunghissimi tipo 64 battute", "labels": {"genre": "include", "bars": "verylong"}}
+{"text": "nn chiudere dopo questo, continua", "labels": {"control": "resume"}}
+{"text": "mixa coi bassi e torna al bpm originale dp ogni mix", "labels": {"style": "bassswap", "returnTempo": "on"}}
+{"text": "ok senti metti solo roba anni 90 per un po e fai i cambi a sfumare", "labels": {"genre": "include", "temporary": "yes", "style": "fade"}}
+{"text": "mettimi Estate di Leo Marin come prossimo pezzo che la gente la chiede e fai un bel filtro nel passaggio", "labels": {"queue": "playNext", "style": "filter"}}
+{"text": "qlc di disco in mezzo ci sta bene aggiungila", "labels": {"genre": "add"}}
+{"text": "togli tutti i pezzi dalla coda e parti col set ai", "labels": {"queue": "clear", "mode": "ai", "control": "start"}}
+{"text": "ma che fai?? sto pezzo nn c'entra niente cambialo e dimmi perche l'avevi scelto", "labels": {"control": "mixNow", "info": "why"}}
+{"text": "dai che è il momento, solo bombe e tagli a raffica", "labels": {"strategy": "peak", "style": "rapid"}}
+{"text": "tranqui ora, lounge per laperitivo, mix lunghi", "labels": {"strategy": "chill", "genre": "include", "bars": "long"}}
+{"text": "voce di Moonlight su strumentale di Paradise City, poi mescola la coda", "labels": {"mashup": "explicit", "queue": "shuffle"}}
+{"text": "apri la schermata ai, voglio vedere cosa fai, e dimmi cosa viene dopo", "labels": {"view": "ai", "info": "next"}}
+{"text": "SPEGNI I MASHUP E IL REMIX", "labels": {"mashupOpt": "off", "remix": "off"}}
+{"text": "lascia perdere la mia coda fai tu e metti solo progressive house", "labels": {"mode": "ai", "genre": "include"}}
+{"text": "fai stile dance anni 2000 alla gabry ponte e metti anche un po di anni 90", "labels": {"style": "model", "genre": "add"}}
+{"text": "passaggi da 8 battute col filtro", "labels": {"bars": "short", "style": "filter"}}
+{"text": "crea una scaletta per la palestra, tutta edm energia a palla", "labels": {"set": "build", "genre": "include", "strategy": "peak"}}
+{"text": "niente commerciale grazie, e i cambi falli decidere a te", "labels": {"genre": "exclude", "style": "auto"}}
+{"text": "aspetta nn chiudere il set! vai avanti ancora un'ora e metti roba più carica", "labels": {"control": "resume", "strategy": "rise"}}
+{"text": "mescola tutto quello che c'è in coda e passa subito al prossimo", "labels": {"queue": "shuffle", "control": "mixNow"}}
+{"text": "cosa suoni adesso? bella bomba", "labels": {"info": "now"}}
+{"text": "eh ma cosi è troppo piatto, fai onde e metti un po di trance", "labels": {"strategy": "wave", "genre": "add"}}
+{"text": "per i prox 2 pezzi solo tagli a tempo poi torna a sfumare", "labels": {"temporary": "yes", "style": "cut"}}
+{"text": "start ai dj, solo la mia playlist e shuffle", "labels": {"control": "start", "mode": "queue", "queue": "shuffle"}}
+{"text": "questa è l'ultima, dopo stop. intanto dimmi come sei settato", "labels": {"control": "endAfterCurrent", "info": "settings"}}
+{"text": "metti afro house e mix da 32", "labels": {"genre": "include", "bars": "long"}}
+{"text": "dai più lento no? calma calma, e togli la drum and bass", "labels": {"strategy": "chill", "genre": "exclude"}}
+{"text": "fai un mashup tu, scegli due pezzi che stanno bene e poi aggiungi Afterglow in coda", "labels": {"mashup": "auto", "queue": "add"}}
+{"text": "torna al bpm di partenza dopo ogni cambio, grazie", "labels": {"returnTempo": "on"}}
+{"text": "cambia il prossimo e aggiungi un po di funk nel mix", "labels": {"control": "skip", "genre": "add"}}
+{"text": "ok la pista è vuota, metti subito qualcosa di commerciale, cambio immediato", "labels": {"genre": "include", "control": "mixNow"}}
+{"text": "accendi i loop live, tipo remix, e fai crescere l'energia", "labels": {"remix": "on", "strategy": "rise"}}
+{"text": "la sala è piena di gente grande, tieni lounge e disco, energia costante", "labels": {"genre": "include", "strategy": "steady"}}
+{"text": "voglio vedere la console e fai passaggi col bassswap", "labels": {"view": "console", "style": "bassswap"}}
+{"text": "per un quarto d'ora lascia i mashup attivi e poi spegnili", "labels": {"mashupOpt": "on", "temporary": "yes"}}
+{"text": "che bello! adesso però fai partire Night Drive subito dopo", "labels": {"queue": "playNext"}}
+{"text": "ferma i remix live, e da adesso resta sul nuovo tempo", "labels": {"remix": "off", "returnTempo": "off"}}
+{"text": "aggiungi Parallel di Kaito Mori e Glass City in coda e poi fammi vedere cosa c'è in coda", "labels": {"queue": "add", "info": "queue"}}
+{"text": "tipo adesso fai qualcosa di piu dance stile Gabry, mix corti", "labels": {"style": "model", "bars": "short"}}
+{"text": "basta onde, stabile così", "labels": {"strategy": "steady"}}
+{"text": "crescendo fino a mezzanotte, con mix lunghi e filtro", "labels": {"strategy": "rise", "bars": "long", "style": "filter"}}
+{"text": "elimina Open Water dalla coda, e metti un po di pop in giro", "labels": {"queue": "remove", "genre": "add"}}
+{"text": "vado in bagno 5 min, fai partire tu e scegli i pezzi", "labels": {"control": "start", "mode": "ai"}}
+{"text": "bella la scelta, ma perché proprio questo?", "labels": {"info": "why"}}
+{"text": "fai un set trance anni 2000 e poi parti subito", "labels": {"set": "build", "genre": "include", "control": "start"}}
+{"text": "rallenta tutto, è l'ora dei lenti", "labels": {"strategy": "chill"}}
+{"text": "tagli, tagli a raffica, pezzi cortissimi uno dopo l'altro, e niente house", "labels": {"style": "rapid", "genre": "exclude"}}
+{"text": "dammi picchi e cali alternati e fammi vedere la vista ai", "labels": {"strategy": "wave", "view": "ai"}}
+{"text": "quanto manca al prossimo mix? e fai tu la transizione", "labels": {"info": "next", "style": "auto"}}
+{"text": "voglio sentire Weightless subito dopo questo, poi tieni l'energia come ora", "labels": {"queue": "playNext", "strategy": "steady"}}
+{"text": "c'è troppa roba in coda, svuotala e dimmi come sei impostato", "labels": {"queue": "clear", "info": "settings"}}
+{"text": "metti tech house, mix da 16 battute e filtro", "labels": {"genre": "include", "style": "filter"}}
+{"text": "fai partire tutto con solo pezzi della mia coda, transizioni lunghe", "labels": {"control": "start", "mode": "queue", "bars": "long"}}
+{"text": "oh raga sto pezzo è un banger", "labels": {}}
+{"text": "fino alle 3 solo techno", "labels": {"genre": "include"}}
+{"text": "puoi fare sempre il mix con l'echo out e senza remix live", "labels": {"style": "echo", "remix": "off"}}
+{"text": "aggiungi un pizzico di hip hop e mescola la coda", "labels": {"genre": "add", "queue": "shuffle"}}
+{"text": "fermati dopo questa traccia, ho finito la serata", "labels": {"control": "endAfterCurrent"}}
+{"text": "ok cambiamo tutto: solo rap, energia alta, tagli secchi", "labels": {"genre": "include", "strategy": "rise", "style": "cut"}}
+{"text": "per i prossimi 3 fai tu i pezzi poi torno alla mia coda", "labels": {"mode": "ai", "temporary": "yes"}}
+{"text": "mashup automatici attivi e ritorno al bpm originale spento", "labels": {"mashupOpt": "on", "returnTempo": "off"}}
+{"text": "aiuto non capisco come funziona, che comandi ci sono?", "labels": {"info": "help"}}
+{"text": "buonasera, prepara una playlist deep house tranquilla", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "manda avanti al prossimo pezzo adesso, e poi dimmi cosa c'è in coda", "labels": {"control": "mixNow", "info": "queue"}}
+{"text": "ricomincia la musica con roba soft", "labels": {"control": "start", "strategy": "chill"}}
+{"text": "non mi piace il filtro, usa i bassi", "labels": {"style": "bassswap"}}
+{"text": "mettilo più hype, stile dance italiana, Gabry Ponte", "labels": {"strategy": "rise", "style": "model"}}
+{"text": "stile techno con quei blend lunghi e ipnotici e aggiungi un po di minimal", "labels": {"style": "model-techno", "genre": "add"}}
+{"text": "vai col remix live per i prossimi due pezzi", "labels": {"remix": "on", "temporary": "yes"}}
+{"text": "sto qua mi ha chiesto Fuoco, mettila in coda, e poi fai partire un mashup a scelta tua", "labels": {"queue": "add", "mashup": "auto"}}
+{"text": "togli il filtro reggaeton, va bene tutto", "labels": {"genre": "clear"}}
+{"text": "mix cortissimi e tanta energia per un po", "labels": {"bars": "short", "strategy": "rise", "temporary": "yes"}}
+{"text": "allora ascoltami bene la gente al bar non balla ancora quindi tienila bassa tranquilla magari un po di lounge e fai dei mix lunghi senza fretta", "labels": {"strategy": "chill", "genre": "add", "bars": "long"}}
+{"text": "ok senti è arrivato il gruppo di amici dello sposo che vogliono ballare quindi alza l energia metti roba commerciale e fai i cambi più veloci", "labels": {"strategy": "rise", "genre": "include", "bars": "short"}}
+{"text": "dunque io devo andare a parlare col proprietario tu vai avanti per conto tuo scegli i pezzi che vuoi e non chiudere il set fino a quando non torno", "labels": {"mode": "ai", "control": "resume"}}
+{"text": "ehi ehi stai sbagliando tutto sto pezzo non va bene cambialo subito e da adesso niente più trap che qui nessuno la balla", "labels": {"control": "mixNow", "genre": "exclude"}}
+{"text": "guarda la serata è a tema anni 80 quindi preparami una scaletta tutta anni 80 e italo disco che va su piano piano", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "volevo dirti che i passaggi col filtro non mi convincono proprio prova con lo scambio dei bassi e lasciali un po più lunghi tipo 32 battute", "labels": {"style": "bassswap", "bars": "long"}}
+{"text": "apri la console che voglio vedere le forme d onda e intanto metti in coda Northern Lights di Silas Hart", "labels": {"view": "console", "queue": "add"}}
+{"text": "praticamente mi hanno chiesto una canzone Paradise City la vogliono subito dopo questa quindi mettila come prossima per favore", "labels": {"queue": "playNext"}}
+{"text": "allora i ragazzi vogliono saltare fai tipo quei tagli a raffica velocissimi con pezzi corti uno dietro l altro per qualche minuto e poi torna normale", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "dai basta pezzi lenti metti più energia e magari qualche pezzo tech house", "labels": {"strategy": "rise", "genre": "add"}}
+{"text": "ok adesso è mezzanotte e mezza la pista è piena voglio il massimo dell energia solo le tracce più forti che hai e fai tagli secchi sul beat", "labels": {"strategy": "peak", "style": "cut"}}
+{"text": "ho cambiato idea sulla coda svuotala tutta e da ora solo musica progressive house", "labels": {"queue": "clear", "genre": "include"}}
+{"text": "no guarda il mashup automatico ogni tanto va bene ma adesso spegnilo e anche i loop e gli effetti durante il pezzo toglili", "labels": {"mashupOpt": "off", "remix": "off"}}
+{"text": "quando finisce questo pezzo chiudi pure che il locale chiude alle due e sono le due meno cinque", "labels": {"control": "endAfterCurrent"}}
+{"text": "fammi capire cosa stai suonando adesso che la gente me lo chiede", "labels": {"info": "now"}}
+{"text": "praticamente è il compleanno di una signora di cinquant anni quindi metti revival e tienila tranquilla", "labels": {"genre": "include", "strategy": "chill"}}
+{"text": "la gente sta ballando benissimo non cambiare niente continua così con questa energia", "labels": {"strategy": "steady"}}
+{"text": "mi fai la cortesia di mettere in coda Sunday Motion e Weightless e poi di suonare solo la coda", "labels": {"queue": "add", "mode": "queue"}}
+{"text": "il prossimo pezzo che hai preparato è troppo simile a questo cambialo e fai una transizione con l echo", "labels": {"control": "skip", "style": "echo"}}
+{"text": "dimmi un po come sei configurato adesso strategia stile battute tutto", "labels": {"info": "settings"}}
+{"text": "sto provando l app per la prima volta cosa sai fare esattamente", "labels": {"info": "help"}}
+{"text": "ok parti adesso con un set house in crescendo e fai tu le transizioni", "labels": {"control": "start", "genre": "include", "strategy": "rise", "style": "auto"}}
+{"text": "ma la voce di Golden Hour sopra la base di Neon Nights non verrebbe una bomba fallo", "labels": {"mashup": "explicit"}}
+{"text": "c è un tizio che insiste per il reggaeton aggiungine un po ma non esagerare", "labels": {"genre": "add"}}
+{"text": "adesso per mezz ora dance anni 90 stile Gabry Ponte e poi torni come prima", "labels": {"temporary": "yes", "genre": "include", "style": "model"}}
+{"text": "guarda che quando mixi poi resti a un bpm troppo alto torna al tempo originale del pezzo", "labels": {"returnTempo": "on"}}
+{"text": "anzi no lascia il bpm nuovo non tornare indietro", "labels": {"returnTempo": "off"}}
+{"text": "fai così mescola la coda che è troppo prevedibile e poi mettimi la schermata ai", "labels": {"queue": "shuffle", "view": "ai"}}
+{"text": "ascolta ai dj ci sono dei bambini in sala quindi roba pop allegra e tieni l energia costante niente picchi", "labels": {"genre": "include", "strategy": "steady"}}
+{"text": "ciao Segueo sono Marco il dj di stasera partiamo tranquilli con deep house e poi vediamo", "labels": {"control": "start", "strategy": "chill", "genre": "include"}}
+{"text": "volevo sapere perché hai scelto questa traccia dopo quella di prima", "labels": {"info": "why"}}
+{"text": "madonna che bordello basta con sti tagli fai sfumate lunghe", "labels": {"style": "fade", "bars": "long"}}
+{"text": "vai con l ultimo pezzo e poi basta che siamo stanchi tutti", "labels": {"control": "endAfterCurrent"}}
+{"text": "tipo ogni tanto un pezzo calmo e poi di nuovo carico così la gente respira e fai i cambi col filtro passa alto", "labels": {"strategy": "wave", "style": "filter"}}
+{"text": "sposta Glass City come prossimo pezzo che me l hanno chiesto in tre", "labels": {"queue": "playNext"}}
+{"text": "metti la modalità solo coda e avvia", "labels": {"mode": "queue", "control": "start"}}
+{"text": "stasera è una serata techno quindi solo techno stile techno con blend lunghi e ipnotici energia costante", "labels": {"genre": "include", "style": "model-techno", "strategy": "steady"}}
+{"text": "non so che dirti fai tu decidi tu come mixare e scegli tu i brani", "labels": {"style": "auto", "mode": "ai"}}
+{"text": "voglio sentire qualcosa di latin per un paio di pezzi poi torna alla house", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "oh ma che fine ha fatto la canzone che ti ho chiesto cosa c è in coda", "labels": {"info": "queue"}}
+{"text": "ok ragazzi adesso si fa sul serio accendi il remix live mashup automatici e spingi al massimo", "labels": {"remix": "on", "mashupOpt": "on", "strategy": "peak"}}
+{"text": "ascoltami il cambio precedente era troppo lungo fai mix più corti e più decisi", "labels": {"bars": "short"}}
+{"text": "c'è gente che se ne va rilancia la serata con qualche banger commerciale", "labels": {"strategy": "rise", "genre": "add"}}
+{"text": "per i prossimi tre quattro pezzi niente mashup poi rimettili", "labels": {"mashupOpt": "off", "temporary": "yes"}}
+{"text": "adesso fai partire la musica ma solo quello che c è nella mia lista non inventare", "labels": {"control": "start", "mode": "queue"}}
+{"text": "mi fai vedere la schermata dell ai dj", "labels": {"view": "ai"}}
+{"text": "questa canzone chi la canta", "labels": {"info": "now"}}
+{"text": "il dj che doveva venire non è arrivato quindi tocca a te fai un set disco funk di due ore tutto in crescendo", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "no aspetta la mia coda la gestisco io tu lascia stare e mixa solo quelli", "labels": {"mode": "queue"}}
+{"text": "hey che succede perché si è fermato fai ripartire la musica", "labels": {"control": "start"}}
+{"text": "senti la pista si è svuotata di colpo credo che il pezzo non piaccia cambia subito e passa a qualcosa di più conosciuto tipo commerciale", "labels": {"control": "mixNow", "genre": "include"}}
+{"text": "ok allora facciamo che per i prossimi quattro brani fai tu le scelte e usi i tagli secchi poi riprendo io", "labels": {"temporary": "yes", "mode": "ai", "style": "cut"}}
+{"text": "allora il capo dice che la musica è troppo alta di energia per l ora di cena quindi abbassa e metti lounge o comunque roba soft", "labels": {"strategy": "chill", "genre": "include"}}
+{"text": "aspetta un attimo prima di chiudere dimmi cosa hai in coda che magari ci sono ancora pezzi belli e non chiudere", "labels": {"info": "queue", "control": "resume"}}
+{"text": "stavo pensando che sarebbe figo un mashup con la voce di Afterglow sulla strumentale di Low Tide prova a farlo", "labels": {"mashup": "explicit"}}
+{"text": "mi sa che è ora di dare il colpo finale alla serata quindi picco totale per i prossimi tre pezzi e poi chiudi", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "senti io non capisco niente di queste cose metti tu la musica decidi tu tutto e partiamo", "labels": {"mode": "ai", "style": "auto", "control": "start"}}
+{"text": "dai che stanno arrivando le ragazze del addio al nubilato metti Summer Rain subito dopo e poi pop a manetta", "labels": {"queue": "playNext", "genre": "include"}}
+{"text": "guarda che la transizione di prima era orribile ha fatto un casino coi bassi usa il filtro e fai durare il mix di più", "labels": {"style": "filter", "bars": "long"}}
+{"text": "ok allora dopo le due di notte si passa alla techno dura quindi metti techno stile techno e solo roba potente", "labels": {"genre": "include", "style": "model-techno", "strategy": "peak"}}
+{"text": "ascoltami un secondo quando fai il cambio poi rimani su quel bpm non tornare al tempo originale che mi rovini il groove", "labels": {"returnTempo": "off"}}
+{"text": "ho appena aggiunto Electric Dreams in coda però non la voglio più levala", "labels": {"queue": "remove"}}
+{"text": "se riesci fammi un mashup tu con due pezzi che stanno bene insieme e poi tienila così", "labels": {"mashup": "auto", "strategy": "steady"}}
+{"text": "praticamente il locale è pieno la gente balla quindi non toccare l energia lasciala così", "labels": {"strategy": "steady"}}
+{"text": "fai partire il set dai che è ora e comincia con roba calma tipo deep o lounge", "labels": {"control": "start", "strategy": "chill", "genre": "include"}}
+{"text": "senti un attimo perché hai messo questo pezzo di hip hop che qui nessuno lo balla toglilo subito", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "guarda stasera niente rap niente trap niente di quella roba", "labels": {"genre": "exclude"}}
+{"text": "ok adesso ho bisogno che mescoli tutta la coda e dopo mi fai vedere la console", "labels": {"queue": "shuffle", "view": "console"}}
+{"text": "dimmi quale pezzo viene dopo che devo avvisare il festeggiato", "labels": {"info": "next"}}
+{"text": "fammi una playlist per domani sera un matrimonio all aperto roba pop e anni 80 che cresca verso fine serata", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "allora da adesso voglio i mix belli lunghi tipo quaranta otto battute con i bassi che si scambiano", "labels": {"bars": "long", "style": "bassswap"}}
+{"text": "ma no dai ferma tutto che è arrivata la polizia per il rumore", "labels": {"control": "stop"}}
+{"text": "yo voglio drop piu duri, solo banger", "labels": {"strategy": "peak"}}
+{"text": "vibe chill please e fade lunghi", "labels": {"strategy": "chill", "style": "fade", "bars": "long"}}
+{"text": "sto pezzo e' troppo lungo skippa", "labels": {"control": "mixNow"}}
+{"text": "skippa il prossimo, nn lo voglio", "labels": {"control": "skip"}}
+{"text": "mettimi in quee Night Drive", "labels": {"queue": "add"}}
+{"text": "metti in cosa Low Tide di Nova Reyes", "labels": {"queue": "add"}}
+{"text": "transizoni piu lunghe pls", "labels": {"bars": "long"}}
+{"text": "fai i mix co i bassi", "labels": {"style": "bassswap"}}
+{"text": "hype hype hype alza tutto", "labels": {"strategy": "rise"}}
+{"text": "che palle sta edm, passa a house e fai blend smooth", "labels": {"genre": "include", "style": "fade"}}
+{"text": "fa un mashup va, scegli tu", "labels": {"mashup": "auto"}}
+{"text": "accendi i mashap automatici", "labels": {"mashupOpt": "on"}}
+{"text": "crea na scaletta reggaeton per la serata latina", "labels": {"set": "build", "genre": "include"}}
+{"text": "dimme che pezzo è sto qua", "labels": {"info": "now"}}
+{"text": "ma xk hai messo questo??", "labels": {"info": "why"}}
+{"text": "che c'e in coda?", "labels": {"info": "queue"}}
+{"text": "come sei settato ora?", "labels": {"info": "settings"}}
+{"text": "che sai fare?", "labels": {"info": "help"}}
+{"text": "prossimo pezzo quale?", "labels": {"info": "next"}}
+{"text": "blend di 64 battute, tipo infinito", "labels": {"bars": "verylong"}}
+{"text": "mescola la playlist in coda", "labels": {"queue": "shuffle"}}
+{"text": "vai con techno e mix lunghissimi, e la coda mescolala", "labels": {"genre": "include", "bars": "verylong", "queue": "shuffle"}}
+{"text": "aggiungi Afterglow e dopo dimmi perche hai scelto il pezzo attuale", "labels": {"queue": "add", "info": "why"}}
+{"text": "torna alla vista ai e chill un po", "labels": {"view": "ai", "strategy": "chill"}}
+{"text": "fai partire, energia a onde, e niente rap", "labels": {"control": "start", "strategy": "wave", "genre": "exclude"}}
+{"text": "killa sto pezzo subito", "labels": {"control": "mixNow"}}
+{"text": "ok bella questa, ma dp fai tagli piu secchi", "labels": {"style": "cut"}}
+{"text": "qlc di nu disco in mezzo e mix da 8", "labels": {"genre": "add", "bars": "short"}}
+{"text": "basta effetti live, stop ai loop", "labels": {"remix": "off"}}
+{"text": "cmq resta al tempo nuovo dopo il mix e fai tu gli stili", "labels": {"returnTempo": "off", "style": "auto"}}
+{"text": "oh raga passa alla console", "labels": {"view": "console"}}
+{"text": "mettiamo Electric Dreams di Jonah Wilde subito dopo e poi facciamo salire", "labels": {"queue": "playNext", "strategy": "rise"}}
+{"text": "lascia la mia coda, pensaci tu", "labels": {"mode": "ai"}}
+{"text": "scaletta minimal e deep per un after, energia sempre uguale", "labels": {"set": "build", "genre": "include", "strategy": "steady"}}
+{"text": "nn mi piace il filtro, usa l eco e fai mix corti per un po", "labels": {"style": "echo", "bars": "short", "temporary": "yes"}}
+{"text": "levami Summer Rain dalla coda che non la voglio piu", "labels": {"queue": "remove"}}
+{"text": "SVUOTA LA CODA", "labels": {"queue": "clear"}}
+{"text": "MASSIMO ORA", "labels": {"strategy": "peak"}}
+{"text": "calmaaaa", "labels": {"strategy": "chill"}}
+{"text": "ferma tuttooo", "labels": {"control": "stop"}}
+{"text": "vai col set dai parti", "labels": {"control": "start"}}
+{"text": "ok grz, adesso fai tu i cambi", "labels": {"style": "auto"}}
+{"text": "un po di funk e un po di disco in aggiunta", "labels": {"genre": "add"}}
+{"text": "qualunque genere, nn importa", "labels": {"genre": "clear"}}
+{"text": "fai stile Gabry", "labels": {"style": "model"}}
+{"text": "stile techno pls", "labels": {"style": "model-techno"}}
+{"text": "tagli a raffica stile lumix", "labels": {"style": "rapid"}}
+{"text": "cambi col filtro e mix da 32 battute, e poi dopo il mix torna al bpm di prima", "labels": {"style": "filter", "bars": "long", "returnTempo": "on"}}
+{"text": "remix live on, mashup off", "labels": {"remix": "on", "mashupOpt": "off"}}
+{"text": "mashup: voce di Estate sulla base di Fuoco", "labels": {"mashup": "explicit"}}
+{"text": "il locale è mezzo vuoto quindi abbassa un po l'energia e metti roba deep, poi quando arriva gente ne riparliamo", "labels": {"strategy": "chill", "genre": "include"}}
+{"text": "mi piace un sacco questa traccia, come si chiama?", "labels": {"info": "now"}}
+{"text": "ok e adesso? cosa hai in mente per il prossimo cambio?", "labels": {"info": "next"}}
+{"text": "no no no niente reggaeton, cambia subito e fai un taglio netto", "labels": {"genre": "exclude", "control": "mixNow", "style": "cut"}}
+{"text": "questo mashup è venuto benissimo, fanne un altro tu", "labels": {"mashup": "auto"}}
+{"text": "tienimi l'energia così per i prossimi 20 minuti che poi arriva la torta", "labels": {"strategy": "steady", "temporary": "yes"}}
+{"text": "arriva la torta, metti qualcosa di tranquillo e prepara come prossima Paradise City", "labels": {"strategy": "chill", "queue": "playNext"}}
+{"text": "il festeggiato vuole solo italo disco per un po", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "fai partire l'ai dj in modalità scelta automatica, remix acceso", "labels": {"control": "start", "mode": "ai", "remix": "on"}}
+{"text": "spegni l'ai dj", "labels": {"control": "stop"}}
+{"text": "vai avanti non chiudere ancora c'è gente che balla", "labels": {"control": "resume"}}
+{"text": "questo è l'ultimo brano della serata", "labels": {"control": "endAfterCurrent"}}
+{"text": "cambiamo aria, set di progressive house con transizioni lunghe e filtro", "labels": {"set": "build", "genre": "include", "bars": "long", "style": "filter"}}
+{"text": "dimmi cosa c'è nella coda e poi mescolala", "labels": {"info": "queue", "queue": "shuffle"}}
+{"text": "voglio sentire la voce di Night Drive sopra Northern Lights, e fai i passaggi con i bassi", "labels": {"mashup": "explicit", "style": "bassswap"}}
+{"text": "troppo alta l'energia, torna su qualcosa di stabile", "labels": {"strategy": "steady"}}
+{"text": "alza il volume che non si sente", "labels": {}}
+{"text": "accendi le luci stroboscopiche", "labels": {}}
+{"text": "dammi il microfono che faccio gli auguri", "labels": {}}
+{"text": "che ore sono?", "labels": {"talk": "offtopic"}}
+{"text": "Oh Segueo, sta andando alla grande ma adesso voglio un po' di onde, alterna pezzi tosti e pezzi morbidi e fai tu i passaggi", "labels": {"strategy": "wave", "style": "auto"}}
+{"text": "metti in coda Mare Blu, poi Estate, e per il resto scegli tu", "labels": {"queue": "add", "mode": "ai"}}
+{"text": "senti bello il set ma i cambi con l'eco hanno stufato, passa al filtro e tieni i mix da 16", "labels": {"style": "filter"}}
+{"text": "chiudi dopo sto pezzo e poi torna alla schermata ai che devo vedere una cosa", "labels": {"control": "endAfterCurrent", "view": "ai"}}
+{"text": "nn fare ancora il cambio... anzi si, cambia ora e metti Glass City dopo", "labels": {"control": "mixNow", "queue": "playNext"}}
+{"text": "ok ora un po di melodic techno, blend lunghi da 48 e niente mashup", "labels": {"genre": "include", "bars": "long", "mashupOpt": "off"}}
+{"text": "dai che la gente si scalda: crescendo, tagli secchi e un pizzico di tech house", "labels": {"strategy": "rise", "style": "cut", "genre": "add"}}
+{"text": "sai cosa? spegni il remix live, accendi i mashup automatici e lascia il resto com'è", "labels": {"remix": "off", "mashupOpt": "on"}}
+{"text": "scusa ma che canzone è questa? e poi toglimi Moonlight dalla coda", "labels": {"info": "now", "queue": "remove"}}
+{"text": "per un paio di brani solo tagli a raffica e energia al massimo", "labels": {"temporary": "yes", "style": "rapid", "strategy": "peak"}}
+{"text": "fammi vedere la coda... cioè dimmi cosa c'è in coda, non la schermata", "labels": {"info": "queue"}}
+{"text": "voglio che dopo il mix tu torni al bpm originale e che i passaggi siano con l'echo", "labels": {"returnTempo": "on", "style": "echo"}}
+{"text": "ok bello tutto ma ora basta, ultimo pezzo e poi spegni", "labels": {"control": "endAfterCurrent"}}
+{"text": "cambia il prossimo, metti qualcosa di afro house e fai mix da 8 battute", "labels": {"control": "skip", "genre": "add", "bars": "short"}}
+{"text": "allora raga io mi faccio un giro, tu intanto mescola la coda e suona solo quella", "labels": {"queue": "shuffle", "mode": "queue"}}
+{"text": "ma che è sta roba anni 80? no no torna a qualsiasi genere e fai tu", "labels": {"genre": "clear", "mode": "ai"}}
+{"text": "fammi un set tech house di 45 minuti con i mix col bass swap", "labels": {"set": "build", "genre": "include", "style": "bassswap"}}
+{"text": "crea una scaletta tranquilla per il brunch, lounge e nu disco, niente picchi", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "fai partire e metti subito Golden Hour di Nova Reyes come primo dopo questo", "labels": {"control": "start", "queue": "playNext"}}
+{"text": "dopo sto pezzo fai un mashup tu, e poi rallenta un po", "labels": {"mashup": "auto", "strategy": "chill"}}
+{"text": "Segueo dimmi come sei impostato e poi fammi vedere la console", "labels": {"info": "settings", "view": "console"}}
+{"text": "cmq tieni l'energia uguale, va bene così", "labels": {"strategy": "steady"}}
+{"text": "drum and bass per 10 minuti con tagli secchi e poi torniamo", "labels": {"genre": "include", "style": "cut", "temporary": "yes"}}
+{"text": "aggiungi un tocco di trance e alza pian piano", "labels": {"genre": "add", "strategy": "rise"}}
+{"text": "dimmi perché questo pezzo, e il prossimo cambialo che è uguale", "labels": {"info": "why", "control": "skip"}}
+{"text": "stasera fai tu, set automatico, stile dance alla Gabry Ponte e crescendo verso mezzanotte", "labels": {"mode": "ai", "style": "model", "strategy": "rise"}}
+{"text": "no ma aspetta, nn chiudere! la festa continua, rimetti su qualcosa di forte", "labels": {"control": "resume", "strategy": "rise"}}
+{"text": "remix live acceso solo per i prossimi tre pezzi e poi spento", "labels": {"remix": "on", "temporary": "yes"}}
+{"text": "metti in coda Fuoco e Paradise City e fai i cambi a sfumare", "labels": {"queue": "add", "style": "fade"}}
+{"text": "fai partire la musica e accendi il remix live", "labels": {"control": "start", "remix": "on"}}
+{"text": "voglio i mix lunghissimi stile techno di berlino, 64 battute", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "togli la coda di mezzo, pensa tu ai pezzi e resta sul bpm nuovo dopo ogni mix", "labels": {"mode": "ai", "returnTempo": "off"}}
+{"text": "qui ci vuole un bel mashup: voce di Neon Nights e base di Weightless, poi fai un cut secco", "labels": {"mashup": "explicit", "style": "cut"}}
+{"text": "la gente vuole commerciale, dagli commerciale e tanta energia", "labels": {"genre": "include", "strategy": "rise"}}
+{"text": "dimmi cosa sai fare e fai partire qualcosa di tranquillo nel frattempo", "labels": {"info": "help", "control": "start", "strategy": "chill"}}
+{"text": "il prossimo non va bene, cambia quello e non questo che suona", "labels": {"control": "skip"}}
+{"text": "tipo metti Open Water come next e poi tienila stabile", "labels": {"queue": "playNext", "strategy": "steady"}}
+{"text": "basta pop per un po, e le transizioni lasciale decidere a te", "labels": {"genre": "exclude", "temporary": "yes", "style": "auto"}}
+{"text": "facciamo così: shuffle della coda, mix corti e picco", "labels": {"queue": "shuffle", "bars": "short", "strategy": "peak"}}
+{"text": "scusa ma perche sei passato a sto pezzo cosi all'improvviso?", "labels": {"info": "why"}}
+{"text": "a me sembra tutto uguale, fai onde di energia e aggiungi un po' di hip hop", "labels": {"strategy": "wave", "genre": "add"}}
+{"text": "metti la vista console, aggiungi Parallel in coda e tieni questa energia", "labels": {"view": "console", "queue": "add", "strategy": "steady"}}
+{"text": "Dai che la gente sta esplodendo, massimo dell'energia e remix live on", "labels": {"strategy": "peak", "remix": "on"}}
+{"text": "fai tu i pezzi ma solo house e deep house", "labels": {"mode": "ai", "genre": "include"}}
+{"text": "metti anche un po' di latin ogni tanto, e sfumate morbide", "labels": {"genre": "add", "style": "fade"}}
+{"text": "basta coi bassi, fai i cambi tagliati netti e più brevi", "labels": {"style": "cut", "bars": "short"}}
+{"text": "parti col set, stile techno e techno vera", "labels": {"control": "start", "style": "model-techno", "genre": "include"}}
+{"text": "per 3 brani niente remix e niente mashup", "labels": {"temporary": "yes", "remix": "off", "mashupOpt": "off"}}
+{"text": "ok ora svuota la coda e metti solo roba anni 90", "labels": {"queue": "clear", "genre": "include"}}
+{"text": "dammi un set da un'ora di commerciale e anni 2000, con picchi e cali", "labels": {"set": "build", "genre": "include", "strategy": "wave"}}
+{"text": "ok ora torna alla vista ai e fai partire tutto", "labels": {"view": "ai", "control": "start"}}
+{"text": "sto pezzo mi ha stufato, via, e poi fai mix lunghi", "labels": {"control": "mixNow", "bars": "long"}}
+{"text": "tieni l'energia costante e niente reggaeton", "labels": {"strategy": "steady", "genre": "exclude"}}
+{"text": "accendi i mashup in automatico e fai partire la musica", "labels": {"mashupOpt": "on", "control": "start"}}
+{"text": "rimetti tutti i generi, poi alza un po'", "labels": {"genre": "clear", "strategy": "rise"}}
+{"text": "senti quali sono le tue impostazioni? e dopo cambiami lo stile in bass swap", "labels": {"info": "settings", "style": "bassswap"}}
+{"text": "ciao, cosa stai suonando?", "labels": {"info": "now"}}
+{"text": "buonasera, mi mescoli la coda?", "labels": {"queue": "shuffle"}}
+{"text": "grazie per la serata, ora chiudi dopo questo", "labels": {"control": "endAfterCurrent"}}
+{"text": "ottimo lavoro, continua così con l'energia", "labels": {"strategy": "steady"}}
+{"text": "bravo Segueo ma adesso tagli a raffica", "labels": {"style": "rapid"}}
+{"text": "va bene tutto, ma metti Low Tide subito dopo e poi usa solo la mia coda", "labels": {"queue": "playNext", "mode": "queue"}}
+{"text": "sposta la vista sulla console e dimmi quando fai il prossimo mix", "labels": {"view": "console", "info": "next"}}
+{"text": "fai un mashup a sorpresa e tieni i mashup automatici accesi", "labels": {"mashup": "auto", "mashupOpt": "on"}}
+{"text": "ok, adesso chill per un quarto d'ora, poi si riparte", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "mix da 8 battute e ritorno al tempo originale", "labels": {"bars": "short", "returnTempo": "on"}}
+{"text": "ora gira la manopola del filtro nei cambi e aggiungi un po' di disco", "labels": {"style": "filter", "genre": "add"}}
+{"text": "prepara la scaletta per il dopo cena, disco e funk, poi falla partire", "labels": {"set": "build", "genre": "include", "control": "start"}}
+{"text": "cambia adesso e fai l'echo out", "labels": {"control": "mixNow", "style": "echo"}}
+{"text": "togli Weightless dalla coda e metti roba più carica", "labels": {"queue": "remove", "strategy": "rise"}}
+{"text": "vorrei una scaletta ma senza hip hop, ok?", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "aspetta prima di chiudere, facciamo ancora mezz'ora in crescendo", "labels": {"control": "resume", "strategy": "rise"}}
+{"text": "allora segueo adesso fai partire il set con la mia coda però mescolala prima e fai mix da otto battute", "labels": {"control": "start", "queue": "shuffle", "bars": "short"}}
+{"text": "segueo metti in coda moonlight di aurelia vance e poi dimmi cosa suoni dopo", "labels": {"queue": "add", "info": "next"}}
+{"text": "ehi ai dj la gente ha chiesto neon nights mettila subito dopo questa e fai il passaggio con un taglio", "labels": {"queue": "playNext", "style": "cut"}}
+{"text": "spiegami la logica, perche hai scelto sto brano", "labels": {"info": "why"}}
+{"text": "scusa ma questa è troppo lenta cambiala e metti roba anni 90 per i prossimi pezzi", "labels": {"control": "mixNow", "genre": "include", "temporary": "yes"}}
+{"text": "ok adesso modalità coda e togli Parallel che non mi piace piu", "labels": {"mode": "queue", "queue": "remove"}}
+{"text": "metti un po di tutto non mi interessa il genere e fai onde", "labels": {"genre": "clear", "strategy": "wave"}}
+{"text": "fai un bel crescendo con dei mix lunghi da 48 e remix live acceso", "labels": {"strategy": "rise", "bars": "long", "remix": "on"}}
+{"text": "spegni tutto e torna alla console", "labels": {"control": "stop", "view": "console"}}
+{"text": "allora niente più mashup automatici però fammene uno adesso tu con due pezzi a caso", "labels": {"mashupOpt": "off", "mashup": "auto"}}
+{"text": "torna al bpm originale dopo il mix e tieni i passaggi morbidi", "labels": {"returnTempo": "on", "style": "fade"}}
+{"text": "voglio la voce di Sunday Motion sulla base di Glass City e dopo cambia pezzo", "labels": {"mashup": "explicit", "control": "mixNow"}}
+{"text": "fai decidere a te il prossimo, cambia quello che hai preparato e alza un pelo", "labels": {"control": "skip", "strategy": "rise"}}
+{"text": "mettimi due ore di techno in scaletta, tutto con stile techno e blend lunghissimi", "labels": {"set": "build", "genre": "include", "style": "model-techno", "bars": "verylong"}}
+{"text": "ma quanto manca al cambio? cmq fallo con l echo", "labels": {"info": "next", "style": "echo"}}
+{"text": "bella raga!! adesso tagli a raffica e picco", "labels": {"style": "rapid", "strategy": "peak"}}
+{"text": "TOGLI IL REGGAETON E FAI CAMBI PIU LUNGHI", "labels": {"genre": "exclude", "bars": "long"}}
+{"text": "PARTI CON LA MUSICA E SCEGLI TU", "labels": {"control": "start", "mode": "ai"}}
+{"text": "fai tu tutto: pezzi, transizioni, energia", "labels": {"mode": "ai", "style": "auto"}}
+{"text": "per i prossimi 10 minuti tienila calma e fai sfumate", "labels": {"temporary": "yes", "strategy": "chill", "style": "fade"}}
+{"text": "rimetti la vista ai e spegni i mashup automatici", "labels": {"view": "ai", "mashupOpt": "off"}}
+{"text": "ok ci siamo, l'ultimo pezzo è questo, fallo durare e poi stop", "labels": {"control": "endAfterCurrent"}}
+{"text": "anzi aspetta, continua ancora e metti Afterglow in coda", "labels": {"control": "resume", "queue": "add"}}
+{"text": "che roba è? perché l'hai messa? cambiala che non va", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "mettici dentro un po di house e un po di disco ma senza esagerare, e tieni l'energia", "labels": {"genre": "add", "strategy": "steady"}}
+{"text": "remix live sempre acceso e dopo i mix resta sul bpm nuovo", "labels": {"remix": "on", "returnTempo": "off"}}
+{"text": "fai partire l'ai e fammi vedere la schermata ai", "labels": {"control": "start", "view": "ai"}}
+{"text": "voce di Paradise City su base di Summer Rain, fallo per favore e poi cala l'energia", "labels": {"mashup": "explicit", "strategy": "chill"}}
+{"text": "cmq svuota la coda e poi fai partire", "labels": {"queue": "clear", "control": "start"}}
+{"text": "ce troppa energia raga abbassa e metti deep", "labels": {"strategy": "chill", "genre": "include"}}
+{"text": "metti Night Drive di Kaito Mori come prossima e togli il techno", "labels": {"queue": "playNext", "genre": "exclude"}}
+{"text": "stile dance tamarro alla Gabry Ponte, mix corti e tanta energia", "labels": {"style": "model", "bars": "short", "strategy": "rise"}}
+{"text": "senti nn ho capito come funziona, dimmi cosa sai fare", "labels": {"info": "help"}}
+{"text": "la coda la voglio in ordine casuale e i passaggi con il filtro", "labels": {"queue": "shuffle", "style": "filter"}}
+{"text": "la prossima cambiala, e poi fammi un mashup con quello che vuoi", "labels": {"control": "skip", "mashup": "auto"}}
+{"text": "fai il cambio ora con un taglio netto sul beat e poi continua con tagli secchi", "labels": {"control": "mixNow", "style": "cut"}}
+{"text": "metti un pochino di italo disco ogni tanto e fai mix da 32", "labels": {"genre": "add", "bars": "long"}}
+{"text": "fammi vedere la console e aggiungi Mare Blu alla coda", "labels": {"view": "console", "queue": "add"}}
+{"text": "voglio le onde di energia e mashup automatici", "labels": {"strategy": "wave", "mashupOpt": "on"}}
+{"text": "basta sfumare, adesso bass swap e crescendo", "labels": {"style": "bassswap", "strategy": "rise"}}
+{"text": "allora raga siamo al gran finale massimo dell energia e dopo questo pezzo chiudi", "labels": {"strategy": "peak", "control": "endAfterCurrent"}}
+{"text": "ok la cena è finita alza l energia e metti qualcosa di dance", "labels": {"strategy": "rise", "genre": "include"}}
+{"text": "disattiva il remix e fai decidere a te lo stile dei cambi", "labels": {"remix": "off", "style": "auto"}}
+{"text": "dimmi cosa c è in coda e se va bene falla partire", "labels": {"info": "queue", "control": "start"}}
+{"text": "per i prossimi due o tre pezzi niente techno, poi rimettila", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "ok basta filtri di genere, e continua a scegliere tu", "labels": {"genre": "clear", "mode": "ai"}}
+{"text": "dammi un mix da 64 battute col filtro solo sul prossimo cambio", "labels": {"bars": "verylong", "style": "filter", "temporary": "yes"}}
+{"text": "cambia pezzo, questo nn lo sopporto, e fai partire Estate dopo", "labels": {"control": "mixNow", "queue": "playNext"}}
+{"text": "ma non avevo detto solo la mia coda? torna in modalità coda e mescolala", "labels": {"mode": "queue", "queue": "shuffle"}}
+{"text": "accendi mashup auto e remix live, poi stile dance", "labels": {"mashupOpt": "on", "remix": "on", "style": "model"}}
+{"text": "crea un set rap e hip hop per il compleanno di mio cugino, energia alta", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "ciao Segueo! mettimi la console e fai tu per ora", "labels": {"view": "console", "mode": "ai"}}
+{"text": "sfuma tutto molto lentamente, mix da 64, e rilassa l'energia", "labels": {"style": "fade", "bars": "verylong", "strategy": "chill"}}
+{"text": "tipo adesso ci starebbe un mashup tuo, e aggiungi pure un po di revival", "labels": {"mashup": "auto", "genre": "add"}}
+{"text": "tagli rapidi alla lumix e niente commerciale", "labels": {"style": "rapid", "genre": "exclude"}}
+{"text": "dopo ogni cambio torna al tempo del brano e fai i mix corti", "labels": {"returnTempo": "on", "bars": "short"}}
+{"text": "metti Golden Hour e Night Drive in coda e poi passa al prossimo", "labels": {"queue": "add", "control": "mixNow"}}
+{"text": "ragazzi non so che mettere, fammi una scaletta tu di roba edm e dance", "labels": {"set": "build", "genre": "include"}}
+{"text": "aspè ferma tutto un attimo che c è un problema col cavo", "labels": {"control": "stop"}}
+{"text": "non chiudere più dopo questo pezzo, abbiamo altri 20 minuti", "labels": {"control": "resume"}}
+{"text": "questa la conosco! come si chiama? comunque dopo metti un po di anni 80", "labels": {"info": "now", "genre": "add"}}
+{"text": "voglio vedere come sei impostato, e cambia lo stile in echo", "labels": {"info": "settings", "style": "echo"}}
+{"text": "calma calma calma, e fai tu i pezzi", "labels": {"strategy": "chill", "mode": "ai"}}
+{"text": "più corti i passaggi e cambia il prossimo", "labels": {"bars": "short", "control": "skip"}}
+{"text": "metti solo roba afro e fai crescere l'energia lentamente", "labels": {"genre": "include", "strategy": "rise"}}
+{"text": "solo per stavolta cambi con l'echo e stai al nuovo bpm", "labels": {"temporary": "yes", "style": "echo", "returnTempo": "off"}}
+{"text": "no mashup automatici, no remix, solo musica pulita e sfumature", "labels": {"mashupOpt": "off", "remix": "off", "style": "fade"}}
+{"text": "leva Glass City dalla lista che l'abbiamo già sentita", "labels": {"queue": "remove"}}
+{"text": "mescola il resto della coda e vai di picco", "labels": {"queue": "shuffle", "strategy": "peak"}}
+{"text": "fai partire il set in crescendo e fammi vedere la vista ai", "labels": {"control": "start", "strategy": "rise", "view": "ai"}}
+{"text": "cosa hai preparato come prossimo? cambialo con qualcosa di più tranquillo", "labels": {"info": "next", "control": "skip", "strategy": "chill"}}
+{"text": "basta techno, voglio solo latin e reggaeton per un po", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "senti mi piace troppo il pezzo di prima, perche l hai scelto? e cmq tieni la vibe", "labels": {"info": "why", "strategy": "steady"}}
+{"text": "blend lunghi alla techno, e togli la house", "labels": {"style": "model-techno", "genre": "exclude"}}
+{"text": "dopo metti Northern Lights e fai il mix col filtro", "labels": {"queue": "playNext", "style": "filter"}}
+{"text": "fammi una playlist di progressive, poi falla girare con la mia coda", "labels": {"set": "build", "genre": "include", "mode": "queue"}}
+{"text": "dimmi le impostazioni e aggiungi Electric Dreams in coda", "labels": {"info": "settings", "queue": "add"}}
+{"text": "tienila su così per un po, e remix live on", "labels": {"strategy": "steady", "temporary": "yes", "remix": "on"}}
+{"text": "metti su un po di minimal e passaggi lunghissimi", "labels": {"genre": "include", "bars": "verylong"}}
+{"text": "dai spacca tutto con la dance di Gabry Ponte", "labels": {"style": "model", "strategy": "peak"}}
+{"text": "se ti chiedono qualcosa tu ignora, solo la mia lista e chiudi quando finisce il pezzo", "labels": {"mode": "queue", "control": "endAfterCurrent"}}
+{"text": "tieni l'energia così com'è", "labels": {"strategy": "steady"}}
+{"text": "mantieni questo livello che va benissimo", "labels": {"strategy": "steady"}}
+{"text": "fai salire piano piano", "labels": {"strategy": "rise"}}
+{"text": "costruiscimi un bel crescendo", "labels": {"strategy": "rise"}}
+{"text": "alterna momenti forti e momenti calmi", "labels": {"strategy": "wave"}}
+{"text": "fai un'onda: su, giù, su", "labels": {"strategy": "wave"}}
+{"text": "abbassa l'energia, più rilassato", "labels": {"strategy": "chill"}}
+{"text": "roba soft adesso", "labels": {"strategy": "chill"}}
+{"text": "dacci dentro al massimo, solo pezzi fortissimi", "labels": {"strategy": "peak"}}
+{"text": "modalità picco", "labels": {"strategy": "peak"}}
+{"text": "scegli tu come fare le transizioni", "labels": {"style": "auto"}}
+{"text": "transizioni in automatico", "labels": {"style": "auto"}}
+{"text": "usa lo scambio dei bassi con l'eq", "labels": {"style": "bassswap"}}
+{"text": "bass swap per favore", "labels": {"style": "bassswap"}}
+{"text": "usa il filtro nei cambi", "labels": {"style": "filter"}}
+{"text": "chiudi i pezzi con un echo", "labels": {"style": "echo"}}
+{"text": "echo out sui cambi", "labels": {"style": "echo"}}
+{"text": "dissolvenze morbide", "labels": {"style": "fade"}}
+{"text": "cambi dolci e sfumati", "labels": {"style": "fade"}}
+{"text": "tagli netti sul beat", "labels": {"style": "cut"}}
+{"text": "modalità raffica, pezzi brevissimi uno dietro l'altro", "labels": {"style": "rapid"}}
+{"text": "stile dance tipo Gabry Ponte", "labels": {"style": "model"}}
+{"text": "mixa come un dj techno, blend lunghi e ipnotici", "labels": {"style": "model-techno"}}
+{"text": "mix più corti", "labels": {"bars": "short"}}
+{"text": "passaggi veloci veloci", "labels": {"bars": "short"}}
+{"text": "transizioni più lunghe", "labels": {"bars": "long"}}
+{"text": "48 battute per mix", "labels": {"bars": "long"}}
+{"text": "mix lunghissimi da 64 battute", "labels": {"bars": "verylong"}}
+{"text": "fai i mix da 16 battute", "labels": {}}
+{"text": "attiva il remix dal vivo", "labels": {"remix": "on"}}
+{"text": "metti loop e filtri mentre suona il pezzo", "labels": {"remix": "on"}}
+{"text": "niente remix live", "labels": {"remix": "off"}}
+{"text": "mashup automatici sì", "labels": {"mashupOpt": "on"}}
+{"text": "disattiva i mashup automatici", "labels": {"mashupOpt": "off"}}
+{"text": "dopo il mix riporta il pezzo al suo bpm", "labels": {"returnTempo": "on"}}
+{"text": "non tornare al bpm originale", "labels": {"returnTempo": "off"}}
+{"text": "scegli tu le canzoni", "labels": {"mode": "ai"}}
+{"text": "suona solo la mia coda", "labels": {"mode": "queue"}}
+{"text": "avvia", "labels": {"control": "start"}}
+{"text": "parti con la musica", "labels": {"control": "start"}}
+{"text": "stoppa tutto", "labels": {"control": "stop"}}
+{"text": "cambia pezzo ora", "labels": {"control": "mixNow"}}
+{"text": "vai alla prossima", "labels": {"control": "mixNow"}}
+{"text": "cambia il brano che hai preparato dopo", "labels": {"control": "skip"}}
+{"text": "chiudi il set dopo questa", "labels": {"control": "endAfterCurrent"}}
+{"text": "anzi no, continua", "labels": {"control": "resume"}}
+{"text": "metti in coda Open Water", "labels": {"queue": "add"}}
+{"text": "aggiungi Mare Blu alla lista", "labels": {"queue": "add"}}
+{"text": "subito dopo metti Neon Nights", "labels": {"queue": "playNext"}}
+{"text": "togli Weightless dalla coda", "labels": {"queue": "remove"}}
+{"text": "cancella la coda", "labels": {"queue": "clear"}}
+{"text": "rimescola la coda", "labels": {"queue": "shuffle"}}
+{"text": "solo drum and bass", "labels": {"genre": "include"}}
+{"text": "voglio hip hop", "labels": {"genre": "include"}}
+{"text": "niente pop", "labels": {"genre": "exclude"}}
+{"text": "senza trap", "labels": {"genre": "exclude"}}
+{"text": "anche un po' di afro house", "labels": {"genre": "add"}}
+{"text": "ok togli i filtri sul genere", "labels": {"genre": "clear"}}
+{"text": "prepara un set", "labels": {"set": "build"}}
+{"text": "fammi una scaletta", "labels": {"set": "build"}}
+{"text": "fammi un mashup", "labels": {"mashup": "auto"}}
+{"text": "mashup tra Golden Hour e Parallel, voce del primo sulla strumentale del secondo", "labels": {"mashup": "explicit"}}
+{"text": "che canzone è?", "labels": {"info": "now"}}
+{"text": "quale sarà il prossimo pezzo?", "labels": {"info": "next"}}
+{"text": "perché hai scelto questa?", "labels": {"info": "why"}}
+{"text": "cosa ho in coda?", "labels": {"info": "queue"}}
+{"text": "riepilogo impostazioni", "labels": {"info": "settings"}}
+{"text": "help", "labels": {"info": "help"}}
+{"text": "vista console", "labels": {"view": "console"}}
+{"text": "torna all'ai", "labels": {"view": "ai"}}
+{"text": "la gente balla", "labels": {}}
+{"text": "è mezzanotte", "labels": {}}
+{"text": "che bella serata", "labels": {}}
+{"text": "madonna quanta gente stasera", "labels": {}}
+{"text": "sto pezzo è pazzesco non ci credo", "labels": {}}
+{"text": "raga il bar ha finito il ghiaccio", "labels": {}}
+{"text": "qui dentro fa un caldo assurdo", "labels": {}}
+{"text": "la sposa sta piangendo dalla commozione", "labels": {}}
+{"text": "ok", "labels": {}}
+{"text": "hmm vediamo", "labels": {}}
+{"text": "metti più bassi nelle casse", "labels": {}}
+{"text": "abbassa il volume che i vicini si lamentano", "labels": {}}
+{"text": "accendi la macchina del fumo", "labels": {}}
+{"text": "ciao", "labels": {"talk": "hello"}}
+{"text": "buonasera Segueo", "labels": {"talk": "hello"}}
+{"text": "ehi ciao come va", "labels": {"talk": "hello"}}
+{"text": "salve a tutti", "labels": {"talk": "hello"}}
+{"text": "yo segueo ci sei?", "labels": {"talk": "hello"}}
+{"text": "grazie mille", "labels": {"talk": "thanks"}}
+{"text": "sei un grande", "labels": {"talk": "thanks"}}
+{"text": "grande lavoro stasera, complimenti", "labels": {"talk": "thanks"}}
+{"text": "bravissimo, stai spaccando", "labels": {"talk": "thanks"}}
+{"text": "grz", "labels": {"talk": "thanks"}}
+{"text": "che tempo fa domani?", "labels": {"talk": "offtopic"}}
+{"text": "mi ordini una pizza?", "labels": {"talk": "offtopic"}}
+{"text": "chi ha vinto la partita ieri sera?", "labels": {"talk": "offtopic"}}
+{"text": "mi scrivi un messaggio per mia madre", "labels": {"talk": "offtopic"}}
+{"text": "quanto fa 15 per 12", "labels": {"talk": "offtopic"}}
+{"text": "raccontami una barzelletta", "labels": {"talk": "offtopic"}}
+{"text": "ciao, dammi un attimo che mi organizzo", "labels": {"talk": "hello"}}
+{"text": "grazie per la scelta di prima, era perfetta", "labels": {"talk": "thanks"}}
+{"text": "ho finito le sigarette, dove trovo un tabacchi aperto?", "labels": {"talk": "offtopic"}}
+{"text": "allora io non so ancora cosa voglio fare stasera ci penso un attimo", "labels": {}}
+{"text": "tra poco arrivano gli ospiti", "labels": {}}
+{"text": "il festeggiato è arrivato!!!", "labels": {}}
+{"text": "sta per iniziare il taglio della torta", "labels": {}}
+{"text": "ah beh questa la conoscono tutti", "labels": {}}
+{"text": "allora siamo all aperitivo quindi per la prima ora roba lounge e nu disco con sfumate lunghe poi quando inizia la cena vediamo", "labels": {"genre": "include", "style": "fade", "bars": "long"}}
+{"text": "guarda il proprietario vuole solo musica italiana tipo dance anni 90 quindi metti quella e fai lo stile Gabry Ponte che è perfetto", "labels": {"genre": "include", "style": "model"}}
+{"text": "senti ma sta canzone chi l ha scelta tu? perché? cmq toglila e metti Weightless", "labels": {"info": "why", "control": "mixNow", "queue": "playNext"}}
+{"text": "ok ascoltami bene la mia coda è pronta suona solo quella non aggiungere niente di tuo", "labels": {"mode": "queue"}}
+{"text": "ragazzi il set è venuto da dio ma ora la gente è stanca quindi calala piano piano e fai dei cambi con l echo", "labels": {"strategy": "chill", "style": "echo"}}
+{"text": "ma perche sei cosi lento a cambiare? fai i mix piu corti e cambia adesso", "labels": {"bars": "short", "control": "mixNow"}}
+{"text": "metti su un set commerciale e parti subito che la gente aspetta", "labels": {"set": "build", "genre": "include", "control": "start"}}
+{"text": "oh raga il dj ospite è arrivato, chiudi dopo questo pezzo e passa alla console", "labels": {"control": "endAfterCurrent", "view": "console"}}
+{"text": "fammi il favore togli Fuoco dalla coda e alza l energia", "labels": {"queue": "remove", "strategy": "rise"}}
+{"text": "Allora: remix live acceso, mashup automatici spenti, ritorno al tempo acceso. Grazie", "labels": {"remix": "on", "mashupOpt": "off", "returnTempo": "on"}}
+{"text": "xke sta roba? nn la conosce nessuno, metti roba commerciale", "labels": {"info": "why", "genre": "include"}}
+{"text": "alza alza alza e mettici qlc di edm", "labels": {"strategy": "rise", "genre": "add"}}
+{"text": "voce di Low Tide sulla strumentale di Golden Hour e poi picco", "labels": {"mashup": "explicit", "strategy": "peak"}}
+{"text": "per i prossimi tre brani fai tagli a tempo e mix corti poi torna com eri", "labels": {"temporary": "yes", "style": "cut", "bars": "short"}}
+{"text": "ascolta la sposa odia il reggaeton quindi toglilo e metti Summer Rain in coda", "labels": {"genre": "exclude", "queue": "add"}}
+{"text": "dimmi cosa viene dopo e fai il passaggio lungo", "labels": {"info": "next", "bars": "long"}}
+{"text": "ok ora spegni il remix live e metti la vista ai", "labels": {"remix": "off", "view": "ai"}}
+{"text": "cambia il prossimo pezzo e poi mescola la coda", "labels": {"control": "skip", "queue": "shuffle"}}
+{"text": "non fermare il set!! continua, e metti più house", "labels": {"control": "resume", "genre": "add"}}
+{"text": "fai tu le scelte e lo stile dei passaggi per il resto della serata", "labels": {"mode": "ai", "style": "auto"}}
+{"text": "ok senti mettimi Paradise City subito dopo e poi fai partire i mashup in automatico", "labels": {"queue": "playNext", "mashupOpt": "on"}}
+{"text": "sono le 4 la gente è cotta, techno ipnotica stile techno e energia bassa", "labels": {"genre": "include", "style": "model-techno", "strategy": "chill"}}
+{"text": "mi prepari una scaletta per sabato? tipo house e tech house che cresce", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "DAI CHE SI BALLA!!! MASSIMO E TAGLI A RAFFICA", "labels": {"strategy": "peak", "style": "rapid"}}
+{"text": "ehm puoi dirmi cosa hai in coda e togliere Parallel?", "labels": {"info": "queue", "queue": "remove"}}
+{"text": "fai un mashup a caso e poi mettimi la console", "labels": {"mashup": "auto", "view": "console"}}
+{"text": "senti sto pezzo spacca ma il prossimo che hai scelto no, cambialo e aggiungi un po di funk", "labels": {"control": "skip", "genre": "add"}}
+{"text": "torna a suonare tutti i generi e fai onde di energia", "labels": {"genre": "clear", "strategy": "wave"}}
+{"text": "non tornare al tempo del brano dopo il mix, e fai i passaggi con i bassi", "labels": {"returnTempo": "off", "style": "bassswap"}}
+{"text": "dopo il mix torna al bpm del pezzo e usa il filtro, solo per un po", "labels": {"returnTempo": "on", "style": "filter", "temporary": "yes"}}
+{"text": "cambia ADESSO e metti la vista console", "labels": {"control": "mixNow", "view": "console"}}
+{"text": "avvia l ai dj con mashup automatici accesi e scelta automatica dei pezzi", "labels": {"control": "start", "mashupOpt": "on", "mode": "ai"}}
+{"text": "ok gente adesso si cala: chill, deep house, mix lunghissimi", "labels": {"strategy": "chill", "genre": "include", "bars": "verylong"}}
+{"text": "togli i filtri genere e fai partire un mashup", "labels": {"genre": "clear", "mashup": "auto"}}
+{"text": "metti Electric Dreams in coda, poi cambia ora", "labels": {"queue": "add", "control": "mixNow"}}
+{"text": "fammi sentire la voce di Parallel sulla base di Open Water, e resta al nuovo bpm", "labels": {"mashup": "explicit", "returnTempo": "off"}}
+{"text": "dai fai partire, stile dance, e solo la mia lista", "labels": {"control": "start", "style": "model", "mode": "queue"}}
+{"text": "basta tagli a raffica, torna a sfumare e tranquillizza", "labels": {"style": "fade", "strategy": "chill"}}
+{"text": "qual è il prossimo pezzo? e metti la vista ai", "labels": {"info": "next", "view": "ai"}}
+{"text": "solo per i prossimi pezzi niente hip hop e cambi secchi", "labels": {"temporary": "yes", "genre": "exclude", "style": "cut"}}
+{"text": "stasera techno e minimal con blend lunghissimi e energia costante", "labels": {"genre": "include", "bars": "verylong", "strategy": "steady"}}
+{"text": "perche hai tolto il pezzo che avevo in coda? e rimettilo, Moonlight", "labels": {"info": "why", "queue": "add"}}
+{"text": "scusa sono nuovo, cosa posso chiederti? intanto parti con qualcosa", "labels": {"info": "help", "control": "start"}}
+{"text": "ultimo giro ragazzi, questo è l ultimo pezzo, e che sia con i bassi", "labels": {"control": "endAfterCurrent", "style": "bassswap"}}
+{"text": "allora io direi di fare un po su e un po giu con l energia e ogni tanto un mashup automatico", "labels": {"strategy": "wave", "mashupOpt": "on"}}
+{"text": "svuota tutto dalla coda e dimmi come sei settato", "labels": {"queue": "clear", "info": "settings"}}
+{"text": "dimmi cosa suona e metti in coda Northern Lights", "labels": {"info": "now", "queue": "add"}}
+{"text": "fammi una scaletta per il pranzo della domenica, lounge e roba soft, niente picchi", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "cmq sti mix sono troppo corti allungali e aggiungi un po di progressive", "labels": {"bars": "long", "genre": "add"}}

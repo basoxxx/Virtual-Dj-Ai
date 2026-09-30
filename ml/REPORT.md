@@ -1042,3 +1042,154 @@ brano.)
   - app vera (`ml/eval/electron/autodj-rapid.js`, coda di 3 brani, nessun "Mixa ora"): i due cambi li fa da sola.
     Ogni brano resta in onda 46,2 e 46,8 s (24 misure), il cambio dura 1,85 s (una misura), il crossfader salta da un
     lato all'altro alla fine della misura, il brano entrante è in onda a 2 s dal suo punto d'ingresso.
+
+## Giorno 12 — 30 settembre 2026 (Segueo Chat: il modello che capisce SegueoChat)
+
+SegueoChat (la chat per dire all'AI DJ come suonare) capiva i comandi con un interprete a regole e, se configurato, con
+un modello linguistico locale (Ollama, LM Studio). Senza LLM installato, ogni modo di dire non previsto dalle regole
+restava "non ho capito". **Segueo Chat** è un modello piccolo, addestrato apposta, incluso nell'app: riconosce *che
+cosa* chiede un messaggio; titoli, generi e numeri li legge sempre l'interprete dalla frase.
+
+### Modello
+
+- **Ingresso:** parole, coppie di parole e pezzi di 3-5 lettere del testo in minuscolo senza accenti (le cifre diventano
+  0), con hash FNV-1a in 32.768 contenitori: robusto a refusi e accenti mancanti.
+- **Rete:** media delle caratteristiche (dimensione 64) → 192 → 16 teste in fila, una per tipo di richiesta, ognuna con
+  "none": energia (5), stile dei cambi (9), durata (3), remix, mashup automatici, ritorno al BPM, modalità, comandi
+  (6), coda (5), generi (4), scaletta, mashup (2), domande (6), "per i prossimi N brani", vista, saluti e fuori tema.
+- **Messaggio diviso in parti** (virgole, "e", "poi", "ma"): il modello legge ogni parte da sola e il messaggio intero;
+  per ogni testa vale l'etichetta più sicura tra le parti, altrimenti quella del messaggio intero, ciascuna sopra la
+  sua soglia. Con la sola media, in una frase con più richieste le parole si mescolavano ("più energia, transizioni
+  lunghe" diventava "energia costante, mix corti").
+- **Nell'app:** ONNX int8 da 2,1 MB (`segueo-chat.onnx`, incluso nell'installer) in un worker con onnxruntime-web.
+  Primo messaggio 218 ms (caricamento), poi 3-11 ms. Stessi punteggi di Python (scarto 0,000) e stesse decisioni su
+  80/80 frasi (`test/segueo-chat-model.test.js`).
+
+### Dati e addestramento (`ml/segueochat/`)
+
+- **Frasi generate** da 1.433 modelli di frase in italiano (`templates.py`): parafrasi scritte a mano e combinazioni di
+  verbi, oggetti e sinonimi ("alza/aumenta/tira su" × "l'energia/il ritmo/il tiro"...), con titoli di fantasia,
+  generi e numeri al posto dei segnaposto, riempitivi ("dai", "per favore"), refusi e 1-3 richieste per messaggio.
+- **Frasi neutre** (276: pubblico, orari, locale, commenti) e **fuori tema** (anche con gli stessi verbi: "fammi la
+  lista della spesa", "preparami un curriculum"): non devono far scattare niente.
+- 240.000 frasi (metà parti singole, metà messaggi), 6 epoche, caratteristiche spente a caso (25%) durante
+  l'addestramento. Un minuto su CPU. Tre semi; scelto quello migliore sul dev (57,2% contro 56,1% e 54,6%).
+- **Test onesti:** un quinto dei modelli di frase di ogni gruppo non entra mai nell'addestramento (test "mai visti");
+  80 frasi scritte a mano con formulazioni diverse (`handwritten.py`), escluse dall'addestramento anche se un modello
+  di frase le genera. Soglie scelte su un terzo insieme (dev, modelli mai visti), mai sul test.
+
+### Numeri misurati (`ml/segueochat/evaluate.py`)
+
+Insieme = come nell'app: l'interprete decide, il modello aggiunge solo le richieste che l'interprete non ha capito.
+"Falsi allarmi": richieste viste dove non c'erano, sul totale delle teste vuote.
+
+| Frasi scritte a mano (80) | messaggi giusti | richieste capite | capite male | falsi allarmi |
+|---|---|---|---|---|
+| Solo interprete | 51,2% | 59,6% | 1,1% | 0,17% |
+| Solo modello | 53,8% | 63,8% | 4,3% | 0,67% |
+| **Insieme** | **78,8%** | **90,4%** | 3,2% | 0,84% |
+
+| Modelli di frase mai visti (6.000 messaggi) | messaggi giusti | richieste capite | capite male | falsi allarmi |
+|---|---|---|---|---|
+| Solo interprete | 27,3% | 40,7% | 3,5% | 0,29% |
+| Solo modello | 32,9% | 46,4% | 2,1% | 0,15% |
+| **Insieme** | **56,8%** | **70,4%** | 4,4% | 0,44% |
+
+- 28 delle 80 frasi scritte a mano le capisce solo il modello (per esempio *"la pista è morta, svegliala un po'"*,
+  *"questo pezzo è brutto, cambialo"*, *"dopo questa canzone chiudiamo"*, *"come si chiama questo pezzo?"*).
+- Soglie per testa (dev): alte per energia, stile e comandi (0,98-0,99); **coda, generi e mashup automatici spenti**
+  per il modello (troppi falsi allarmi: li fa solo l'interprete, che legge anche titoli e generi).
+- **Sicurezza nell'app:** se solo il modello chiede una scaletta (che sostituisce la coda) o di fermare la musica,
+  servono le parole giuste nella frase ("scaletta/set/playlist/brani...", "ferma/stop/spegni/basta..."): prima della
+  correzione *"mi dici una ricetta?"* diventava una scaletta.
+
+### Problemi aperti
+
+- Le frasi di prova le ha scritte chi ha scritto i modelli di frase: il test a mano è il più vicino all'uso vero ma non
+  è indipendente. Serve una raccolta di frasi di DJ veri (anche dal diario di SegueoChat, con il loro permesso).
+- Errori rimasti: *"tieni la musica bassa di energia"* letta come "mantieni l'energia" ("tieni"), frasi con due
+  richieste nella stessa parte senza virgole.
+- La variazione tra semi è di qualche frase (79-81% sul test a mano): con più dati diventerà più stabile.
+
+## Giorno 12 (sera) — 30 settembre 2026 (Segueo Chat addestrato con 5.000 interazioni)
+
+Il modello del mattino aveva visto solo frasi generate dai modelli di frase, scritti dalla stessa persona che ha
+scritto il test a mano. Per dargli modi di dire più vari: **interazioni**, cioè messaggi realistici a SegueoChat con le
+loro richieste. Nello stesso giro il collegamento a un modello linguistico esterno (Ollama, LM Studio) è stato tolto
+dall'app: SegueoChat usa solo l'interprete integrato e Segueo Chat, sempre in locale.
+
+### Dati (`ml/segueochat/interactions/`, `interactions.py`)
+
+- **5.560 messaggi scritti** in dieci file (`agent1..10.jsonl`), una riga JSON per messaggio con le etichette delle 16
+  teste. Li hanno scritti dieci sessioni di Claude, ognuna con un tema: energia, stile e durata dei cambi, comandi e
+  modalità, coda e generi, domande, saluti e fuori tema, casi misti con 2-3 richieste, "per un po'", e frasi che
+  sembrano comandi ma non lo sono (498 messaggi senza richieste). Pubblico, orari, locale e gergo intorno alle
+  richieste; refusi e maiuscole come si scrive in chat. `check.py` controlla ogni file (0 errori).
+- **Doppioni tolti** (testo normalizzato) e tolte le frasi uguali al test scritto a mano: restano **5.176 interazioni
+  uniche** (367 doppioni tra file diversi, soprattutto frasi corte come "ciao" o "più energia"; 17 uguali al test a
+  mano). Gli ultimi due file (445 messaggi) sono stati chiesti apposta con frasi lunghe e contesto, per superare le 5.000
+  uniche senza altri doppioni.
+- **Divisione fissa** con l'hash del testo: **3.527 addestramento, 551 dev, 1.098 test**.
+
+### Addestramento
+
+- Stessa rete e stesse impostazioni del mattino (6 epoche, caratteristiche spente al 25%): 200.000 frasi generate più
+  le 3.527 interazioni di addestramento ripetute 16 volte (le copie con riempitivi e refusi a caso), in tutto 256.432
+  frasi. Uno-due minuti su CPU per seme, esportazione compresa.
+- **Soglie per testa** scelte su un dev fatto di interazioni dev (contate due volte) e 1.500 frasi da modelli mai visti:
+  ora le soglie si scelgono sui messaggi come li scrive una persona, non solo su quelli generati.
+- **Tre semi** (dev: 67,2%, 69,6%, 67,6% dei messaggi giusti con l'interprete): scelto il seme 1. Int8 da 2,1 MB
+  (per il seme 0 l'int8 perdeva precisione sul test a mano e sarebbe rimasto il fp32 da 8,5 MB).
+
+### Numeri misurati (`ml/segueochat/evaluate.py`)
+
+"Prima" è il modello del mattino con le soglie riscelte sullo stesso nuovo dev (il confronto più favorevole per lui).
+
+| Interazioni di test mai viste (1.098) | messaggi giusti | richieste capite | capite male | falsi allarmi |
+|---|---|---|---|---|
+| Solo interprete | 34,6% | 43,1% | 2,3% | 0,38% |
+| Solo modello, prima | 34,2% | 40,6% | 1,1% | 0,55% |
+| Solo modello, **dopo** | **67,7%** | **77,7%** | 2,5% | 0,70% |
+| Insieme, prima | 50,5% | 63,1% | 3,1% | 0,89% |
+| **Insieme, dopo** | **69,3%** | **81,9%** | 4,4% | 0,97% |
+
+| Frasi scritte a mano (80) | messaggi giusti | richieste capite | capite male | falsi allarmi |
+|---|---|---|---|---|
+| Solo interprete | 51,2% | 59,6% | 1,1% | 0,17% |
+| Solo modello, dopo | 90,0% | 91,5% | 2,1% | 0,25% |
+| Insieme, prima (soglie del mattino) | 78,8% | 90,4% | 3,2% | 0,84% |
+| **Insieme, dopo** | **90,0%** | **94,7%** | 2,1% | 0,42% |
+
+| Modelli di frase mai visti (6.000) | messaggi giusti | richieste capite | capite male | falsi allarmi |
+|---|---|---|---|---|
+| Solo interprete | 27,9% | 41,5% | 3,5% | 0,21% |
+| Insieme, prima (soglie del mattino) | 56,8% | 70,4% | 4,4% | 0,44% |
+| **Insieme, dopo** | **71,1%** | **82,9%** | 4,2% | 0,43% |
+
+- Le interazioni hanno aiutato anche sui modelli di frase mai visti (+14 punti), non solo sui messaggi simili a quelli
+  di addestramento.
+- **Nell'app** (finestra nascosta, `dj.chat.understand`): primo messaggio 211 ms (caricamento del modello), poi 0-6 ms.
+  Capite solo dal modello, per esempio: *"serve più hype qui"*, *"per un po' mix più lunghi"* (32 battute per 3
+  brani), *"resta su questo livello"*, *"dimmi come sei settato"*, *"ritorno al tempo originale attivo"*.
+- Test JavaScript: 130/130, con stessi punteggi e stesse decisioni di Python sulle 80 frasi a mano.
+
+### Correzioni nell'interprete e nell'app
+
+- *"fai un mashup ogni tanto durante la serata"* creava subito un mashup: con "ogni tanto", "ogni N brani" o "durante
+  la serata/il set" ora accende i mashup automatici.
+- *"che tempo fa a milano?"* per il modello era "non tornare al BPM originale": se lo chiede solo il modello, con
+  "tempo fa/farà", "tempo fuori" o "meteo" nella frase non si fa niente (come già per scalette e stop).
+
+### Limiti e problemi aperti
+
+- **Le interazioni non vengono da DJ veri.** Le hanno scritte modelli linguistici, e addestramento e test vengono dagli
+  stessi autori: il 69% sulle interazioni di test è probabilmente ottimista per l'uso vero. Il test più vicino alla
+  realtà resta una raccolta di frasi di DJ veri, che ancora non c'è.
+- **Insieme e modello da solo sono vicini** (69,3% contro 67,7% sulle interazioni) e l'insieme sbaglia di più (4,4%
+  contro 2,5% di richieste capite male): l'interprete ha la precedenza e i suoi errori passano. Da provare: lasciare
+  decidere il modello sulle teste dove è molto sicuro, tenendo all'interprete titoli, generi e numeri.
+- Errori più frequenti sulle interazioni di test: generi non letti (44, il modello riconosce la richiesta ma il genere
+  lo deve trovare l'interprete), comandi visti dove non c'erano (34), energia vista dove non c'era (31) o mancata (30).
+- Sulle 80 frasi a mano ne restano 8 sbagliate, tra cui *"siamo a cena, tieni la musica bassa di energia"* (non
+  capita), *"alterna un pezzo tosto e uno tranquillo"* (letta come "tranquilla" invece di "a onde") e *"la serata
+  deve partire soft e poi esplodere"* (anche "parti").

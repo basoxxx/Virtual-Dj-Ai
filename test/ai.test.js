@@ -5,9 +5,6 @@ import {
 } from '../src/renderer/js/ai/selector.js';
 import { trackStructure, energyLevel, analyzeTrack } from '../src/renderer/js/dsp/analysis.js';
 
-// extractJson non dipende dal DOM ma llm.js importa api.js (che usa window): lo simuliamo
-globalThis.window = globalThis.window || {};
-const { extractJson, describeTrack } = await import('../src/renderer/js/ai/llm.js');
 
 const T = (id, bpm, key, energy, extra = {}) => ({ id, title: `T${id}`, artist: `A${id}`, path: `/m/${id}.mp3`, bpm, key, energy, ...extra });
 
@@ -107,12 +104,4 @@ test('analyzeTrack senza forma d\'onda usa BPM noti', () => {
   assert.equal(res.waveform, undefined);
   assert.ok(res.structure && res.structure.mixOut > 0);
   assert.ok(res.energy >= 1 && res.energy <= 10);
-});
-
-test('extractJson legge risposte "sporche" dei modelli', () => {
-  assert.deepEqual(extractJson('{"index": 3}'), { index: 3 });
-  assert.deepEqual(extractJson('Ecco:\n```json\n{"index": 2, "reason": "ok"}\n```'), { index: 2, reason: 'ok' });
-  assert.deepEqual(extractJson('scelgo [1, 4, 2] perché...'), [1, 4, 2]);
-  assert.equal(extractJson('nessun json'), null);
-  assert.ok(describeTrack(T(1, 128, 'Am', 7), 0).includes('8A'));
 });

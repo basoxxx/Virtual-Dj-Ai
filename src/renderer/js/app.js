@@ -7,11 +7,12 @@ import { Sampler } from './audio/sampler.js';
 import { MicChannel } from './audio/mic.js';
 import { MidiManager } from './midi.js';
 import { AutoDJ } from './ai/autodj.js';
-import { LocalLLM } from './ai/llm.js';
 import { BatchAnalyzer } from './ai/batch-analyzer.js';
 import { configureAnalysis } from './audio/analyzer-client.js';
 import { StemManager } from './ai/stems.js';
 import { MashupManager } from './ai/mashups.js';
+import { SegueoChat } from './ai/segueochat.js';
+import { ChatModel } from './ai/chat-model.js';
 import { DeckUI } from './ui/deck-ui.js';
 import { MixerUI } from './ui/mixer-ui.js';
 import { LibraryUI } from './ui/library-ui.js';
@@ -27,6 +28,7 @@ import { icon, withIcon } from './ui/icons.js';
 import { UpdateUI } from './ui/update-ui.js';
 import { AiView } from './ui/ai-view.js';
 import { MashupUI } from './ui/mashup-ui.js';
+import { ChatUI } from './ui/chat-ui.js';
 
 const ACCENTS = ['#2ea8ff', '#ff6a3d'];
 
@@ -39,7 +41,6 @@ const DEFAULT_SETTINGS = {
   midi: { mapping: {}, preset: 'auto', gamepad: true },
   sampler: [],
   ai: {
-    llm: false, provider: 'ollama', endpoint: 'http://localhost:11434', model: '', apiKey: '',
     autoAnalyze: true,
     analysisEngine: 'ai',
     options: {},
@@ -84,7 +85,12 @@ class App {
     this.mic.addEventListener('error', (e) => toast(e.detail, 'error'));
     this.sampler = new Sampler(this.engine);
     await this.sampler.init(this.settings.sampler);
-    this.llm = new LocalLLM(() => this.settings.ai);
+    // il modello linguistico locale (Ollama, LM Studio) non c'è più: via le sue impostazioni e opzioni salvate
+    for (const k of ['llm', 'provider', 'endpoint', 'model', 'apiKey']) delete this.settings.ai[k];
+    if (this.settings.ai.options) {
+      delete this.settings.ai.options.useLLM;
+      delete this.settings.ai.options.notes;
+    }
     this.analyzer = new BatchAnalyzer(this.engine.ctx, {
       priority: () => this.analysisPriority(),
       // la separazione (circa 3 GB) non va mai insieme all'analisi: l'analisi si ferma tra un brano e l'altro
@@ -100,9 +106,22 @@ class App {
       decks: this.decks,
       getControls: () => this.mixerUI.controls,
       getPool: (source) => (source && source !== 'library' ? this.library.playlistTracks(source) : this.library.lib.tracks),
-      llm: this.llm,
     });
     this.automix.setOptions(this.settings.ai.options || {});
+    // opzioni cambiate dal pannello, da SegueoChat o finite le impostazioni temporanee: si salvano
+    this.automix.addEventListener('options', () => {
+      this.settings.ai.options = this.automix.savedOptions();
+      this.saveSettings();
+    });
+    this.chat = new SegueoChat({
+      automix: this.automix,
+      mashups: this.mashups,
+      model: new ChatModel(),
+      getTracks: () => this.library.lib.tracks,
+      getPlaylists: () => this.library.lib.playlists,
+      setOptions: (patch) => this.automix.setOptions(patch),
+      setView: (v) => this.setView(v),
+    });
 
     this.buildLayout();
     this.applyMixerSettings();
@@ -114,7 +133,10 @@ class App {
 
     this.registerActions();
     this.midi = new MidiManager(this.actions);
-    await this.midi.init(this.settings.midi.mapping, this.settings.midi.preset);
+    // la console MIDI non deve bloccare l'avvio: se il sistema non risponde entro 3 s si va avanti
+    // (libreria, interfaccia) e la console si collega appena arriva la risposta
+    const midiReady = this.midi.init(this.settings.midi.mapping, this.settings.midi.preset).then(() => this.updateMidiBadge());
+    await Promise.race([midiReady, new Promise((r) => setTimeout(r, 3000))]);
     this.gamepad = new GamepadController(this.actions);
     this.gamepad.enabled = this.settings.midi.gamepad !== false;
     this.gamepad.addEventListener('connected', (e) => {
@@ -230,8 +252,9 @@ class App {
       },
     });
     this.mashupUI = new MashupUI({ app: this });
+    this.chatUI = new ChatUI({ app: this, chat: this.chat });
     this.sideUI = new SideUI(sideHost, {
-      tabs: [{ id: 'mashup', label: 'MASHUP', pane: this.mashupUI.root }],
+      tabs: [{ id: 'chat', label: 'CHAT', pane: this.chatUI.root }, { id: 'mashup', label: 'MASHUP', pane: this.mashupUI.root }],
       stems: this.stems,
       sampler: this.sampler,
       automix: this.automix,
@@ -243,12 +266,12 @@ class App {
       analyzer: this.analyzer,
       getPlaylists: () => this.library.lib.playlists,
       getAllTracks: () => this.library.lib.tracks,
-      llm: this.llm,
-      onAiOptions: (options) => {
-        this.settings.ai.options = { ...options };
+      onAiOptions: () => {
+        this.settings.ai.options = this.automix.savedOptions();
         this.saveSettings();
       },
-      openAiSettings: () => this.openSettings('ai'),
+      planSet: (description) => this.chat.planSet(description),
+      openChat: () => this.openChat(),
     });
     this.library.addEventListener('playlists', () => this.sideUI.refreshSources());
     this.library.addEventListener('changed', () => {
@@ -313,6 +336,12 @@ class App {
       soon.add(m.vocalId);
     }
     return (t) => (now.has(t.id) ? 0 : soon.has(t.id) ? 1 : 2);
+  }
+
+  /** Apre SegueoChat nel pannello laterale, pronta per scrivere. */
+  openChat() {
+    this.sideUI.show('chat');
+    this.chatUI.focus();
   }
 
   /** Vista classica ('console') o dedicata all'AI ('ai'): l'AI DJ continua a mixare in entrambe. */
@@ -463,6 +492,7 @@ class App {
     else if (cmd === 'record') this.toggleRecording();
     else if (cmd === 'automix') this.automix.setEnabled(!this.automix.enabled);
     else if (cmd === 'view') this.setView(this.view === 'ai' ? 'console' : 'ai');
+    else if (cmd === 'chat') this.openChat();
   }
 
   showProgress(p) {
