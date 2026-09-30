@@ -142,15 +142,14 @@ test('beatGrid: metà/doppio tempo dentro 70–180 BPM e casi degeneri', () => {
   assert.deepEqual(beatGrid([1, 2, 3], []), { bpm: 0, offset: 0, confidence: 0 });
 });
 
-// Con il modello scaricato (npm run models) si verifica l'intera catena JavaScript + onnxruntime-web.
-// Scarto misurato sui logit rispetto a onnxruntime Python: fp32 4e-5; int8 fino a 0,35 anche a parità
-// di spettrogramma (i kernel int8 di WASM arrotondano diversamente da quelli nativi), battute identiche.
-const E2E = [
-  ['small0', 'int8', 0.5], ['small0', 'fp32', 1e-3], ['final0', 'int8', 0.5], ['final0', 'fp32', 1e-3],
-];
-for (const [name, variant, tolerance] of E2E) {
-  const path = `${MODELS}beat_this-${name}${variant === 'fp32' ? '' : '-' + variant}.onnx`;
-  test(`Beat This! ${name} ${variant} con onnxruntime-web: logit e battute come Python`, { skip: !existsSync(path) && 'modello non scaricato' }, async () => {
+// Con il modello scaricato (npm run models) si verifica l'intera catena JavaScript + onnxruntime-web sul modello
+// incluso nell'app (Segueo Analisi battute = Beat This! small0 int8). Scarto misurato sui logit rispetto a
+// onnxruntime Python: int8 fino a 0,35 anche a parità di spettrogramma (i kernel int8 di WASM arrotondano
+// diversamente da quelli nativi), battute identiche.
+const E2E = [['small0', 'int8', 0.5, 'segueo-analisi-battute.onnx']];
+for (const [name, variant, tolerance, file] of E2E) {
+  const path = `${MODELS}${file}`;
+  test(`Segueo Analisi battute (${name} ${variant}) con onnxruntime-web: logit e battute come Python`, { skip: !existsSync(path) && 'modello non scaricato' }, async () => {
     const ort = await import('onnxruntime-web');
     ort.env.wasm.numThreads = 1;
     const { run, release } = await createBeatThisSession(ort, new Uint8Array(readFileSync(path)));

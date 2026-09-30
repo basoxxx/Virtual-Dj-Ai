@@ -171,7 +171,7 @@ src/renderer/      interfaccia e motore audio (Web Audio API + AudioWorklet)
   js/controllers/  profili delle console DJ, gamepad
   js/ui/           componenti grafici
   worklets/        riproduzione dei deck (scratch, loop, keylock) e registrazione
-  workers/         analisi dei brani in background (Beat This! con onnxruntime-web, solo CPU)
+  workers/         analisi dei brani in background (Segueo Analisi battute con onnxruntime-web, solo CPU)
   vendor/          file di onnxruntime-web copiati da npm install (esclusi da git)
   models/          modelli ONNX scaricati da npm run models (esclusi da git)
 ml/                modelli AI: ambiente Python, export ONNX, valutazioni e REPORT.md con le misure
@@ -195,7 +195,7 @@ prima di test e build. Senza modello l'app funziona con l'analisi classica.
 | `segueo-transizioni-techno-v6.onnx` | transizioni dell'AI DJ, stile techno (6,9 MB) | modello C, int8 |
 | `segueo-separazione-voce.onnx` | voce e base separate per i mashup (174 MB) | Demucs v4 htdemucs (Meta, codice MIT) |
 
-Nella release restano anche i nomi precedenti (`beat_this-small0-int8.onnx`, `transition-planner-v*.onnx`,
+Nella release restano anche i nomi precedenti dei modelli di transizione e separazione (`transition-planner-v*.onnx`,
 `segueo-transizioni-v7.onnx`, `htdemucs.onnx`), usati dalle versioni già installate.
 
 Per rigenerarli (Python 3.12, vedi `ml/requirements.txt`):
