@@ -31,6 +31,9 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    in **Impostazioni → AI locale → Motore di analisi** si può tornare all'analisi classica, che resta comunque
    il ripiego automatico se il modello manca o dà errore. L'analisi è ibrida: il classico dà subito BPM e forma
    d'onda, Segueo Analisi battute rifinisce poi battute, battuta forte e struttura in background.
+   Ogni brano si analizza una volta sola (i risultati restano nella libreria). Con librerie grandi l'analisi parte
+   dai brani che servono subito (sui deck, in coda, nei mashup, nella playlist dell'AI DJ) e si mette in pausa mentre
+   si separano voce e base, così i mashup non aspettano la fine di tutta la libreria.
 2. **Sceglie il brano successivo** tra quelli compatibili: tonalità armonica, BPM vicini (anche metà/doppio tempo),
    energia coerente con la strategia scelta (*mantieni*, *crescente*, *onde*, *rilassata*, *picco*), genere, varietà.
    Nel pannello "Diario dell'AI" spiega ogni scelta.
@@ -168,7 +171,7 @@ src/renderer/      interfaccia e motore audio (Web Audio API + AudioWorklet)
   js/controllers/  profili delle console DJ, gamepad
   js/ui/           componenti grafici
   worklets/        riproduzione dei deck (scratch, loop, keylock) e registrazione
-  workers/         analisi dei brani in background (Beat This! con onnxruntime-web, solo CPU)
+  workers/         analisi dei brani in background (Segueo Analisi battute con onnxruntime-web, solo CPU)
   vendor/          file di onnxruntime-web copiati da npm install (esclusi da git)
   models/          modelli ONNX scaricati da npm run models (esclusi da git)
 ml/                modelli AI: ambiente Python, export ONNX, valutazioni e REPORT.md con le misure
@@ -192,7 +195,7 @@ prima di test e build. Senza modello l'app funziona con l'analisi classica.
 | `segueo-transizioni-techno-v6.onnx` | transizioni dell'AI DJ, stile techno (6,9 MB) | modello C, int8 |
 | `segueo-separazione-voce.onnx` | voce e base separate per i mashup (174 MB) | Demucs v4 htdemucs (Meta, codice MIT) |
 
-Nella release restano anche i nomi precedenti (`beat_this-small0-int8.onnx`, `transition-planner-v*.onnx`,
+Nella release restano anche i nomi precedenti dei modelli di transizione e separazione (`transition-planner-v*.onnx`,
 `segueo-transizioni-v7.onnx`, `htdemucs.onnx`), usati dalle versioni già installate.
 
 Per rigenerarli (Python 3.12, vedi `ml/requirements.txt`):

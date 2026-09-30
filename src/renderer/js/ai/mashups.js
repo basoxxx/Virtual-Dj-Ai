@@ -4,10 +4,11 @@ import { api } from '../api.js';
 
 export class MashupManager extends EventTarget {
   /** stems: StemManager; getTrack(id): brano della libreria. */
-  constructor({ stems, getTrack }) {
+  constructor({ stems, getTrack, bpmWait = 120000 }) {
     super();
     this.stems = stems;
     this.getTrack = getTrack;
+    this.bpmWait = bpmWait; // quanto aspettare il BPM del brano della voce (ms)
     this.list = [];
     this.ready = new Set(); // id dei mashup con voce e base su disco
     this.preparing = new Set();
@@ -70,7 +71,7 @@ export class MashupManager extends EventTarget {
     if (this.preparing.has(m.id)) {
       const run = this.stems.running;
       if (!run || (run.track.id !== base.id && run.track.id !== vocal.id)) return { id: 'preparing', text: 'In coda per la separazione' };
-      if (this.stems.isBusy()) return { id: 'preparing', text: 'Aspetta la fine dell\'analisi della libreria' };
+      if (this.stems.isBusy()) return { id: 'preparing', text: 'Finisco di analizzare un brano, poi separo' };
       return { id: 'preparing', text: `Separo ${run.track.id === vocal.id ? 'la voce' : 'la base'}: ${Math.round(run.progress * 100)}%` };
     }
     if (this.errors.has(m.id)) return { id: 'failed', text: this.errors.get(m.id) };
@@ -96,6 +97,8 @@ export class MashupManager extends EventTarget {
       this.ready.add(id);
       const cur = this.get(id);
       if (cur && cur.vocalStart == null) {
+        // l'analisi si ferma durante la separazione e poi riparte da questi brani: il BPM arriva a breve
+        for (let t = 0; t < this.bpmWait && !vocal.bpm; t += 250) await new Promise((r) => setTimeout(r, 250));
         if (!vocal.bpm) throw new Error('analizza prima il brano della voce (BPM)');
         await this.update(id, { vocalStart: await this.stems.vocalEntry(vocal) });
       }

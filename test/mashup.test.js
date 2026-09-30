@@ -221,7 +221,7 @@ test('gestore dei mashup: prepara voce e base, trova l\'entrata della voce e la 
     },
     vocalEntry: async (t) => (t.id === 'b' ? 32.5 : 0),
   });
-  const mm = new MashupManager({ stems, getTrack: (id) => tracks[id] });
+  const mm = new MashupManager({ stems, getTrack: (id) => tracks[id], bpmWait: 1000 });
   const m = await mm.save({ baseId: 'a', vocalId: 'b', bars: 16 });
   assert.equal(mm.status(m).id, 'todo');
   await mm.prepare(m.id);
@@ -240,4 +240,27 @@ test('gestore dei mashup: prepara voce e base, trova l\'entrata della voce e la 
   assert.equal(fresh.status(fresh.get('x')).id, 'missing');
   await fresh.remove(m.id);
   assert.equal(fresh.get(m.id), null);
+});
+
+test('gestore dei mashup: se il brano della voce non ha ancora il BPM (analisi in pausa) lo aspetta', async () => {
+  globalThis.window = globalThis.window || {};
+  globalThis.window.api = { saveMashup: async (m) => ({ ...m, id: m.id || 'm1' }), deleteMashup: async () => {} };
+  const { MashupManager } = await import('../src/renderer/js/ai/mashups.js');
+  const tracks = { a: T('a', 120, 'Am'), b: T('b', 0, '') };
+  const stems = Object.assign(new EventTarget(), {
+    running: null, isBusy: () => false, has: async () => true, ensure: async () => true, clearFailure() {}, vocalEntry: async () => 16.5,
+  });
+  const mm = new MashupManager({ stems, getTrack: (id) => tracks[id], bpmWait: 2000 });
+  const m = await mm.save({ baseId: 'a', vocalId: 'b', bars: 16, vocalStart: null });
+  setTimeout(() => { tracks.b.bpm = 124; }, 300); // l'analisi riparte dopo la separazione
+  await mm.prepare(m.id);
+  assert.equal(mm.status(mm.get(m.id)).id, 'ready');
+  assert.equal(mm.get(m.id).vocalStart, 16.5);
+  // se il BPM non arriva: errore chiaro, non un'attesa infinita
+  tracks.b.bpm = 0;
+  const m2 = await mm.save({ id: 'm2', baseId: 'a', vocalId: 'b', bars: 16, vocalStart: null });
+  const quick = new MashupManager({ stems, getTrack: (id) => tracks[id], bpmWait: 300 });
+  quick.list = [m2];
+  await quick.prepare('m2');
+  assert.match(quick.status(m2).text, /BPM/);
 });

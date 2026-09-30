@@ -194,10 +194,12 @@ function registerIpc() {
     await library.rescan(progress('Aggiornamento'));
     return library.snapshot();
   });
-  ipcMain.handle('library:removeTrack', (_e, id) => {
-    library.removeTrack(id);
-    return library.snapshot();
+  // uno o più brani; l'interfaccia ricarica la libreria una volta sola alla fine
+  ipcMain.handle('library:removeTrack', (_e, ids) => {
+    for (const id of [].concat(ids)) library.removeTrack(id);
+    return true;
   });
+  ipcMain.handle('library:track', (_e, id) => library.track(id));
   ipcMain.handle('library:updateTrack', (_e, id, patch) => library.updateTrack(id, patch));
   ipcMain.handle('library:markPlayed', (_e, id) => library.markPlayed(id));
   ipcMain.handle('playlist:create', (_e, name) => library.createPlaylist(name));
@@ -206,6 +208,7 @@ function registerIpc() {
   ipcMain.handle('playlist:add', (_e, id, trackIds) => library.addToPlaylist(id, trackIds));
   ipcMain.handle('playlist:remove', (_e, id, index) => library.removeFromPlaylist(id, index));
   ipcMain.handle('playlist:move', (_e, id, from, to) => library.movePlaylistItem(id, from, to));
+  ipcMain.handle('playlist:list', () => library.data.playlists);
   ipcMain.handle('mashup:save', (_e, m) => library.saveMashup(m));
   ipcMain.handle('mashup:delete', (_e, id) => library.deleteMashup(id));
 

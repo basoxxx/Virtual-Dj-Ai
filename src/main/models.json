@@ -3,34 +3,6 @@
   "release": "models-v1",
   "models": [
     {
-      "file": "beat_this-small0-int8.onnx",
-      "bundle": false,
-      "bytes": 3900736,
-      "sha256": "7cdf1841dbb8ec44d456b93a9d5105b47d164eb48bc371db11f4a05f7be8111a",
-      "source": "Beat This! small0 (CPJKU, MIT), ml/beat_this/export_onnx.py, int8 dinamico"
-    },
-    {
-      "file": "beat_this-small0.onnx",
-      "bundle": false,
-      "bytes": 9043951,
-      "sha256": "f42a942a9a212b47dc9126ed036a30814b21eaad99ae59c246a2d964c61401d1",
-      "source": "Beat This! small0 (CPJKU, MIT), ml/beat_this/export_onnx.py, fp32"
-    },
-    {
-      "file": "beat_this-final0-int8.onnx",
-      "bundle": false,
-      "bytes": 22209392,
-      "sha256": "6997acb94945bd62307c16d14cb776dd0e96cc01595ee793d49eb1a5f970d1d6",
-      "source": "Beat This! final0 (CPJKU, MIT), ml/beat_this/export_onnx.py, int8 dinamico"
-    },
-    {
-      "file": "beat_this-final0.onnx",
-      "bundle": false,
-      "bytes": 81651009,
-      "sha256": "cee641c66588bc6182fd445d3a4b2889113a952514227d21174f19284232e987",
-      "source": "Beat This! final0 (CPJKU, MIT), ml/beat_this/export_onnx.py, fp32"
-    },
-    {
       "file": "transition-planner-v1-int8.onnx",
       "bundle": false,
       "bytes": 6815310,
@@ -112,7 +84,7 @@
       "bundle": true,
       "bytes": 3900736,
       "sha256": "7cdf1841dbb8ec44d456b93a9d5105b47d164eb48bc371db11f4a05f7be8111a",
-      "source": "Analisi di battute e battute forti: Beat This! small0 (CPJKU, MIT), int8 dinamico; stesso file di beat_this-small0-int8.onnx"
+      "source": "Analisi di battute e battute forti: Beat This! small0 (CPJKU, MIT), int8 dinamico"
     },
     {
       "file": "segueo-transizioni-v7.onnx",

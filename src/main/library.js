@@ -94,6 +94,10 @@ async function mapLimit(items, limit, fn) {
   await Promise.all(workers);
 }
 
+// Con migliaia di brani library.json pesa decine di MB: durante l'analisi (un aggiornamento per brano) si scrive al
+// massimo ogni 2 s invece che a ogni brano. All'uscita si scrive comunque subito (flush).
+const SAVE_DELAY = 2000;
+
 class Library {
   constructor(userDataDir) {
     this.store = new JsonStore(path.join(userDataDir, 'library.json'), {
@@ -103,22 +107,31 @@ class Library {
       playlists: [],
       history: [],
       mashups: [],
-    });
+    }, { delay: SAVE_DELAY });
   }
 
   get data() {
     return this.store.data;
   }
 
+  /**
+   * Libreria per l'interfaccia. Senza barEnergy (energia per battuta, circa 3/4 dei byte): serve solo al brano
+   * sul deck e si chiede con track(id); così ogni ricarica passa 4 volte meno dati tra i processi.
+   */
   snapshot() {
     const d = this.data;
     return {
       folders: d.folders,
-      tracks: Object.values(d.tracks),
+      tracks: Object.values(d.tracks).map(({ barEnergy, ...t }) => t),
       playlists: d.playlists,
       history: d.history.slice(-500),
       mashups: d.mashups,
     };
+  }
+
+  /** Un brano con tutti i dati, compresa l'energia per battuta. */
+  track(id) {
+    return this.data.tracks[id] || null;
   }
 
   hasPath(file) {
@@ -183,8 +196,10 @@ class Library {
   updateTrack(id, patch) {
     const t = this.data.tracks[id];
     if (!t) return null;
+    // bpmEngine dice chi ha fatto la griglia (classic, ai, manual): senza, a ogni avvio Beat This! rianalizzava
+    // tutta la libreria e sovrascriveva le griglie corrette a mano
     const allowed = ['bpm', 'key', 'gain', 'duration', 'rating', 'hotcues', 'analyzed', 'title', 'artist', 'genre', 'gridOffset', 'comment',
-      'energy', 'mixIn', 'mixOut', 'introEnd', 'outroStart', 'barEnergy'];
+      'energy', 'mixIn', 'mixOut', 'introEnd', 'outroStart', 'barEnergy', 'bpmEngine', 'bpmConfidence'];
     for (const k of allowed) if (k in patch) t[k] = patch[k];
     this.store.save();
     return t;

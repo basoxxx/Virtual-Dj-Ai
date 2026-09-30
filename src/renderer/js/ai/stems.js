@@ -106,7 +106,7 @@ export class StemManager extends EventTarget {
     this.running = { ...job, progress: 0 };
     this.emit();
     try {
-      // la separazione usa circa 3 GB: mai insieme all'analisi dei brani
+      // la separazione usa circa 3 GB: mai insieme all'analisi di un brano (che intanto si mette in pausa)
       while (this.isBusy()) await new Promise((r) => setTimeout(r, 2000));
       if (!(await this.checkModel())) throw new Error('modello per separare voce e base non scaricato');
       const bytes = await api.readFile(job.track.path);

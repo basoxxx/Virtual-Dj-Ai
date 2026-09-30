@@ -173,8 +173,7 @@ export class AutoDJ extends EventTarget {
     // si preferiscono i brani già analizzati (BPM e tonalità noti)
     const analyzed = pool.filter((t) => t.bpm);
     const candidatesPool = analyzed.length >= 3 ? analyzed : pool;
-    const ranked = rankCandidates(currentTrack, candidatesPool, { strategy: this.options.strategy, step: this.step, recent: played });
-    const top = ranked.slice(0, 12);
+    const top = rankCandidates(currentTrack, candidatesPool, { strategy: this.options.strategy, step: this.step, recent: played, limit: 12 });
     if (this.options.useLLM && this.llm && this.llm.enabled) {
       try {
         this.say('Chiedo all\'AI locale quale brano mettere…');

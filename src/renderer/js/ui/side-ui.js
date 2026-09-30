@@ -285,7 +285,9 @@ export class SideUI {
     const an = this.analyzer;
     if (an.running) {
       this.anaBtn.textContent = 'Ferma analisi';
-      this.anaInfo.textContent = `${an.done}/${an.total}${an.current ? ` · ${an.current.title}` : ''}`;
+      this.anaInfo.textContent = an.paused
+        ? `${an.done}/${an.total} · in pausa mentre separo voce e base`
+        : `${an.done}/${an.total}${an.current ? ` · ${an.current.title}` : ''}`;
     } else {
       const pending = BatchAnalyzer.pending(this.getAllTracks()).length;
       this.anaBtn.textContent = 'Analizza libreria';

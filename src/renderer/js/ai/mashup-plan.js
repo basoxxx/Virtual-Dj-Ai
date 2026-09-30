@@ -2,6 +2,7 @@
 // Un mashup salvato è { id, baseId, vocalId, bars, baseStart, vocalStart }: la voce di un brano entra sulla base
 // dell'altro al secondo baseStart della base (null = punto di mix), dal secondo vocalStart del brano della voce.
 import { keyScore, bpmScore, tempoRatio } from './selector.js';
+import { camelotOf } from '../dsp/analysis.js';
 
 export const MASHUP_BARS = [8, 16, 32];
 export const DEFAULT_MASHUP_BARS = 16;
@@ -30,11 +31,24 @@ export function mashupCompatibility(base, vocal) {
   };
 }
 
+/**
+ * Codici Camelot che possono stare con `code` in un mashup (stessa tonalità, relativa, ±1 sulla ruota): con librerie
+ * grandi si guardano solo questi brani invece di calcolare la compatibilità di tutti.
+ */
+export function compatibleCodes(code) {
+  const n = parseInt(code, 10);
+  if (!n) return null;
+  const l = code.slice(-1);
+  const wrap = (k) => ((k + 11) % 12) + 1;
+  return new Set([`${n}${l}`, `${n}${l === 'A' ? 'B' : 'A'}`, `${wrap(n - 1)}${l}`, `${wrap(n + 1)}${l}`]);
+}
+
 /** Brani analizzati che fanno coppia con `track` (tonalità compatibile, tempo agganciabile), i migliori prima. */
 export function suggestPartners(track, pool, { limit = 6 } = {}) {
   if (!track || !track.bpm || !track.key) return [];
+  const codes = compatibleCodes(camelotOf(track.key));
   return pool
-    .filter((t) => t && t.id !== track.id && t.bpm && t.key)
+    .filter((t) => t && t.id !== track.id && t.bpm && t.key && (!codes || codes.has(camelotOf(t.key))))
     .map((t) => ({ track: t, ...mashupCompatibility(track, t) }))
     .filter((c) => c.keyOk && c.tempoOk)
     .sort((a, b) => b.score - a.score)
@@ -60,10 +74,21 @@ export function pickPair(pool, { tried = new Set(), isSaved = () => false, rando
     const j = Math.floor(random() * (i + 1));
     [bases[i], bases[j]] = [bases[j], bases[i]];
   }
+  // brani raggruppati per codice Camelot: per ogni base si guardano solo i gruppi compatibili
+  const byCode = new Map();
+  for (const t of bases) {
+    const code = camelotOf(t.key);
+    if (!byCode.has(code)) byCode.set(code, []);
+    byCode.get(code).push(t);
+  }
+  const near = (base) => {
+    const codes = compatibleCodes(camelotOf(base.key));
+    return codes ? [...codes].flatMap((c) => byCode.get(c) || []) : bases;
+  };
   let best = null;
   let found = 0;
   for (const base of bases.slice(0, maxBases)) {
-    const c = suggestPartners(base, pool, { limit: Infinity }).find((x) => !tried.has(`${base.id}:${x.track.id}`) && !isSaved(base.id, x.track.id));
+    const c = suggestPartners(base, near(base), { limit: Infinity }).find((x) => !tried.has(`${base.id}:${x.track.id}`) && !isSaved(base.id, x.track.id));
     if (!c) continue;
     if (!best || c.score > best.score) best = { base, vocal: c.track, score: c.score };
     if (++found >= tries) break;

@@ -15,6 +15,7 @@ contextBridge.exposeInMainWorld('api', {
   removeFolder: invoke('library:removeFolder'),
   rescan: invoke('library:rescan'),
   removeTrack: invoke('library:removeTrack'),
+  getTrack: invoke('library:track'),
   updateTrack: invoke('library:updateTrack'),
   markPlayed: invoke('library:markPlayed'),
   createPlaylist: invoke('playlist:create'),
@@ -23,6 +24,7 @@ contextBridge.exposeInMainWorld('api', {
   addToPlaylist: invoke('playlist:add'),
   removeFromPlaylist: invoke('playlist:remove'),
   movePlaylistItem: invoke('playlist:move'),
+  getPlaylists: invoke('playlist:list'),
   saveMashup: invoke('mashup:save'),
   deleteMashup: invoke('mashup:delete'),
 

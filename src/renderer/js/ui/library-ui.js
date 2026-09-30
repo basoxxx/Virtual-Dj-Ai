@@ -6,6 +6,8 @@ import { api } from '../api.js';
 import { icon, withIcon } from './icons.js';
 
 const ROW_H = 26;
+// un solo Collator per tutti i confronti: localeCompare con opzioni ne crea uno a ogni chiamata (15 volte più lento)
+const COLLATOR = new Intl.Collator(undefined, { sensitivity: 'base', numeric: true });
 
 const COLUMNS = [
   { id: 'title', label: 'Titolo', width: '2.4fr' },
@@ -112,6 +114,15 @@ export class LibraryUI extends EventTarget {
     this.setLibrary(await api.getLibrary());
   }
 
+  /** Solo le playlist (dopo averle modificate): senza ricaricare e riordinare tutti i brani. */
+  async reloadPlaylists() {
+    this.lib.playlists = await api.getPlaylists();
+    if (this.source.type === 'playlist' && !this.lib.playlists.find((p) => p.id === this.source.id)) this.source = { type: 'all' };
+    this.renderSidebar();
+    if (this.source.type === 'playlist' || this.source.type === 'all') this.refreshRows();
+    this.dispatchEvent(new CustomEvent('playlists'));
+  }
+
   setLibrary(lib) {
     const prev = this.byId;
     this.lib = lib;
@@ -161,7 +172,7 @@ export class LibraryUI extends EventTarget {
           const ids = (e.dataTransfer.getData('text/x-track-ids') || '').split(',').filter(Boolean);
           if (ids.length) {
             await api.addToPlaylist(source.id, ids);
-            await this.reload();
+            await this.reloadPlaylists();
             toast(`${ids.length} brani aggiunti alla playlist`);
           }
         });
@@ -172,14 +183,14 @@ export class LibraryUI extends EventTarget {
               const name = await askText('Nome della playlist', text);
               if (name) {
                 await api.renamePlaylist(source.id, name);
-                this.reload();
+                this.reloadPlaylists();
               }
             } },
             { label: 'Metti tutto in Automix', run: () => this.onQueue(this.playlistTracks(source.id)) },
             { label: 'Elimina playlist', run: async () => {
               if (await confirmDialog(`Eliminare la playlist "${text}"?`, 'Elimina')) {
                 await api.deletePlaylist(source.id);
-                this.reload();
+                this.reloadPlaylists();
               }
             } },
           ]);
@@ -197,7 +208,7 @@ export class LibraryUI extends EventTarget {
       const name = await askText('Nome della nuova playlist', 'Nuova playlist');
       if (name) {
         await api.createPlaylist(name);
-        this.reload();
+        this.reloadPlaylists();
       }
     } })));
     for (const p of this.lib.playlists) s.append(item(withIcon('list', p.name), { type: 'playlist', id: p.id }, null, p.tracks.length, p.name));
@@ -284,7 +295,7 @@ export class LibraryUI extends EventTarget {
         const va = a[col] ?? '';
         const vb = b[col] ?? '';
         if (typeof va === 'number' || typeof vb === 'number') return ((Number(va) || 0) - (Number(vb) || 0)) * dir;
-        return String(va).localeCompare(String(vb), undefined, { sensitivity: 'base', numeric: true }) * dir;
+        return COLLATOR.compare(String(va), String(vb)) * dir;
       });
     }
     this.rows = rows;
@@ -394,7 +405,7 @@ export class LibraryUI extends EventTarget {
       { sep: true },
       ...this.lib.playlists.map((p) => ({ label: `Aggiungi a "${p.name}"`, run: async () => {
         await api.addToPlaylist(p.id, sel.map((x) => x.id));
-        this.reload();
+        this.reloadPlaylists();
         toast(`Aggiunti a ${p.name}`);
       } })),
       { label: 'Nuova playlist con la selezione…', run: async () => {
@@ -402,7 +413,7 @@ export class LibraryUI extends EventTarget {
         if (!name) return;
         const p = await api.createPlaylist(name);
         await api.addToPlaylist(p.id, sel.map((x) => x.id));
-        this.reload();
+        this.reloadPlaylists();
       } },
     ];
     if (this.source.type === 'playlist') {
@@ -411,7 +422,7 @@ export class LibraryUI extends EventTarget {
         const p = this.lib.playlists.find((x) => x.id === src.id);
         const idx = p ? p.tracks.indexOf(t.id) : index;
         await api.removeFromPlaylist(src.id, idx);
-        this.reload();
+        this.reloadPlaylists();
       } });
     }
     items.push({ sep: true });
@@ -425,7 +436,7 @@ export class LibraryUI extends EventTarget {
       this.renderRows();
     } });
     items.push({ label: 'Rimuovi dalla libreria', run: async () => {
-      for (const x of sel) await api.removeTrack(x.id);
+      await api.removeTrack(sel.map((x) => x.id));
       this.selected.clear();
       this.reload();
     } });
