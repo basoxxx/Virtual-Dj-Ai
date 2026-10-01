@@ -123,11 +123,11 @@
       "source": "Transizioni dell'AI DJ, stile techno (modello C v6: DJ set techno/minimal di Mixotic e crossfader di Gand, finestre fino a 256 battute); int8 dinamico, stesso file di transition-planner-v6-int8.onnx"
     },
     {
-      "file": "segueo-chat.onnx",
+      "file": "segueo-chat-v2.onnx",
       "bundle": true,
-      "bytes": 2128391,
-      "sha256": "6498b9201b8589d1460a7047b6b8d0076e272b122bf82b39303731700f6d635e",
-      "source": "Comprensione dei messaggi di SegueoChat: modello di questo progetto (ml/segueochat), addestrato su frasi italiane generate da modelli di frase e su 3.527 interazioni scritte; int8 dinamico"
+      "bytes": 4276882,
+      "sha256": "2ac8549f71d8a2cd25b507753747109ab4a93c8e24aec639549a9b00902c2b4e",
+      "source": "Comprensione dei messaggi di SegueoChat: modello di questo progetto (ml/segueochat), v2 con caratteristiche da 128 e 7.662 interazioni scritte di addestramento; int8 dinamico"
     }
   ]
 }

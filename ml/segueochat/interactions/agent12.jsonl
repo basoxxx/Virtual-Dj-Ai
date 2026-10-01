@@ -1,0 +1,779 @@
+{"text": "la gente sta cenando, voglio dissolvenze dolci che non disturbino nessuno", "labels": {"style": "fade"}}
+{"text": "crossfade bello morbido tra questo e il prossimo", "labels": {"style": "fade"}}
+{"text": "fai entrare il pezzo nuovo in dissolvenza incrociata", "labels": {"style": "fade"}}
+{"text": "fade lungo per favore, tipo 32 battute", "labels": {"style": "fade", "bars": "long"}}
+{"text": "fade lunghissimo, fai sparire questo pezzo pian piano", "labels": {"style": "fade", "bars": "verylong"}}
+{"text": "Dissolvenze e solo dissolvenze, è un matrimonio elegante", "labels": {"style": "fade"}}
+{"text": "voglio che i pezzi si fondano uno nell'altro senza che nessuno se ne accorga", "labels": {"style": "fade"}}
+{"text": "mixa soft come in radio, uno sale e l'altro scende", "labels": {"style": "fade"}}
+{"text": "fai il classico crossfade, roba semplice", "labels": {"style": "fade"}}
+{"text": "sfuma l'uscita di ogni brano, siamo in un ristorante", "labels": {"style": "fade"}}
+{"text": "dissolvenza incrociata da 8 battute, rapida ma morbida", "labels": {"style": "fade", "bars": "short"}}
+{"text": "sfumate brevi che la gente vuole ballare", "labels": {"style": "fade", "bars": "short"}}
+{"text": "smooth transitions pls, è un evento aziendale", "labels": {"style": "fade"}}
+{"text": "sfumaaa piano pls", "labels": {"style": "fade"}}
+{"text": "dai un fade di quelli lenti che quasi non si sente", "labels": {"style": "fade", "bars": "long"}}
+{"text": "tra un pezzo e l'altro una dissolvenza bella lunga", "labels": {"style": "fade", "bars": "long"}}
+{"text": "vorrei passaggi vellutati, tipo sfumatura da film", "labels": {"style": "fade"}}
+{"text": "fade out sul vecchio e fade in sul nuovo, all'antica", "labels": {"style": "fade"}}
+{"text": "crossfade da 64 battute, tanto il pezzo è ambient", "labels": {"style": "fade", "bars": "verylong"}}
+{"text": "I cambi devono essere morbidissimi, in sala ci sono i nonni", "labels": {"style": "fade"}}
+{"text": "sfumatura dolce tra i brani, niente colpi", "labels": {"style": "fade"}}
+{"text": "fade x favore, nn tagliare", "labels": {"style": "fade"}}
+{"text": "fai che il nuovo pezzo salga piano mentre l'altro scende", "labels": {"style": "fade"}}
+{"text": "dissolvi il pezzo vecchio lentamente, senza fretta", "labels": {"style": "fade", "bars": "long"}}
+{"text": "passaggi in dissolvenza, durata normale", "labels": {"style": "fade"}}
+{"text": "fade fade fade, siamo a un aperitivo", "labels": {"style": "fade"}}
+{"text": "sfumate da un minuto, che è musica da lounge", "labels": {"style": "fade", "bars": "long"}}
+{"text": "Crossfade di 2 minuti, voglio che si sovrappongano tantissimo", "labels": {"style": "fade", "bars": "verylong"}}
+{"text": "ammorbidisci i passaggi, sono un pugno nello stomaco", "labels": {"style": "fade"}}
+{"text": "i cambi devono essere come una carezza", "labels": {"style": "fade"}}
+{"text": "vai di sfumate, la cerimonia è appena finita", "labels": {"style": "fade"}}
+{"text": "dissolvenza lenta quando entra Golden Hour", "labels": {"style": "fade", "bars": "long"}}
+{"text": "crossfade corto, 4 battute, ma morbido", "labels": {"style": "fade", "bars": "short"}}
+{"text": "sfuma sui finali dei pezzi, niente stop bruschi", "labels": {"style": "fade"}}
+{"text": "Fai dissolvenze e non usare il filtro", "labels": {"style": "fade"}}
+{"text": "passaggi sfumati e lunghissimi, tipo colonna sonora", "labels": {"style": "fade", "bars": "verylong"}}
+{"text": "fade dolci tutta la sera, poi magari cambiamo", "labels": {"style": "fade"}}
+{"text": "i cambi li voglio fluidi, morbidi, senza scossoni", "labels": {"style": "fade"}}
+{"text": "blend morbidi, volume che scende piano piano sul vecchio", "labels": {"style": "fade"}}
+{"text": "sfumatura tipo radio, 8 battute bastano", "labels": {"style": "fade", "bars": "short"}}
+{"text": "evita i colpi secchi, sfuma sempre", "labels": {"style": "fade"}}
+{"text": "fade incrociato e lungo, 48 battute", "labels": {"style": "fade", "bars": "long"}}
+{"text": "sfumaturee lunghe x favore", "labels": {"style": "fade", "bars": "long"}}
+{"text": "smooth fade, a long one please", "labels": {"style": "fade", "bars": "long"}}
+{"text": "ao, sfuma 'n po' de più che se sente er salto", "labels": {"style": "fade"}}
+{"text": "passaggi delicati, è il momento del primo ballo", "labels": {"style": "fade"}}
+{"text": "dissolvenza sul finale di ogni canzone e via con la prossima", "labels": {"style": "fade"}}
+{"text": "fai crossfade, mai stacchi, la gente sta mangiando il dolce", "labels": {"style": "fade"}}
+{"text": "mixa morbido morbido stasera", "labels": {"style": "fade"}}
+{"text": "crossfade su tutto, anche sui pezzi veloci", "labels": {"style": "fade"}}
+{"text": "cut secco sull'uno e via", "labels": {"style": "cut"}}
+{"text": "taglio netto, stasera è serata hip hop e si fa così", "labels": {"style": "cut"}}
+{"text": "fai entrare il nuovo di botto sul primo battito", "labels": {"style": "cut"}}
+{"text": "i cambi a taglio, come alle feste in casa", "labels": {"style": "cut"}}
+{"text": "stacco netto appena finisce il ritornello", "labels": {"style": "cut"}}
+{"text": "hard cut tra un pezzo e l'altro, tanto sono tutti a 128", "labels": {"style": "cut"}}
+{"text": "niente dissolvenze, tagli puliti sul beat", "labels": {"style": "cut"}}
+{"text": "taglia di brutto quando arriva il drop del nuovo", "labels": {"style": "cut"}}
+{"text": "Cut sul downbeat, secco e preciso", "labels": {"style": "cut"}}
+{"text": "fai il cambio a taglio senza sovrapporre niente", "labels": {"style": "cut"}}
+{"text": "tagli netti e cambi corti, è una festa di diciottenni", "labels": {"style": "cut", "bars": "short"}}
+{"text": "spezza il pezzo e fai partire l'altro, colpo secco", "labels": {"style": "cut"}}
+{"text": "i cambi falli tagliati, tipo radio hip hop anni 2000", "labels": {"style": "cut"}}
+{"text": "stacca secco sul quattro e riparti sull'uno", "labels": {"style": "cut"}}
+{"text": "taglio secco ogni volta, qui vogliono le botte", "labels": {"style": "cut"}}
+{"text": "senza fade, entra diretto col brano nuovo", "labels": {"style": "cut"}}
+{"text": "voglio sentire il colpo del cambio, fai cut", "labels": {"style": "cut"}}
+{"text": "fai stacchi a tempo, puliti, zero sovrapposizioni", "labels": {"style": "cut"}}
+{"text": "tagliami i passaggi sul battere", "labels": {"style": "cut"}}
+{"text": "cut cut cut, basta con le sfumature", "labels": {"style": "cut"}}
+{"text": "cambi secchi a tempo, ma non a raffica eh, normali", "labels": {"style": "cut"}}
+{"text": "transizioni a colpo secco, la pista è carica", "labels": {"style": "cut"}}
+{"text": "niente crossfade, voglio cut netti", "labels": {"style": "cut"}}
+{"text": "taglia sul primo kick del pezzo nuovo", "labels": {"style": "cut"}}
+{"text": "fai tagli secchi ma a fine frase, non a caso", "labels": {"style": "cut"}}
+{"text": "tipo battle hip hop: taglio e dentro il nuovo", "labels": {"style": "cut"}}
+{"text": "stacchi seccchi pls", "labels": {"style": "cut"}}
+{"text": "TAGLI NETTI, BASTA SFUMATURE", "labels": {"style": "cut"}}
+{"text": "taglia netto e cambia pezzo adesso", "labels": {"style": "cut", "control": "mixNow"}}
+{"text": "un taglio secco qui ci sta, cambia ora", "labels": {"style": "cut", "control": "mixNow"}}
+{"text": "cut sul drop e cambi da 8 battute", "labels": {"style": "cut", "bars": "short"}}
+{"text": "stacchi bruschi va benissimo, la gente salta", "labels": {"style": "cut"}}
+{"text": "fai il cut a fine ritornello, mi piace l'effetto sorpresa", "labels": {"style": "cut"}}
+{"text": "cambia di netto, senza preavviso, sul beat", "labels": {"style": "cut"}}
+{"text": "mi piace il cambio secco, fallo sempre così", "labels": {"style": "cut"}}
+{"text": "via i fade, solo tagli", "labels": {"style": "cut"}}
+{"text": "tagli secchi nn sfumare", "labels": {"style": "cut"}}
+{"text": "uagliù, taglio secco e via", "labels": {"style": "cut"}}
+{"text": "quick cuts on the one, niente fade", "labels": {"style": "cut"}}
+{"text": "attacca il pezzo nuovo sul battere senza sovrapposizione", "labels": {"style": "cut"}}
+{"text": "voglio i cambi spezzati, uno finisce e l'altro parte subito", "labels": {"style": "cut"}}
+{"text": "cut a tempo a fine frase, e mix brevi da 8", "labels": {"style": "cut", "bars": "short"}}
+{"text": "taglio pulito, e falli corti i mix", "labels": {"style": "cut", "bars": "short"}}
+{"text": "niente più tagli, torna a sfumare", "labels": {"style": "fade"}}
+{"text": "basta stacchi secchi che sembra una radio rotta, fai dissolvenze", "labels": {"style": "fade"}}
+{"text": "non mi piace il filtro, preferisco l'eco in uscita", "labels": {"style": "echo"}}
+{"text": "basta filtri nei cambi, passa al bass swap", "labels": {"style": "bassswap"}}
+{"text": "niente eco, fai tagli netti", "labels": {"style": "cut"}}
+{"text": "smettila con le sfumature, cut e basta", "labels": {"style": "cut"}}
+{"text": "no raffica stasera, voglio mix normali con le dissolvenze", "labels": {"style": "fade"}}
+{"text": "non usare più il bass swap, metti il filtro", "labels": {"style": "filter"}}
+{"text": "basta lumix, torna a sfumare normale", "labels": {"style": "fade"}}
+{"text": "niente tagli a raffica, i vecchietti non capiscono, mix morbidi", "labels": {"style": "fade"}}
+{"text": "basta echo che sembra una grotta, vai di crossfade", "labels": {"style": "fade"}}
+{"text": "no fade, no filtro: taglio sul beat", "labels": {"style": "cut"}}
+{"text": "senza eco stavolta, fammi un bel bass swap", "labels": {"style": "bassswap"}}
+{"text": "non sfumare più, adesso voglio tagliare sul drop", "labels": {"style": "cut"}}
+{"text": "niente stile techno, fai i cambi alla gabry ponte", "labels": {"style": "model"}}
+{"text": "basta gabry ponte, passa allo stile techno", "labels": {"style": "model-techno"}}
+{"text": "non voglio più il modello dance, lascia scegliere a te lo stile", "labels": {"style": "auto"}}
+{"text": "basta tagli a raffica, torna alle transizioni automatiche", "labels": {"style": "auto"}}
+{"text": "niente più eco, fai come ti pare nei passaggi", "labels": {"style": "auto"}}
+{"text": "smetti col filtro e torna in automatico", "labels": {"style": "auto"}}
+{"text": "basta con questo stile lumix, rimetti lo stile automatico", "labels": {"style": "auto"}}
+{"text": "non mi convince il bass swap, scegli tu cosa fare nei cambi", "labels": {"style": "auto"}}
+{"text": "non fare mix così lunghi, accorcia a 8", "labels": {"bars": "short"}}
+{"text": "niente blend infiniti, mix corti", "labels": {"bars": "short"}}
+{"text": "non tagliare così presto, lascia andare i due pezzi insieme più a lungo", "labels": {"bars": "long"}}
+{"text": "basta mix corti, allungali tipo 32", "labels": {"bars": "long"}}
+{"text": "non stare così tanto sui cambi, stringi", "labels": {"bars": "short"}}
+{"text": "niente dissolvenze lunghe, cambi rapidi da 8", "labels": {"bars": "short"}}
+{"text": "stop con l'eco, ora voglio sentire il filtro", "labels": {"style": "filter"}}
+{"text": "basta bass swap che si perde la cassa, fai tagli", "labels": {"style": "cut"}}
+{"text": "non mi piacciono i tagli, passaggi filtrati piuttosto", "labels": {"style": "filter"}}
+{"text": "lascia perdere lo stile techno, transizioni morbide e basta", "labels": {"style": "fade"}}
+{"text": "no cut, no raffica, solo crossfade lunghi", "labels": {"style": "fade", "bars": "long"}}
+{"text": "filtro passa alto sul pezzo che esce", "labels": {"style": "filter"}}
+{"text": "chiudi il filtro sul vecchio e aprilo sul nuovo", "labels": {"style": "filter"}}
+{"text": "fai i passaggi giocando col filtro, tipo french touch", "labels": {"style": "filter"}}
+{"text": "sweep di filtro su ogni cambio, 32 battute", "labels": {"style": "filter", "bars": "long"}}
+{"text": "passa basso sul pezzo nuovo finché non entra del tutto", "labels": {"style": "filter"}}
+{"text": "low pass in entrata e high pass in uscita", "labels": {"style": "filter"}}
+{"text": "Filtra i cambi, così si sente meno lo stacco", "labels": {"style": "filter"}}
+{"text": "gira la manopola del filtro tra un brano e l'altro", "labels": {"style": "filter"}}
+{"text": "mix col filtro, e falli lunghi da 32", "labels": {"style": "filter", "bars": "long"}}
+{"text": "filtro sui cambi ma veloce, 8 battute", "labels": {"style": "filter", "bars": "short"}}
+{"text": "apri il filtro piano piano sul pezzo che entra", "labels": {"style": "filter"}}
+{"text": "hpf sul vecchio mentre sale il nuovo", "labels": {"style": "filter"}}
+{"text": "voglio i pezzi che escono filtrati, tutti medi e niente sotto", "labels": {"style": "filter"}}
+{"text": "metti il filtro nei mix, con sta roba deep ci sta benissimo", "labels": {"style": "filter"}}
+{"text": "un bel filter sweep a ogni passaggio grazie", "labels": {"style": "filter"}}
+{"text": "filtrami le uscite, fai sparire il pezzo pian piano dietro il filtro", "labels": {"style": "filter"}}
+{"text": "transizioni filtrate e brevi", "labels": {"style": "filter", "bars": "short"}}
+{"text": "passa basso sul finale di ogni pezzo", "labels": {"style": "filter"}}
+{"text": "fai entrare il prossimo filtrato, poi aprilo sul drop", "labels": {"style": "filter"}}
+{"text": "filtro filtro filtro, mi piace troppo", "labels": {"style": "filter"}}
+{"text": "passaggi col filtro risonante, quelli che fischiano un po'", "labels": {"style": "filter"}}
+{"text": "lavora col filtro nei cambi, apri e chiudi", "labels": {"style": "filter"}}
+{"text": "fai sparire il vecchio pezzo dietro un passa alto", "labels": {"style": "filter"}}
+{"text": "filtro sul mix e 64 battute, lento lento", "labels": {"style": "filter", "bars": "verylong"}}
+{"text": "cambi con la sweep del filtro, come nei set nu disco", "labels": {"style": "filter"}}
+{"text": "ho voglia di sentire il filtro nei passaggi", "labels": {"style": "filter"}}
+{"text": "qnd cambi usa il filtro dai", "labels": {"style": "filter"}}
+{"text": "il filtro nei passaggi ci sta da dio con questa roba, usalo sempre", "labels": {"style": "filter"}}
+{"text": "filtra in uscita e taglia corto, 4 battute", "labels": {"style": "filter", "bars": "short"}}
+{"text": "entra col filtro chiuso e aprilo in 16 battute", "labels": {"style": "filter"}}
+{"text": "trnsizioni col fltro", "labels": {"style": "filter"}}
+{"text": "filter transitions, nothing fancy", "labels": {"style": "filter"}}
+{"text": "fa' 'n po' de filtro sui cambi", "labels": {"style": "filter"}}
+{"text": "cambi filtrati, lunghi, che è l'ora dell'aperitivo", "labels": {"style": "filter", "bars": "long"}}
+{"text": "passa alto in uscita su ogni traccia", "labels": {"style": "filter"}}
+{"text": "fai uscire i pezzi con l'eco che rimbomba", "labels": {"style": "echo"}}
+{"text": "echo out e dentro il nuovo sul drop", "labels": {"style": "echo"}}
+{"text": "lancia un echo sull'ultima frase e poi parti col nuovo", "labels": {"style": "echo"}}
+{"text": "delay in uscita sui cambi, alla vecchia", "labels": {"style": "echo"}}
+{"text": "quando mixi lascia l'eco sulla voce che va via", "labels": {"style": "echo"}}
+{"text": "echo freeze sul vecchio e via col prossimo", "labels": {"style": "echo"}}
+{"text": "fammi gli echo out come nei set house anni 2000", "labels": {"style": "echo"}}
+{"text": "eco e via, cambi brevi", "labels": {"style": "echo", "bars": "short"}}
+{"text": "echo in uscita ma rapido, 4 battute", "labels": {"style": "echo", "bars": "short"}}
+{"text": "esci con un eco lungo sull'ultima battuta", "labels": {"style": "echo"}}
+{"text": "Echo out su tutti i passaggi stasera", "labels": {"style": "echo"}}
+{"text": "fai rimbalzare la coda del pezzo con l'eco e entra col nuovo", "labels": {"style": "echo"}}
+{"text": "eco sull'ultimo colpo di cassa, poi parte l'altro", "labels": {"style": "echo"}}
+{"text": "voglio l'echo out quando finisce ogni traccia", "labels": {"style": "echo"}}
+{"text": "usa il delay per chiudere i brani, tipo eco a tempo", "labels": {"style": "echo"}}
+{"text": "l'uscita dei pezzi falla in eco, che è più elegante", "labels": {"style": "echo"}}
+{"text": "ecooo in uscita pls", "labels": {"style": "echo"}}
+{"text": "chiudi in echo e mix corti", "labels": {"style": "echo", "bars": "short"}}
+{"text": "echo out lungo, mix da 32", "labels": {"style": "echo", "bars": "long"}}
+{"text": "fai sfumare il pezzo nell'eco", "labels": {"style": "echo"}}
+{"text": "eco a mezza battuta in uscita, poi taglia", "labels": {"style": "echo"}}
+{"text": "l'eco quando cambi brano mi fa impazzire, usalo", "labels": {"style": "echo"}}
+{"text": "passaggi in echo per tutto il dopocena", "labels": {"style": "echo"}}
+{"text": "echo out e transizioni lunghissime", "labels": {"style": "echo", "bars": "verylong"}}
+{"text": "Fai un echo out e poi entra secco col nuovo", "labels": {"style": "echo"}}
+{"text": "echo out xfavore", "labels": {"style": "echo"}}
+{"text": "eco sull'uscita e 8 battute di mix", "labels": {"style": "echo", "bars": "short"}}
+{"text": "metti l'eco quando lasci andare il pezzo vecchio", "labels": {"style": "echo"}}
+{"text": "fai finire ogni brano con una coda di delay", "labels": {"style": "echo"}}
+{"text": "echo, sempre echo, mi piace un sacco", "labels": {"style": "echo"}}
+{"text": "bass swap sull'uno della frase", "labels": {"style": "bassswap"}}
+{"text": "fai lo scambio delle basse a metà mix", "labels": {"style": "bassswap"}}
+{"text": "togli il basso al pezzo che va e mettilo su quello che arriva", "labels": {"style": "bassswap"}}
+{"text": "mai due casse e due bassi insieme, fai lo swap", "labels": {"style": "bassswap"}}
+{"text": "mixa di eq come si faceva sui technics", "labels": {"style": "bassswap"}}
+{"text": "bassswap pulito, 16 battute", "labels": {"style": "bassswap"}}
+{"text": "swap dei bassi a metà del mix, mix lunghi da 32", "labels": {"style": "bassswap", "bars": "long"}}
+{"text": "eq mixing per favore, niente filtri", "labels": {"style": "bassswap"}}
+{"text": "i bassi si accavallano, separa col bass swap", "labels": {"style": "bassswap"}}
+{"text": "kill del basso sul vecchio quando entra il nuovo", "labels": {"style": "bassswap"}}
+{"text": "lavora di equalizzatore nei passaggi, basse giù sul vecchio", "labels": {"style": "bassswap"}}
+{"text": "bass swap veloce, 8 battute e via", "labels": {"style": "bassswap", "bars": "short"}}
+{"text": "bass swappp", "labels": {"style": "bassswap"}}
+{"text": "Fai i mix scambiando le frequenze basse, come un dj vero", "labels": {"style": "bassswap"}}
+{"text": "usa gli eq per i bassi quando sovrapponi i pezzi", "labels": {"style": "bassswap"}}
+{"text": "swap delle basse sul drop del nuovo, preciso", "labels": {"style": "bassswap"}}
+{"text": "mixa a tre bande, bassi uno alla volta", "labels": {"style": "bassswap"}}
+{"text": "bass swap lento, che i due groove stiano insieme a lungo", "labels": {"style": "bassswap", "bars": "long"}}
+{"text": "quando mixi abbassa il low del vecchio e alza quello del nuovo", "labels": {"style": "bassswap"}}
+{"text": "voglio sentire il basso che passa da un pezzo all'altro di colpo", "labels": {"style": "bassswap"}}
+{"text": "bass swap e 48 battute di blend", "labels": {"style": "bassswap", "bars": "long"}}
+{"text": "scambio bassi, ma corto", "labels": {"style": "bassswap", "bars": "short"}}
+{"text": "cambi con l'eq, i bassi non devono mai sommarsi", "labels": {"style": "bassswap"}}
+{"text": "fammi il bass swap come nei set house classici", "labels": {"style": "bassswap"}}
+{"text": "passaggi di eq, basse scambiate a metà frase", "labels": {"style": "bassswap"}}
+{"text": "bassswap e mix lunghi, tipo 32", "labels": {"style": "bassswap", "bars": "long"}}
+{"text": "bass swap at the drop, 16 bars", "labels": {"style": "bassswap"}}
+{"text": "scambia le frequenze basse tra i due brani, una cosa pulita", "labels": {"style": "bassswap"}}
+{"text": "la cassa del nuovo entra solo quando togli il basso al vecchio, fai così", "labels": {"style": "bassswap"}}
+{"text": "metti Moonlight come prossima con un echo out", "labels": {"queue": "playNext", "style": "echo"}}
+{"text": "aggiungi Night Drive in coda, e i passaggi col filtro", "labels": {"queue": "add", "style": "filter"}}
+{"text": "dopo questa metti Low Tide e fai lo scambio dei bassi", "labels": {"queue": "playNext", "style": "bassswap"}}
+{"text": "cambia ora con un bel filtro", "labels": {"control": "mixNow", "style": "filter"}}
+{"text": "passa al prossimo adesso, esci in eco", "labels": {"control": "mixNow", "style": "echo"}}
+{"text": "mixa subito ma con un bass swap pulito", "labels": {"control": "mixNow", "style": "bassswap"}}
+{"text": "salta quello che hai preparato e fai il cambio col filtro", "labels": {"control": "skip", "style": "filter"}}
+{"text": "parti e fai i mix con l'eco", "labels": {"control": "start", "style": "echo"}}
+{"text": "dopo questa chiudiamo, e falla finire in eco", "labels": {"control": "endAfterCurrent", "style": "echo"}}
+{"text": "alza l'energia e mixa col filtro passa alto", "labels": {"strategy": "rise", "style": "filter"}}
+{"text": "calma la pista, echo out e mix lunghi", "labels": {"strategy": "chill", "style": "echo", "bars": "long"}}
+{"text": "tieni l'energia costante e scambia le basse quando mixi", "labels": {"strategy": "steady", "style": "bassswap"}}
+{"text": "solo bombe e filtro nei passaggi", "labels": {"strategy": "peak", "style": "filter"}}
+{"text": "a onde, con l'eco nelle uscite", "labels": {"strategy": "wave", "style": "echo"}}
+{"text": "niente reggaeton e mix col filtro", "labels": {"genre": "exclude", "style": "filter"}}
+{"text": "solo deep house, passaggi filtrati lunghi", "labels": {"genre": "include", "style": "filter", "bars": "long"}}
+{"text": "spegni il remix live e usa solo l'eco nei cambi", "labels": {"remix": "off", "style": "echo"}}
+{"text": "accendi i mashup automatici e fai bass swap", "labels": {"mashupOpt": "on", "style": "bassswap"}}
+{"text": "torna al bpm originale dopo ogni mix e usa il filtro", "labels": {"returnTempo": "on", "style": "filter"}}
+{"text": "che stile stai usando? mettilo su filtro", "labels": {"info": "settings", "style": "filter"}}
+{"text": "quando mixi? fallo con l'eco per favore", "labels": {"info": "next", "style": "echo"}}
+{"text": "perché hai fatto quel bass swap? torna a sfumare", "labels": {"info": "why", "style": "fade"}}
+{"text": "modalità LUM!X, pezzi da trenta secondi uno dietro l'altro", "labels": {"style": "rapid"}}
+{"text": "a raffica, solo i pezzi che conoscono tutti", "labels": {"style": "rapid"}}
+{"text": "fai il set stile lumix, tagli continui", "labels": {"style": "rapid"}}
+{"text": "rapid fire mode, 20 secondi a pezzo", "labels": {"style": "rapid"}}
+{"text": "fai come LUM!X: un ritornello e si cambia", "labels": {"style": "rapid"}}
+{"text": "voglio i tagli velocissimi alla lumix", "labels": {"style": "rapid"}}
+{"text": "tagli a raffica tipo festival, pezzi di pochi secondi l'uno", "labels": {"style": "rapid"}}
+{"text": "lumix style a palla!!!", "labels": {"style": "rapid"}}
+{"text": "raffica di drop, uno dopo l'altro senza pause", "labels": {"style": "rapid"}}
+{"text": "fai un medley a raffica, solo i ganci dei pezzi", "labels": {"style": "rapid"}}
+{"text": "sparali a raffica, la pista è esplosa", "labels": {"style": "rapid"}}
+{"text": "stile LUMIX: cambio ogni 15 secondi", "labels": {"style": "rapid"}}
+{"text": "tagli a raffica con le hit del momento", "labels": {"style": "rapid"}}
+{"text": "quella cosa dei tagli rapidissimi che fa lumix, falla adesso", "labels": {"style": "rapid"}}
+{"text": "voglio il ritmo da tiktok: pezzi cortissimi a raffica", "labels": {"style": "rapid"}}
+{"text": "mitraglia di pezzi, cambio continuo", "labels": {"style": "rapid"}}
+{"text": "quattro pezzi in modalità lumix e poi torni ai mix normali", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "per un po' tagli a raffica, poi torni come prima", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "raffica per 5 minuti e poi mix normali", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "solo tre pezzi in stile LUM!X, poi basta", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "per un paio di brani fai la raffica di ritornelli", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "tagli a raffica fino al countdown di mezzanotte", "labels": {"style": "rapid"}}
+{"text": "rapid fire per mezz'ora", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "massima energia e raffica stile lumix", "labels": {"strategy": "peak", "style": "rapid"}}
+{"text": "alza il tiro con i tagli a raffica", "labels": {"strategy": "rise", "style": "rapid"}}
+{"text": "raffica di hit e niente reggaeton", "labels": {"style": "rapid", "genre": "exclude"}}
+{"text": "attiva loop ed effetti e vai a raffica", "labels": {"remix": "on", "style": "rapid"}}
+{"text": "vai a raffica adesso, cambia subito", "labels": {"style": "rapid", "control": "mixNow"}}
+{"text": "LUM!X mode ma con mix da 4 battute", "labels": {"style": "rapid", "bars": "short"}}
+{"text": "raffica, uno dopo l altro, velocissimo", "labels": {"style": "rapid"}}
+{"text": "raffica raga", "labels": {"style": "rapid"}}
+{"text": "fai il lumix della situazione, dai", "labels": {"style": "rapid"}}
+{"text": "vai di tagli rapidissimi in serie, stile LUM!X", "labels": {"style": "rapid"}}
+{"text": "un pezzo ogni 20 secondi, stile raffica", "labels": {"style": "rapid"}}
+{"text": "transizioni alla Gabry Ponte, siamo a una festa anni 2000", "labels": {"style": "model"}}
+{"text": "usa il modello dance per i cambi", "labels": {"style": "model"}}
+{"text": "metti il modello AI sulle transizioni", "labels": {"style": "model"}}
+{"text": "mixa come ai live di Gabry Ponte, cassa dritta", "labels": {"style": "model"}}
+{"text": "passaggi in stile dance italiana, quella da discoteca romagnola", "labels": {"style": "model"}}
+{"text": "fai i cambi come ai concerti di gabry", "labels": {"style": "model"}}
+{"text": "usa il modello delle transizioni, quello dance", "labels": {"style": "model"}}
+{"text": "fai transizioni alla gabry ponte, la gente qui è cresciuta con quella roba", "labels": {"style": "model"}}
+{"text": "stile Gabry Ponte sui passaggi, siamo in un villaggio vacanze", "labels": {"style": "model"}}
+{"text": "voglio i mix dance fatti dal modello", "labels": {"style": "model"}}
+{"text": "modello dance attivo per i cambi", "labels": {"style": "model"}}
+{"text": "cambi da dj dance italiano, tipo Gabry", "labels": {"style": "model"}}
+{"text": "cambi alla gabri, quelli tamarri", "labels": {"style": "model"}}
+{"text": "gabry ponte mode on", "labels": {"style": "model"}}
+{"text": "transizioni dance, quelle col drop e il riempimento di cassa", "labels": {"style": "model"}}
+{"text": "stile dance per i prossimi 3 pezzi", "labels": {"style": "model", "temporary": "yes"}}
+{"text": "per un po' fai i passaggi alla Gabry Ponte", "labels": {"style": "model", "temporary": "yes"}}
+{"text": "alza l'energia e vai di stile Gabry Ponte", "labels": {"strategy": "rise", "style": "model"}}
+{"text": "dance anni 2000 e cambi alla Gabry Ponte", "labels": {"genre": "include", "style": "model"}}
+{"text": "fai lo stile dance ma coi mix lunghi da 32", "labels": {"style": "model", "bars": "long"}}
+{"text": "modello dance e mix corti, 8 battute", "labels": {"style": "model", "bars": "short"}}
+{"text": "usa il modello, quello allenato sulla dance", "labels": {"style": "model"}}
+{"text": "passa al modello AI dance per i mix", "labels": {"style": "model"}}
+{"text": "fai mixare il modello, stile gabry", "labels": {"style": "model"}}
+{"text": "fai la gabry ponte nei passaggi", "labels": {"style": "model"}}
+{"text": "cambi stile Ponte, da festa in piazza", "labels": {"style": "model"}}
+{"text": "usa il modello techno per i cambi", "labels": {"style": "model-techno"}}
+{"text": "mix lunghi da techno, che non si capisca dove finisce uno e inizia l'altro", "labels": {"style": "model-techno", "bars": "long"}}
+{"text": "transizioni da club techno berlinese", "labels": {"style": "model-techno"}}
+{"text": "passa al modello techno con blend infiniti", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "mixa come al Berghain alle 6 del mattino", "labels": {"style": "model-techno"}}
+{"text": "modello techno attivo, blend eterni da 64", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "fai i passaggi da warehouse, stile techno serio", "labels": {"style": "model-techno"}}
+{"text": "cambi da techno industriale, tipo capannone", "labels": {"style": "model-techno"}}
+{"text": "stile techno nei mix ma corti, 8 battute", "labels": {"style": "model-techno", "bars": "short"}}
+{"text": "modello techno e mix da 32 battute", "labels": {"style": "model-techno", "bars": "long"}}
+{"text": "voglio che i due pezzi techno stiano insieme per minuti, come al Tresor", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "passa al mixaggio techno, quello del modello", "labels": {"style": "model-techno"}}
+{"text": "usa l'AI techno per le transizioni", "labels": {"style": "model-techno"}}
+{"text": "mix lunghi da techno per i prossimi 4 brani", "labels": {"style": "model-techno", "bars": "long", "temporary": "yes"}}
+{"text": "per un po' modello techno, poi vediamo", "labels": {"style": "model-techno", "temporary": "yes"}}
+{"text": "techno vera, mixata col modello techno e blend infiniti", "labels": {"genre": "include", "style": "model-techno", "bars": "verylong"}}
+{"text": "massima potenza e mix da techno", "labels": {"strategy": "peak", "style": "model-techno"}}
+{"text": "scendi un po' e fai i mix lunghi da techno", "labels": {"strategy": "chill", "style": "model-techno", "bars": "long"}}
+{"text": "niente house e stile techno nei passaggi", "labels": {"genre": "exclude", "style": "model-techno"}}
+{"text": "stile techno, niente remix sopra", "labels": {"style": "model-techno", "remix": "off"}}
+{"text": "techno style mix pls", "labels": {"style": "model-techno"}}
+{"text": "mix stile techno x il resto della notte", "labels": {"style": "model-techno"}}
+{"text": "fai il dj techno con blend da due minuti", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "usa il modello techno ma con mix normali da 16", "labels": {"style": "model-techno"}}
+{"text": "techno mode nei mix", "labels": {"style": "model-techno"}}
+{"text": "mixa da club di berlino, che è l'ora giusta", "labels": {"style": "model-techno"}}
+{"text": "lascia decidere all'AI come fare i cambi", "labels": {"style": "auto"}}
+{"text": "lo stile delle transizioni sceglilo tu, mi fido", "labels": {"style": "auto"}}
+{"text": "rimetti lo stile in automatico", "labels": {"style": "auto"}}
+{"text": "torna allo stile di default per i passaggi", "labels": {"style": "auto"}}
+{"text": "auto sulle transizioni, grazie", "labels": {"style": "auto"}}
+{"text": "scegli tu pezzo per pezzo se tagliare o sfumare", "labels": {"style": "auto"}}
+{"text": "decidi tu la tecnica di transizione in base ai pezzi", "labels": {"style": "auto"}}
+{"text": "fai tu, filtro, eco o bassi, quello che serve", "labels": {"style": "auto"}}
+{"text": "non so che stile usare, fai tu", "labels": {"style": "auto"}}
+{"text": "transizioni automatiche ma più corte", "labels": {"style": "auto", "bars": "short"}}
+{"text": "automatico sui cambi e mix lunghi", "labels": {"style": "auto", "bars": "long"}}
+{"text": "lascia fare all'intelligenza artificiale lo stile dei mix", "labels": {"style": "auto"}}
+{"text": "per il prossimo cambio decidi tu lo stile", "labels": {"style": "auto", "temporary": "yes"}}
+{"text": "per un po' scegli tu come mixare, poi ti dico", "labels": {"style": "auto", "temporary": "yes"}}
+{"text": "alza l'energia, lo stile dei cambi decidilo tu", "labels": {"strategy": "rise", "style": "auto"}}
+{"text": "scegli tu i pezzi e anche il tipo di transizione", "labels": {"mode": "ai", "style": "auto"}}
+{"text": "ok resettiamo: transizioni in automatico", "labels": {"style": "auto"}}
+{"text": "modalità auto per i cambi", "labels": {"style": "auto"}}
+{"text": "come mixare decidilo tu, l'importante è che la gente balli", "labels": {"style": "auto"}}
+{"text": "stile transizioni: scegli tu ogni volta", "labels": {"style": "auto"}}
+{"text": "fai tu i passaggi, io vado a prendere da bere", "labels": {"style": "auto"}}
+{"text": "che ne so io di filtri ed eco, scegli tu", "labels": {"style": "auto"}}
+{"text": "decidi tu x i passaggi", "labels": {"style": "auto"}}
+{"text": "il tipo di cambio lascialo all'AI", "labels": {"style": "auto"}}
+{"text": "accorcia i cambi, durano un'eternità", "labels": {"bars": "short"}}
+{"text": "mix da 4 battute, rapidissimi", "labels": {"bars": "short"}}
+{"text": "8 misure e via", "labels": {"bars": "short"}}
+{"text": "cambio veloce, 15 secondi al massimo", "labels": {"bars": "short"}}
+{"text": "una frase sola di sovrapposizione, non di più", "labels": {"bars": "short"}}
+{"text": "mixa più in fretta, la gente si annoia durante i cambi", "labels": {"bars": "short"}}
+{"text": "transizioni corte, che qui nessuno ha pazienza", "labels": {"bars": "short"}}
+{"text": "stringi i mix a 8 battute", "labels": {"bars": "short"}}
+{"text": "tra un pezzo e l'altro non metterci così tanto", "labels": {"bars": "short"}}
+{"text": "Mix brevi pls", "labels": {"bars": "short"}}
+{"text": "dimezza la durata dei mix", "labels": {"bars": "short"}}
+{"text": "sovrapponi i pezzi per poco, giusto qualche battuta", "labels": {"bars": "short"}}
+{"text": "cambi lampo", "labels": {"bars": "short"}}
+{"text": "mix cortissimi, tipo 4 battute", "labels": {"bars": "short"}}
+{"text": "fai blend rapidi, otto battute bastano e avanzano", "labels": {"bars": "short"}}
+{"text": "passaggi brevi brevi", "labels": {"bars": "short"}}
+{"text": "non mi servono mix lunghi, falli veloci", "labels": {"bars": "short"}}
+{"text": "2 battute di mix e dentro il nuovo", "labels": {"bars": "short"}}
+{"text": "accorcia, accorcia, accorcia i blend", "labels": {"bars": "short"}}
+{"text": "mixa veloce che stasera abbiamo tanti pezzi da suonare", "labels": {"bars": "short"}}
+{"text": "transizioni più snelle, max 10 secondi", "labels": {"bars": "short"}}
+{"text": "mix short, 8 bars", "labels": {"bars": "short"}}
+{"text": "tagliami corti i mix", "labels": {"bars": "short"}}
+{"text": "riduci le transizioni a una frase", "labels": {"bars": "short"}}
+{"text": "mix rapidi stasera, è un locale da happy hour", "labels": {"bars": "short"}}
+{"text": "fai cambi svelti, 8 e via", "labels": {"bars": "short"}}
+{"text": "cambi più corti xke sennò la pista si svuota", "labels": {"bars": "short"}}
+{"text": "blend corti corti", "labels": {"bars": "short"}}
+{"text": "la sovrapposizione falla minima", "labels": {"bars": "short"}}
+{"text": "passaggi da 8 misure", "labels": {"bars": "short"}}
+{"text": "quick mix, tipo 4 bars", "labels": {"bars": "short"}}
+{"text": "i passaggi sbrigali in fretta", "labels": {"bars": "short"}}
+{"text": "non ci mettere una vita a cambiare, mix veloci", "labels": {"bars": "short"}}
+{"text": "otto battute di blend e basta", "labels": {"bars": "short"}}
+{"text": "fai durare ogni mix un minuto buono", "labels": {"bars": "long"}}
+{"text": "32 misure di sovrapposizione, belle lunghe", "labels": {"bars": "long"}}
+{"text": "allunga i blend, tipo quattro frasi", "labels": {"bars": "long"}}
+{"text": "mix lunghi tipo 32", "labels": {"bars": "long"}}
+{"text": "prenditi il tuo tempo nei cambi", "labels": {"bars": "long"}}
+{"text": "lascia respirare i mix, falli più lenti", "labels": {"bars": "long"}}
+{"text": "transizioni estese, 48 battute", "labels": {"bars": "long"}}
+{"text": "raddoppia la durata dei mix", "labels": {"bars": "long"}}
+{"text": "voglio sentire i due pezzi insieme per un po' di più", "labels": {"bars": "long"}}
+{"text": "mix lunghi stasera, nessuno ha fretta", "labels": {"bars": "long"}}
+{"text": "blend lunghi da 32, come si deve", "labels": {"bars": "long"}}
+{"text": "allungami i passaggi di qualche battuta, sono troppo frettolosi", "labels": {"bars": "long"}}
+{"text": "i mix devono durare almeno un minuto", "labels": {"bars": "long"}}
+{"text": "transizioni lunghe pls", "labels": {"bars": "long"}}
+{"text": "sovrapponi di più i pezzi, tipo 32 battute", "labels": {"bars": "long"}}
+{"text": "mixa lento, voglio blend lunghi", "labels": {"bars": "long"}}
+{"text": "Più lunghe le transizioni, la gente nemmeno se ne accorge così", "labels": {"bars": "long"}}
+{"text": "passaggi da 2 frasi intere, belli lunghi", "labels": {"bars": "long"}}
+{"text": "mix a 48, più lunghi di adesso", "labels": {"bars": "long"}}
+{"text": "fai blend estesi, tipo 40 secondi un minuto", "labels": {"bars": "long"}}
+{"text": "non avere fretta nei mix, falli lunghi", "labels": {"bars": "long"}}
+{"text": "transizioni più distese, con calma", "labels": {"bars": "long"}}
+{"text": "allungali sti mix", "labels": {"bars": "long"}}
+{"text": "mix long tipo 32 bars", "labels": {"bars": "long"}}
+{"text": "ogni transizione deve durare un minuto e mezzo circa", "labels": {"bars": "long"}}
+{"text": "tieni i due brani insieme più a lungo", "labels": {"bars": "long"}}
+{"text": "cmq i mix falli + lunghi", "labels": {"bars": "long"}}
+{"text": "mix lunghi, ué", "labels": {"bars": "long"}}
+{"text": "long blends please, like 32 bars", "labels": {"bars": "long"}}
+{"text": "dai più spazio ai mix, quattro frasi da otto", "labels": {"bars": "long"}}
+{"text": "mix da due minuti", "labels": {"bars": "verylong"}}
+{"text": "64 misure di blend, eterno", "labels": {"bars": "verylong"}}
+{"text": "blend eterni, anche 128 battute se si può", "labels": {"bars": "verylong"}}
+{"text": "transizioni infinite, voglio sentire i due pezzi insieme per minuti", "labels": {"bars": "verylong"}}
+{"text": "mixa per tre minuti buoni a ogni cambio", "labels": {"bars": "verylong"}}
+{"text": "fai durare i blend il più possibile", "labels": {"bars": "verylong"}}
+{"text": "allunga al massimo, 64 battute", "labels": {"bars": "verylong"}}
+{"text": "mix lunghissimiii", "labels": {"bars": "verylong"}}
+{"text": "voglio blend da 64, roba da after", "labels": {"bars": "verylong"}}
+{"text": "passaggi lunghissimi, quasi un pezzo intero sopra l'altro", "labels": {"bars": "verylong"}}
+{"text": "massima durata per i mix", "labels": {"bars": "verylong"}}
+{"text": "falli durare tantissimo i passaggi", "labels": {"bars": "verylong"}}
+{"text": "otto frasi di mix, lunghissimo", "labels": {"bars": "verylong"}}
+{"text": "blend da 100 battute, infiniti", "labels": {"bars": "verylong"}}
+{"text": "transizioni lunghissime stasera, è un after alle 6 del mattino", "labels": {"bars": "verylong"}}
+{"text": "mix da 2 minuti e mezzo", "labels": {"bars": "verylong"}}
+{"text": "endless blends please, 64 bars or more", "labels": {"bars": "verylong"}}
+{"text": "mix luuunghissimi tipo eterni", "labels": {"bars": "verylong"}}
+{"text": "mix da 16, normali", "labels": {}}
+{"text": "torna alla durata normale dei mix", "labels": {}}
+{"text": "sedici battute vanno benissimo", "labels": {}}
+{"text": "alza l'energia e accorcia i mix", "labels": {"strategy": "rise", "bars": "short"}}
+{"text": "tutto al massimo, mix da 4 battute", "labels": {"strategy": "peak", "bars": "short"}}
+{"text": "calma, e mix da un minuto", "labels": {"strategy": "chill", "bars": "long"}}
+{"text": "tienila così e allunga i passaggi a 48", "labels": {"strategy": "steady", "bars": "long"}}
+{"text": "su e giù con mix lunghissimi", "labels": {"strategy": "wave", "bars": "verylong"}}
+{"text": "abbassa il tiro e fai blend da 64 misure", "labels": {"strategy": "chill", "bars": "verylong"}}
+{"text": "carica di più la pista, però mix lunghi", "labels": {"strategy": "rise", "bars": "long"}}
+{"text": "solo pezzi forti e cambi lampo", "labels": {"strategy": "peak", "bars": "short"}}
+{"text": "cambia ora, e i prossimi mix falli più corti", "labels": {"control": "mixNow", "bars": "short"}}
+{"text": "parti con mix lunghi da 32", "labels": {"control": "start", "bars": "long"}}
+{"text": "non chiudere, continua, e fai i mix lunghissimi", "labels": {"control": "resume", "bars": "verylong"}}
+{"text": "metti Afterglow come prossima e falla entrare con un mix lungo", "labels": {"queue": "playNext", "bars": "long"}}
+{"text": "aggiungi Weightless e Open Water, mix veloci da 8", "labels": {"queue": "add", "bars": "short"}}
+{"text": "solo house e mix da 32 battute", "labels": {"genre": "include", "bars": "long"}}
+{"text": "niente edm, mix rapidi", "labels": {"genre": "exclude", "bars": "short"}}
+{"text": "infila qualche pezzo funk qua e là e allunga i mix", "labels": {"genre": "add", "bars": "long"}}
+{"text": "remix live acceso e mix corti", "labels": {"remix": "on", "bars": "short"}}
+{"text": "torna al tempo originale dopo il mix e falli lunghi", "labels": {"returnTempo": "on", "bars": "long"}}
+{"text": "resta al nuovo bpm e mix brevi", "labels": {"returnTempo": "off", "bars": "short"}}
+{"text": "quante battute stai usando? passa a 8, più corti", "labels": {"info": "settings", "bars": "short"}}
+{"text": "quanto durano i mix adesso? allungali", "labels": {"info": "settings", "bars": "long"}}
+{"text": "perché mixi così tanto? accorcia", "labels": {"info": "why", "bars": "short"}}
+{"text": "suona solo la mia coda con mix lunghi", "labels": {"mode": "queue", "bars": "long"}}
+{"text": "scegli tu i brani e i mix falli lunghissimi, da 64", "labels": {"mode": "ai", "bars": "verylong"}}
+{"text": "mashup automatici spenti e mix corti", "labels": {"mashupOpt": "off", "bars": "short"}}
+{"text": "mescola la coda e fai i passaggi lunghissimi", "labels": {"queue": "shuffle", "bars": "verylong"}}
+{"text": "svuota la coda, e da qui mix da 8 battute", "labels": {"queue": "clear", "bars": "short"}}
+{"text": "per i prossimi 3 brani mix corti da 8 battute", "labels": {"bars": "short", "temporary": "yes"}}
+{"text": "per un po' transizioni lunghissime, poi torna normale", "labels": {"bars": "verylong", "temporary": "yes"}}
+{"text": "solo per questo cambio fai un fade lungo", "labels": {"style": "fade", "bars": "long", "temporary": "yes"}}
+{"text": "per il prossimo passaggio taglio secco", "labels": {"style": "cut", "temporary": "yes"}}
+{"text": "per i prossimi due cambi usa il bass swap", "labels": {"style": "bassswap", "temporary": "yes"}}
+{"text": "per un paio di pezzi echo out in uscita", "labels": {"style": "echo", "temporary": "yes"}}
+{"text": "per qualche brano filtro nei passaggi", "labels": {"style": "filter", "temporary": "yes"}}
+{"text": "solo per stavolta sfuma lungo", "labels": {"style": "fade", "bars": "long", "temporary": "yes"}}
+{"text": "per il prossimo mix 64 battute, è un pezzo lunghissimo", "labels": {"bars": "verylong", "temporary": "yes"}}
+{"text": "per mezz'ora fai mix corti, poi riprendi come prima", "labels": {"bars": "short", "temporary": "yes"}}
+{"text": "per dieci minuti tagli netti, la gente è carica", "labels": {"style": "cut", "temporary": "yes"}}
+{"text": "per i prox 2 brani mix lunghi", "labels": {"bars": "long", "temporary": "yes"}}
+{"text": "x i prossimi 3 pezzi filtro e mix corti", "labels": {"style": "filter", "bars": "short", "temporary": "yes"}}
+{"text": "per un po' cut secchi poi vediamo", "labels": {"style": "cut", "temporary": "yes"}}
+{"text": "per il prossimo pezzo fallo entrare con l'eco", "labels": {"style": "echo", "temporary": "yes"}}
+{"text": "intanto per un po' blend più lunghi, tipo 32", "labels": {"bars": "long", "temporary": "yes"}}
+{"text": "solo per i prossimi 4 brani stile gabry ponte", "labels": {"style": "model", "temporary": "yes"}}
+{"text": "per i prossimi cinque pezzi modello techno, poi torna all'automatico", "labels": {"style": "model-techno", "temporary": "yes"}}
+{"text": "per un paio di cambi decidi tu lo stile", "labels": {"style": "auto", "temporary": "yes"}}
+{"text": "per un po' scambia i bassi nei mix e falli lunghi", "labels": {"style": "bassswap", "bars": "long", "temporary": "yes"}}
+{"text": "fade corti sui prossimi due pezzi, poi come prima", "labels": {"style": "fade", "bars": "short", "temporary": "yes"}}
+{"text": "per un po' raffica di pezzi stile lumix", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "per il prossimo cambio taglia corto, 4 battute", "labels": {"bars": "short", "temporary": "yes"}}
+{"text": "solo per il prossimo mix allunga a 48 battute", "labels": {"bars": "long", "temporary": "yes"}}
+{"text": "per i prossimi tre cambi echo out e mix corti", "labels": {"style": "echo", "bars": "short", "temporary": "yes"}}
+{"text": "per un po' più energia e tagli secchi", "labels": {"strategy": "rise", "style": "cut", "temporary": "yes"}}
+{"text": "per i prossimi 4 pezzi calma e sfumate lunghe", "labels": {"strategy": "chill", "style": "fade", "bars": "long", "temporary": "yes"}}
+{"text": "per un po' solo bombe e raffica", "labels": {"strategy": "peak", "style": "rapid", "temporary": "yes"}}
+{"text": "per qualche pezzo tieni l'energia così ma mix più lunghi", "labels": {"strategy": "steady", "bars": "long", "temporary": "yes"}}
+{"text": "per i prossimi due brani solo house e transizioni col filtro", "labels": {"genre": "include", "style": "filter", "temporary": "yes"}}
+{"text": "per un po' niente trap e cambi morbidi", "labels": {"genre": "exclude", "style": "fade", "temporary": "yes"}}
+{"text": "per i prossimi tre pezzi remix live acceso e tagli netti", "labels": {"remix": "on", "style": "cut", "temporary": "yes"}}
+{"text": "per il prossimo mix resta al nuovo bpm e fai un bass swap", "labels": {"returnTempo": "off", "style": "bassswap", "temporary": "yes"}}
+{"text": "per un po' suona la mia coda e fai mix lunghi", "labels": {"mode": "queue", "bars": "long", "temporary": "yes"}}
+{"text": "per un paio di brani niente mashup automatici e fade lunghi", "labels": {"mashupOpt": "off", "style": "fade", "bars": "long", "temporary": "yes"}}
+{"text": "per un po' mix lunghissimi, sta arrivando la sposa", "labels": {"bars": "verylong", "temporary": "yes"}}
+{"text": "solo per questo passaggio usa il modello dance", "labels": {"style": "model", "temporary": "yes"}}
+{"text": "per i prossimi 6 brani stacchi netti e mix brevi", "labels": {"style": "cut", "bars": "short", "temporary": "yes"}}
+{"text": "per un po' di tempo mixa col filtro", "labels": {"style": "filter", "temporary": "yes"}}
+{"text": "per un pochino fade lunghi", "labels": {"style": "fade", "bars": "long", "temporary": "yes"}}
+{"text": "per qualche minuto tagli a raffica, poi mix normali", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "dammi tre brani a raffica e poi torna normale", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "i prossimi 2 cambi falli sfumati", "labels": {"style": "fade", "temporary": "yes"}}
+{"text": "prossimi 3 pezzi: swap dei bassi e mix lunghi da 32", "labels": {"style": "bassswap", "bars": "long", "temporary": "yes"}}
+{"text": "prossimo cambio con l'eco, poi torna come prima", "labels": {"style": "echo", "temporary": "yes"}}
+{"text": "solo stavolta fai un taglio netto, poi torna a sfumare", "labels": {"style": "cut", "temporary": "yes"}}
+{"text": "per 3 tracce mix da 64, lunghissimi", "labels": {"bars": "verylong", "temporary": "yes"}}
+{"text": "x un po mix cortissimi", "labels": {"bars": "short", "temporary": "yes"}}
+{"text": "per un po' lascia scegliere al modello techno come mixare", "labels": {"style": "model-techno", "temporary": "yes"}}
+{"text": "per le prossime due canzoni transizioni lunghe col filtro", "labels": {"style": "filter", "bars": "long", "temporary": "yes"}}
+{"text": "per il prossimo brano entra secco sul beat", "labels": {"style": "cut", "temporary": "yes"}}
+{"text": "il prossimo cambio fallo lunghissimo, poi torna ai mix normali", "labels": {"bars": "verylong", "temporary": "yes"}}
+{"text": "per un po' di brani niente eco, sfuma e basta", "labels": {"style": "fade", "temporary": "yes"}}
+{"text": "per i prossimi 4 brani fai tu le transizioni, io vado in bagno", "labels": {"style": "auto", "temporary": "yes"}}
+{"text": "per un po' mix da 8 battute e più energia", "labels": {"bars": "short", "strategy": "rise", "temporary": "yes"}}
+{"text": "cambia ora, e per i prossimi due cambi usa il filtro", "labels": {"control": "mixNow", "style": "filter", "temporary": "yes"}}
+{"text": "metti Fuoco come prossima e per un po' fai tagli netti", "labels": {"queue": "playNext", "style": "cut", "temporary": "yes"}}
+{"text": "per i prossimi tre brani solo la mia lista, mix da 8", "labels": {"mode": "queue", "bars": "short", "temporary": "yes"}}
+{"text": "per un po' remix spento e passaggi lunghissimi", "labels": {"remix": "off", "bars": "verylong", "temporary": "yes"}}
+{"text": "per un po' echo out e niente reggaeton", "labels": {"style": "echo", "genre": "exclude", "temporary": "yes"}}
+{"text": "per i prossimi 2 pezzi anche un po' di disco e cambi a taglio", "labels": {"genre": "add", "style": "cut", "temporary": "yes"}}
+{"text": "per i prossimi tre brani tieni costante e bass swap", "labels": {"strategy": "steady", "style": "bassswap", "temporary": "yes"}}
+{"text": "per un po' alterna alti e bassi con l'eco nelle uscite", "labels": {"strategy": "wave", "style": "echo", "temporary": "yes"}}
+{"text": "solo per il prossimo passaggio fai un mix lunghissimo col filtro", "labels": {"style": "filter", "bars": "verylong", "temporary": "yes"}}
+{"text": "per due brani fai i cambi stile dance", "labels": {"style": "model", "temporary": "yes"}}
+{"text": "per i prossimi 10 minuti mix brevi e tagli secchi", "labels": {"style": "cut", "bars": "short", "temporary": "yes"}}
+{"text": "per 20 minuti fade lunghissimi, è il momento del lento", "labels": {"style": "fade", "bars": "verylong", "temporary": "yes"}}
+{"text": "per un po' lascia fare all'ai le transizioni", "labels": {"style": "auto", "temporary": "yes"}}
+{"text": "temporaneamente mix lunghi da 32", "labels": {"bars": "long", "temporary": "yes"}}
+{"text": "momentaneamente passa al filtro nei cambi", "labels": {"style": "filter", "temporary": "yes"}}
+{"text": "per un attimo fai mix brevi, poi tornano lunghi", "labels": {"bars": "short", "temporary": "yes"}}
+{"text": "giusto un paio di pezzi con l'echo out e poi basta", "labels": {"style": "echo", "temporary": "yes"}}
+{"text": "per i prossimi tre cambi stacca netto ma poi torna come prima", "labels": {"style": "cut", "temporary": "yes"}}
+{"text": "per i prossimi pezzi lo stile lo decidi tu e fai mix corti", "labels": {"style": "auto", "bars": "short", "temporary": "yes"}}
+{"text": "solo per i prossimi due pezzi fammi gli echo out lunghi", "labels": {"style": "echo", "temporary": "yes"}}
+{"text": "per il prossimo cambio usa il modello dance", "labels": {"style": "model", "temporary": "yes"}}
+{"text": "per un pezzo solo, mix veloce da 4 battute", "labels": {"bars": "short", "temporary": "yes"}}
+{"text": "per una mezz'oretta blend da techno infiniti", "labels": {"style": "model-techno", "bars": "verylong", "temporary": "yes"}}
+{"text": "per qualche brano cut sul beat e mix brevissimi", "labels": {"style": "cut", "bars": "short", "temporary": "yes"}}
+{"text": "per un po di pezzi sfumature morbide", "labels": {"style": "fade", "temporary": "yes"}}
+{"text": "blend infiniti, ma giusto per un paio di brani", "labels": {"bars": "verylong", "temporary": "yes"}}
+{"text": "dai, cinque brani di fila a raffica e poi basta", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "per i prossimi 3 brani dissolvenze lunghissime da 64 battute", "labels": {"style": "fade", "bars": "verylong", "temporary": "yes"}}
+{"text": "per un po' niente tagli, solo fade", "labels": {"style": "fade", "temporary": "yes"}}
+{"text": "per i prossimi due brani filtri nei passaggi e mix lunghi da 32", "labels": {"style": "filter", "bars": "long", "temporary": "yes"}}
+{"text": "solo sul prossimo cambio un bel bass swap lungo", "labels": {"style": "bassswap", "bars": "long", "temporary": "yes"}}
+{"text": "per una canzone sola fai l'echo out", "labels": {"style": "echo", "temporary": "yes"}}
+{"text": "per i prossimi otto pezzi mix da un minuto", "labels": {"bars": "long", "temporary": "yes"}}
+{"text": "i primi tre pezzi dopo la torta con dissolvenze lunghe, poi vediamo", "labels": {"style": "fade", "bars": "long", "temporary": "yes"}}
+{"text": "per un paio di minuti fai il lumix", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "per un pezzo o due passaggi alla gabry", "labels": {"style": "model", "temporary": "yes"}}
+{"text": "per il momento mix corti, poi ti dico", "labels": {"bars": "short", "temporary": "yes"}}
+{"text": "per stasera mix lunghi, non per un po', proprio tutta la sera", "labels": {"bars": "long"}}
+{"text": "non solo per i prossimi pezzi, da ora in poi sempre filtro", "labels": {"style": "filter"}}
+{"text": "finché non arriva la sposa mix lunghissimi", "labels": {"bars": "verylong"}}
+{"text": "fino a mezzanotte cambi col filtro", "labels": {"style": "filter"}}
+{"text": "fino all'una mix corti, poi vediamo", "labels": {"bars": "short"}}
+{"text": "fino alla fine della cena dissolvenze lente", "labels": {"style": "fade", "bars": "long"}}
+{"text": "da adesso in poi solo cut sul beat", "labels": {"style": "cut"}}
+{"text": "per tutta la serata bass swap", "labels": {"style": "bassswap"}}
+{"text": "per il resto del set mix lunghi da 32", "labels": {"bars": "long"}}
+{"text": "stasera solo echo out, tutta la sera", "labels": {"style": "echo"}}
+{"text": "per stasera transizioni alla gabry ponte", "labels": {"style": "model"}}
+{"text": "d'ora in avanti tagli a raffica, la gente impazzisce", "labels": {"style": "rapid"}}
+{"text": "da qui alla chiusura blend techno eterni", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "sempre, per tutto il set, scambio dei bassi", "labels": {"style": "bassswap"}}
+{"text": "il filtro dell'aria condizionata fa un rumore strano", "labels": {}}
+{"text": "c'è un'eco pazzesca in questa sala, l'acustica è terribile", "labels": {}}
+{"text": "ieri il dj ha fatto un fade lunghissimo su Golden Hour, che noia", "labels": {}}
+{"text": "LUM!X l'ho visto a Rimini quest'estate, una bomba", "labels": {}}
+{"text": "Gabry Ponte ha fatto la storia della dance italiana", "labels": {}}
+{"text": "a Berlino i mix durano dieci minuti, roba da matti", "labels": {}}
+{"text": "sto imparando a fare i tagli sul beat col controller", "labels": {}}
+{"text": "il mio maestro diceva sempre: mai due bassi insieme", "labels": {}}
+{"text": "la sposa entra con una dissolvenza di luci, l'ha deciso il fotografo", "labels": {}}
+{"text": "il tecnico luci sta facendo un fade sulle teste mobili", "labels": {}}
+{"text": "mi sono fatto un taglio di capelli cortissimo per stasera", "labels": {}}
+{"text": "il video della serata lo monto con dissolvenze e tagli", "labels": {}}
+{"text": "su instagram metto la foto col filtro bianco e nero", "labels": {}}
+{"text": "secondo me il bass swap è sopravvalutato", "labels": {}}
+{"text": "il dj resident fa solo mix da 64 battute, la gente lo adora", "labels": {}}
+{"text": "il fonico dice che l'eco sul microfono è troppo alto", "labels": {}}
+{"text": "il controller nuovo ha i filtri sui canali", "labels": {}}
+{"text": "stasera mi sento un po' come Gabry Ponte al Festivalbar", "labels": {}}
+{"text": "la prossima settimana suono in un club techno a Torino", "labels": {}}
+{"text": "ho sentito dire che i dj techno mixano per minuti interi", "labels": {}}
+{"text": "il mio amico taglia sempre a raffica quando suona, non lo sopporto", "labels": {}}
+{"text": "il passaggio di prima l'ho registrato col telefono", "labels": {}}
+{"text": "tra mezz'ora c'è il discorso dello sposo", "labels": {}}
+{"text": "lo scambio dei bassi è la prima cosa che si impara", "labels": {}}
+{"text": "ho la cuffia che gracchia sul canale sinistro", "labels": {}}
+{"text": "il crossfader del mio mixer è rotto da settimane", "labels": {}}
+{"text": "mia nonna dice che la dance di una volta era meglio", "labels": {}}
+{"text": "il fumo copre tutto, non si vede niente", "labels": {}}
+{"text": "una volta ho fatto un mix di 20 minuti tra due vinili", "labels": {}}
+{"text": "chissà come fa lumix a scegliere i pezzi così veloce", "labels": {}}
+{"text": "i miei amici dicono che i miei cambi sono troppo lunghi, ma io li adoro così", "labels": {}}
+{"text": "sto guardando come mixi per imparare", "labels": {}}
+{"text": "la gente al bar parla dei passaggi di stasera", "labels": {}}
+{"text": "il filtro del caffè della macchinetta è finito", "labels": {}}
+{"text": "fuori c'è un eco di clacson pazzesco, c'è traffico", "labels": {}}
+{"text": "le luci stroboscopiche partono sul drop", "labels": {}}
+{"text": "domani provo a fare un set tutto bass swap a casa", "labels": {}}
+{"text": "il pubblico di stasera è più giovane del solito", "labels": {}}
+{"text": "il fotografo vuole fare un timelapse con le dissolvenze", "labels": {}}
+{"text": "il dj dell'altra sala sta facendo tagli a raffica da un'ora", "labels": {}}
+{"text": "il mio primo mixer non aveva nemmeno il filtro", "labels": {}}
+{"text": "su youtube c'è un tutorial sull'echo out fatto benissimo", "labels": {}}
+{"text": "la techno industriale non è per tutti", "labels": {}}
+{"text": "sedici battute di intro e poi parte la voce, questo pezzo lo conosco", "labels": {}}
+{"text": "il drop di questo pezzo arriva dopo 32 battute", "labels": {}}
+{"text": "il mio collega mixa sempre in fade, è il suo marchio", "labels": {}}
+{"text": "la sala grande ha un riverbero che sembra una chiesa", "labels": {}}
+{"text": "i cambi di gabry ponte negli anni 2000 erano iconici", "labels": {}}
+{"text": "lumix ha vent'anni e già suona ai festival", "labels": {}}
+{"text": "ho comprato un pedale delay per la chitarra", "labels": {}}
+{"text": "la ragazza al bancone ha chiesto chi sta mettendo la musica", "labels": {}}
+{"text": "ok ci penso un attimo a come vogliamo i passaggi", "labels": {}}
+{"text": "poi ti dico come voglio i cambi, aspetta", "labels": {}}
+{"text": "aspetta a cambiare stile, ti faccio sapere", "labels": {}}
+{"text": "boh non so se sfumare o tagliare, ci penso", "labels": {}}
+{"text": "vediamo dopo per le transizioni", "labels": {}}
+{"text": "mi chiedevo se il filtro rovina il suono", "labels": {}}
+{"text": "il filtro antipolvere del proiettore è da cambiare", "labels": {}}
+{"text": "a capodanno ho fatto il countdown con un taglio secco, che figata", "labels": {}}
+{"text": "lo stacco pubblicitario della radio è durato tantissimo", "labels": {}}
+{"text": "che bel tramonto, sembra una dissolvenza", "labels": {}}
+{"text": "l'eco della montagna qui fuori è incredibile", "labels": {}}
+{"text": "il sindaco ha tagliato il nastro dell'inaugurazione", "labels": {}}
+{"text": "i passaggi pedonali qui davanti sono pieni di gente", "labels": {}}
+{"text": "il cambio dell'olio alla macchina lo faccio domani", "labels": {}}
+{"text": "mi sono fatto un taglio al dito aprendo le casse", "labels": {}}
+{"text": "sto pezzo ha un'intro di 64 battute, lunghissima", "labels": {}}
+{"text": "ho letto che lumix usa solo pezzi da trenta secondi", "labels": {}}
+{"text": "la versione extended di Night Drive è lunghissima", "labels": {}}
+{"text": "le transizioni le avevo preparate a casa ma ho perso la chiavetta", "labels": {}}
+{"text": "il bassista della band ha rotto una corda", "labels": {}}
+{"text": "le casse in fondo alla sala hanno un ritardo, sembra un eco", "labels": {}}
+{"text": "ho visto un video di un dj che sfumava con le mani, pazzesco", "labels": {}}
+{"text": "il guardaroba chiude a mezzanotte", "labels": {}}
+{"text": "le dissolvenze le hanno inventate alla radio, mi pare", "labels": {}}
+{"text": "il mixer ha un filtro per canale, ma non lo uso mai", "labels": {}}
+{"text": "in questo locale una volta suonava un dj che faceva solo cut", "labels": {}}
+{"text": "ci vuole orecchio per fare un bass swap senza buchi", "labels": {}}
+{"text": "da ragazzo ascoltavo Gabry Ponte in macchina tutto il giorno", "labels": {}}
+{"text": "i tagli di bilancio del comune hanno ridotto la festa a quattro ore", "labels": {}}
+{"text": "la regia mi ha detto che la diretta va in onda con le dissolvenze", "labels": {}}
+{"text": "scusa, stavo parlando col barista", "labels": {}}
+{"text": "ehm niente, scrivevo a un'altra persona", "labels": {}}
+{"text": "tra poco arriva il dj ospite, lui fa tutto in echo", "labels": {}}
+{"text": "il mio gatto ha paura dei bassi", "labels": {}}
+{"text": "ok ho capito come funzionano i passaggi", "labels": {}}
+{"text": "stasera sono stanco, si vede da come scrivo", "labels": {}}
+{"text": "il filtro della piscina è rotto, mi hanno detto", "labels": {}}
+{"text": "gli sposi hanno scelto il lento, parte dopo il taglio della torta", "labels": {}}
+{"text": "il mio sogno è un set di sei ore con mix lunghissimi", "labels": {}}
+{"text": "stavo pensando a un set tutto a raffica per il prossimo compleanno", "labels": {}}
+{"text": "nella sala piccola c'è un altro dj che fa solo techno", "labels": {}}
+{"text": "i cambi del dj di ieri erano tutti uguali", "labels": {}}
+{"text": "quando ero ragazzo i mix si facevano col pitch a mano", "labels": {}}
+{"text": "la batteria del mio telefono è al 10 per cento", "labels": {}}
+{"text": "ho le mani sudate, il primo set dal vivo fa sempre questo effetto", "labels": {}}
+{"text": "quella transizione lunga mi ha fatto venire i brividi", "labels": {"talk": "thanks"}}
+{"text": "bell'echo out, complimenti", "labels": {"talk": "thanks"}}
+{"text": "che taglio pazzesco sul drop, bravo", "labels": {"talk": "thanks"}}
+{"text": "bass swap perfetto, grazie Segueo", "labels": {"talk": "thanks"}}
+{"text": "il filtro di prima era da manuale, grande", "labels": {"talk": "thanks"}}
+{"text": "la raffica di prima ha fatto impazzire tutti, grazie", "labels": {"talk": "thanks"}}
+{"text": "sfumatura perfetta, nessuno se n'è accorto", "labels": {"talk": "thanks"}}
+{"text": "bravo, il passaggio alla gabry ponte è venuto benissimo", "labels": {"talk": "thanks"}}
+{"text": "grazie, il mix lunghissimo di prima era stupendo", "labels": {"talk": "thanks"}}
+{"text": "ottimo cambio, davvero", "labels": {"talk": "thanks"}}
+{"text": "wow che cut", "labels": {"talk": "thanks"}}
+{"text": "stupendo l'eco sul finale della voce", "labels": {"talk": "thanks"}}
+{"text": "bellissima la dissolvenza tra Estate e Mare Blu", "labels": {"talk": "thanks"}}
+{"text": "top il blend techno di prima", "labels": {"talk": "thanks"}}
+{"text": "che tipo di transizione stai usando adesso?", "labels": {"info": "settings"}}
+{"text": "i mix quanto durano in battute?", "labels": {"info": "settings"}}
+{"text": "hai impostato il filtro o il bass swap?", "labels": {"info": "settings"}}
+{"text": "sei in modalità raffica o normale?", "labels": {"info": "settings"}}
+{"text": "perché hai fatto un taglio secco su quel pezzo?", "labels": {"info": "why"}}
+{"text": "come mai hai sfumato così a lungo?", "labels": {"info": "why"}}
+{"text": "perché hai usato l'eco lì?", "labels": {"info": "why"}}
+{"text": "tra quanto parte il prossimo mix col filtro?", "labels": {"info": "next"}}
+{"text": "che comandi ci sono per i passaggi?", "labels": {"info": "help"}}
+{"text": "che stili di transizione sai fare?", "labels": {"info": "help"}}
+{"text": "che durate di mix posso impostare?", "labels": {"info": "help"}}
+{"text": "come sei settato coi cambi?", "labels": {"info": "settings"}}
+{"text": "il modello techno è attivo?", "labels": {"info": "settings"}}
+{"text": "stai usando lo stile Gabry Ponte adesso?", "labels": {"info": "settings"}}
+{"text": "siamo in una masseria in Puglia, matrimonio di 200 persone, la pista si è appena riempita: fai i passaggi a taglio sul beat e alza ancora un po' l'energia", "labels": {"style": "cut", "strategy": "rise"}}
+{"text": "ascolta, il proprietario dice che a quest'ora la gente vuole ballare senza pause, quindi mix cortissimi e niente sfumature lunghe", "labels": {"bars": "short"}}
+{"text": "è il compleanno di Giulia, 30 anni, amici dell'università: stile Gabry Ponte nei cambi che sono tutti cresciuti con quella roba", "labels": {"style": "model"}}
+{"text": "la pista è piena di gente col bicchiere in mano che chiacchiera, fai dissolvenze lunghe e non spingere troppo", "labels": {"style": "fade", "bars": "long", "strategy": "chill"}}
+{"text": "sono le 5 del mattino, sono rimasti in trenta e sono tutti fissati con la techno: mixa col modello techno e fai blend lunghissimi", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "ok adesso arriva il momento del lancio del bouquet, per i prossimi due pezzi fai tagli netti così si sente la botta", "labels": {"style": "cut", "temporary": "yes"}}
+{"text": "raga la gente si sta lamentando che i cambi si sentono troppo, quindi dissolvenze e fai durare i passaggi almeno 32 battute", "labels": {"style": "fade", "bars": "long"}}
+{"text": "allora, stasera evento aziendale in un hotel, roba elegante: fade morbidi, mix lunghi, niente cose strane tipo raffica o eco", "labels": {"style": "fade", "bars": "long"}}
+{"text": "senti, quando cambi pezzo si sentono due casse che si pestano i piedi, fai lo swap dei bassi per favore", "labels": {"style": "bassswap"}}
+{"text": "il pubblico è giovanissimo, tipo 16-18 anni, si annoiano subito: vai di tagli a raffica come lumix e non fermarti", "labels": {"style": "rapid"}}
+{"text": "siamo in spiaggia al tramonto, aperitivo lungo: passaggi filtrati e lenti, almeno un minuto ciascuno", "labels": {"style": "filter", "bars": "long"}}
+{"text": "il dj di prima ha fatto solo tagli e la gente è stressata, adesso dissolvenze lunghissime per almeno mezz'ora", "labels": {"style": "fade", "bars": "verylong", "temporary": "yes"}}
+{"text": "scusa ma ogni volta che mixi si crea un buco, prova con l'echo out che copre meglio", "labels": {"style": "echo"}}
+{"text": "ok la cena è finita e la gente vuole ballare: alza l'energia, cambi corti e lo stile lascialo a te", "labels": {"strategy": "rise", "bars": "short", "style": "auto"}}
+{"text": "sto per andare a parlare col cliente, nel frattempo fai tu le transizioni come ti sembra", "labels": {"style": "auto"}}
+{"text": "il locale è piccolo e l'impianto ha poco basso, quindi evita il bass swap e usa il filtro", "labels": {"style": "filter"}}
+{"text": "stanno per entrare gli sposi, cambia adesso con un fade lungo", "labels": {"control": "mixNow", "style": "fade", "bars": "long"}}
+{"text": "mezzanotte passata, la pista è un forno: raffica stile LUM!X per un paio di brani e poi torniamo ai mix normali", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "stasera serata revival al lido, cambi in stile dance alla Gabry Ponte e mix corti", "labels": {"style": "model", "bars": "short"}}
+{"text": "la gente in pista sta facendo un trenino, fai i cambi senza pause, secchi sul beat", "labels": {"style": "cut"}}
+{"text": "ho appena parlato col gestore: vuole transizioni pulite tipo radio, quindi crossfade da 8 battute e niente effetti sui pezzi", "labels": {"style": "fade", "bars": "short", "remix": "off"}}
+{"text": "siamo al circolo del tennis, pubblico over 50: mix lunghi e sfumati, e l'energia tienila così com'è", "labels": {"style": "fade", "bars": "long", "strategy": "steady"}}
+{"text": "i ragazzi dell'erasmus vogliono il delirio, massima potenza e tagli a raffica fino alla chiusura", "labels": {"strategy": "peak", "style": "rapid"}}
+{"text": "guarda che con questi pezzi vocali l'eco in uscita sta benissimo, usalo per tutti i cambi della serata", "labels": {"style": "echo"}}
+{"text": "il dj ospite arriva tra venti minuti, intanto fai tu, transizioni in automatico e energia costante", "labels": {"style": "auto", "strategy": "steady"}}
+{"text": "la sala è enorme e c'è un ritardo sulle casse in fondo, evita l'eco e fai cut puliti", "labels": {"style": "cut"}}
+{"text": "dopo il discorso del testimone voglio cambi a taglio netto, la gente deve saltare", "labels": {"style": "cut"}}
+{"text": "stiamo facendo un warm up in un club techno, fai mix da 64 battute col modello techno e tienila bassa", "labels": {"bars": "verylong", "style": "model-techno", "strategy": "chill"}}
+{"text": "fino alla torta dissolvenze morbide, la gente è ancora seduta", "labels": {"style": "fade"}}
+{"text": "ok bro adesso spingi, cut secchi a 8 battute e solo bombe", "labels": {"style": "cut", "bars": "short", "strategy": "peak"}}
+{"text": "è un after party in un appartamento, volume basso: fade lunghi e niente tagli bruschi che svegliano i vicini", "labels": {"style": "fade", "bars": "long"}}
+{"text": "la sposa ha chiesto che i pezzi lenti entrino sfumati, falli entrare con dissolvenze lunghe", "labels": {"style": "fade", "bars": "long"}}
+{"text": "mi hanno chiesto un megamix a raffica, dacci dentro con i tagli stile lumix", "labels": {"style": "rapid"}}
+{"text": "il pezzo che sta suonando ha una coda lunghissima, cambia adesso con un echo out", "labels": {"control": "mixNow", "style": "echo"}}
+{"text": "guarda che è l'ultimo pezzo della serata, chiudi dopo questo e lascialo finire in dissolvenza", "labels": {"control": "endAfterCurrent", "style": "fade"}}
+{"text": "aggiungi Summer Rain e Paradise City alla coda, e fai i cambi col bass swap da 32 battute", "labels": {"queue": "add", "style": "bassswap", "bars": "long"}}
+{"text": "solo la mia lista stasera, ma come mixare lo decidi tu", "labels": {"mode": "queue", "style": "auto"}}
+{"text": "scegli tu i pezzi, io voglio solo che i mix siano cortissimi", "labels": {"mode": "ai", "bars": "short"}}
+{"text": "niente commerciale stasera, solo techno vera, e mixala col modello techno con blend lunghi da 32", "labels": {"genre": "include", "style": "model-techno", "bars": "long"}}
+{"text": "metti un po' di afro house ogni tanto e fai i passaggi con l'eco", "labels": {"genre": "add", "style": "echo"}}
+{"text": "stasera tanta gente che non balla mai, tienila tranquilla e fai fade lunghissimi", "labels": {"strategy": "chill", "style": "fade", "bars": "verylong"}}
+{"text": "alterna pezzi tosti e momenti di respiro, e fai sfumature lunghe tra uno e l'altro", "labels": {"strategy": "wave", "style": "fade", "bars": "long"}}
+{"text": "siamo in diretta streaming, niente tagli bruschi che la piattaforma comprime: crossfade morbidi da 32", "labels": {"style": "fade", "bars": "long"}}
+{"text": "la gente sta cantando tutti i ritornelli, vai a raffica coi pezzi più famosi per i prossimi 5 brani", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "devo parlare con lo sposo, intanto fai tu i cambi, mix lunghi così non devi cambiare spesso", "labels": {"style": "auto", "bars": "long"}}
+{"text": "mi sono accorto che i tuoi passaggi durano troppo per questo pubblico, scendi a 8 battute", "labels": {"bars": "short"}}
+{"text": "il fonico chiede di non usare il filtro perché fa fischiare le casse, usa il bass swap", "labels": {"style": "bassswap"}}
+{"text": "dopo la mezzanotte voglio i cambi alla gabry ponte, la sala è piena di trentenni", "labels": {"style": "model"}}
+{"text": "la pista si è svuotata, prova con tagli netti e più energia", "labels": {"style": "cut", "strategy": "rise"}}
+{"text": "è il momento del lento per gli sposi, abbassa l'energia e fai dissolvenze lunghissime", "labels": {"strategy": "chill", "style": "fade", "bars": "verylong"}}
+{"text": "queste tracce minimal hanno intro lunghissime, approfittane e fai blend da 64 battute", "labels": {"bars": "verylong"}}
+{"text": "le tracce pop che ho messo in coda hanno intro cortissime, fai mix da 4 battute", "labels": {"bars": "short"}}
+{"text": "senti, i due pezzi insieme fanno a pugni coi bassi: usa gli eq, scambia le basse a metà", "labels": {"style": "bassswap"}}
+{"text": "dato che i pezzi sono in tonalità diverse, fai mix corti col filtro che si sente meno", "labels": {"style": "filter", "bars": "short"}}
+{"text": "qui fuori sta piovendo e la gente è entrata tutta, quindi alza un po' l'energia e fai cambi secchi", "labels": {"strategy": "rise", "style": "cut"}}
+{"text": "la band ha finito e tocca a te: parti con un bel crossfade lungo", "labels": {"control": "start", "style": "fade", "bars": "long"}}
+{"text": "stiamo registrando il set per il podcast, quindi niente raffica: mix puliti e lunghi da 32", "labels": {"bars": "long"}}
+{"text": "so che ti ho detto stile techno prima, ma adesso torna alle transizioni automatiche", "labels": {"style": "auto"}}
+{"text": "l'idea è questa: primi tre pezzi con dissolvenze lunghe, poi vediamo", "labels": {"style": "fade", "bars": "long", "temporary": "yes"}}
+{"text": "la gente non capisce quando finisce un pezzo, fai l'echo out che è più chiaro", "labels": {"style": "echo"}}
+{"text": "la sala è un ex capannone con le travi a vista, perfetto per lo stile techno nei mix", "labels": {"style": "model-techno"}}
+{"text": "stasera aperitivo in terrazza, fammi sentire i pezzi interi e mix morbidi di 16 battute", "labels": {"style": "fade"}}
+{"text": "ragazzi che figata, ora però basta raffica e torniamo alle sfumature", "labels": {"style": "fade"}}
+{"text": "il cantante dal vivo entra dopo questo pezzo, chiudi in eco e fermati", "labels": {"control": "endAfterCurrent", "style": "echo"}}
+{"text": "per i prossimi tre brani tieni l'energia e fai tu lo stile dei passaggi, poi ti richiamo", "labels": {"strategy": "steady", "style": "auto", "temporary": "yes"}}
+{"text": "per un po' passaggi lunghi col filtro passa basso, mentre servono il dolce", "labels": {"style": "filter", "bars": "long", "temporary": "yes"}}
+{"text": "fammi un set di una ventina di pezzi deep house, mix lunghi e sfumati", "labels": {"set": "build", "genre": "include", "bars": "long", "style": "fade"}}
+{"text": "prepara un set da un'ora per l'after con blend lunghissimi in stile techno", "labels": {"set": "build", "style": "model-techno", "bars": "verylong"}}
+{"text": "crea una playlist per una festa di 18 anni, da mixare a raffica", "labels": {"set": "build", "style": "rapid"}}
+{"text": "organizza un set in crescendo con cambi alla Gabry Ponte", "labels": {"set": "build", "strategy": "rise", "style": "model"}}
+{"text": "prepara un mashup a caso e quando esci usa il filtro", "labels": {"mashup": "auto", "style": "filter"}}
+{"text": "il filtro del mixer della sala B ha un falso contatto", "labels": {}}
+{"text": "gli sposi si sono conosciuti a una serata techno a Berlino", "labels": {}}
+{"text": "il mio dj preferito fa solo tagli secchi e scratch", "labels": {}}
+{"text": "ho fatto un corso per imparare il bass swap ma non ci riesco", "labels": {}}
+{"text": "Gabry Ponte stasera suona a Milano, chissà che bel concerto", "labels": {}}
+{"text": "il filtro passa alto del microfono è inserito, ma si sente lo stesso il rimbombo", "labels": {}}
+{"text": "l'eco della navata durante la messa era bellissima", "labels": {}}
+{"text": "il ledwall fa partire il logo in dissolvenza alle 23", "labels": {}}
+{"text": "domani taglio l'erba del giardino prima della festa", "labels": {}}
+{"text": "ho tagliato la torta io perché la sposa piangeva", "labels": {}}
+{"text": "la mia prima serata l'ho fatta tutta in fade, che ansia", "labels": {}}
+{"text": "secondo il manager la gente ama i mix lunghi, ma io non ne sono sicuro", "labels": {}}
+{"text": "LUM!X fa i tagli così veloci che non capisci quando cambia", "labels": {}}
+{"text": "stavo leggendo di come si fa un echo out su una rivista di settore", "labels": {}}

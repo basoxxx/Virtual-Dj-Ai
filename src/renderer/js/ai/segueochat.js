@@ -14,7 +14,8 @@ const clean = (s) => fold(s).replace(/[^a-z0-9&' ]+/g, ' ').replace(/\s+/g, ' ')
 
 const NUM_WORDS = {
   un: 1, uno: 1, una: 1, due: 2, tre: 3, quattro: 4, cinque: 5, sei: 6, sette: 7, otto: 8, nove: 9, dieci: 10,
-  undici: 11, dodici: 12, quindici: 15, venti: 20, trenta: 30, quaranta: 40, cinquanta: 50, sessanta: 60,
+  undici: 11, dodici: 12, quindici: 15, sedici: 16, venti: 20, ventiquattro: 24, trenta: 30, trentadue: 32, quaranta: 40,
+  quarantotto: 48, cinquanta: 50, sessanta: 60, sessantaquattro: 64,
 };
 const NUM = `(\\d+|${Object.keys(NUM_WORDS).join('|')})`;
 const num = (s) => (/^\d+$/.test(s) ? Number(s) : NUM_WORDS[s] ?? null);
@@ -332,7 +333,7 @@ export function parseMessage(text, ctx = {}) {
   }
 
   // --- opzioni: durata del mix
-  const barsM = t.match(new RegExp(`${NUM} battute`));
+  const barsM = t.match(new RegExp(`\\b${NUM} battute`));
   if (barsM && !/(prossim[ei]|per) ?(i |le )?\S* ?(brani|pezzi)/.test(barsM.input.slice(0, barsM.index))) {
     const n = num(barsM[1]);
     if (n) add({ type: 'option', key: 'bars', value: nearestBars(n) });
@@ -461,7 +462,7 @@ export function intentsToActions(labels, text, ctx, ruleActions = []) {
   // "che tempo fa?" parla del meteo, non del BPM
   if (labels.returnTempo && /\btempo (fa|fara|c'e|fuori)\b|\bmeteo\b/.test(t)) delete labels.returnTempo;
   if (isSet) {
-    const n = t.match(new RegExp(`${NUM} (?:brani|pezzi|canzoni|tracce)`));
+    const n = t.match(new RegExp(`\\b${NUM} (?:brani|pezzi|canzoni|tracce)`));
     const hours = t.match(new RegExp(`(un'ora|un ora|mezz'ora|${NUM} ore)`));
     let length = n ? num(n[1]) || 15 : 15;
     if (!n && hours) length = /mezz/.test(hours[1]) ? 9 : /ore/.test(hours[1]) ? Math.round((60 * (num(hours[2]) || 1)) / 3.5) : 17;
@@ -510,7 +511,7 @@ export function intentsToActions(labels, text, ctx, ruleActions = []) {
   if (want('temporary') && labels.temporary === 'yes') {
     const inner = actions.filter((a) => a.type === 'option' || (a.type === 'filters' && !a.clear));
     if (inner.length) {
-      const m = t.match(new RegExp(`${NUM} (?:brani|pezzi|canzoni|tracce)`));
+      const m = t.match(new RegExp(`\\b${NUM} (?:brani|pezzi|canzoni|tracce)`));
       const count = m ? num(m[1]) || 2 : /prossim[oa] (brano|pezzo|canzone|traccia)/.test(t) ? 1 : /paio/.test(t) ? 2 : 3;
       actions = [...actions.filter((a) => !inner.includes(a)), { type: 'temporary', count: Math.min(20, count), actions: inner }];
     }

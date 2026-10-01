@@ -1,0 +1,788 @@
+{"text": "oh che pezzo è sto qua??", "labels": {"info": "now"}}
+{"text": "titolo?", "labels": {"info": "now"}}
+{"text": "titolo e artista please", "labels": {"info": "now"}}
+{"text": "ma questa chi la fa", "labels": {"info": "now"}}
+{"text": "NOME DI STA CANZONE???", "labels": {"info": "now"}}
+{"text": "nome del pezzo pls", "labels": {"info": "now"}}
+{"text": "che brano sta girando adesso", "labels": {"info": "now"}}
+{"text": "mi dici cosa c'è in riproduzione", "labels": {"info": "now"}}
+{"text": "cos'è che sento adesso", "labels": {"info": "now"}}
+{"text": "la traccia che va ora di chi è", "labels": {"info": "now"}}
+{"text": "che roba stai passando 🔥", "labels": {"info": "now"}}
+{"text": "sta canzone l'ho già sentita da qualche parte, come si chiama?", "labels": {"info": "now"}}
+{"text": "a tavola mi chiedono il titolo di questa, me lo dici?", "labels": {"info": "now"}}
+{"text": "che versione è questa, l'originale o un remix?", "labels": {"info": "now"}}
+{"text": "questo è un edit? di chi?", "labels": {"info": "now"}}
+{"text": "che bpm ha il pezzo che sta suonando?", "labels": {"info": "now"}}
+{"text": "in che tonalità è questa traccia?", "labels": {"info": "now"}}
+{"text": "a quanti bpm stiamo andando adesso", "labels": {"info": "now"}}
+{"text": "ke canzone e", "labels": {"info": "now"}}
+{"text": "bro dimmi il nome di sto pezzo", "labels": {"info": "now"}}
+{"text": "cosa sta andando sul deck A?", "labels": {"info": "now"}}
+{"text": "che roba gira adesso di bello?", "labels": {"info": "now"}}
+{"text": "sai chi è l'autore di questa?", "labels": {"info": "now"}}
+{"text": "il pezzo di adesso è Moonlight?", "labels": {"info": "now"}}
+{"text": "questa è Estate vero?", "labels": {"info": "now"}}
+{"text": "è Summer Rain questa o mi confondo", "labels": {"info": "now"}}
+{"text": "dimmi il titolo di quello che suona in sala", "labels": {"info": "now"}}
+{"text": "che pezzo hai appena fatto partire?", "labels": {"info": "now"}}
+{"text": "cosa hai appena mixato dentro?", "labels": {"info": "now"}}
+{"text": "che è entrato adesso", "labels": {"info": "now"}}
+{"text": "la voce che si sente ora di chi è?", "labels": {"info": "now"}}
+{"text": "chi è la cantante di questo brano", "labels": {"info": "now"}}
+{"text": "titolo della traccia corrente?", "labels": {"info": "now"}}
+{"text": "brano in onda?", "labels": {"info": "now"}}
+{"text": "quale canzone sta andando in questo momento", "labels": {"info": "now"}}
+{"text": "sto pezzo da dove salta fuori? come si chiama", "labels": {"info": "now"}}
+{"text": "ehm che musica stiamo ascoltando", "labels": {"info": "now"}}
+{"text": "la sposa vuole sapere che canzone è questa", "labels": {"info": "now"}}
+{"text": "il festeggiato chiede chi canta, me lo dici?", "labels": {"info": "now"}}
+{"text": "un tizio al bancone vuole sapere il nome di questo pezzo, qual è?", "labels": {"info": "now"}}
+{"text": "cosa sta passando ora in cassa", "labels": {"info": "now"}}
+{"text": "nn so cosa sia sto pezzo, me lo dici?", "labels": {"info": "now"}}
+{"text": "Che Pezzo È Questo Qui", "labels": {"info": "now"}}
+{"text": "che genere sarebbe questo che suoni?", "labels": {"info": "now"}}
+{"text": "di che anno è questa canzone?", "labels": {"info": "now"}}
+{"text": "sta traccia è nuova? come si chiama", "labels": {"info": "now"}}
+{"text": "come s chiama", "labels": {"info": "now"}}
+{"text": "song name?", "labels": {"info": "now"}}
+{"text": "what's playing? cioè, che pezzo è", "labels": {"info": "now"}}
+{"text": "mi scrivi il titolo che me lo segno sul telefono?", "labels": {"info": "now"}}
+{"text": "dimmi cosa sta suonando che lo cerco su spotify", "labels": {"info": "now"}}
+{"text": "che pezzo è? lo voglio nella mia playlist di casa", "labels": {"info": "now"}}
+{"text": "ma che è sto remix assurdo", "labels": {"info": "now"}}
+{"text": "aspetta aspetta, che pezzo è??", "labels": {"info": "now"}}
+{"text": "fammi sapere il titolo del brano attuale", "labels": {"info": "now"}}
+{"text": "chi ha prodotto sto beat?", "labels": {"info": "now"}}
+{"text": "il nome dell'artista di questa traccia?", "labels": {"info": "now"}}
+{"text": "questa è Fuoco remixata o è un altro pezzo?", "labels": {"info": "now"}}
+{"text": "cosa c'è in onda adesso in sala grande", "labels": {"info": "now"}}
+{"text": "che traccia è questa con il sax?", "labels": {"info": "now"}}
+{"text": "come si chiama quella col pianoforte che hai messo adesso?", "labels": {"info": "now"}}
+{"text": "raga che pezzo è sto qui, segueo dimmelo", "labels": {"info": "now"}}
+{"text": "cosa suona ora? la ragazza col vestito rosso lo vuole sapere", "labels": {"info": "now"}}
+{"text": "nome della canzone in riproduzione", "labels": {"info": "now"}}
+{"text": "sai dirmi l'artista di sto pezzo", "labels": {"info": "now"}}
+{"text": "chi la canta questa, Leo Marin?", "labels": {"info": "now"}}
+{"text": "che titolo ha la traccia che hai su adesso", "labels": {"info": "now"}}
+{"text": "questa che stai suonando com'è che si chiama", "labels": {"info": "now"}}
+{"text": "ma sto pezzo cos'è, house?", "labels": {"info": "now"}}
+{"text": "cosa sto ascoltando?", "labels": {"info": "now"}}
+{"text": "il dj dell'altra sala chiede cosa stai mettendo", "labels": {"info": "now"}}
+{"text": "che cosa sta uscendo dalle casse adesso?", "labels": {"info": "now"}}
+{"text": "dopo che metti di bello?", "labels": {"info": "next"}}
+{"text": "che hai in canna per dopo?", "labels": {"info": "next"}}
+{"text": "prossima traccia quale", "labels": {"info": "next"}}
+{"text": "il prossimo brano me lo dici?", "labels": {"info": "next"}}
+{"text": "chi entra dopo?", "labels": {"info": "next"}}
+{"text": "quando parte il cambio", "labels": {"info": "next"}}
+{"text": "tra quanto fai il mix?", "labels": {"info": "next"}}
+{"text": "fra quanto passi alla prossima?", "labels": {"info": "next"}}
+{"text": "quanti secondi al prossimo cambio", "labels": {"info": "next"}}
+{"text": "il prossimo pezzo è già pronto?", "labels": {"info": "next"}}
+{"text": "hai già scelto la prossima?", "labels": {"info": "next"}}
+{"text": "cosa hai caricato sull'altro deck?", "labels": {"info": "next"}}
+{"text": "e dopo di questa?", "labels": {"info": "next"}}
+{"text": "e poi? che pezzo viene", "labels": {"info": "next"}}
+{"text": "next song?", "labels": {"info": "next"}}
+{"text": "prox brano?", "labels": {"info": "next"}}
+{"text": "dopo cosa tocca, qualcosa di bello?", "labels": {"info": "next"}}
+{"text": "ke metti dopo", "labels": {"info": "next"}}
+{"text": "Quando Mixi Il Prossimo?", "labels": {"info": "next"}}
+{"text": "fra quanto finisce questa?", "labels": {"info": "next"}}
+{"text": "quanto manca alla fine di questo pezzo?", "labels": {"info": "next"}}
+{"text": "devo annunciare la torta, tra quanto cambi pezzo?", "labels": {"info": "next"}}
+{"text": "mi avvisi tra quanto entra la prossima?", "labels": {"info": "next"}}
+{"text": "che c'è dopo questa traccia in programma?", "labels": {"info": "next"}}
+{"text": "il pezzo che segue qual è", "labels": {"info": "next"}}
+{"text": "a breve cosa entra?", "labels": {"info": "next"}}
+{"text": "che hai preparato sul deck B", "labels": {"info": "next"}}
+{"text": "quanto ci manca al blend?", "labels": {"info": "next"}}
+{"text": "la prossima canzone è lenta o veloce?", "labels": {"info": "next"}}
+{"text": "dopo questa hai qualcosa di cantato?", "labels": {"info": "next"}}
+{"text": "cosa pensi di mettere tra poco?", "labels": {"info": "next"}}
+{"text": "il prossimo cambio quando lo fai più o meno", "labels": {"info": "next"}}
+{"text": "fra quanto parte la transizione?", "labels": {"info": "next"}}
+{"text": "dimmi cosa c'è dopo che vado a prendere da bere", "labels": {"info": "next"}}
+{"text": "cosa seguirà?", "labels": {"info": "next"}}
+{"text": "dopo Low Tide che mi metti?", "labels": {"info": "next"}}
+{"text": "dopo Electric Dreams cosa hai pensato di far partire?", "labels": {"info": "next"}}
+{"text": "qual è il pezzo successivo?", "labels": {"info": "next"}}
+{"text": "brano successivo?", "labels": {"info": "next"}}
+{"text": "quando arriva il prossimo pezzo? mi devo preparare col microfono", "labels": {"info": "next"}}
+{"text": "dopo chi c'è in arrivo", "labels": {"info": "next"}}
+{"text": "quanto manca prima che cambi traccia", "labels": {"info": "next"}}
+{"text": "fra quanti minuti mixi?", "labels": {"info": "next"}}
+{"text": "tra quanto il prossimo?", "labels": {"info": "next"}}
+{"text": "il prossimo che sarà?", "labels": {"info": "next"}}
+{"text": "cosa hai deciso per il prossimo brano?", "labels": {"info": "next"}}
+{"text": "dopo sta canzone cosa parte", "labels": {"info": "next"}}
+{"text": "e la prossima cos'è? sono curiosa", "labels": {"info": "next"}}
+{"text": "che sta per entrare?", "labels": {"info": "next"}}
+{"text": "sto aspettando il cambio, quanto manca ancora", "labels": {"info": "next"}}
+{"text": "quando passi al pezzo nuovo?", "labels": {"info": "next"}}
+{"text": "dopo questo, cosa c'è", "labels": {"info": "next"}}
+{"text": "a quando il prossimo mix", "labels": {"info": "next"}}
+{"text": "il fotografo vuole sapere quando fai il prossimo cambio", "labels": {"info": "next"}}
+{"text": "perché proprio adesso sto pezzo?", "labels": {"info": "why"}}
+{"text": "xké questa", "labels": {"info": "why"}}
+{"text": "pk hai messo sta roba", "labels": {"info": "why"}}
+{"text": "come mai sta scelta strana?", "labels": {"info": "why"}}
+{"text": "come mai un pezzo così vecchio?", "labels": {"info": "why"}}
+{"text": "che ragionamento hai fatto per mettere questa?", "labels": {"info": "why"}}
+{"text": "spiegami un po' la scelta", "labels": {"info": "why"}}
+{"text": "perché hai scelto un pezzo latino adesso?", "labels": {"info": "why"}}
+{"text": "perche hai abbassato il ritmo?", "labels": {"info": "why"}}
+{"text": "perché hai fatto un cambio così lungo?", "labels": {"info": "why"}}
+{"text": "come mai hai sfumato così tanto?", "labels": {"info": "why"}}
+{"text": "perché sei passato alla techno?", "labels": {"info": "why"}}
+{"text": "perché hai rallentato i bpm?", "labels": {"info": "why"}}
+{"text": "come mai hai cambiato così presto il pezzo di prima?", "labels": {"info": "why"}}
+{"text": "per quale motivo questa traccia proprio ora", "labels": {"info": "why"}}
+{"text": "che senso ha questa canzone qui? spiegamelo", "labels": {"info": "why"}}
+{"text": "ma xk sto lento??", "labels": {"info": "why"}}
+{"text": "perché hai scelto Sunday Motion?", "labels": {"info": "why"}}
+{"text": "come mai Northern Lights a quest'ora?", "labels": {"info": "why"}}
+{"text": "perché dopo Afterglow hai messo questa?", "labels": {"info": "why"}}
+{"text": "spiegami il motivo di questo pezzo", "labels": {"info": "why"}}
+{"text": "Perché Questa Canzone Adesso", "labels": {"info": "why"}}
+{"text": "come mai hai messo un pezzo cantato?", "labels": {"info": "why"}}
+{"text": "perché hai scelto un brano così veloce?", "labels": {"info": "why"}}
+{"text": "su che base hai scelto questo brano?", "labels": {"info": "why"}}
+{"text": "cosa ti ha convinto a mettere questo?", "labels": {"info": "why"}}
+{"text": "come l'hai scelta sta traccia, a caso?", "labels": {"info": "why"}}
+{"text": "è stata una scelta a caso questa o c'è un motivo?", "labels": {"info": "why"}}
+{"text": "perché questo pezzo e non quello che ti avevo chiesto?", "labels": {"info": "why"}}
+{"text": "come mai hai saltato Glass City?", "labels": {"info": "why"}}
+{"text": "perché hai tolto il pezzo di prima così di colpo?", "labels": {"info": "why"}}
+{"text": "come mai questa traccia? la gente è perplessa", "labels": {"info": "why"}}
+{"text": "ma perchè questo genere adesso", "labels": {"info": "why"}}
+{"text": "per quale ragione hai fatto partire questa", "labels": {"info": "why"}}
+{"text": "dimmi il perché di sto pezzo, sono curioso", "labels": {"info": "why"}}
+{"text": "voglio capire perché hai scelto questa canzone", "labels": {"info": "why"}}
+{"text": "perché proprio un remix?", "labels": {"info": "why"}}
+{"text": "come mai hai messo un pezzo così lento in pieno picco?", "labels": {"info": "why"}}
+{"text": "perche hai fatto quel taglio secco?", "labels": {"info": "why"}}
+{"text": "perché hai usato l'eco nel passaggio?", "labels": {"info": "why"}}
+{"text": "perché sta canzone triste a una festa?", "labels": {"info": "why"}}
+{"text": "perché l'hai messa?", "labels": {"info": "why"}}
+{"text": "e questa perché", "labels": {"info": "why"}}
+{"text": "come mai sei andato sul reggaeton?", "labels": {"info": "why"}}
+{"text": "perche' hai scelto Mare Blu", "labels": {"info": "why"}}
+{"text": "che motivo c'è dietro questa scelta", "labels": {"info": "why"}}
+{"text": "come mai sta roba anni 80?", "labels": {"info": "why"}}
+{"text": "perché hai alzato così tanto i bpm?", "labels": {"info": "why"}}
+{"text": "perché non hai messo la mia richiesta?", "labels": {"info": "why"}}
+{"text": "il cliente chiede perché hai cambiato genere, che gli dico?", "labels": {"info": "why"}}
+{"text": "coda pls", "labels": {"info": "queue"}}
+{"text": "che pezzi ci sono in lista?", "labels": {"info": "queue"}}
+{"text": "fammi l'elenco della coda", "labels": {"info": "queue"}}
+{"text": "mostra la coda", "labels": {"info": "queue"}}
+{"text": "cosa ho messo in coda?", "labels": {"info": "queue"}}
+{"text": "la mia lista a che punto è?", "labels": {"info": "queue"}}
+{"text": "ci sono ancora pezzi in coda?", "labels": {"info": "queue"}}
+{"text": "Estate è ancora in coda?", "labels": {"info": "queue"}}
+{"text": "hai messo Paradise City in coda o no?", "labels": {"info": "queue"}}
+{"text": "dov'è Weightless nella coda?", "labels": {"info": "queue"}}
+{"text": "quanti brani mancano nella mia lista", "labels": {"info": "queue"}}
+{"text": "leggi la coda", "labels": {"info": "queue"}}
+{"text": "cosa resta della mia lista?", "labels": {"info": "queue"}}
+{"text": "la coda è finita?", "labels": {"info": "queue"}}
+{"text": "quante canzoni rimangono in coda", "labels": {"info": "queue"}}
+{"text": "che brani hai in attesa?", "labels": {"info": "queue"}}
+{"text": "dimmi tutta la coda", "labels": {"info": "queue"}}
+{"text": "i pezzi in coda quali sono", "labels": {"info": "queue"}}
+{"text": "hai roba in coda o vai a braccio?", "labels": {"info": "queue"}}
+{"text": "cos'hai in lista al momento?", "labels": {"info": "queue"}}
+{"text": "elenca i brani che aspettano", "labels": {"info": "queue"}}
+{"text": "quali canzoni ho prenotato?", "labels": {"info": "queue"}}
+{"text": "che richieste hai in coda", "labels": {"info": "queue"}}
+{"text": "la richiesta della sposa è in coda?", "labels": {"info": "queue"}}
+{"text": "ho aggiunto Moonlight prima, la vedi in coda?", "labels": {"info": "queue"}}
+{"text": "in che ordine sono i pezzi in coda?", "labels": {"info": "queue"}}
+{"text": "fammi vedere la lista d'attesa", "labels": {"info": "queue"}}
+{"text": "quanti pezzi ho in lista adesso", "labels": {"info": "queue"}}
+{"text": "com'è messa la lista dei brani", "labels": {"info": "queue"}}
+{"text": "la coda è lunga?", "labels": {"info": "queue"}}
+{"text": "cosa abbiamo nella coda", "labels": {"info": "queue"}}
+{"text": "situazione coda?", "labels": {"info": "queue"}}
+{"text": "ricapitolami la coda", "labels": {"info": "queue"}}
+{"text": "elenco pezzi in attesa", "labels": {"info": "queue"}}
+{"text": "Golden Hour l'hai messa in lista?", "labels": {"info": "queue"}}
+{"text": "quanta roba c'è in coda, più di un'ora?", "labels": {"info": "queue"}}
+{"text": "in coda ci sono pezzi house?", "labels": {"info": "queue"}}
+{"text": "la lista che ti ho dato quanti pezzi ha ancora", "labels": {"info": "queue"}}
+{"text": "fammi vedere cosa c'è in lista d'attesa che il testimone chiede", "labels": {"info": "queue"}}
+{"text": "mostrami i prossimi brani della coda", "labels": {"info": "queue"}}
+{"text": "c'è Glass City tra i pezzi in coda?", "labels": {"info": "queue"}}
+{"text": "cosa ti ho messo in coda prima di cena?", "labels": {"info": "queue"}}
+{"text": "i brani in lista me li leggi?", "labels": {"info": "queue"}}
+{"text": "coda vuota o piena?", "labels": {"info": "queue"}}
+{"text": "come stai lavorando adesso, che impostazioni hai?", "labels": {"info": "settings"}}
+{"text": "che energia stai tenendo?", "labels": {"info": "settings"}}
+{"text": "sei in salita o costante?", "labels": {"info": "settings"}}
+{"text": "che modalità hai attiva?", "labels": {"info": "settings"}}
+{"text": "le transizioni come le stai facendo?", "labels": {"info": "settings"}}
+{"text": "quante battute durano i cambi adesso?", "labels": {"info": "settings"}}
+{"text": "il remix è attivo o spento?", "labels": {"info": "settings"}}
+{"text": "i mashup in automatico sono on?", "labels": {"info": "settings"}}
+{"text": "stai rispettando i generi che ti ho detto?", "labels": {"info": "settings"}}
+{"text": "quali generi hai escluso?", "labels": {"info": "settings"}}
+{"text": "che filtri hai sui generi?", "labels": {"info": "settings"}}
+{"text": "configurazione?", "labels": {"info": "settings"}}
+{"text": "dimmi lo stato del set", "labels": {"info": "settings"}}
+{"text": "fammi il punto della situazione", "labels": {"info": "settings"}}
+{"text": "che stile di cambi hai impostato", "labels": {"info": "settings"}}
+{"text": "stai usando il filtro o il bass swap nei passaggi?", "labels": {"info": "settings"}}
+{"text": "stai suonando dalla libreria o da una playlist?", "labels": {"info": "settings"}}
+{"text": "da che playlist stai pescando?", "labels": {"info": "settings"}}
+{"text": "sei in modalità ai?", "labels": {"info": "settings"}}
+{"text": "stai seguendo la coda o fai tu?", "labels": {"info": "settings"}}
+{"text": "l'opzione del ritorno al bpm è attiva?", "labels": {"info": "settings"}}
+{"text": "quale stile stai seguendo, techno o dance?", "labels": {"info": "settings"}}
+{"text": "le impostazioni temporanee quanto durano ancora?", "labels": {"info": "settings"}}
+{"text": "stai chiudendo dopo questo pezzo o continui?", "labels": {"info": "settings"}}
+{"text": "come procede il set?", "labels": {"info": "settings"}}
+{"text": "riassumimi come ti ho configurato", "labels": {"info": "settings"}}
+{"text": "che parametri hai adesso?", "labels": {"info": "settings"}}
+{"text": "mi dici cosa hai acceso e cosa spento?", "labels": {"info": "settings"}}
+{"text": "energia e transizioni attuali?", "labels": {"info": "settings"}}
+{"text": "stai facendo cambi corti o lunghi?", "labels": {"info": "settings"}}
+{"text": "che durata hanno i mix ora", "labels": {"info": "settings"}}
+{"text": "hai attivato i mashup?", "labels": {"info": "settings"}}
+{"text": "che strategia di energia hai?", "labels": {"info": "settings"}}
+{"text": "stai alternando l'energia o la tieni fissa?", "labels": {"info": "settings"}}
+{"text": "quale stile di mix hai su? Gabry Ponte?", "labels": {"info": "settings"}}
+{"text": "è attivo lo stile LUM!X?", "labels": {"info": "settings"}}
+{"text": "remix live acceso o no?", "labels": {"info": "settings"}}
+{"text": "i generi esclusi quali sono?", "labels": {"info": "settings"}}
+{"text": "sei impostato per una serata chill o per spingere?", "labels": {"info": "settings"}}
+{"text": "mi ricapitoli le impostazioni", "labels": {"info": "settings"}}
+{"text": "stato attuale del dj?", "labels": {"info": "settings"}}
+{"text": "Riepilogo Generale Per Favore", "labels": {"info": "settings"}}
+{"text": "cosa stai facendo adesso, in che modalità sei", "labels": {"info": "settings"}}
+{"text": "che opzioni hai settato per stasera?", "labels": {"info": "settings"}}
+{"text": "hai cambiato qualcosa nelle impostazioni o è tutto come prima?", "labels": {"info": "settings"}}
+{"text": "il tempo torna all'originale dopo il mix o resta?", "labels": {"info": "settings"}}
+{"text": "che configurazione stai usando", "labels": {"info": "settings"}}
+{"text": "dimmi un po' come ti sei settato", "labels": {"info": "settings"}}
+{"text": "come ti si usa?", "labels": {"info": "help"}}
+{"text": "che cosa sei capace di fare", "labels": {"info": "help"}}
+{"text": "che cosa capisci se ti scrivo?", "labels": {"info": "help"}}
+{"text": "lista dei comandi", "labels": {"info": "help"}}
+{"text": "help me", "labels": {"info": "help"}}
+{"text": "aiutoo", "labels": {"info": "help"}}
+{"text": "AIUTOOO non capisco niente", "labels": {"info": "help"}}
+{"text": "non ho capito come funzioni", "labels": {"info": "help"}}
+{"text": "dammi qualche esempio di comando", "labels": {"info": "help"}}
+{"text": "come faccio a dirti di cambiare stile?", "labels": {"info": "help"}}
+{"text": "come ti chiedo di mettere un pezzo in coda?", "labels": {"info": "help"}}
+{"text": "si può chiederti di fare una scaletta?", "labels": {"info": "help"}}
+{"text": "puoi fare mashup tra due brani?", "labels": {"info": "help"}}
+{"text": "che funzioni hai?", "labels": {"info": "help"}}
+{"text": "cosa si può fare con questa chat", "labels": {"info": "help"}}
+{"text": "a cosa servi esattamente?", "labels": {"info": "help"}}
+{"text": "cos'è questa chat, come funziona", "labels": {"info": "help"}}
+{"text": "spiegami come usarti", "labels": {"info": "help"}}
+{"text": "tutorial?", "labels": {"info": "help"}}
+{"text": "come si parla con te?", "labels": {"info": "help"}}
+{"text": "che domande ti posso fare?", "labels": {"info": "help"}}
+{"text": "sono nuovo qui, da dove comincio con te?", "labels": {"info": "help"}}
+{"text": "si può dirti di saltare una canzone?", "labels": {"info": "help"}}
+{"text": "capisci anche i generi musicali?", "labels": {"info": "help"}}
+{"text": "riesci a fare transizioni con l'eco?", "labels": {"info": "help"}}
+{"text": "sai fare le dissolvenze?", "labels": {"info": "help"}}
+{"text": "puoi fermare la musica se te lo chiedo?", "labels": {"info": "help"}}
+{"text": "per la serata di stasera che richieste sai gestire?", "labels": {"info": "help"}}
+{"text": "come si fa a cambiare l'energia?", "labels": {"info": "help"}}
+{"text": "come funziona la modalità coda?", "labels": {"info": "help"}}
+{"text": "come funzionano i mashup automatici?", "labels": {"info": "help"}}
+{"text": "istruzioni per l'uso?", "labels": {"info": "help"}}
+{"text": "manuale?", "labels": {"info": "help"}}
+{"text": "comandi disponibili?", "labels": {"info": "help"}}
+{"text": "non so usarti, help", "labels": {"info": "help"}}
+{"text": "posso scriverti in inglese?", "labels": {"info": "help"}}
+{"text": "che lingue capisci?", "labels": {"info": "help"}}
+{"text": "ok e adesso? che faccio con te", "labels": {"info": "help"}}
+{"text": "chi sei e cosa fai?", "labels": {"info": "help"}}
+{"text": "a che servi", "labels": {"info": "help"}}
+{"text": "mi spieghi le richieste che capisci?", "labels": {"info": "help"}}
+{"text": "c'è una guida da qualche parte?", "labels": {"info": "help"}}
+{"text": "come ti dico di fare transizioni più lunghe?", "labels": {"info": "help"}}
+{"text": "puoi fare la scaletta di una festa?", "labels": {"info": "help"}}
+{"text": "sei in grado di mixare stile techno?", "labels": {"info": "help"}}
+{"text": "prima volta che ti uso, cosa devo scriverti?", "labels": {"info": "help"}}
+{"text": "ciao segueo, che hai messo su?", "labels": {"info": "now"}}
+{"text": "buonasera! come si chiama questa?", "labels": {"info": "now"}}
+{"text": "grazie! cosa c'è dopo?", "labels": {"info": "next"}}
+{"text": "bravo! perché hai scelto questa?", "labels": {"info": "why"}}
+{"text": "ehi, come sei impostato stasera?", "labels": {"info": "settings"}}
+{"text": "buonasera, cosa sai fare?", "labels": {"info": "help"}}
+{"text": "ciao, quanti pezzi ho in lista d'attesa?", "labels": {"info": "queue"}}
+{"text": "grande segueo, chi canta questa?", "labels": {"info": "now"}}
+{"text": "ottimo mix, il prossimo qual è?", "labels": {"info": "next"}}
+{"text": "hey ciao, sono nuovo, come funzioni?", "labels": {"info": "help"}}
+{"text": "grazie per il pezzo, me lo dici il titolo?", "labels": {"info": "now"}}
+{"text": "che bomba, ma che pezzo è??", "labels": {"info": "now"}}
+{"text": "bel cambio, ma perché hai scelto proprio questa?", "labels": {"info": "why"}}
+{"text": "ciao ciao, la coda com'è adesso?", "labels": {"info": "queue"}}
+{"text": "salve, mi fai un riepilogo delle impostazioni?", "labels": {"info": "settings"}}
+{"text": "ciao! che pezzo è? cmq tieni questa energia", "labels": {"info": "now", "strategy": "steady"}}
+{"text": "che c'è dopo? basta trap per stasera", "labels": {"info": "next", "genre": "exclude"}}
+{"text": "perché hai messo questa? vabbè, passa alla prossima", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "quante tracce ho in coda? mescolale", "labels": {"info": "queue", "queue": "shuffle"}}
+{"text": "come sei impostato? fai cambi più corti", "labels": {"info": "settings", "bars": "short"}}
+{"text": "aiuto, come si fa? intanto parti tu", "labels": {"info": "help", "control": "start"}}
+{"text": "chi canta questa? dopo metti qualcosa di più tranquillo", "labels": {"info": "now", "strategy": "chill"}}
+{"text": "ciao bello", "labels": {"talk": "hello"}}
+{"text": "ciaooo segueo!!", "labels": {"talk": "hello"}}
+{"text": "eilà", "labels": {"talk": "hello"}}
+{"text": "ehi tu", "labels": {"talk": "hello"}}
+{"text": "buonasera a tutti voi", "labels": {"talk": "hello"}}
+{"text": "bella raga", "labels": {"talk": "hello"}}
+{"text": "hey ciao 👋", "labels": {"talk": "hello"}}
+{"text": "ciao di nuovo", "labels": {"talk": "hello"}}
+{"text": "sono tornato", "labels": {"talk": "hello"}}
+{"text": "rieccoci qua", "labels": {"talk": "hello"}}
+{"text": "ci sei segueo?", "labels": {"talk": "hello"}}
+{"text": "pronto? mi senti?", "labels": {"talk": "hello"}}
+{"text": "ciao, piacere", "labels": {"talk": "hello"}}
+{"text": "buonasera, sono il dj resident", "labels": {"talk": "hello"}}
+{"text": "salve, è la prima volta che ti uso", "labels": {"talk": "hello"}}
+{"text": "ciao segueo, come butta?", "labels": {"talk": "hello"}}
+{"text": "ola", "labels": {"talk": "hello"}}
+{"text": "buenas", "labels": {"talk": "hello"}}
+{"text": "hi", "labels": {"talk": "hello"}}
+{"text": "good evening", "labels": {"talk": "hello"}}
+{"text": "ciao a te", "labels": {"talk": "hello"}}
+{"text": "ciao, tutto bene?", "labels": {"talk": "hello"}}
+{"text": "come stai segueo?", "labels": {"talk": "hello"}}
+{"text": "come va stasera?", "labels": {"talk": "hello"}}
+{"text": "buonanotte segueo", "labels": {"talk": "hello"}}
+{"text": "a dopo", "labels": {"talk": "hello"}}
+{"text": "ci sentiamo dopo", "labels": {"talk": "hello"}}
+{"text": "ciao ciao, io vado", "labels": {"talk": "hello"}}
+{"text": "notte", "labels": {"talk": "hello"}}
+{"text": "buona serata", "labels": {"talk": "hello"}}
+{"text": "buongiorno segueo, si comincia presto oggi", "labels": {"talk": "hello"}}
+{"text": "ciao, sono Giulia, sostituisco Marco stasera", "labels": {"talk": "hello"}}
+{"text": "salve, ci sei?", "labels": {"talk": "hello"}}
+{"text": "hey hey hey", "labels": {"talk": "hello"}}
+{"text": "yo yo", "labels": {"talk": "hello"}}
+{"text": "ue segueo", "labels": {"talk": "hello"}}
+{"text": "ehi bello, eccomi", "labels": {"talk": "hello"}}
+{"text": "buonasera, tutto a posto lì?", "labels": {"talk": "hello"}}
+{"text": "ciaoooo eccomiii", "labels": {"talk": "hello"}}
+{"text": "bella segueo", "labels": {"talk": "hello"}}
+{"text": "weila", "labels": {"talk": "hello"}}
+{"text": "ciao, scusa il ritardo", "labels": {"talk": "hello"}}
+{"text": "eccoci, buonasera", "labels": {"talk": "hello"}}
+{"text": "hey dj come stai", "labels": {"talk": "hello"}}
+{"text": "Buongiorno A Tutti", "labels": {"talk": "hello"}}
+{"text": "salve signor dj", "labels": {"talk": "hello"}}
+{"text": "ciao amico mio", "labels": {"talk": "hello"}}
+{"text": "buonasera da Riccione", "labels": {"talk": "hello"}}
+{"text": "ciao, sono io di nuovo", "labels": {"talk": "hello"}}
+{"text": "ehi ehi", "labels": {"talk": "hello"}}
+{"text": "buon pomeriggio", "labels": {"talk": "hello"}}
+{"text": "ciao segueo, eccomi 😎", "labels": {"talk": "hello"}}
+{"text": "grazie tante", "labels": {"talk": "thanks"}}
+{"text": "grazie di cuore", "labels": {"talk": "thanks"}}
+{"text": "grazieee", "labels": {"talk": "thanks"}}
+{"text": "graz", "labels": {"talk": "thanks"}}
+{"text": "tnx", "labels": {"talk": "thanks"}}
+{"text": "ti ringrazio", "labels": {"talk": "thanks"}}
+{"text": "mille grazie", "labels": {"talk": "thanks"}}
+{"text": "davvero grazie, mille volte", "labels": {"talk": "thanks"}}
+{"text": "bravo segueo, ottimo passaggio", "labels": {"talk": "thanks"}}
+{"text": "che transizione, bravissimo", "labels": {"talk": "thanks"}}
+{"text": "complimenti, mix pulitissimo", "labels": {"talk": "thanks"}}
+{"text": "sei un genio", "labels": {"talk": "thanks"}}
+{"text": "grande segueo!!", "labels": {"talk": "thanks"}}
+{"text": "bravooo", "labels": {"talk": "thanks"}}
+{"text": "stai andando benissimo, complimenti", "labels": {"talk": "thanks"}}
+{"text": "ottima selezione stasera, bravo", "labels": {"talk": "thanks"}}
+{"text": "che blend ragazzi, sei un drago", "labels": {"talk": "thanks"}}
+{"text": "grazie per aver messo la mia richiesta", "labels": {"talk": "thanks"}}
+{"text": "grazie, la sposa è felicissima", "labels": {"talk": "thanks"}}
+{"text": "ti adoro, grazie", "labels": {"talk": "thanks"}}
+{"text": "sei una macchina, grazie", "labels": {"talk": "thanks"}}
+{"text": "sei il numero uno", "labels": {"talk": "thanks"}}
+{"text": "spettacolare quel cambio", "labels": {"talk": "thanks"}}
+{"text": "perfetto il passaggio di prima", "labels": {"talk": "thanks"}}
+{"text": "grazie, era esattamente quello che serviva", "labels": {"talk": "thanks"}}
+{"text": "complimenti per la scelta dei pezzi", "labels": {"talk": "thanks"}}
+{"text": "bel lavoro", "labels": {"talk": "thanks"}}
+{"text": "ben fatto", "labels": {"talk": "thanks"}}
+{"text": "ottimo, ti ringrazio tanto", "labels": {"talk": "thanks"}}
+{"text": "grazie per il supporto stasera", "labels": {"talk": "thanks"}}
+{"text": "grazie della risposta", "labels": {"talk": "thanks"}}
+{"text": "ah ok grazie", "labels": {"talk": "thanks"}}
+{"text": "grazie per l'info", "labels": {"talk": "thanks"}}
+{"text": "grazie, ci voleva proprio", "labels": {"talk": "thanks"}}
+{"text": "complimentoni", "labels": {"talk": "thanks"}}
+{"text": "chapeau", "labels": {"talk": "thanks"}}
+{"text": "applausi a segueo", "labels": {"talk": "thanks"}}
+{"text": "standing ovation per quel mix", "labels": {"talk": "thanks"}}
+{"text": "grazie bro", "labels": {"talk": "thanks"}}
+{"text": "thank u", "labels": {"talk": "thanks"}}
+{"text": "merci", "labels": {"talk": "thanks"}}
+{"text": "gracias amigo", "labels": {"talk": "thanks"}}
+{"text": "grazie, sei stato bravissimo stasera", "labels": {"talk": "thanks"}}
+{"text": "che bravo che sei", "labels": {"talk": "thanks"}}
+{"text": "sei bravissimo a leggere la pista", "labels": {"talk": "thanks"}}
+{"text": "bravo, hai letto la pista alla perfezione", "labels": {"talk": "thanks"}}
+{"text": "grande, la gente ti adora", "labels": {"talk": "thanks"}}
+{"text": "complimenti, il proprietario è contentissimo", "labels": {"talk": "thanks"}}
+{"text": "grazie di tutto, serata fantastica", "labels": {"talk": "thanks"}}
+{"text": "transizione da manuale, bravo", "labels": {"talk": "thanks"}}
+{"text": "che mano, complimenti", "labels": {"talk": "thanks"}}
+{"text": "wow, bellissimo cambio, grande", "labels": {"talk": "thanks"}}
+{"text": "grazie per aver tenuto la pista piena", "labels": {"talk": "thanks"}}
+{"text": "bel set fin qui, bravo", "labels": {"talk": "thanks"}}
+{"text": "grazie davvero 🙏", "labels": {"talk": "thanks"}}
+{"text": "mettimi la sveglia alle 9 domani", "labels": {"talk": "offtopic"}}
+{"text": "metti la sveglia alle 7 e mezza", "labels": {"talk": "offtopic"}}
+{"text": "togli la sveglia di domani mattina", "labels": {"talk": "offtopic"}}
+{"text": "alza il riscaldamento di due gradi", "labels": {"talk": "offtopic"}}
+{"text": "abbassa il riscaldamento in ufficio", "labels": {"talk": "offtopic"}}
+{"text": "cambia canale alla tv", "labels": {"talk": "offtopic"}}
+{"text": "cambia canale, metti Rai 1", "labels": {"talk": "offtopic"}}
+{"text": "alza il volume della tv in salotto", "labels": {"talk": "offtopic"}}
+{"text": "mixami un cocktail", "labels": {"talk": "offtopic"}}
+{"text": "mixami un frullato di fragole", "labels": {"talk": "offtopic"}}
+{"text": "come si fa un mojito?", "labels": {"talk": "offtopic"}}
+{"text": "dosi per un negroni?", "labels": {"talk": "offtopic"}}
+{"text": "metti su l'acqua per la pasta", "labels": {"talk": "offtopic"}}
+{"text": "fai partire la lavatrice", "labels": {"talk": "offtopic"}}
+{"text": "accendi il forno a 200 gradi", "labels": {"talk": "offtopic"}}
+{"text": "ferma il timer del forno", "labels": {"talk": "offtopic"}}
+{"text": "salta la pubblicità su youtube", "labels": {"talk": "offtopic"}}
+{"text": "metti in pausa la serie su netflix", "labels": {"talk": "offtopic"}}
+{"text": "alza la tapparella della camera", "labels": {"talk": "offtopic"}}
+{"text": "che ore sono a Tokyo adesso?", "labels": {"talk": "offtopic"}}
+{"text": "che ore sono a Londra", "labels": {"talk": "offtopic"}}
+{"text": "quante ore di fuso ci sono con New York?", "labels": {"talk": "offtopic"}}
+{"text": "domani a Napoli c'è il sole?", "labels": {"talk": "offtopic"}}
+{"text": "stanotte piove? devo tornare in moto", "labels": {"talk": "offtopic"}}
+{"text": "che temperatura ci sarà sabato al mare?", "labels": {"talk": "offtopic"}}
+{"text": "a che ora tramonta il sole stasera?", "labels": {"talk": "offtopic"}}
+{"text": "ha vinto il Napoli?", "labels": {"talk": "offtopic"}}
+{"text": "quanto è finita Juve Inter", "labels": {"talk": "offtopic"}}
+{"text": "chi è in testa alla classifica di serie A", "labels": {"talk": "offtopic"}}
+{"text": "Sinner ha vinto oggi?", "labels": {"talk": "offtopic"}}
+{"text": "chi è il tennista più forte del mondo?", "labels": {"talk": "offtopic"}}
+{"text": "scrivimi una mail per disdire la palestra", "labels": {"talk": "offtopic"}}
+{"text": "mi aiuti con l'esercizio di matematica di mia figlia?", "labels": {"talk": "offtopic"}}
+{"text": "fammi i compiti di latino", "labels": {"talk": "offtopic"}}
+{"text": "traduci 'grazie per essere venuti' in tedesco", "labels": {"talk": "offtopic"}}
+{"text": "quanto fa la radice quadrata di 144?", "labels": {"talk": "offtopic"}}
+{"text": "converti 100 dollari in euro", "labels": {"talk": "offtopic"}}
+{"text": "come si cuociono gli spaghetti allo scoglio?", "labels": {"talk": "offtopic"}}
+{"text": "ingredienti della pasta alla norma?", "labels": {"talk": "offtopic"}}
+{"text": "come si mescola bene l'impasto della pizza?", "labels": {"talk": "offtopic"}}
+{"text": "consigliami un libro da leggere in spiaggia", "labels": {"talk": "offtopic"}}
+{"text": "chi ha inventato la radio?", "labels": {"talk": "offtopic"}}
+{"text": "quanti anni ha Vasco Rossi?", "labels": {"talk": "offtopic"}}
+{"text": "registra la partita di domani sul decoder", "labels": {"talk": "offtopic"}}
+{"text": "mandami la posizione del locale su whatsapp", "labels": {"talk": "offtopic"}}
+{"text": "chiama mia madre", "labels": {"talk": "offtopic"}}
+{"text": "cerca il numero della pizzeria qui vicino", "labels": {"talk": "offtopic"}}
+{"text": "a che ora apre la farmacia domattina?", "labels": {"talk": "offtopic"}}
+{"text": "dove trovo un benzinaio aperto a quest'ora?", "labels": {"talk": "offtopic"}}
+{"text": "quanto costa il biglietto del treno per Roma?", "labels": {"talk": "offtopic"}}
+{"text": "come si scrive una lettera di presentazione?", "labels": {"talk": "offtopic"}}
+{"text": "fammi un riassunto della seconda guerra mondiale", "labels": {"talk": "offtopic"}}
+{"text": "mi dai il numero di un idraulico?", "labels": {"talk": "offtopic"}}
+{"text": "quanti litri d'acqua bisogna bere al giorno?", "labels": {"talk": "offtopic"}}
+{"text": "come si toglie una macchia di vino rosso dalla camicia?", "labels": {"talk": "offtopic"}}
+{"text": "mi consigli una serie da guardare?", "labels": {"talk": "offtopic"}}
+{"text": "che film danno al cinema stasera?", "labels": {"talk": "offtopic"}}
+{"text": "giochiamo a tris?", "labels": {"talk": "offtopic"}}
+{"text": "raccontami una storia per dormire", "labels": {"talk": "offtopic"}}
+{"text": "dimmi un indovinello", "labels": {"talk": "offtopic"}}
+{"text": "fammi l'oroscopo, sono leone", "labels": {"talk": "offtopic"}}
+{"text": "quando è Pasqua l'anno prossimo?", "labels": {"talk": "offtopic"}}
+{"text": "quanto dista la luna dalla terra?", "labels": {"talk": "offtopic"}}
+{"text": "chi ha scritto i Malavoglia?", "labels": {"talk": "offtopic"}}
+{"text": "chi è il sindaco di Bologna?", "labels": {"talk": "offtopic"}}
+{"text": "che giorno della settimana cade il 25 dicembre?", "labels": {"talk": "offtopic"}}
+{"text": "aiutami a fare la scaletta del discorso per il matrimonio di mio fratello", "labels": {"talk": "offtopic"}}
+{"text": "preparami una dieta per l'estate", "labels": {"talk": "offtopic"}}
+{"text": "segna il pane sulla lista della spesa", "labels": {"talk": "offtopic"}}
+{"text": "scrivi una canzone d'amore per la mia ragazza, la leggo io al microfono", "labels": {"talk": "offtopic"}}
+{"text": "fammi un preventivo per un catering da 100 persone", "labels": {"talk": "offtopic"}}
+{"text": "senti segueo, si scrive un'altro o un altro?", "labels": {"talk": "offtopic"}}
+{"text": "mia moglie mi chiede cosa regalare a sua madre, idee?", "labels": {"talk": "offtopic"}}
+{"text": "scrivimi un messaggio per scusarmi con la mia ragazza, ho fatto tardi", "labels": {"talk": "offtopic"}}
+{"text": "quanto costa un affitto a Milano in media?", "labels": {"talk": "offtopic"}}
+{"text": "come si fa il ghiaccio secco in casa?", "labels": {"talk": "offtopic"}}
+{"text": "chi ha vinto sanremo l'anno scorso?", "labels": {"talk": "offtopic"}}
+{"text": "bel pezzo", "labels": {}}
+{"text": "che bomba questo drop", "labels": {}}
+{"text": "raga sto pezzo è una bomba atomica", "labels": {}}
+{"text": "madò che drop", "labels": {}}
+{"text": "pelle d'oca con questa", "labels": {}}
+{"text": "questa la canto sempre in macchina", "labels": {}}
+{"text": "sto basso mi spacca il petto", "labels": {}}
+{"text": "che groove pazzesco", "labels": {}}
+{"text": "il ritornello di questa è stupendo", "labels": {}}
+{"text": "adoro questa canzone ❤️", "labels": {}}
+{"text": "uff che caldo", "labels": {}}
+{"text": "la pista è piena zeppa", "labels": {}}
+{"text": "sono quasi le tre", "labels": {}}
+{"text": "l'una e un quarto e ancora tutti in pista", "labels": {}}
+{"text": "il locale stasera è stracolmo", "labels": {}}
+{"text": "c'è gente fino in strada", "labels": {}}
+{"text": "i tavoli in fondo non ballano", "labels": {}}
+{"text": "le ragazze dell'addio al nubilato sono scatenate", "labels": {}}
+{"text": "il festeggiato è salito sul tavolo ahah", "labels": {}}
+{"text": "mi fanno male i piedi", "labels": {}}
+{"text": "ho fame, non ho cenato", "labels": {}}
+{"text": "un gin lemon per favore", "labels": {}}
+{"text": "due birre medie al tavolo 3", "labels": {}}
+{"text": "Marco dove sei? ti aspetto all'ingresso", "labels": {}}
+{"text": "raga sono vicino al bar, venite", "labels": {}}
+{"text": "ho perso le chiavi della macchina, qualcuno le ha viste?", "labels": {}}
+{"text": "Luca ci vediamo fuori tra 5 minuti", "labels": {}}
+{"text": "ma chi ha invitato quello lì", "labels": {}}
+{"text": "che serata assurda", "labels": {}}
+{"text": "è andata via la luce in bagno", "labels": {}}
+{"text": "il dj di là sta mettendo roba inascoltabile", "labels": {}}
+{"text": "questo pezzo mi riporta al 2008", "labels": {}}
+{"text": "che ricordi questa canzone", "labels": {}}
+{"text": "avevo 16 anni quando è uscita questa", "labels": {}}
+{"text": "domani mi sa che non mi alzo", "labels": {}}
+{"text": "che stanchezza", "labels": {}}
+{"text": "sono distrutto", "labels": {}}
+{"text": "ho bevuto troppo caffè, sono elettrico", "labels": {}}
+{"text": "il suono di stasera è perfetto", "labels": {}}
+{"text": "le casse nuove suonano da dio", "labels": {}}
+{"text": "la gente è un po' fredda stasera", "labels": {}}
+{"text": "tutti a cantare il ritornello, che bello", "labels": {}}
+{"text": "che atmosfera stasera, la sento proprio", "labels": {}}
+{"text": "il sole sta tramontando sul mare", "labels": {}}
+{"text": "fuori c'è un vento pazzesco", "labels": {}}
+{"text": "si gela in terrazza", "labels": {}}
+{"text": "è entrata un sacco di gente tutta insieme", "labels": {}}
+{"text": "stanno arrivando i pullman", "labels": {}}
+{"text": "il buffet è finito in dieci minuti", "labels": {}}
+{"text": "lo sposo è già ubriaco", "labels": {}}
+{"text": "la nonna della sposa balla meglio di tutti", "labels": {}}
+{"text": "i bambini sono scatenati sotto la cassa", "labels": {}}
+{"text": "il proprietario sorride, buon segno", "labels": {}}
+{"text": "la gente sta facendo il trenino", "labels": {}}
+{"text": "è partito il coro da stadio", "labels": {}}
+{"text": "uno ha rovesciato un drink vicino alla consolle, che ansia", "labels": {}}
+{"text": "ho le mani sudate", "labels": {}}
+{"text": "devo ricaricare il telefono", "labels": {}}
+{"text": "il wifi del locale non va", "labels": {}}
+{"text": "mi è arrivato un messaggio dalla mia ragazza", "labels": {}}
+{"text": "che figata sto locale", "labels": {}}
+{"text": "prima volta che suono in un posto così grande", "labels": {}}
+{"text": "sono emozionatissimo", "labels": {}}
+{"text": "ho un po' d'ansia stasera", "labels": {}}
+{"text": "speriamo bene", "labels": {}}
+{"text": "incrociamo le dita", "labels": {}}
+{"text": "ahahah", "labels": {}}
+{"text": "lol", "labels": {}}
+{"text": "mah", "labels": {}}
+{"text": "uhm ok", "labels": {}}
+{"text": "capito", "labels": {}}
+{"text": "ah ecco", "labels": {}}
+{"text": "ok ricevuto", "labels": {}}
+{"text": "d'accordo", "labels": {}}
+{"text": "ah ok", "labels": {}}
+{"text": "si si", "labels": {}}
+{"text": "nono niente, scusa", "labels": {}}
+{"text": "lascia stare", "labels": {}}
+{"text": "niente, ho sbagliato a scrivere", "labels": {}}
+{"text": "scusa, messaggio sbagliato", "labels": {}}
+{"text": "ops non era per te", "labels": {}}
+{"text": "chat sbagliata ahah", "labels": {}}
+{"text": "prova prova", "labels": {}}
+{"text": "asdfgh", "labels": {}}
+{"text": "hmm interessante", "labels": {}}
+{"text": "non male", "labels": {}}
+{"text": "questa è forte", "labels": {}}
+{"text": "che pezzone", "labels": {}}
+{"text": "pezzo della vita", "labels": {}}
+{"text": "brividi", "labels": {}}
+{"text": "questo drop è illegale", "labels": {}}
+{"text": "sto sintetizzatore è stupendo", "labels": {}}
+{"text": "la cassa di questo pezzo picchia", "labels": {}}
+{"text": "che voce ha questa cantante", "labels": {}}
+{"text": "il break di questa traccia è lunghissimo", "labels": {}}
+{"text": "questa la mettevano sempre al Cocoricò", "labels": {}}
+{"text": "Northern Lights è stata la hit della mia estate", "labels": {}}
+{"text": "Neon Nights mi ricorda Londra", "labels": {}}
+{"text": "Open Water la ascolto quando corro", "labels": {}}
+{"text": "Glass City è troppo sottovalutata", "labels": {}}
+{"text": "il remix di Electric Dreams è meglio dell'originale", "labels": {}}
+{"text": "Afterglow l'ho consumata", "labels": {}}
+{"text": "Paradise City dal vivo deve essere pazzesca", "labels": {}}
+{"text": "Weightless fa piangere tutti alle tre di notte", "labels": {}}
+{"text": "Mare Blu è la canzone del nostro primo bacio", "labels": {}}
+{"text": "Moonlight l'ho ballata al mio matrimonio", "labels": {}}
+{"text": "Sunday Motion è perfetta per la domenica pomeriggio", "labels": {}}
+{"text": "Golden Hour mi mette sempre di buon umore", "labels": {}}
+{"text": "Fuoco era nella colonna sonora di quel film", "labels": {}}
+{"text": "Low Tide è uscita in vinile, l'ho comprata", "labels": {}}
+{"text": "Parallel ha un video bellissimo", "labels": {}}
+{"text": "Summer Rain la cantava mia sorella", "labels": {}}
+{"text": "ieri ho suonato fino alle sei, sono cotto", "labels": {}}
+{"text": "la settimana prossima ho tre matrimoni", "labels": {}}
+{"text": "il mio primo set l'ho fatto a 15 anni", "labels": {}}
+{"text": "il dj prima di me ha lasciato la consolle un disastro", "labels": {}}
+{"text": "chi ha attaccato tutti questi adesivi sul mixer", "labels": {}}
+{"text": "il fonico è andato a mangiare", "labels": {}}
+{"text": "il gestore vuole chiudere alle tre stasera", "labels": {}}
+{"text": "la polizia locale è passata per il rumore", "labels": {}}
+{"text": "un vicino ha chiamato per il volume", "labels": {}}
+{"text": "la gente chiede tutta la stessa canzone", "labels": {}}
+{"text": "uno continua a chiedermi Despacito, aiuto ahah", "labels": {}}
+{"text": "la sposa ha lanciato il bouquet", "labels": {}}
+{"text": "stanno tagliando la torta", "labels": {}}
+{"text": "brindisi tra cinque minuti", "labels": {}}
+{"text": "i fuochi d'artificio sono iniziati", "labels": {}}
+{"text": "è arrivata la pizza per lo staff", "labels": {}}
+{"text": "il barista mi ha fatto un mojito gratis", "labels": {}}
+{"text": "la cassiera dice che sono entrati in 400", "labels": {}}
+{"text": "siamo sold out", "labels": {}}
+{"text": "c'è la fila fino all'angolo", "labels": {}}
+{"text": "le luci di stasera sono bellissime", "labels": {}}
+{"text": "il fumo fa tossire tutti", "labels": {}}
+{"text": "qualcuno ha visto la mia giacca?", "labels": {}}
+{"text": "chi mi porta un'acqua?", "labels": {}}
+{"text": "Giorgio passa a prendermi alle 4", "labels": {}}
+{"text": "mamma sto bene, torno tardi", "labels": {}}
+{"text": "amore arrivo tra un'ora", "labels": {}}
+{"text": "raga dove siete finiti", "labels": {}}
+{"text": "porta altre due casse di birra dal magazzino", "labels": {}}
+{"text": "Ale mi tieni il posto?", "labels": {}}
+{"text": "chi ha le sigarette?", "labels": {}}
+{"text": "chi guida stasera?", "labels": {}}
+{"text": "siete pronti??", "labels": {}}
+{"text": "mani in alto!!", "labels": {}}
+{"text": "tutti in pista", "labels": {}}
+{"text": "che vibes raga", "labels": {}}
+{"text": "sto amando questa serata", "labels": {}}
+{"text": "non vedo l'ora che arrivi il weekend", "labels": {}}
+{"text": "oggi ho litigato col capo, che giornata", "labels": {}}
+{"text": "finalmente venerdì", "labels": {}}
+{"text": "lunedì si torna in ufficio, che tristezza", "labels": {}}
+{"text": "il mio gatto stamattina ha rotto un vaso", "labels": {}}
+{"text": "che fame", "labels": {}}
+{"text": "ho mal di testa", "labels": {}}
+{"text": "sono le 4 e la pista è ancora piena", "labels": {}}
+{"text": "mancano due ore all'alba", "labels": {}}
+{"text": "il sole sorge alle 6 e 20", "labels": {}}
+{"text": "tra un'ora iniziano a pulire", "labels": {}}
+{"text": "l'after inizia alle 5 in spiaggia", "labels": {}}
+{"text": "quest'anno il capodanno lo facciamo qui", "labels": {}}
+{"text": "a ferragosto qui c'erano 2000 persone", "labels": {}}
+{"text": "la stagione sta finendo, peccato", "labels": {}}
+{"text": "settembre è il mese più bello per le feste in spiaggia", "labels": {}}
+{"text": "al compleanno di mia cugina c'era un dj terribile", "labels": {}}
+{"text": "mio padre ascoltava i Pink Floyd tutto il giorno", "labels": {}}
+{"text": "da quando ascolto techno dormo meno ahah", "labels": {}}
+{"text": "il drum and bass dal vivo è un'esperienza", "labels": {}}
+{"text": "l'afro house mi sta conquistando", "labels": {}}
+{"text": "la musica latina fa ballare tutti, sempre", "labels": {}}
+{"text": "il reggaeton non lo sopporto ma la gente lo adora", "labels": {}}
+{"text": "la commerciale paga sempre", "labels": {}}
+{"text": "che nostalgia la disco anni 70", "labels": {}}
+{"text": "i Daft Punk mi mancano", "labels": {}}
+{"text": "sto imparando a mixare con i vinili", "labels": {}}
+{"text": "mi sono comprato un controller nuovo", "labels": {}}
+{"text": "le cuffie che ho preso online sono una ciofeca", "labels": {}}
+{"text": "il mio portatile scalda tantissimo", "labels": {}}
+{"text": "la gente sta sudando come in sauna", "labels": {}}
+{"text": "il pavimento è tutto appiccicoso", "labels": {}}
+{"text": "si è rotto un bicchiere in pista", "labels": {}}
+{"text": "c'è un cane in pista lol", "labels": {}}
+{"text": "sono arrivati i ragazzi del calcetto", "labels": {}}
+{"text": "la squadra ha vinto il torneo e sono venuti a festeggiare qui", "labels": {}}
+{"text": "l'Inter ha vinto, mezzo locale sta cantando", "labels": {}}
+{"text": "fuori piove a dirotto", "labels": {}}
+{"text": "domani dicono che fa bello", "labels": {}}
+{"text": "ho fatto la carbonara stasera prima di venire", "labels": {}}
+{"text": "ho visto una ricetta di tiramisù assurda su tiktok", "labels": {}}
+{"text": "a New York adesso è pomeriggio", "labels": {}}
+{"text": "devo ricordarmi di pagare la bolletta", "labels": {}}
+{"text": "domattina ho la sveglia alle 7, sono pazzo", "labels": {}}
+{"text": "a casa ho lasciato il riscaldamento acceso", "labels": {}}
+{"text": "il cocktail del bar si chiama Segueo Sunset, che ridere", "labels": {}}
+{"text": "stavo guardando la tv prima di uscire, c'era la partita", "labels": {}}
+{"text": "domani devo scrivere una mail per il contratto", "labels": {}}
+{"text": "mio figlio ha i compiti di matematica per lunedì, che incubo", "labels": {}}
+{"text": "il passaggio di prima ha fatto urlare tutti", "labels": {}}
+{"text": "il pezzo di prima era meglio", "labels": {}}
+{"text": "questa la conosco a memoria", "labels": {}}
+{"text": "non conoscevo questa canzone", "labels": {}}
+{"text": "questo pezzo non l'avevo mai sentito", "labels": {}}
+{"text": "boh questa non mi dice niente", "labels": {}}
+{"text": "non è il mio genere ma ci sta", "labels": {}}
+{"text": "strano pezzo, però funziona", "labels": {}}
+{"text": "la gente ha apprezzato", "labels": {}}
+{"text": "hanno applaudito alla fine del pezzo", "labels": {}}
+{"text": "che reazione della pista", "labels": {}}
+{"text": "il pubblico stasera è esigente", "labels": {}}
+{"text": "sono tutti sui trenta-quarant'anni", "labels": {}}
+{"text": "c'è un gruppo di inglesi scatenati", "labels": {}}
+{"text": "gli spagnoli in fondo cantano tutto", "labels": {}}
+{"text": "sono arrivati i ragazzi dell'erasmus", "labels": {}}
+{"text": "la sala vip è vuota", "labels": {}}
+{"text": "il privè è pieno di calciatori, dicono", "labels": {}}
+{"text": "è appena entrato un tizio famoso, credo", "labels": {}}
+{"text": "c'è uno che filma tutto col telefono", "labels": {}}
+{"text": "il locale ha postato un video della pista", "labels": {}}
+{"text": "è l'ultima serata della stagione", "labels": {}}
+{"text": "ultima settimana di lavoro prima delle ferie", "labels": {}}
+{"text": "il prossimo sabato c'è la festa in maschera", "labels": {}}
+{"text": "dopo vado a fare colazione al bar della stazione", "labels": {}}
+{"text": "la prossima volta porto mio fratello", "labels": {}}
+{"text": "la coda per entrare si è sciolta finalmente", "labels": {}}
+{"text": "in coda al bagno ho conosciuto un tipo simpatico", "labels": {}}
+{"text": "non capisco perché il bar chiuda così presto", "labels": {}}
+{"text": "che caldo boia", "labels": {}}
+{"text": "mi si è scaricato l'auricolare", "labels": {}}
+{"text": "fa freddissimo vicino all'uscita", "labels": {}}
+{"text": "le hostess sono gentilissime stasera", "labels": {}}
+{"text": "il buttafuori è un mio vecchio compagno di scuola", "labels": {}}
+{"text": "sono le due e venti", "labels": {}}
+{"text": "mezzanotte in punto, auguri Francesca!", "labels": {}}
+{"text": "buon compleanno Sara!!", "labels": {}}
+{"text": "evviva gli sposi!", "labels": {}}
+{"text": "che coppia bellissima", "labels": {}}
+{"text": "sto ballando anche io dietro la consolle", "labels": {}}
+{"text": "oggi ho visto il tramonto più bello della mia vita", "labels": {}}
+{"text": "un attimo eh", "labels": {}}
+{"text": "un momento, rispondo al telefono", "labels": {}}
+{"text": "torno tra due minuti", "labels": {}}
+{"text": "sto scrivendo dal telefono, scusa i refusi", "labels": {}}
+{"text": "il telefono mi corregge tutte le parole", "labels": {}}
+{"text": "la tastiera di sto telefono è minuscola", "labels": {}}
+{"text": "non vedo niente con queste luci", "labels": {}}
+{"text": "che nervi, il fonico non risponde", "labels": {}}
+{"text": "oggi non ne va bene una", "labels": {}}
+{"text": "che fatica stasera", "labels": {}}
+{"text": "il mixer del locale salta ogni tanto, che nervoso", "labels": {}}
+{"text": "l'organizzatore mi deve ancora pagare l'ultima serata", "labels": {}}
+{"text": "il gestore non mi ha nemmeno offerto da bere", "labels": {}}
+{"text": "il cliente voleva solo musica anni 60, ma per favore", "labels": {}}
+{"text": "c'è sempre qualcuno che chiede il liscio", "labels": {}}
+{"text": "la sposa vuole il trenino, che dramma", "labels": {}}
+{"text": "raga ke serata", "labels": {}}
+{"text": "cmq sto locale è bellissimo", "labels": {}}
+{"text": "nn ci credo ke pienone", "labels": {}}
+{"text": "troppo bello qui", "labels": {}}
+{"text": "spettacolo di serata", "labels": {}}
+{"text": "omg che gente", "labels": {}}
+{"text": "che vibe 🔥🔥", "labels": {}}
+{"text": "sto morendo di caldo 🥵", "labels": {}}
+{"text": "😂😂 guarda quello col cappello", "labels": {}}
+{"text": "cmq io domani lavoro", "labels": {}}
+{"text": "pazzesco sto posto", "labels": {}}
+{"text": "chissà se viene anche Marta", "labels": {}}
+{"text": "mi chiedo a che ora faremo stanotte", "labels": {}}

@@ -8,7 +8,7 @@ import { CHAT_HEADS, CHAT_THRESHOLDS } from '../src/renderer/js/ai/chat-heads.js
 const FIX = new URL('./fixtures/segueo-chat/', import.meta.url);
 const CASES = JSON.parse(readFileSync(new URL('cases.json', FIX), 'utf8'));
 const DECISIONS = JSON.parse(readFileSync(new URL('decisions.json', FIX), 'utf8'));
-const MODEL = fileURLToPath(new URL('../src/renderer/models/segueo-chat.onnx', import.meta.url));
+const MODEL = fileURLToPath(new URL('../src/renderer/models/segueo-chat-v2.onnx', import.meta.url));
 
 test('Segueo Chat: testo e caratteristiche identici a ml/segueochat (Python)', () => {
   for (const c of CASES) {

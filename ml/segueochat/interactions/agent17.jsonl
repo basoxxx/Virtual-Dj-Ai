@@ -1,0 +1,711 @@
+{"text": "sono appena arrivati i ragazzi del calcetto, saranno una ventina e hanno già fatto due giri di birre, direi che adesso si può spingere", "labels": {"strategy": "rise"}}
+{"text": "il proprietario è passato in consolle e mi ha detto che i vicini del palazzo di fronte si lamentano, quindi teniamoci più tranquilli con l'energia per il resto della serata", "labels": {"strategy": "chill"}}
+{"text": "stanno servendo il risotto ai tavoli e la sposa ha chiesto che per la prossima mezz'ora la musica resti morbida, roba da sottofondo e basta", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "sono le due meno un quarto, il locale è pieno fino al guardaroba e il gestore dice che è il momento di dare tutto, quindi via con i pezzi più potenti", "labels": {"strategy": "peak"}}
+{"text": "la pista sta andando benissimo da quaranta minuti, la gente balla e beve senza fermarsi, non stravolgere niente e resta su questo livello", "labels": {"strategy": "steady"}}
+{"text": "erano tutti seduti a mangiare la torta ma adesso qualcuno si sta alzando dai tavoli, comincia a portare su la serata piano piano senza strappi", "labels": {"strategy": "rise"}}
+{"text": "al lido la gente va e viene dall'acqua tutto il pomeriggio, fai un po' su e giù così chi esce dal mare trova da ballare e chi è stanco si riposa", "labels": {"strategy": "wave"}}
+{"text": "la festa aziendale è appena cominciata, ci sono i dirigenti che parlano tra loro con il calice in mano, per ora niente di aggressivo, energia bassa", "labels": {"strategy": "chill"}}
+{"text": "stasera c'è il compleanno di Marco, compie trent'anni, gli amici dicono che saranno una cinquantina e arriveranno quasi tutti dopo le dieci e mezza", "labels": {}}
+{"text": "la sposa mi ha fatto segno dal tavolo che ha voglia di ballare e i nonni sono già andati a casa, direi che possiamo cominciare ad alzare il tiro", "labels": {"strategy": "rise"}}
+{"text": "allora, mi ha appena chiamato la titolare del bar: dice che dentro ci sono famiglie con bambini piccoli fino alle nove, quindi per adesso vacci piano con l'energia", "labels": {"strategy": "chill"}}
+{"text": "il festeggiato è salito in piedi sul tavolo e tutti urlano il suo nome, dammi un paio di pezzi a tutta potenza e poi rientriamo nei ranghi", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "fuori ha cominciato a grandinare e mezza gente è rimasta bloccata in macchina nel parcheggio, speriamo che smetta presto perché dentro siamo ancora in pochi", "labels": {}}
+{"text": "è l'ultima ora dell'aperitivo in terrazza, il sole sta tramontando dietro la collina e le coppie si fanno le foto, resta su roba rilassata e calda", "labels": {"strategy": "chill"}}
+{"text": "il dj di prima ha chiuso il suo turno con dei lenti assurdi e la pista si è raffreddata, tocca a noi riscaldarla un po' alla volta, non tutto subito", "labels": {"strategy": "rise"}}
+{"text": "gli organizzatori sono contentissimi del ritmo di adesso e mi hanno detto testualmente di non toccare niente, quindi mantieni questa energia", "labels": {"strategy": "steady"}}
+{"text": "il fonico mi ha detto che il limitatore del comune scatta sopra i novantacinque decibel, quindi stasera dobbiamo stare attenti al volume del master", "labels": {}}
+{"text": "mezzanotte e cinque, è appena finito il countdown di capodanno, la gente si abbraccia e salta sulle sedie, adesso solo bombe senza pietà", "labels": {"strategy": "peak"}}
+{"text": "i ragazzi della squadra di pallavolo sono distrutti dopo la finale, stanno spaparanzati sui divanetti con le medaglie al collo, per ora dagli qualcosa di più leggero", "labels": {"strategy": "chill"}}
+{"text": "la festa di laurea di Chiara dura fino alle quattro e non voglio che si stanchino subito, quindi alterna momenti forti e momenti di respiro per tutta la notte", "labels": {"strategy": "wave"}}
+{"text": "il barista mi fa notare che il bancone è pieno ma nessuno balla, prova a dare una spinta per un paio di pezzi e vediamo se si muovono", "labels": {"strategy": "rise", "temporary": "yes"}}
+{"text": "il barista mi ha appena detto che stasera hanno incassato il doppio del sabato scorso, si vede che la gente si diverte e beve di più", "labels": {}}
+{"text": "ciao Segueo, il gestore del ristorante vuole che durante la cena la musica non disturbi le conversazioni ai tavoli, quindi niente pezzi spinti finché non si alzano", "labels": {"strategy": "chill"}}
+{"text": "ultimi quaranta minuti di festa, il locale chiude alle tre e voglio chiudere in bellezza, quindi vai dritto con i pezzi più forti che hai in libreria", "labels": {"strategy": "peak"}}
+{"text": "è arrivato il pullman con gli amici dello sposo da Napoli, sono una trentina e carichissimi, adesso si può alzare l'energia senza problemi", "labels": {"strategy": "rise"}}
+{"text": "la madre della sposa dice che la musica è troppo alta e si sente fino al parcheggio, ma tranquillo, il volume lo regolo io dal mixer della sala", "labels": {}}
+{"text": "adesso entrano i camerieri con il dolce e la torta a tre piani, per dieci minuti tieni tutto basso e soft, poi si riparte a ballare", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "sono le undici e mezza, il locale è pieno al punto giusto e nessuno se ne va, tienimi la pista così com'è adesso, stesso identico livello", "labels": {"strategy": "steady"}}
+{"text": "serata lunga in spiaggia con il falò acceso, la gente si siede sulla sabbia e si rialza di continuo, fai salire e scendere l'energia a ondate", "labels": {"strategy": "wave"}}
+{"text": "il proprietario mi ha scritto su whatsapp che la gente al bar si sta annoiando, dice di svegliare la sala con qualcosa di più movimentato", "labels": {"strategy": "rise"}}
+{"text": "il proprietario mi ha scritto su whatsapp che domenica prossima c'è una festa privata in giardino e vorrebbe sapere se sono libero, gli rispondo dopo", "labels": {}}
+{"text": "allora, la festeggiata compie novant'anni e in sala ci sono soprattutto i suoi amici del circolo, metti roba tranquilla e niente pezzi troppo tirati", "labels": {"strategy": "chill"}}
+{"text": "i ragazzi del liceo hanno appena saputo i risultati della maturità e vogliono distruggere tutto, l'organizzatore dice di andare al massimo da subito", "labels": {"strategy": "peak"}}
+{"text": "la sala si sta svuotando e restano solo i parenti stretti a chiacchierare con gli sposi, scendi con l'energia e accompagnali dolcemente verso la fine", "labels": {"strategy": "chill"}}
+{"text": "dopo il taglio della torta di solito qui si scatena il delirio, quindi da adesso comincia a salire con calma, l'obiettivo è il pienone verso l'una", "labels": {"strategy": "rise"}}
+{"text": "non so se la gente reggerà fino alle quattro, sono quasi tutti sui cinquant'anni e qualcuno sbadiglia già, vediamo come va e tra mezz'ora ti dico", "labels": {}}
+{"text": "sta per arrivare la sposa al centro della pista per il lancio del bouquet, per cinque minuti non cambiare l'energia, resta esattamente così", "labels": {"strategy": "steady", "temporary": "yes"}}
+{"text": "Buonasera, sono la responsabile dell'evento: durante la premiazione dei dipendenti vorremmo un sottofondo discreto, nulla di troppo energico, grazie", "labels": {"strategy": "chill"}}
+{"text": "la squadra del paese ha appena vinto il campionato e il pub è impazzito, tutti cantano e saltano sui tavoli, dacci giù pesante con i pezzi più carichi", "labels": {"strategy": "peak"}}
+{"text": "il pubblico stasera è più giovane del solito, età media vent'anni, e stanno solo aspettando che parta qualcosa di serio, tira su la serata", "labels": {"strategy": "rise"}}
+{"text": "il pubblico stasera è più vecchio del solito, ci sono i genitori dei maturandi e qualche professore, vediamo un po' come reagiscono ai primi pezzi", "labels": {}}
+{"text": "ok il buffet dei dolci è aperto e tutti si sono messi in fila con il piattino in mano, rallenta un po' l'energia mentre mangiano", "labels": {"strategy": "chill"}}
+{"text": "è un battesimo in agriturismo, metà sono bambini che corrono dappertutto e metà adulti seduti all'ombra, fai un'altalena tra pezzi vivaci e pezzi calmi", "labels": {"strategy": "wave"}}
+{"text": "la pioggia ha smesso e la gente sta rientrando dal giardino con le scarpe bagnate, ricominciamo a scaldare la pista un po' alla volta", "labels": {"strategy": "rise"}}
+{"text": "il sindaco sta salutando gli ospiti al microfono proprio accanto alla consolle, per un paio di brani tieni un sottofondo leggero leggero", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "sabato sera, discoteca piena, mille persone dentro e fila fuori, il direttore artistico dice che dalle due in poi vuole peak time vero, niente riempitivi", "labels": {"strategy": "peak"}}
+{"text": "la gente sta ballando in cerchio intorno agli sposi da venti minuti, non mollare ma nemmeno esagerare, energia costante così", "labels": {"strategy": "steady"}}
+{"text": "gli sposi stanno ballando in cerchio con tutti gli amici da venti minuti, è una scena bellissima e il videomaker sta riprendendo tutto dal palco", "labels": {}}
+{"text": "la pista c'è ma è tiepida, tutti ondeggiano senza convinzione con il drink in mano, serve una scossa graduale, fai crescere da qui in avanti", "labels": {"strategy": "rise"}}
+{"text": "il cliente ha prenotato la sala per festeggiare i suoi sessant'anni e mi ha pregato di non trasformarla in una discoteca, vuole musica piacevole e rilassata", "labels": {"strategy": "chill"}}
+{"text": "il festeggiato ha chiesto cinque minuti di follia totale per il suo ingresso in sala, dammi solo bombe e poi torniamo alla normalità", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "il festeggiato mi ha chiesto se più tardi possiamo organizzare qualcosa di speciale per la sua ragazza, ci devo pensare e poi ti faccio sapere", "labels": {}}
+{"text": "mezzanotte passata al rooftop, si è alzato il vento e la gente si è rimessa le giacche, rilassiamo un po' la situazione con roba più morbida", "labels": {"strategy": "chill"}}
+{"text": "ok sono le dieci e il locale si è riempito di colpo, è entrato l'addio al nubilato con le magliette rosa e i cerchietti, si può cominciare a spingere", "labels": {"strategy": "rise"}}
+{"text": "è una festa di quartiere in piazza con gente dai cinque agli ottant'anni, alterna pezzi tosti e pezzi lenti così accontentiamo un po' tutti", "labels": {"strategy": "wave"}}
+{"text": "il gestore dice che la gente consuma tantissimo quando la musica è così, quindi teniamo questo livello senza salire né scendere", "labels": {"strategy": "steady"}}
+{"text": "il gestore dice che stasera al bar hanno già finito due casse di prosecco e sono solo le undici, se va avanti così chiamano il fornitore di notte", "labels": {}}
+{"text": "Gentile Segueo, durante la cerimonia civile in giardino Le chiedo cortesemente di mantenere la musica soffusa e di bassa intensità", "labels": {"strategy": "chill"}}
+{"text": "è l'ultima sera del villaggio turistico, gli animatori sono in pista con tutti gli ospiti e le bandiere, voglio il massimo dell'energia fino alla chiusura", "labels": {"strategy": "peak"}}
+{"text": "gli invitati stanno finendo il caffè e l'amaro, tra poco si alzano dai tavoli, comincia ad accendere la pista con qualcosa di più ritmato", "labels": {"strategy": "rise"}}
+{"text": "i ragazzi hanno ballato due ore senza sosta e adesso sono tutti sudati fradici fuori a prendere aria, fai rifiatare la sala con pezzi meno pesanti", "labels": {"strategy": "chill"}}
+{"text": "raga sn arrivati quelli della palestra, tutti grossi e gasati, mi hanno detto che vogliono sudare, quindi pompa un po' di più dai", "labels": {"strategy": "rise"}}
+{"text": "è la notte di ferragosto, la spiaggia è piena fino alla battigia e il bagnino dice che a quest'ora qui si spacca sempre, solo pezzi devastanti", "labels": {"strategy": "peak"}}
+{"text": "è la notte di ferragosto e la spiaggia è piena fino alla battigia, non ho mai visto così tanta gente in questo lido in dieci anni", "labels": {}}
+{"text": "la sposa è venuta a dirmi che l'atmosfera adesso è perfetta così, né troppo carica né troppo moscia, quindi mantieni l'energia com'è", "labels": {"strategy": "steady"}}
+{"text": "sono le sei del mattino all'after e sono rimasti in quindici, quasi tutti seduti per terra, fai scendere l'intensità e accompagnali all'alba", "labels": {"strategy": "chill"}}
+{"text": "il gruppo della festa aziendale ha finito i discorsi noiosi e il capo si è tolto la cravatta, è il segnale, fai salire l'energia", "labels": {"strategy": "rise"}}
+{"text": "il capo della festa aziendale ha fatto un discorso di venti minuti sui risultati del trimestre, la gente sbadigliava, poveretti", "labels": {}}
+{"text": "è un pomeriggio di festa in piscina che dura sei ore, non posso tenerli sempre al massimo, fai momenti carichi e momenti di relax a ondate", "labels": {"strategy": "wave"}}
+{"text": "l'una e mezza al Pineta, la consolle trema e la gente chiede solo di saltare, adesso voglio i pezzi più forti che hai senza pause", "labels": {"strategy": "peak"}}
+{"text": "la cena di gala è appena iniziata e ci sono gli sponsor seduti in prima fila, l'organizzatrice chiede musica elegante e tranquilla", "labels": {"strategy": "chill"}}
+{"text": "Davide, il festeggiato, dice che così va benissimo e non vuole sorprese, tieni l'energia stabile e non fare salti strani", "labels": {"strategy": "steady"}}
+{"text": "i ragazzi del torneo di freccette hanno finito la finale e vogliono festeggiare, dagli un po' più di carica per qualche pezzo", "labels": {"strategy": "rise", "temporary": "yes"}}
+{"text": "i ragazzi del torneo di freccette stanno ancora giocando la finale nella saletta, finiscono tra mezz'ora più o meno, poi vengono di qua", "labels": {}}
+{"text": "ciao, sono Roberta la proprietaria, abbiamo appena ricevuto la seconda lamentela dal condominio, quindi niente cassa dritta pesante, roba più soft", "labels": {"strategy": "chill"}}
+{"text": "ciao, sono Roberta la proprietaria, volevo dirti che il bonifico per la serata te lo faccio lunedì mattina, scusa il ritardo", "labels": {}}
+{"text": "la festa dei cinquant'anni di Luca è al momento clou, sono saliti tutti sul palco con lui, dagli i pezzi più potenti che hai", "labels": {"strategy": "peak"}}
+{"text": "è il carnevale in oratorio, i bambini sono tornati dalla sfilata con i coriandoli e hanno ancora tanta energia, alza il ritmo pian piano", "labels": {"strategy": "rise"}}
+{"text": "il prete sta passando a salutare le famiglie in salone, per qualche minuto metti roba più tranquilla, per rispetto", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "la festa di compleanno di nonno Gino ha tre generazioni in sala, dai nipoti ai bisnonni, alterna pezzi movimentati e momenti più calmi", "labels": {"strategy": "wave"}}
+{"text": "è una serata in libreria per la presentazione di un romanzo, l'autrice firma le copie e chiede solo musica di sottofondo, molto calma", "labels": {"strategy": "chill"}}
+{"text": "è una serata in libreria per la presentazione di un romanzo giallo, l'autrice è simpaticissima e ha già venduto una sessantina di copie", "labels": {}}
+{"text": "manca un quarto d'ora al cambio dj, poi entra il resident, e il gestore vuole lasciargli la pista bollente, sparaci tutto al massimo", "labels": {"strategy": "peak"}}
+{"text": "la pista ha trovato il suo groove, gente di tutte le età che balla senza fermarsi, non provare a salire che li perdi, resta così", "labels": {"strategy": "steady"}}
+{"text": "finita la messa di prima comunione, siamo al ristorante e i bambini stanno già tirando le mamme in pista, iniziamo a dare un po' più di ritmo", "labels": {"strategy": "rise"}}
+{"text": "allora le hostess mi hanno detto che stanno per arrivare gli ospiti istituzionali per il cocktail, abbassa i toni e resta elegante", "labels": {"strategy": "chill"}}
+{"text": "le hostess mi hanno detto che gli ospiti istituzionali arriveranno verso le otto, con un pulmino dalla stazione, poi si passa al cocktail", "labels": {}}
+{"text": "Eccoci, sono le 23 e la sala del circolo è finalmente piena, il presidente mi ha fatto l'occhiolino: è ora di far ballare tutti, tira su", "labels": {"strategy": "rise"}}
+{"text": "i tifosi sono appena tornati dallo stadio cantando, per dieci minuti fai partire i pezzi più carichi che hai, poi torniamo normali", "labels": {"strategy": "peak", "temporary": "yes"}}
+{"text": "la gente in sala ha l'età media dei miei genitori e stanno chiacchierando a coppie ai tavolini, niente di frenetico per adesso, roba rilassata", "labels": {"strategy": "chill"}}
+{"text": "stasera serata lunga in disco, cinque ore di musica, non voglio bruciare tutto subito, fai picchi e cali lungo tutta la notte", "labels": {"strategy": "wave"}}
+{"text": "il direttore dell'hotel dice che il volume va bene e anche il tipo di musica, chiede solo di non cambiare l'atmosfera, tieni costante l'energia", "labels": {"strategy": "steady"}}
+{"text": "il direttore dell'hotel mi ha offerto la cena dopo la serata, dice che il cuoco fa una carbonara pazzesca anche alle due di notte", "labels": {}}
+{"text": "qui al pub stanno finendo la partita di champions e tra cinque minuti tutti si girano verso la consolle, preparati a far salire l'energia", "labels": {"strategy": "rise"}}
+{"text": "è l'apericena del giovedì al circolo velico, gente in camicia di lino che guarda il tramonto sul lago, solo roba soft e lounge come atmosfera", "labels": {"strategy": "chill"}}
+{"text": "sono le tre di notte al rave nel capannone, il sound system è al limite e la gente urla, voglio solo i pezzi più pesanti fino all'alba", "labels": {"strategy": "peak"}}
+{"text": "ciao Segueo, lo sposo mi ha appena detto in un orecchio che i suoi amici vogliono scatenarsi, direi che possiamo cominciare a salire con l'energia", "labels": {"strategy": "rise"}}
+{"text": "le ragazze dell'addio al nubilato sono crollate sui divanetti dopo il ballo sul tavolo, e la sposa ha le scarpe in mano, dai un po' di tregua", "labels": {"strategy": "chill"}}
+{"text": "le ragazze dell'addio al nubilato hanno portato una torta a forma di cuore e la stanno tagliando, fanno un casino incredibile", "labels": {}}
+{"text": "tra dieci minuti arriva la torta con le candeline e i camerieri vogliono il silenzio per il coro, quindi dopo questo pezzo chiudi", "labels": {"control": "endAfterCurrent"}}
+{"text": "è appena arrivata la polizia locale per un controllo sui permessi, il proprietario dice di fermare tutto subito finché non se ne vanno", "labels": {"control": "stop"}}
+{"text": "gli sposi sono appena scesi dalla macchina e stanno entrando nel giardino della villa con il fotografo dietro, fai partire la musica che li accogliamo", "labels": {"control": "start"}}
+{"text": "il festeggiato mi ha guardato malissimo, questa canzone gliela dedicava la sua ex ai tempi del liceo, toglila al volo e passa alla prossima", "labels": {"control": "mixNow"}}
+{"text": "la sposa ha visto sullo schermo il pezzo che hai messo dopo e dice che è quello che ballava con il suo ex, scegline un altro per favore", "labels": {"control": "skip"}}
+{"text": "il proprietario ha appena detto che il permesso ci copre fino alle tre, quindi dimentica la chiusura che ti avevo chiesto e continua", "labels": {"control": "resume"}}
+{"text": "il proprietario ha appena detto che il permesso scade alle due, quindi tra un'oretta più o meno dovremo iniziare a pensare a come chiudere", "labels": {}}
+{"text": "è caduta una ragazza in mezzo alla pista e stanno chiamando l'ambulanza, ferma subito la musica che accendiamo le luci", "labels": {"control": "stop"}}
+{"text": "il comune ci ha dato tempo fino all'una e mancano cinque minuti, finisci questa canzone e poi basta, niente altro dopo", "labels": {"control": "endAfterCurrent"}}
+{"text": "sono le sette e mezza, gli ospiti stanno arrivando alla spicciolata per l'aperitivo in giardino, comincia pure tu con qualcosa di morbido", "labels": {"control": "start", "strategy": "chill"}}
+{"text": "questo pezzo l'hai già messo un'ora fa e la gente se n'è accorta, al bancone ridono e mi indicano, cambialo subito per favore", "labels": {"control": "mixNow"}}
+{"text": "il prossimo brano che hai in canna ha delle parolacce in ogni strofa e qui ci sono una trentina di bambini, sostituiscilo con qualcos'altro", "labels": {"control": "skip"}}
+{"text": "avevo detto di chiudere dopo questa ma la festeggiata è venuta a pregarmi con le mani giunte, quindi niente chiusura, continua a suonare", "labels": {"control": "resume"}}
+{"text": "gli sposi stanno per fare il discorso di ringraziamento e vogliono il silenzio totale in sala, spegni la musica adesso", "labels": {"control": "stop"}}
+{"text": "gli sposi faranno il discorso di ringraziamento dopo il taglio della torta, quindi più o meno verso mezzanotte, ti avviso io un attimo prima", "labels": {}}
+{"text": "stanno accendendo le luci in sala e i camerieri sparecchiano i tavoli, la festa è finita, questo è l'ultimo pezzo e poi chiudi il set", "labels": {"control": "endAfterCurrent"}}
+{"text": "il papà della sposa è venuto in consolle furioso perché questa canzone ha un testo volgare e ci sono i suoi colleghi, cambiala adesso per carità", "labels": {"control": "mixNow"}}
+{"text": "ok Segueo, ho finito di montare le luci e il fonico ha dato l'ok sul suono, il locale apre le porte proprio adesso: puoi partire", "labels": {"control": "start"}}
+{"text": "quello che hai preparato dopo è un lento strappalacrime e la gente sta saltando come pazza, mettine un altro più carico", "labels": {"control": "skip", "strategy": "rise"}}
+{"text": "i ragazzi hanno fatto una colletta per pagare un'ora in più al gestore, ha accettato, quindi non finire il set e vai avanti", "labels": {"control": "resume"}}
+{"text": "è saltata la corrente su metà impianto e la cassa di sinistra fa un ronzio strano, ferma tutto finché il tecnico non controlla i cavi", "labels": {"control": "stop"}}
+{"text": "sono le quattro passate e il gestore sta già contando la cassa con la calcolatrice, chiudi con questo brano e poi lasciamo il silenzio", "labels": {"control": "endAfterCurrent"}}
+{"text": "la canzone che sta andando ha un finale lunghissimo e la pista si sta svuotando a vista d'occhio, anticipa il cambio e vai avanti", "labels": {"control": "mixNow"}}
+{"text": "la canzone che sta andando adesso è la preferita della festeggiata, guarda come la sta cantando abbracciata alle sue amiche del liceo", "labels": {}}
+{"text": "buonasera, sono Davide della trattoria Da Gino, i clienti si sono appena seduti e il titolare vorrebbe un po' di musica, accendi pure", "labels": {"control": "start"}}
+{"text": "la prossima canzone che hai scelto l'ha messa il dj della sala accanto cinque minuti fa e si sentiva benissimo, trovane un'altra", "labels": {"control": "skip"}}
+{"text": "la torta arriva dopo questo pezzo e da contratto la musica da ballo finisce lì, quindi finisci questa canzone e chiudi il set", "labels": {"control": "endAfterCurrent"}}
+{"text": "sta arrivando la band per il set dal vivo e stanno già attaccando gli strumenti, spegni l'ai dj che tra due minuti suonano loro", "labels": {"control": "stop"}}
+{"text": "la band ha annullato all'ultimo momento perché il cantante ha la febbre a trentanove, quindi continua tu a suonare come se niente fosse", "labels": {"control": "resume"}}
+{"text": "la band ha finito il suo set e sta smontando la batteria, riparti tu con la musica che la gente è ancora tutta in pista", "labels": {"control": "start"}}
+{"text": "sto pezzo è troppo aggressivo per i parenti della sposa che sono appena arrivati dalla Calabria, cambialo subito e vai su roba più tranquilla", "labels": {"control": "mixNow", "strategy": "chill"}}
+{"text": "ho dimenticato l'alimentatore del portatile a casa e la batteria è al trenta per cento, mia moglie me lo porta tra mezz'ora, speriamo bene", "labels": {}}
+{"text": "la proprietaria ha appena girato il cartello su chiuso e i ragazzi delle pulizie aspettano fuori con i secchi, ultimo brano e chiudiamo", "labels": {"control": "endAfterCurrent"}}
+{"text": "ho visto che dopo hai messo un pezzo di trap, ma il gestore l'ha vietata espressamente, cambia quello in arrivo e niente trap per tutta la sera", "labels": {"control": "skip", "genre": "exclude"}}
+{"text": "non chiudere ancora! il gestore ha visto la pista piena e ci regala mezz'ora extra, sfruttiamola con i pezzi più forti che hai", "labels": {"control": "resume", "strategy": "peak"}}
+{"text": "è partito l'allarme antincendio in cucina e stanno facendo uscire tutti dalle porte laterali, stoppa la musica immediatamente", "labels": {"control": "stop"}}
+{"text": "il pezzo in onda è troppo lungo, sono già sei minuti di strumentale e i ragazzi stanno scappando al bar, passa subito al prossimo", "labels": {"control": "mixNow"}}
+{"text": "finito il buffet, la sala è pronta e le luci sono basse, parti con la musica e fai salire piano piano verso mezzanotte", "labels": {"control": "start", "strategy": "rise"}}
+{"text": "il vigile ha detto che dobbiamo spegnere entro le due e sono già le due meno tre minuti, finisci il brano e stop", "labels": {"control": "endAfterCurrent"}}
+{"text": "il vigile è passato verso mezzanotte, ha controllato i permessi della serata e ha detto che è tutto in regola, possiamo stare tranquilli", "labels": {}}
+{"text": "la signora del tavolo sei si è sentita male e stanno chiamando il medico, spegni tutto un attimo che c'è bisogno di silenzio", "labels": {"control": "stop"}}
+{"text": "sono le nove precise, l'organizzatrice ha appena aperto le porte del salone e le prime coppie stanno entrando, accendi l'ai dj e partiamo", "labels": {"control": "start"}}
+{"text": "domani mattina gli sposi hanno l'aereo alle sei per il viaggio di nozze e stanno salutando tutti, questo è l'ultimo pezzo, poi chiudi", "labels": {"control": "endAfterCurrent"}}
+{"text": "domani mattina gli sposi hanno l'aereo alle sei per le Maldive, sono già agitatissimi e continuano a controllare i passaporti", "labels": {}}
+{"text": "aiuto, questa canzone parla di divorzio e siamo al matrimonio di due che si sono sposati per la seconda volta, cambiala adesso", "labels": {"control": "mixNow"}}
+{"text": "il brano che arriva dopo l'ho già suonato io all'inizio della serata, prima che ti passassi il controllo, scegline uno diverso", "labels": {"control": "skip"}}
+{"text": "la festa doveva finire a mezzanotte ma il nonno dello sposo ha detto che paga lui l'extra, quindi andiamo avanti, non chiudere", "labels": {"control": "resume"}}
+{"text": "il titolare ha ricevuto una chiamata dai carabinieri per il rumore e vuole parlare con loro tranquillo, metti in pausa la musica per qualche minuto", "labels": {"control": "stop"}}
+{"text": "io devo andare a montare le luci nella sala grande, fai partire la musica e scegli tu i pezzi finché non torno in consolle", "labels": {"control": "start", "mode": "ai"}}
+{"text": "ultimo giro della serata al ristorante, i camerieri stanno passando con gli amari, tieni l'atmosfera morbida e dopo questo pezzo chiudi", "labels": {"control": "endAfterCurrent", "strategy": "chill"}}
+{"text": "la pista si è svuotata di colpo con questo brano, credo che non lo conosca nessuno, cambialo subito e metti roba commerciale che conoscono tutti", "labels": {"control": "mixNow", "genre": "include"}}
+{"text": "non chiudere più, il festeggiato ha portato una chiavetta con le sue canzoni e le ho messe in coda, continua suonando solo quelle", "labels": {"control": "resume", "mode": "queue"}}
+{"text": "la sposa dice che la canzone dopo è troppo triste per adesso, prendine un'altra e falla entrare con una sfumatura dolce", "labels": {"control": "skip", "style": "fade"}}
+{"text": "la cerimonia è finita e gli ospiti si spostano sotto il gazebo per il rinfresco, avvia la musica con un po' di bossa nova tranquilla", "labels": {"control": "start", "genre": "include", "strategy": "chill"}}
+{"text": "la cerimonia sotto il gazebo è durata più del previsto perché il prete ha fatto un'omelia di quaranta minuti, gli ospiti sono stravolti", "labels": {}}
+{"text": "stop stop stop, il bambino della festa si è fatto male cadendo dallo scivolo e la mamma è nel panico, spegni la musica subito", "labels": {"control": "stop"}}
+{"text": "Gentile Segueo, Le comunico che la sala va liberata entro le ventiquattro per l'evento successivo, pertanto conclusa questa canzone termini il set", "labels": {"control": "endAfterCurrent"}}
+{"text": "il tecnico delle luci mi dice che questo pezzo non va proprio con lo spettacolo che sta facendo, passa al brano successivo senza aspettare", "labels": {"control": "mixNow"}}
+{"text": "allarme rientrato, era solo il fumo della macchina che ha fatto scattare il sensore, quindi fai ripartire la musica da dove eravamo", "labels": {"control": "start"}}
+{"text": "eccomi, la sposa mi ha appena fatto il segnale dal fondo della sala, è il momento dell'apertura delle danze, fai partire la musica adesso", "labels": {"control": "start"}}
+{"text": "eccomi, la sposa mi ha detto che il segnale per l'apertura delle danze me lo fa lei più tardi, quando hanno finito di salutare i tavoli", "labels": {}}
+{"text": "la canzone che hai in coda come prossima è la stessa che hanno usato per il video del funerale dello zio, cambiala immediatamente", "labels": {"control": "skip"}}
+{"text": "ragazzi sono le tre e mezza e il buttafuori sta già spingendo fuori i ritardatari, con questo pezzo chiudiamo la serata", "labels": {"control": "endAfterCurrent"}}
+{"text": "interrompi la musica per favore, il testimone deve leggere la lettera alla sposa e vuole che si senta ogni parola", "labels": {"control": "stop"}}
+{"text": "il testimone ha finito di leggere la lettera, tutti hanno pianto, adesso rimetti la musica e porta su l'energia", "labels": {"control": "start", "strategy": "rise"}}
+{"text": "la canzone che hai messo è in inglese e la nonna mi ha appena chiesto di cambiarla perché vuole ballare qualcosa che capisce, passa avanti", "labels": {"control": "mixNow"}}
+{"text": "sono le undici in punto e la discoteca ha aperto, la gente è già in pista che aspetta, parti forte con i pezzi più carichi", "labels": {"control": "start", "strategy": "peak"}}
+{"text": "l'ultima corriera per il paese parte alle due e metà degli invitati deve prenderla, quindi finita questa canzone chiudi il set", "labels": {"control": "endAfterCurrent"}}
+{"text": "l'ultima corriera per il paese parte alle due e qualcuno dovrà andare via prima, ma gli altri restano fino alla fine", "labels": {}}
+{"text": "la canzone che hai preparato non va bene per il momento del bouquet, al suo posto metti Summer Rain che la sposa la adora", "labels": {"control": "skip", "queue": "playNext"}}
+{"text": "il ragazzo che ha chiesto questa canzone se n'è già andato e nessuno la balla, tagliala netta e passa al prossimo pezzo", "labels": {"control": "mixNow", "style": "cut"}}
+{"text": "è arrivato il dj ospite dalla Spagna e vuole attaccare a mano subito, ferma l'ai dj e apri la console che gli passo il controllo", "labels": {"control": "stop", "view": "console"}}
+{"text": "l'ospite spagnolo ha avuto problemi con la sua chiavetta e non riesce a suonare, quindi continua tu come prima, non fermarti", "labels": {"control": "resume"}}
+{"text": "Buongiorno, siamo al brunch domenicale in hotel e i clienti stanno scendendo per la colazione, avvia un sottofondo morbido e piacevole", "labels": {"control": "start", "strategy": "chill"}}
+{"text": "il sole sta sorgendo sul mare e sono rimasti in pochi, questo è l'ultimo pezzo dell'after, chiudilo con un bell'eco che sfuma", "labels": {"control": "endAfterCurrent", "style": "echo"}}
+{"text": "la mamma della comunicanda dice che questa canzone ha un testo poco adatto a una festa con i bambini, cambiala subito per piacere", "labels": {"control": "mixNow"}}
+{"text": "ho visto che come prossimo hai scelto un pezzo di quel cantante che ha avuto lo scandalo, qui lo conoscono tutti, mettine un altro", "labels": {"control": "skip"}}
+{"text": "il fonico deve sostituire un cavo del sub che sta fumando, ferma la musica un attimo prima che salti tutto l'impianto", "labels": {"control": "stop"}}
+{"text": "il fonico ha cambiato il cavo del sub e adesso è tutto a posto, puoi ripartire con la musica come prima", "labels": {"control": "start"}}
+{"text": "ragazzi siamo pronti, il pub ha aperto e c'è già la fila al bancone, fai partire la musica con del rock anni settanta", "labels": {"control": "start", "genre": "include"}}
+{"text": "la responsabile della sala dice che i proprietari della villa vogliono andare a dormire, quindi finiamo con questa e spegniamo", "labels": {"control": "endAfterCurrent"}}
+{"text": "la sposa è venuta a dirmi che per il prossimo quarto d'ora vuole solo musica italiana, ci sono gli zii arrivati dal sud che vogliono ballare", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "il festeggiato ha diciott'anni ma la festa la pagano i genitori, e hanno chiesto esplicitamente niente trap con le parolacce, quindi rispettiamoli", "labels": {"genre": "exclude"}}
+{"text": "ci sono un sacco di ragazzi spagnoli dell'erasmus al tavolo in fondo, ogni tanto infilaci un pezzo reggaeton che così li fai contenti", "labels": {"genre": "add"}}
+{"text": "il locale stasera fa la serata anni novanta, il proprietario ha appeso pure i poster delle Spice Girls, quindi suona solo roba di quel periodo", "labels": {"genre": "include"}}
+{"text": "la ragazza che ha organizzato la festa mi ha detto che per lei va bene tutto, qualsiasi genere purché la gente balli, togli pure i filtri", "labels": {"genre": "clear"}}
+{"text": "il direttore del club odia l'edm e se la sente esce dall'ufficio urlando, quindi tienila fuori per tutta la notte, mi raccomando", "labels": {"genre": "exclude"}}
+{"text": "il direttore del club ascolta solo techno di Detroit, ha una collezione di vinili pazzesca nel suo ufficio, me l'ha fatta vedere prima di aprire", "labels": {}}
+{"text": "l'animatore sta per fare il gioco della sedia con i bambini, mi ha chiesto per dieci minuti solo sigle dei cartoni animati", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "stasera c'è anche un gruppo di signore sui sessanta che chiedono sempre la disco, mettine qualcuna qua e là in mezzo alla house", "labels": {"genre": "add"}}
+{"text": "i ragazzi che chiedevano il reggaeton sono usciti a fumare tutti insieme, per un po' lascia stare il latino e metti altro", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "è il matrimonio di due ragazzi di origine indiana, i parenti hanno chiesto musica bollywood per tutto il dopocena, vai solo con quella", "labels": {"genre": "include"}}
+{"text": "ti avevo bloccato la techno e la house per la cena ma adesso i tavoli sono stati sparecchiati, togli tutti i filtri di genere e vai libero", "labels": {"genre": "clear"}}
+{"text": "gli ospiti sono quasi tutti sopra i sessanta e qualcuno ha l'apparecchio acustico, mi raccomando niente rap, niente trap e niente drill per tutta la serata", "labels": {"genre": "exclude"}}
+{"text": "è salito in consolle il festeggiato con la birra in mano e ha detto: da adesso solo rock anni ottanta e roba più carica", "labels": {"genre": "include", "strategy": "rise"}}
+{"text": "mio zio continua a chiedermi di mettere del liscio ma è l'unico a cui interessa in tutta la sala, quindi faccio finta di niente", "labels": {}}
+{"text": "è arrivato il momento del trenino, la sposa vuole cinque minuti di musica latina tipo baile e poi torniamo alla dance", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "la festa è per i cinquant'anni di Paolo, che è un fissato del funk da sempre, buttaci dentro qualche pezzo funk ogni tanto oltre al commerciale", "labels": {"genre": "add"}}
+{"text": "al lido il bagnino si lamenta della house tutta uguale da stamattina, e il titolare dice di evitarla per il resto della giornata", "labels": {"genre": "exclude"}}
+{"text": "il cliente ha prenotato tutto il locale per una festa a tema afro, vuole afro house e amapiano dall'inizio alla fine, nient'altro", "labels": {"genre": "include"}}
+{"text": "Gianni, il proprietario, dice che stasera non c'è un tema particolare e che si può suonare di tutto, quindi via ogni limite sui generi", "labels": {"genre": "clear"}}
+{"text": "la festa è in una galleria d'arte e la curatrice ha chiesto di non mettere né techno né minimal, dice che stonano con le installazioni", "labels": {"genre": "exclude"}}
+{"text": "sono le undici e i nonni reclamano il loro momento, per il prossimo quarto d'ora solo liscio e balli di gruppo, poi torniamo ai giovani", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "il proprietario dice che la gente ordina di più con un po' di pop italiano, mettilo ogni tanto e tieni l'energia così com'è adesso", "labels": {"genre": "add", "strategy": "steady"}}
+{"text": "Marco dice che dovremmo passare al reggaeton ma la festeggiata non è d'accordo per niente, quindi aspettiamo che si mettano d'accordo tra loro", "labels": {}}
+{"text": "il gruppo di ragazzi dell'università ha chiesto solo drum and bass, tanto in pista ci sono solo loro e gli altri sono al bar, accontentali", "labels": {"genre": "include"}}
+{"text": "l'organizzatrice della festa aziendale mi ha scritto che il CEO non sopporta il reggaeton, quindi per stasera niente reggaeton, zero", "labels": {"genre": "exclude"}}
+{"text": "per un po' aggiungi qualche pezzo anni ottanta alla selezione, è appena entrata la comitiva dei colleghi più anziani dell'ufficio", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "il locale è un irish pub e il titolare vuole sentire musica irlandese e rock fino a mezzanotte, il resto lo vediamo dopo", "labels": {"genre": "include"}}
+{"text": "la sposa ha detto che adesso si fa festa senza regole: via i filtri sui generi, va bene qualunque cosa, e più energia per tutti", "labels": {"genre": "clear", "strategy": "rise"}}
+{"text": "la sposa mi ha detto che a lei piace un po' di tutto, dal pop al rock, mentre il marito ascolta solo metal, che coppia strana questi due", "labels": {}}
+{"text": "la zia della festeggiata mi ha chiesto Northern Lights, dice che era la canzone del suo viaggio di nozze, mettila in coda per più tardi", "labels": {"queue": "add"}}
+{"text": "il testimone sta per entrare con la torta e vuole Paradise City come colonna sonora, mettila subito dopo questa", "labels": {"queue": "playNext"}}
+{"text": "la festeggiata ha visto che in coda c'è Low Tide e dice che la odia da quando l'ha lasciata il fidanzato, toglila prima che arrivi", "labels": {"queue": "remove"}}
+{"text": "i pezzi in coda li aveva scelti il cugino per l'aperitivo ma adesso non c'entrano più niente con la serata, cancellali tutti", "labels": {"queue": "clear"}}
+{"text": "ho notato che la coda va in ordine di artista e la gente se ne accorge, un pezzo di Silas Hart dietro l'altro, mescola tutto per favore", "labels": {"queue": "shuffle"}}
+{"text": "un ragazzo al bancone mi ha dato venti euro per sentire Fuoco di Kaito Mori, aggiungila alla lista che ormai me l'ha pagata", "labels": {"queue": "add"}}
+{"text": "il sindaco ha appena chiesto Estate di Leo Marin per ballare con la moglie che compie gli anni, falla partire come prossima", "labels": {"queue": "playNext"}}
+{"text": "un tizio al bancone mi ha offerto venti euro per mettere un pezzo neomelodico, ma qui siamo a una festa aziendale e non è proprio il caso", "labels": {}}
+{"text": "la sposa dice che Afterglow era la canzone del marito con la sua ex, quindi levala dalla coda prima che scoppi un dramma", "labels": {"queue": "remove"}}
+{"text": "stasera è il compleanno di Elena e le amiche hanno chiesto Golden Hour e Summer Rain, mettile in coda così arrivano verso mezzanotte", "labels": {"queue": "add"}}
+{"text": "il gruppo dei ragazzi ha finito la gara di flessioni e chiede a gran voce Neon Nights, mettila come prossima e poi vai a tutta", "labels": {"queue": "playNext", "strategy": "peak"}}
+{"text": "la coda è piena di richieste di gente che è già andata a casa da un pezzo, svuotala e torna a scegliere tu i pezzi", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "la lista l'ha preparata lo sposo ma l'ha messa in ordine alfabetico, mescolala un po' e poi suona solo quella", "labels": {"queue": "shuffle", "mode": "queue"}}
+{"text": "la nonna della sposa compie novant'anni proprio oggi e ha chiesto Moonlight, accodala che più tardi la facciamo ballare con il nipote", "labels": {"queue": "add"}}
+{"text": "la nonna della sposa compie novant'anni proprio oggi ed è ancora in pista dalle nove di sera, una forza della natura, altro che noi", "labels": {}}
+{"text": "ho messo in coda Glass City per sbaglio, era una richiesta per il matrimonio di domani a Verona, toglila dalla coda di stasera", "labels": {"queue": "remove"}}
+{"text": "gli amici del festeggiato stanno preparando lo scherzo con i palloncini e serve Electric Dreams appena finisce questa, mettila subito dopo", "labels": {"queue": "playNext"}}
+{"text": "le richieste in coda le avevano fatte i ragazzini della festa del pomeriggio, adesso ci sono gli adulti, cancella tutto quello che c'è in lista", "labels": {"queue": "clear"}}
+{"text": "Buonasera, sono il wedding planner: il primo ballo degli sposi è su Sunday Motion, la mettiamo come prossima canzone, grazie", "labels": {"queue": "playNext"}}
+{"text": "c'è una ragazza che continua a chiedermi Mare Blu da un'ora intera, mettila in coda sennò stanotte non mi lascia più in pace", "labels": {"queue": "add"}}
+{"text": "il cliente ha cambiato idea su Weightless, dice che è troppo malinconica per una festa di fidanzamento, cancellala dalla lista", "labels": {"queue": "remove"}}
+{"text": "ho caricato in coda quaranta pezzi presi tutti dallo stesso album e sembra di ascoltare il disco intero, dagli una bella mescolata", "labels": {"queue": "shuffle"}}
+{"text": "ho caricato in coda una quarantina di pezzi ieri sera a casa, spero solo di non aver dimenticato le richieste che mi avevano mandato gli sposi", "labels": {}}
+{"text": "la sposa ha chiesto Golden Hour adesso, non tra cinque minuti: chiudi questa canzone subito e mettila come prossima", "labels": {"queue": "playNext", "control": "mixNow"}}
+{"text": "gli amici di Simone hanno chiesto Parallel e in generale un po' più di elettronica, mettila in coda e infila qualche pezzo electro qua e là", "labels": {"queue": "add", "genre": "add"}}
+{"text": "la padrona di casa ci tiene tantissimo, è una festa a tema anni sessanta con i vestiti d'epoca, quindi suona solo musica di quegli anni", "labels": {"genre": "include"}}
+{"text": "in sala ci sono le maestre della scuola materna con i bambini, l'organizzatrice chiede niente musica con le parolacce, quindi lascia stare l'hip hop, e tienila tranquilla", "labels": {"genre": "exclude", "strategy": "chill"}}
+{"text": "a quanto pare metà degli invitati è brasiliana, la sposa è di San Paolo, mettici dentro anche un po' di samba ogni tanto", "labels": {"genre": "add"}}
+{"text": "i ragazzi del motoclub sono arrivati con le Harley e il presidente ha chiesto rock duro, quindi solo hard rock ed energia al massimo", "labels": {"genre": "include", "strategy": "peak"}}
+{"text": "il pezzo reggaeton di prima ha fatto scappare i parenti della sposa dalla pista, per una ventina di minuti niente reggaeton", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "non so cosa piaccia a questo pubblico, sono tutti turisti di nazionalità diverse, togli le restrizioni di genere e vediamo cosa funziona", "labels": {"genre": "clear"}}
+{"text": "non so cosa piaccia a questo pubblico, sono turisti tedeschi e olandesi in vacanza in campeggio, e ballano anche il liscio, incredibile", "labels": {}}
+{"text": "alla festa di Halloween in oratorio il parroco vuole canzoni divertenti per i ragazzi, quindi solo pop e dance, niente di strano", "labels": {"genre": "include"}}
+{"text": "sono arrivati i colleghi napoletani di mio fratello, per un po' mettici in mezzo anche qualche pezzo neomelodico, li faccio felici", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "il titolare della pizzeria è stufo della musica commerciale che passa in radio tutto il giorno, dice di evitarla stasera", "labels": {"genre": "exclude"}}
+{"text": "la sposa vuole solo musica italiana fino alla torta e ha chiesto anche Mare Blu, mettila in coda insieme alle altre", "labels": {"genre": "include", "queue": "add"}}
+{"text": "il festeggiato è un fan sfegatato di Vasco e degli anni ottanta, per i prossimi tre pezzi solo rock italiano così lo facciamo cantare", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "il cameriere mi ha passato un bigliettino dal tavolo degli sposi con scritto Open Water, aggiungila in lista per il dopocena", "labels": {"queue": "add"}}
+{"text": "l'organizzatore mi ha detto che Parallel l'hanno già usata per il video aziendale e tutti la odiano ormai, cancellala dalla coda", "labels": {"queue": "remove"}}
+{"text": "gli sposi stanno per tagliare la torta e hanno scelto Weightless per quel momento, falla partire subito dopo questa canzone", "labels": {"queue": "playNext"}}
+{"text": "la coda che mi ha dato il cliente parte con tutti i lenti e finisce con tutti i pezzi veloci, mischiala un po' prima di partire", "labels": {"queue": "shuffle"}}
+{"text": "il cliente ha cambiato completamente idea sulla serata e vuole ricominciare da zero con le richieste, quindi svuota tutta la lista", "labels": {"queue": "clear"}}
+{"text": "il cliente ha cambiato idea tre volte sulla serata nell'ultima settimana, prima voleva una band, poi un dj, adesso ci siamo noi due", "labels": {}}
+{"text": "il tavolo dei colleghi di lavoro di Federica mi ha chiesto Sunday Motion per farle una sorpresa, mettila tra le prossime da suonare", "labels": {"queue": "add"}}
+{"text": "il festeggiato ha chiesto Glass City subito dopo questa, e i suoi amici mi pregano di non mettere più techno, accontentiamoli", "labels": {"queue": "playNext", "genre": "exclude"}}
+{"text": "lo sposo ha visto che hai preparato Afterglow come prossima e in coda c'è anche Night Drive, cambia la prossima e togli Night Drive dalla coda", "labels": {"queue": "remove", "control": "skip"}}
+{"text": "la serata è organizzata dal circolo di ballo latino-americano, ci sono le coppie con le scarpe da ballo, quindi solo salsa e bachata", "labels": {"genre": "include"}}
+{"text": "i ragazzi della festa sono quasi tutti minorenni e i genitori hanno chiesto di evitare la trap, ne vanno pazzi ma i testi sono pesanti", "labels": {"genre": "exclude"}}
+{"text": "i ragazzi della festa sono quasi tutti minorenni, e il genitore che ha organizzato sta controllando che nessuno beva alcolici al bar", "labels": {}}
+{"text": "la gente sta iniziando a scaldarsi, infila anche un po' di house nella selezione commerciale e alza un pochino la temperatura", "labels": {"genre": "add", "strategy": "rise"}}
+{"text": "per qualche pezzo togli i filtri sui generi, voglio vedere come reagisce la pista a roba diversa, poi rimetti tutto com'era", "labels": {"genre": "clear", "temporary": "yes"}}
+{"text": "è una cena romantica in terrazza per San Valentino, il ristoratore vuole jazz morbido e luci soffuse, niente di ballabile", "labels": {"genre": "include", "strategy": "chill"}}
+{"text": "allora la proposta di matrimonio è tra un minuto al tavolo dodici, il ragazzo vuole Golden Hour quando si inginocchia, mettila come prossima", "labels": {"queue": "playNext"}}
+{"text": "allora tra mezz'ora c'è una proposta di matrimonio al tavolo dodici, il ragazzo è agitatissimo e continua a controllare l'anello in tasca", "labels": {}}
+{"text": "il papà della festeggiata ha chiesto Estate per ballarla con sua figlia, non subito, verso la fine della serata, mettila in coda", "labels": {"queue": "add"}}
+{"text": "i genitori del festeggiato hanno organizzato un festone con i parenti siciliani, chiedono musica popolare siciliana e tarantelle per tutta la sera", "labels": {"genre": "include"}}
+{"text": "i parenti anziani si spaventano quando i pezzi cambiano di botto, la zia ha quasi rovesciato il bicchiere, fai passaggi dolci che si sentano appena", "labels": {"style": "fade"}}
+{"text": "i ragazzi del liceo si annoiano durante le transizioni e tornano a guardare il telefono, stacca secco sul beat così non perdono il ritmo", "labels": {"style": "cut"}}
+{"text": "il cliente dice che si sentono troppo i cambi, vuole che una canzone entri nell'altra senza che nessuno se ne accorga, allunga i mix", "labels": {"bars": "long"}}
+{"text": "quando chiudi i pezzi cantati lascia una coda di eco che gira nella sala, alla sposa piace tantissimo quell'effetto sotto le volte", "labels": {"style": "echo"}}
+{"text": "la cantante della band che suona dopo di noi si è lamentata degli effetti che metti sopra i pezzi, dice che rovinano le voci, toglili", "labels": {"remix": "off"}}
+{"text": "il cliente è un purista, mi ha detto chiaramente che non vuole sentire due canzoni sovrapposte per nessun motivo, quindi spegni i mashup automatici", "labels": {"mashupOpt": "off"}}
+{"text": "la cantante della cover band ha notato che le canzoni restano accelerate dopo il mix e le voci sembrano dei cartoni animati, riportale al tempo giusto", "labels": {"returnTempo": "on"}}
+{"text": "stiamo a 126 bpm da mezz'ora e la pista è ipnotizzata, se dopo ogni cambio torni al bpm originale si rompe tutto, resta sul nuovo tempo", "labels": {"returnTempo": "off"}}
+{"text": "al festone della pro loco tutti si aspettano i cambi in stile dance anni novanta, fai come Gabry Ponte e vai sul sicuro", "labels": {"style": "model"}}
+{"text": "siamo in un ex magazzino al porto con duecento persone vestite di nero, voglio blend techno infiniti da 64 battute", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "l'animatore vuole un minuto di follia per il gioco delle sedie, per un paio di pezzi taglia a raffica come LUM!X", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "il fonico dice che quando mixi i due bassi insieme le casse vanno in saturazione, nei passaggi scambia i bassi invece di sovrapporli", "labels": {"style": "bassswap"}}
+{"text": "ai ragazzi piace tantissimo quando il pezzo nuovo entra filtrato e poi si apre piano, fallo in tutti i passaggi di stasera", "labels": {"style": "filter"}}
+{"text": "non ho nessuna preferenza sui passaggi, il pubblico è misto e non so cosa funzioni meglio, scegli tu caso per caso lo stile dei cambi", "labels": {"style": "auto"}}
+{"text": "il proprietario dice che i mix durano un'eternità e la gente pensa che la canzone sia rotta o che sia partito un disco sbagliato, accorcia i passaggi", "labels": {"bars": "short"}}
+{"text": "la canzone che va adesso è lunghissima e la pista comincia ad annoiarsi, dai un po' di vita al pezzo con loop ed effetti mentre suona", "labels": {"remix": "on"}}
+{"text": "i ragazzi della festa di laurea hanno adorato il mashup di prima, il festeggiato dice di farne ogni tanto in automatico per tutta la sera", "labels": {"mashupOpt": "on"}}
+{"text": "i ragazzi della festa di laurea hanno adorato il mashup di prima, me ne hanno parlato tutti al bancone mentre ordinavano, che soddisfazione", "labels": {}}
+{"text": "è il momento del ballo padre e figlia, la sposa vuole che le canzoni si sciolgano una nell'altra con calma, transizioni morbide e lunghe", "labels": {"style": "fade", "bars": "long"}}
+{"text": "è mezzanotte e l'addio al celibato ha preso il controllo della pista, cambi brevi e tagli netti, non lasciarli respirare un secondo", "labels": {"style": "cut", "bars": "short"}}
+{"text": "per i prossimi due brani niente loop né effetti sopra, c'è il video degli sposi sul maxischermo e la canzone si deve sentire pulita", "labels": {"remix": "off", "temporary": "yes"}}
+{"text": "durante il buffet, per una mezz'oretta, spegni i mashup automatici, la gente parla e mangia e non serve confonderla", "labels": {"mashupOpt": "off", "temporary": "yes"}}
+{"text": "è una serata mista karaoke e dj set, la gente canta sopra le canzoni, quindi dopo ogni passaggio i pezzi devono tornare alla loro velocità vera", "labels": {"returnTempo": "on"}}
+{"text": "gli universitari vogliono un ritmo continuo senza buchi, chiudi i pezzi con un eco breve e fai mix corti da otto battute", "labels": {"style": "echo", "bars": "short"}}
+{"text": "è l'alba sulla spiaggia, sono rimaste venti persone sdraiate sulla sabbia con le coperte, fai sfumature lunghissime, tipo 64 battute", "labels": {"bars": "verylong", "style": "fade"}}
+{"text": "il cliente è di Torino e mi ha detto che vuole sentire i cambi alla Gabry Ponte, come quando era ragazzo e andava in discoteca", "labels": {"style": "model"}}
+{"text": "il cliente è di Torino e mi ha raccontato che da ragazzo andava a sentire Gabry Ponte in discoteca ogni sabato, con la Panda del padre", "labels": {}}
+{"text": "il pubblico è esperto, gente che va in riviera a ballare da vent'anni, fammi bass swap puliti e passaggi da 32 battute", "labels": {"style": "bassswap", "bars": "long"}}
+{"text": "la festa dei diciott'anni di Martina ha un pubblico che vive su tiktok, accendi il remix live e anche i mashup in automatico", "labels": {"remix": "on", "mashupOpt": "on"}}
+{"text": "il dj ospite che arriva dopo di noi suona a 130 fisso, quindi resta sul bpm del mix e fai passaggi in stile techno", "labels": {"returnTempo": "off", "style": "model-techno"}}
+{"text": "la coppia festeggia le nozze d'oro, cinquant'anni di matrimonio, e in sala si commuovono tutti, passaggi delicati e niente stacchi bruschi", "labels": {"style": "fade"}}
+{"text": "il pubblico del centro sociale è abituato all'hip hop e ai tagli veloci, quei fade lunghi li fanno sbuffare, vai di tagli netti sul beat", "labels": {"style": "cut"}}
+{"text": "il pubblico del centro sociale è abituato ai dj che scratchano sui vinili, chissà cosa penseranno di un'intelligenza artificiale in consolle", "labels": {}}
+{"text": "stiamo accompagnando il tramonto al lago, voglio che i pezzi entrino piano piano col filtro che si apre, passaggi belli lunghi", "labels": {"style": "filter", "bars": "long"}}
+{"text": "il cliente mi ha appena detto che gli effetti sopra i pezzi gli sembrano un disco rotto e che preferisce le canzoni pulite, quindi spegni il remix live", "labels": {"remix": "off"}}
+{"text": "stasera c'è un pubblico di produttori e smanettoni, si divertono quando i pezzi vengono smontati dal vivo, accendi loop ed effetti sopra le tracce", "labels": {"remix": "on"}}
+{"text": "la fidanzata del festeggiato è fissata con i mashup che girano sui social, ha chiesto se puoi farli in automatico durante la serata, accendili", "labels": {"mashupOpt": "on"}}
+{"text": "l'ultimo mashup automatico ha messo una voce in inglese sopra una base italiana ed è venuto fuori un disastro, spegni i mashup in automatico", "labels": {"mashupOpt": "off"}}
+{"text": "la sposa si lamenta che il primo ballo sembrava più veloce dell'originale, d'ora in poi dopo ogni mix fai tornare i pezzi al loro bpm originale", "labels": {"returnTempo": "on"}}
+{"text": "sentimi bene, la pista sta ballando in sincro su questo tempo, quando chiudi il passaggio non riportare il pezzo alla sua velocità, resta qui", "labels": {"returnTempo": "off"}}
+{"text": "i ragazzi della festa di classe guardano solo video da quindici secondi, se un pezzo dura più di un minuto si annoiano, fai tagli a raffica", "labels": {"style": "rapid"}}
+{"text": "il locale ha l'impianto Funktion-One e gente che viene apposta da Milano, mixa come un dj techno vero, blend ipnotici e progressivi", "labels": {"style": "model-techno"}}
+{"text": "il locale ha l'impianto Funktion-One appena installato e il proprietario ne va fierissimo, l'ha pagato quanto un appartamento", "labels": {}}
+{"text": "sinceramente non me ne intendo, fai tu i passaggi come ti sembra meglio, l'unica cosa che ti chiedo è che siano più brevi di adesso", "labels": {"style": "auto", "bars": "short"}}
+{"text": "la sposa sta ballando con il papà e poi con il suocero, per i prossimi tre pezzi allunga i passaggi così non si interrompe niente", "labels": {"bars": "long", "temporary": "yes"}}
+{"text": "adesso la pista è piena di ventenni sudati che vogliono saltare, mix corti, niente transizioni lunghe, e alza l'energia", "labels": {"bars": "short", "strategy": "rise"}}
+{"text": "il proprietario adora quando i pezzi se ne vanno con l'eco che rimbalza, dice che gli ricorda le serate degli anni novanta, fallo così", "labels": {"style": "echo"}}
+{"text": "le due casse si impastano ogni volta che entri col pezzo nuovo e il fonico mi guarda storto, nei cambi usa l'equalizzatore e scambia i bassi", "labels": {"style": "bassswap"}}
+{"text": "per i prossimi due passaggi fai entrare il pezzo nuovo da dietro il filtro, voglio vedere come reagisce la pista prima del drop", "labels": {"style": "filter", "temporary": "yes"}}
+{"text": "è arrivato il momento dei lenti, le coppie si stanno abbracciando sotto le luci blu, scendi con l'energia e fai sfumature morbide", "labels": {"style": "fade", "strategy": "chill"}}
+{"text": "per una decina di minuti, giusto il tempo del gioco con i palloncini, fai cambi netti sul beat così gli animatori hanno i tempi giusti", "labels": {"style": "cut", "temporary": "yes"}}
+{"text": "è l'una e il club è al massimo, i ragazzi chiedono il delirio, metti loop ed effetti sopra i pezzi e vai con i brani più potenti", "labels": {"remix": "on", "strategy": "peak"}}
+{"text": "il cliente ha pagato per sentire le canzoni originali come sono sui dischi, niente remix live e niente mashup automatici per tutta la serata", "labels": {"remix": "off", "mashupOpt": "off"}}
+{"text": "per un quarto d'ora lascia accesi i mashup automatici, gli amici dello sposo stanno facendo una diretta e vogliono qualcosa di speciale", "labels": {"mashupOpt": "on", "temporary": "yes"}}
+{"text": "è un saggio di danza di fine anno e le ballerine hanno provato le coreografie sui brani originali, quindi tempo originale dopo i mix e niente effetti live", "labels": {"returnTempo": "on", "remix": "off"}}
+{"text": "i ragazzi della scuola di tango mi hanno detto che vogliono passaggi infiniti tra un brano e l'altro, tipo sessantaquattro battute", "labels": {"bars": "verylong"}}
+{"text": "siamo alla festa della birra in paese, sotto il tendone ci sono quattrocento persone con i boccali, cambi in stile dance alla Gabry e sempre più carica", "labels": {"style": "model", "strategy": "rise"}}
+{"text": "siamo alla festa della birra in paese, sotto il tendone ci sono quattrocento persone e i camerieri girano con dieci boccali per mano", "labels": {}}
+{"text": "è l'ultima mezz'ora della notte di Halloween e i ragazzi sono travestiti da zombie, tagli a raffica come LUM!X e solo pezzi fortissimi", "labels": {"style": "rapid", "strategy": "peak"}}
+{"text": "il fonico mi ha chiesto di lasciarti libero sui passaggi stasera, dice che vuole sentire cosa fai da solo, quindi lo stile dei cambi decidilo tu", "labels": {"style": "auto"}}
+{"text": "sta per partire il gioco del limbo e servono pezzi che cambiano spesso, per qualche brano fai passaggi corti, poi torna come prima", "labels": {"bars": "short", "temporary": "yes"}}
+{"text": "per la mezz'ora del buffet di mezzanotte fai sfumature lunghissime, tanto la gente mangia e non deve accorgersi dei cambi", "labels": {"style": "fade", "bars": "verylong", "temporary": "yes"}}
+{"text": "per i prossimi due pezzi resta al bpm del mix, la ballerina sul cubo sta facendo una coreografia e non deve cambiare il tempo", "labels": {"returnTempo": "off", "temporary": "yes"}}
+{"text": "per il momento dei fuochi d'artificio sul lago, per un paio di brani, chiudi i pezzi con un bell'eco lungo che si perde nel buio", "labels": {"style": "echo", "temporary": "yes"}}
+{"text": "il dj resident mi ha detto che qui la gente va pazza per i passaggi col filtro passa basso, quindi usalo in tutti i cambi stasera", "labels": {"style": "filter"}}
+{"text": "il dj resident mi ha detto che qui la gente va matta per i passaggi col filtro passa basso, ma lui li fa da vent'anni e ha la mano", "labels": {}}
+{"text": "il pubblico è di intenditori e il gestore vuole un suono pulito: scambia i bassi in ogni passaggio e non tornare al tempo originale dopo", "labels": {"style": "bassswap", "returnTempo": "off"}}
+{"text": "ok i mashup automatici non hanno funzionato con questo pubblico, spegnili, ma lascia pure il remix live acceso che invece gli piace", "labels": {"mashupOpt": "off", "remix": "on"}}
+{"text": "è appena cominciata la sfida tra le due squadre di ballerini di breakdance, voglio stacchi secchi sul battere e solo pezzi carichi", "labels": {"style": "cut", "strategy": "peak"}}
+{"text": "ciao, sono Ilaria la wedding planner: gli sposi hanno chiesto passaggi molto dolci per tutta la serata, niente cambi bruschi, grazie mille", "labels": {"style": "fade"}}
+{"text": "sono le quattro e mezza all'after, restano i duri e puri in maglietta nera, cambi stile techno lunghi e ipnotici, da trentadue battute", "labels": {"style": "model-techno", "bars": "long"}}
+{"text": "per qualche pezzo prova a giocare con loop ed effetti sopra la traccia, il tavolo dei produttori vuole vedere di cosa sei capace", "labels": {"remix": "on", "temporary": "yes"}}
+{"text": "gli sposi sono fan dei mashup, fanne partire uno adesso per il taglio della torta e poi lascia quelli automatici accesi", "labels": {"mashupOpt": "on", "mashup": "auto"}}
+{"text": "lo sposo ha passato tre mesi a preparare la sua lista e mi ha fatto giurare di non cambiarla, quindi stasera suoni solo quella", "labels": {"mode": "queue"}}
+{"text": "non conosco nessuno qui e il cliente non mi ha lasciato nessuna richiesta, per stasera i brani li scegli tu dalla libreria", "labels": {"mode": "ai"}}
+{"text": "domani sera c'è la festa di pensionamento del signor Bruno, sessantasei anni, una quarantina di colleghi delle poste, mi prepari una scaletta adatta?", "labels": {"set": "build"}}
+{"text": "mi ha chiamato adesso il cliente per la cena di gala di sabato: vuole un'ora e mezza di jazz e swing per l'aperitivo, preparami il set", "labels": {"set": "build", "genre": "include"}}
+{"text": "quando arriva la torta voglio stupire gli sposi con qualcosa di speciale, fai un mashup a sorpresa con due pezzi scelti da te", "labels": {"mashup": "auto"}}
+{"text": "la festeggiata ha un sogno da quando era piccola: sentire la voce di Moonlight sopra la base di Night Drive, è la sua festa e lo facciamo", "labels": {"mashup": "explicit"}}
+{"text": "è arrivato Riccardo, il dj resident, e vuole fare un'ora a mano sui piatti come ai vecchi tempi, passagli la schermata della console", "labels": {"view": "console"}}
+{"text": "Riccardo ha finito la sua ora a mano ed è andato al bar, rimetti la vista dell'AI che voglio controllare cosa fai da qui in poi", "labels": {"view": "ai"}}
+{"text": "la signora con il vestito rosso vuole assolutamente il titolo di questo pezzo per riascoltarlo a casa, mi dici come si chiama?", "labels": {"info": "now"}}
+{"text": "il fotografo vuole sapere quando parte il prossimo cambio per scattare la foto del lancio dei coriandoli, tra quanto mixi?", "labels": {"info": "next"}}
+{"text": "il proprietario mi chiede perché dopo un pezzo così carico hai messo una ballata, sinceramente non l'ho capito neanche io, spiegami il motivo", "labels": {"info": "why"}}
+{"text": "prima di andare a mangiare qualcosa in cucina voglio sapere cosa c'è in lista per la prossima mezz'ora, dimmi cosa hai in coda", "labels": {"info": "queue"}}
+{"text": "il dj che mi dà il cambio alle due vuole sapere come ti ho impostato stasera, energia, stile dei passaggi, battute e tutto il resto", "labels": {"info": "settings"}}
+{"text": "ciao, sono il fratello della sposa e il dj si è sentito male, non ho mai usato questa app in vita mia, cosa ti posso chiedere esattamente?", "labels": {"info": "help"}}
+{"text": "durante il primo ballo e il taglio della torta, per una ventina di minuti, suona solo i pezzi che ho messo io in coda", "labels": {"mode": "queue", "temporary": "yes"}}
+{"text": "sabato pomeriggio c'è una festa per bambini in un parco giochi coperto, due ore, mi serve una playlist con momenti di giochi e momenti più calmi", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "il prossimo weekend suono a una sagra in montagna, preparami una scaletta di tre ore, ma il comitato ha detto niente reggaeton", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "fai un mashup adesso per far ridere gli sposi, ma dopo spegni quelli automatici che durante la cena danno fastidio", "labels": {"mashup": "auto", "mashupOpt": "off"}}
+{"text": "gli amici dello sposo hanno preparato un balletto sulla voce di Fuoco sopra lo strumentale di Paradise City, sono in posizione, fai il mashup adesso", "labels": {"mashup": "explicit"}}
+{"text": "gli amici dello sposo hanno preparato un balletto con tanto di coreografia e costumi, lo fanno dopo la torta, sono troppo divertenti", "labels": {}}
+{"text": "il festeggiato è impazzito per questo pezzo e salta come un matto, come si chiama? e rimettilo in coda per più tardi", "labels": {"info": "now", "queue": "add"}}
+{"text": "perché hai preparato come prossimo un pezzo latino se ti avevo detto che il cliente non lo vuole sentire? cambialo subito", "labels": {"info": "why", "control": "skip"}}
+{"text": "buonasera, faccio il cameriere e il dj mi ha lasciato il computer acceso, mi spieghi cosa posso fare con te? intanto fai partire qualcosa", "labels": {"info": "help", "control": "start"}}
+{"text": "io devo stare dietro al bar perché il barista si è sentito male, non riesco a seguire la musica, da adesso decidi tu cosa suonare", "labels": {"mode": "ai"}}
+{"text": "la festeggiata ha preparato una playlist con tutte le canzoni dei suoi trent'anni e ci tiene da morire, segui la mia coda e non aggiungere niente", "labels": {"mode": "queue"}}
+{"text": "ho finito i pezzi che avevo messo in coda per l'aperitivo, adesso i brani li scegli tu, ma restando sulla deep house come finora", "labels": {"mode": "ai", "genre": "include"}}
+{"text": "domenica faccio il dj alla festa di fine stagione del circolo del tennis, sono tre ore, mi serve un set che parte tranquillo e cresce piano", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "la mia amica Camilla si sposa a giugno in una masseria in Puglia e mi ha chiesto la musica, mi prepari una scaletta per il ricevimento?", "labels": {"set": "build"}}
+{"text": "la mia amica Camilla si sposa a giugno in una masseria in Puglia e mi ha chiesto se faccio io la musica, ancora non le ho risposto", "labels": {}}
+{"text": "per l'inaugurazione della boutique di via Roma la titolare vuole un'ora di lounge elegante, preparami una playlist rilassata", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "la sposa e la testimone hanno inventato una coreografia sulla voce di Afterglow messa sopra la base di Low Tide, fallo quel mashup", "labels": {"mashup": "explicit"}}
+{"text": "i ragazzi della festa di maturità mi stanno chiedendo un mashup, uno qualsiasi, purché sia una bomba, fanne uno tu adesso", "labels": {"mashup": "auto"}}
+{"text": "il fotografo del giornale locale vuole fare uno scatto della consolle con le forme d'onda dei due deck, passa alla schermata console", "labels": {"view": "console"}}
+{"text": "il cliente si è avvicinato e vuole vedere come ragiona l'intelligenza artificiale, torna alla vista ai che gli faccio vedere", "labels": {"view": "ai"}}
+{"text": "ehi, la cameriera mi chiede chi canta questa canzone perché l'ha sentita anche al matrimonio di sua cugina, chi è?", "labels": {"info": "now"}}
+{"text": "devo andare in bagno ma non voglio perdermi il passaggio, cosa metti dopo questo pezzo e tra quanto parte il cambio?", "labels": {"info": "next"}}
+{"text": "scusa ma il gestore è venuto a lamentarsi, chiede come mai hai messo un pezzo techno durante la cena di lavoro, qual era il ragionamento?", "labels": {"info": "why"}}
+{"text": "la festeggiata vuole sapere se ci sono ancora le sue richieste tra quelle che devono suonare, mi fai vedere la coda?", "labels": {"info": "queue"}}
+{"text": "prima di andare a fumare voglio controllare che sia tutto a posto, dimmi come sei impostato adesso: energia, transizioni, battute", "labels": {"info": "settings"}}
+{"text": "buonasera, sono l'organizzatore della festa e il dj mi ha lasciato le chiavi della consolle, mi dici in breve quali comandi capisci?", "labels": {"info": "help"}}
+{"text": "buonasera Segueo, eccomi qui alla villa sul lago per il matrimonio di Giorgio e Beatrice, ho appena finito di montare tutto", "labels": {"talk": "hello"}}
+{"text": "ciao bello, sono di nuovo io, stasera siamo al Bar Centrale per il compleanno di Tommaso, trenta persone e tanta birra", "labels": {"talk": "hello"}}
+{"text": "grazie davvero Segueo, la sposa è venuta ad abbracciarmi in consolle e mi ha detto che è stata la serata più bella della sua vita", "labels": {"talk": "thanks"}}
+{"text": "complimenti per stasera, il gestore mi ha già prenotato per tutti i sabati di luglio e agosto, metà del merito è tuo", "labels": {"talk": "thanks"}}
+{"text": "mentre la gente balla, mi dici quanto costa più o meno un volo per Lisbona a fine ottobre? sto pensando a una vacanza", "labels": {"talk": "offtopic"}}
+{"text": "la festeggiata mi ha chiesto di aiutarla a scrivere un biglietto di ringraziamento per gli invitati, mi scrivi due righe carine?", "labels": {"talk": "offtopic"}}
+{"text": "buonasera, sono Lorenzo, faccio il dj ai matrimoni da quindici anni ma è la prima volta che lavoro con un'intelligenza artificiale, piacere", "labels": {"talk": "hello"}}
+{"text": "ottimo lavoro stasera, il proprietario del pub dice che non ha mai visto la gente ballare così tanto di giovedì sera, grazie", "labels": {"talk": "thanks"}}
+{"text": "ottima serata finora, il proprietario del pub dice che di giovedì sera di solito non viene nessuno e stasera invece è pieno", "labels": {}}
+{"text": "sai dirmi se la farmacia di turno qui a Rimini è aperta adesso? una ragazza si è fatta male al piede ballando con i tacchi", "labels": {"talk": "offtopic"}}
+{"text": "ehilà Segueo, ci risentiamo dopo la festa di sabato scorso, stasera siamo in un agriturismo per una cresima, cinquanta invitati", "labels": {"talk": "hello"}}
+{"text": "grazie mille per il mashup di prima, gli amici dello sposo l'hanno filmato e l'hanno già messo su instagram, sei stato grande", "labels": {"talk": "thanks"}}
+{"text": "la sposa vuole sapere come si scrive bene il nome Bénédicte, la cugina francese, per il cartellino del tavolo, mi aiuti?", "labels": {"talk": "offtopic"}}
+{"text": "il festeggiato è arrivato e ha portato la sua chiavetta con la playlist, ho caricato tutto in coda, fai partire e suona solo quella", "labels": {"mode": "queue", "control": "start"}}
+{"text": "io vado a cenare con lo staff per un'ora, tu nel frattempo scegli i pezzi da solo e accendi pure i mashup automatici se ti va", "labels": {"mode": "ai", "mashupOpt": "on"}}
+{"text": "la palestra vuole una playlist di musica per lo spinning di sabato mattina, quarantacinque minuti di elettronica, me la prepari?", "labels": {"set": "build", "genre": "include"}}
+{"text": "stasera faccio la chiusura al Kiss Kiss, ultime due ore della notte, preparami un set che sia tutto un banger dietro l'altro", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "per chiudere la serata i ragazzi vogliono la voce di Sunday Motion sopra la base di Weightless, fai il mashup e poi chiudi il set", "labels": {"mashup": "explicit", "control": "endAfterCurrent"}}
+{"text": "passa alla console che voglio sistemare un beatgrid, e già che ci sei metti Open Water in coda che la chiede la festeggiata", "labels": {"view": "console", "queue": "add"}}
+{"text": "ho finito di sistemare i cue point a mano, rimettimi la schermata dell'AI e da qui in poi i brani li scegli di nuovo tu", "labels": {"view": "ai", "mode": "ai"}}
+{"text": "cosa hai preparato dopo questo? perché la sposa vuole Estate e mi ha chiesto di farla partire subito, mettila come prossima", "labels": {"info": "next", "queue": "playNext"}}
+{"text": "dimmi un attimo cosa c'è in coda, poi svuotala, che il cliente mi ha appena detto che le richieste di prima non valgono più", "labels": {"info": "queue", "queue": "clear"}}
+{"text": "il proprietario è contento di come sta andando, prima di toccare qualcosa dimmi come sei impostato e intanto tieni questa energia", "labels": {"info": "settings", "strategy": "steady"}}
+{"text": "il proprietario è contento di come sta andando, mi ha detto che stasera ha fatto più coperti del sabato di Pasqua, roba da non crederci", "labels": {}}
+{"text": "perché hai alzato così tanto proprio mentre servivano il secondo? spiegamelo e intanto riporta l'energia su qualcosa di più calmo", "labels": {"info": "why", "strategy": "chill"}}
+{"text": "Salve, sono la madre del festeggiato e mio figlio mi ha lasciato qui a controllare la musica mentre fa le foto, cosa posso dirle di fare?", "labels": {"info": "help"}}
+{"text": "il circolo degli anziani fa la tombolata di Natale con un'ora di ballo dopo, preparami una scaletta di liscio e canzoni italiane anni sessanta", "labels": {"set": "build", "genre": "include"}}
+{"text": "il circolo degli anziani fa la tombolata di Natale con ricchi premi, il presidente mi ha chiesto di presentare io le estrazioni al microfono", "labels": {}}
+{"text": "i bambini della festa sono annoiati dalle solite canzoni, fammi un mashup buffo con due pezzi a caso, così si fanno una risata", "labels": {"mashup": "auto"}}
+{"text": "il cliente è un musicista e ha selezionato a mano ogni singolo brano della serata, per favore non scegliere niente di tuo, segui la sua coda", "labels": {"mode": "queue"}}
+{"text": "quelle richieste in coda erano dei ragazzi del pomeriggio che sono andati via, svuota tutto e torna a decidere tu i pezzi", "labels": {"mode": "ai", "queue": "clear"}}
+{"text": "il ragazzo del service vuole controllare i livelli dei due deck sullo schermo, mostragli la console per un minuto", "labels": {"view": "console"}}
+{"text": "sto pezzo è fortissimo, il barista mi chiede il titolo da dieci minuti e io non lo so, come si chiama e chi lo canta?", "labels": {"info": "now"}}
+{"text": "buongiorno, siamo al lido Bagno Delfino per la festa di inizio stagione, il sole è già alto e gli ombrelloni sono quasi tutti pieni", "labels": {"talk": "hello"}}
+{"text": "che serata ragazzi, il festeggiato si è commosso alla fine e mi ha stretto la mano, grazie Segueo, sei stato perfetto con i tempi", "labels": {"talk": "thanks"}}
+{"text": "il titolare mi chiede se conosci una buona agenzia per assumere un barista per l'estate, dice che quello di stasera è un disastro", "labels": {"talk": "offtopic"}}
+{"text": "la sposa vuole lanciare il bouquet esattamente sul cambio di canzone, quanto manca alla fine di questo pezzo?", "labels": {"info": "next"}}
+{"text": "il testimone giura di averti chiesto tre canzoni un'ora fa e vuole sapere se sono ancora in lista, cosa c'è in coda adesso?", "labels": {"info": "queue"}}
+{"text": "il bar sotto casa mi ha chiesto di fare la musica per la sua festa di compleanno venerdì, quaranta persone, mi fai una scaletta?", "labels": {"set": "build"}}
+{"text": "ho una serata reggaeton in un locale di Bologna giovedì, preparami un set di due ore di latin e reggaeton che cresce verso la fine", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "allora ti spiego la serata: alle otto aperitivo in giardino, alle nove e mezza cena seduti, torta verso le undici e mezza e poi si balla fino alle due", "labels": {}}
+{"text": "la sposa si chiama Federica, lo sposo Matteo, si sono conosciuti in Erasmus a Valencia e metà degli invitati sono amici spagnoli di quel periodo", "labels": {}}
+{"text": "il catering è in ritardo di quaranta minuti perché il furgone ha forato una gomma in autostrada, gli ospiti sono già tutti seduti con i bicchieri vuoti", "labels": {}}
+{"text": "ieri sera in questo locale c'era un dj che ha fatto solo tagli secchi tutta la notte e la gente se n'è andata prima dell'una, il gestore era nero", "labels": {}}
+{"text": "il proprietario mi ha raccontato che l'anno scorso qui hanno fatto una serata solo techno e i vicini hanno chiamato i carabinieri tre volte", "labels": {}}
+{"text": "la zia della sposa vorrebbe il liscio ma la sposa le ha già detto di no davanti a tutti, quindi immagino che non se ne parli più", "labels": {}}
+{"text": "più tardi magari ti chiedo di fare qualche mashup, ma adesso è presto, la gente sta ancora arrivando e non conosce nessuno", "labels": {}}
+{"text": "il buttafuori mi ha detto che fuori c'è una fila di almeno cento persone e che dentro siamo già al limite della capienza, pazzesco per un giovedì", "labels": {}}
+{"text": "qualcuno ha rovesciato uno spritz sul tavolo vicino alla consolle e adesso è tutto appiccicoso, per fortuna il portatile era dall'altra parte", "labels": {}}
+{"text": "la festeggiata compie quarant'anni ma ne dimostra venticinque, le amiche le hanno regalato un viaggio a New York e lei si è messa a piangere", "labels": {}}
+{"text": "il condizionatore della sala si è rotto e qui dentro ci saranno trentacinque gradi, la gente balla lo stesso ma sono tutti fradici", "labels": {}}
+{"text": "ho appena saputo che lo sposo da giovane faceva il dj nei villaggi turistici, chissà cosa pensa delle nostre scelte, spero bene", "labels": {}}
+{"text": "i ragazzi del tavolo otto mi hanno chiesto se possono collegare il loro telefono all'impianto, gli ho detto di no gentilmente", "labels": {}}
+{"text": "stasera la pista è più piccola del solito perché hanno messo i tavoli del buffet in mezzo alla sala, vedremo come si muove la gente", "labels": {}}
+{"text": "il mio collega Alessandro oggi doveva venire ad aiutarmi a montare ma ha avuto un contrattempo, quindi ho fatto tutto da solo dalle cinque", "labels": {}}
+{"text": "la gente al tavolo degli sposi sta guardando le foto del matrimonio dei genitori sul telefono e ride da dieci minuti, che bella atmosfera", "labels": {}}
+{"text": "domani mattina presto ho un'altra festa, una comunione a Bergamo, quindi stanotte cerco di non fare troppo tardi a smontare", "labels": {}}
+{"text": "il locale ha cambiato gestione da un mese e il nuovo proprietario non sa ancora bene che pubblico vuole, stasera è un po' un esperimento", "labels": {}}
+{"text": "il fotografo continua a mettersi davanti alla consolle con il flash e mi acceca, ma vabbè, è il suo lavoro e gli sposi lo pagano", "labels": {}}
+{"text": "la proprietaria del ristorante dice che la musica le piace molto e che le ricorda le serate di quando era giovane a Riccione", "labels": {}}
+{"text": "il fonico sta cercando un cavo xlr di riserva perché il microfono degli sposi gracchia, intanto io controllo i livelli dal mixer", "labels": {}}
+{"text": "stasera è il compleanno di Sara, ventisei anni, il fidanzato ha organizzato tutto di nascosto e lei ancora non sa niente, arriva alle dieci", "labels": {}}
+{"text": "Sara è appena entrata nel locale e tutti hanno urlato sorpresa, lei è rimasta pietrificata sulla porta con la borsa in mano, troppo bello", "labels": {}}
+{"text": "il catering ha portato dei mini burger buonissimi, ne ho mangiati quattro in consolle, stasera la dieta la rimando a lunedì", "labels": {}}
+{"text": "c'è un ragazzo che balla da solo davanti alla cassa da un'ora con gli occhi chiusi, non so cosa abbia preso ma è felicissimo", "labels": {}}
+{"text": "la sala è prenotata fino all'una, poi arrivano i ragazzi delle pulizie, ma il gestore ha detto che se la gente resta si può sforare un po'", "labels": {}}
+{"text": "i genitori della sposa sono separati e non si parlano, quindi ai tavoli li hanno messi ai due lati opposti della sala, che tensione", "labels": {}}
+{"text": "alle undici e mezza ci sono i fuochi d'artificio sul lago e tutti usciranno in terrazza a guardarli, mi hanno detto che durano un quarto d'ora", "labels": {}}
+{"text": "il gruppo dei colleghi di lavoro dello sposo è arrivato in ritardo perché ha sbagliato strada, la villa è in mezzo alle colline e non c'è campo", "labels": {}}
+{"text": "la festa di laurea è per tre ragazzi insieme, Andrea, Giulia e Nicolò, tutti in ingegneria, e i parenti sono almeno centoventi in totale", "labels": {}}
+{"text": "il proprietario del lido mi ha detto che se stasera va bene mi fa fare tutti i venerdì di agosto, quindi incrociamo le dita", "labels": {}}
+{"text": "sono un po' agitato perché è la prima volta che suono in un locale così grande, di solito faccio matrimoni da cento persone al massimo", "labels": {}}
+{"text": "la ragazza del guardaroba mi ha detto che ha già finito i numeretti, ha dovuto scrivere i numeri su dei post-it gialli", "labels": {}}
+{"text": "in sala ci sono due bambini che giocano a nascondino sotto i tavoli e uno si è nascosto proprio dietro le casse, l'ho fatto uscire", "labels": {}}
+{"text": "la gente della festa aziendale si sta lamentando del vino, dicono che è caldo, ma questo non è un problema mio per fortuna", "labels": {}}
+{"text": "sabato prossimo suono a un matrimonio in barca sul lago di Garda, sarà la prima volta su una barca, spero di non soffrire il mal di mare", "labels": {}}
+{"text": "il vento ha fatto cadere uno dei faretti del gazebo, per fortuna non c'era nessuno sotto, adesso lo stanno rimettendo a posto", "labels": {}}
+{"text": "la sposa si è cambiata d'abito e adesso indossa un vestito corto per ballare, gli ospiti hanno applaudito quando è rientrata in sala", "labels": {}}
+{"text": "il ragazzo dell'impianto luci sta provando una sequenza nuova sui led del soffitto e ogni tanto la sala diventa tutta viola", "labels": {}}
+{"text": "al bancone c'è un signore che sostiene di aver suonato con Gabry Ponte negli anni novanta, sarà vero? racconta un sacco di aneddoti", "labels": {}}
+{"text": "dentro siamo in ottanta ma fuori in giardino ce ne sono almeno altri cinquanta che fumano e chiacchierano, la serata è decollata", "labels": {}}
+{"text": "stasera abbiamo il pubblico più strano dell'anno: metà sono motociclisti con i giubbotti di pelle e metà sono signore del circolo del burraco", "labels": {}}
+{"text": "il festeggiato è il nonno, compie cento anni, ed è arrivato in sala camminando da solo col bastone, gli hanno fatto un applauso di cinque minuti", "labels": {}}
+{"text": "mi hanno appena detto che tra gli invitati c'è un giornalista di una rivista di musica, speriamo che scriva qualcosa di carino sulla serata", "labels": {}}
+{"text": "ho notato che quando metti pezzi italiani i tavoli dei cinquantenni cantano tutti, mentre i ragazzi vanno al bar, curioso questo pubblico", "labels": {}}
+{"text": "la luce stroboscopica si è bloccata accesa fissa e sembra una sala operatoria, il tecnico è salito sulla scala per sistemarla", "labels": {}}
+{"text": "Matteo, il testimone, ha perso la fede dello sposo nel prato e adesso sono in dieci con le torce dei telefoni a cercarla nell'erba", "labels": {}}
+{"text": "trovata la fede! era finita sotto un vaso di gerani vicino al gazebo, il testimone è diventato bianco come un lenzuolo, che spavento", "labels": {}}
+{"text": "questo pubblico è difficile da leggere, ballano su roba che non mi aspettavo e restano fermi sui pezzi che di solito spaccano", "labels": {}}
+{"text": "la cucina ha appena chiuso e i camerieri sono venuti a ballare anche loro, il capo sala ha detto che per stasera si può", "labels": {}}
+{"text": "la responsabile della villa mi ha detto che l'anno prossimo vuole rifare tutto il giardino e mettere una pista in legno sotto il pergolato", "labels": {}}
+{"text": "ho finito l'acqua e il bar è lontanissimo dalla consolle, devo aspettare che passi un cameriere, intanto la gola è secca", "labels": {}}
+{"text": "la mia ragazza è in sala e mi sta facendo foto da un'ora, dice che ha bisogno di contenuti per i suoi social, che pazienza", "labels": {}}
+{"text": "non so se più tardi avrò bisogno di cambiare qualcosa, per adesso la serata scorre bene e la gente sembra contenta, vediamo", "labels": {}}
+{"text": "il cugino della sposa sostiene che la musica era meglio al matrimonio di sua sorella, ma lì c'era una band dal vivo e costava il triplo", "labels": {}}
+{"text": "alle due arriva il furgone del service per smontare tutto, quindi verso l'una e mezza dovrò iniziare a staccare le luci del giardino", "labels": {}}
+{"text": "il locale ha appena ricevuto una recensione a una stella su internet perché la musica era troppo alta, il proprietario è furibondo", "labels": {}}
+{"text": "in pista ci sono due signori anziani che ballano il tango su qualsiasi cosa metti, anche sulla techno, sono diventati le star della serata", "labels": {}}
+{"text": "pensa che questa villa era di un conte dell'Ottocento e secondo la leggenda c'è anche un fantasma, il custode me l'ha raccontato prima", "labels": {}}
+{"text": "stasera il pubblico è quasi tutto inglese, è un matrimonio destination, e continuano a chiedere birra invece del prosecco", "labels": {}}
+{"text": "la torta nuziale è alta un metro e mezzo e hanno dovuto portarla in quattro, il pasticciere è arrivato da Napoli apposta", "labels": {}}
+{"text": "i bambini si sono addormentati sui divanetti della sala accanto con le coperte, le mamme li controllano ogni tanto dalla porta", "labels": {}}
+{"text": "la serata è organizzata per raccogliere fondi per il canile comunale, all'ingresso ci sono due volontari con i cagnolini da adottare", "labels": {}}
+{"text": "secondo me il pezzo di prima è stato il momento migliore della serata, tutta la sala cantava a squarciagola con le braccia alzate", "labels": {}}
+{"text": "il pubblico stasera è un po' freddo, ma è normale per un martedì sera in centro, di solito si sciolgono verso mezzanotte", "labels": {}}
+{"text": "qui è tutto pronto: casse accese, luci provate, microfono testato, il cliente arriva alle otto e mezza e gli ospiti verso le nove", "labels": {}}
+{"text": "il proprietario ha detto che forse più avanti ci chiederà di fare un'ora di musica italiana, ma deve ancora parlarne con sua moglie", "labels": {}}
+{"text": "il tizio con la camicia hawaiana continua a chiedermi del reggaeton ma non è un invitato, è entrato dalla spiaggia, lo ignoro", "labels": {}}
+{"text": "mi è appena arrivata la conferma per il capodanno al Palazzo dei Congressi, duemila persone, sarà la serata più grande della mia vita", "labels": {}}
+{"text": "la sposa voleva fare il lancio del bouquet alle undici ma la damigella è sparita, la stanno cercando in giardino da dieci minuti", "labels": {}}
+{"text": "il manager dell'hotel mi ha chiesto il preventivo per le serate in piscina di agosto, gliel'ho mandato stamattina per email", "labels": {}}
+{"text": "adesso c'è il momento delle foto di gruppo in giardino e la sala è vuota, la musica va avanti ma non c'è nessuno ad ascoltarla", "labels": {}}
+{"text": "la gente sta facendo il giro dei tavoli con i confetti e le bomboniere, è il momento in cui di solito nessuno balla, normale", "labels": {}}
+{"text": "il gestore dice che ad agosto arrivano soprattutto turisti tedeschi e che lì cambia tutto, ma per stasera nessuna indicazione particolare", "labels": {}}
+{"text": "ho appena controllato e il portatile è al novanta per cento di batteria, il cavo funziona e la scheda audio non dà problemi, tutto bene", "labels": {}}
+{"text": "il papà della sposa ha bevuto un po' troppo e sta facendo un discorso improvvisato al tavolo degli zii, la sposa è rossa dalla vergogna", "labels": {}}
+{"text": "la discoteca stasera ha messo i cubi nuovi con le luci a led sotto e le ragazze ci salgono a ballare a turno, bellissimo effetto", "labels": {}}
+{"text": "è iniziato a piovere forte proprio durante l'aperitivo in giardino e i camerieri stanno spostando tutto sotto il porticato di corsa", "labels": {}}
+{"text": "il gruppo di ragazzi del tavolo in fondo dice che i bassi gli fanno vibrare lo stomaco, ma sono felici, ridono come matti", "labels": {}}
+{"text": "la sposa mi ha confidato che la canzone che ha ballato con il papà è la stessa che sua madre ballò con il nonno quarant'anni fa", "labels": {}}
+{"text": "un signore è venuto a chiedermi se la musica la sceglie il computer da solo, gli ho spiegato come funziona ed è rimasto a bocca aperta", "labels": {}}
+{"text": "i vicini di casa del festeggiato sono stati invitati anche loro, così non si lamentano del rumore, una mossa furba", "labels": {}}
+{"text": "la proprietaria del bar dice che quando la musica è bella la gente beve di più, me lo ripete ogni sabato con un sorriso", "labels": {}}
+{"text": "il programma dice che dopo mezzanotte c'è il dj ospite, ma ancora non si è fatto vivo e il telefono è spento, speriamo arrivi", "labels": {}}
+{"text": "nessuna richiesta per ora, volevo solo dirti che sono tornato in consolle dopo aver mangiato e controllo io la situazione", "labels": {}}
+{"text": "il mio ex collega mi ha scritto che stasera suona nel locale qui di fronte, sarà una sfida a distanza, ahah", "labels": {}}
+{"text": "c'è un cane che continua a girare tra i tavoli, è del proprietario della villa, si chiama Brontolo ed è diventato la mascotte della festa", "labels": {}}
+{"text": "raga che caos stasera, è saltato il wifi, il pos del bar non funziona e la gente deve pagare in contanti, il gestore impazzisce", "labels": {}}
+{"text": "la festeggiata di ottant'anni ha ballato tre pezzi di fila senza mai sedersi, la nipote dice che fa zumba tre volte a settimana", "labels": {}}
+{"text": "il cameriere mi ha appena portato una fetta di torta in consolle, millefoglie con crema chantilly e fragole, che gentilezza", "labels": {}}
+{"text": "prima che inizi la serata voglio solo dirti che il cliente è molto esigente e controlla tutto, quindi oggi più attenzione del solito", "labels": {}}
+{"text": "gli sposi hanno chiesto che la serata finisca con il lancio delle lanterne in giardino, ma quello lo gestisce la wedding planner più tardi", "labels": {}}
+{"text": "allora ascolta, i nonni sono andati a dormire e restano solo i ragazzi, quindi puoi spingere di più, però la sposa ha detto niente reggaeton e niente mashup automatici", "labels": {"strategy": "rise", "genre": "exclude", "mashupOpt": "off"}}
+{"text": "questo pezzo è troppo violento per il momento della torta, cambialo subito, poi tieni l'energia bassa per un po' e fai entrare le canzoni sfumando", "labels": {"control": "mixNow", "strategy": "chill", "style": "fade", "temporary": "yes"}}
+{"text": "la sposa vuole solo musica italiana per il prossimo quarto d'ora, e come prima canzone ha chiesto Estate di Leo Marin, mettila subito dopo questa", "labels": {"genre": "include", "temporary": "yes", "queue": "playNext"}}
+{"text": "sono arrivati quelli dell'addio al celibato vestiti da puffi, una ventina, sono scatenati: solo pezzi pesanti, tagli secchi e cambi cortissimi, non farli respirare", "labels": {"strategy": "peak", "style": "cut", "bars": "short"}}
+{"text": "io stasera devo stare dietro al bancone perché manca un barista, quindi fai partire la musica, scegli tu i brani e vai pure con qualsiasi genere", "labels": {"mode": "ai", "genre": "clear", "control": "start"}}
+{"text": "il festeggiato sta facendo il discorso ai tavoli col bicchiere in mano, per qualche minuto tieni un sottofondo leggero e togli gli effetti live", "labels": {"strategy": "chill", "remix": "off", "temporary": "yes"}}
+{"text": "ok il gestore ha acceso le luci in sala e i camerieri stanno impilando le sedie, chiudi con questa canzone e falla uscire con un bell'eco", "labels": {"control": "endAfterCurrent", "style": "echo"}}
+{"text": "la pista adesso è perfetta, gente di tutte le età che balla, non toccare l'energia, però i passaggi falli più lunghi e con lo scambio dei bassi", "labels": {"strategy": "steady", "bars": "long", "style": "bassswap"}}
+{"text": "la tavolata dei ragazzi pugliesi sta chiedendo la pizzica da mezz'ora, mettine qualcuna ogni tanto e intanto alza un po' il ritmo che è ora", "labels": {"genre": "add", "strategy": "rise"}}
+{"text": "è la festa di fine anno dell'università, mille ragazzi sotto il palco: accendi i mashup in automatico, metti loop ed effetti sopra e dacci dentro al massimo", "labels": {"mashupOpt": "on", "remix": "on", "strategy": "peak"}}
+{"text": "il pezzo che hai preparato è di nuovo techno e la sala si è stufata, cambialo, e per una ventina di minuti lascia proprio stare la techno", "labels": {"control": "skip", "genre": "exclude", "temporary": "yes"}}
+{"text": "come si chiama questa canzone? la sposa la vuole sapere per il video del matrimonio, e poi mettimi Moonlight come prossima che l'ha chiesta il papà", "labels": {"info": "now", "queue": "playNext"}}
+{"text": "festa in spiaggia dal tramonto all'alba: voglio solo afro house, ma non sempre al massimo, fai salire e scendere l'energia così la gente regge", "labels": {"strategy": "wave", "genre": "include"}}
+{"text": "sono le sei, i primi clienti si siedono sotto gli ombrelloni con lo spritz, fai partire la musica con della lounge rilassata da aperitivo", "labels": {"control": "start", "strategy": "chill", "genre": "include"}}
+{"text": "la sposa sta facendo il giro dei tavoli con il velo in mano e tutti si commuovono, energia bassa e sfumature lunghissime, tipo sessantaquattro battute", "labels": {"style": "fade", "bars": "verylong", "strategy": "chill"}}
+{"text": "la cantante che fa il live sopra le basi dice che dopo il mix i pezzi restano accelerati, fai tornare il tempo originale e usa il filtro nei passaggi", "labels": {"returnTempo": "on", "style": "filter"}}
+{"text": "il proprietario della discoteca vuole una serata revival anni novanta come ai tempi d'oro, solo dance di quel periodo, cambi brevi alla Gabry Ponte", "labels": {"genre": "include", "bars": "short", "style": "model"}}
+{"text": "la coda di adesso non va bene per l'after, svuotala e preparami una scaletta di un'ora e mezza di minimal e deep tech", "labels": {"queue": "clear", "set": "build", "genre": "include"}}
+{"text": "il gestore si è convinto e ci lascia andare avanti fino alle quattro, quindi non chiudere, continua e tieni questa energia che va benissimo", "labels": {"control": "resume", "strategy": "steady"}}
+{"text": "gli invitati stanno finendo il dolce e qualcuno già si alza, fai salire l'energia piano piano con passaggi lunghi e filtrati, senza fretta", "labels": {"strategy": "rise", "bars": "long", "style": "filter"}}
+{"text": "sono le due e restano solo gli amici dello sposo, il fratello dice che di commerciale ne hanno sentito abbastanza: niente più commerciale e vai a tutta birra", "labels": {"genre": "exclude", "strategy": "peak"}}
+{"text": "la mamma della festeggiata ha preparato tutta la lista con le canzoni della sua giovinezza, suona solo quelle e fai passaggi dolci che è una signora anziana", "labels": {"mode": "queue", "style": "fade"}}
+{"text": "è arrivato il dj ospite da Ibiza e vuole attaccare subito a mano, ferma l'ai dj e passa alla console così gli lascio il posto", "labels": {"control": "stop", "view": "console"}}
+{"text": "ragazzi la gente è distrutta dopo il trenino, per i prossimi tre pezzi andiamo giù di giri con un po' di bossa nova, poi si riparte", "labels": {"strategy": "chill", "temporary": "yes", "genre": "include"}}
+{"text": "il festeggiato sta facendo segno di no con la testa su questo pezzo, cambialo subito e mettimi Paradise City come prossima che è la sua preferita", "labels": {"control": "mixNow", "queue": "playNext"}}
+{"text": "il bouquet è appena stato preso dalla cugina single e le amiche impazziscono, per cinque minuti solo bombe con tagli a raffica, poi torniamo normali", "labels": {"strategy": "peak", "temporary": "yes", "style": "rapid"}}
+{"text": "il cliente è un musicista classico e odia tutto ciò che è artificiale: niente effetti live, niente mashup automatici e i pezzi devono tornare alla loro velocità", "labels": {"remix": "off", "mashupOpt": "off", "returnTempo": "on"}}
+{"text": "prima di chiudere fammi vedere cosa c'è ancora in coda, che il gestore mi ha appena detto che possiamo restare, quindi non chiudere il set", "labels": {"info": "queue", "control": "resume"}}
+{"text": "stasera è una festa a tema disco anni settanta e la festeggiata è vestita come nei film, solo disco e funk, e mettimi in coda Sunday Motion per dopo", "labels": {"genre": "include", "queue": "add"}}
+{"text": "sono le undici, la gente comincia a carburare: alza l'energia, infila qualche pezzo latino ogni tanto per le ragazze spagnole e accorcia i mix", "labels": {"strategy": "rise", "genre": "add", "bars": "short"}}
+{"text": "allora io sono pronto, ho messo in coda tutte le richieste che gli sposi mi hanno mandato via email, fai partire e suona solo quelle", "labels": {"control": "start", "mode": "queue"}}
+{"text": "la sala gira benissimo, non salire e non scendere, resta su questo livello, e già che ci sei accendi i mashup automatici che qui piacciono", "labels": {"strategy": "steady", "mashupOpt": "on"}}
+{"text": "per i prossimi due pezzi fai tagli netti sul beat e alza un po' l'energia, sto provando a vedere se la pista risponde ai cambi secchi", "labels": {"style": "cut", "strategy": "rise", "temporary": "yes"}}
+{"text": "la lista che mi ha dato la festeggiata è tutta in ordine cronologico, mescolala prima di partire, poi avvia il set e suona solo la sua coda", "labels": {"queue": "shuffle", "mode": "queue", "control": "start"}}
+{"text": "stiamo chiudendo, il gestore vuole andare a casa: dopo questa canzone chiudi e svuota pure la coda che domani si ricomincia da capo", "labels": {"control": "endAfterCurrent", "queue": "clear"}}
+{"text": "è una festa di compleanno per bambini di sei anni con le mamme sedute ai tavoli, tienila tranquilla e niente musica con le parolacce, quindi niente rap", "labels": {"strategy": "chill", "genre": "exclude"}}
+{"text": "sono le cinque all'after nel bosco e restano solo i fedelissimi, solo techno, mixata come un dj techno vero, blend lunghissimi da sessantaquattro battute", "labels": {"style": "model-techno", "bars": "verylong", "genre": "include"}}
+{"text": "ma perché continui a mettere drum and bass se in sala ci sono solo cinquantenni? spiegamelo, e comunque da adesso tienila fuori del tutto", "labels": {"info": "why", "genre": "exclude"}}
+{"text": "il prossimo pezzo che hai scelto è troppo veloce per il ballo degli sposi, sostituiscilo e fai il passaggio con una sfumatura bella lunga", "labels": {"control": "skip", "style": "fade", "bars": "long"}}
+{"text": "mezzanotte, è il compleanno del festeggiato: per dieci minuti voglio solo i classici dance anni duemila a tutta potenza, poi torniamo come prima", "labels": {"strategy": "peak", "genre": "include", "temporary": "yes"}}
+{"text": "gli amici del festeggiato stanno per entrare travestiti e vogliono Neon Nights all'ingresso, mettila subito dopo e falla entrare con un taglio secco", "labels": {"queue": "playNext", "style": "cut"}}
+{"text": "per me da qui in poi ogni genere va benissimo, il pubblico è di tutte le età e balla su tutto, però tieni l'energia costante, niente sbalzi", "labels": {"genre": "clear", "strategy": "steady"}}
+{"text": "durante il discorso dei testimoni, per una decina di minuti, niente mashup automatici e tieni la musica tranquilla in sottofondo", "labels": {"mashupOpt": "off", "temporary": "yes", "strategy": "chill"}}
+{"text": "rimettimi la schermata dell'ai sul tablet e dimmi come sei impostato in questo momento, che il cliente vuole sapere cosa stai facendo", "labels": {"view": "ai", "info": "settings"}}
+{"text": "ciao Segueo, il cliente non mi ha dato indicazioni e io devo occuparmi delle luci, parti tu, scegli i pezzi e decidi tu come fare i passaggi", "labels": {"control": "start", "style": "auto", "mode": "ai"}}
+{"text": "ho appena visto entrare la squadra di rugby al completo, sono enormi e carichi, alza l'energia e metti in coda Electric Dreams che la chiedono sempre", "labels": {"strategy": "rise", "queue": "add"}}
+{"text": "è un pranzo di battesimo in giardino e la nonna ha chiesto canzoni italiane degli anni sessanta, quindi solo quelle, con passaggi morbidi e niente di movimentato", "labels": {"genre": "include", "style": "fade", "strategy": "chill"}}
+{"text": "per mezz'ora prova a fare onde di energia con loop ed effetti sopra i pezzi, il proprietario vuole vedere se la pista reagisce", "labels": {"remix": "on", "temporary": "yes", "strategy": "wave"}}
+{"text": "la pista si è svuotata di colpo con questo pezzo jazz, nessuno lo conosce, cambialo subito e passa al pop commerciale con più energia", "labels": {"control": "mixNow", "genre": "include", "strategy": "rise"}}
+{"text": "la festeggiata ha visto che in coda c'è Fuoco e dice che non è il momento con i nonni ancora a tavola, toglila e tieni l'energia bassa", "labels": {"queue": "remove", "strategy": "chill"}}
+{"text": "il cliente mi ha appena confermato la festa dei diciott'anni di Beatrice per sabato, mi prepari una scaletta di tre ore di pop e reggaeton in crescendo?", "labels": {"set": "build", "strategy": "rise", "genre": "include"}}
+{"text": "no aspetta, la gente è ancora in pista e la festeggiata piange di gioia, non chiudere il set e accendi anche i mashup automatici per l'ultima ora", "labels": {"control": "resume", "mashupOpt": "on"}}
+{"text": "è l'ora di punta al club, mille persone, il resident mi ha detto: cambi corti con bass swap e solo i pezzi più potenti fino alle quattro", "labels": {"bars": "short", "style": "bassswap", "strategy": "peak"}}
+{"text": "la cena aziendale è appena iniziata, ci sono i clienti giapponesi dell'azienda: musica calma, passaggi lunghi e soprattutto niente techno", "labels": {"strategy": "chill", "bars": "long", "genre": "exclude"}}
+{"text": "sono lo zio della sposa e devo sostituire il dj per mezz'ora, mi dici che richieste ti posso fare? ah, e spegni i mashup automatici che la sposa non li vuole", "labels": {"info": "help", "mashupOpt": "off"}}
+{"text": "ragazzi la festa è finita prima perché la sposa si è sentita male, spegni la musica e cancella tutta la coda, domani ti spiego", "labels": {"control": "stop", "queue": "clear"}}
+{"text": "per il momento delle lanterne in giardino, per un paio di pezzi, fai chiudere i brani con l'eco e passaggi lunghi, deve essere magico", "labels": {"style": "echo", "bars": "long", "temporary": "yes"}}
+{"text": "il proprietario vuole solo musica latina stasera perché è la serata caraibica, i brani scegli tu, l'importante è che siano tutti latini", "labels": {"genre": "include", "mode": "ai"}}
+{"text": "il club ha aperto le porte, la fila arriva fino alla piazza e le prime cento persone sono già davanti alla consolle, parti subito forte", "labels": {"strategy": "peak", "control": "start"}}
+{"text": "la serata è techno con dj ospiti tutti allineati sui 132 bpm, quindi resta sul tempo del mix, passaggi lunghi e stile techno per tutta la notte", "labels": {"returnTempo": "off", "bars": "long", "style": "model-techno"}}
+{"text": "il pezzo che hai in canna è un reggaeton e la sposa lo odia, mettimi al suo posto Golden Hour e niente più reggaeton fino alla fine", "labels": {"control": "skip", "queue": "playNext", "genre": "exclude"}}
+{"text": "la festa di compleanno sta finendo, i genitori stanno portando a casa i bambini addormentati, calma l'energia e dopo questo brano chiudi pure", "labels": {"strategy": "chill", "control": "endAfterCurrent"}}
+{"text": "che pezzo hai preparato per dopo? il festeggiato e i suoi amici stanno tornando in pista dopo la torta, quindi da adesso fai salire l'energia", "labels": {"info": "next", "strategy": "rise"}}
+{"text": "la sposa è fissata con gli anni ottanta, aggiungi qualche pezzo di quel periodo qua e là e mettimi in coda anche Northern Lights per dopo la torta", "labels": {"genre": "add", "queue": "add"}}
+{"text": "per il countdown di capodanno voglio qualcosa di speciale: fai un mashup a sorpresa scelto da te e poi da mezzanotte in poi solo bombe", "labels": {"mashup": "auto", "strategy": "peak"}}
+{"text": "il cliente dice che le transizioni lunghe lo innervosiscono perché non capisce quando cambia canzone, falle più corte però sempre morbide", "labels": {"bars": "short", "style": "fade"}}
+{"text": "il festeggiato vuole chiudere con Mare Blu, mettila in coda come ultima, e finito questo brano chiudiamo il set per davvero", "labels": {"queue": "add", "control": "endAfterCurrent"}}
+{"text": "la festa in piscina dura fino a notte: fai alti e bassi di energia, usa il filtro nei passaggi e ogni tanto mettici anche della nu disco", "labels": {"strategy": "wave", "style": "filter", "genre": "add"}}
+{"text": "la cover band ha finito e adesso tocca a te, fai ripartire la musica e ricordati di riportare i pezzi al loro bpm originale dopo ogni mix", "labels": {"control": "start", "returnTempo": "on"}}
+{"text": "per il matrimonio di mia sorella in collina mi serve una playlist per la cena, tranquilla e senza musica elettronica, me la prepari?", "labels": {"set": "build", "genre": "exclude", "strategy": "chill"}}
+{"text": "ma questo pezzo cos'è? sembra afro house e in sala lo stanno ballando tutti, come si chiama? mettine qualcun altro così ogni tanto", "labels": {"info": "now", "genre": "add"}}
+{"text": "il pezzo è piaciuto ma sta andando avanti da sette minuti e la pista comincia a sedersi, passa subito al prossimo e chiudi questo con un eco", "labels": {"control": "mixNow", "style": "echo"}}
+{"text": "dopo mezzanotte il gestore vuole hardstyle per i ragazzi dell'hardstyle club che sono arrivati in pullman, energia al massimo e tagli secchi", "labels": {"genre": "include", "strategy": "peak", "style": "cut"}}
+{"text": "ho riempito la coda con i classici della serata ma sono tutti in ordine di anno, mescolali e tieni l'energia così come adesso", "labels": {"queue": "shuffle", "strategy": "steady"}}
+{"text": "apri la console che voglio vedere a che punto è il pezzo, e già che ci sei passa subito al prossimo che questo non lo balla nessuno", "labels": {"view": "console", "control": "mixNow"}}
+{"text": "per la prossima mezz'ora prova a far salire l'energia e accendi i mashup automatici, è il momento in cui la sala si riempie di più", "labels": {"strategy": "rise", "mashupOpt": "on", "temporary": "yes"}}
+{"text": "perché hai messo un lento proprio adesso che la pista era piena? la gente se ne sta andando, cambialo subito per favore", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "i proprietari dell'agriturismo hanno ospiti in camera al piano di sopra e chiedono di evitare la techno e la house con troppa cassa, e fai cambi morbidi", "labels": {"genre": "exclude", "style": "fade"}}
+{"text": "ok gli sposi hanno fatto l'ingresso in sala e la cena è finita, fai partire la festa con la dance commerciale e poi sali piano piano", "labels": {"control": "start", "strategy": "rise", "genre": "include"}}
+{"text": "vado a salutare i parenti al tavolo degli sposi per un quarto d'ora, nel frattempo scegli tu i pezzi e tieni l'energia così com'è", "labels": {"mode": "ai", "temporary": "yes", "strategy": "steady"}}
+{"text": "raga nn so cosa sia successo ma e entrato un gruppo di trenta ragazze per un compleanno e sn tutte in pista, adesso si puo spingere tranquillamente", "labels": {"strategy": "rise"}}
+{"text": "il gestore mi ha appena girato il messaggio della signora del terzo piano, è la quarta volta che chiama, quindi meno cassa e roba più tranquilla per favore", "labels": {"strategy": "chill"}}
+{"text": "cmq il buttafuori dice che tra dieci minuti devono uscire tutti xké scade il permesso, quindi finisci sto pezzo e basta cosi", "labels": {"control": "endAfterCurrent"}}
+{"text": "la festeggiata compie settanta anni e le sue amiche del coro vogliono cantare, per una ventina di minuti solo canzoni italiane classiche, quelle di Sanremo", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "ADESSO è il momento, il festeggiato ha appena aperto il regalo ed era il biglietto per la finale di champions, la sala è esplosa, sparaci i pezzi più forti", "labels": {"strategy": "peak"}}
+{"text": "Gentile Segueo, Le chiedo di interrompere la musica: sta per iniziare la consegna delle borse di studio e il rettore desidera il silenzio in aula magna", "labels": {"control": "stop"}}
+{"text": "la coppia di sposi ha chiesto un'atmosfera da film romantico per il momento del lancio delle lanterne, quindi energia giù e passaggi sfumati", "labels": {"strategy": "chill", "style": "fade"}}
+{"text": "la ragazza bionda che balla vicino alla cassa mi ha chiesto il titolo di questa canzone per la terza volta, come si chiama sto pezzo?", "labels": {"info": "now"}}
+{"text": "allora la sorella della sposa ha preparato un video a sorpresa con sotto Low Tide, il proiettore è pronto, mettila come prossimo brano dopo questo", "labels": {"queue": "playNext"}}
+{"text": "il papà della sposa è un fonico in pensione e ogni volta che sente due canzoni sovrapposte fa una smorfia, spegni i mashup in automatico per il suo bene", "labels": {"mashupOpt": "off"}}
+{"text": "il tastierista della band si è lamentato che dopo i tuoi mix le canzoni restano su un tempo diverso e lui non riesce a suonarci sopra, riporta tutto al bpm originale", "labels": {"returnTempo": "on"}}
+{"text": "il cliente ha detto che i cambi che fai sono troppo frettolosi, sembrano un telecomando che salta da un canale all'altro, dagli più respiro", "labels": {"bars": "long"}}
+{"text": "stasera il resident mi ha chiesto di usare il filtro in tutti i passaggi perché dice che è il marchio di fabbrica del locale, fallo anche tu", "labels": {"style": "filter"}}
+{"text": "la sorella dello sposo ha visto il titolo del prossimo brano sul tablet e mi ha detto che è la canzone che odia di più al mondo, cambiamola", "labels": {"control": "skip"}}
+{"text": "il direttore dell'hotel sta facendo un brindisi con gli ospiti vip al bordo piscina, per una decina di minuti resta così come sei, non cambiare energia", "labels": {"strategy": "steady", "temporary": "yes"}}
+{"text": "ok la sposa mi ha appena mandato un vocale di due minuti, in sintesi: niente musica neomelodica stasera, perché la suocera la mette sempre a casa", "labels": {"genre": "exclude"}}
+{"text": "i ragazzi del gruppo scout hanno finito di montare le tende e vogliono fare festa intorno al fuoco, avvia la musica e porta su l'energia gradualmente", "labels": {"strategy": "rise", "control": "start"}}
+{"text": "i ragazzi del gruppo scout hanno finito di montare le tende e adesso cucinano le salsicce sulla brace, la festa vera inizia tra un'ora", "labels": {}}
+{"text": "la festeggiata mi ha detto di fidarmi di te, che lei non ha preferenze e vuole solo divertirsi, quindi stasera decidi tu i brani da mettere", "labels": {"mode": "ai"}}
+{"text": "mio cugino Emanuele ha preparato la playlist per la sua festa di laurea da mesi, ci tiene tantissimo, quindi niente scelte tue, solo la sua coda", "labels": {"mode": "queue"}}
+{"text": "dimentica quello che ti ho detto cinque minuti fa sulla chiusura, il festeggiato ha appena pagato un'altra ora al locale, quindi si continua", "labels": {"control": "resume"}}
+{"text": "per i prossimi venti minuti prova ad alternare un pezzo carico e uno più rilassato, voglio capire se questo pubblico regge i cambi di ritmo", "labels": {"strategy": "wave", "temporary": "yes"}}
+{"text": "i ragazzi della festa di terza media sono abituati a sentire solo i ritornelli sui social, quindi stasera spezzoni corti uno dopo l'altro, a raffica", "labels": {"style": "rapid"}}
+{"text": "sono il dj della festa di fine anno della scuola elementare, giovedì pomeriggio in cortile, mi servirebbe una scaletta adatta ai bambini, me la prepari?", "labels": {"set": "build"}}
+{"text": "il dj resident sta arrivando per darmi il cambio e mi chiede un riepilogo veloce di come ti ho impostato, me lo dici così glielo giro?", "labels": {"info": "settings"}}
+{"text": "Buonasera, sono la direttrice della scuola di ballo e il ragazzo che si occupava della musica è andato via, quali richieste posso farle?", "labels": {"info": "help"}}
+{"text": "eccomi di nuovo Segueo, sono Serena, stasera festa privata in un loft a Milano, sessanta invitati, tutti amici del festeggiato dal liceo", "labels": {"talk": "hello"}}
+{"text": "grazie infinite, la festeggiata è venuta in consolle a dirmi che ha ballato tutta la sera senza mai sedersi, e ha settantacinque anni", "labels": {"talk": "thanks"}}
+{"text": "aiutoooo il pezzo che sta andando ha una parola che in dialetto qui significa una cosa bruttissima e i nonni ridono imbarazzati, vai subito al prossimo", "labels": {"control": "mixNow"}}
+{"text": "il festeggiato ha detto che Paradise City gliela mettono in tutte le feste e non ne può più, cancellala dalla coda prima che parta", "labels": {"queue": "remove"}}
+{"text": "la signora del tavolo quattro, quella col cappello, ha chiesto Afterglow per ballarla col marito, accodala per quando c'è un momento più tranquillo", "labels": {"queue": "add"}}
+{"text": "le richieste in coda le aveva messe il dj di prima per il suo pubblico, ma adesso la sala è cambiata del tutto, eliminale tutte", "labels": {"queue": "clear"}}
+{"text": "la sposa ha detto che dopo la torta non ci sono più regole, ognuno balla quello che vuole, quindi togli tutte le limitazioni sui generi", "labels": {"genre": "clear"}}
+{"text": "i colleghi del festeggiato sono quasi tutti fan del rock, buttaci dentro anche qualche pezzo rock ogni tanto in mezzo alla dance", "labels": {"genre": "add"}}
+{"text": "il fratello della sposa ha un'idea folle per il brindisi: la voce di Electric Dreams sopra la base di Summer Rain, dice che sarà epico, facciamolo", "labels": {"mashup": "explicit"}}
+{"text": "la gente ha ballato tutta la sera e adesso vuole una sorpresa, il festeggiato mi ha detto testualmente fai qualcosa di strano, quindi un bel mashup a caso", "labels": {"mashup": "auto"}}
+{"text": "il socio del locale è curioso di vedere come lavora l'intelligenza artificiale, rimetti la schermata dell'ai che gli faccio vedere le scelte", "labels": {"view": "ai"}}
+{"text": "il tecnico dice che uno dei deck segna un bpm sbagliato e vuole controllare le forme d'onda, mostrami la console con i due deck", "labels": {"view": "console"}}
+{"text": "i ballerini di hip hop che fanno lo show alle undici hanno bisogno di stacchi secchi sul beat, niente sfumature, me l'hanno chiesto il coreografo e il manager", "labels": {"style": "cut"}}
+{"text": "il fonico continua a lamentarsi dei bassi che si sommano nei cambi, fai lo scambio con l'equalizzatore e tieni i passaggi corti", "labels": {"style": "bassswap", "bars": "short"}}
+{"text": "il festeggiato fa il produttore e gli piacerebbe sentire i pezzi rielaborati in diretta con loop ed effetti, accendi pure il remix live", "labels": {"remix": "on"}}
+{"text": "la wedding planner si è lamentata degli effetti che metti sopra il pezzo del primo ballo, dice che non si capisce più la canzone, spegni il remix live", "labels": {"remix": "off"}}
+{"text": "gli invitati sono quasi tutti di Torino e dintorni, cresciuti a pane e dance anni novanta, fai i cambi come faceva Gabry Ponte e li vedi impazzire", "labels": {"style": "model"}}
+{"text": "il proprietario dice che a quest'ora il suo pubblico vuole sentire passaggi da club berlinese, quindi mixa in stile techno, lungo e ipnotico", "labels": {"style": "model-techno"}}
+{"text": "il cliente mi ha detto che dei passaggi non gli interessa nulla, vuole solo che la gente balli, quindi lo stile delle transizioni decidilo tu", "labels": {"style": "auto"}}
+{"text": "è la sessione di yoga al tramonto sulla terrazza dell'hotel e l'istruttrice vuole che i brani cambino senza che nessuno se ne accorga, passaggi lunghissimi", "labels": {"bars": "verylong"}}
+{"text": "la ballerina di pole dance sta facendo il numero sulla stessa velocità da cinque minuti, se riporti il pezzo al suo tempo originale si sbilancia, resta sul nuovo", "labels": {"returnTempo": "off"}}
+{"text": "il proprietario dice che lunedì sera il pubblico è solo di habitué che chiacchierano al bancone, quindi musica rilassata, magari del jazz e della bossa nova", "labels": {"strategy": "chill", "genre": "include"}}
+{"text": "ho visto il festeggiato che si stava annoiando e faceva le smorfie agli amici, prova a far salire l'energia e usa il filtro per far entrare i pezzi", "labels": {"strategy": "rise", "style": "filter"}}
+{"text": "il prete ha finito la benedizione della nuova sede e il presidente dell'associazione mi ha detto che si può cominciare con la musica, fai partire", "labels": {"control": "start"}}
+{"text": "arrivano le pizze per i bambini e la mamma del festeggiato vuole fare l'annuncio al microfono senza musica, ferma un attimo l'ai dj", "labels": {"control": "stop"}}
+{"text": "la proprietaria del bed and breakfast dice che i suoi ospiti devono dormire, quindi questa è l'ultima canzone della serata, poi chiudi tutto", "labels": {"control": "endAfterCurrent"}}
+{"text": "il circolo bocciofila ha organizzato la serata danzante e il presidente vuole solo liscio e balli di coppia, ritmo costante, niente stravaganze", "labels": {"genre": "include", "strategy": "steady"}}
+{"text": "il circolo bocciofila ha organizzato la serata danzante con la lotteria di beneficenza, il primo premio è un prosciutto intero, tutti lo vogliono", "labels": {}}
+{"text": "Davide sta per fare la proposta di matrimonio sul palco e vuole Golden Hour, mettila subito dopo questa e poi dopo il sì vai con i pezzi più carichi", "labels": {"queue": "playNext", "strategy": "peak"}}
+{"text": "la sposa e lo sposo stanno ballando da soli al centro della pista per il primo ballo, per un paio di pezzi niente effetti live e solo roba lenta", "labels": {"strategy": "chill", "temporary": "yes", "remix": "off"}}
+{"text": "il prossimo brano che hai in canna è troppo pesante per i parenti che sono appena tornati dal giardino, cambialo e tieni l'energia più morbida", "labels": {"control": "skip", "strategy": "chill"}}
+{"text": "il ristoratore ha clienti molto eleganti stasera e mi ha chiesto di evitare reggaeton e trap, e di far scivolare i brani lentamente uno nell'altro", "labels": {"genre": "exclude", "bars": "long"}}
+{"text": "il cameraman vuole riprendere il momento del cambio di canzone per il video della festa, mi dici quando arriva il prossimo passaggio?", "labels": {"info": "next"}}
+{"text": "il festeggiato mi ha chiesto come mai hai messo tre pezzi dello stesso artista di fila, a me sembra un caso ma spiegami il motivo", "labels": {"info": "why"}}
+{"text": "la cugina della sposa mi ha chiesto se la sua richiesta di prima è ancora in lista, ci sono tre canzoni sue, me la elenchi la coda?", "labels": {"info": "queue"}}
+{"text": "siamo alla festa di fine maturità sulla spiaggia e i ragazzi si sono messi a saltare tutti insieme, raffica di pezzi corti e solo roba potentissima", "labels": {"strategy": "peak", "style": "rapid"}}
+{"text": "allora è arrivato il resto della comitiva dal ristorante, si può alzare il tiro, ma il festeggiato dice che la musica house gli fa venire il mal di testa, quindi niente house", "labels": {"strategy": "rise", "genre": "exclude"}}
+{"text": "il batterista della band che suona dopo ci ha chiesto di cambiare canzone perché questa la fanno anche loro dal vivo e non vogliono sembrare una copia", "labels": {"control": "mixNow"}}
+{"text": "il batterista della band che suona dopo di noi è un vecchio amico, abbiamo suonato insieme in un gruppo punk quindici anni fa, che ricordi", "labels": {}}
+{"text": "la sposa vuole che dopo la torta si passi alla musica anni duemila per tutta la notte, e ha chiesto anche Night Drive, aggiungila in coda", "labels": {"genre": "include", "queue": "add"}}
+{"text": "mi hanno chiamato per suonare all'apertura della nuova farmacia in centro domattina, due ore di sottofondo, mi prepari una scaletta tranquilla?", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "gli amici della festeggiata hanno visto i mashup su tiktok e li vogliono anche qui, accendi quelli automatici e intanto tira su un po' la serata", "labels": {"mashupOpt": "on", "strategy": "rise"}}
+{"text": "il coro gospel canta sopra le basi dopo la cena e le voci devono essere intonate, quindi tempo originale dopo ogni mix e passaggi più lunghi", "labels": {"returnTempo": "on", "bars": "long"}}
+{"text": "sta finendo la serata in riva al lago e la gente si sta godendo il silenzio della notte, fai scendere l'energia e chiudi i pezzi con l'eco", "labels": {"style": "echo", "strategy": "chill"}}
+{"text": "le porte dell'evento aziendale sono aperte e la gente entra a gruppetti, fai partire la musica e fai salire e scendere l'energia durante la serata", "labels": {"control": "start", "strategy": "wave"}}
+{"text": "non chiudere più il set, gli sposi sono ancora seduti con gli amici più stretti a chiacchierare, vai avanti ma con musica tranquilla", "labels": {"control": "resume", "strategy": "chill"}}
+{"text": "il mio collega vuole vedere come fai i tagli e controllare i deck, passa alla console e intanto fai i cambi con stacchi netti sul beat", "labels": {"view": "console", "style": "cut"}}
+{"text": "ciao sono il fratello del festeggiato e non ci capisco niente, mi spieghi che cosa ti si può chiedere? intanto tieni l'energia uguale che va bene così", "labels": {"info": "help", "strategy": "steady"}}
+{"text": "la lista delle richieste degli invitati è tutta di pop italiano all'inizio e tutta di dance alla fine, mischiala che sembra una compilation", "labels": {"queue": "shuffle"}}
+{"text": "i ragazzi della squadra di basket sono appena arrivati dalla partita vinta, sono carichissimi, si può spingere e accorcia anche i passaggi", "labels": {"strategy": "rise", "bars": "short"}}
+{"text": "lo chef ha appena servito il piatto forte e il titolare vuole che i clienti si godano la cena, quindi abbassa un po' i toni per adesso", "labels": {"strategy": "chill"}}
+{"text": "lo chef ha appena servito il piatto forte, branzino in crosta di sale, e gli ospiti stanno facendo le foto al piatto prima di mangiarlo", "labels": {}}
+{"text": "stasera è la serata country del ranch, ci sono cappelli da cowboy e balli in fila, il proprietario vuole solo musica country fino alla chiusura", "labels": {"genre": "include"}}
+{"text": "per una mezz'ora lascia stare la musica elettronica, sono arrivati i nonni della sposa e si sono seduti proprio vicino alle casse", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "gli sposi hanno una richiesta speciale per l'ingresso in sala: la voce di Mare Blu sopra lo strumentale di Open Water, preparalo per quando entrano adesso", "labels": {"mashup": "explicit"}}
+{"text": "è l'una passata e la festa di compleanno sta finendo, tienila calma, fai un'ultima sfumatura morbida e con questo brano chiudi la serata", "labels": {"control": "endAfterCurrent", "strategy": "chill", "style": "fade"}}
+{"text": "il dj ospite ha lasciato la consolle con la pista in fiamme e adesso tocca a te tenerla così o anche di più, voglio solo i pezzi più potenti", "labels": {"strategy": "peak"}}
+{"text": "i ragazzi ballano da un'ora senza fermarsi e il bar lavora tantissimo, mantieni questo livello e ogni tanto infila anche un pezzo di house", "labels": {"strategy": "steady", "genre": "add"}}
+{"text": "la signora che festeggia gli ottant'anni ha l'apparecchio acustico e gli effetti la disturbano, togli il remix live e fai passaggi morbidi e lunghi", "labels": {"style": "fade", "bars": "long", "remix": "off"}}
+{"text": "il testimone mi ha chiesto Weightless per dopo, mettila in coda, e per il resto della serata fai un po' su e giù così la gente si riposa ogni tanto", "labels": {"queue": "add", "strategy": "wave"}}
+{"text": "allora ti faccio il punto: sono le nove e mezza, gli invitati sono tutti seduti per la cena, ci sono tanti bambini e gli anziani della famiglia dello sposo, la sposa mi ha detto che fino al taglio della torta vuole musica italiana e niente di troppo movimentato, quindi tienila tranquilla", "labels": {"strategy": "chill", "genre": "include"}}
+{"text": "ok aggiornamento: la cena è finita, i nonni sono andati via con il primo taxi, è arrivata la comitiva degli amici dell'università che erano a un altro matrimonio e sono già belli carichi, quindi direi che puoi alzare l'energia, fare i cambi più corti e accendere pure i mashup automatici", "labels": {"strategy": "rise", "bars": "short", "mashupOpt": "on"}}
+{"text": "ascolta, il proprietario della villa è appena venuto a dirmi che i vicini hanno chiamato i vigili e che entro dieci minuti la musica deve essere spenta, quindi lasciamo finire questo pezzo che la sposa lo sta ballando e poi chiudi il set, e svuota pure la coda", "labels": {"control": "endAfterCurrent", "queue": "clear"}}
+{"text": "ti racconto com'è andata la serata finora: la cerimonia è durata più del previsto, il catering ha servito l'antipasto con mezz'ora di ritardo, la torta è arrivata storta e l'hanno raddrizzata in cucina, però gli sposi sono felicissimi e la gente non vede l'ora di ballare dopo il dolce", "labels": {}}
+{"text": "Buonasera, sono Elena, l'organizzatrice della serata aziendale: il nostro amministratore delegato ha chiesto espressamente di evitare reggaeton e trap, di mantenere un'energia costante senza picchi e di non usare effetti sopra i brani, perché ci saranno anche dei clienti stranieri molto formali", "labels": {"genre": "exclude", "strategy": "steady", "remix": "off"}}
+{"text": "è appena arrivato il momento che aspettavano tutti, il festeggiato ha spento le candeline e i suoi amici del calcetto lo stanno portando in trionfo per la sala, per i prossimi cinque minuti voglio solo bombe e cambi a raffica tipo LUM!X, poi torniamo come prima", "labels": {"strategy": "peak", "style": "rapid", "temporary": "yes"}}
+{"text": "allora la sposa mi ha appena mandato la testimone in consolle tutta agitata: questa canzone era quella del primo appuntamento con l'ex, va tolta subito, e come prossima mettiamo Sunday Motion che è la canzone loro, quella del viaggio di nozze", "labels": {"control": "mixNow", "queue": "playNext"}}
+{"text": "il gestore mi ha chiesto come va la serata e gli ho detto che secondo me la pista sta rispondendo bene, la gente ha iniziato a ballare verso le undici, il bar sta lavorando tanto e nessuno si è lamentato del volume, quindi per ora va tutto liscio e possiamo stare tranquilli", "labels": {}}
+{"text": "devo scappare in cucina a controllare il catering perché c'è stato un problema con le teglie, starò via una mezz'oretta, quindi fai partire tu la musica adesso, scegli i pezzi dalla libreria come preferisci e porta su l'energia piano piano che dopo il dolce si comincia a ballare", "labels": {"mode": "ai", "control": "start", "strategy": "rise"}}
+{"text": "siamo alla fine della festa in riva al lago, sono rimasti gli amici più stretti seduti sul pontile con le coperte e le birre, qualcuno suona la chitarra, quindi fai scendere l'energia piano, sfuma i brani uno nell'altro con passaggi lunghissimi e non fare niente di brusco", "labels": {"style": "fade", "bars": "verylong", "strategy": "chill"}}
+{"text": "prima di chiudere fammi un favore: dimmi cosa c'è ancora in coda, togli Parallel che la festeggiata ha detto che non vuole sentirla, e soprattutto non chiudere il set, perché il padre della festeggiata ha appena pagato al locale un'altra ora di musica e la gente è ancora tutta in pista", "labels": {"info": "queue", "queue": "remove", "control": "resume"}}
+{"text": "allora la serata a tema anni novanta sta andando alla grande, il proprietario si è messo pure il bomber e gli occhiali da sole, vuole sentire solo pezzi di quegli anni, con l'energia che sale e scende per non stancare la gente e i passaggi tipici della dance alla Gabry Ponte", "labels": {"genre": "include", "strategy": "wave", "style": "model"}}
+{"text": "tra poco parte la proiezione delle foto degli sposi da piccoli sul telo bianco in giardino, la wedding planner mi ha detto che durerà una decina di minuti, quindi per quel tempo tieni la musica bassa di energia e spegni i mashup automatici, così le foto si godono in tranquillità", "labels": {"strategy": "chill", "temporary": "yes", "mashupOpt": "off"}}
+{"text": "ti avviso per tempo: verso mezzanotte e mezza gli sposi faranno il taglio della torta in giardino, poi ci saranno i fuochi d'artificio sul lago e infine il lancio del bouquet, la wedding planner mi darà i segnali uno per uno quando sarà il momento giusto", "labels": {}}
+{"text": "i ragazzi del torneo di beach volley sono arrivati direttamente dalla spiaggia con la coppa, sono sudati e felici, si può alzare decisamente il tiro, infila anche un po' di reggaeton qua e là che lo adorano, e dopo i mix resta sul nuovo bpm che così la pista non si ferma mai", "labels": {"strategy": "rise", "genre": "add", "returnTempo": "off"}}
+{"text": "è arrivato il resident del locale, Gianni, che fa la chiusura ogni sabato da dieci anni e vuole mettere i suoi vinili, quindi ferma pure l'ai dj adesso e passami la schermata della console, così controllo che i livelli siano a posto prima che attacchi lui", "labels": {"control": "stop", "view": "console"}}
+{"text": "sabato prossimo faccio il dj alla festa dei quarant'anni di mia cugina Valentina in una cascina vicino a Pavia, saranno un centinaio di persone tra i trenta e i cinquanta, lei adora il pop e la dance anni duemila, mi prepari una scaletta di tre ore che cresca piano piano?", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "il cliente mi ha fermato un attimo fa e mi ha chiesto perché fai dei cambi così bruschi durante la cena, io non ho saputo rispondere, spiegami il motivo e comunque da adesso falli più morbidi e più lunghi, che la gente sta mangiando e parla ai tavoli", "labels": {"info": "why", "style": "fade", "bars": "long"}}
+{"text": "gli amici dello sposo hanno organizzato un flash mob a sorpresa e mi hanno appena fatto il segnale dal fondo della sala, mettimi subito dopo questo pezzo Paradise City, entra con un taglio secco e da lì in poi solo pezzi carichissimi fino alla fine della coreografia", "labels": {"queue": "playNext", "strategy": "peak", "style": "cut"}}
+{"text": "la festeggiata mi ha detto una cosa bellissima: che stasera non vuole regole, si balla di tutto, dal liscio alla techno, quindi togli tutti i filtri sui generi, tieni un'energia stabile senza troppi picchi e accendi i mashup automatici che la fanno ridere tantissimo", "labels": {"genre": "clear", "strategy": "steady", "mashupOpt": "on"}}
+{"text": "volevo solo dirti che la sposa è venuta poco fa a ringraziarmi per la musica dell'aperitivo, poi però ha aggiunto che la zia si è lamentata perché secondo lei era troppo moderna, ma la sposa ha detto di non darle retta, quindi nessun problema", "labels": {}}
+{"text": "ho visto che come prossimo pezzo hai messo una ballata lentissima, ma sono appena arrivati i ragazzi del gruppo folk dalla sagra qui vicino e vogliono ballare, quindi cambia quello che hai preparato e per i prossimi tre pezzi metti solo musica popolare e tarantelle", "labels": {"control": "skip", "genre": "include", "temporary": "yes"}}
+{"text": "è mezzanotte passata e la festa si sta trasformando in una chiacchierata tra amici sul divano, la proprietaria del loft ha detto che i vicini dormono, quindi musica tranquilla, niente loop o effetti sopra i pezzi e passaggi lunghi che non si notino", "labels": {"strategy": "chill", "remix": "off", "bars": "long"}}
+{"text": "il dj che doveva darmi il cambio ha chiamato per dire che arriva con un'ora di ritardo perché è rimasto bloccato in autostrada, quindi non chiudere il set come ti avevo detto e intanto fammi un riepilogo di come sei impostato, così glielo mando per messaggio", "labels": {"info": "settings", "control": "resume"}}
+{"text": "la sala è finalmente piena, i ragazzi della festa di laurea sono tornati dalle foto in centro e vogliono ballare, quindi possiamo cominciare a salire, però niente techno perché al festeggiato non piace, e nei passaggi scambia i bassi che con questo impianto suona meglio", "labels": {"strategy": "rise", "genre": "exclude", "style": "bassswap"}}
+{"text": "allora ti spiego chi c'è stasera: una sessantina di invitati, quasi tutti colleghi dell'ospedale dove lavora la festeggiata, medici e infermieri tra i trenta e i sessant'anni, alcuni smontano dal turno di notte e arriveranno solo dopo le undici, quindi all'inizio saremo in pochi", "labels": {}}
+{"text": "sono Luca, il proprietario del bar, il dj non è venuto e io di musica non capisco niente, quindi fai tu: accendi la musica, scegli i pezzi che vuoi, decidi tu come fare i passaggi e metti pure qualsiasi genere, l'importante è che la gente resti contenta", "labels": {"control": "start", "style": "auto", "mode": "ai", "genre": "clear"}}
+{"text": "per il gran finale della festa di laurea i compagni di corso hanno chiesto una cosa precisa: la voce di Neon Nights sopra la base di Glass City, l'hanno ascoltata in macchina tornando dall'università, quindi fai quel mashup adesso e dopo vai solo con pezzi potentissimi", "labels": {"mashup": "explicit", "strategy": "peak"}}
+{"text": "l'aperitivo al rooftop sta andando bene ma il direttore dell'hotel dice che i clienti chiedono qualcosa di più elegante, quindi passa alla deep house e alla lounge, con passaggi lunghi e filtrati che si sentano appena, come si fa nei lounge bar di Mykonos", "labels": {"genre": "include", "bars": "long", "style": "filter"}}
+{"text": "ci siamo, sono le tre e il locale deve chiudere, il gestore mi ha già fatto segno due volte, quindi tieni l'energia bassa per salutare la gente, chiudi questa canzone con un eco lungo e poi basta, non far partire nient'altro dopo", "labels": {"control": "endAfterCurrent", "style": "echo", "strategy": "chill"}}
+{"text": "la festa in piscina è al momento più bello, la gente entra ed esce dall'acqua con i materassini, per la prossima mezz'ora prova ad alternare pezzi carichi e pezzi più leggeri e aggiungi qualche loop ed effetto sopra i brani, il proprietario vuole vedere come reagiscono", "labels": {"strategy": "wave", "remix": "on", "temporary": "yes"}}
+{"text": "ho appena parlato con il padre della sposa e mi ha detto che il prossimo anno si sposa anche l'altra figlia e vorrebbe me per la musica, gli ho lasciato il biglietto da visita e gli ho detto di chiamarmi a settembre per vedere le date libere", "labels": {}}
+{"text": "la sorella della sposa sta impazzendo per questo pezzo afro house e mi chiede come si chiama, dice che vuole metterlo al suo matrimonio, mettilo anche in coda per dopo e infila altri pezzi afro house ogni tanto, piacciono a tutti", "labels": {"info": "now", "queue": "add", "genre": "add"}}
+{"text": "sono le undici, il capannone è pieno e il collettivo che organizza il rave mi ha detto che bisogna partire subito con la techno più pesante, quindi fai partire il set, solo techno, e dacci dentro al massimo da subito, niente warm up stasera", "labels": {"strategy": "peak", "genre": "include", "control": "start"}}
