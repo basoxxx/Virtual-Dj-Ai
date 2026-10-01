@@ -101,12 +101,12 @@
       "source": "Transizioni dell'AI DJ v7, fp32"
     },
     {
-      "file": "segueo-separazione-voce.onnx",
+      "file": "segueo-separazione-voce-v2.onnx",
       "bundle": true,
       "onDemand": true,
-      "bytes": 174264722,
-      "sha256": "b9b27414530f0a08125ecb5b470191073bb81f7e1431df844169320a4c5e1a2f",
-      "source": "Separazione di voce e base per i mashup: Demucs v4 htdemucs (Meta, codice MIT; licenza dei pesi non dichiarata, uso deciso dall'utente), fp32 senza STFT; stesso file di htdemucs.onnx"
+      "bytes": 174319684,
+      "sha256": "e52a5a236f00be63e16ae5fea9945a1ead558115089c1ec0dc66d1bdac460cac",
+      "source": "Separazione di voce e base per i mashup: Demucs v4 htdemucs_ft, sotto-modello voce 04573f0d (Meta, codice MIT; licenza dei pesi non dichiarata, uso deciso dall'utente), fp32 senza STFT, base = mix - voce"
     },
     {
       "file": "segueo-transizioni-dance-v7.onnx",

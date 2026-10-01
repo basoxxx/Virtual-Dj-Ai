@@ -1,13 +1,15 @@
 // Separazione in JavaScript (src/renderer/js/dsp/demucs.js + onnxruntime-web) contro PyTorch: SDR, tempo, RAM.
-// Uso: node ml/mashup/bench_separate.mjs --model ml/data/onnx/htdemucs.onnx [--threads 4]
-import { readFileSync } from 'node:fs';
+// Uso: node ml/mashup/bench_separate.mjs --model ml/data/onnx/htdemucs.onnx [--threads 4] [--ref ref]
+// --ref: prefisso dei file di ml/mashup/reference_separation.py (--tag); se esistono <ref>-true-*.f32 (MUSDB18)
+// si misura anche l'SDR contro voce e base vere.
+import { existsSync, readFileSync } from 'node:fs';
 import { parseArgs } from 'node:util';
 import { separate, DEMUCS_CHUNK, DEMUCS_FRAMES } from '../../src/renderer/js/dsp/demucs.js';
 
-const { values: a } = parseArgs({ options: { model: { type: 'string' }, threads: { type: 'string', default: '4' }, lowmem: { type: 'boolean', default: false } } });
+const { values: a } = parseArgs({ options: { model: { type: 'string' }, threads: { type: 'string', default: '4' }, lowmem: { type: 'boolean', default: false }, ref: { type: 'string', default: 'ref' } } });
 const D = new URL('../data/stems/', import.meta.url).pathname;
 const f32 = (name) => { const b = readFileSync(D + name); return new Float32Array(b.buffer, b.byteOffset, b.byteLength / 4); };
-const mix = f32('ref-mix.f32');
+const mix = f32(`${a.ref}-mix.f32`);
 const n = mix.length / 2;
 const channels = [mix.subarray(0, n), mix.subarray(n)];
 const ort = await import('onnxruntime-web');
@@ -32,6 +34,7 @@ const sdr = (est, refName) => {
 console.log(JSON.stringify({
   model: a.model.split('/').pop(), threads: Number(a.threads), lowmem: a.lowmem, secondiAudio: n / 44100, blocchi: chunks,
   caricamentoS: Math.round(t1 - t0) / 1000, separazioneS: Math.round(t2 - t1) / 1000, tempoReale: Math.round(((t2 - t1) / 1000 / (n / 44100)) * 100) / 100,
-  sdrVoceDb: sdr(out.vocals, 'ref-vocals.f32'), sdrBaseDb: sdr(out.instrumental, 'ref-instrumental.f32'),
+  ref: a.ref, sdrVoceDb: sdr(out.vocals, `${a.ref}-vocals.f32`), sdrBaseDb: sdr(out.instrumental, `${a.ref}-instrumental.f32`),
+  ...(existsSync(`${D}${a.ref}-true-vocals.f32`) ? { sdrVoceVeraDb: sdr(out.vocals, `${a.ref}-true-vocals.f32`), sdrBaseVeraDb: sdr(out.instrumental, `${a.ref}-true-instrumental.f32`) } : {}),
   piccoRssMB: Math.round(process.resourceUsage().maxRSS / 1024),
 }));

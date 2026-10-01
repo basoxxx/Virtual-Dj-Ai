@@ -12,6 +12,15 @@ Licenza dei pesi: il codice è MIT, il README non parla dei pesi; htdemucs è ad
 (solo ricerca non commerciale). Uso deciso dall'utente il 27/09/2026, annotato in ml/REPORT.md.
 
 Uso:  ml/.venv/bin/python ml/mashup/export_demucs.py [--int8]
+      (versione 2, solo il sotto-modello voce di htdemucs_ft e base = mix − voce dentro il modello:)
+      ml/.venv/bin/python ml/mashup/export_demucs.py --model htdemucs_ft --sub 3 --base mix-voce \
+          --name segueo-separazione-voce-v2.onnx
+
+--base mix-voce: le uscite restano (1, 4, 4, 2048, 336) e (1, 4, 2, 343980), ma al posto di batteria, basso e altro
+il modello restituisce "mix − voce" nella prima sorgente (ramo in frequenza: −voce, ramo nel tempo: mix − voce) e
+zeri nelle altre due. demucs.js, che somma le sorgenti diverse dalla voce, ottiene così base = mix − voce senza
+modifiche (ISTFT lineare: ISTFT(−voce_f) + mix − voce_t = mix − voce). demucs.js aggiunge poi la media del brano
+a ognuna delle tre sorgenti della base (come demucs con la somma): la base esce mix − voce + 3·media.
 """
 
 from __future__ import annotations
@@ -105,6 +114,25 @@ class Core(torch.nn.Module):
         return x, xt
 
 
+class MixMinusVoice(torch.nn.Module):
+    """Core con base = mix − voce nella sorgente 0 (vedi --base mix-voce); la voce resta dov'è."""
+
+    def __init__(self, core, voice: int = 3):
+        super().__init__()
+        self.core = core
+        self.voice = voice
+
+    def forward(self, mix, mag):
+        x, xt = self.core(mix, mag)
+        v = self.voice
+        xv, tv = x[:, v:v + 1], xt[:, v:v + 1]
+        # zeri calcolati (non zeros_like: l'export li piegherebbe in una costante da 11 MB dentro il file)
+        fz, tz = xv * 0.0, tv * 0.0
+        x = torch.cat([-xv, fz, fz, xv], dim=1)
+        xt = torch.cat([mix[:, None] - tv, tz, tz, tv], dim=1)
+        return x, xt
+
+
 # --- STFT come HTDemucs._spec / _ispec (riferimento per la versione JavaScript) ---------------------------
 
 NFFT, HOP = 4096, 1024
@@ -148,17 +176,27 @@ def separate_chunk(run_core, mix: torch.Tensor) -> torch.Tensor:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--int8", action="store_true")
+    ap.add_argument("--model", default="htdemucs", help="htdemucs o htdemucs_ft")
+    ap.add_argument("--sub", type=int, default=0, help="sotto-modello del gruppo (htdemucs_ft: 3 = voce)")
+    ap.add_argument("--base", choices=["somma", "mix-voce"], default="somma")
+    ap.add_argument("--name", default="htdemucs.onnx")
     args = ap.parse_args()
-    bag = get_model("htdemucs")
-    model = bag.models[0] if hasattr(bag, "models") else bag
+    bag = get_model(args.model)
+    model = bag.models[args.sub] if hasattr(bag, "models") else bag
+    if hasattr(bag, "weights"):
+        print("pesi del sotto-modello nel gruppo", list(bag.weights[args.sub]))
     model.eval()
     L = int(model.segment * model.samplerate)
     print("campioni per blocco", L, "sorgenti", model.sources)
     core = Core(model).eval()
+    voice = model.sources.index("vocals")
+    if args.base == "mix-voce":
+        core = MixMinusVoice(core, voice).eval()
     mix = torch.randn(1, 2, L) * 0.1
     mag = magnitude(spec(mix))
     ONNX_DIR.mkdir(parents=True, exist_ok=True)
-    fp32 = ONNX_DIR / "htdemucs.onnx"
+    fp32 = ONNX_DIR / args.name
+    stem = fp32.name.removesuffix(".onnx")
     # la scorciatoia nativa dell'attenzione (_native_multi_head_attention) non esiste in ONNX
     torch.backends.mha.set_fastpath_enabled(False)
     with torch.inference_mode():
@@ -177,6 +215,9 @@ def main():
     real = torch.from_numpy(np.frombuffer(raw, np.float32).reshape(-1, 2).T.copy())[None, :, :L]
     with torch.inference_mode():
         ref = model(real)
+    if args.base == "mix-voce":  # riferimento PyTorch con la stessa trasformazione delle uscite
+        z = torch.zeros_like(ref[:, :1])
+        ref = torch.cat([real[:, None] - ref[:, voice:voice + 1], z, z, ref[:, voice:voice + 1]], dim=1)
     so = ort.SessionOptions()
     so.intra_op_num_threads = 6
     variants = [("fp32", fp32)]
@@ -184,8 +225,8 @@ def main():
         from onnxruntime.quantization import QuantType, quantize_dynamic
         from onnxruntime.quantization.shape_inference import quant_pre_process
 
-        pre = ONNX_DIR / "htdemucs-pre.onnx"
-        int8 = ONNX_DIR / "htdemucs-int8.onnx"
+        pre = ONNX_DIR / f"{stem}-pre.onnx"
+        int8 = ONNX_DIR / f"{stem}-int8.onnx"
         quant_pre_process(str(fp32), str(pre), skip_symbolic_shape=True)
         quantize_dynamic(str(pre), str(int8), weight_type=QuantType.QInt8, op_types_to_quantize=["MatMul", "Gemm"],
                          per_channel=True, extra_options={"MatMulConstBOnly": True})
@@ -203,11 +244,16 @@ def main():
         out = separate_chunk(run, real)
         dt = time.time() - t0
         err = (out - ref).pow(2).sum() / ref.pow(2).sum()
-        sdr = {src: round(float(10 * torch.log10(ref[0, i].pow(2).sum() / (out[0, i] - ref[0, i]).pow(2).sum())), 1)
-               for i, src in enumerate(model.sources)}
+        db = lambda r, o: round(float(10 * torch.log10(r.pow(2).sum() / (o - r).pow(2).sum())), 1)  # noqa: E731
+        if args.base == "mix-voce":
+            sdr = {"vocals": db(ref[0, voice], out[0, voice]),
+                   "base": db(ref[0].sum(0) - ref[0, voice], out[0].sum(0) - out[0, voice])}
+        else:
+            sdr = {src: db(ref[0, i], out[0, i]) for i, src in enumerate(model.sources)}
         report[name] = {"erroreRelativo": float(err), "sdrControPyTorchDb": sdr, "secondiPerBlocco": round(dt, 2)}
+    report.update(model=args.model, sub=args.sub, base=args.base)
     print(json.dumps(report, indent=1))
-    (ONNX_DIR / "htdemucs-report.json").write_text(json.dumps(report, indent=1))
+    (ONNX_DIR / f"{stem}-report.json").write_text(json.dumps(report, indent=1))
 
 
 if __name__ == "__main__":

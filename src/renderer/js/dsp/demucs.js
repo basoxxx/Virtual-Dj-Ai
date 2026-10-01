@@ -1,4 +1,4 @@
-// Separazione di voce e base con Demucs v4 (htdemucs, Meta, codice MIT) in ONNX.
+// Separazione di voce e base con Demucs v4 (htdemucs_ft, sotto-modello voce; Meta, codice MIT) in ONNX.
 // Qui c'è la parte che il modello ONNX non contiene, identica a demucs (ml/mashup/export_demucs.py):
 // STFT/ISTFT come HTDemucs._spec/_ispec e divisione in blocchi come demucs.apply.apply_model
 // (split=True, overlap 0,25, pesi triangolari, shifts=0). Nessuna dipendenza dal DOM.
@@ -136,8 +136,9 @@ export function paddedChunk(channels, offset, length, target = DEMUCS_CHUNK, mea
 }
 
 /**
- * Separazione di un brano stereo (Float32Array per canale, 44,1 kHz) in voce e base (somma delle altre
- * sorgenti). `runCore(mix, spec)` esegue il modello ONNX: mix Float32Array (2 × 343980), spec (4 × 2048 × 336);
+ * Separazione di un brano stereo (Float32Array per canale, 44,1 kHz) in voce e base (mix − voce: con htdemucs
+ * è 0,1 dB meglio della somma delle altre sorgenti e risparmia 6 ISTFT su 8 per blocco; il sotto-modello voce di
+ * htdemucs_ft ha le altre uscite inservibili). `runCore(mix, spec)` esegue il modello ONNX: mix Float32Array (2 × 343980), spec (4 × 2048 × 336);
  * restituisce { freq: (4 × 4 × 2048 × 336), time: (4 × 2 × 343980) }. onProgress(0..1).
  */
 export async function separate(channels, runCore, { onProgress } = {}) {
@@ -153,7 +154,6 @@ export async function separate(channels, runCore, { onProgress } = {}) {
   const mean = sum / n;
   const std = Math.sqrt(Math.max(1e-12, sum2 / n - mean * mean) * (n / Math.max(1, n - 1)));
   const vocals = [new Float32Array(n), new Float32Array(n)];
-  const inst = [new Float32Array(n), new Float32Array(n)];
   const sumW = new Float32Array(n);
   const weights = chunkWeights();
   const stride = Math.floor(0.75 * DEMUCS_CHUNK);
@@ -172,24 +172,25 @@ export async function separate(channels, runCore, { onProgress } = {}) {
       stftChannel(chunk[c], spec, c, T);
     }
     const { freq, time } = await runCore(mix, spec);
-    // sorgente s, canale c: ISTFT del ramo in frequenza + ramo nel tempo, poi centro del blocco
-    for (let s = 0; s < 4; s++) {
-      for (let c = 0; c < 2; c++) {
-        const base = (s * 4 + c * 2) * BINS * T;
-        const wave = istftChannel(freq.subarray(base, base + BINS * T), freq.subarray(base + BINS * T, base + 2 * BINS * T), DEMUCS_CHUNK, T);
-        const tb = (s * 2 + c) * DEMUCS_CHUNK;
-        const dest = DEMUCS_SOURCES[s] === 'vocals' ? vocals[c] : inst[c];
-        for (let i = 0; i < length; i++) {
-          const j = trim + i;
-          dest[offset + i] += weights[i] * (wave[j] + time[tb + j]);
-        }
+    // voce, canale c: ISTFT del ramo in frequenza + ramo nel tempo, poi centro del blocco
+    const s = DEMUCS_SOURCES.indexOf('vocals');
+    for (let c = 0; c < 2; c++) {
+      const base = (s * 4 + c * 2) * BINS * T;
+      const wave = istftChannel(freq.subarray(base, base + BINS * T), freq.subarray(base + BINS * T, base + 2 * BINS * T), DEMUCS_CHUNK, T);
+      const tb = (s * 2 + c) * DEMUCS_CHUNK;
+      for (let i = 0; i < length; i++) {
+        const j = trim + i;
+        vocals[c][offset + i] += weights[i] * (wave[j] + time[tb + j]);
       }
     }
     for (let i = 0; i < length; i++) sumW[offset + i] += weights[i];
     if (onProgress) onProgress((k + 1) / offsets.length);
   }
-  for (const stem of [vocals, inst]) {
-    for (const ch of stem) for (let i = 0; i < n; i++) ch[i] = (ch[i] / sumW[i]) * std + (stem === vocals ? mean : 3 * mean);
-  }
+  for (const ch of vocals) for (let i = 0; i < n; i++) ch[i] = (ch[i] / sumW[i]) * std + mean;
+  const inst = vocals.map((ch, c) => {
+    const out = new Float32Array(n);
+    for (let i = 0; i < n; i++) out[i] = channels[c][i] - ch[i];
+    return out;
+  });
   return { vocals, instrumental: inst };
 }

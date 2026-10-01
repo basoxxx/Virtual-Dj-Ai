@@ -4,7 +4,7 @@ import { api } from '../api.js';
 import { DEMUCS_SR } from '../dsp/demucs.js';
 import { vocalEntryFrom } from './mashup-plan.js';
 
-export const SEPARATION_MODEL = 'segueo-separazione-voce.onnx';
+export const SEPARATION_MODEL = 'segueo-separazione-voce-v2.onnx';
 
 export class StemManager extends EventTarget {
   /** isBusy(): true se in quel momento non si deve separare (es. analisi della libreria in corso). */
