@@ -15,7 +15,9 @@ Per ogni brano:
     meglio non insegnarlo); i doppioni dei brani di valutazione (dedupe.json) sono esclusi.
 Uscita: ml/data/beat_this/labels.json  ({id: {"kind", "beats", "downbeats", "mask": [[da, a], ...] in secondi}}).
 
-Uso:  ml/.venv/bin/python ml/beat_this/labels.py
+Uso:  ml/.venv/bin/python ml/beat_this/labels.py      (round 1: maestro final0)
+      ml/.venv/bin/python ml/beat_this/labels.py --teacher ens --out ml/data/beat_this/labels-ens.json --check-all \
+          --check small0-int8 small0-torch final0 final1 final2       (round 2: media di final0/1/2)
 """
 
 from __future__ import annotations
@@ -136,10 +138,43 @@ def make_labels(beats: np.ndarray, downbeats: np.ndarray) -> dict | None:
             kd = np.round((downbeats - ph) / p)
             near = np.abs(downbeats - ph - kd * p) <= 0.05
             down = ph + np.unique(kd[near]) * p
+        # round 2: tratti senza battute del maestro (break, oltre 2,5 battute): lì la battuta forte non si sente e
+        # con il peso 86 dei positivi la perdita insegnerebbe a segnarla su ogni battuta -> niente perdita
+        gap = np.diff(beats) > 2.5 * p
+        dgaps = [[float(beats[i] + 0.5 * p), float(beats[i + 1] - 0.5 * p)] for i in np.nonzero(gap)[0]]
         return {"kind": "grid", "beats": t.tolist(), "downbeats": down.tolist(), "mask": mask, "bpm": 60 / p,
-                "down_grid": bool(g["dshare"] >= 0.85)}
+                "down_grid": bool(g["dshare"] >= 0.85), "dgaps": dgaps}
     return {"kind": "free", "beats": beats.tolist(), "downbeats": downbeats.tolist(), "mask": [],
             "bpm": 60 / g["period"] if g else 0.0}
+
+
+def downbeats_agree(lab: dict, members: list[str], tid: str) -> bool:
+    """Round 2: le battute forti si insegnano solo se i maestri concordano sulla battuta 1.
+
+    Con il peso 86 dei positivi, se metà dei brani simili ha la battuta forte sull'1 e metà sul 3 (dubbio tipico
+    della techno a cassa dritta), al modello conviene segnarla su entrambe: è l'eccesso di battute forti del
+    round 1. Brani a griglia: ogni maestro deve votare lo stesso residuo modulo 4 (quota ≥ 0,7) della griglia
+    delle etichette; brani liberi: F battute forti di ogni maestro contro le etichette ≥ 0,9."""
+    down = np.asarray(lab["downbeats"])
+    for m in members:
+        pth = C.DATA / "pred" / m / f"{tid}.npz"
+        if not pth.exists():
+            continue
+        with np.load(pth) as z:
+            d = z["downbeats"].astype(float)
+        if lab["kind"] == "grid":
+            if not lab.get("down_grid", True) or len(down) == 0 or len(d) == 0:
+                return False
+            p = 60 / lab["bpm"]
+            ref = int(round((down[0] - lab["beats"][0]) / p)) % 4
+            k = np.round((d - lab["beats"][0]) / p).astype(int)
+            near = np.abs(d - lab["beats"][0] - k * p) <= 0.05
+            votes = np.bincount(k[near] % 4, minlength=4)
+            if votes.sum() == 0 or int(np.argmax(votes)) != ref or votes.max() / votes.sum() < 0.7:
+                return False
+        elif C.f_measure(down, d) < 0.9:
+            return False
+    return True
 
 
 def metric_clash(a: float, b: float) -> bool:
@@ -147,33 +182,52 @@ def metric_clash(a: float, b: float) -> bool:
     return bool(a and b) and any(abs(a / b - r) <= 0.04 * r for r in (2 / 3, 3 / 2, 3 / 4, 4 / 3))
 
 
+def tempo_of(name: str, tid: str) -> float:
+    """Tempo (BPM, non ripiegato) della griglia delle battute di un modello, 0 se manca."""
+    p = C.DATA / "pred" / name / f"{tid}.npz"
+    if not p.exists():
+        return 0.0
+    with np.load(p) as z:
+        g = fit_grid(z["beats"].astype(float), z["downbeats"].astype(float))
+    return 60 / g["period"] if g else 0.0
+
+
 def main():
-    inv = [it for it in C.load_inventory() if it["split"] in ("train", "val") and (TEACHER / f"{it['id']}.npz").exists()]
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--teacher", default="final0", help="cartella in pred/ con l'insegnante (final0 o ens)")
+    ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--check", nargs="*", default=["small0-int8", "small0-torch"],
+                    help="altri modelli: se uno legge il tempo in rapporto 2/3 o 3/4 col maestro, il brano si esclude")
+    ap.add_argument("--check-all", action="store_true", help="controllo su tutti i brani (non solo i liberi)")
+    ap.add_argument("--down-members", nargs="*", default=[], help="round 2: maestri che devono concordare sulle "
+                    "battute forti (altrimenti down_ok = false: niente perdita sulle battute forti del brano)")
+    a = ap.parse_args()
+    teacher = C.DATA / "pred" / a.teacher
+    inv = [it for it in C.load_inventory() if it["split"] in ("train", "val") and (teacher / f"{it['id']}.npz").exists()]
     dedupe = json.loads((C.DATA / "dedupe.json").read_text()) if (C.DATA / "dedupe.json").exists() else {}
     out, kinds = {}, Counter()
     for it in inv:
         if it["id"] in dedupe:
             kinds["doppione di un brano di valutazione"] += 1
             continue
-        with np.load(TEACHER / f"{it['id']}.npz") as z:
+        with np.load(teacher / f"{it['id']}.npz") as z:
             lab = make_labels(z["beats"].astype(float), z["downbeats"].astype(float))
         if lab is None:
             kinds["poche battute"] += 1
             continue
-        if lab["kind"] == "free":
-            # tempo secondo small0 (PyTorch, stessa catena) per riconoscere i casi ambigui
-            sp = [C.DATA / "pred" / d / f"{it['id']}.npz" for d in ("small0-int8", "small0-torch")]
-            sp = next((x for x in sp if x.exists()), None)
-            if sp is not None:
-                with np.load(sp) as z:
-                    g = fit_grid(z["beats"].astype(float), z["downbeats"].astype(float))
-                if g and metric_clash(60 / g["period"], lab["bpm"]):
-                    kinds["livello metrico ambiguo (2/3, 3/4)"] += 1
-                    continue
+        if lab["kind"] == "free" or a.check_all:
+            # tempo secondo gli altri modelli (stessa catena) per riconoscere i casi ambigui (12/8, terzine)
+            if any(metric_clash(tempo_of(m, it["id"]), lab["bpm"]) for m in a.check):
+                kinds["livello metrico ambiguo (2/3, 3/4)"] += 1
+                continue
         lab = {"split": it["split"], "source": it["source"], **lab}
+        if a.down_members:
+            lab["down_ok"] = downbeats_agree(lab, a.down_members, it["id"])
+            kinds["battute forti concordi" if lab["down_ok"] else "battute forti discordi (non insegnate)"] += 1
         kinds[(it["source"], lab["kind"])] += 1
         out[it["id"]] = lab
-    OUT.write_text(json.dumps(out))
+    Path(a.out).write_text(json.dumps(out))
     for k, v in sorted(kinds.items(), key=str):
         print(k, v)
 

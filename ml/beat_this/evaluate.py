@@ -28,6 +28,7 @@ import common as C  # noqa: E402
 import numpy as np  # noqa: E402
 
 PRED = C.DATA / "pred"
+GAND_VAL = ("set123", "setncs")  # round 2: i due set più piccoli, fissati prima di guardare i risultati
 CC_REF = C.ML_DIR / "data" / "reference" / "cc_beats.json"
 
 
@@ -52,9 +53,11 @@ def load_preds(name: str, ids) -> dict:
     return out
 
 
-def evaluate(name: str, inv: list[dict], teacher: dict, teacher_grid: dict, gand_check=False) -> dict:
+def evaluate(name: str, inv: list[dict], teacher: dict, teacher_grid: dict, gand_check=False, usb_split="test") -> dict:
     by = {s: [it for it in inv if it["split"] == s[1] and it["source"] == s[0]]
-          for s in (("cc", "test"), ("usb", "tag"), ("gand", "test"), ("usb", "test"))}
+          for s in (("cc", "test"), ("usb", "tag"), ("gand", "test"))}
+    # accordo con final0: chiavetta tenuta fuori ("test") oppure, come freno in validazione, usb + jamendo "val"
+    by[("usb", "test")] = [it for it in inv if it["split"] == usb_split and (it["source"] == "usb" or usb_split == "val")]
     ids = [it["id"] for v in by.values() for it in v]
     preds = load_preds(name, ids)
     grids = C.app_grids(preds)
@@ -124,10 +127,19 @@ def evaluate(name: str, inv: list[dict], teacher: dict, teacher_grid: dict, gand
                                for s in sorted({r["set"] for r in rows})},
                    "wrong": [f"{r['name'][:40]}: {r['bpm']} (vero {r['true']})" for r in rows if not r["ok"]]}
     # brani con i warp marker verificati senza modelli: attacco della cassa entro ±25 ms dalla griglia
+    def agg(sel):
+        return {"n": len(sel), "F_beat": float(np.mean([r["F_beat"] for r in sel])),
+                "F_down": float(np.mean([r["F_down"] for r in sel])), "bpm05": sum(r["ok"] for r in sel),
+                "phase": sum(r["phase"] for r in sel), "gridF": float(np.mean([r["gridF"] for r in sel]))}
+
     ver = [r for r in rows if abs(r["kick_ms"]) <= 25]
-    res["gand_ok"] = {"n": len(ver), "F_beat": float(np.mean([r["F_beat"] for r in ver])),
-                      "F_down": float(np.mean([r["F_down"] for r in ver])), "bpm05": sum(r["ok"] for r in ver),
-                      "phase": sum(r["phase"] for r in ver), "gridF": float(np.mean([r["gridF"] for r in ver]))}
+    res["gand_ok"] = agg(ver)
+    # round 2: set di validazione umana (set123, setncs) e set di prova (gli altri tre)
+    test = [r for r in rows if r["set"] not in GAND_VAL]
+    res["gand_val"] = agg([r for r in rows if r["set"] in GAND_VAL])
+    res["gand_test"] = agg(test)
+    res["gand_test_ok"] = agg([r for r in test if abs(r["kick_ms"]) <= 25])
+    res["gand_rows"] = [{k: r[k] for k in ("name", "set", "F_beat", "F_down", "ok", "phase")} for r in rows]
     if gand_check:
         res["gand"]["rows"] = rows
 
@@ -153,15 +165,16 @@ def main():
     ap.add_argument("models", nargs="+")
     ap.add_argument("--teacher", default="final0")
     ap.add_argument("--gand-check", action="store_true")
+    ap.add_argument("--usb-split", default="test", help="test (chiavetta tenuta fuori) o val (freno in validazione)")
     ap.add_argument("--out", default=str(C.DATA / "eval.json"))
     a = ap.parse_args()
     inv = C.load_inventory()
-    test_ids = [it["id"] for it in inv if it["source"] == "usb" and it["split"] == "test"]
+    test_ids = [it["id"] for it in inv if it["split"] == a.usb_split and (it["source"] == "usb" or a.usb_split == "val")]
     teacher = load_preds(a.teacher, test_ids)
     teacher_grid = C.app_grids(teacher)
     out = {}
     for name in a.models:
-        r = evaluate(name, inv, teacher, teacher_grid, a.gand_check)
+        r = evaluate(name, inv, teacher, teacher_grid, a.gand_check, a.usb_split)
         out[name] = r
         cc, tg, gd, us = r["cc"], r["tag"], r["gand"], r["usb"]
         print(f"\n== {name}")
@@ -171,6 +184,11 @@ def main():
         print(f"Gand ({gd['n']}): F battute {gd['F_beat']:.4f}  F battute forti {gd['F_down']:.4f}  BPM ±0,5 {gd['bpm05']}  "
               f"acc2 {gd['acc2']}  fase battuta forte {gd['phase']}  griglia F {gd['gridF']:.4f}")
         print("   per set:", ", ".join(f"{s} {v['F_beat']:.3f}/{v['F_down']:.3f}" for s, v in gd["per_set"].items()))
+        for key, lab in (("gand_val", "Gand validazione (set123+setncs)"), ("gand_test", "Gand prova (set044+281+286)"),
+                         ("gand_test_ok", "Gand prova, marker verificati")):
+            x = r[key]
+            print(f"{lab} ({x['n']}): F battute {x['F_beat']:.4f}  F battute forti {x['F_down']:.4f}  "
+                  f"BPM ±0,5 {x['bpm05']}  fase battuta forte {x['phase']}")
         go = r["gand_ok"]
         print(f"Gand con marker verificati ({go['n']}): F battute {go['F_beat']:.4f}  F battute forti {go['F_down']:.4f}  "
               f"BPM ±0,5 {go['bpm05']}  fase battuta forte {go['phase']}  griglia F {go['gridF']:.4f}")

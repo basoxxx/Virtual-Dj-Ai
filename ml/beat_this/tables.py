@@ -37,6 +37,15 @@ def main():
         g, o = r["gand"], r["gand_ok"]
         print(f"| {lab} | {g['F_beat']:.3f} | {g['F_down']:.3f} | {g['bpm05']}/{g['n']} | {g['phase']}/{g['n']} | {g['gridF']:.3f} "
               f"| {o['F_beat']:.3f} | {o['F_down']:.3f} | {o['phase']}/{o['n']} |")
+    if all("gand_test" in r for _, r in rows):
+        print()
+        print("| Modello | val Gand: F battute | val: F forti | val: fase | prova Gand: F battute | prova: F forti | prova: fase "
+              "| prova verificati: F battute | verificati: F forti | verificati: fase |")
+        print("|---|---|---|---|---|---|---|---|---|---|")
+        for lab, r in rows:
+            v, t, o = r["gand_val"], r["gand_test"], r["gand_test_ok"]
+            print(f"| {lab} | {v['F_beat']:.3f} | {v['F_down']:.3f} | {v['phase']}/{v['n']} | {t['F_beat']:.3f} | {t['F_down']:.3f} "
+                  f"| {t['phase']}/{t['n']} | {o['F_beat']:.3f} | {o['F_down']:.3f} | {o['phase']}/{o['n']} |")
     print()
     print("| Modello | F battute | F battute forti | stesso BPM dell'app | stessa fase della battuta forte | confidenza media |")
     print("|---|---|---|---|---|---|")

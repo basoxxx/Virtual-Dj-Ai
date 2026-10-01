@@ -49,8 +49,10 @@ SOURCE_WEIGHT = {"usb": 1.0, "gabry": 1.0, "lumix": 1.0, "djmix": 1.0, "djmix2":
 class Excerpts(Dataset):
     """Estratti casuali da 1500 frame con etichette per frame, logit dell'insegnante e maschera."""
 
-    def __init__(self, ids, labels, use_grid: bool, n: int, seed: int, tempo=(0.85, 1.18), p_tempo=0.5, p_mask=0.5):
-        self.ids, self.labels, self.use_grid, self.n = ids, labels, use_grid, n
+    def __init__(self, ids, labels, use_grid: bool, n: int, seed: int, tempo=(0.85, 1.18), p_tempo=0.5, p_mask=0.5,
+                 teacher: Path = TEACHER, down_mask: bool = False):
+        self.ids, self.labels, self.use_grid, self.n, self.teacher = ids, labels, use_grid, n, teacher
+        self.down_mask = down_mask
         self.seed, self.tempo, self.p_tempo, self.p_mask = seed, tempo, p_tempo, p_mask
         self.frames = {i: int(np.load(C.spect_path(i), mmap_mode="r").shape[0]) for i in ids}
         # probabilità di scelta: peso della sorgente × durata
@@ -78,7 +80,7 @@ class Excerpts(Dataset):
         start = int(rng.integers(0, n_src - span + 1))
         spect = np.load(C.spect_path(tid), mmap_mode="r")
         src = np.asarray(spect[start:start + span], dtype=np.float32)
-        z = np.load(TEACHER / f"{tid}.npz")
+        z = np.load(self.teacher / f"{tid}.npz")
         tb = z["beat"][start:start + span].astype(np.float32)
         td = z["downbeat"][start:start + span].astype(np.float32)
         pos = np.arange(L) * f
@@ -102,11 +104,21 @@ class Excerpts(Dataset):
         yb[frames_of(beats)] = 1
         yd[frames_of(downbeats)] = 1
         m = np.ones(L, np.float32)
-        for a, b in mask_iv:
+
+        def zero(mask, a, b):
             fa = int((a * C.FPS - start) / f)
             fb = int(math.ceil((b * C.FPS - start) / f))
             if fb > 0 and fa < L:
-                m[max(0, fa):min(L, fb)] = 0
+                mask[max(0, fa):min(L, fb)] = 0
+
+        for a, b in mask_iv:
+            zero(m, a, b)
+        md = m.copy()
+        if self.down_mask:
+            for a, b in self.labels[tid].get("dgaps", []):
+                zero(md, a, b)
+            if not self.labels[tid].get("down_ok", True):
+                md[:] = 0  # maestri discordi sulla battuta 1: battute forti non insegnate su questo brano
         # blocchi permutati (come augment_mask_ di beat_this, kind="permute")
         if rng.random() < self.p_mask:
             for _ in range(int(rng.integers(1, 4))):
@@ -114,7 +126,9 @@ class Excerpts(Dataset):
                 s = int(rng.integers(0, L - ln))
                 parts = np.array_split(x[s:s + ln], int(rng.integers(2, 6)))
                 x[s:s + ln] = np.concatenate([parts[j] for j in rng.permutation(len(parts))])
-        return {"spect": x.astype(np.float32), "beat": yb, "downbeat": yd, "mask": m, "t_beat": tb.astype(np.float32),
+                if self.down_mask:
+                    md[s:s + ln] = 0  # battuta forte non deducibile in un tratto rimescolato
+        return {"spect": x.astype(np.float32), "beat": yb, "downbeat": yd, "mask": m, "dmask": md, "t_beat": tb.astype(np.float32),
                 "t_downbeat": td.astype(np.float32)}
 
 
@@ -185,6 +199,29 @@ def validate(model, device, val_ids, labels) -> dict:
             "phase_agree": float(np.sum(phase_ok) / max(1, len(bpm_ok))), "n": len(val_ids)}
 
 
+def validate_gand(model, device, items) -> dict:
+    """Validazione umana (round 2): brani di Gand dei set di validazione contro la griglia dei warp marker."""
+    model.eval()
+    runner = I.TorchRunner(model, device, max_batch=2)
+    preds, fb, fd = {}, [], []
+    for it in items:
+        s = np.load(C.spect_path(it["id"])).astype(np.float32)
+        _, _, beats, downbeats = I.predict(runner, s)
+        tb, td = C.gand_truth(it, s)
+        preds[it["id"]] = {"beats": beats, "downbeats": downbeats}
+        fb.append(C.f_measure(tb, beats))
+        fd.append(C.f_measure(td, downbeats))
+    model.train()
+    freeze_bn(model)
+    g = C.app_grids(preds)
+    ok = [C.ok_bpm(g[it["id"]]["bpm"], 60 / it["period"]) for it in items]
+    phase = [o and C.grid_phase_ok(g[it["id"]]["bpm"], g[it["id"]]["offset"], it["period"], it["sec0"])
+             for o, it in zip(ok, items)]
+    return {"gand_F_beat": float(np.mean(fb)), "gand_F_down": float(np.mean(fd)), "gand_bpm": int(sum(ok)),
+            "gand_phase": int(sum(phase)), "gand_n": len(items),
+            "gand_score": float(np.mean(phase) + np.mean(fd) + np.mean(fb))}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", required=True)
@@ -206,6 +243,16 @@ def main():
     ap.add_argument("--max-val", type=int, default=0, help="solo per prove: al massimo N brani di validazione")
     ap.add_argument("--p-tempo", type=float, default=0.5, help="probabilità dell'aumento di tempo")
     ap.add_argument("--gain", type=int, default=1, help="1 = guadagno e inclinazione casuali, 0 = spettrogramma com'è")
+    ap.add_argument("--teacher", default="final0", help="cartella in pred/ con i logit per la distillazione (final0, ens)")
+    ap.add_argument("--labels-file", default=str(C.DATA / "labels.json"))
+    ap.add_argument("--soft-down", type=float, default=None, help="peso della distillazione delle battute forti "
+                    "(predefinito: come --soft)")
+    ap.add_argument("--down-weight", type=float, default=1.0, help="peso della perdita sulle battute forti")
+    ap.add_argument("--val-sets", nargs="*", default=[], help="round 2: set di Gand per la validazione umana "
+                    "(il migliore si sceglie su questi)")
+    ap.add_argument("--usb-val-every", type=int, default=1, help="validazione contro final0 ogni N validazioni")
+    ap.add_argument("--down-mask", type=int, default=0, help="1 = niente perdita sulle battute forti nei break senza "
+                    "battute del maestro e nei tratti rimescolati")
     a = ap.parse_args()
     run = RUNS / a.run
     run.mkdir(parents=True, exist_ok=True)
@@ -213,18 +260,27 @@ def main():
     torch.manual_seed(a.seed)
     device = torch.device(a.device)
 
-    labels = json.loads((C.DATA / "labels.json").read_text())
+    teacher = C.DATA / "pred" / a.teacher
+    soft_down = a.soft if a.soft_down is None else a.soft_down
+    labels = json.loads(Path(a.labels_file).read_text())
+    gand_val = [it for it in C.load_inventory() if it["source"] == "gand" and it.get("set") in a.val_sets]
     # per la variante "teacher" servono anche le battute di final0 dei brani a griglia
     for tid, lab in labels.items():
         if lab["kind"] == "grid":
-            z = np.load(TEACHER / f"{tid}.npz")
+            z = np.load(teacher / f"{tid}.npz")
             lab["t_beats"], lab["t_downbeats"] = z["beats"].astype(float), z["downbeats"].astype(float)
         lab["beats"], lab["downbeats"] = np.asarray(lab["beats"]), np.asarray(lab["downbeats"])
     train_ids = sorted(k for k, v in labels.items() if v["split"] == "train")
     val_ids = sorted(k for k, v in labels.items() if v["split"] == "val")
     if a.max_val:
         val_ids = val_ids[:a.max_val]
-    print(f"addestramento: {len(train_ids)} brani, validazione: {len(val_ids)}", flush=True)
+    print(f"addestramento: {len(train_ids)} brani, validazione: {len(val_ids)} (+ {len(gand_val)} di Gand)", flush=True)
+
+    def validate_all(n_val):
+        v = validate_gand(model, device, gand_val) if gand_val else {}
+        if not gand_val or n_val % a.usb_val_every == 0:
+            v.update(validate(model, device, val_ids, labels))
+        return v
 
     if a.device == "mps":
         I.use_matmul_attention()
@@ -259,13 +315,15 @@ def main():
         print(f"riprendo dal passo {step}", flush=True)
     if step == 0 and not (run / "log.jsonl").exists():
         # punto di partenza: small0 così com'è
-        v = validate(model, device, val_ids, labels)
+        v = validate_all(0)
         with (run / "log.jsonl").open("a") as lg:
             lg.write(json.dumps({"step": 0, **v}) + "\n")
         print("passo 0", json.dumps(v), flush=True)
 
     n_items = 10 ** 7 if a.minutes else (a.steps - step) * a.batch
-    ds = Excerpts(train_ids, labels, a.labels == "grid", n=n_items, seed=(a.seed, step), p_tempo=a.p_tempo)
+    ds = Excerpts(train_ids, labels, a.labels == "grid", n=n_items, seed=(a.seed, step), p_tempo=a.p_tempo,
+                  teacher=teacher, down_mask=bool(a.down_mask))
+    n_val = 0
     next_val = elapsed + 60 * a.val_minutes
     dl = DataLoader(ds, batch_size=a.batch, num_workers=a.workers, persistent_workers=a.workers > 0,
                     prefetch_factor=4 if a.workers else None)
@@ -282,12 +340,13 @@ def main():
             out = model(x)
             m = batch["mask"].to(device)
             lb = beat_loss(out["beat"], batch["beat"].to(device), m)
-            ld = down_loss(out["downbeat"], batch["downbeat"].to(device), m)
-            loss = lb + ld
-            if a.soft:
-                ls = F.binary_cross_entropy_with_logits(out["beat"], torch.sigmoid(batch["t_beat"].to(device))) + \
-                    F.binary_cross_entropy_with_logits(out["downbeat"], torch.sigmoid(batch["t_downbeat"].to(device)))
-                loss = loss + a.soft * ls
+            ld = down_loss(out["downbeat"], batch["downbeat"].to(device), batch["dmask"].to(device))
+            loss = lb + a.down_weight * ld
+            if a.soft or soft_down:
+                lsb = F.binary_cross_entropy_with_logits(out["beat"], torch.sigmoid(batch["t_beat"].to(device)))
+                lsd = F.binary_cross_entropy_with_logits(out["downbeat"], torch.sigmoid(batch["t_downbeat"].to(device)))
+                ls = lsb + lsd
+                loss = loss + a.soft * lsb + soft_down * lsd
             else:
                 ls = torch.zeros(())
             (loss / a.accum).backward()
@@ -312,8 +371,12 @@ def main():
         done = progress(step, elapsed) >= 1
         if (elapsed >= next_val if a.minutes else step % a.val_every == 0) or done:
             next_val = elapsed + 60 * a.val_minutes
-            v = validate(model, device, val_ids, labels)
-            score = v["bpm_agree"] + v["phase_agree"] + v["F_beat_vs_final0"] + v["F_down_vs_final0"]
+            n_val += 1
+            v = validate_all(n_val)
+            if gand_val:
+                score = v["gand_score"]
+            else:
+                score = v["bpm_agree"] + v["phase_agree"] + v["F_beat_vs_final0"] + v["F_down_vs_final0"]
             save_ckpt(model, run / f"step-{step}.ckpt", hparams)
             if best is None or score > best[1]:
                 best = (step, score)

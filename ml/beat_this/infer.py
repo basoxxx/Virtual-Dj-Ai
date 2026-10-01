@@ -151,6 +151,7 @@ def main():
     ap.add_argument("--reverse", action="store_true", help="dalla fine dell'elenco (per due processi in parallelo)")
     ap.add_argument("--max-minutes", type=float, default=0, help="si ferma dopo questi minuti (0 = mai)")
     ap.add_argument("--batch", type=int, default=8, help="blocchi per passata (PyTorch)")
+    ap.add_argument("--like", help="solo i brani che hanno già una previsione in pred/<LIKE> (es. final0)")
     a = ap.parse_args()
     name = a.name or Path(a.model).stem.replace("beat_this-", "")
     out = PRED / name
@@ -160,6 +161,8 @@ def main():
     # jamendo (generi vari) solo in parte: la musica dell'utente e la dance contano di più
     items = [it for it in items if not (it["source"] == "jamendo" and it["split"] == "train"
                                         and zlib.crc32(it["id"].encode()) % 100 >= 100 * a.jamendo_frac)]
+    if a.like:
+        items = [it for it in items if (PRED / a.like / f"{it['id']}.npz").exists()]
     # prima i brani di valutazione, poi quelli della chiavetta
     items.sort(key=lambda it: (it["split"] == "train", it["source"] != "usb", it["id"]), reverse=a.reverse)
     runner = make_runner(a.model, a.device, a.threads)
