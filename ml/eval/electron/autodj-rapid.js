@@ -1,4 +1,4 @@
-// Prova d'integrazione dei "tagli a raffica (stile LUM!X)": l'AI DJ dell'app vera suona una coda di 3 brani e fa due
+// Prova d'integrazione dei "tagli a raffica (stile DJ B)": l'AI DJ dell'app vera suona una coda di 3 brani e fa due
 // cambi da solo (senza "Mixa ora"). Registra per ogni brano quanto resta in onda, il piano (misure, entrata sul drop)
 // e il crossfader intorno ai tagli (volume master a zero). Uso: npx electron ml/eval/electron/autodj-rapid.js
 const { app, BrowserWindow } = require('electron');

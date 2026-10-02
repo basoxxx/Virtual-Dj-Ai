@@ -273,11 +273,11 @@ def load_real() -> dict:
     return out
 
 
-# lumix a 0: dai suoi set (brani di 20-40 s in rapida successione, VIP ed edit non pubblicati) esce una sola
+# dj-b a 0: dai suoi set (brani di 20-40 s in rapida successione, VIP ed edit non pubblicati) esce una sola
 # transizione affidabile, che ripetuta in un quinto dei lotti insegnerebbe rumore (vedi REPORT, giorno 10)
-V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0, "gabry": 1.0, "lumix": 0.0, "djmix2": 1.0}
+V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0, "dj-a": 1.0, "dj-b": 0.0, "djmix2": 1.0}
 # fonti "dance" (mix radiofonici e da club con cambi più corti): valutate a parte, fuori dalle misure su Mixotic
-DANCE = ["gabry", "lumix", "djmix2"]
+DANCE = ["dj-a", "dj-b", "djmix2"]
 
 
 def parse_shares(text: str) -> dict:
@@ -290,7 +290,7 @@ def parse_shares(text: str) -> dict:
 
 
 def load_dj(dj: str, window: str = "") -> dict | None:
-    """Transizioni dei mix di un DJ (dj_sets_dataset.py: gabry dalla v7, lumix dalla v8), se ci sono."""
+    """Transizioni dei mix di un DJ (dj_sets_dataset.py: dj-a dalla v7, dj-b dalla v8), se ci sono."""
     path = ML_DIR / "data" / dj / f"transitions{window}.npz"
     return load_npz(path) if path.exists() else None
 
@@ -302,8 +302,8 @@ def v5_data(window: str = "", shares: dict | None = None) -> dict:
     return combine([("gand", load_gand(window), sh["gand"], 0.0),
                     ("mixotic", load_mixotic(window), sh["mixotic"], 1.0),
                     ("mixotic-nuovi", load_mixotic_new(window), sh["mixotic-nuovi"], 1.0),
-                    ("gabry", load_dj("gabry", window), sh["gabry"], 1.0),
-                    ("lumix", load_dj("lumix", window), sh["lumix"], 1.0),
+                    ("dj-a", load_dj("dj-a", window), sh["dj-a"], 1.0),
+                    ("dj-b", load_dj("dj-b", window), sh["dj-b"], 1.0),
                     ("djmix2", load_dj("djmix2", window), sh["djmix2"], 1.0)])
 
 
@@ -432,10 +432,10 @@ def run_v5(args) -> None:
                 "lunghe": evaluate_split(models, data, np.where(mix & (kind == "inizio-0") & (raw > 128))[0]),
                 # le stesse finestre della valutazione della v4 (al massimo 128 battute, inizio e fine)
                 "finestre128": evaluate_split(models, short, np.where(s_mix)[0]),
-                # mix di Gabry Ponte tenuti da parte (dalla v7): finestre dall'entrata di B e finali, fino a 256
-                "gabry": evaluate_split(models, data, np.where(held_kind & (src == "gabry"))[0]),
-                # mix di LUM!X tenuti da parte (dalla v8)
-                "lumix": evaluate_split(models, data, np.where(held_kind & (src == "lumix"))[0]),
+                # mix di DJ A tenuti da parte (dalla v7): finestre dall'entrata di B e finali, fino a 256
+                "dj-a": evaluate_split(models, data, np.where(held_kind & (src == "dj-a"))[0]),
+                # mix di DJ B tenuti da parte (dalla v8)
+                "dj-b": evaluate_split(models, data, np.where(held_kind & (src == "dj-b"))[0]),
                 # mix recenti del DJ Mix Dataset tenuti da parte (dalla v8)
                 "djmix2": evaluate_split(models, data, np.where(held_kind & (src == "djmix2"))[0]),
                 "gandLarga": None,
@@ -451,7 +451,7 @@ def run_v5(args) -> None:
             results[str(gi)] = r
             print(json.dumps(r, ensure_ascii=False), flush=True)
             summary = {k: average([x.get(k) for x in results.values()])
-                       for k in ("corte", "lunghe", "finestre128", "gabry", "lumix", "djmix2", "gandLarga", "gandLargaFino256")}
+                       for k in ("corte", "lunghe", "finestre128", "dj-a", "dj-b", "djmix2", "gandLarga", "gandLargaFino256")}
             cfg = {"passi": args.v5_steps, "sinteticiPerLotto": args.v5_synth_share, "quote": shares}
             out_path.write_text(json.dumps({**cfg, "gruppi": groups, "perGruppo": results, "media": summary},
                                            indent=1, ensure_ascii=False))

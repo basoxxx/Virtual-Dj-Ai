@@ -1,4 +1,4 @@
-"""Mix di DJ veri (Gabry Ponte dalla v7, LUM!X dalla v8) e brani originali che suonano: solo in locale in
+"""Mix di DJ veri (DJ A dalla v7, DJ B dalla v8) e brani originali che suonano: solo in locale in
 ml/data/<dj>, fuori da git. Audio con copyright: si usa solo per calcolare le caratteristiche per battuta (uso deciso
 dall'utente il 28/09/2026).
 
@@ -10,7 +10,7 @@ dall'utente il 28/09/2026).
 - Brani: YouTube con yt-dlp, scegliendo tra i primi risultati quello con la durata più vicina a quella della
   tracklist (entro 25 s) e il titolo più simile, senza versioni live, rallentate, karaoke o remix non richiesti.
 
-Uso:  ml/.venv/bin/python ml/transitions/dj_sets_download.py --dj gabry|lumix|djmix2 [--mixes] [--tracks] [--limit N]
+Uso:  ml/.venv/bin/python ml/transitions/dj_sets_download.py --dj dj-a|dj-b|djmix2 [--mixes] [--tracks] [--limit N]
       ml/.venv/bin/python ml/transitions/dj_sets_download.py --dj djmix2 --interleave --patient
       (--interleave: mix per mix, prima il mix e poi i suoi brani; --patient: alla verifica anti-bot aspetta e riprova
       invece di fermarsi)
@@ -31,16 +31,16 @@ from pathlib import Path
 import yt_dlp
 
 ML_DIR = Path(__file__).resolve().parents[1]
-DJS = {"gabry": "gp-", "lumix": "lx-", "djmix2": "dm-"}  # cartella in ml/data e prefisso degli id dei brani
+DJS = {"dj-a": "da-", "dj-b": "db-", "djmix2": "dm-"}  # cartella in ml/data e prefisso degli id dei brani
 BAD = ("live", "slowed", "sped up", "nightcore", "karaoke", "reverb", "8d", "instrumental", "acapella", "lyrics",
        "1 hour", "loop", "cover", "tutorial", "reaction", "mashup")
 
 
-def track_id(artist: str, title: str, prefix: str = "gp-") -> str:
+def track_id(artist: str, title: str, prefix: str = "da-") -> str:
     return f"{prefix}{zlib.crc32(f'{artist} - {title}'.lower().encode()):08x}"
 
 
-def parse(path: Path, prefix: str = "gp-") -> dict:
+def parse(path: Path, prefix: str = "da-") -> dict:
     """tracklists.txt -> {mix: {title, page, source, tracks: [{pos, cue, artist, title, duration, id}]}}."""
     out, cur = {}, None
     for line in path.read_text().splitlines():
@@ -114,7 +114,7 @@ def log(rec: dict, path: Path) -> None:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dj", choices=sorted(DJS), default="gabry")
+    ap.add_argument("--dj", choices=sorted(DJS), default="dj-a")
     ap.add_argument("--mixes", action="store_true")
     ap.add_argument("--tracks", action="store_true")
     ap.add_argument("--limit", type=int, default=0, help="al massimo N brani nuovi (0 = tutti)")

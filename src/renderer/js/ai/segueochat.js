@@ -26,7 +26,7 @@ const nearestBars = (n) => BAR_CHOICES.reduce((a, b) => (Math.abs(b - n) < Math.
 export const STRATEGY_NAMES = { steady: 'costante', rise: 'crescente', wave: 'a onde', chill: 'rilassata', peak: 'picco' };
 const lowerFirst = (s) => (s ? s[0].toLowerCase() + s.slice(1) : s);
 
-/** I cambi per i prossimi brani in parole ("transizioni: tagli a raffica "). */
+/** I cambi per i prossimi brani in parole ("transizioni: tagli a raffica (stile LUM!X)"). */
 export function describeTemporary(keys, options) {
   return keys.map((k) => (k === 'filters' ? `filtri: ${describeFilters(options.filters) || 'nessuno'}` : lowerFirst(describeAction({ type: 'option', key: k, value: options[k] })))).join(', ');
 }
@@ -317,9 +317,9 @@ export function parseMessage(text, ctx = {}) {
 
   // --- opzioni: stile dei cambi
   const styleRe = [
-    ['rapid', /raffica|tagli veloci|cambi velocissimi/],
+    ['rapid', /raffica|lum ?!?x|tagli veloci|cambi velocissimi/],
     ['model-techno', /(stile|modello|transizioni|mix|cambi) (ai )?(da |in stile )?techno|mix lunghi techno/],
-    ['model', /stile dance|modello (ai )?dance|(transizioni|cambi) (in stile )?dance|(usa|con) il modello (ai|delle transizioni)/],
+    ['model', /stile dance|modello (ai )?dance|gabry ponte|alla gabry|(transizioni|cambi) (in stile )?dance|(usa|con) il modello (ai|delle transizioni)/],
     ['bassswap', /bass ?swap|scambio (dei |di )?bassi|con (gli )?eq\b|equalizzat/],
     ['echo', /\b(echo|eco)\b/],
     ['fade', /dissolvenz|\bfade\b|sfumat|sfuma\b/],

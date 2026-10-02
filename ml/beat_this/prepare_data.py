@@ -5,7 +5,7 @@
                gand     62 brani originali dei set di Gand (warp marker)       -> test
                usb      chiavetta: brani con tag BPM affidabile                 -> tag (test)
                         gli altri, per titolo normalizzato (duplicati insieme): 10% test, 10% val, 80% train
-               gabry, lumix, djmix (yt-*), djmix2 (file completi), jamendo    -> train (jamendo: 5% val)
+               dj-a, dj-b, djmix (yt-*), djmix2 (file completi), jamendo    -> train (jamendo: 5% val)
   spect      log-mel come l'app (float32 per i brani di valutazione, float16 per l'addestramento);
              brani < 60 s o > 12 min esclusi; riprendibile, N processi
   dedupe     impronta a bit (16 bande, 5 frame/s) per togliere dall'addestramento i brani uguali a uno
@@ -85,7 +85,7 @@ def build_inventory() -> list[dict]:
     else:
         print("chiavetta non collegata: niente brani usb")
     # altre sorgenti locali: addestramento
-    for src, root, pat in (("gabry", D / "gabry" / "tracks", "*"), ("lumix", D / "lumix" / "tracks", "*"),
+    for src, root, pat in (("dj-a", D / "dj-a" / "tracks", "*"), ("dj-b", D / "dj-b" / "tracks", "*"),
                            ("djmix", D / "djmix" / "audio", "yt-*"), ("djmix2", D / "djmix2" / "tracks", "*"),
                            ("jamendo", D / "jamendo", "*/*.mp3")):
         for p in sorted(root.glob(pat)):
