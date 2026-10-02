@@ -1193,3 +1193,257 @@ dall'app: SegueoChat usa solo l'interprete integrato e Segueo Chat, sempre in lo
 - Sulle 80 frasi a mano ne restano 8 sbagliate, tra cui *"siamo a cena, tieni la musica bassa di energia"* (non
   capita), *"alterna un pezzo tosto e uno tranquillo"* (letta come "tranquilla" invece di "a onde") e *"la serata
   deve partire soft e poi esplodere"* (anche "parti").
+
+## Giorno 13 — 1-2 ottobre 2026 (una notte di addestramento: più dati per tutti i modelli)
+
+Richiesta: "più dati", migliorare anche Beat This! e Demucs, poi tutti i modelli dalla chat alle transizioni, in
+automatico per una notte. Su tua decisione: download da YouTube lenti e senza account; MUSDB18 solo in locale e solo
+per misurare; risultati su un branch locale (`feat/notte-modelli`), niente online. Lavori pesanti in coda su
+`ml/data/night/lock.py` (un lavoro alla volta su GPU e su CPU). Macchina: M1 Pro 16 GB, collegata alla corrente.
+
+**Esito:**
+
+| Modello | Prima | Dopo | Nell'app |
+|---|---|---|---|
+| Segueo Chat | 2,1 MB, 3.527 interazioni di addestramento | **v2**, 4,3 MB, 7.662 interazioni | `segueo-chat-v2.onnx` |
+| Separazione voce | htdemucs | **htdemucs_ft, sotto-modello voce** | `segueo-separazione-voce-v2.onnx` |
+| Transizioni, stile dance | v7 | **v8** (+ mix del DJ Mix Dataset) | `segueo-transizioni-dance-v8.onnx` |
+| Analisi battute | small0 | small0 (due rifiniture provate, nessuna migliore) | invariato |
+
+I tre file nuovi vanno caricati nella release `models-v1`: finché non ci sono, `npm run models` e la CI falliscono.
+
+### Segueo Chat v2
+
+- **Dati:** otto file nuovi di interazioni (`agent11..18.jsonl`, 5.997 messaggi, scritti da otto sessioni di Claude
+  con un tema ciascuna: energia e andamento; stile e durata dei cambi; comandi e frasi che sembrano comandi; coda,
+  generi, scaletta e mashup; domande, saluti e messaggi senza richieste; 2-3 richieste nella stessa parte e dialetti;
+  messaggi lunghi con contesto e richieste riferite; messaggi brevissimi, inglese misto e "per un po'"). Ogni file
+  controllato con `check.py`, nessun doppione con gli altri né con il test a mano. In tutto **11.173 interazioni
+  uniche**: 7.662 addestramento, 1.171 dev, 2.340 test (stessa divisione fissa con l'hash del testo, quindi le
+  1.098 interazioni di test del 30/09 restano di test).
+- **Addestramento:** `train.py` configurabile (`CHAT_D`, `CHAT_H`, `CHAT_EPOCHS`, `CHAT_COPIES`, `CHAT_OUT`,
+  `CHAT_APP=0`); tre configurazioni × tre semi: 64/192 6 epoche (come prima), 96/256 8 epoche, 128/384 8 epoche.
+  4-7 minuti per seme su CPU. Scelto sul dev il seme 2 di **128/384** (int8, 4,3 MB).
+- **Confronto** (`compare.py`): stessi insiemi per tutti, soglie per testa riscelte sul nuovo dev anche per il modello
+  di prima (il confronto più favorevole per lui). Insieme = interprete + modello, come nell'app:
+
+| Messaggi giusti (falsi allarmi) | Prima | **v2** |
+|---|---|---|
+| Interazioni di test del 30/09 (1.098) | 68,2% (0,82%) | **77,5% (0,56%)** |
+| Interazioni di test nuove (1.242) | 55,5% (0,97%) | **64,5% (0,82%)** |
+| Frasi scritte a mano (80) | 88,8% (0,42%) | **91,2% (0,25%)** |
+| Modelli di frase mai visti (6.000) | 67,5% (0,44%) | **72,0% (0,33%)** |
+
+  Richieste capite male sulle interazioni del 30/09: 4,2% → 3,0%. Le configurazioni più grandi vanno meglio a ogni seme
+  (dev 65,9% prima; 68,0-69,3% con 64/192; 69,9-71,4% con 96/256; 71,4-72,5% con 128/384).
+- **Interprete:** "trentadue/sessantaquattro battute" diventavano 2 e 4 battute, "ventitre brani" 3 (le regex non
+  controllavano l'inizio della parola): corretto, e aggiunti 16, 24, 32, 48, 64 in lettere.
+- Test JavaScript: stessi punteggi e decisioni di Python; `npm test` 130/130.
+- **Limiti:** le interazioni restano scritte da modelli linguistici, addestramento e test dagli stessi autori; il test
+  più vicino all'uso vero resta una raccolta di frasi di DJ veri.
+
+### Separazione voce v2: htdemucs_ft misurato su MUSDB18
+
+Richiesta: migliorare la separazione di voce e base dei mashup (oggi `htdemucs`, file dell'app `segueo-separazione-voce.onnx`) senza costare di più in tempo e RAM nell'app, misurando su brani con le parti vere.
+
+#### Fatto
+
+- **Dati di misura: MUSDB18, le 50 tracce di test** (licenza solo ricerca non commerciale; su tua decisione solo in locale e solo per misurare, in `ml/data/musdb/test`, fuori da git):
+  - la versione completa su Zenodo ([10.5281/zenodo.1117372](https://zenodo.org/records/1117372)) oggi si scarica senza richiesta d'accesso né login; `ml/mashup/musdb_download.py` legge dallo zip da 4,7 GB solo l'indice e le 50 tracce di test (1,6 GB, STEMS AAC 44,1 kHz), CRC verificato;
+  - 50 tracce, 12.461 s di audio (3 h 28 min); nessun altro dataset;
+  - le tracce di test non sono nell'addestramento dei modelli Demucs ufficiali (metadati del sotto-modello voce: `musdbhq` + due raccolte interne di Meta, `train_valid False`).
+- **Metriche** (`ml/mashup/eval_musdb.py`), per traccia, su voce e base (base vera = batteria + basso + altro):
+  - **nSDR**: SDR "nuovo" della MDX Challenge usato dagli autori di Demucs (10·log10(Σref²/Σ(ref − stima)²) sul brano intero);
+  - **SDR v4**: BSSEval v4 di museval (blocchi di 1 s, mediana), calcolato direttamente; contro `museval.metrics.bss_eval` 0.4.1 su 30 s: differenza massima 3,6·10⁻¹⁵ dB.
+- **Condizioni dell'app** (verificate in `demucs.js`): blocchi di 7,8 s, sovrapposizione 0,25, pesi triangolari, shifts = 0, normalizzazione con media e deviazione standard del brano. Qualità misurata con PyTorch su MPS; controllo finale con l'ONNX in JavaScript.
+- **Candidati:** htdemucs (l'app); **htdemucs_ft, solo il sotto-modello voce** (`04573f0d`: stessa architettura e stessi 42,0 M di parametri, rifinito con perdita solo sulla voce); base come somma delle altre uscite o "mix − voce"; media htdemucs + htdemucs_ft; sovrapposizione 0,5 e shifts = 2; htdemucs_ft completo (solo informazione).
+- **Export** (`export_demucs.py --model htdemucs_ft --sub 3 --base mix-voce`): stessa interfaccia del file attuale; nella prima sorgente c'è già "mix − voce", nelle altre zeri calcolati.
+- **demucs.js:** la base ora è mix − voce calcolata in JavaScript (una sola ISTFT per canale e blocco invece di quattro, niente componente continua 3·media).
+
+#### Numeri misurati
+
+##### 1. Qualità su MUSDB18 (50 tracce, condizioni dell'app), dB, mediana / media
+
+| Voce e base | Tempo | Voce nSDR | Voce SDR v4 | Base nSDR | Base SDR v4 |
+|---|---|---|---|---|---|
+| htdemucs, base = somma (**l'app fino a ieri**) | 1× | 9,19 / 8,68 | 8,70 / 7,83 | 14,86 / 14,71 | 15,07 / 14,93 |
+| htdemucs, base = mix − voce | 1× | 9,19 / 8,68 | 8,70 / 7,83 | 14,96 / 14,89 | 15,22 / 15,17 |
+| htdemucs_ft voce, base = somma delle sue altre uscite | 1× | 9,49 / 8,94 | 8,90 / 8,15 | 2,73 / 2,74 | 2,71 / 2,73 |
+| **v2: htdemucs_ft voce, base = mix − voce (nell'app)** | **0,95×** | **9,49 / 8,94** | **8,90 / 8,15** | **15,12 / 15,14** | **15,41 / 15,45** |
+| media htdemucs + htdemucs_ft, base = mix − voce | 2× | 9,44 / 8,92 | 8,91 / 8,08 | 15,12 / 15,13 | 15,42 / 15,41 |
+
+Traccia per traccia, v2 (base esatta) contro l'app di ieri: voce **+0,25 dB** in mediana (meglio su 45 tracce su 50), base **+0,36 dB** (47 su 50); da −0,67 ("Lyndsey Ollard - Catching Up") a +0,96 dB sulla voce. Le altre tre uscite del sotto-modello voce sono inservibili (base 2,7 dB: rifinito con peso zero su batteria, basso e altro), da qui "mix − voce". La componente continua 3·media che demucs.js aggiungeva alla base costava fino a 1,5 dB sulle tracce con continua sensibile (media fino a 4,2·10⁻³).
+
+##### 2. Impostazioni d'inferenza (v2; prime 25 tracce, 6.149 s)
+
+| | Blocchi | Tempo (PyTorch MPS) | Voce nSDR | Base nSDR | Per traccia voce / base |
+|---|---|---|---|---|---|
+| sovrapposizione 0,25, shifts 0 (l'app) | 1× | 1× | 9,69 / 9,46 | 15,24 / 14,96 | |
+| sovrapposizione 0,5 | 1,5× | 1,37× | 9,75 / 9,46 | 15,27 / 14,96 | +0,02 / +0,02 dB |
+| shifts = 2 | 2× | 1,83× | 9,69 / 9,47 | 15,29 / 14,97 | +0,04 / +0,04 dB |
+
+Non convengono: centesimi di dB per il 50-100% di tempo in più.
+
+##### 3. htdemucs_ft completo (4 sotto-modelli, 10 tracce): stessa voce della v2, base −0,70 dB in mediana, 3,95× il tempo.
+
+##### 4. ONNX e JavaScript
+
+`segueo-separazione-voce-v2.onnx`: 174.319.684 byte, SHA-256 `e52a5a236f00be63e16ae5fea9945a1ead558115089c1ec0dc66d1bdac460cac`, opset 17, stessi ingressi e uscite, 41.984.456 parametri. Parità Python: errore relativo 4,2·10⁻¹³; 2,12 s per blocco (htdemucs: 2,06 s).
+
+Separazione in JavaScript (`bench_separate.mjs`, Node, 4 thread, 30 s di "Realizer", alternati): htdemucs 21,7 e 20,8 s, v2 21,8 e 21,8 s, picco 2,7-3,0 GB per entrambi; con la base mix − voce in demucs.js 19,9 e 19,8 s (−5%). Voce contro PyTorch 41,8 dB. Estratti di 60 s di MUSDB in JavaScript contro le parti vere: htdemucs 8,8/10,7 e 8,9/12,4 dB, v2 9,1/11,0 e 8,9/12,5 dB (come PyTorch entro 0,1 dB).
+
+#### Licenze
+
+- Pesi di htdemucs_ft: stessa provenienza di htdemucs (Alexandre Défossez, Meta; repository Hugging Face `adefossez/HTDemucs-ft`), stessi dati (MUSDB18-HQ + dati interni), nessuna licenza dichiarata: stessa situazione di htdemucs, già decisa da te. Codice MIT.
+- MUSDB18: solo in locale, solo per misurare, non entra nel modello né nel repository.
+
+#### Problemi aperti
+
+- Il miglioramento è piccolo ma costante (+0,25 dB voce, +0,36 dB base): all'ascolto sarà sottile. Per un salto vero servirebbero altri modelli (es. RoFormer della comunità), licenze e velocità da verificare.
+- MUSDB18 compresso (AAC, banda ~16 kHz), non HQ (22,6 GB): valori assoluti un po' più bassi di quelli pubblicati, confronto giusto.
+- Le parti già separate in `userData/stems` restano di htdemucs (il nome del file non dipende dal modello).
+- Script: `ml/mashup/musdb_download.py`, `eval_musdb.py`, `export_demucs.py`, `reference_separation.py`, `bench_separate.mjs`; risultati in `ml/data/demucs/`.
+
+### Transizioni v8 (stile dance): mix recenti del DJ Mix Dataset
+
+#### Fatto
+
+- **Fonte nuova "djmix2"** (`djmix_sets.py`): dal DJ Mix Dataset (stesse condizioni del giorno 2: metadati senza
+  licenza, audio solo in locale) i mix dal 2005 su SoundCloud/Mixcloud con almeno l'80% dei brani identificati e con
+  i tempi (cue di mixesdb: al minuto o al secondo) e almeno 8 transizioni: 885 mix; scelti 300 (100 dance/EDM, 106
+  house, 94 altri). Per ogni brano c'è l'id YouTube esatto: niente ricerca.
+- **Download** (`dj_sets_download.py --dj djmix2 --interleave --patient`): mix per mix, una richiesta alla volta,
+  pause di 8-20 s, senza account né cookie; alla verifica anti-bot avrebbe aspettato 30-120 minuti e riprovato.
+  In circa 16 ore: **89 mix** (24 non più su SoundCloud) e **1.242 brani** (182 rimossi, privati o vietati ai minori),
+  **nessuna verifica anti-bot**. Dalle 17:20 gli stili si alternano (house, altro, dance).
+- **Dataset** (`dj_sets_dataset.py --dj djmix2`): allineamento come per Gabry Ponte, con 75 s di tolleranza sui cue.
+  Nei programmi radio EDM (Afrojack, Hardwell, Tiësto…) i brani sono riconosciuti solo in parte, con buchi di 70-120
+  battute tra un brano e il successivo (voce, jingle, edit diversi dalle versioni di YouTube): molte transizioni
+  stimate partivano con il crossfader già a metà. Per djmix2 si tengono solo i **movimenti completi** del crossfader
+  (inizio sul lato di A, fine su quello di B) con errore del fit ≤ 0,5.
+- **Risultato: 65 transizioni** (102 finestre) da 40 mix, durata mediana 102 battute (16-472), fit mediano 0,224,
+  metà crossfader a 9,5 s dal cue (mediana su 63). Prima del filtro, con 33 transizioni da 16 mix, la v8 non
+  migliorava (vedi sotto).
+- **Confronto giusto** (`train.py --base-init/--base-shares/--compare-ckpt`): per ogni gruppo tenuto da parte si rifà
+  anche la ricetta della v7 (v6 + 1000 passi su Gand, Mixotic e Gabry Ponte) senza quei set. Così sui mix di Gabry
+  Ponte e di Mixotic tenuti da parte nessuno dei due li ha visti (la v7 rilasciata sì).
+- **v8** (`train.py --v5-cv --v5-final --tag v8 --v5-init planner-v6.pt --v5-steps 1000 --v5-synth-share 8
+  --v5-shares gand=1,mixotic=1,gabry=1,djmix2=1`): stessa ricetta della v7 con un quarto delle estrazioni reali dai
+  mix di djmix2. 4 gruppi (ognuno con un set Mixotic, un mix di Gabry Ponte e 10 mix djmix2), 40 minuti in tutto,
+  più 6 minuti per il modello finale (MPS).
+
+#### Numeri misurati
+
+Validazione incrociata (`ml/data/runs/v8-cv.json`), media pesata sulle finestre tenute da parte:
+
+| | **v8** | v7 rifatta | v7 rilasciata | Regole: bass swap | Regole: dissolvenza |
+|---|---|---|---|---|---|
+| **Mix djmix2** (75 finestre): crossfader | 0,235 | 0,235 | 0,230 | 0,247 | 0,262 |
+| EQ | **0,164** | 0,173 | 0,170 | 0,209 | 0,132 |
+| suono (dB) | 2,53 | 2,52 | 2,45 | 2,55 | 2,58 |
+| errore d'inizio / fine (battute) | **14,9** / 33,2 | 16,1 / 34,1 | 15,9 / 33,2 | 20,8 / 33,9 | 28,9 / 36,7 |
+| **Gabry Ponte** (27): crossfader | **0,185** | 0,195 | (vista) | 0,209 | 0,240 |
+| EQ | **0,100** | 0,112 | | 0,195 | 0,100 |
+| suono (dB) | 1,71 | **1,63** | | 2,04 | 1,79 |
+| **Mixotic, finestre fino a 128** (39): crossfader | **0,180** | 0,199 | (visti) | 0,235 | 0,261 |
+| EQ | **0,144** | 0,165 | | 0,206 | 0,104 |
+| suono (dB) | **1,99** | 2,05 | | 2,22 | 2,15 |
+| errore d'inizio / fine (battute) | **9,5 / 21,2** | 11,3 / 24,2 | | 18,0 / 23,6 | 25,8 / 27,7 |
+| **Crossfader di Gand**, finestra larga (23) | 0,088 | 0,089 | (vista) | 0,120 | 0,098 |
+
+- Contro la ricetta della v7 rifatta alla pari la v8 è meglio o uguale quasi ovunque: crossfader −10% sui set
+  techno di Mixotic, −5% sui mix di Gabry Ponte, EQ −5/−13%; sui mix djmix2 il crossfader è uguale. Peggiora un po'
+  il suono sui mix di Gabry Ponte (1,71 contro 1,63 dB).
+- Sui mix djmix2, che la v7 rilasciata non ha mai visto, la v7 rilasciata è un pelo meglio (0,230 contro 0,235). Ma
+  ha visto tutti i set delle altre fonti, mentre la v8 di ogni gruppo no: i mix djmix2 in addestramento servono più a
+  generalizzare sulle altre fonti che sui mix radio stessi.
+- Prove precedenti: con 33 transizioni djmix2 senza filtro la v8 era alla pari con la v7 rifatta (mix djmix2 0,311
+  contro 0,317, Gabry Ponte 0,197 contro 0,195). Con il filtro e 16 transizioni: mix djmix2 0,218 contro 0,262, ma
+  su 18 finestre.
+- **Generi** (`genre_eval.py`, 39 brani Jamendo mai visti), fuori dai generi da club / generi da club: scontro dei
+  bassi v8 0,8% / 0,6%, v7 0,7% / 0,7%; crossfader 0,095 / 0,092 contro 0,092 / 0,089; suono 1,07 / 0,99 dB contro
+  1,07 / 0,97. Uguali.
+- **ONNX v8:** fp32 identico a PyTorch, int8 errore medio 0,0024 (massimo 0,16), 6,9 MB, stessa architettura e
+  finestra da 256 battute della v7. Nell'app vera (`autodj-model.js`, 16 misure): piano "del modello AI, stile
+  dance", crossfader completo, bass swap (bassi di A −0,76, di B −0,92 → 0).
+- **La v8 sostituisce la v7 nello stile dance.** Lo stile techno resta la v6.
+
+#### Problemi aperti
+
+- I programmi radio EDM danno poche transizioni affidabili (0,7 per mix con il filtro): voce del conduttore,
+  jingle ed edit diversi da YouTube. I set da club (house, techno) si allineano meglio. Con più notti di download
+  (nessun blocco finora) si possono avere le altre 211 tracklist scelte.
+- La stima delle curve resta il limite: errore d'inizio di 15 battute sui mix djmix2 anche per il modello migliore.
+
+### Analisi delle battute: due rifiniture di small0, si tiene small0
+
+**Esito round 1: si tiene small0.** Il candidato migliore (B) è uguale a small0 su tutto ciò che ha un riferimento umano o dell'autore; su Gand è un po' meglio nella fase della battuta forte (+4 brani su 62, nessuno peggiorato, p = 0,12), non significativo, e la validazione decisa prima non lo sceglieva.
+
+#### Fatto
+
+- **Dati** (`ml/beat_this/prepare_data.py`, `ml/data/beat_this/`): log-mel come nell'app (scarto 2,6·10⁻⁴); 3.095 file in 830 s; chiavetta divisa per titolo normalizzato (80/10/10); dei 162 brani con tag affidabile ne restano 77 (manca la cartella `Techno` della vecchia chiavetta). La catena Python riproduce l'app (CC small0 int8: 23/25, 25/25, 23/25, griglia F 0,944; app 0,943).
+- **Doppioni** tra addestramento e valutazione con un'impronta a bit: 25 brani tolti (es. MIA, LALA, One Kiss, Thunder in gabry/lumix e nella chiavetta).
+- **Etichette di Gand**: due warp marker per clip → griglia a tempo costante; fase verificata con la cassa (flusso spettrale delle basse) su 47/62 brani; negli altri 15 marker spostati di 28–235 ms.
+- **Insegnante final0** (ONNX fp32 su CPU) su 1.361 brani di addestramento e 517 di valutazione/validazione.
+- **Etichette** (`labels.py`): brani "a griglia" (≥ 80% delle battute di final0 entro ±30 ms) → la griglia diventa l'etichetta; altrimenti battute di final0; tolti i brani con rapporto 2/3 o 3/4 tra small0 e final0 (errore 12/8 di final0).
+- **Rifinitura** (`finetune.py`): da small0, BatchNorm congelate, BCE "shift tolerant" come l'originale + distillazione dalle probabilità di final0; estratti di 30 s.
+- **MPS**: con l'attenzione fusa la memoria esplode (small0 16 GB con 4 blocchi); riscritta (prodotto-softmax-prodotto, ricalcolata nel backward): batch 2 in 1,3 s a passo con 8,4 GB.
+- **Export** (`export_candidate.py`): riesportando small0 si ottiene lo stesso file bit per bit (SHA 7cdf18…).
+
+#### Numeri misurati
+
+Addestramento effettivo: 1.340 brani, 86,6 h (814 a griglia, 526 liberi). A: lr 1e-4, aumenti, 45 min; B: lr 2e-5, senza aumenti, 30 min.
+
+| Modello | CC bpm ±0,5 | CC acc2 | CC battuta forte | CC griglia F | Tag ±0,5 | Tag metà/doppio |
+|---|---|---|---|---|---|---|
+| small0 int8 (app) | 23/25 | 25/25 | 23/25 | 0,944 | 73/77 | 76/77 |
+| final0 fp32 | 21/25 | 23/25 | 23/25 | 0,984 | 73/77 | 76/77 |
+| A int8 | 22/25 | 24/25 | 23/25 | 0,968 | 73/77 | 76/77 |
+| B int8 | 23/25 | 25/25 | 23/25 | 0,944 | 73/77 | 76/77 |
+
+| Modello | Gand F battute | Gand F battute forti | Gand BPM ±0,5 | Gand fase battuta forte | verificati: F battute | verificati: F b. forti | verificati: fase |
+|---|---|---|---|---|---|---|---|
+| small0 int8 (app) | 0,864 | 0,577 | 62/62 | 38/62 | 0,944 | 0,641 | 32/47 |
+| final0 fp32 | 0,877 | 0,627 | 62/62 | 40/62 | 0,943 | 0,669 | 33/47 |
+| A int8 | 0,883 | 0,589 | 62/62 | 41/62 | 0,953 | 0,627 | 32/47 |
+| B int8 | 0,872 | 0,597 | 62/62 | 42/62 | 0,942 | 0,646 | 35/47 |
+
+Chiavetta tenuta fuori (164 brani), accordo con final0: small0 F battute 0,938 / forti 0,870; B 0,940 / 0,855; A 0,934 / 0,838. A eredita da final0 la lettura 12/8 di "Captain Scurvy" (120 invece di 180). Dopo la rifinitura le battute forti sono troppe (A su Gand: precisione 0,49, richiamo 0,79; small0 0,54 / 0,63).
+
+ONNX B: fp32 contro PyTorch 1,3·10⁻⁴; int8 F battute 0,9988, forti 0,9972; JS + onnxruntime-web: griglia identica a Python su 25/25 CC; 7,64 s per 5 minuti come small0.
+
+#### Problemi aperti
+
+- Circa 75 minuti di GPU in tutto (macchina condivisa, MPS a batch 2): una frazione di epoca.
+- La validazione (accordo con final0) non segue bene i riferimenti umani.
+- Battute forti in eccesso dopo la rifinitura.
+- Prossimi passi: validazione su etichette umane (set di Gand), peso minore alle battute forti, insegnante migliore (media di final0/1/2), GPU CUDA.
+
+#### Round 2 (insegnante medio final0/1/2, battute forti, validazione umana)
+
+**Esito: si tiene small0.** Il candidato scelto in validazione (D tarato) migliora un po' la fase della battuta forte su Gand ma su CC legge "Captain Scurvy" (12/8) a 120 invece di 180, come final0: il criterio d'accettazione esclude peggioramenti su CC.
+
+- **Protocollo fissato prima della prova:** validazione umana su Gand set123 + setncs (19 brani; fase della battuta forte + F battute forti + F battute contro i warp marker); prova su Gand set044 + set281 + set286 (43 brani, 31 verificati), CC, tag, chiavetta tenuta fuori. Freno: accordo con final0 su 187 brani di validazione.
+- **Insegnante:** media delle probabilità di final0, final1 e final2 (checkpoint ufficiali MIT, solo pesi); 21 brani esclusi per livello metrico ambiguo; 1.322 brani di addestramento.
+- **Battute forti in eccesso:** causa il rumore sulla fase (i maestri esitano tra la battuta 1 e la 3 e, con il peso 86 dei positivi, conviene segnarle entrambe). Rimedio: perdita sulle battute forti solo dove final0, final1 e final2 concordano sulla battuta 1 (868 brani), poi soglia spostata di δ tarato sulla validazione umana.
+- **Rifiniture:** C (90 min), D (90 min), E (75 min) su MPS; circa 6 ore di GPU con l'insegnante.
+
+| Modello | CC ±0,5 | CC acc2 | CC battuta forte | Tag ±0,5 | Gand prova (43): F battute | F battute forti | fase | verificati (31): fase |
+|---|---|---|---|---|---|---|---|---|
+| small0 int8 (app) | 23/25 | 25/25 | 23/25 | 73/77 | 0,879 | 0,560 | 24 | 20 |
+| final0 | 21/25 | 23/25 | 23/25 | 73/77 | 0,891 | 0,598 | 26 | 21 |
+| media final0/1/2 | 21/25 | 23/25 | 24/25 | 73/77 | 0,890 | 0,605 | 29 | 23 |
+| B (round 1) | 23/25 | 25/25 | 23/25 | 73/77 | 0,889 | 0,590 | 28 | 23 |
+| D tarato (scelto in validazione) | 22/25 | 24/25 | 25/25 | 73/77 | 0,887 | 0,568 | 27 | 22 |
+
+D tarato contro small0 su Gand prova: fase 3 brani corretti e 0 rotti (p = 0,25); chiavetta tenuta fuori entro il rumore (stesso BPM 153 contro 150, stessa fase 126 contro 123).
+
+- **Lettura:** con 19 brani di validazione la scelta si adatta al rumore (+0,23 di punteggio in validazione, +3/43 in prova); distillare i final trasferisce la loro lettura dei ritmi terzinati a tutte le rifiniture lunghe (non a B, rifinito pochissimo).
+- **Prossimi passi:** validazione incrociata sui 5 set di Gand o correzioni della griglia fatte nell'app come etichette; una perdita verso small0 sul tempo per tenere il livello metrico sui brani non dance.
+
+### Per la release e il rilascio
+
+- Caricare nella release `models-v1`: `segueo-chat-v2.onnx` (4.276.882 byte), `segueo-separazione-voce-v2.onnx`
+  (174.319.684 byte), `segueo-transizioni-dance-v8.onnx` (6.946.394 byte); SHA-256 in `src/main/models.json`. Copie in
+  `ml/data/onnx/segueo/`.
+- Le parti già separate dagli utenti restano di htdemucs finché non si svuota `userData/stems`.
