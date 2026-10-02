@@ -39,14 +39,13 @@ Premi **🤖 AI DJ** (o `Ctrl+M`) e il programma mixa da solo, come un DJ:
    Nel pannello "Diario dell'AI" spiega ogni scelta.
 3. **Pianifica la transizione** sul punto di uscita del brano, allineata alla battuta forte, e sceglie lo stile:
    **bass swap** con gli EQ, **filtro**, **echo out** (per tempi incompatibili), **dissolvenza** o **taglio sul beat**.
-   Con **Transizioni → Tagli a raffica (stile LUM!X)** ogni brano suona 16-24 misure e il successivo entra con un
-   taglio secco sul battere dopo una misura di filtro, una volta su tre direttamente dal suo drop (tempi misurati
-   sui set di LUM!X).
+   Con **Transizioni → Tagli a raffica** ogni brano suona 16-24 misure e il successivo entra con un
+   taglio secco sul battere dopo una misura di filtro, una volta su tre direttamente dal suo drop.
 4. **Esegue il mix**: sync di tempo e fase, crossfader, EQ, filtri ed effetti si muovono da soli (si vedono le manopole
    girare), poi riporta gradualmente il brano al suo BPM originale.
    Con **Transizioni → Modello AI** le curve di crossfader, EQ basso/medio/alto e filtri le decide, battuta per
    battuta, una rete neurale che gira sul computer (`ml/transitions/`), anche per transizioni lunghe fino a 64
-   battute. Due stili: **dance** (imparato dai mix di Gabry Ponte: cambi corti e a tempo) e **techno**
+   battute. Due stili: **dance** (imparato da mix dance: cambi corti e a tempo) e **techno**
    (imparato da DJ set techno e minimal: dissolvenze lunghe). Se il modello non è disponibile si usano le regole.
 5. **Remix dal vivo** (opzione): mentre un brano suona da solo l'AI lo ricompone sulle frasi della griglia con loop
    roll, eco, filtro in salita e ripetizione della frase appena suonata.

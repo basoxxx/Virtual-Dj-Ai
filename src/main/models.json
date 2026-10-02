@@ -91,7 +91,7 @@
       "bundle": false,
       "bytes": 6946394,
       "sha256": "37dc1755ca4b4e648573be1ffeb2f85e5ca592832871d6ea3a3bfbcef4ff57f5",
-      "source": "Transizioni dell'AI DJ (modello C v7): v6 rifinita anche su 27 transizioni dei mix di Gabry Ponte (solo in locale), finestre fino a 256 battute; int8 dinamico"
+      "source": "Transizioni dell'AI DJ (modello C v7): v6 rifinita anche su 27 transizioni di mix dance (solo in locale), finestre fino a 256 battute; int8 dinamico"
     },
     {
       "file": "segueo-transizioni-v7-fp32.onnx",
@@ -113,7 +113,7 @@
       "bundle": true,
       "bytes": 6946394,
       "sha256": "342a0b821aaf93bc7432887d55dc4709271b7548e4868ca1fd92330d865c0de3",
-      "source": "Transizioni dell'AI DJ, stile dance (modello C v8: v6 rifinita sui mix di Gabry Ponte e su 65 transizioni di 88 mix recenti del DJ Mix Dataset); int8 dinamico"
+      "source": "Transizioni dell'AI DJ, stile dance (modello C v8: v6 rifinita su mix dance e su 65 transizioni di 88 mix recenti del DJ Mix Dataset); int8 dinamico"
     },
     {
       "file": "segueo-transizioni-techno-v6.onnx",

@@ -1,18 +1,18 @@
-"""Riconoscimento dei brani di un mix senza tracklist (dalla v8, per i set di DJ Matrix): il mix si confronta per
-battuta con una raccolta di brani già analizzati (chiavetta dell'utente, brani di Gabry Ponte e di LUM!X).
+"""Riconoscimento dei brani di un mix senza tracklist (dalla v8, per i set di DJ C): il mix si confronta per
+battuta con una raccolta di brani già analizzati (chiavetta dell'utente, brani di DJ A e di DJ B).
 
 Per ogni brano si prendono 8 campioni da 32 battute (dal 10 all'80% del brano) e si cercano in tutto il mix con un
 solo prodotto tra matrici (vettori per battuta come in align.similarity, senza trasposizione). Per ogni campione:
 punteggio massimo, sua posizione e z robusto (mediana e MAD dei punteggi su tutto il mix). Un brano è riconosciuto se
 il campione migliore supera Z_BEST e almeno un altro supera Z_AGREE sulla stessa diagonale (entro ±4 battute): stessa
-parte del brano nello stesso punto del mix, una coincidenza molto improbabile per caso. Soglie tarate sul mix
-Spotlight di Gabry Ponte (tracklist nota): 20 brani su 30 trovati e nessun falso su 453 brani che non ci sono
-(83 di Gabry Ponte e 400 della chiavetta). Le copie dello stesso audio si tengono una volta sola.
+parte del brano nello stesso punto del mix, una coincidenza molto improbabile per caso. Soglie tarate sul
+mix 1 di DJ A (tracklist nota): 20 brani su 30 trovati e nessun falso su 453 brani che non ci sono
+(83 di DJ A e 400 della chiavetta). Le copie dello stesso audio si tengono una volta sola.
 
 Uscita: tracklist con i tempi stimati (ml/data/<dj>/tracklists.json, come quella di dj_sets_download.py) e
 collegamenti alle caratteristiche dei brani in ml/data/<dj>/features, per dj_sets_dataset.py --no-features.
 
-Uso:  ml/.venv/bin/python ml/transitions/identify_tracks.py --dj matrix
+Uso:  ml/.venv/bin/python ml/transitions/identify_tracks.py --dj dj-c
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ ML_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ML_DIR / "transitions"))
 from align import _unit, _zunit  # noqa: E402
 
-POOLS = [ML_DIR / "data" / "usb" / "features", ML_DIR / "data" / "gabry" / "features", ML_DIR / "data" / "lumix" / "features"]
+POOLS = [ML_DIR / "data" / "usb" / "features", ML_DIR / "data" / "dj-a" / "features", ML_DIR / "data" / "dj-b" / "features"]
 PROBE = 32
 FRACS = (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
 Z_BEST = 5.0
@@ -42,7 +42,7 @@ def beat_vectors(f) -> np.ndarray:
 
 
 def names() -> dict:
-    """id -> "artista - titolo" dove si sa (inventario della chiavetta, tracklist di Gabry Ponte e LUM!X)."""
+    """id -> "artista - titolo" dove si sa (inventario della chiavetta, tracklist di DJ A e DJ B)."""
     import zlib
 
     out = {}
@@ -50,7 +50,7 @@ def names() -> dict:
     if inv.exists():
         for it in json.loads(inv.read_text()):
             out[f"usb-{zlib.crc32(it['path'].encode()):08x}"] = f"{it.get('artist') or ''} - {it.get('title') or Path(it['path']).stem}".strip(" -")
-    for dj in ("gabry", "lumix"):
+    for dj in ("dj-a", "dj-b"):
         p = ML_DIR / "data" / dj / "tracklists.json"
         if p.exists():
             for m in json.loads(p.read_text()).values():
@@ -112,7 +112,7 @@ def identify(mix_path: Path) -> list[dict]:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dj", default="matrix")
+    ap.add_argument("--dj", default="dj-c")
     args = ap.parse_args()
     data = ML_DIR / "data" / args.dj
     feat = data / "features"

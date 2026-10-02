@@ -17,9 +17,9 @@ export const TRANSITIONS = {
   echo: 'Echo out',
   fade: 'Dissolvenza',
   cut: 'Taglio sul beat',
-  rapid: 'Tagli a raffica (stile LUM!X)',
+  rapid: 'Tagli a raffica',
   // modelli di transizione per stile (vedi TRANSITION_STYLES in transition-planner.js)
-  model: 'Modello AI · dance (Gabry Ponte)',
+  model: 'Modello AI · dance',
   'model-techno': 'Modello AI · techno, mix lunghi',
 };
 
@@ -242,7 +242,7 @@ export function transitionState(type, p) {
       s.xf = p >= 0.5 ? 1 : 0;
       break;
     case 'rapid':
-      // stile LUM!X: nell'ultima misura l'uscente sale di filtro e perde i bassi, poi taglio netto sul battere
+      // tagli a raffica: nell'ultima misura l'uscente sale di filtro e perde i bassi, poi taglio netto sul battere
       s.outFilter = ease(p / 0.9) * 0.6;
       s.outLow = p >= 0.5 ? -1 : 0;
       s.xf = p >= 0.98 ? 1 : 0;

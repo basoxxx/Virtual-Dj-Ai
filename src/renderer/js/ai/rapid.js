@@ -1,9 +1,9 @@
-// Tagli a raffica, stile LUM!X. Misure dai suoi set (ml/REPORT.md, giorno 11): ogni brano suona circa 21 misure
+// Tagli a raffica. Misure da set reali (ml/REPORT.md, giorno 11): ogni brano suona circa 21 misure
 // (mediana), una volta su tre il successivo entra più avanti dell'inizio (spesso intorno alla misura 35, dove di
 // solito c'è il drop), e il cambio è secco sul beat invece di una dissolvenza.
 
 export const RAPID = {
-  playBars: [16, 24], // misure suonate per brano, sulle frasi da 8: in media 20 come le 21 di LUM!X
+  playBars: [16, 24], // misure suonate per brano, sulle frasi da 8: in media 20 come le 21 misurate
   dropShare: 1 / 3, // quota di entrate direttamente sul drop del brano successivo
   phraseBars: 8,
   dropLevel: 0.85, // il drop è la prima frase con energia >= 85% della frase più forte, dopo una più debole

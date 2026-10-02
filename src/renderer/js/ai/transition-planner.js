@@ -3,7 +3,7 @@ import { transitionInput } from './transition-model.js';
 
 // Modelli delle transizioni per stile (pannello AI DJ → Transizioni); beats = finestra del modello in battute
 // (128 per v1-v4, 256 dalla v5: fino a 64 misure).
-// - dance: imparato dai mix di Gabry Ponte (cambi corti e a tempo, v7)
+// - dance: imparato da mix dance (cambi corti e a tempo, v7)
 // - techno: imparato dai DJ set techno/minimal di Mixotic e dal crossfader di Gand (dissolvenze lunghe, v6)
 export const TRANSITION_STYLES = {
   model: { file: 'segueo-transizioni-dance-v8.onnx', beats: 256, name: 'dance' },

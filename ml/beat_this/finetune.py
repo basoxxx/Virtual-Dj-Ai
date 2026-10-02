@@ -43,7 +43,7 @@ RUNS = C.DATA / "runs"
 L = C.ref.CHUNK
 TEACHER = C.DATA / "pred" / "final0"
 # quota di estratti per sorgente (la musica dell'utente e la dance contano di più)
-SOURCE_WEIGHT = {"usb": 1.0, "gabry": 1.0, "lumix": 1.0, "djmix": 1.0, "djmix2": 1.0, "jamendo": 0.5}
+SOURCE_WEIGHT = {"usb": 1.0, "dj-a": 1.0, "dj-b": 1.0, "djmix": 1.0, "djmix2": 1.0, "jamendo": 0.5}
 
 
 class Excerpts(Dataset):

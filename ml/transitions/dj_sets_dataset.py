@@ -1,4 +1,4 @@
-"""Transizioni di DJ veri dai loro mix (Gabry Ponte dalla v7, LUM!X dalla v8): tracklist, mix e brani scaricati da
+"""Transizioni di DJ veri dai loro mix (DJ A dalla v7, DJ B dalla v8): tracklist, mix e brani scaricati da
 dj_sets_download.py, tutto solo in locale in ml/data/<dj>.
 
 Allineamento come per i set Mixotic nuovi (align.py: diagonali nella matrice di somiglianza brano × mix, un
@@ -11,7 +11,7 @@ mix coerente con la tracklist).
 Controllo indipendente (solo con i cue): istante in cui il crossfader stimato passa metà corsa contro il cue del
 brano entrante.
 
-Uso:  ml/.venv/bin/python ml/transitions/dj_sets_dataset.py --dj gabry|lumix|djmix2 [--window 128]
+Uso:  ml/.venv/bin/python ml/transitions/dj_sets_dataset.py --dj dj-a|dj-b|djmix2 [--window 128]
       -> ml/data/<dj>/features/, alignments/<mix>.json, transitions[-128].npz
 """
 
@@ -31,13 +31,13 @@ from build_dataset import MAX_BEATS, transitions_of_mix  # noqa: E402
 from features import extract  # noqa: E402
 from mixotic_dataset import AUDIBLE, MAX_FIT, PRE, SMOOTH, pack, window  # noqa: E402
 
-DATA = ML_DIR / "data" / "gabry"  # cambia con --dj
+DATA = ML_DIR / "data" / "dj-a"  # cambia con --dj
 FEAT = DATA / "features"
-PREFIX = {"gabry": "gp-", "lumix": "lx-", "djmix2": "dm-"}
+PREFIX = {"dj-a": "da-", "dj-b": "db-", "djmix2": "dm-"}
 # soglie di z più basse che per i set Mixotic nuovi (6): con i tempi della tracklist, o anche solo con l'ordine, i
 # brani dei mix radiofonici si susseguono senza buchi; provate 4/4, 3/4, 3/3,5: con 3/3,5 le transizioni tenute
 # passano da 21 a 27 con errore del fit mediano 0,161 (0,177 con 4/4) e metà crossfader a 9 s dal cue
-DJ = "gabry"
+DJ = "dj-a"
 MIN_Z = 3.0
 MIN_Z_NO_CUE = 3.5
 BEFORE, AFTER = 45.0, 45.0  # secondi di tolleranza intorno ai cue
@@ -165,7 +165,7 @@ def build(key: str, mix: dict, win: int) -> tuple[list[dict], dict]:
 def main():
     global DATA, FEAT, DJ, BEFORE, AFTER
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dj", choices=sorted(PREFIX), default="gabry")
+    ap.add_argument("--dj", choices=sorted(PREFIX), default="dj-a")
     ap.add_argument("--window", type=int, default=MAX_BEATS, help="finestra massima in battute (128 = come fino alla v4)")
     ap.add_argument("--no-features", action="store_true", help="non ricalcolare le caratteristiche mancanti")
     args = ap.parse_args()

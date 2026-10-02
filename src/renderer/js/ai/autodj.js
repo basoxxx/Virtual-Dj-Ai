@@ -387,7 +387,7 @@ export class AutoDJ extends EventTarget {
     if (t.type === 'rapid') {
       // tagli a raffica: il brano in onda suona solo 16-24 misure da dove è entrato, il successivo a volte dal drop
       const r = rapidTiming(cur, next, { entry: cur._aiEntry || 0, defaultMixIn: mixIn, random: this.random });
-      const why = `stile LUM!X: ${r.playBars} misure, ${r.fromDrop ? 'entrata sul drop' : 'entrata dal punto di mix'}`;
+      const why = `tagli a raffica: ${r.playBars} misure, ${r.fromDrop ? 'entrata sul drop' : 'entrata dal punto di mix'}`;
       return { ...t, why, from: cur, fromTrack: cur.track, to: next, toTrack: next.track, startAt: r.startAt, mixIn: r.mixIn, transTrackSec: r.transTrackSec };
     }
     return { ...t, from: cur, fromTrack: cur.track, to: next, toTrack: next.track, startAt, mixIn, transTrackSec };
@@ -840,7 +840,7 @@ export class AutoDJ extends EventTarget {
   }
 }
 
-export const TRANSITION_NAMES = { bassswap: 'bass swap', filter: 'filtro', echo: 'echo out', fade: 'dissolvenza', cut: 'taglio sul beat', rapid: 'a raffica (stile LUM!X)', model: 'del modello AI (dance)', 'model-techno': 'del modello AI (techno)' };
+export const TRANSITION_NAMES = { bassswap: 'bass swap', filter: 'filtro', echo: 'echo out', fade: 'dissolvenza', cut: 'taglio sul beat', rapid: 'a raffica', model: 'del modello AI (dance)', 'model-techno': 'del modello AI (techno)' };
 
 function label(t) {
   return t ? `${t.artist ? `${t.artist} - ` : ''}${t.title}` : '—';
