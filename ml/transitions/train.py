@@ -275,7 +275,9 @@ def load_real() -> dict:
 
 # lumix a 0: dai suoi set (brani di 20-40 s in rapida successione, VIP ed edit non pubblicati) esce una sola
 # transizione affidabile, che ripetuta in un quinto dei lotti insegnerebbe rumore (vedi REPORT, giorno 10)
-V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0, "gabry": 1.0, "lumix": 0.0}
+V5_SHARES = {"gand": 1.0, "mixotic": 1.0, "mixotic-nuovi": 1.0, "gabry": 1.0, "lumix": 0.0, "djmix2": 1.0}
+# fonti "dance" (mix radiofonici e da club con cambi più corti): valutate a parte, fuori dalle misure su Mixotic
+DANCE = ["gabry", "lumix", "djmix2"]
 
 
 def parse_shares(text: str) -> dict:
@@ -301,7 +303,8 @@ def v5_data(window: str = "", shares: dict | None = None) -> dict:
                     ("mixotic", load_mixotic(window), sh["mixotic"], 1.0),
                     ("mixotic-nuovi", load_mixotic_new(window), sh["mixotic-nuovi"], 1.0),
                     ("gabry", load_dj("gabry", window), sh["gabry"], 1.0),
-                    ("lumix", load_dj("lumix", window), sh["lumix"], 1.0)])
+                    ("lumix", load_dj("lumix", window), sh["lumix"], 1.0),
+                    ("djmix2", load_dj("djmix2", window), sh["djmix2"], 1.0)])
 
 
 def folds_of(sets: list[str]) -> list[list[str]]:
@@ -381,6 +384,21 @@ def run_v5(args) -> None:
         kw = {"templates": human_templates([s for s in train_sets if s.startswith("set")]), "lengths": SHORT_LENGTHS}
         return train(d4, np.where(np.isin(s4, train_sets))[0], args.v4_steps, init=v3_state, lr=1e-4, synth_share=12, synth_kwargs=kw)
 
+    def base_recipe(train_sets):
+        """Il modello di confronto rifatto senza il gruppo tenuto da parte: stessa partenza (--base-init) e stessi
+        passi, quote --base-shares (es. la ricetta della v7: djmix2=0). Dalla v8."""
+        b_shares = parse_shares(args.base_shares)
+        b_data = v5_data(shares=b_shares)
+        b_sets = np.array([m["set"] for m in b_data["meta"]])
+        b_src = np.array([m["fonte"] for m in b_data["meta"]])
+        idx = np.where(np.isin(b_sets, train_sets) & np.array([b_shares.get(f, 0) > 0 for f in b_src]))[0]
+        held = set(b_sets) - set(train_sets)
+        files = [f for f in default_files() if not any(f"-{h}-" in f.name for h in held)]
+        kw = {"templates": human_templates([s for s in train_sets if s.startswith("set")]), "lengths": LONG_LENGTHS}
+        init = torch.load(RUNS / args.base_init, map_location=DEVICE)
+        return train(b_data, idx, args.v5_steps, init=init, lr=1e-4, synth_share=args.v5_synth_share, synth_kwargs=kw,
+                     synth_files=files)
+
     if args.v5_cv:
         v4 = TransitionPlanner(N_IN).to(DEVICE)
         v4.load_state_dict(v4_state)
@@ -396,10 +414,17 @@ def run_v5(args) -> None:
             models = {tag: v5_model(train_sets, np.where(~np.isin(sets, held))[0]), base_name: v4}
             if args.v4_baseline:
                 models["v4_rifatta"] = v4_recipe(train_sets)
-            dance = np.isin(src, ["gabry", "lumix"])
+            if args.base_init:
+                models[args.base_name] = base_recipe(train_sets)
+            if args.compare_ckpt:
+                for ck in args.compare_ckpt.split(","):
+                    m = TransitionPlanner(N_IN).to(DEVICE)
+                    m.load_state_dict(torch.load(RUNS / ck, map_location=DEVICE))
+                    models[Path(ck).stem.replace("planner-", "")] = m
+            dance = np.isin(src, DANCE)
             mix = (np.isin(sets, held)) & (src != "gand") & ~dance & np.isin(kind, ["inizio-0", "fine"])
             held_kind = np.isin(sets, held) & np.isin(kind, ["inizio-0", "fine"])
-            s_mix = (np.isin(s_sets, held)) & (s_src != "gand") & ~np.isin(s_src, ["gabry", "lumix"]) & np.isin(s_kind, ["inizio-0", "fine"])
+            s_mix = (np.isin(s_sets, held)) & (s_src != "gand") & ~np.isin(s_src, DANCE) & np.isin(s_kind, ["inizio-0", "fine"])
             r = {
                 "tenuti": held,
                 # transizioni intere fino a 256 battute: corte (<= 128) e lunghe (> 128)
@@ -411,6 +436,8 @@ def run_v5(args) -> None:
                 "gabry": evaluate_split(models, data, np.where(held_kind & (src == "gabry"))[0]),
                 # mix di LUM!X tenuti da parte (dalla v8)
                 "lumix": evaluate_split(models, data, np.where(held_kind & (src == "lumix"))[0]),
+                # mix recenti del DJ Mix Dataset tenuti da parte (dalla v8)
+                "djmix2": evaluate_split(models, data, np.where(held_kind & (src == "djmix2"))[0]),
                 "gandLarga": None,
                 "minuti": None,
             }
@@ -424,7 +451,7 @@ def run_v5(args) -> None:
             results[str(gi)] = r
             print(json.dumps(r, ensure_ascii=False), flush=True)
             summary = {k: average([x.get(k) for x in results.values()])
-                       for k in ("corte", "lunghe", "finestre128", "gabry", "lumix", "gandLarga", "gandLargaFino256")}
+                       for k in ("corte", "lunghe", "finestre128", "gabry", "lumix", "djmix2", "gandLarga", "gandLargaFino256")}
             cfg = {"passi": args.v5_steps, "sinteticiPerLotto": args.v5_synth_share, "quote": shares}
             out_path.write_text(json.dumps({**cfg, "gruppi": groups, "perGruppo": results, "media": summary},
                                            indent=1, ensure_ascii=False))
@@ -465,6 +492,10 @@ def main():
     ap.add_argument("--v5-synth-share", type=int, default=12, help="transizioni sintetiche per lotto di 32")
     ap.add_argument("--v5-init", default="planner-v4.pt", help="checkpoint di partenza (e di confronto), es. planner-v6.pt per la v7")
     ap.add_argument("--v4-baseline", action="store_true", help="con --v5-cv: rifà anche la v4 per ogni gruppo (stessa ricetta, dati della v4)")
+    ap.add_argument("--base-init", default="", help="con --v5-cv: rifà anche un modello di confronto per ogni gruppo da questo checkpoint (es. planner-v6.pt)")
+    ap.add_argument("--base-shares", default="djmix2=0", help="quote delle fonti per il modello di confronto (es. la ricetta della v7)")
+    ap.add_argument("--base-name", default="v7_rifatta", help="nome del modello di confronto nei risultati")
+    ap.add_argument("--compare-ckpt", default="", help="con --v5-cv: checkpoint da valutare così come sono (es. planner-v7.pt)")
     ap.add_argument("--pre-steps", type=int, default=4000)
     ap.add_argument("--ft-steps", type=int, default=600)
     args = ap.parse_args()

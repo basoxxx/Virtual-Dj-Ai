@@ -11,7 +11,7 @@ mix coerente con la tracklist).
 Controllo indipendente (solo con i cue): istante in cui il crossfader stimato passa metà corsa contro il cue del
 brano entrante.
 
-Uso:  ml/.venv/bin/python ml/transitions/dj_sets_dataset.py --dj gabry|lumix [--window 128]
+Uso:  ml/.venv/bin/python ml/transitions/dj_sets_dataset.py --dj gabry|lumix|djmix2 [--window 128]
       -> ml/data/<dj>/features/, alignments/<mix>.json, transitions[-128].npz
 """
 
@@ -33,7 +33,7 @@ from mixotic_dataset import AUDIBLE, MAX_FIT, PRE, SMOOTH, pack, window  # noqa:
 
 DATA = ML_DIR / "data" / "gabry"  # cambia con --dj
 FEAT = DATA / "features"
-PREFIX = {"gabry": "gp-", "lumix": "lx-"}
+PREFIX = {"gabry": "gp-", "lumix": "lx-", "djmix2": "dm-"}
 # soglie di z più basse che per i set Mixotic nuovi (6): con i tempi della tracklist, o anche solo con l'ordine, i
 # brani dei mix radiofonici si susseguono senza buchi; provate 4/4, 3/4, 3/3,5: con 3/3,5 le transizioni tenute
 # passano da 21 a 27 con errore del fit mediano 0,161 (0,177 con 4/4) e metà crossfader a 9 s dal cue
@@ -41,6 +41,11 @@ DJ = "gabry"
 MIN_Z = 3.0
 MIN_Z_NO_CUE = 3.5
 BEFORE, AFTER = 45.0, 45.0  # secondi di tolleranza intorno ai cue
+# i cue di mixesdb (djmix2) sono spesso solo al minuto: più tolleranza
+TOLERANCE = {"djmix2": 75.0}
+# mix radiofonici del DJ Mix Dataset: voce, jingle e brani riconosciuti solo in parte spostano spesso l'inizio o la fine
+# della transizione stimata (crossfader già a metà alla prima battuta): si tengono solo i movimenti completi
+REQUIRE_COMPLETE = {"djmix2"}
 
 
 AUDIO_EXT = {".m4a", ".webm", ".opus", ".mp3", ".ogg", ".wav", ".mp4"}
@@ -140,6 +145,9 @@ def build(key: str, mix: dict, win: int) -> tuple[list[dict], dict]:
         it["set"] = f"{PREFIX[DJ]}{key}"
         it["rawLength"] = R = it["length"]
         xf = it["y"][:, 0]
+        # movimento completo del crossfader dentro la transizione: parte dal lato di A e arriva a quello di B
+        n4 = max(1, min(4, len(xf) // 8))
+        it["complete"] = bool(xf[:n4].mean() <= 0.2 and xf[-n4:].mean() >= 0.8)
         j_half = int(np.argmax(xf >= 0.5)) if (xf >= 0.5).any() else None
         it["halfTime"] = float(mb[it["mixStartBeat"] + j_half]) if j_half is not None else None
         it["cueB"] = cues.get(it["posA"] + 1)
@@ -155,7 +163,7 @@ def build(key: str, mix: dict, win: int) -> tuple[list[dict], dict]:
 
 
 def main():
-    global DATA, FEAT, DJ
+    global DATA, FEAT, DJ, BEFORE, AFTER
     ap = argparse.ArgumentParser()
     ap.add_argument("--dj", choices=sorted(PREFIX), default="gabry")
     ap.add_argument("--window", type=int, default=MAX_BEATS, help="finestra massima in battute (128 = come fino alla v4)")
@@ -163,6 +171,7 @@ def main():
     args = ap.parse_args()
     DJ, DATA = args.dj, ML_DIR / "data" / args.dj
     FEAT = DATA / "features"
+    BEFORE = AFTER = TOLERANCE.get(DJ, BEFORE)
     win = args.window
     if not args.no_features:
         features()
@@ -174,11 +183,12 @@ def main():
         tr, al = build(key, mix, win)
         good = [t for t in al["tracks"] if not t.get("failed")]
         base = [t for t in tr if t["kind"] == "inizio-0"]
-        ok = {t["posA"] for t in base if t["fitError"] <= MAX_FIT}
-        print(f"== {key}: {len(good)} brani allineati su {len(mix['tracks'])}, {len(base)} transizioni, {len(ok)} con fit <= {MAX_FIT}")
+        ok = {t["posA"] for t in base if t["fitError"] <= MAX_FIT and (t["complete"] or DJ not in REQUIRE_COMPLETE)}
+        print(f"== {key}: {len(good)} brani allineati su {len(mix['tracks'])}, {len(base)} transizioni, {len(ok)} tenute")
         for t in base:
             dt = f"{t['halfTime'] - t['cueB']:+6.1f} s" if t["halfTime"] is not None and t["cueB"] is not None else "   n/d  "
             print(f"  {t['posA'] + 1:2d}->{t['posA'] + 2:2d}  battute {t['rawLength']:3d}  fit {t['fitError']:.3f}  "
+                  f"{'completa' if t['complete'] else 'parziale'}  "
                   f"zA {t['zA']:.1f} zB {t['zB']:.1f}  metà crossfader - cue {dt}")
         kept += [t for t in tr if t["posA"] in ok]
     if not kept:

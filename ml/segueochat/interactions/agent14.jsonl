@@ -1,0 +1,734 @@
+{"text": "mettimi in coda Vento di Maggio di Marta Sole", "labels": {"queue": "add"}}
+{"text": "c'è una coppia che chiede Golden Hour da mezz'ora, accodala", "labels": {"queue": "add"}}
+{"text": "aggiungi Sabbia alla lista dei prossimi, non subito", "labels": {"queue": "add"}}
+{"text": "metti in lista anche Corallo di DJ Volpe", "labels": {"queue": "add"}}
+{"text": "il direttore di sala mi ha chiesto Satellite per più tardi, segnala in coda", "labels": {"queue": "add"}}
+{"text": "tra un paio di pezzi mettimi northern lights", "labels": {"queue": "add"}}
+{"text": "accoda neon nights x favore", "labels": {"queue": "add"}}
+{"text": "glass city in coda, la chiede la festeggiata", "labels": {"queue": "add"}}
+{"text": "metti anche Luna Park in coda, la sanno tutti", "labels": {"queue": "add"}}
+{"text": "ricordami di mettere Mare Blu verso la fine della serata", "labels": {"queue": "add"}}
+{"text": "in fondo alla coda Notte Bianca di Ivo Lanza", "labels": {"queue": "add"}}
+{"text": "la nonna della sposa vuole sentire Estate, mettila tra le prossime", "labels": {"queue": "add"}}
+{"text": "puoi aggiungere Tropico alla coda?", "labels": {"queue": "add"}}
+{"text": "Kira Moon - Eclipse, mettila in lista", "labels": {"queue": "add"}}
+{"text": "AGGIUNGI FUOCO IN CODA", "labels": {"queue": "add"}}
+{"text": "aggiugni electric dreams alla coda", "labels": {"queue": "add"}}
+{"text": "metti in coda moonlite di aurelia vance", "labels": {"queue": "add"}}
+{"text": "tra le richieste c'è Low Tide, aggiungila", "labels": {"queue": "add"}}
+{"text": "segnati Polvere d'Oro per dopo il buffet", "labels": {"queue": "add"}}
+{"text": "parallel in coda, grz", "labels": {"queue": "add"}}
+{"text": "una tipa al bancone insiste per Night Drive, mettila in lista sennò non mi lascia in pace", "labels": {"queue": "add"}}
+{"text": "infila Sirena da qualche parte prima dell'una", "labels": {"queue": "add"}}
+{"text": "mi aggiungi Midnight Ferry? è dei Velvet Owls", "labels": {"queue": "add"}}
+{"text": "inserisci nella coda Orizzonte di Lunaria", "labels": {"queue": "add"}}
+{"text": "più avanti nella serata ci sta Kalimba, mettila in coda", "labels": {"queue": "add"}}
+{"text": "aggiungi Danza del Fuoco di Mila Torres alla lista d'attesa", "labels": {"queue": "add"}}
+{"text": "metti Weightless in coda, quando capita, non c'è fretta", "labels": {"queue": "add"}}
+{"text": "in coda: Mare Blu, Estate, Fuoco. roba nostra per i parenti", "labels": {"queue": "add"}}
+{"text": "il festeggiato compie 30 anni e vuole Electric Dreams, accodala", "labels": {"queue": "add"}}
+{"text": "aggiungi in coda la versione extended di Afterglow", "labels": {"queue": "add"}}
+{"text": "sta arrivando il gruppo del calcetto, metti in coda Paradise City per quando entrano", "labels": {"queue": "add"}}
+{"text": "voglio che stasera passi Moonlight, mettila in lista", "labels": {"queue": "add"}}
+{"text": "quando ci sta bene metti Luna Park di DJ Volpe", "labels": {"queue": "add"}}
+{"text": "mettimi in coda Summer Rain, la chiedono dal privé", "labels": {"queue": "add"}}
+{"text": "accodala tu Golden Hour, io vado un attimo fuori", "labels": {"queue": "add"}}
+{"text": "metti in coda \"Notte Bianca\"", "labels": {"queue": "add"}}
+{"text": "ho una richiesta per te: Parallel di Kaito Mori. in coda", "labels": {"queue": "add"}}
+{"text": "metti in lista d'attesa Night Drive, la sposa la adora", "labels": {"queue": "add"}}
+{"text": "metti in coda vento di maggio, è la canzone dei due sposi", "labels": {"queue": "add"}}
+{"text": "mi infili weightless tra un po'?", "labels": {"queue": "add"}}
+{"text": "Mettila in coda Estate, la vogliono i ragazzi del tavolo 7", "labels": {"queue": "add"}}
+{"text": "voglio sentire satellite stasera, aggiungila", "labels": {"queue": "add"}}
+{"text": "metti in coda Midnight Ferry e Polvere d'Oro", "labels": {"queue": "add"}}
+{"text": "fuoco mettila in coda che fra poco ci sta", "labels": {"queue": "add"}}
+{"text": "addami danza del fuoco in coda", "labels": {"queue": "add"}}
+{"text": "puoi mettere in lista Mare Blu di Leo Marin?", "labels": {"queue": "add"}}
+{"text": "ok aggiungi electric dreams in fondo", "labels": {"queue": "add"}}
+{"text": "aggiungi moonlight, poi northern lights, poi golden hour", "labels": {"queue": "add"}}
+{"text": "la festeggiata ha 18 anni e vuole Neon Nights, aggiungila", "labels": {"queue": "add"}}
+{"text": "metti glass city tra le prossime richieste, non per forza subito", "labels": {"queue": "add"}}
+{"text": "allora, il testimone mi ha scritto su whatsapp che vuole Afterglow, mettila in coda", "labels": {"queue": "add"}}
+{"text": "quando la pista si riempie mettimi Satellite", "labels": {"queue": "add"}}
+{"text": "non dimenticare Mare Blu stasera, mettila in coda", "labels": {"queue": "add"}}
+{"text": "in lista anche quella di Marta Sole, Vento di Maggio", "labels": {"queue": "add"}}
+{"text": "metti in coda il pezzo di Ezra Kane, Satellite, che lo chiedono da un'ora", "labels": {"queue": "add"}}
+{"text": "accodiamo kalimba e tropico per il momento latino", "labels": {"queue": "add"}}
+{"text": "metti in cosa sabbia", "labels": {"queue": "add"}}
+{"text": "aggiungi in lista paradise ciy", "labels": {"queue": "add"}}
+{"text": "aggiungi Golden Hour in coda e poi niente più reggaeton", "labels": {"queue": "add", "genre": "exclude"}}
+{"text": "metti in coda Sabbia e da adesso solo deep house", "labels": {"queue": "add", "genre": "include"}}
+{"text": "accoda Fuoco e mettici anche un po' di latino nel giro", "labels": {"queue": "add", "genre": "add"}}
+{"text": "aggiungi Estate alla coda e intanto alza l'energia", "labels": {"queue": "add", "strategy": "rise"}}
+{"text": "in coda Northern Lights e poi transizioni più lunghe", "labels": {"queue": "add", "bars": "long"}}
+{"text": "metti in lista Satellite, e cosa c'è adesso in coda?", "labels": {"queue": "add", "info": "queue"}}
+{"text": "metti Corallo in coda e per i prossimi due pezzi solo afro house", "labels": {"queue": "add", "genre": "include", "temporary": "yes"}}
+{"text": "accoda Luna Park e fai partire la musica", "labels": {"queue": "add", "control": "start"}}
+{"text": "aggiungi Tropico alla coda e anche qualche pezzo reggaeton qua e là", "labels": {"queue": "add", "genre": "add"}}
+{"text": "metti in coda Vento di Maggio, e niente trap per tutta la sera", "labels": {"queue": "add", "genre": "exclude"}}
+{"text": "dopo questo pezzo vai con Vento di Maggio", "labels": {"queue": "playNext"}}
+{"text": "la prossima deve essere Satellite di Ezra Kane, me l'ha chiesta il capo", "labels": {"queue": "playNext"}}
+{"text": "subito dopo questa metti Corallo", "labels": {"queue": "playNext"}}
+{"text": "come prossima voglio Luna Park", "labels": {"queue": "playNext"}}
+{"text": "appena finisce questo parte night drive", "labels": {"queue": "playNext"}}
+{"text": "finita questa mettimi Polvere d'Oro", "labels": {"queue": "playNext"}}
+{"text": "a ruota dopo questa Sabbia di Marta Sole", "labels": {"queue": "playNext"}}
+{"text": "metti in testa alla coda Notte Bianca", "labels": {"queue": "playNext"}}
+{"text": "porta Electric Dreams in cima alla coda, deve partire per prima", "labels": {"queue": "playNext"}}
+{"text": "il prossimo brano lo voglio Tropico", "labels": {"queue": "playNext"}}
+{"text": "next track: Midnight Ferry", "labels": {"queue": "playNext"}}
+{"text": "dopo sto pezzo metti Moonlight che arriva la torta", "labels": {"queue": "playNext"}}
+{"text": "Golden Hour deve essere la prossima, assolutamente", "labels": {"queue": "playNext"}}
+{"text": "fammi partire Orizzonte appena chiudi questo", "labels": {"queue": "playNext"}}
+{"text": "dopo questa sirena di lunaria", "labels": {"queue": "playNext"}}
+{"text": "anticipa Paradise City, la voglio subito dopo", "labels": {"queue": "playNext"}}
+{"text": "prossimo: Eclipse", "labels": {"queue": "playNext"}}
+{"text": "la sposa entra tra 3 minuti, dopo questa Estate", "labels": {"queue": "playNext"}}
+{"text": "dopo quella che sta suonando metti Danza del Fuoco", "labels": {"queue": "playNext"}}
+{"text": "sposta Weightless in cima, come prossima", "labels": {"queue": "playNext"}}
+{"text": "subito dopo voglio sentire Low Tide", "labels": {"queue": "playNext"}}
+{"text": "DOPO QUESTA METTI NEON NIGHTS", "labels": {"queue": "playNext"}}
+{"text": "dp questa summer rain", "labels": {"queue": "playNext"}}
+{"text": "come prossima northen lights", "labels": {"queue": "playNext"}}
+{"text": "fai che la prossima sia Afterglow", "labels": {"queue": "playNext"}}
+{"text": "prima di tutto il resto metti Mare Blu", "labels": {"queue": "playNext"}}
+{"text": "salta la fila: Fuoco come prossima", "labels": {"queue": "playNext"}}
+{"text": "metti Corallo dopo questa e poi torna a scegliere tu", "labels": {"queue": "playNext", "mode": "ai"}}
+{"text": "la prossima è Vento di Maggio, poi il resto come prima", "labels": {"queue": "playNext"}}
+{"text": "appena finisce questo pezzo mettimi parallel", "labels": {"queue": "playNext"}}
+{"text": "il prossimo lo scelgo io: Sabbia", "labels": {"queue": "playNext"}}
+{"text": "dopo questa mettimi Satellite e alza un po' il tiro", "labels": {"queue": "playNext", "strategy": "rise"}}
+{"text": "subito dopo midnight ferry, è la richiesta del compleanno", "labels": {"queue": "playNext"}}
+{"text": "ok quando finisce questa parte golden hour", "labels": {"queue": "playNext"}}
+{"text": "dopo il pezzo che sta andando, Tropico di Bruno Fax", "labels": {"queue": "playNext"}}
+{"text": "subito dopo questo metti Orizzonte, con un taglio secco", "labels": {"queue": "playNext", "style": "cut"}}
+{"text": "metti Moonlight per prossima, la chiede la mamma della sposa", "labels": {"queue": "playNext"}}
+{"text": "dopo questo brano metti Mezzanotte a Rimini", "labels": {"queue": "playNext"}}
+{"text": "appena chiude questa canzone vai con Eclipse di Kira Moon", "labels": {"queue": "playNext"}}
+{"text": "metti in cima Polvere d'Oro, deve andare prima delle altre", "labels": {"queue": "playNext"}}
+{"text": "dopo questa estate di leo marin, la cantano tutti", "labels": {"queue": "playNext"}}
+{"text": "prossima traccia: weightless. vai", "labels": {"queue": "playNext"}}
+{"text": "dopo questa mettimi Low Tide e niente commerciale per un po'", "labels": {"queue": "playNext", "genre": "exclude", "temporary": "yes"}}
+{"text": "come prossima Danza del Fuoco e poi solo latino", "labels": {"queue": "playNext", "genre": "include"}}
+{"text": "metti fuoco come prossimo, e dopo fai un mashup a sorpresa", "labels": {"queue": "playNext", "mashup": "auto"}}
+{"text": "dopo questa Ultimo Treno e chiudi il pezzo con l'eco", "labels": {"queue": "playNext", "style": "echo"}}
+{"text": "raga la sposa sta arrivando in pista, Vento di Maggio subito dopo questa per favore", "labels": {"queue": "playNext"}}
+{"text": "finito sto pezzo voglio Corallo, non tra mezz'ora", "labels": {"queue": "playNext"}}
+{"text": "passala davanti alle altre: Luna Park come prossima", "labels": {"queue": "playNext"}}
+{"text": "satellite next", "labels": {"queue": "playNext"}}
+{"text": "la prossima la decido io ed è Midnight Ferry", "labels": {"queue": "playNext"}}
+{"text": "dopo questo metti sabbia e intanto solo deep house", "labels": {"queue": "playNext", "genre": "include"}}
+{"text": "togli Vento di Maggio dalla coda, gli sposi hanno cambiato idea", "labels": {"queue": "remove"}}
+{"text": "leva sabbia dalla lista", "labels": {"queue": "remove"}}
+{"text": "Corallo non la voglio più in coda", "labels": {"queue": "remove"}}
+{"text": "cancella Luna Park dalle richieste", "labels": {"queue": "remove"}}
+{"text": "rimuovi Satellite, l'abbiamo già suonata", "labels": {"queue": "remove"}}
+{"text": "elimina dalla coda Polvere d'Oro", "labels": {"queue": "remove"}}
+{"text": "night drive toglila, il tipo che l'aveva chiesta è andato via", "labels": {"queue": "remove"}}
+{"text": "via Tropico dalla coda", "labels": {"queue": "remove"}}
+{"text": "Electric Dreams fuori dalla lista, troppo lenta per adesso", "labels": {"queue": "remove"}}
+{"text": "depenna Kalimba", "labels": {"queue": "remove"}}
+{"text": "tolgi midnight ferry dalla cosa", "labels": {"queue": "remove"}}
+{"text": "non mettere più Notte Bianca, cancellala", "labels": {"queue": "remove"}}
+{"text": "Orizzonte l'ho accodata per sbaglio, toglila", "labels": {"queue": "remove"}}
+{"text": "levami moonlight dalla queue", "labels": {"queue": "remove"}}
+{"text": "la richiesta di Sirena annullala", "labels": {"queue": "remove"}}
+{"text": "Estate toglila dalla lista che l'ha già fatta la band dal vivo", "labels": {"queue": "remove"}}
+{"text": "sunday motion meglio di no, levala dalla coda", "labels": {"queue": "remove"}}
+{"text": "cancella Eclipse di Kira Moon dalla lista d'attesa", "labels": {"queue": "remove"}}
+{"text": "dalla coda leva Ultimo Treno", "labels": {"queue": "remove"}}
+{"text": "ELIMINA PARADISE CITY DALLA CODA", "labels": {"queue": "remove"}}
+{"text": "fuoco via dalle richieste per favore", "labels": {"queue": "remove"}}
+{"text": "summer rain no, cancellala", "labels": {"queue": "remove"}}
+{"text": "togli quella di Marta Sole dalla coda", "labels": {"queue": "remove"}}
+{"text": "Afterglow l'abbiamo già sentita due volte, fuori dalla coda", "labels": {"queue": "remove"}}
+{"text": "scarta Mare Blu dalla lista dei prossimi", "labels": {"queue": "remove"}}
+{"text": "Low Tide non suonarla più, toglila dalla coda", "labels": {"queue": "remove"}}
+{"text": "rimuovi la richiesta di Open Water", "labels": {"queue": "remove"}}
+{"text": "quella che ho messo in coda prima, Kalimba, cancellala", "labels": {"queue": "remove"}}
+{"text": "via Polvere d'Oro dalla coda, non c'entra niente con la techno che stiamo facendo", "labels": {"queue": "remove"}}
+{"text": "la mamma dello sposo ha detto che Satellite le ricorda l'ex, toglila subito dalla lista", "labels": {"queue": "remove"}}
+{"text": "leva dalla coda vento di maggio e anche luna park", "labels": {"queue": "remove"}}
+{"text": "togli Luna Park dalla coda e niente più anni 2000", "labels": {"queue": "remove", "genre": "exclude"}}
+{"text": "leva Corallo dalla lista e alza l'energia", "labels": {"queue": "remove", "strategy": "rise"}}
+{"text": "Sabbia toglila e fammi vedere la coda", "labels": {"queue": "remove", "info": "queue"}}
+{"text": "rimuovi Tropico dalla coda, e basta latino per stasera", "labels": {"queue": "remove", "genre": "exclude"}}
+{"text": "svuota la coda, sono tutte richieste del compleanno di prima", "labels": {"queue": "clear"}}
+{"text": "azzera tutta la lista d'attesa", "labels": {"queue": "clear"}}
+{"text": "cancella tutte le richieste, ripartiamo", "labels": {"queue": "clear"}}
+{"text": "coda a zero per favore", "labels": {"queue": "clear"}}
+{"text": "pulisci tutta la queue", "labels": {"queue": "clear"}}
+{"text": "via tutto dalla lista dei prossimi", "labels": {"queue": "clear"}}
+{"text": "svuotala la coda, è un casino", "labels": {"queue": "clear"}}
+{"text": "levami tutti i pezzi in coda", "labels": {"queue": "clear"}}
+{"text": "reset della coda pls", "labels": {"queue": "clear"}}
+{"text": "butta via tutta la coda e ricominciamo", "labels": {"queue": "clear"}}
+{"text": "svuota la lista, le richieste di prima non valgono più", "labels": {"queue": "clear"}}
+{"text": "CODA DA SVUOTARE, SUBITO", "labels": {"queue": "clear"}}
+{"text": "svuoat la coda", "labels": {"queue": "clear"}}
+{"text": "togli tutto quello che c'è in coda", "labels": {"queue": "clear"}}
+{"text": "la coda è piena di roba dell'aperitivo, cancellala", "labels": {"queue": "clear"}}
+{"text": "ripulisci la coda da tutte le richieste", "labels": {"queue": "clear"}}
+{"text": "fai piazza pulita della coda", "labels": {"queue": "clear"}}
+{"text": "coda vuota e scegli tu da qui", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "svuota la coda e solo house da adesso", "labels": {"queue": "clear", "genre": "include"}}
+{"text": "cancella la coda e prepara una scaletta techno di un'ora", "labels": {"queue": "clear", "set": "build", "genre": "include"}}
+{"text": "svuota la coda e fai un mashup tu", "labels": {"queue": "clear", "mashup": "auto"}}
+{"text": "azzera la coda e poi musica tranquilla", "labels": {"queue": "clear", "strategy": "chill"}}
+{"text": "cancella tutti i brani che ho messo in coda, ho sbagliato", "labels": {"queue": "clear"}}
+{"text": "clear della coda", "labels": {"queue": "clear"}}
+{"text": "togli tutte le canzoni dalla lista d'attesa e riparti con la tua selezione", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "la coda la svuoti? tanto quelli che chiedevano se ne sono andati", "labels": {"queue": "clear"}}
+{"text": "svuota la coda e togli anche il filtro dei generi", "labels": {"queue": "clear", "genre": "clear"}}
+{"text": "mescola un po' le richieste in coda", "labels": {"queue": "shuffle"}}
+{"text": "rimescola la lista, sono tutte di fila dello stesso artista", "labels": {"queue": "shuffle"}}
+{"text": "ordine casuale per la coda", "labels": {"queue": "shuffle"}}
+{"text": "shuffle sulla coda pls", "labels": {"queue": "shuffle"}}
+{"text": "metti la coda a caso", "labels": {"queue": "shuffle"}}
+{"text": "randomizza la coda", "labels": {"queue": "shuffle"}}
+{"text": "dai una rimescolata alla lista dei prossimi", "labels": {"queue": "shuffle"}}
+{"text": "la coda è troppo prevedibile, mischiala", "labels": {"queue": "shuffle"}}
+{"text": "fai andare la coda in ordine sparso", "labels": {"queue": "shuffle"}}
+{"text": "cambia l'ordine dei brani in coda, a caso", "labels": {"queue": "shuffle"}}
+{"text": "fai shuffle delle richieste", "labels": {"queue": "shuffle"}}
+{"text": "mischia l'ordine delle richieste che sono tutte lente all'inizio", "labels": {"queue": "shuffle"}}
+{"text": "la coda mescolala tu", "labels": {"queue": "shuffle"}}
+{"text": "shufflami la queue", "labels": {"queue": "shuffle"}}
+{"text": "mescola la coda e alza l'energia", "labels": {"queue": "shuffle", "strategy": "rise"}}
+{"text": "mescola la coda e suona solo i miei pezzi", "labels": {"queue": "shuffle", "mode": "queue"}}
+{"text": "mescola la coda e niente trap", "labels": {"queue": "shuffle", "genre": "exclude"}}
+{"text": "rimescola la lista e mettici anche un po' di funk", "labels": {"queue": "shuffle", "genre": "add"}}
+{"text": "mischia la coda, poi dimmi cosa viene dopo", "labels": {"queue": "shuffle", "info": "next"}}
+{"text": "mescola la coda per favore, sembra una compilation in ordine alfabetico", "labels": {"queue": "shuffle"}}
+{"text": "le richieste in coda falle andare a caso", "labels": {"queue": "shuffle"}}
+{"text": "mescla la coda", "labels": {"queue": "shuffle"}}
+{"text": "ho messo in coda tutto Leo Marin di fila, mischiala che sembra un concerto", "labels": {"queue": "shuffle"}}
+{"text": "solo reggaeton adesso", "labels": {"genre": "include"}}
+{"text": "stasera commerciale e nient'altro", "labels": {"genre": "include"}}
+{"text": "vai di house", "labels": {"genre": "include"}}
+{"text": "metti tech house", "labels": {"genre": "include"}}
+{"text": "passa alla deep house", "labels": {"genre": "include"}}
+{"text": "solo techno da qui alla chiusura", "labels": {"genre": "include"}}
+{"text": "voglio latino", "labels": {"genre": "include"}}
+{"text": "dammi anni 90", "labels": {"genre": "include"}}
+{"text": "solo musica italiana", "labels": {"genre": "include"}}
+{"text": "facciamo revival", "labels": {"genre": "include"}}
+{"text": "metti hardstyle, i ragazzi lo chiedono", "labels": {"genre": "include"}}
+{"text": "afro house e basta", "labels": {"genre": "include"}}
+{"text": "solo trap, ci sono i ragazzini", "labels": {"genre": "include"}}
+{"text": "andiamo di hip hop", "labels": {"genre": "include"}}
+{"text": "rap e basta", "labels": {"genre": "include"}}
+{"text": "solo edm stanotte", "labels": {"genre": "include"}}
+{"text": "passiamo alla disco", "labels": {"genre": "include"}}
+{"text": "funk, solo funk", "labels": {"genre": "include"}}
+{"text": "dance anni 90 e nient'altro", "labels": {"genre": "include"}}
+{"text": "solo italo dance", "labels": {"genre": "include"}}
+{"text": "pop, solo pop", "labels": {"genre": "include"}}
+{"text": "metti rock", "labels": {"genre": "include"}}
+{"text": "drum and bass ora", "labels": {"genre": "include"}}
+{"text": "dubstep adesso", "labels": {"genre": "include"}}
+{"text": "solo bachata e salsa, c'è la scuola di ballo", "labels": {"genre": "include"}}
+{"text": "metti salsa", "labels": {"genre": "include"}}
+{"text": "solo latino americano", "labels": {"genre": "include"}}
+{"text": "voglio sentire reggeaton", "labels": {"genre": "include"}}
+{"text": "solo tecno", "labels": {"genre": "include"}}
+{"text": "solo hause", "labels": {"genre": "include"}}
+{"text": "metti deephouse", "labels": {"genre": "include"}}
+{"text": "SOLO MINIMAL E BASTA", "labels": {"genre": "include"}}
+{"text": "vai di commerciale che è un compleanno", "labels": {"genre": "include"}}
+{"text": "adesso anni 80", "labels": {"genre": "include"}}
+{"text": "anni 2000 e basta", "labels": {"genre": "include"}}
+{"text": "suoniamo melodic techno", "labels": {"genre": "include"}}
+{"text": "minimal e basta", "labels": {"genre": "include"}}
+{"text": "nu disco only", "labels": {"genre": "include"}}
+{"text": "solo lounge che stanno cenando", "labels": {"genre": "include"}}
+{"text": "r&b e soul e basta", "labels": {"genre": "include"}}
+{"text": "solo jazz per l'aperitivo", "labels": {"genre": "include"}}
+{"text": "uk garage e basta", "labels": {"genre": "include"}}
+{"text": "metti eurodance", "labels": {"genre": "include"}}
+{"text": "dancehall adesso", "labels": {"genre": "include"}}
+{"text": "solo amapiano, qui lo adorano", "labels": {"genre": "include"}}
+{"text": "vai solo di hard techno", "labels": {"genre": "include"}}
+{"text": "kizomba e bachata e basta, ci sono i ballerini", "labels": {"genre": "include"}}
+{"text": "passiamo all'hip hop anni 90", "labels": {"genre": "include"}}
+{"text": "solo rap italiano", "labels": {"genre": "include"}}
+{"text": "trap italiana e basta", "labels": {"genre": "include"}}
+{"text": "voglio solo pop italiano", "labels": {"genre": "include"}}
+{"text": "musica italiana anni 80, solo quella", "labels": {"genre": "include"}}
+{"text": "solo tropical house per il tramonto", "labels": {"genre": "include"}}
+{"text": "vai di big room", "labels": {"genre": "include"}}
+{"text": "metti gabber, siamo all'after", "labels": {"genre": "include"}}
+{"text": "metti indie", "labels": {"genre": "include"}}
+{"text": "solo phonk, la vuole il festeggiato", "labels": {"genre": "include"}}
+{"text": "cambia genere, vai sulla tech house", "labels": {"genre": "include"}}
+{"text": "resta sul reggaeton", "labels": {"genre": "include"}}
+{"text": "rimani sulla techno", "labels": {"genre": "include"}}
+{"text": "tutta deep house da qui in poi", "labels": {"genre": "include"}}
+{"text": "da ora house e basta", "labels": {"genre": "include"}}
+{"text": "fino alla fine solo afro", "labels": {"genre": "include"}}
+{"text": "fino a mezzanotte solo commerciale", "labels": {"genre": "include"}}
+{"text": "concentrati sulla disco", "labels": {"genre": "include"}}
+{"text": "voglio il reggaeton, quello vecchio", "labels": {"genre": "include"}}
+{"text": "fammi sentire solo drum and bass", "labels": {"genre": "include"}}
+{"text": "dai di latino", "labels": {"genre": "include"}}
+{"text": "e adesso salsa e merengue", "labels": {"genre": "include"}}
+{"text": "nient'altro che funk", "labels": {"genre": "include"}}
+{"text": "musica da discoteca anni 90, solo quella", "labels": {"genre": "include"}}
+{"text": "basta techno, adesso solo house", "labels": {"genre": "include"}}
+{"text": "niente commerciale, vai di techno", "labels": {"genre": "include"}}
+{"text": "lascia perdere la trap, passa al reggaeton", "labels": {"genre": "include"}}
+{"text": "sto pubblico vuole commerciale, dagli quello", "labels": {"genre": "include"}}
+{"text": "allora senti qui sono tutti over 50, solo anni 70 e 80 per favore", "labels": {"genre": "include"}}
+{"text": "la festa è a tema hawaiano, metti solo tropical house", "labels": {"genre": "include"}}
+{"text": "hanno appena aperto la pista, vai di afro house", "labels": {"genre": "include"}}
+{"text": "dopo il taglio della torta solo commerciale", "labels": {"genre": "include"}}
+{"text": "ok adesso voglio techno pesa", "labels": {"genre": "include"}}
+{"text": "da questo momento soltanto hip hop", "labels": {"genre": "include"}}
+{"text": "roba latina e basta", "labels": {"genre": "include"}}
+{"text": "drum n bass e basta", "labels": {"genre": "include"}}
+{"text": "dnb only", "labels": {"genre": "include"}}
+{"text": "solo hiphop old school", "labels": {"genre": "include"}}
+{"text": "voglio solo afrohouse", "labels": {"genre": "include"}}
+{"text": "metti solo comerciale", "labels": {"genre": "include"}}
+{"text": "solo techouse", "labels": {"genre": "include"}}
+{"text": "solo techno, e che picchi duro", "labels": {"genre": "include", "strategy": "peak"}}
+{"text": "solo deep house, tranquilla", "labels": {"genre": "include", "strategy": "chill"}}
+{"text": "house e transizioni lunghe", "labels": {"genre": "include", "bars": "long"}}
+{"text": "per i prossimi due brani solo reggaeton", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "per un po' solo anni 80", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo trap per tre pezzi", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "vai di tech house e cambi col filtro", "labels": {"genre": "include", "style": "filter"}}
+{"text": "solo hardstyle e tagli secchi", "labels": {"genre": "include", "style": "cut"}}
+{"text": "parti con la deep house", "labels": {"control": "start", "genre": "include"}}
+{"text": "cambia pezzo e vai di reggaeton", "labels": {"control": "mixNow", "genre": "include"}}
+{"text": "solo edm, sempre più carica", "labels": {"genre": "include", "strategy": "rise"}}
+{"text": "solo afro house e mix da 32 battute", "labels": {"genre": "include", "bars": "long"}}
+{"text": "scegli tu i pezzi ma solo commerciale", "labels": {"mode": "ai", "genre": "include"}}
+{"text": "solo dance anni 90 e cambi alla gabry ponte", "labels": {"genre": "include", "style": "model"}}
+{"text": "per mezz'ora solo latino", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "per i prossimi 3 pezzi vai di bachata", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "per un paio di canzoni solo rock", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo dubstep per due brani poi torna normale", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "solo musica italiana e transizioni morbide", "labels": {"genre": "include", "style": "fade"}}
+{"text": "techno e mix lunghissimi", "labels": {"genre": "include", "bars": "verylong"}}
+{"text": "metti reggaeton e alza il ritmo", "labels": {"genre": "include", "strategy": "rise"}}
+{"text": "vai di salsa e alterna un po' l'energia", "labels": {"genre": "include", "strategy": "wave"}}
+{"text": "solo pop e tieni questo livello", "labels": {"genre": "include", "strategy": "steady"}}
+{"text": "solo hard techno, mixa da dj techno", "labels": {"genre": "include", "style": "model-techno"}}
+{"text": "fai partire il set con l'italo dance", "labels": {"control": "start", "genre": "include"}}
+{"text": "niente reggaeton stasera, c'è un pubblico adulto", "labels": {"genre": "exclude"}}
+{"text": "no techno adesso", "labels": {"genre": "exclude"}}
+{"text": "evita la house", "labels": {"genre": "exclude"}}
+{"text": "senza tech house per favore", "labels": {"genre": "exclude"}}
+{"text": "togli la deep house", "labels": {"genre": "exclude"}}
+{"text": "zero trap stasera", "labels": {"genre": "exclude"}}
+{"text": "stop con l'hip hop", "labels": {"genre": "exclude"}}
+{"text": "il rap ha stufato, basta", "labels": {"genre": "exclude"}}
+{"text": "niente edm che qui non va", "labels": {"genre": "exclude"}}
+{"text": "evita la disco", "labels": {"genre": "exclude"}}
+{"text": "basta italo dance", "labels": {"genre": "exclude"}}
+{"text": "lascia perdere il rock", "labels": {"genre": "exclude"}}
+{"text": "niente drum and bass", "labels": {"genre": "exclude"}}
+{"text": "no dubstep per carità", "labels": {"genre": "exclude"}}
+{"text": "niente latino", "labels": {"genre": "exclude"}}
+{"text": "evita gli anni 80", "labels": {"genre": "exclude"}}
+{"text": "basta anni 90", "labels": {"genre": "exclude"}}
+{"text": "niente musica italiana", "labels": {"genre": "exclude"}}
+{"text": "no hardstyle", "labels": {"genre": "exclude"}}
+{"text": "afro house basta, ha stancato", "labels": {"genre": "exclude"}}
+{"text": "niente regaeton", "labels": {"genre": "exclude"}}
+{"text": "nn voglio tecno", "labels": {"genre": "exclude"}}
+{"text": "BASTA TRAP RAGA", "labels": {"genre": "exclude"}}
+{"text": "no comerciale", "labels": {"genre": "exclude"}}
+{"text": "via la techno", "labels": {"genre": "exclude"}}
+{"text": "levami la minimal", "labels": {"genre": "exclude"}}
+{"text": "non voglio sentire trance", "labels": {"genre": "exclude"}}
+{"text": "niente roba commerciale", "labels": {"genre": "exclude"}}
+{"text": "lascia stare la dubstep", "labels": {"genre": "exclude"}}
+{"text": "fuori la trap", "labels": {"genre": "exclude"}}
+{"text": "la techno no", "labels": {"genre": "exclude"}}
+{"text": "basta latino, abbiamo dato", "labels": {"genre": "exclude"}}
+{"text": "niente hard techno, è un matrimonio", "labels": {"genre": "exclude"}}
+{"text": "basta salsa e bachata", "labels": {"genre": "exclude"}}
+{"text": "senza rap e trap", "labels": {"genre": "exclude"}}
+{"text": "niente lounge, ormai è tardi", "labels": {"genre": "exclude"}}
+{"text": "togli il commerciale dalla rotazione", "labels": {"genre": "exclude"}}
+{"text": "non voglio più tech house", "labels": {"genre": "exclude"}}
+{"text": "fuori l'hip hop dalla serata", "labels": {"genre": "exclude"}}
+{"text": "zero dance anni 2000", "labels": {"genre": "exclude"}}
+{"text": "la musica italiana lasciala perdere", "labels": {"genre": "exclude"}}
+{"text": "basta amapiano", "labels": {"genre": "exclude"}}
+{"text": "no italo dance stasera", "labels": {"genre": "exclude"}}
+{"text": "evita il pop italiano", "labels": {"genre": "exclude"}}
+{"text": "niente trap italiana", "labels": {"genre": "exclude"}}
+{"text": "nessun pezzo reggaeton", "labels": {"genre": "exclude"}}
+{"text": "di house ne abbiamo abbastanza, basta", "labels": {"genre": "exclude"}}
+{"text": "non suonarmi techno", "labels": {"genre": "exclude"}}
+{"text": "zero commerciale, siamo in un club underground", "labels": {"genre": "exclude"}}
+{"text": "levate la trap", "labels": {"genre": "exclude"}}
+{"text": "ancora hardstyle? no dai, basta", "labels": {"genre": "exclude"}}
+{"text": "il proprietario odia il reggaeton, quindi niente", "labels": {"genre": "exclude"}}
+{"text": "ci sono i nonni, niente trap e niente drill", "labels": {"genre": "exclude"}}
+{"text": "basta co sto commerciale", "labels": {"genre": "exclude"}}
+{"text": "nn se ne puo piu di house", "labels": {"genre": "exclude"}}
+{"text": "la gente sta scappando dalla pista con la techno, toglila", "labels": {"genre": "exclude"}}
+{"text": "niente techno fino alle due che c'è ancora gente a cena", "labels": {"genre": "exclude"}}
+{"text": "evita roba latina, è una festa di metallari", "labels": {"genre": "exclude"}}
+{"text": "ti prego basta anni 80", "labels": {"genre": "exclude"}}
+{"text": "no deep, troppo moscia", "labels": {"genre": "exclude"}}
+{"text": "basta dnb", "labels": {"genre": "exclude"}}
+{"text": "niente reggaeton per i prossimi 3 pezzi", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "per un po' no edm", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "per un paio di brani evita la house", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "basta house e più energia", "labels": {"genre": "exclude", "strategy": "rise"}}
+{"text": "niente trap e cambi più morbidi", "labels": {"genre": "exclude", "style": "fade"}}
+{"text": "cambia questo pezzo, niente commerciale", "labels": {"control": "mixNow", "genre": "exclude"}}
+{"text": "evita la techno e mix corti", "labels": {"genre": "exclude", "bars": "short"}}
+{"text": "scegli tu ma niente rap", "labels": {"mode": "ai", "genre": "exclude"}}
+{"text": "niente disco e tieni l'energia così", "labels": {"genre": "exclude", "strategy": "steady"}}
+{"text": "niente hardstyle e calma un po'", "labels": {"genre": "exclude", "strategy": "chill"}}
+{"text": "zero reggaeton e cambi col filtro", "labels": {"genre": "exclude", "style": "filter"}}
+{"text": "no latino per un po' e transizioni lunghe", "labels": {"genre": "exclude", "temporary": "yes", "bars": "long"}}
+{"text": "salta il prossimo pezzo e niente edm", "labels": {"control": "skip", "genre": "exclude"}}
+{"text": "parti pure ma senza commerciale", "labels": {"control": "start", "genre": "exclude"}}
+{"text": "mettici anche qualche pezzo reggaeton", "labels": {"genre": "add"}}
+{"text": "anche del commerciale, ma a piccole dosi", "labels": {"genre": "add"}}
+{"text": "aggiungi house al giro", "labels": {"genre": "add"}}
+{"text": "infila qualche pezzo deep house", "labels": {"genre": "add"}}
+{"text": "un po' di techno in mezzo ci sta", "labels": {"genre": "add"}}
+{"text": "aggiungi il latino", "labels": {"genre": "add"}}
+{"text": "anche qualcosa di anni 90", "labels": {"genre": "add"}}
+{"text": "ogni tanto un pezzo di musica italiana", "labels": {"genre": "add"}}
+{"text": "mettici un po' di revival qua e là", "labels": {"genre": "add"}}
+{"text": "aggiungi un pizzico di hardstyle", "labels": {"genre": "add"}}
+{"text": "qualche traccia afro house in aggiunta", "labels": {"genre": "add"}}
+{"text": "anche un po' di trap per i ragazzi", "labels": {"genre": "add"}}
+{"text": "butta dentro un po' di hip hop ogni tanto", "labels": {"genre": "add"}}
+{"text": "più edm", "labels": {"genre": "add"}}
+{"text": "mettici dentro anche il funk", "labels": {"genre": "add"}}
+{"text": "aggiungi la dance alla selezione", "labels": {"genre": "add"}}
+{"text": "anche italo dance ogni tanto", "labels": {"genre": "add"}}
+{"text": "più rock", "labels": {"genre": "add"}}
+{"text": "un paio di pezzi dubstep ogni tanto", "labels": {"genre": "add"}}
+{"text": "aggiungi bachata e salsa al mix", "labels": {"genre": "add"}}
+{"text": "anke un po di reggeaton", "labels": {"genre": "add"}}
+{"text": "metti anche qualcosa di anni 80", "labels": {"genre": "add"}}
+{"text": "oltre alla techno anche un po' di house", "labels": {"genre": "add"}}
+{"text": "allarga alla tech house", "labels": {"genre": "add"}}
+{"text": "ogni tanto infila un pezzo rock per i papà", "labels": {"genre": "add"}}
+{"text": "più reggaeton, la gente lo chiede", "labels": {"genre": "add"}}
+{"text": "anche commerciale va bene, aggiungilo", "labels": {"genre": "add"}}
+{"text": "metti dentro anche roba anni 70", "labels": {"genre": "add"}}
+{"text": "aggiungi amapiano qua e là", "labels": {"genre": "add"}}
+{"text": "qualche pezzo latin house in mezzo", "labels": {"genre": "add"}}
+{"text": "più pop per le ragazze", "labels": {"genre": "add"}}
+{"text": "un pochino di trap", "labels": {"genre": "add"}}
+{"text": "aggiungici della disco anni 70", "labels": {"genre": "add"}}
+{"text": "mischia anche con un po' di house anni 90", "labels": {"genre": "add"}}
+{"text": "puoi metterci anche un po' di salsa?", "labels": {"genre": "add"}}
+{"text": "ogni tanto una bomba hardstyle", "labels": {"genre": "add"}}
+{"text": "inserisci qualche pezzo di cumbia", "labels": {"genre": "add"}}
+{"text": "ok la house va bene ma metti anche un po' di afro ogni tanto", "labels": {"genre": "add"}}
+{"text": "la sposa è colombiana, ogni tanto infila un pezzo di salsa", "labels": {"genre": "add"}}
+{"text": "ci sono anche dei ragazzi giovani, aggiungi un po' di trap", "labels": {"genre": "add"}}
+{"text": "oltre al commerciale mettici anche qualche pezzo italiano", "labels": {"genre": "add"}}
+{"text": "aggiungi anche la techno alla roba che stai suonando", "labels": {"genre": "add"}}
+{"text": "ogni 4 o 5 pezzi buttaci un anni 80", "labels": {"genre": "add"}}
+{"text": "aggiungi un po di hip hop", "labels": {"genre": "add"}}
+{"text": "+ reggaeton pls", "labels": {"genre": "add"}}
+{"text": "dai anche un pò di funky", "labels": {"genre": "add"}}
+{"text": "anche un po' di house e più energia", "labels": {"genre": "add", "strategy": "rise"}}
+{"text": "aggiungi un po' di latino e fai cambi col filtro", "labels": {"genre": "add", "style": "filter"}}
+{"text": "per un paio di brani mettici anche un po' di trap", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "anche un po' di funk e mix lunghi", "labels": {"genre": "add", "bars": "long"}}
+{"text": "aggiungi qualche pezzo rock e tieni l'energia stabile", "labels": {"genre": "add", "strategy": "steady"}}
+{"text": "anche un po' di reggaeton e attiva i mashup automatici", "labels": {"genre": "add", "mashupOpt": "on"}}
+{"text": "togli il filtro dei generi", "labels": {"genre": "clear"}}
+{"text": "tutti i generi vanno bene adesso", "labels": {"genre": "clear"}}
+{"text": "rimetti tutti i generi", "labels": {"genre": "clear"}}
+{"text": "qualsiasi genere, basta che la gente balli", "labels": {"genre": "clear"}}
+{"text": "genere libero da qui in poi", "labels": {"genre": "clear"}}
+{"text": "via i filtri sui generi", "labels": {"genre": "clear"}}
+{"text": "suona di tutto", "labels": {"genre": "clear"}}
+{"text": "non importa il genere", "labels": {"genre": "clear"}}
+{"text": "reset filtri genere", "labels": {"genre": "clear"}}
+{"text": "cancella il filtro sulla techno", "labels": {"genre": "clear"}}
+{"text": "togli la limitazione al reggaeton", "labels": {"genre": "clear"}}
+{"text": "dimentica il discorso dei generi", "labels": {"genre": "clear"}}
+{"text": "torna a mischiare tutto", "labels": {"genre": "clear"}}
+{"text": "ok basta solo house, torna a tutti i generi", "labels": {"genre": "clear"}}
+{"text": "metti quello che vuoi come genere", "labels": {"genre": "clear"}}
+{"text": "liberi tutti, qualunque genere", "labels": {"genre": "clear"}}
+{"text": "annulla i generi che ti ho detto", "labels": {"genre": "clear"}}
+{"text": "rimuovi il filtro anni 90", "labels": {"genre": "clear"}}
+{"text": "OK TUTTI I GENERI", "labels": {"genre": "clear"}}
+{"text": "toglil filtro generi", "labels": {"genre": "clear"}}
+{"text": "qualsiasi genre", "labels": {"genre": "clear"}}
+{"text": "togli il filtro, stanno ballando tutti comunque", "labels": {"genre": "clear"}}
+{"text": "non serve più il filtro sul commerciale", "labels": {"genre": "clear"}}
+{"text": "basta con la sola techno, apri a tutto", "labels": {"genre": "clear"}}
+{"text": "va bene ogni genere, scegli tu i pezzi", "labels": {"genre": "clear", "mode": "ai"}}
+{"text": "via i filtri di genere e tirala su", "labels": {"genre": "clear", "strategy": "rise"}}
+{"text": "tutti i generi e mix lunghi", "labels": {"genre": "clear", "bars": "long"}}
+{"text": "genere libero per un paio di pezzi", "labels": {"genre": "clear", "temporary": "yes"}}
+{"text": "cancella i filtri di genere che avevo messo", "labels": {"genre": "clear"}}
+{"text": "la festa ormai è mista, togli pure il filtro dei generi", "labels": {"genre": "clear"}}
+{"text": "avevo detto solo reggaeton ma ora va bene tutto", "labels": {"genre": "clear"}}
+{"text": "fai pure di tutto come genere, la gente si diverte", "labels": {"genre": "clear"}}
+{"text": "qualunque genere, ma tienimi sotto i 125 bpm", "labels": {"genre": "clear"}}
+{"text": "togli il filtro dei generi, e niente mashup automatici", "labels": {"genre": "clear", "mashupOpt": "off"}}
+{"text": "mi serve un'ora di house, fammi tu la scaletta", "labels": {"set": "build", "genre": "include"}}
+{"text": "preparami un set per il matrimonio di domenica, niente reggaeton", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "crea una playlist di 25 brani reggaeton e latino", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi organizzi una scaletta per la festa dei 18 anni?", "labels": {"set": "build"}}
+{"text": "setlist anni 80 per una cena a tema", "labels": {"set": "build", "genre": "include"}}
+{"text": "costruiscimi un set techno di due ore", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara la tracklist per il pool party, afro house e house", "labels": {"set": "build", "genre": "include"}}
+{"text": "mettimi insieme mezz'ora di commerciale per il trenino", "labels": {"set": "build", "genre": "include"}}
+{"text": "40 minuti di hip hop in scaletta per il pre serata, me li prepari?", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi fai una playlist per la lezione di spinning? edm e dance", "labels": {"set": "build", "genre": "include"}}
+{"text": "scaletta per il compleanno della nonna, musica italiana anni 60 e 70", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara un set da un'ora e mezza, qualsiasi genere", "labels": {"set": "build", "genre": "clear"}}
+{"text": "crea una scaletta senza trap e senza rap per la comunione", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "fammi un set dnb di 90 minuti", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi serve una scaletta per l'apertura del locale, deep house che sale", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "prepara una playlist hardstyle per il rave", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea la scaletta per una festa latina: salsa, bachata, reggaeton", "labels": {"set": "build", "genre": "include"}}
+{"text": "fammi una setlist da 30 pezzi di revival", "labels": {"set": "build", "genre": "include"}}
+{"text": "organizzami una scaletta di un'ora, disco e funk, per il brunch", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea un set di tech house per stasera, energia costante", "labels": {"set": "build", "genre": "include", "strategy": "steady"}}
+{"text": "prepara una scaletta per la cena aziendale, solo pop italiano", "labels": {"set": "build", "genre": "include"}}
+{"text": "scaletta anni 2000 per la festa delle medie, una quindicina di brani", "labels": {"set": "build", "genre": "include"}}
+{"text": "set per il tramonto, afro house che sale piano", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "prepara un set di warm up tutto deep", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea una scaletta da 3 ore per il capodanno, commerciale e dance anni 90", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara un set per l'afterparty con hard techno a palla", "labels": {"set": "build", "genre": "include", "strategy": "peak"}}
+{"text": "fammi una scaletta per la festa in maschera, generi misti", "labels": {"set": "build", "genre": "clear"}}
+{"text": "costruisci una tracklist trap e drill per i ragazzi", "labels": {"set": "build", "genre": "include"}}
+{"text": "scaletta matrimonio: niente techno, tanta musica italiana", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara una scaletta per la festa di laurea senza commerciale", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "crea un set per stasera con house e reggaeton insieme", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi fai un set dubstep da una ventina di brani?", "labels": {"set": "build", "genre": "include"}}
+{"text": "scaletta per un'ora di bachata, c'è la serata di ballo", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara un set da 45 minuti di italo dance per la festa anni 90", "labels": {"set": "build", "genre": "include"}}
+{"text": "voglio un set di 2 ore che parte con la deep e finisce con la techno", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi componi una scaletta tech house sui 126 bpm?", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara la playlist per la sfilata, minimal e melodic techno", "labels": {"set": "build", "genre": "include"}}
+{"text": "fai tu una scaletta per il compleanno, ma niente rap", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "fammi un set per il torneo di beach volley, reggaeton e commerciale a palla", "labels": {"set": "build", "genre": "include", "strategy": "peak"}}
+{"text": "preparami una cinquantina di pezzi in scaletta, genere libero", "labels": {"set": "build", "genre": "clear"}}
+{"text": "ho una festa in giardino sabato, mi prepari una playlist pop e funk?", "labels": {"set": "build", "genre": "include"}}
+{"text": "scaletta per l'after di domenica, solo dubstep e drum and bass", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi fai una setlist per la festa della birra? rock e revival", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi prepari 30 brani di musica italiana per il pranzo di nozze?", "labels": {"set": "build", "genre": "include"}}
+{"text": "costruisci una scaletta a tema anni 70, disco e funk", "labels": {"set": "build", "genre": "include"}}
+{"text": "genera una tracklist per il sunset, house che cresce fino al buio", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "prepara una setlist per stasera ma senza reggaeton e senza trap", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "fai una scaletta di un'ora di salsa", "labels": {"set": "build", "genre": "include"}}
+{"text": "preparami la scaletta per la serata di domani al chiringuito", "labels": {"set": "build"}}
+{"text": "crea una scaletta di 12 brani per la cena e poi falla partire", "labels": {"set": "build", "control": "start"}}
+{"text": "svuota la coda e fammi un set edm da un'ora", "labels": {"queue": "clear", "set": "build", "genre": "include"}}
+{"text": "prepara un set hardstyle, tagli secchi", "labels": {"set": "build", "genre": "include", "style": "cut"}}
+{"text": "fai una scaletta disco e funk con sfumate lunghe", "labels": {"set": "build", "genre": "include", "style": "fade", "bars": "long"}}
+{"text": "crea una scaletta reggaeton per i prossimi 40 minuti", "labels": {"set": "build", "genre": "include"}}
+{"text": "mi serve una playlist per una festa di sessantenni: liscio, revival e italiana", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea una scaletta latino e dancehall per la festa in spiaggia", "labels": {"set": "build", "genre": "include"}}
+{"text": "playlist trap per il compleanno di mio fratello, fa 16 anni", "labels": {"set": "build", "genre": "include"}}
+{"text": "prepara na scaletta di musica italiana pe' la cena", "labels": {"set": "build", "genre": "include"}}
+{"text": "SET TECHNO DI 3 ORE PER L'AFTER, GRAZIE", "labels": {"set": "build", "genre": "include"}}
+{"text": "crea una playlist per l'aperitivo in barca, afro e deep, bella rilassata", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "mi fai una scaleta di un ora di comerciale", "labels": {"set": "build", "genre": "include"}}
+{"text": "preparami un set misto per la festa di quartiere, un po' di tutto", "labels": {"set": "build", "genre": "clear"}}
+{"text": "fai una setlist di 20 tracce per la palestra, che spinga sempre di più", "labels": {"set": "build", "strategy": "rise"}}
+{"text": "costruisci una scaletta per il dopocena del matrimonio, dance e commerciale, e accendi i mashup automatici", "labels": {"set": "build", "genre": "include", "mashupOpt": "on"}}
+{"text": "prepara un set per il compleanno di Giada, niente techno, e passa alla vista ai", "labels": {"set": "build", "genre": "exclude", "view": "ai"}}
+{"text": "domani suono al lido dalle 18 alle 21, mi prepari una scaletta tropical house e afro?", "labels": {"set": "build", "genre": "include"}}
+{"text": "fai un mashup tra Golden Hour e Night Drive", "labels": {"mashup": "explicit"}}
+{"text": "mashup tra Vento di Maggio e Corallo", "labels": {"mashup": "explicit"}}
+{"text": "prendi la voce di Satellite e mettila sulla base di Sabbia", "labels": {"mashup": "explicit"}}
+{"text": "acapella di Luna Park su strumentale di Electric Dreams", "labels": {"mashup": "explicit"}}
+{"text": "fai cantare Moonlight sul beat di Tropico", "labels": {"mashup": "explicit"}}
+{"text": "voce di Polvere d'Oro, base di Glass City", "labels": {"mashup": "explicit"}}
+{"text": "unisci Northern Lights e Kalimba in un mashup", "labels": {"mashup": "explicit"}}
+{"text": "metti insieme Eclipse e Midnight Ferry, voce della prima", "labels": {"mashup": "explicit"}}
+{"text": "la voce di Sirena sopra Weightless, si può?", "labels": {"mashup": "explicit"}}
+{"text": "fai un mash up con Notte Bianca e Ultimo Treno", "labels": {"mashup": "explicit"}}
+{"text": "voglio sentire Afterglow cantata sulla base di Open Water", "labels": {"mashup": "explicit"}}
+{"text": "mashup tra Estate e Danza del Fuoco per la sposa", "labels": {"mashup": "explicit"}}
+{"text": "base di Paradise City, voce di Neon Nights", "labels": {"mashup": "explicit"}}
+{"text": "sopra la strumentale di Low Tide metti l'acapella di Sunday Motion", "labels": {"mashup": "explicit"}}
+{"text": "fammi un mashup con la voce di Night Drive e la base di Luna Park", "labels": {"mashup": "explicit"}}
+{"text": "mashup: Glass City + Satellite", "labels": {"mashup": "explicit"}}
+{"text": "vocal di Corallo sopra instrumental di Weightless", "labels": {"mashup": "explicit"}}
+{"text": "prova a mischiare Golden Hour con Sabbia, voce e base", "labels": {"mashup": "explicit"}}
+{"text": "fai un mashup tra fuoco e tropico", "labels": {"mashup": "explicit"}}
+{"text": "mashap tra moonlight e golden hour", "labels": {"mashup": "explicit"}}
+{"text": "masup tra Kalimba e Electric Dreams", "labels": {"mashup": "explicit"}}
+{"text": "la base di Mezzanotte a Rimini con sopra la voce di Estate", "labels": {"mashup": "explicit"}}
+{"text": "Vento di Maggio cantata su Northern Lights", "labels": {"mashup": "explicit"}}
+{"text": "MASHUP TRA PARADISE CITY E FUOCO", "labels": {"mashup": "explicit"}}
+{"text": "un mashup tra Eclipse e Afterglow ci starebbe benissimo, fallo", "labels": {"mashup": "explicit"}}
+{"text": "metti la voce di Ultimo Treno sulla strumentale di Night Drive", "labels": {"mashup": "explicit"}}
+{"text": "fai sentire Summer Rain con sotto il beat di Notte Bianca", "labels": {"mashup": "explicit"}}
+{"text": "mashup di Sirena e Orizzonte, voce della seconda", "labels": {"mashup": "explicit"}}
+{"text": "voglio un mashup tra Mare Blu e Sabbia per il ballo degli sposi", "labels": {"mashup": "explicit"}}
+{"text": "le vocals di Luna Park sopra il groove di Low Tide", "labels": {"mashup": "explicit"}}
+{"text": "acapella di Golden Hour, strumentale di Polvere d'Oro", "labels": {"mashup": "explicit"}}
+{"text": "unisci Night Drive e Vento di Maggio: la voce la prendi da Night Drive", "labels": {"mashup": "explicit"}}
+{"text": "la parte cantata di Estate sopra la base di Moonlight", "labels": {"mashup": "explicit"}}
+{"text": "mettimi insieme Fuoco e Satellite in un mashup", "labels": {"mashup": "explicit"}}
+{"text": "il festeggiato vuole un mashup tra Paradise City e Kalimba, ce la fai?", "labels": {"mashup": "explicit"}}
+{"text": "fai un mashup tra Danza del Fuoco e Satellite, poi alza l'energia", "labels": {"mashup": "explicit", "strategy": "rise"}}
+{"text": "mashup tra glass city e open water e poi basta mashup automatici", "labels": {"mashup": "explicit", "mashupOpt": "off"}}
+{"text": "voce di Tropico su Kalimba, e niente reggaeton dopo", "labels": {"mashup": "explicit", "genre": "exclude"}}
+{"text": "fai un mashup con Weightless e Corallo e poi solo house", "labels": {"mashup": "explicit", "genre": "include"}}
+{"text": "mashup tra Golden Hour e Luna Park, e mescola la coda", "labels": {"mashup": "explicit", "queue": "shuffle"}}
+{"text": "fammi un mashup a scelta tua", "labels": {"mashup": "auto"}}
+{"text": "fai tu un mashup, scegli brani che si sposano bene", "labels": {"mashup": "auto"}}
+{"text": "mashup a sorpresa adesso", "labels": {"mashup": "auto"}}
+{"text": "dai, un mashup!", "labels": {"mashup": "auto"}}
+{"text": "voglio un mashup, i pezzi li decidi tu", "labels": {"mashup": "auto"}}
+{"text": "preparami un mashup pescando dalla libreria", "labels": {"mashup": "auto"}}
+{"text": "dai, un mashup con due tracce nella stessa tonalità", "labels": {"mashup": "auto"}}
+{"text": "inventati un mashup", "labels": {"mashup": "auto"}}
+{"text": "facciamo un mashup? decidi tu i pezzi", "labels": {"mashup": "auto"}}
+{"text": "mi fai un mash-up?", "labels": {"mashup": "auto"}}
+{"text": "fammi sentire un mashup adesso", "labels": {"mashup": "auto"}}
+{"text": "mashup con un paio di pezzi reggaeton, scegli tu", "labels": {"mashup": "auto"}}
+{"text": "un mashup con un paio di tracce house ci starebbe", "labels": {"mashup": "auto"}}
+{"text": "fammi un mashup con roba anni 90", "labels": {"mashup": "auto"}}
+{"text": "fai un mashup che la gente si annoia", "labels": {"mashup": "auto"}}
+{"text": "buttami lì un mashup", "labels": {"mashup": "auto"}}
+{"text": "fammi un mashupp", "labels": {"mashup": "auto"}}
+{"text": "fai un mashp", "labels": {"mashup": "auto"}}
+{"text": "mi prepari un mashup per quando entra la sposa?", "labels": {"mashup": "auto"}}
+{"text": "un bel mashup per il countdown di mezzanotte", "labels": {"mashup": "auto"}}
+{"text": "crea un mashup con due pezzi che ho in coda", "labels": {"mashup": "auto"}}
+{"text": "ragazzi qui si annoiano, tira fuori un mashup dei tuoi", "labels": {"mashup": "auto"}}
+{"text": "fai un mashup adesso e poi tieni l'energia così", "labels": {"mashup": "auto", "strategy": "steady"}}
+{"text": "fammi un mashup e poi mescola la coda", "labels": {"mashup": "auto", "queue": "shuffle"}}
+{"text": "fai un mashup e aggiungi Sabbia in coda", "labels": {"mashup": "auto", "queue": "add"}}
+{"text": "un mashup e poi solo techno", "labels": {"mashup": "auto", "genre": "include"}}
+{"text": "fammi un mashup, poi niente commerciale", "labels": {"mashup": "auto", "genre": "exclude"}}
+{"text": "fai un mashup tu e accendi anche quelli automatici", "labels": {"mashup": "auto", "mashupOpt": "on"}}
+{"text": "fai un mashup ora, ma solo questo, poi basta mashup", "labels": {"mashup": "auto", "mashupOpt": "off"}}
+{"text": "fammi un mashup adesso e poi continua a farne ogni tanto", "labels": {"mashup": "auto", "mashupOpt": "on"}}
+{"text": "fai un mashup ogni tanto", "labels": {"mashupOpt": "on"}}
+{"text": "ogni tanto fammi un mashup durante il set", "labels": {"mashupOpt": "on"}}
+{"text": "fai un mashup ogni 5 brani", "labels": {"mashupOpt": "on"}}
+{"text": "fai qualche mashup durante la festa", "labels": {"mashupOpt": "on"}}
+{"text": "di tanto in tanto fai un mashup tu", "labels": {"mashupOpt": "on"}}
+{"text": "ogni qualche pezzo ci sta un mashup, fallo in automatico", "labels": {"mashupOpt": "on"}}
+{"text": "durante la serata buttaci dei mashup", "labels": {"mashupOpt": "on"}}
+{"text": "fai dei mashup ogni tanto, alla gente piacciono", "labels": {"mashupOpt": "on"}}
+{"text": "da adesso non fare più mashup da solo", "labels": {"mashupOpt": "off"}}
+{"text": "i mashup in automatico per stasera lasciali spenti", "labels": {"mashupOpt": "off"}}
+{"text": "che generi stai suonando adesso?", "labels": {"info": "settings"}}
+{"text": "Corallo è in coda?", "labels": {"info": "queue"}}
+{"text": "come faccio a chiederti un mashup con due canzoni mie?", "labels": {"info": "help"}}
+{"text": "posso chiederti di prepararmi una scaletta?", "labels": {"info": "help"}}
+{"text": "ieri hanno messo solo reggaeton tutta la sera", "labels": {}}
+{"text": "questa canzone mi ricorda l'estate", "labels": {}}
+{"text": "la techno a Berlino è un'altra cosa", "labels": {}}
+{"text": "mio cugino ascolta solo trap, non lo sopporto", "labels": {}}
+{"text": "niente male questo pezzo house", "labels": {}}
+{"text": "il reggaeton non mi è mai piaciuto, ma la gente lo balla", "labels": {}}
+{"text": "da ragazzo andavo alle serate hardstyle", "labels": {}}
+{"text": "la deep house è perfetta per guidare di notte", "labels": {}}
+{"text": "secondo me la tech house tornerà di moda", "labels": {}}
+{"text": "a mia madre piace solo la musica italiana", "labels": {}}
+{"text": "il commerciale va sempre forte ai matrimoni", "labels": {}}
+{"text": "non c'è niente di meglio della disco anni 70", "labels": {}}
+{"text": "gli anni 80 avevano i synth più belli", "labels": {}}
+{"text": "il revival lo fanno tutti i locali in riviera", "labels": {}}
+{"text": "l'afro house quest'estate ha spaccato", "labels": {}}
+{"text": "il rap italiano di adesso non lo capisco", "labels": {}}
+{"text": "l'hip hop anni 90 era poesia", "labels": {}}
+{"text": "l'edm del 2013 mi fa ancora venire i brividi", "labels": {}}
+{"text": "il funk è il genere preferito del mio batterista", "labels": {}}
+{"text": "la dance anni 90 la sapevano tutti a memoria", "labels": {}}
+{"text": "dicono che il rock non si balla", "labels": {}}
+{"text": "con la drum and bass a Bristol la gente impazzisce", "labels": {}}
+{"text": "la bachata qui la ballano solo i corsisti", "labels": {}}
+{"text": "la salsa me l'ha insegnata mia zia", "labels": {}}
+{"text": "l'italo dance di Gabry Ponte era ovunque quando ero piccolo", "labels": {}}
+{"text": "no vabbè, questa house è pazzesca", "labels": {}}
+{"text": "ti rendi conto che quel tizio voleva hardstyle a un matrimonio?", "labels": {}}
+{"text": "solo io qui dentro ascolto jazz?", "labels": {}}
+{"text": "solo a Ibiza ho sentito della techno così", "labels": {}}
+{"text": "la mia ragazza in macchina mette sempre reggaeton", "labels": {}}
+{"text": "al liceo ascoltavo solo punk", "labels": {}}
+{"text": "mio nonno ballava il liscio tutte le domeniche", "labels": {}}
+{"text": "che ricordi la musica anni 2000", "labels": {}}
+{"text": "trap e drill sono i generi dei ragazzini di oggi", "labels": {}}
+{"text": "a Napoli i neomelodici vanno fortissimo", "labels": {}}
+{"text": "ho fatto un corso di salsa l'anno scorso", "labels": {}}
+{"text": "più house di così si muore", "labels": {}}
+{"text": "metà della gente vuole commerciale e metà techno, che casino", "labels": {}}
+{"text": "il dj prima di me ha fatto tre ore di tech house", "labels": {}}
+{"text": "la serata reggaeton del giovedì è sempre piena", "labels": {}}
+{"text": "Golden Hour è stata la colonna sonora della mia estate", "labels": {}}
+{"text": "Night Drive me la canticchiava mia sorella tutto il giorno", "labels": {}}
+{"text": "la prima volta che ho sentito Glass City ero a Londra", "labels": {}}
+{"text": "Mare Blu mi fa pensare alla Sardegna", "labels": {}}
+{"text": "che bei ricordi Fuoco, l'estate del 2019", "labels": {}}
+{"text": "la pista è a fuoco stasera", "labels": {}}
+{"text": "stanotte c'è una luna pazzesca", "labels": {}}
+{"text": "Electric Dreams l'hanno usata in una pubblicità", "labels": {}}
+{"text": "il video di Paradise City è fantastico", "labels": {}}
+{"text": "Low Tide è la suoneria del mio telefono", "labels": {}}
+{"text": "Neon Nights è uscita la settimana scorsa", "labels": {}}
+{"text": "Summer Rain la suonavano in tutti i lidi", "labels": {}}
+{"text": "Kaito Mori fa uscire un pezzo nuovo a novembre", "labels": {}}
+{"text": "Silas Hart ha cancellato il tour", "labels": {}}
+{"text": "Aurelia Vance dal vivo canta meglio che in studio", "labels": {}}
+{"text": "Leo Marin è di Bari, lo sapevi?", "labels": {}}
+{"text": "Sunday Motion è rimasta in classifica per mesi", "labels": {}}
+{"text": "Northern Lights l'ho sentita in un film", "labels": {}}
+{"text": "c'è una coda infinita al guardaroba", "labels": {}}
+{"text": "la coda per entrare arriva fino al parcheggio", "labels": {}}
+{"text": "in coda alla cassa c'è il festeggiato", "labels": {}}
+{"text": "mi sono messo in coda per il bagno, torno tra poco", "labels": {}}
+{"text": "il barista mescola i cocktail come un dio", "labels": {}}
+{"text": "la lista degli invitati è lunghissima", "labels": {}}
+{"text": "stasera c'è il pienone, la lista all'ingresso è chiusa", "labels": {}}
+{"text": "la scaletta della band di prima era lunghissima", "labels": {}}
+{"text": "il set di Kaito Mori al festival era incredibile", "labels": {}}
+{"text": "ho preparato io la scaletta della cerimonia in chiesa", "labels": {}}
+{"text": "la playlist del matrimonio di mio fratello era un disastro", "labels": {}}
+{"text": "domani devo preparare una scaletta per un altro locale, ma ci penso io", "labels": {}}
+{"text": "la tracklist di stasera l'ha decisa il proprietario", "labels": {}}
+{"text": "il set dura fino alle quattro", "labels": {}}
+{"text": "il tennista ha perso il primo set, l'ho visto prima in tv", "labels": {}}
+{"text": "una volta ho sentito un mashup tra Golden Hour e Night Drive, pazzesco", "labels": {}}
+{"text": "i mashup di quel dj su tiktok sono virali", "labels": {}}
+{"text": "domani magari proviamo il mashup tra Fuoco e Estate", "labels": {}}
+{"text": "il mashup di prima non era male", "labels": {}}
+{"text": "solo tre persone ballano la salsa qui", "labels": {}}
+{"text": "non c'è un genere che piaccia a tutti", "labels": {}}
+{"text": "senza la house non saprei vivere ahah", "labels": {}}
+{"text": "il festeggiato ama l'hardstyle ma la moglie no", "labels": {}}
+{"text": "un ragazzo mi ha chiesto se suono reggaeton, gli ho detto di aspettare", "labels": {}}
+{"text": "ho chiesto alla sposa che genere preferisce, mi deve rispondere", "labels": {}}
+{"text": "mi hanno chiesto Golden Hour ma per ora aspetto", "labels": {}}
+{"text": "forse più tardi mettiamo un po' di latino, vediamo", "labels": {}}
+{"text": "magari dopo svuotiamo la coda, adesso lasciala così", "labels": {}}
+{"text": "non so se mescolare la coda o no", "labels": {}}
+{"text": "pensavo di fare una scaletta anni 90 per sabato prossimo", "labels": {}}
+{"text": "la techno è il genere più ballato qui il sabato", "labels": {}}
+{"text": "i ragazzi del tavolo 3 parlano solo di trap", "labels": {}}
+{"text": "Marta Sole ha fatto un remix di Corallo", "labels": {}}
+{"text": "il disco nuovo di Nova Reyes esce venerdì", "labels": {}}
+{"text": "ho visto DJ Volpe suonare hardstyle a Rimini", "labels": {}}
+{"text": "la coda in autostrada stamattina era infinita", "labels": {}}
+{"text": "a capodanno al lido hanno messo solo anni 90", "labels": {}}
+{"text": "quando ero piccolo mio padre metteva sempre i Pink Floyd in macchina", "labels": {}}
+{"text": "ieri al compleanno di Sara hanno fatto il trenino sul commerciale", "labels": {}}
+{"text": "niente da fare, il wifi qui non funziona", "labels": {}}
+{"text": "basta guardare la fila all'ingresso per capire che stasera si balla", "labels": {}}
+{"text": "estate o inverno, questo locale è sempre pieno", "labels": {}}
+{"text": "che fuoco questa pista ragazzi", "labels": {}}
+{"text": "dopo la festa vado al mare, all'alba", "labels": {}}
+{"text": "con questa luce sembra il tramonto in spiaggia, che atmosfera", "labels": {}}
+{"text": "la musica latina la ballano anche i camerieri", "labels": {}}
+{"text": "ho una cartella piena di pezzi anni 80 sul portatile", "labels": {}}

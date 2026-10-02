@@ -1,0 +1,777 @@
+{"text": "ok si parte, accendi segueo", "labels": {"control": "start"}}
+{"text": "play dai", "labels": {"control": "start"}}
+{"text": "premi play tu", "labels": {"control": "start"}}
+{"text": "riparti da dove eri", "labels": {"control": "start"}}
+{"text": "ricomincia da dove ti eri fermato", "labels": {"control": "start"}}
+{"text": "rimetti su la musica che i discorsi sono finiti", "labels": {"control": "start"}}
+{"text": "la pausa è finita, si riparte", "labels": {"control": "start"}}
+{"text": "e musicaaa!", "labels": {"control": "start"}}
+{"text": "parti pure quando vuoi, la sala è pronta", "labels": {"control": "start"}}
+{"text": "accendi l'automix", "labels": {"control": "start"}}
+{"text": "attiva l'ai dj", "labels": {"control": "start"}}
+{"text": "via, tocca a te", "labels": {"control": "start"}}
+{"text": "go go go, parti", "labels": {"control": "start"}}
+{"text": "let's go, avvia il set", "labels": {"control": "start"}}
+{"text": "comincia a suonare tu che io devo sistemare le luci", "labels": {"control": "start"}}
+{"text": "è ora, fai partire il dj automatico", "labels": {"control": "start"}}
+{"text": "sono le 22, attacca con la musica", "labels": {"control": "start"}}
+{"text": "gli sposi sono entrati, musica!", "labels": {"control": "start"}}
+{"text": "le porte sono aperte, parti con il set", "labels": {"control": "start"}}
+{"text": "inizia tu la serata, io arrivo tra mezz'ora", "labels": {"control": "start"}}
+{"text": "fai ripartire tutto dopo il brindisi", "labels": {"control": "start"}}
+{"text": "riaccendi l'ai dj", "labels": {"control": "start"}}
+{"text": "riavvia la musica", "labels": {"control": "start"}}
+{"text": "rimetti in play", "labels": {"control": "start"}}
+{"text": "riprendi a suonare dopo la pausa", "labels": {"control": "start"}}
+{"text": "togli la pausa", "labels": {"control": "start"}}
+{"text": "fine pausa, musica", "labels": {"control": "start"}}
+{"text": "puoi far partire la musica adesso?", "labels": {"control": "start"}}
+{"text": "dai inizia che la gente si annoia", "labels": {"control": "start"}}
+{"text": "inzia pls", "labels": {"control": "start"}}
+{"text": "fai partrie la musica", "labels": {"control": "start"}}
+{"text": "PARTI SEGUEO", "labels": {"control": "start"}}
+{"text": "dai il via alla festa", "labels": {"control": "start"}}
+{"text": "sono tornato, rimetti la musica", "labels": {"control": "start"}}
+{"text": "è finito il taglio della torta, ricomincia pure", "labels": {"control": "start"}}
+{"text": "ok ci siamo tutti, fai partire", "labels": {"control": "start"}}
+{"text": "vabbè parti tu e poi ti raggiungo", "labels": {"control": "start"}}
+{"text": "riparti con la musica che il video degli sposi è finito", "labels": {"control": "start"}}
+{"text": "ripartiamo", "labels": {"control": "start"}}
+{"text": "toglila dalla pausa", "labels": {"control": "start"}}
+{"text": "fai partire l'automix e metti la vista ai", "labels": {"control": "start", "view": "ai"}}
+{"text": "parti ma attieniti alla coda che ho fatto", "labels": {"control": "start", "mode": "queue"}}
+{"text": "fai partire tutto e decidi tu i brani", "labels": {"control": "start", "mode": "ai"}}
+{"text": "avvia l'ai dj col remix live acceso", "labels": {"control": "start", "remix": "on"}}
+{"text": "parti e accendi anche i mashup automatici", "labels": {"control": "start", "mashupOpt": "on"}}
+{"text": "fai partire la musica e resta al nuovo bpm dopo i mix", "labels": {"control": "start", "returnTempo": "off"}}
+{"text": "accendi l'automix e passa alla console", "labels": {"control": "start", "view": "console"}}
+{"text": "riparti e da adesso niente mashup automatici", "labels": {"control": "start", "mashupOpt": "off"}}
+{"text": "ricomincia a suonare e torna al bpm originale dopo ogni cambio", "labels": {"control": "start", "returnTempo": "on"}}
+{"text": "play e pesca tu dalla libreria", "labels": {"control": "start", "mode": "ai"}}
+{"text": "fai ripartire il set senza remix live", "labels": {"control": "start", "remix": "off"}}
+{"text": "metti in pausa", "labels": {"control": "stop"}}
+{"text": "pausa pausa", "labels": {"control": "stop"}}
+{"text": "pausa per i discorsi", "labels": {"control": "stop"}}
+{"text": "pausa, arrivano gli sposi con la torta", "labels": {"control": "stop"}}
+{"text": "ferma la musica un secondo", "labels": {"control": "stop"}}
+{"text": "stop alla musica, c'è il brindisi", "labels": {"control": "stop"}}
+{"text": "spegni segueo", "labels": {"control": "stop"}}
+{"text": "disattiva l'ai dj, mixo io", "labels": {"control": "stop"}}
+{"text": "silenzio, ferma tutto", "labels": {"control": "stop"}}
+{"text": "stoooop", "labels": {"control": "stop"}}
+{"text": "fermo fermo fermo", "labels": {"control": "stop"}}
+{"text": "fermati", "labels": {"control": "stop"}}
+{"text": "ferma ora", "labels": {"control": "stop"}}
+{"text": "ferma la musica, è caduto un vassoio in pista", "labels": {"control": "stop"}}
+{"text": "c'è un ferito, spegni tutto", "labels": {"control": "stop"}}
+{"text": "blocca la musica", "labels": {"control": "stop"}}
+{"text": "interrompi la musica, è saltato un fusibile", "labels": {"control": "stop"}}
+{"text": "metti in pausa il set, ricominciamo dopo la cena", "labels": {"control": "stop"}}
+{"text": "fai una pausa con la musica, riparto io tra dieci minuti", "labels": {"control": "stop"}}
+{"text": "smetti di suonare", "labels": {"control": "stop"}}
+{"text": "smettila con la musica, devono parlare i testimoni", "labels": {"control": "stop"}}
+{"text": "stacca l'ai dj", "labels": {"control": "stop"}}
+{"text": "stop immediato, c'è un'emergenza", "labels": {"control": "stop"}}
+{"text": "la sposa sta male, ferma la musica", "labels": {"control": "stop"}}
+{"text": "fermati che ci sono i vigili", "labels": {"control": "stop"}}
+{"text": "ferma un attimo che devo cambiare il cavo", "labels": {"control": "stop"}}
+{"text": "fermati un secondo, devo sistemare le casse", "labels": {"control": "stop"}}
+{"text": "metti in pausa, vado a fare un annuncio", "labels": {"control": "stop"}}
+{"text": "pausa x favore", "labels": {"control": "stop"}}
+{"text": "stopp", "labels": {"control": "stop"}}
+{"text": "spegnii tutto", "labels": {"control": "stop"}}
+{"text": "fema la musica", "labels": {"control": "stop"}}
+{"text": "musica stop", "labels": {"control": "stop"}}
+{"text": "basta musica adesso, c'è il taglio della torta", "labels": {"control": "stop"}}
+{"text": "spegni il dj automatico, arriva la band", "labels": {"control": "stop"}}
+{"text": "ferma ferma, si è staccato un cavo", "labels": {"control": "stop"}}
+{"text": "stop un attimo che il prete deve parlare", "labels": {"control": "stop"}}
+{"text": "metti pausa che arrivano i fuochi", "labels": {"control": "stop"}}
+{"text": "fermati qui, stanotte abbiamo finito", "labels": {"control": "stop"}}
+{"text": "spegni l'ai, la sala va sgomberata subito", "labels": {"control": "stop"}}
+{"text": "pausaaa", "labels": {"control": "stop"}}
+{"text": "metti in pausa e svuota la coda", "labels": {"control": "stop", "queue": "clear"}}
+{"text": "stoppa e fammi vedere la schermata ai", "labels": {"control": "stop", "view": "ai"}}
+{"text": "spegni tutto e disattiva anche il remix", "labels": {"control": "stop", "remix": "off"}}
+{"text": "pausa e intanto spegni i mashup automatici", "labels": {"control": "stop", "mashupOpt": "off"}}
+{"text": "vai col prossimo", "labels": {"control": "mixNow"}}
+{"text": "nexttt", "labels": {"control": "mixNow"}}
+{"text": "next pls", "labels": {"control": "mixNow"}}
+{"text": "next, questa non va", "labels": {"control": "mixNow"}}
+{"text": "cambia pezzo dai", "labels": {"control": "mixNow"}}
+{"text": "via questo", "labels": {"control": "mixNow"}}
+{"text": "mixa subito sul prossimo", "labels": {"control": "mixNow"}}
+{"text": "cambio ora!", "labels": {"control": "mixNow"}}
+{"text": "passa al pezzo dopo", "labels": {"control": "mixNow"}}
+{"text": "salta questa", "labels": {"control": "mixNow"}}
+{"text": "skip pls", "labels": {"control": "mixNow"}}
+{"text": "skippa dai", "labels": {"control": "mixNow"}}
+{"text": "skippa sto pezzo", "labels": {"control": "mixNow"}}
+{"text": "questa la conoscono tutti ma non la balla nessuno, cambia", "labels": {"control": "mixNow"}}
+{"text": "cambiala che è troppo lenta per l'una di notte", "labels": {"control": "mixNow"}}
+{"text": "questa canzone ha stancato, vai oltre", "labels": {"control": "mixNow"}}
+{"text": "anticipa il cambio", "labels": {"control": "mixNow"}}
+{"text": "anticipa il mix, la pista si svuota", "labels": {"control": "mixNow"}}
+{"text": "accorcia questo pezzo e passa al prossimo", "labels": {"control": "mixNow"}}
+{"text": "non arrivare alla fine di questa, mixa ora", "labels": {"control": "mixNow"}}
+{"text": "dai prossimo", "labels": {"control": "mixNow"}}
+{"text": "taglia corto e passa al successivo", "labels": {"control": "mixNow"}}
+{"text": "manda dentro il prossimo", "labels": {"control": "mixNow"}}
+{"text": "porta dentro la prossima subito", "labels": {"control": "mixNow"}}
+{"text": "questa no, cambiala", "labels": {"control": "mixNow"}}
+{"text": "ma che pezzo è? via via", "labels": {"control": "mixNow"}}
+{"text": "levamela sta canzone", "labels": {"control": "mixNow"}}
+{"text": "cambia canzone che il festeggiato la odia", "labels": {"control": "mixNow"}}
+{"text": "vai avanti col prossimo, sta canzone è infinita", "labels": {"control": "mixNow"}}
+{"text": "camiba pezzo", "labels": {"control": "mixNow"}}
+{"text": "cambia psezzo pls", "labels": {"control": "mixNow"}}
+{"text": "cambia questa, è la terza volta che la sentono", "labels": {"control": "mixNow"}}
+{"text": "dai cambia, la gente è tutta al bar", "labels": {"control": "mixNow"}}
+{"text": "subito un altro pezzo", "labels": {"control": "mixNow"}}
+{"text": "fai partire subito il prossimo", "labels": {"control": "mixNow"}}
+{"text": "basta, questa canzone non la reggo più", "labels": {"control": "mixNow"}}
+{"text": "next next next", "labels": {"control": "mixNow"}}
+{"text": "cambia al volo che la pista è morta", "labels": {"control": "mixNow"}}
+{"text": "mixa adesso dai, non aspettare il ritornello", "labels": {"control": "mixNow"}}
+{"text": "butta dentro il prossimo brano", "labels": {"control": "mixNow"}}
+{"text": "ma chi l'ha messa questa? via", "labels": {"control": "mixNow"}}
+{"text": "questo pezzo ha rotto, avanti", "labels": {"control": "mixNow"}}
+{"text": "cambia ora con una dissolvenza", "labels": {"control": "mixNow", "style": "fade"}}
+{"text": "passa subito al prossimo e fai mix corti", "labels": {"control": "mixNow", "bars": "short"}}
+{"text": "cambia adesso e passa alla console", "labels": {"control": "mixNow", "view": "console"}}
+{"text": "cambia pezzo e da ora scegli tu", "labels": {"control": "mixNow", "mode": "ai"}}
+{"text": "via questa e attiva i mashup automatici", "labels": {"control": "mixNow", "mashupOpt": "on"}}
+{"text": "next e niente più remix live", "labels": {"control": "mixNow", "remix": "off"}}
+{"text": "skippa questa e poi segui solo la mia coda", "labels": {"control": "mixNow", "mode": "queue"}}
+{"text": "cambia subito e accendi il remix live", "labels": {"control": "mixNow", "remix": "on"}}
+{"text": "il prossimo no", "labels": {"control": "skip"}}
+{"text": "cambiami la prossima", "labels": {"control": "skip"}}
+{"text": "la prossima no, scegline un'altra", "labels": {"control": "skip"}}
+{"text": "non mettere quella dopo", "labels": {"control": "skip"}}
+{"text": "il brano che hai pronto cambialo", "labels": {"control": "skip"}}
+{"text": "skippa il next", "labels": {"control": "skip"}}
+{"text": "salta la prossima", "labels": {"control": "skip"}}
+{"text": "trovane un'altra per dopo", "labels": {"control": "skip"}}
+{"text": "quella che sta per entrare no, cambiala", "labels": {"control": "skip"}}
+{"text": "no, quella che viene dopo no", "labels": {"control": "skip"}}
+{"text": "il pezzo in arrivo è troppo lento, scegline un altro", "labels": {"control": "skip"}}
+{"text": "il prossimo l'abbiamo già sentito prima, sostituiscilo", "labels": {"control": "skip"}}
+{"text": "ricalcola la prossima traccia", "labels": {"control": "skip"}}
+{"text": "riscegli il prossimo", "labels": {"control": "skip"}}
+{"text": "pesca un altro pezzo per il cambio", "labels": {"control": "skip"}}
+{"text": "il brano preparato per il mix non mi convince", "labels": {"control": "skip"}}
+{"text": "cambia la traccia in arrivo, questa lasciala andare", "labels": {"control": "skip"}}
+{"text": "lascia questa ma il prossimo cambialo", "labels": {"control": "skip"}}
+{"text": "questa va, la prossima no", "labels": {"control": "skip"}}
+{"text": "quella in canna cambiala", "labels": {"control": "skip"}}
+{"text": "il prossimo che hai scelto è troppo simile, altro", "labels": {"control": "skip"}}
+{"text": "il prossimo pezzo è troppo commerciale per questa gente, trovane uno diverso", "labels": {"control": "skip"}}
+{"text": "scarta il prossimo", "labels": {"control": "skip"}}
+{"text": "cambia il pezzo dopo, è un lento", "labels": {"control": "skip"}}
+{"text": "prox no", "labels": {"control": "skip"}}
+{"text": "il prossimo cambialo per favore", "labels": {"control": "skip"}}
+{"text": "la traccia successiva non la voglio", "labels": {"control": "skip"}}
+{"text": "cambia quella dopo questa", "labels": {"control": "skip"}}
+{"text": "il pezzo che segue cambialo", "labels": {"control": "skip"}}
+{"text": "metti un'altra cosa dopo, non quella che hai scelto", "labels": {"control": "skip"}}
+{"text": "il prossimo ha la voce troppo simile a questa, cambialo", "labels": {"control": "skip"}}
+{"text": "il deck in attesa ha un pezzo sbagliato, cambialo", "labels": {"control": "skip"}}
+{"text": "il brano pronto sull'altro deck non c'entra niente, trovane un altro", "labels": {"control": "skip"}}
+{"text": "il prossimo brano sostituiscilo con qualcosa di più carico", "labels": {"control": "skip", "strategy": "rise"}}
+{"text": "cambia il prossimo e da qui in poi suona solo la mia lista", "labels": {"control": "skip", "mode": "queue"}}
+{"text": "il prossimo non mi piace, cambialo e torna alla vista ai", "labels": {"control": "skip", "view": "ai"}}
+{"text": "quella dopo cambiala, e mashup automatici spenti", "labels": {"control": "skip", "mashupOpt": "off"}}
+{"text": "ultimo pezzo e poi si spegne", "labels": {"control": "endAfterCurrent"}}
+{"text": "dopo questo pezzo spegni", "labels": {"control": "endAfterCurrent"}}
+{"text": "finisci questa e chiudi", "labels": {"control": "endAfterCurrent"}}
+{"text": "questa è l'ultima della serata", "labels": {"control": "endAfterCurrent"}}
+{"text": "ultima traccia e poi buonanotte", "labels": {"control": "endAfterCurrent"}}
+{"text": "questo è il pezzo di chiusura", "labels": {"control": "endAfterCurrent"}}
+{"text": "dopo questa stop, si chiude", "labels": {"control": "endAfterCurrent"}}
+{"text": "chiudiamo con questo brano", "labels": {"control": "endAfterCurrent"}}
+{"text": "fai finire questa e poi fermati", "labels": {"control": "endAfterCurrent"}}
+{"text": "a fine pezzo chiudi tutto", "labels": {"control": "endAfterCurrent"}}
+{"text": "quando finisce questa niente più mix", "labels": {"control": "endAfterCurrent"}}
+{"text": "non mixare più, questa è l'ultima", "labels": {"control": "endAfterCurrent"}}
+{"text": "ultimaa", "labels": {"control": "endAfterCurrent"}}
+{"text": "ULTIMA CANZONE RAGA", "labels": {"control": "endAfterCurrent"}}
+{"text": "dopo sto pezzo chiudi", "labels": {"control": "endAfterCurrent"}}
+{"text": "ultimo brano della serata, poi spegni", "labels": {"control": "endAfterCurrent"}}
+{"text": "lascia andare questa fino alla fine e poi stop", "labels": {"control": "endAfterCurrent"}}
+{"text": "il locale chiude, finisci questo brano e poi basta", "labels": {"control": "endAfterCurrent"}}
+{"text": "sono le 4, ultima canzone", "labels": {"control": "endAfterCurrent"}}
+{"text": "chiudi a fine traccia", "labels": {"control": "endAfterCurrent"}}
+{"text": "fermati quando finisce il pezzo", "labels": {"control": "endAfterCurrent"}}
+{"text": "spegni dopo questa, non prima", "labels": {"control": "endAfterCurrent"}}
+{"text": "finita questa, si chiude", "labels": {"control": "endAfterCurrent"}}
+{"text": "finisci il brano in corso e poi chiudi", "labels": {"control": "endAfterCurrent"}}
+{"text": "ultimo giro di musica, poi chiudiamo", "labels": {"control": "endAfterCurrent"}}
+{"text": "e con questa chiudiamo", "labels": {"control": "endAfterCurrent"}}
+{"text": "niente più pezzi dopo questo", "labels": {"control": "endAfterCurrent"}}
+{"text": "ultmo pezzo", "labels": {"control": "endAfterCurrent"}}
+{"text": "sono stanco morto, con questo pezzo si chiude", "labels": {"control": "endAfterCurrent"}}
+{"text": "è l'ultima, raga", "labels": {"control": "endAfterCurrent"}}
+{"text": "gran finale con questa e poi spegni", "labels": {"control": "endAfterCurrent"}}
+{"text": "chiudi dopo questa e passa alla console", "labels": {"control": "endAfterCurrent", "view": "console"}}
+{"text": "dopo questo pezzo chiudi il set e spegni il remix", "labels": {"control": "endAfterCurrent", "remix": "off"}}
+{"text": "questo è l'ultimo, dopo torna alla vista ai", "labels": {"control": "endAfterCurrent", "view": "ai"}}
+{"text": "ultima canzone e niente mashup automatici", "labels": {"control": "endAfterCurrent", "mashupOpt": "off"}}
+{"text": "non chiudere dai", "labels": {"control": "resume"}}
+{"text": "contrordine, non chiudere", "labels": {"control": "resume"}}
+{"text": "continua a suonare", "labels": {"control": "resume"}}
+{"text": "annulla l'ultimo pezzo, si continua", "labels": {"control": "resume"}}
+{"text": "non era l'ultima, continua", "labels": {"control": "resume"}}
+{"text": "ci hanno dato altri 30 minuti, vai avanti", "labels": {"control": "resume"}}
+{"text": "la festa continua!", "labels": {"control": "resume"}}
+{"text": "no aspetta, non spegnere dopo questa", "labels": {"control": "resume"}}
+{"text": "ripensandoci non chiudere", "labels": {"control": "resume"}}
+{"text": "niente chiusura, prosegui", "labels": {"control": "resume"}}
+{"text": "prosegui col set", "labels": {"control": "resume"}}
+{"text": "andiamo avanti ancora un'ora", "labels": {"control": "resume"}}
+{"text": "ancora!! non finire", "labels": {"control": "resume"}}
+{"text": "non finire adesso", "labels": {"control": "resume"}}
+{"text": "dimentica l'ultimo pezzo, continua", "labels": {"control": "resume"}}
+{"text": "annulla lo stop dopo questa", "labels": {"control": "resume"}}
+{"text": "togli la chiusura a fine brano", "labels": {"control": "resume"}}
+{"text": "cancella la chiusura del set", "labels": {"control": "resume"}}
+{"text": "il gestore dice che si va avanti fino alle 5, continua", "labels": {"control": "resume"}}
+{"text": "si continua a ballare, non chiudere", "labels": {"control": "resume"}}
+{"text": "continua pure", "labels": {"control": "resume"}}
+{"text": "vai avanti tu, non fermarti", "labels": {"control": "resume"}}
+{"text": "nn chiudere", "labels": {"control": "resume"}}
+{"text": "contnua a suonare", "labels": {"control": "resume"}}
+{"text": "il festeggiato vuole un'altra ora, prosegui", "labels": {"control": "resume"}}
+{"text": "scherzavo, non è l'ultima", "labels": {"control": "resume"}}
+{"text": "no no no non chiudere, guarda quanta gente", "labels": {"control": "resume"}}
+{"text": "non chiudere, e da ora scegli tu", "labels": {"control": "resume", "mode": "ai"}}
+{"text": "prosegui e attiva il remix live", "labels": {"control": "resume", "remix": "on"}}
+{"text": "continua a suonare e passa alla vista ai", "labels": {"control": "resume", "view": "ai"}}
+{"text": "ok la festa va avanti: non chiudere e niente mashup automatici", "labels": {"control": "resume", "mashupOpt": "off"}}
+{"text": "scegli tu i pezzi da qui in poi", "labels": {"mode": "ai"}}
+{"text": "decidi tu la musica", "labels": {"mode": "ai"}}
+{"text": "pensaci tu ai brani", "labels": {"mode": "ai"}}
+{"text": "fai tu la selezione", "labels": {"mode": "ai"}}
+{"text": "vai in modalità ai", "labels": {"mode": "ai"}}
+{"text": "metti la modalità ai", "labels": {"mode": "ai"}}
+{"text": "lascia stare la coda, decidi tu", "labels": {"mode": "ai"}}
+{"text": "la lista è finita, ora scegli tu", "labels": {"mode": "ai"}}
+{"text": "da adesso la musica la scegli tu", "labels": {"mode": "ai"}}
+{"text": "scegli tu le tracce dalla libreria", "labels": {"mode": "ai"}}
+{"text": "improvvisa tu i pezzi", "labels": {"mode": "ai"}}
+{"text": "non serve seguire la mia lista, fai tu", "labels": {"mode": "ai"}}
+{"text": "torna in modalità automatica", "labels": {"mode": "ai"}}
+{"text": "selezione automatica dei brani", "labels": {"mode": "ai"}}
+{"text": "mi fido, scegli tu la musica", "labels": {"mode": "ai"}}
+{"text": "ignora la mia lista e scegli tu", "labels": {"mode": "ai"}}
+{"text": "scegli tu cosa far ballare", "labels": {"mode": "ai"}}
+{"text": "fai tu da dj, scegli i pezzi", "labels": {"mode": "ai"}}
+{"text": "la selezione è tua", "labels": {"mode": "ai"}}
+{"text": "scegli tu i brani, io vado a cena", "labels": {"mode": "ai"}}
+{"text": "dj automatico: i pezzi decidili tu", "labels": {"mode": "ai"}}
+{"text": "MODALITÀ AI GRAZIE", "labels": {"mode": "ai"}}
+{"text": "sceli tu i pezi", "labels": {"mode": "ai"}}
+{"text": "la coda l'ho finita, vai tu a ruota libera", "labels": {"mode": "ai"}}
+{"text": "non ho tempo di fare la lista, scegli tu tutto", "labels": {"mode": "ai"}}
+{"text": "scegli tu i brani ma con mix lunghi", "labels": {"mode": "ai", "bars": "long"}}
+{"text": "decidi tu i pezzi e attiva il remix", "labels": {"mode": "ai", "remix": "on"}}
+{"text": "scegli tu i pezzi e torna alla vista ai", "labels": {"mode": "ai", "view": "ai"}}
+{"text": "pesca tu dalla libreria e torna al bpm originale dopo i mix", "labels": {"mode": "ai", "returnTempo": "on"}}
+{"text": "ok modalità ai e mashup automatici accesi", "labels": {"mode": "ai", "mashupOpt": "on"}}
+{"text": "suona solo i pezzi in coda", "labels": {"mode": "queue"}}
+{"text": "metti la modalità coda", "labels": {"mode": "queue"}}
+{"text": "passa alla modalità coda", "labels": {"mode": "queue"}}
+{"text": "segui la coda che c'è", "labels": {"mode": "queue"}}
+{"text": "niente scelte tue, solo coda", "labels": {"mode": "queue"}}
+{"text": "attieniti alla coda", "labels": {"mode": "queue"}}
+{"text": "solo le richieste in coda", "labels": {"mode": "queue"}}
+{"text": "voglio solo i brani della mia lista", "labels": {"mode": "queue"}}
+{"text": "non aggiungere pezzi tuoi", "labels": {"mode": "queue"}}
+{"text": "usa solo la coda stasera", "labels": {"mode": "queue"}}
+{"text": "la sposa vuole solo la sua playlist, l'ho messa in coda: suona solo quella", "labels": {"mode": "queue"}}
+{"text": "basta scelte tue, torna alla coda", "labels": {"mode": "queue"}}
+{"text": "smetti di scegliere, suona la coda", "labels": {"mode": "queue"}}
+{"text": "queue only", "labels": {"mode": "queue"}}
+{"text": "non pescare dalla libreria, solo coda", "labels": {"mode": "queue"}}
+{"text": "ho messo io i pezzi, segui quelli", "labels": {"mode": "queue"}}
+{"text": "basta improvvisare, solo coda", "labels": {"mode": "queue"}}
+{"text": "SOLO CODA STASERA", "labels": {"mode": "queue"}}
+{"text": "i brani li ho già messi in fila io, tu limitati a quelli", "labels": {"mode": "queue"}}
+{"text": "suona solo la coda, ma in ordine casuale", "labels": {"mode": "queue", "queue": "shuffle"}}
+{"text": "suona solo la mia coda e mostrami la console", "labels": {"mode": "queue", "view": "console"}}
+{"text": "solo la coda e niente mashup automatici", "labels": {"mode": "queue", "mashupOpt": "off"}}
+{"text": "segui la coda e resta al nuovo bpm", "labels": {"mode": "queue", "returnTempo": "off"}}
+{"text": "solo la coda e spegni il remix", "labels": {"mode": "queue", "remix": "off"}}
+{"text": "torna sulla vista ai", "labels": {"view": "ai"}}
+{"text": "fammi rivedere la schermata dell'ai", "labels": {"view": "ai"}}
+{"text": "passa alla vista ai", "labels": {"view": "ai"}}
+{"text": "schermata dell'ai dj", "labels": {"view": "ai"}}
+{"text": "rimettimi la vista ai", "labels": {"view": "ai"}}
+{"text": "vai sulla pagina dell'ai", "labels": {"view": "ai"}}
+{"text": "switch su vista ai", "labels": {"view": "ai"}}
+{"text": "esci dalla console, vista ai", "labels": {"view": "ai"}}
+{"text": "mostrami la schermata ai così vedo cosa sceglie", "labels": {"view": "ai"}}
+{"text": "torna alla schermata dell'ai che i deck non mi servono", "labels": {"view": "ai"}}
+{"text": "VISTA AI ADESSO", "labels": {"view": "ai"}}
+{"text": "apri la vista ai e accendi i mashup automatici", "labels": {"view": "ai", "mashupOpt": "on"}}
+{"text": "vista ai e remix spento", "labels": {"view": "ai", "remix": "off"}}
+{"text": "torna alla vista ai e suona solo la coda", "labels": {"view": "ai", "mode": "queue"}}
+{"text": "fammi vedere l'ai e torna al bpm originale", "labels": {"view": "ai", "returnTempo": "on"}}
+{"text": "console pls", "labels": {"view": "console"}}
+{"text": "apri i deck", "labels": {"view": "console"}}
+{"text": "passa ai deck", "labels": {"view": "console"}}
+{"text": "fammi vedere i piatti", "labels": {"view": "console"}}
+{"text": "vai alla schermata console", "labels": {"view": "console"}}
+{"text": "torna sulla console", "labels": {"view": "console"}}
+{"text": "vista console per favore", "labels": {"view": "console"}}
+{"text": "switch alla console", "labels": {"view": "console"}}
+{"text": "fammi vedere il mixer e i deck", "labels": {"view": "console"}}
+{"text": "torna alla console che faccio io", "labels": {"view": "console"}}
+{"text": "mostrami i deck", "labels": {"view": "console"}}
+{"text": "apri la console, devo controllare i cue", "labels": {"view": "console"}}
+{"text": "vista console, devo far vedere i livelli al fonico", "labels": {"view": "console"}}
+{"text": "CONSOLE SUBITO", "labels": {"view": "console"}}
+{"text": "apri la cosnole", "labels": {"view": "console"}}
+{"text": "passa alla console e accendi il remix", "labels": {"view": "console", "remix": "on"}}
+{"text": "console e mashup automatici on", "labels": {"view": "console", "mashupOpt": "on"}}
+{"text": "console e resta sul nuovo bpm", "labels": {"view": "console", "returnTempo": "off"}}
+{"text": "vai in console e scegli tu la musica", "labels": {"view": "console", "mode": "ai"}}
+{"text": "accendi il remix live", "labels": {"remix": "on"}}
+{"text": "metti loop ed effetti sui pezzi", "labels": {"remix": "on"}}
+{"text": "giocaci un po' coi loop", "labels": {"remix": "on"}}
+{"text": "ravviva i brani con effetti live", "labels": {"remix": "on"}}
+{"text": "remix live sì", "labels": {"remix": "on"}}
+{"text": "riaccendi il remix", "labels": {"remix": "on"}}
+{"text": "accendi gli effetti live", "labels": {"remix": "on"}}
+{"text": "aggiungi un po' di loop quando il pezzo va da solo", "labels": {"remix": "on"}}
+{"text": "voglio il remix live acceso", "labels": {"remix": "on"}}
+{"text": "lavora i brani con loop e filtri live", "labels": {"remix": "on"}}
+{"text": "remix live acceso per tutta la serata", "labels": {"remix": "on"}}
+{"text": "atttiva il remix live", "labels": {"remix": "on"}}
+{"text": "REMIX LIVE ON ADESSO", "labels": {"remix": "on"}}
+{"text": "quando un pezzo va lungo da solo, sporcalo con qualche effetto", "labels": {"remix": "on"}}
+{"text": "remix live on e mashup automatici on", "labels": {"remix": "on", "mashupOpt": "on"}}
+{"text": "accendi il remix e torna al bpm originale", "labels": {"remix": "on", "returnTempo": "on"}}
+{"text": "basta loop", "labels": {"remix": "off"}}
+{"text": "togli gli effetti dal vivo", "labels": {"remix": "off"}}
+{"text": "remix live off per favore", "labels": {"remix": "off"}}
+{"text": "disattiva il remix", "labels": {"remix": "off"}}
+{"text": "niente effetti sopra le canzoni", "labels": {"remix": "off"}}
+{"text": "lascia le tracce pulite", "labels": {"remix": "off"}}
+{"text": "stoppa il remix live", "labels": {"remix": "off"}}
+{"text": "ferma i loop, coprono la voce", "labels": {"remix": "off"}}
+{"text": "metti in pausa il remix live", "labels": {"remix": "off"}}
+{"text": "basta giocare coi loop", "labels": {"remix": "off"}}
+{"text": "smetti di fare remix sui pezzi", "labels": {"remix": "off"}}
+{"text": "no remix stasera", "labels": {"remix": "off"}}
+{"text": "senza remix per favore", "labels": {"remix": "off"}}
+{"text": "remix spento", "labels": {"remix": "off"}}
+{"text": "spegni i loop e gli effetti", "labels": {"remix": "off"}}
+{"text": "spengi il remix", "labels": {"remix": "off"}}
+{"text": "il remix live sta rovinando il lento, toglilo", "labels": {"remix": "off"}}
+{"text": "disattiva gli effetti dal vivo e passa alla console", "labels": {"remix": "off", "view": "console"}}
+{"text": "togli il remix e i mashup automatici", "labels": {"remix": "off", "mashupOpt": "off"}}
+{"text": "remix spento e resta sul nuovo tempo", "labels": {"remix": "off", "returnTempo": "off"}}
+{"text": "attiva l'opzione dei mashup", "labels": {"mashupOpt": "on"}}
+{"text": "puoi fare mashup da solo quando vuoi", "labels": {"mashupOpt": "on"}}
+{"text": "mashup automatici accesi", "labels": {"mashupOpt": "on"}}
+{"text": "fai mashup ogni tanto da solo", "labels": {"mashupOpt": "on"}}
+{"text": "lascia che ogni tanto fondi due pezzi", "labels": {"mashupOpt": "on"}}
+{"text": "via libera ai mashup automatici", "labels": {"mashupOpt": "on"}}
+{"text": "mashup auto sì", "labels": {"mashupOpt": "on"}}
+{"text": "ogni tanto infilaci un mashup tu", "labels": {"mashupOpt": "on"}}
+{"text": "MASHUP AUTOMATICI SI GRAZIE", "labels": {"mashupOpt": "on"}}
+{"text": "ok i mashup in automatico li puoi riaccendere", "labels": {"mashupOpt": "on"}}
+{"text": "attiva mashup automatici e decidi tu la musica", "labels": {"mashupOpt": "on", "mode": "ai"}}
+{"text": "mashup automatici on e vista ai", "labels": {"mashupOpt": "on", "view": "ai"}}
+{"text": "accendi i mashup automatici e resta al bpm nuovo", "labels": {"mashupOpt": "on", "returnTempo": "off"}}
+{"text": "basta mashup", "labels": {"mashupOpt": "off"}}
+{"text": "disattiva i mashup in automatico", "labels": {"mashupOpt": "off"}}
+{"text": "mashup automatici off grazie", "labels": {"mashupOpt": "off"}}
+{"text": "stop ai mashup automatici", "labels": {"mashupOpt": "off"}}
+{"text": "metti in pausa i mashup automatici", "labels": {"mashupOpt": "off"}}
+{"text": "ferma i mashup, confondono la gente", "labels": {"mashupOpt": "off"}}
+{"text": "da ora non fare più mashup da solo", "labels": {"mashupOpt": "off"}}
+{"text": "no mashup automatici", "labels": {"mashupOpt": "off"}}
+{"text": "mashup automatici spenti", "labels": {"mashupOpt": "off"}}
+{"text": "togli i mashup", "labels": {"mashupOpt": "off"}}
+{"text": "i mashup automatici disattivali", "labels": {"mashupOpt": "off"}}
+{"text": "basta fondere i pezzi tra loro", "labels": {"mashupOpt": "off"}}
+{"text": "smetti di fare mashup", "labels": {"mashupOpt": "off"}}
+{"text": "mashup automatici: no grazie", "labels": {"mashupOpt": "off"}}
+{"text": "per i prossimi due pezzi niente mashup", "labels": {"mashupOpt": "off", "temporary": "yes"}}
+{"text": "spegni i mashup e torna alla console", "labels": {"mashupOpt": "off", "view": "console"}}
+{"text": "mashup automatici spenti e scegli tu", "labels": {"mashupOpt": "off", "mode": "ai"}}
+{"text": "disattiva i mashup e chiudi dopo questa", "labels": {"mashupOpt": "off", "control": "endAfterCurrent"}}
+{"text": "dopo ogni cambio torna al bpm del pezzo", "labels": {"returnTempo": "on"}}
+{"text": "riporta i brani al loro tempo", "labels": {"returnTempo": "on"}}
+{"text": "attiva il ritorno al bpm originale", "labels": {"returnTempo": "on"}}
+{"text": "rimetti ogni pezzo alla sua velocità", "labels": {"returnTempo": "on"}}
+{"text": "dopo la transizione rimetti il tempo giusto", "labels": {"returnTempo": "on"}}
+{"text": "riporta il bpm a quello originale", "labels": {"returnTempo": "on"}}
+{"text": "i pezzi devono tornare al loro bpm dopo il mix", "labels": {"returnTempo": "on"}}
+{"text": "fai tornare il tempo di ogni canzone com'era", "labels": {"returnTempo": "on"}}
+{"text": "ritorna al tempo originale", "labels": {"returnTempo": "on"}}
+{"text": "ritorno al bpm acceso", "labels": {"returnTempo": "on"}}
+{"text": "voglio che ogni brano torni al suo tempo", "labels": {"returnTempo": "on"}}
+{"text": "riporta il tempo come prima dopo i cambi", "labels": {"returnTempo": "on"}}
+{"text": "dopo il mix riporta il pezzo al suo bpm, sennò le voci sembrano chipmunk", "labels": {"returnTempo": "on"}}
+{"text": "ritorna al bpm orginale", "labels": {"returnTempo": "on"}}
+{"text": "finito il passaggio, ogni traccia deve rientrare nel suo bpm", "labels": {"returnTempo": "on"}}
+{"text": "torna al bpm originale e chiudi dopo questa", "labels": {"returnTempo": "on", "control": "endAfterCurrent"}}
+{"text": "ritorno al tempo on e remix off", "labels": {"returnTempo": "on", "remix": "off"}}
+{"text": "riporta i bpm originali e scegli tu", "labels": {"returnTempo": "on", "mode": "ai"}}
+{"text": "torna al tempo originale dopo ogni passaggio, e console", "labels": {"returnTempo": "on", "view": "console"}}
+{"text": "resta al bpm del mix", "labels": {"returnTempo": "off"}}
+{"text": "rimani sul nuovo tempo", "labels": {"returnTempo": "off"}}
+{"text": "non tornare più al bpm originale dopo i passaggi", "labels": {"returnTempo": "off"}}
+{"text": "disattiva il ritorno al tempo originale", "labels": {"returnTempo": "off"}}
+{"text": "ritorno al bpm off", "labels": {"returnTempo": "off"}}
+{"text": "tieni il tempo nuovo", "labels": {"returnTempo": "off"}}
+{"text": "lascia il bpm dove arriva il mix", "labels": {"returnTempo": "off"}}
+{"text": "niente ritorno al tempo originale", "labels": {"returnTempo": "off"}}
+{"text": "dopo il mix non cambiare più il bpm", "labels": {"returnTempo": "off"}}
+{"text": "resta sul tempo del mix, niente sbalzi", "labels": {"returnTempo": "off"}}
+{"text": "rimani sul bpm attuale dopo i cambi", "labels": {"returnTempo": "off"}}
+{"text": "non torare al bpm originale", "labels": {"returnTempo": "off"}}
+{"text": "il bpm dopo la transizione lascialo stare", "labels": {"returnTempo": "off"}}
+{"text": "resta sul tempo nuovo e fai partire la musica", "labels": {"returnTempo": "off", "control": "start"}}
+{"text": "resta al bpm del mix e solo la mia coda", "labels": {"returnTempo": "off", "mode": "queue"}}
+{"text": "non tornare al tempo originale e niente mashup automatici", "labels": {"returnTempo": "off", "mashupOpt": "off"}}
+{"text": "rimani al bpm del mix e accendi il remix", "labels": {"returnTempo": "off", "remix": "on"}}
+{"text": "il bar si ferma alle 2", "labels": {}}
+{"text": "il treno di notte non si ferma a questa stazione", "labels": {}}
+{"text": "mi sono fermato a mangiare un panino prima di venire", "labels": {}}
+{"text": "la navetta per l'hotel si ferma qui davanti alle 3", "labels": {}}
+{"text": "ferma il tizio al bancone, sta per rovesciare tutto", "labels": {}}
+{"text": "fermate quelli che fumano dentro, il gestore si arrabbia", "labels": {}}
+{"text": "il fotografo ha fermato tutti per la foto di gruppo", "labels": {}}
+{"text": "i carabinieri stanno fermando le auto all'uscita del parcheggio", "labels": {}}
+{"text": "si è fermato l'ascensore al secondo piano con dentro la nonna della sposa", "labels": {}}
+{"text": "la ventola del portatile si è fermata, scotta tutto", "labels": {}}
+{"text": "la pioggia si è fermata, la gente esce in terrazza", "labels": {}}
+{"text": "io non mi fermo mai prima delle 5", "labels": {}}
+{"text": "ho dovuto fermarmi a fare benzina, per quello sono in ritardo", "labels": {}}
+{"text": "stop alle bottiglie di vetro in pista, dice il gestore", "labels": {}}
+{"text": "c'è uno stop all'incrocio qui fuori e nessuno lo rispetta", "labels": {}}
+{"text": "il cameriere si è fermato a ballare col vassoio in mano", "labels": {}}
+{"text": "la pista non si ferma da tre ore", "labels": {}}
+{"text": "mi si è fermato il cuore su quel drop ahah", "labels": {}}
+{"text": "ho stoppato la sveglia del telefono che suonava in tasca", "labels": {}}
+{"text": "hanno messo in pausa la partita sul maxischermo del bar", "labels": {}}
+{"text": "il barista è in pausa, c'è solo una ragazza al bancone", "labels": {}}
+{"text": "io mi faccio una pausa sigaretta, tu tranquillo", "labels": {}}
+{"text": "i camerieri fanno la pausa cena adesso", "labels": {}}
+{"text": "spegni le candeline sulla torta quando arriva", "labels": {}}
+{"text": "stoppa il video sul maxischermo", "labels": {}}
+{"text": "spegni la luce sopra il bancone", "labels": {}}
+{"text": "blocca la porta sul retro che entrano senza biglietto", "labels": {}}
+{"text": "chiudi la finestra che entra freddo", "labels": {}}
+{"text": "il guardaroba chiude alle 3", "labels": {}}
+{"text": "la cucina chiude alle 23, poi solo bar", "labels": {}}
+{"text": "i cancelli del parcheggio chiudono alle 4", "labels": {}}
+{"text": "chiudiamo il conto col proprietario a fine serata", "labels": {}}
+{"text": "ho chiuso la macchina? non mi ricordo", "labels": {}}
+{"text": "basta, non bevo più stasera", "labels": {}}
+{"text": "basta con sti selfie ragazzi", "labels": {}}
+{"text": "basta che gli sposi arrivino in tempo", "labels": {}}
+{"text": "basta un attimo e sono da te", "labels": {}}
+{"text": "per me basta così coi cocktail", "labels": {}}
+{"text": "la gente parte alle 3 col pullman", "labels": {}}
+{"text": "il treno per Napoli parte alle 6", "labels": {}}
+{"text": "domani parto per Ibiza", "labels": {}}
+{"text": "il drop parte tra poco, preparatevi", "labels": {}}
+{"text": "è partito il trenino in pista ahah", "labels": {}}
+{"text": "è partito il coro da stadio sul ritornello", "labels": {}}
+{"text": "appena è partito il sax sono saliti tutti sulle sedie", "labels": {}}
+{"text": "avvia la macchina del caffè dietro al bar", "labels": {}}
+{"text": "accendi il proiettore per le foto", "labels": {}}
+{"text": "accendi le candele sui tavoli", "labels": {}}
+{"text": "accendi il riscaldamento in terrazza", "labels": {}}
+{"text": "inizia a piovere, la gente rientra", "labels": {}}
+{"text": "comincia a far freddo fuori", "labels": {}}
+{"text": "finalmente si comincia a ballare", "labels": {}}
+{"text": "la cena inizia alle nove", "labels": {}}
+{"text": "ho premuto play sul telefono per sbaglio", "labels": {}}
+{"text": "mio figlio vuole la play per natale", "labels": {}}
+{"text": "la festa è partita col botto", "labels": {}}
+{"text": "l'avvio della serata è stato lento", "labels": {}}
+{"text": "il vocalist attacca col microfono tra cinque minuti", "labels": {}}
+{"text": "partono i fuochi d'artificio a mezzanotte", "labels": {}}
+{"text": "ho avviato il download dei pezzi nuovi sul portatile", "labels": {}}
+{"text": "accendo una sigaretta e torno", "labels": {}}
+{"text": "via Roma è chiusa per lavori, la gente arriva in ritardo", "labels": {}}
+{"text": "andiamo via verso le 4", "labels": {}}
+{"text": "il festeggiato è andato via presto", "labels": {}}
+{"text": "via libera dal gestore per usare la terrazza", "labels": {}}
+{"text": "ho saltato la cena", "labels": {}}
+{"text": "skippo la pubblicità su youtube", "labels": {}}
+{"text": "è saltata la luce in bagno", "labels": {}}
+{"text": "guarda come saltano sul ritornello", "labels": {}}
+{"text": "salto il dolce che sono pieno", "labels": {}}
+{"text": "il dj prima di me skippava i pezzi a metà, orribile", "labels": {}}
+{"text": "ieri ho saltato la palestra per venire qui", "labels": {}}
+{"text": "mi devo cambiare la maglietta, è fradicia", "labels": {}}
+{"text": "è cambiato il vento, chiudono la terrazza", "labels": {}}
+{"text": "cambia il turno dei baristi alle 2", "labels": {}}
+{"text": "la sposa è andata a cambiarsi le scarpe", "labels": {}}
+{"text": "cambio di programma: la torta arriva dopo il ballo", "labels": {}}
+{"text": "abbiamo cambiato locale rispetto all'anno scorso", "labels": {}}
+{"text": "la gente cambia sala ogni dieci minuti", "labels": {}}
+{"text": "il prossimo matrimonio lo facciamo a giugno", "labels": {}}
+{"text": "next week suono a Londra", "labels": {}}
+{"text": "la prossima volta porto un secondo portatile", "labels": {}}
+{"text": "il prossimo cliente vuole solo musica italiana", "labels": {}}
+{"text": "il prossimo autobus passa tra 20 minuti", "labels": {}}
+{"text": "il mix di gente stasera è perfetto", "labels": {}}
+{"text": "il barista fa un mix di rum e frutto della passione pazzesco", "labels": {}}
+{"text": "ho mixato fino alle 6 ieri, sono distrutto", "labels": {}}
+{"text": "il mixaggio dell'album nuovo di Silas Hart è fatto benissimo", "labels": {}}
+{"text": "continua a piovere, la terrazza resta chiusa", "labels": {}}
+{"text": "la fila al bagno non va avanti", "labels": {}}
+{"text": "vado avanti io col discorso, tu tranquillo", "labels": {}}
+{"text": "la serata sta andando avanti benissimo", "labels": {}}
+{"text": "riprendi il telefono che l'hai lasciato sul mixer", "labels": {}}
+{"text": "ho ripreso tutto il primo ballo col telefono", "labels": {}}
+{"text": "ricomincia a nevicare, che freddo", "labels": {}}
+{"text": "mia zia ricomincia con le domande sul matrimonio ahah", "labels": {}}
+{"text": "ultimo giro di birre offerto dalla casa", "labels": {}}
+{"text": "l'ultimo autobus passa alle 2", "labels": {}}
+{"text": "è l'ultimo weekend della stagione al lido", "labels": {}}
+{"text": "l'ultima volta qui è stata pazzesca", "labels": {}}
+{"text": "l'ultimo pezzo di torta è mio", "labels": {}}
+{"text": "chiudo gli occhi e mi godo questo pezzo", "labels": {}}
+{"text": "questa è l'ultima sigaretta che fumo, giuro", "labels": {}}
+{"text": "dopo questa vado a prendere la giacca in macchina", "labels": {}}
+{"text": "dopo questo pezzo arriva il cantante per il live", "labels": {}}
+{"text": "dopo questa ci sono i fuochi in giardino", "labels": {}}
+{"text": "il tempo fuori è brutto", "labels": {}}
+{"text": "non c'è tempo per mangiare stasera", "labels": {}}
+{"text": "torno in tempo per la torta, promesso", "labels": {}}
+{"text": "che tempo da lupi stanotte", "labels": {}}
+{"text": "il tempo è volato, sono già le 3", "labels": {}}
+{"text": "in originale questa canzone era in spagnolo", "labels": {}}
+{"text": "la versione originale di questo pezzo è più lenta", "labels": {}}
+{"text": "torna al tavolo che arriva il primo", "labels": {}}
+{"text": "riporta i bicchieri vuoti al bar", "labels": {}}
+{"text": "il batterista della band andava fuori tempo", "labels": {}}
+{"text": "a tempo perso faccio il dj", "labels": {}}
+{"text": "mi batte il cuore a 150 bpm dopo quel ballo ahah", "labels": {}}
+{"text": "adoro i remix anni 90", "labels": {}}
+{"text": "mio cugino fa remix in cameretta", "labels": {}}
+{"text": "questo remix l'ho sentito a Ibiza l'estate scorsa", "labels": {}}
+{"text": "il vestito della sposa è un mashup di stili assurdo", "labels": {}}
+{"text": "c'è coda in bagno", "labels": {}}
+{"text": "la coda per il guardaroba è infinita", "labels": {}}
+{"text": "fuori c'è una coda di macchine fino alla rotonda", "labels": {}}
+{"text": "metti il telefono in modalità aereo", "labels": {}}
+{"text": "che vista dal rooftop stasera", "labels": {}}
+{"text": "la vista sul mare da qui è pazzesca", "labels": {}}
+{"text": "il mio amico ha la console nuova, la playstation 5", "labels": {}}
+{"text": "in console fa un caldo bestiale", "labels": {}}
+{"text": "c'è un ragazzo in console che vuole fare una foto", "labels": {}}
+{"text": "la schermata del portatile si è oscurata un attimo", "labels": {}}
+{"text": "la modalità notte del telefono non funziona", "labels": {}}
+{"text": "scegli tu dove andiamo a mangiare dopo", "labels": {"talk": "offtopic"}}
+{"text": "decidi tu il cocktail per me", "labels": {"talk": "offtopic"}}
+{"text": "scegli tu un nome per il mio gatto", "labels": {"talk": "offtopic"}}
+{"text": "fermati un attimo a pensare, ma che ore sono?", "labels": {"talk": "offtopic"}}
+{"text": "a che ora parte l'ultimo treno per Bologna?", "labels": {"talk": "offtopic"}}
+{"text": "chiamami un taxi per quando chiude il locale", "labels": {"talk": "offtopic"}}
+{"text": "quando parte il volo per Ibiza domani?", "labels": {"talk": "offtopic"}}
+{"text": "dimmi quanto ci metto ad andare da qui a Rimini", "labels": {"talk": "offtopic"}}
+{"text": "domenica fa bello al lago?", "labels": {"talk": "offtopic"}}
+{"text": "com'è il meteo per stanotte?", "labels": {"talk": "offtopic"}}
+{"text": "che serie tv mi consigli per domani?", "labels": {"talk": "offtopic"}}
+{"text": "come si ferma il sangue dal naso?", "labels": {"talk": "offtopic"}}
+{"text": "come si cambia la batteria della macchina?", "labels": {"talk": "offtopic"}}
+{"text": "ricordami di chiudere il gas quando torno", "labels": {"talk": "offtopic"}}
+{"text": "imposta una sveglia per le 10", "labels": {"talk": "offtopic"}}
+{"text": "scrivimi un messaggio per dire alla mia ragazza che parto domani", "labels": {"talk": "offtopic"}}
+{"text": "traduci next in italiano", "labels": {"talk": "offtopic"}}
+{"text": "cosa significa skip in inglese?", "labels": {"talk": "offtopic"}}
+{"text": "chi ha inventato il crossfader?", "labels": {"talk": "offtopic"}}
+{"text": "quanto costa il traghetto per la Sardegna?", "labels": {"talk": "offtopic"}}
+{"text": "come si fa a smettere di fumare?", "labels": {"talk": "offtopic"}}
+{"text": "dove posso parcheggiare qui vicino?", "labels": {"talk": "offtopic"}}
+{"text": "quando chiude il supermercato la domenica?", "labels": {"talk": "offtopic"}}
+{"text": "fammi un riassunto della partita di stasera", "labels": {"talk": "offtopic"}}
+{"text": "se parto alle 5 e vado a 100 all'ora, quando arrivo a Roma che sta a 300 km?", "labels": {"talk": "offtopic"}}
+{"text": "stoppa il cronometro, quanto ci ho messo?", "labels": {"talk": "offtopic"}}
+{"text": "cambia la password del wifi del locale", "labels": {}}
+{"text": "come si dice ultimo pezzo in inglese?", "labels": {"talk": "offtopic"}}
+{"text": "qual è il prossimo giorno festivo?", "labels": {"talk": "offtopic"}}
+{"text": "come faccio a fermarti?", "labels": {"info": "help"}}
+{"text": "come si mette in pausa?", "labels": {"info": "help"}}
+{"text": "posso dirti di cambiare pezzo quando voglio?", "labels": {"info": "help"}}
+{"text": "cosa succede se scrivo stop?", "labels": {"info": "help"}}
+{"text": "come si fa a chiudere dopo il pezzo in corso?", "labels": {"info": "help"}}
+{"text": "come attivo i mashup automatici?", "labels": {"info": "help"}}
+{"text": "a cosa serve il ritorno al bpm originale?", "labels": {"info": "help"}}
+{"text": "che differenza c'è tra modalità coda e modalità ai?", "labels": {"info": "help"}}
+{"text": "cos'è il remix live?", "labels": {"info": "help"}}
+{"text": "come si passa alla console?", "labels": {"info": "help"}}
+{"text": "ma se ti dico next cosa fai?", "labels": {"info": "help"}}
+{"text": "perché hai cambiato pezzo prima della fine?", "labels": {"info": "why"}}
+{"text": "come mai hai saltato quel pezzo?", "labels": {"info": "why"}}
+{"text": "il remix live adesso è attivo?", "labels": {"info": "settings"}}
+{"text": "chi sceglie i pezzi adesso, tu o la coda?", "labels": {"info": "settings"}}
+{"text": "sei tornato al bpm originale o no?", "labels": {"info": "settings"}}
+{"text": "i mashup automatici li hai spenti?", "labels": {"info": "settings"}}
+{"text": "cosa hai preparato come prossimo?", "labels": {"info": "next"}}
+{"text": "hai già scelto il prossimo?", "labels": {"info": "next"}}
+{"text": "che pezzo sta andando adesso?", "labels": {"info": "now"}}
+{"text": "cambia stile, prova con l'eco", "labels": {"style": "echo"}}
+{"text": "passa alla house", "labels": {"genre": "include"}}
+{"text": "cambia genere, basta techno", "labels": {"genre": "exclude"}}
+{"text": "ferma la salita, resta su questa energia", "labels": {"strategy": "steady"}}
+{"text": "stop con la salita, tieni il livello", "labels": {"strategy": "steady"}}
+{"text": "salta la techno per i prossimi due pezzi", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "vai col filtro nei cambi", "labels": {"style": "filter"}}
+{"text": "cambia l'energia, più carica", "labels": {"strategy": "rise"}}
+{"text": "metti in pausa la techno per un po'", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "chiudi i passaggi con un taglio netto", "labels": {"style": "cut"}}
+{"text": "accorcia i mix, sono troppo lunghi", "labels": {"bars": "short"}}
+{"text": "allunga i passaggi", "labels": {"bars": "long"}}
+{"text": "vai avanti con questo livello di energia", "labels": {"strategy": "steady"}}
+{"text": "metti Night Drive dopo questo", "labels": {"queue": "playNext"}}
+{"text": "il prossimo mettimi Fuoco", "labels": {"queue": "playNext"}}
+{"text": "cambia la coda in ordine casuale", "labels": {"queue": "shuffle"}}
+{"text": "cambia i passaggi, fai le dissolvenze", "labels": {"style": "fade"}}
+{"text": "dopo questa voglio più energia", "labels": {"strategy": "rise"}}
+{"text": "dopo questo pezzo vai di house", "labels": {"genre": "include"}}
+{"text": "dopo questa fai un mashup", "labels": {"mashup": "auto"}}
+{"text": "l'ultimo cambio era perfetto, fanne altri col filtro", "labels": {"style": "filter"}}
+{"text": "basta con i tagli secchi, sfuma", "labels": {"style": "fade"}}
+{"text": "basta con il filtro nei cambi, usa l'eco", "labels": {"style": "echo"}}
+{"text": "stop ai cambi lunghi, falli corti", "labels": {"bars": "short"}}
+{"text": "dopo la torta preparami una scaletta", "labels": {"set": "build"}}
+{"text": "cambia passo, alterna pezzi forti e respiri", "labels": {"strategy": "wave"}}
+{"text": "via la techno per stasera", "labels": {"genre": "exclude"}}
+{"text": "next level questa festa", "labels": {}}
+{"text": "game over per il bar, hanno finito tutto", "labels": {}}
+{"text": "pausa pranzo domani alle 13", "labels": {}}
+{"text": "che vista", "labels": {}}
+{"text": "ultimo shot e poi torno", "labels": {}}
+{"text": "grazie, ottimo cambio", "labels": {"talk": "thanks"}}
+{"text": "bravo, che cambio pulito", "labels": {"talk": "thanks"}}
+{"text": "grande, il mix di prima era perfetto", "labels": {"talk": "thanks"}}
+{"text": "ciao segueo, ci siamo quasi, tra poco tocca a te", "labels": {"talk": "hello"}}
+{"text": "grazie per aver fermato la musica al momento giusto", "labels": {"talk": "thanks"}}
+{"text": "grazie, chiusura perfetta", "labels": {"talk": "thanks"}}
+{"text": "non partire ancora, aspetta gli sposi", "labels": {}}
+{"text": "non cambiare canzone, la sposa la sta cantando", "labels": {}}
+{"text": "non saltare il prossimo, mi piace", "labels": {}}
+{"text": "non mixare ancora, lasciala finire", "labels": {}}
+{"text": "aspetta a cambiare, c'è il ritornello", "labels": {}}
+{"text": "tranquillo, non c'è fretta di cambiare", "labels": {}}
+{"text": "lascia andare questa fino in fondo", "labels": {}}
+{"text": "magari verso le 3 ti chiedo di fermarti", "labels": {}}
+{"text": "se la gente se ne va ti dico io quando spegnere", "labels": {}}
+{"text": "dopo magari passiamo alla console", "labels": {}}
+{"text": "più tardi forse ti faccio scegliere i pezzi", "labels": {}}
+{"text": "non so se attivare i mashup automatici", "labels": {}}
+{"text": "sto pensando se spegnere il remix live", "labels": {}}
+{"text": "chissà se conviene tornare al bpm originale", "labels": {}}
+{"text": "vediamo se tra un po' cambio modalità", "labels": {}}
+{"text": "tra mezz'ora devo far partire il video degli sposi", "labels": {}}
+{"text": "ieri ho dovuto spegnere tutto per un temporale", "labels": {}}
+{"text": "ieri il remix live ha fatto un casino con la voce", "labels": {}}
+{"text": "l'altra sera i mashup automatici erano bellissimi", "labels": {}}
+{"text": "la settimana scorsa ho suonato solo la mia coda", "labels": {}}
+{"text": "ho usato la vista console tutto il pomeriggio", "labels": {}}
+{"text": "quando ero ragazzo facevo partire i dischi a mano", "labels": {}}
+{"text": "a Berlino nessuno si ferma prima dell'alba", "labels": {}}
+{"text": "il gestore dice che alle 4 si chiude", "labels": {}}
+{"text": "mi hanno chiesto se puoi cambiare pezzo, ma secondo me va bene così", "labels": {}}
+{"text": "la sposa dice che il prossimo pezzo è il suo preferito", "labels": {}}
+{"text": "un tizio mi ha chiesto di saltare questa canzone, ma non lo ascolto", "labels": {}}
+{"text": "il fonico vuole sapere a che ora chiudiamo", "labels": {}}
+{"text": "passami il cavo", "labels": {}}
+{"text": "passami il cavo jack che sta sotto il mixer", "labels": {}}
+{"text": "dammi una mano a spostare la cassa", "labels": {}}
+{"text": "porta su il volume delle casse in giardino", "labels": {}}
+{"text": "spegni il ventilatore che mi vola via tutto", "labels": {}}
+{"text": "accendi la lampada sulla consolle", "labels": {}}
+{"text": "abbassa la musica in cucina", "labels": {}}
+{"text": "metti in pausa la diretta instagram", "labels": {}}
+{"text": "riavvia il router che il wifi non va", "labels": {}}
+{"text": "avvia il generatore se salta la corrente", "labels": {}}
+{"text": "ferma la macchina del fumo, non si vede niente", "labels": {}}
+{"text": "stoppa i coriandoli, hanno già sparato tutto", "labels": {}}
+{"text": "fai ripartire l'aria condizionata", "labels": {}}
+{"text": "cambia la lampadina rossa vicino al bar", "labels": {}}
+{"text": "chiudi il tendone che piove dentro", "labels": {}}
+{"text": "il dj ospite ha appena chiuso il suo set nell'altra sala", "labels": {}}
+{"text": "la band ha smesso di suonare in giardino", "labels": {}}
+{"text": "gli sposi stanno per partire per il viaggio di nozze", "labels": {}}
+{"text": "il ragazzo al bancone continua a dire next next ahah", "labels": {}}
+{"text": "la gente urlava ancora ancora alla fine del set di ieri", "labels": {}}
+{"text": "lo stop dei bassi in quel pezzo è geniale", "labels": {}}
+{"text": "in questo brano c'è uno stop prima del drop che fa impazzire tutti", "labels": {}}
+{"text": "sentito che stacco nel pezzo?", "labels": {}}
+{"text": "il break di questa traccia dura un'eternità", "labels": {}}
+{"text": "che pausa drammatica prima del ritornello", "labels": {}}
+{"text": "il cantante si è fermato e ha fatto cantare il pubblico", "labels": {}}
+{"text": "il ritmo non si ferma mai in questa traccia", "labels": {}}
+{"text": "le birre sono finite", "labels": {}}
+{"text": "la batteria del microfono è quasi finita", "labels": {}}
+{"text": "ho chiuso la cassa del bar per stasera", "labels": {}}
+{"text": "l'ultima volta che ho suonato a un matrimonio la sposa è svenuta", "labels": {}}
+{"text": "il festeggiato ha fatto partire un brindisi a sorpresa", "labels": {}}
+{"text": "la gente ha cominciato ad andare verso il buffet", "labels": {}}
+{"text": "è iniziata la grandinata, tutti dentro", "labels": {}}
+{"text": "il cameraman dice che la batteria è scarica", "labels": {}}
+{"text": "la pista è ferma, sono tutti al dolce", "labels": {}}
+{"text": "ricevuto, aspetto il gestore", "labels": {}}
+{"text": "capito, aspetto", "labels": {}}
+{"text": "vediamo dopo", "labels": {}}
+{"text": "madonna che salto ha fatto quel tizio", "labels": {}}
+{"text": "quel pezzo di prima l'hai chiuso alla grande", "labels": {"talk": "thanks"}}
+{"text": "il prossimo anno rifacciamo questa festa", "labels": {}}
+{"text": "i ragazzi del tavolo 3 dicono che sei il dj migliore dell'estate", "labels": {"talk": "thanks"}}
+{"text": "la console a casa mia ha i jog rotti", "labels": {}}
+{"text": "mi piacerebbe vedere come scegli i pezzi un giorno", "labels": {}}
+{"text": "quanta gente che balla ragazzi, si vede dalla console", "labels": {}}
+{"text": "dopo le 2 di solito la gente parte", "labels": {}}
+{"text": "alle 3 i genitori della sposa vanno via", "labels": {}}
+{"text": "il pullman degli ospiti riparte alle 2 e mezza", "labels": {}}
+{"text": "fra poco riparto anch'io, ho il volo presto", "labels": {}}
+{"text": "la mia ragazza è ripartita per Milano", "labels": {}}
+{"text": "il vento ha spento le torce in giardino", "labels": {}}
+{"text": "i bambini hanno staccato la presa delle luci, le ho rimesse", "labels": {}}
+{"text": "il buttafuori ha bloccato due tizi all'ingresso", "labels": {}}
+{"text": "la scaletta del pranzo prevede il taglio della torta alle 17", "labels": {}}
+{"text": "la playlist del pranzo l'aveva fatta la sposa", "labels": {}}
+{"text": "a mezzanotte cambia tutto, si vede", "labels": {}}
+{"text": "per quello che mi riguarda possiamo andare avanti fino all'alba, ma decide il gestore", "labels": {}}
+{"text": "il gestore non ha ancora deciso se chiudere alle 3 o alle 4", "labels": {}}
+{"text": "stop, scusa, ho sbagliato chat", "labels": {}}
+{"text": "no niente, lascia stare", "labels": {}}
+{"text": "lascia perdere quello che ho scritto", "labels": {}}
+{"text": "aspetta, ci penso un attimo", "labels": {}}
+{"text": "ops scusa, messaggio partito per sbaglio", "labels": {}}
+{"text": "non ti preoccupare, ora ci penso io col microfono", "labels": {}}
+{"text": "mi hai salvato, prima si era fermato tutto", "labels": {"talk": "thanks"}}
+{"text": "il pezzo è partito un po' presto ma va bene", "labels": {}}
+{"text": "siamo su un rooftop a Milano e la gente sta ancora arrivando dall'aperitivo, intanto fai partire tu la musica", "labels": {"control": "start"}}
+{"text": "matrimonio in masseria, gli sposi hanno finito il primo ballo: ora puoi far ripartire l'ai dj", "labels": {"control": "start"}}
+{"text": "la band ha finito il suo set in giardino, riaccendi la musica in sala che la gente sta rientrando", "labels": {"control": "start"}}
+{"text": "è arrivato il sindaco per il discorso del gemellaggio, metti in pausa la musica finché non ha finito", "labels": {"control": "stop"}}
+{"text": "festa aziendale in un capannone, il capo vuole parlare al microfono: ferma l'ai dj un attimo", "labels": {"control": "stop"}}
+{"text": "la nonna della sposa sta facendo segno di no con la testa, passa al pezzo dopo prima che finisca", "labels": {"control": "mixNow"}}
+{"text": "sono le tre e mezza e il gestore sta già accendendo le luci: chiudi il set appena finisce questo brano", "labels": {"control": "endAfterCurrent"}}
+{"text": "il dj ospite è bloccato in autostrada e arriva tra un'ora, quindi annulla la chiusura e vai avanti tu finché non arriva", "labels": {"control": "resume"}}
+{"text": "il prossimo che hai in canna l'hanno già chiesto tre volte al bancone ma è troppo lento per le due di notte, scegline un altro", "labels": {"control": "skip"}}
+{"text": "i ragazzi della quinta hanno preparato la loro coda per la cena di classe, stasera si va solo con quella", "labels": {"mode": "queue"}}
+{"text": "io devo stare al tavolo coi parenti per tutta la cena, quindi da adesso i brani li scegli tu dalla libreria", "labels": {"mode": "ai"}}
+{"text": "lo sponsor vuole vedere come lavora l'ai durante la presentazione, passa alla schermata dell'ai dj", "labels": {"view": "ai"}}
+{"text": "tra poco salgo io a fare un'ora di vinili, mettimi la console con i deck", "labels": {"view": "console"}}
+{"text": "in spiaggia al tramonto il remix live ci sta, giocaci un po' con loop ed effetti sui pezzi lunghi", "labels": {"remix": "on"}}
+{"text": "è un pubblico di over 50 che vuole sentire le canzoni come le conosce, togli i mashup automatici", "labels": {"mashupOpt": "off"}}
+{"text": "il pubblico qui riconosce i pezzi dalla voce: dopo ogni mix riporta il brano al suo tempo originale", "labels": {"returnTempo": "on"}}
+{"text": "il gestore mi ha appena detto che il bar si ferma alle due ma la musica può andare avanti fino alle quattro", "labels": {}}
+{"text": "stamattina sono partito da Bari alle sei, ho saltato il pranzo e adesso sono cotto ma la serata è bellissima", "labels": {}}
+{"text": "la sposa ha chiesto al fotografo di fermare tutti gli invitati in giardino per la foto di gruppo prima della torta", "labels": {}}
+{"text": "mio cugino a casa sua fa sempre next next next sui pezzi, non riesce mai ad ascoltarne uno intero", "labels": {}}
+{"text": "il pullman per l'hotel parte alle 3 in punto e gli invitati del nord devono prenderlo per forza", "labels": {}}
+{"text": "ieri il dj del matrimonio accanto ha spento la musica nel bel mezzo del discorso del padre della sposa, che figuraccia", "labels": {}}

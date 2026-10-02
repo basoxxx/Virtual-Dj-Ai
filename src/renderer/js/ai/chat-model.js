@@ -3,7 +3,7 @@
 import { chatInputs, chatFeaturize, softmaxHeads, chatDecide } from './chat-features.js';
 import { CHAT_THRESHOLDS } from './chat-heads.js';
 
-export const CHAT_MODEL = 'segueo-chat.onnx';
+export const CHAT_MODEL = 'segueo-chat-v2.onnx';
 // dopo questo tempo senza messaggi il worker si chiude e libera la memoria
 const IDLE_MS = 120000;
 

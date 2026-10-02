@@ -25,15 +25,18 @@ from handwritten import CASES  # noqa: E402
 from heads import HEADS, NB, offsets, write_js  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / 'ml' / 'data' / 'segueochat'
+# CHAT_OUT: cartella dei risultati (per le prove); CHAT_APP=0: non copiare modello, soglie ed esempi nell'app
+OUT = Path(os.environ.get('CHAT_OUT', ROOT / 'ml' / 'data' / 'segueochat'))
+TO_APP = os.environ.get('CHAT_APP', '1') == '1'
 MODELS = ROOT / 'src' / 'renderer' / 'models'
 FIXTURES = ROOT / 'test' / 'fixtures' / 'segueo-chat'
-MODEL_FILE = 'segueo-chat.onnx'
+MODEL_FILE = 'segueo-chat-v2.onnx'
 
-D, H = 64, 192
-N_TRAIN, N_TEST, N_DEV, EPOCHS, BATCH = 200_000, 10_000, 4_000, 6, 512
+D, H = int(os.environ.get('CHAT_D', 64)), int(os.environ.get('CHAT_H', 192))
+N_TRAIN, N_TEST, N_DEV, BATCH = 200_000, 10_000, 4_000, 512
+EPOCHS = int(os.environ.get('CHAT_EPOCHS', 6))
 # ogni interazione di addestramento entra più volte, con riempitivi e refusi diversi: pesa più delle frasi generate
-INTERACTION_COPIES = 16
+INTERACTION_COPIES = int(os.environ.get('CHAT_COPIES', 16))
 FEATURE_DROPOUT = 0.25
 OFFS, TOTAL = offsets()
 
@@ -256,12 +259,17 @@ def main():
     res['int8_modelli_mai_visti'] = report('int8, test mai visti (3000)', predict_messages(q, [t for t, _ in test_samples[:3000]], th), yte.numpy()[:3000])
     # si usa l'int8 se non perde precisione, altrimenti il fp32
     chosen = int8 if res['int8_scritto_a_mano']['exact'] >= res['test_scritto_a_mano']['exact'] - 0.005 else fp32
-    shutil.copy(chosen, MODELS / MODEL_FILE)
-    print(f'modello per l\'app: {chosen.name} -> src/renderer/models/{MODEL_FILE}')
+    shutil.copy(chosen, OUT / MODEL_FILE)
+    if TO_APP:
+        shutil.copy(chosen, MODELS / MODEL_FILE)
+        print(f'modello per l\'app: {chosen.name} -> src/renderer/models/{MODEL_FILE}')
     res['file'] = chosen.name
     res['bytes'] = chosen.stat().st_size
     (OUT / 'metrics.json').write_text(json.dumps(res, indent=2, ensure_ascii=False))
 
+    if not TO_APP:
+        print(f'fatto in {time.time() - t0:.0f} s (app non toccata)')
+        return
     # etichette per l'app e esempi per i test JavaScript (caratteristiche e punteggi del modello scelto)
     write_js(ROOT / 'src' / 'renderer' / 'js' / 'ai' / 'chat-heads.js', th)
     FIXTURES.mkdir(parents=True, exist_ok=True)

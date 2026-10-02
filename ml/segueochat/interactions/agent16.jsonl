@@ -1,0 +1,722 @@
+{"text": "mettila alla gabry ponte co' 'n po' de anni 2000", "labels": {"style": "model", "genre": "add"}}
+{"text": "cassa dritta stile dance tipo gabry mashup automatici accesi", "labels": {"style": "model", "mashupOpt": "on"}}
+{"text": "stile gabry pe' 'na mezz'ora tutto più carico", "labels": {"style": "model", "strategy": "rise", "temporary": "yes"}}
+{"text": "genere qualsiasi pe' mo' fai tu 'a selezione", "labels": {"genre": "clear", "mode": "ai"}}
+{"text": "levame tutti li filtri de genere passaggi più lunghi", "labels": {"genre": "clear", "bars": "long"}}
+{"text": "va bene tutto come genere nn tornare al bpm originale", "labels": {"genre": "clear", "returnTempo": "off"}}
+{"text": "dimme che sai fa' ferma la musica", "labels": {"info": "help", "control": "stop"}}
+{"text": "cosa posso dirti di fare vista ai x favore", "labels": {"info": "help", "view": "ai"}}
+{"text": "come sei messo coi mashup accendili", "labels": {"info": "settings", "mashupOpt": "on"}}
+{"text": "come sei settato cn i remix spegnili", "labels": {"info": "settings", "remix": "off"}}
+{"text": "dimmi cosa c'è in coda togli open water", "labels": {"info": "queue", "queue": "remove"}}
+{"text": "ke c è in lista aggiungici fuoco", "labels": {"info": "queue", "queue": "add"}}
+{"text": "leva parallel dalla coda mix più rapidi", "labels": {"queue": "remove", "bars": "short"}}
+{"text": "togli sunday motion dalla lista cn la techno", "labels": {"queue": "remove", "genre": "include"}}
+{"text": "fai 'n mashup tu che la gente s'annoia cambi a sfumare", "labels": {"mashup": "auto", "style": "fade"}}
+{"text": "mashup a sorpresa scelto da te solo house", "labels": {"mashup": "auto", "genre": "include"}}
+{"text": "fai un mashup a piacere tuo x la sposa", "labels": {"mashup": "auto"}}
+{"text": "remix live acceso x i prossimi 4 pezzi a onde", "labels": {"remix": "on", "strategy": "wave", "temporary": "yes"}}
+{"text": "spegni il remix live mettimi la console", "labels": {"remix": "off", "view": "console"}}
+{"text": "loop sopra i pezzi cn i tagli secchi", "labels": {"remix": "on", "style": "cut"}}
+{"text": "schermata ai mescola la coda", "labels": {"view": "ai", "queue": "shuffle"}}
+{"text": "console subito skippa sto pezzo", "labels": {"view": "console", "control": "mixNow"}}
+{"text": "vai in console aggiungi golden hour in coda", "labels": {"view": "console", "queue": "add"}}
+{"text": "dai che è tardi chiudi dopo questo cn l eco", "labels": {"control": "endAfterCurrent", "style": "echo"}}
+{"text": "continua a suonare nn chiudere cn mix lunghissimi", "labels": {"control": "resume", "bars": "verylong"}}
+{"text": "nn chiudere il set solo la mia coda fino alla fine", "labels": {"control": "resume", "mode": "queue"}}
+{"text": "il prossimo cambialo cn qlc di afro", "labels": {"control": "skip", "genre": "include"}}
+{"text": "il pezzo che hai pronto scartalo fai un mashup", "labels": {"control": "skip", "mashup": "auto"}}
+{"text": "cambia ora cn uno stacco netto a palla", "labels": {"control": "mixNow", "style": "cut", "strategy": "peak"}}
+{"text": "avvia l ai dj cn i mashup automatici accesi", "labels": {"control": "start", "mashupOpt": "on"}}
+{"text": "fai partire la mia coda cn le sfumate", "labels": {"control": "start", "mode": "queue", "style": "fade"}}
+{"text": "spegni tutto i mashup pure", "labels": {"control": "stop", "mashupOpt": "off"}}
+{"text": "resta al bpm del mix x il prossimo pezzo a raffica", "labels": {"returnTempo": "off", "style": "rapid", "temporary": "yes"}}
+{"text": "nn tornare al tempo vecchio solo commerciale", "labels": {"returnTempo": "off", "genre": "include"}}
+{"text": "riporta il bpm originale dopo i passaggi stile gabry", "labels": {"returnTempo": "on", "style": "model"}}
+{"text": "a onde cn la coda mescolata", "labels": {"strategy": "wave", "queue": "shuffle"}}
+{"text": "su e giù x tt la serata cn mix brevi", "labels": {"strategy": "wave", "bars": "short"}}
+{"text": "alterna tosto calmo tosto calmo scegli tu i pezzi", "labels": {"strategy": "wave", "mode": "ai"}}
+{"text": "picco x i prossimi 2 brani cn l eco", "labels": {"strategy": "peak", "style": "echo", "temporary": "yes"}}
+{"text": "solo pezzi forti niente remix live", "labels": {"strategy": "peak", "remix": "off"}}
+{"text": "massima potenza resta sul bpm nuovo", "labels": {"strategy": "peak", "returnTempo": "off"}}
+{"text": "calma piatta mix da 64 battute niente mashup", "labels": {"strategy": "chill", "bars": "verylong", "mashupOpt": "off"}}
+{"text": "musica più tranquilla vista ai", "labels": {"strategy": "chill", "view": "ai"}}
+{"text": "mantieni l energia mix da 32 battute", "labels": {"strategy": "steady", "bars": "long"}}
+{"text": "stessa vibe cn qlc pezzo di funk", "labels": {"strategy": "steady", "genre": "add"}}
+{"text": "fammi na scaletta da 30 brani trance a onde", "labels": {"set": "build", "genre": "include", "strategy": "wave"}}
+{"text": "scaletta x l after tt techno stile techno", "labels": {"set": "build", "genre": "include", "style": "model-techno"}}
+{"text": "setlist x la festa aziendale niente reggaeton", "labels": {"set": "build", "genre": "exclude"}}
+{"text": "playlist x il pranzo della domenica roba calma", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "una scaletta x stasera cn le hit che fanno saltare", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "voce di afterglow sopra lo strumentale di mare blu cn il filtro", "labels": {"mashup": "explicit", "style": "filter"}}
+{"text": "acappella di weightless sulla base di sunday motion x il ballo degli sposi", "labels": {"mashup": "explicit"}}
+{"text": "mashup di northern lights cn electric dreams voce della prima", "labels": {"mashup": "explicit"}}
+{"text": "blend da 48 battute cn i bassi scambiati x i prox 3", "labels": {"bars": "long", "style": "bassswap", "temporary": "yes"}}
+{"text": "mix velocissimi stile lumix cn la drum and bass", "labels": {"bars": "short", "style": "rapid", "genre": "include"}}
+{"text": "passaggi lunghi cn la mia coda", "labels": {"bars": "long", "mode": "queue"}}
+{"text": "fai tu i passaggi tt anni 80", "labels": {"style": "auto", "genre": "include"}}
+{"text": "decidi tu lo stile dei cambi x un po", "labels": {"style": "auto", "temporary": "yes"}}
+{"text": "sfuma morbido nn mettere hip hop", "labels": {"style": "fade", "genre": "exclude"}}
+{"text": "taglia secco sulla cassa alza", "labels": {"style": "cut", "strategy": "rise"}}
+{"text": "filtro lento x tt la cena", "labels": {"style": "filter", "bars": "long"}}
+{"text": "daje alza 'sto volume de energia mix più lunghi", "labels": {"strategy": "rise", "bars": "long"}}
+{"text": "ao mettece più tiro co' li tagli secchi sur beat", "labels": {"strategy": "rise", "style": "cut"}}
+{"text": "aridaje co' 'sta lagna cambia pezzo subito mettece più pepe", "labels": {"control": "mixNow", "strategy": "rise"}}
+{"text": "a fra famme 'n mix lungo cor filtro", "labels": {"bars": "long", "style": "filter"}}
+{"text": "nun me mette' er reggaeton fai tu li pezzi", "labels": {"genre": "exclude", "mode": "ai"}}
+{"text": "ammazza che mortorio sveja 'sta pista co' 'n po' de commerciale", "labels": {"strategy": "rise", "genre": "add"}}
+{"text": "fammi vedé la console daje parti", "labels": {"view": "console", "control": "start"}}
+{"text": "pe' 'n par de pezzi abbassa 'n po' er tiro", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "nun torna' ar bpm de prima chiudi li pezzi co' l'eco", "labels": {"returnTempo": "off", "style": "echo"}}
+{"text": "mettece golden hour subito dopo alza 'n pochetto", "labels": {"queue": "playNext", "strategy": "rise"}}
+{"text": "svota 'a coda fai tu da mo'", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "ahò stile gabry ponte pe' tutta 'a sera mix corti", "labels": {"style": "model", "bars": "short"}}
+{"text": "fai 'n mashup a caso mettece pure li loop sopra", "labels": {"mashup": "auto", "remix": "on"}}
+{"text": "a regà preparame 'na scaletta de du' ore tutta techno in crescendo", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "daje a palla pe' 'r prossimo pezzo tagli a raffica", "labels": {"strategy": "peak", "temporary": "yes", "style": "rapid"}}
+{"text": "mo' tienila lì l'energia nun cambià gnente mashup automatici accesi", "labels": {"strategy": "steady", "mashupOpt": "on"}}
+{"text": "su e giù co' l'energia fai tu come mixà", "labels": {"strategy": "wave", "style": "auto"}}
+{"text": "aò che stai a sona' mo' damme 'n po' de tiro", "labels": {"info": "now", "strategy": "rise"}}
+{"text": "'sto pezzo è 'na palla skippalo cor taglio netto", "labels": {"control": "mixNow", "style": "cut"}}
+{"text": "abbassa 'n po' er tiro chiudi li pezzi cor filtro", "labels": {"strategy": "chill", "style": "filter"}}
+{"text": "famme senti' parallel come prossima co' 'na sfumata lunga", "labels": {"queue": "playNext", "style": "fade", "bars": "long"}}
+{"text": "nun chiude' er set daje vai avanti più carico", "labels": {"control": "resume", "strategy": "rise"}}
+{"text": "a dj nun me piace er prossimo scegline 'n antro più tosto", "labels": {"control": "skip", "strategy": "rise"}}
+{"text": "levame low tide dalla coda damme più tiro", "labels": {"queue": "remove", "strategy": "rise"}}
+{"text": "daje co' la techno a palla stile techno", "labels": {"genre": "include", "strategy": "peak", "style": "model-techno"}}
+{"text": "mo' basta trap tirala su cor bass swap", "labels": {"genre": "exclude", "strategy": "rise", "style": "bassswap"}}
+{"text": "'n po' de calma pe' mezz'ora che stanno a magnà", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "sei 'n grande", "labels": {"talk": "thanks"}}
+{"text": "che c'hai in coda damme 'na mescolata", "labels": {"info": "queue", "queue": "shuffle"}}
+{"text": "perché 'sta roba lenta cambiala subito", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "fai 'na botta de mashup automatici co' li remix live", "labels": {"mashupOpt": "on", "remix": "on"}}
+{"text": "ce vole 'na scaletta pe' 'r matrimonio de mi' cugina tutta anni 80", "labels": {"set": "build", "genre": "include"}}
+{"text": "daje parti co' 'n po' de deep tranquilla", "labels": {"control": "start", "genre": "include", "strategy": "chill"}}
+{"text": "ao torna alla vista ai dimme come sei settato", "labels": {"view": "ai", "info": "settings"}}
+{"text": "nun te ferma' mo' che la gente balla", "labels": {"control": "resume"}}
+{"text": "ferma tutto c'è la polizia de sotto", "labels": {"control": "stop"}}
+{"text": "ammazza che pezzo", "labels": {}}
+{"text": "'sta pista è piena come 'n uovo", "labels": {}}
+{"text": "a regà stanotte se fa tardi", "labels": {}}
+{"text": "damme 'n momento che vado ar bagno", "labels": {}}
+{"text": "mo' metti 'n po' de disco mix più rapidi", "labels": {"genre": "add", "bars": "short"}}
+{"text": "pe' 'n par de pezzi niente remix live", "labels": {"remix": "off", "temporary": "yes"}}
+{"text": "fai tu li pezzi resta ar tempo novo", "labels": {"mode": "ai", "returnTempo": "off"}}
+{"text": "'a voce de golden hour sopra 'a base de night drive famme sto mashup", "labels": {"mashup": "explicit"}}
+{"text": "resta sur bpm novo cambi da 32 battute", "labels": {"returnTempo": "off", "bars": "long"}}
+{"text": "tienila costante co' li stacchi secchi niente rap", "labels": {"strategy": "steady", "style": "cut", "genre": "exclude"}}
+{"text": "famme 'na playlist pe' l'aperitivo lounge rilassata", "labels": {"set": "build", "genre": "include", "strategy": "chill"}}
+{"text": "mettece 'n po' de reggaeton pe' 'r prossimo pezzo", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "ao abbassa er tiro che c'è la torta sfuma morbido", "labels": {"strategy": "chill", "style": "fade"}}
+{"text": "che sai fa' de preciso", "labels": {"info": "help"}}
+{"text": "quanto manca ar prossimo mix", "labels": {"info": "next"}}
+{"text": "come se chiama 'sto pezzo", "labels": {"info": "now"}}
+{"text": "er prossimo cambialo metti estate ar posto suo", "labels": {"control": "skip", "queue": "playNext"}}
+{"text": "daje skippa 'sto lento mettece qualcosa de commerciale", "labels": {"control": "mixNow", "genre": "include"}}
+{"text": "sto a mori' de caldo", "labels": {}}
+{"text": "che dice er meteo pe' domani a ostia", "labels": {"talk": "offtopic"}}
+{"text": "mo' fai tu lo stile de li cambi tienila tranquilla", "labels": {"style": "auto", "strategy": "chill"}}
+{"text": "attacca co' summer rain mix lunghi lunghi", "labels": {"control": "start", "queue": "playNext", "bars": "verylong"}}
+{"text": "tajame 'sti mix più corti cor filtro", "labels": {"bars": "short", "style": "filter"}}
+{"text": "pe' tre pezzi stile lumix a palla", "labels": {"style": "rapid", "strategy": "peak", "temporary": "yes"}}
+{"text": "nun fa' più mashup stasera mettece l'eco nei cambi", "labels": {"mashupOpt": "off", "style": "echo"}}
+{"text": "daje vista console ferma la musica", "labels": {"view": "console", "control": "stop"}}
+{"text": "svota tutto dalla coda crea 'na scaletta house", "labels": {"queue": "clear", "set": "build", "genre": "include"}}
+{"text": "annamo co' le onde de energia blend da 48", "labels": {"strategy": "wave", "bars": "long"}}
+{"text": "mettece pure qualche pezzo de rap pe' 'n po'", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "buonasera a tutti daje", "labels": {"talk": "hello"}}
+{"text": "aò ciao segueo", "labels": {"talk": "hello"}}
+{"text": "grazie fra sei 'na bestia", "labels": {"talk": "thanks"}}
+{"text": "'sto passaggio m'ha fatto piagne", "labels": {}}
+{"text": "jamm miett' 'na cosa cchiù forte nu poco 'e reggaeton", "labels": {"strategy": "rise", "genre": "add"}}
+{"text": "uagliò stuta 'a musica", "labels": {"control": "stop"}}
+{"text": "aizza l'energia cu 'e tagli a raffica", "labels": {"strategy": "rise", "style": "rapid"}}
+{"text": "frà nun me piace stu piezz cagnalo ambress", "labels": {"control": "mixNow"}}
+{"text": "'a voce 'e summer rain ncopp' 'a base 'e glass city famme stu mashup", "labels": {"mashup": "explicit"}}
+{"text": "che sta sunann mo statte calmo cu l'energia", "labels": {"info": "now", "strategy": "chill"}}
+{"text": "pe' nu par 'e piezz sulo neomelodico", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "jamm uagliò fa partì 'a musica cu 'na cosa tranquilla", "labels": {"control": "start", "strategy": "chill"}}
+{"text": "cagna stu piezz subito miett 'o filtro", "labels": {"control": "mixNow", "style": "filter"}}
+{"text": "nun me mettere cchiù 'a trap scigli tu 'e piezz", "labels": {"genre": "exclude", "mode": "ai"}}
+{"text": "miett golden hour comme prossima cu 'na sfumata", "labels": {"queue": "playNext", "style": "fade"}}
+{"text": "statte fermo cu l'energia mixa cu 'e bassi", "labels": {"strategy": "steady", "style": "bassswap"}}
+{"text": "famme 'na scaletta pe' stasera tutta commerciale ca saglie", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "aiza aiza cchiù forte stile gabry ponte", "labels": {"strategy": "rise", "style": "model"}}
+{"text": "fa' 'e mix cchiù luonghe cu l'eco", "labels": {"bars": "long", "style": "echo"}}
+{"text": "'o prossimo nun me piace cagnalo cu quaccosa 'e cchiù calmo", "labels": {"control": "skip", "strategy": "chill"}}
+{"text": "levame paradise city 'a coppa 'a coda", "labels": {"queue": "remove"}}
+{"text": "che sì capace 'e fa'", "labels": {"info": "help"}}
+{"text": "pecché hai miso stu piezz accussì lento", "labels": {"info": "why"}}
+{"text": "che vene doppo", "labels": {"info": "next"}}
+{"text": "che tieni int' 'a coda mo", "labels": {"info": "queue"}}
+{"text": "abbash nu poco l'energia pe' 'e prossimi tre piezz", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "sfaccimma che pista", "labels": {}}
+{"text": "oj ma quanta gente ce sta stasera", "labels": {}}
+{"text": "mammà m'ha chiammato tre vote", "labels": {}}
+{"text": "grazie assaje frà", "labels": {"talk": "thanks"}}
+{"text": "uè guagliò buonasera", "labels": {"talk": "hello"}}
+{"text": "addò se magna 'na pizza bona ccà vicino", "labels": {"talk": "offtopic"}}
+{"text": "jamm 'a massima potenza cu 'e mashup automatici", "labels": {"strategy": "peak", "mashupOpt": "on"}}
+{"text": "miettece pure nu poco 'e funk cu 'e loop ncoppa", "labels": {"genre": "add", "remix": "on"}}
+{"text": "torna 'o bpm 'e primma doppo 'o mix sfumato", "labels": {"returnTempo": "on", "style": "fade"}}
+{"text": "fa' tu 'a selezione sulo house", "labels": {"mode": "ai", "genre": "include"}}
+{"text": "'a pista è morta scetala cu 'e stacchi secchi", "labels": {"strategy": "rise", "style": "cut"}}
+{"text": "nun chiudere ancora jamm annanz cu 'a dance", "labels": {"control": "resume", "genre": "include"}}
+{"text": "chistu è l'ultimo piezz chiudilo cu l'eco", "labels": {"control": "endAfterCurrent", "style": "echo"}}
+{"text": "fa' nu mashup a piacere tuo", "labels": {"mashup": "auto"}}
+{"text": "miett 'a console famme vedé 'e piatti", "labels": {"view": "console"}}
+{"text": "miscame 'a coda sagli nu poco", "labels": {"queue": "shuffle", "strategy": "rise"}}
+{"text": "svacanta 'a coda fa' tu", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "mixa comme 'e dj 'e berlino blend luonghissimi", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "cchiù tranquillo cu 'e dissolvenze nient' house", "labels": {"strategy": "chill", "style": "fade", "genre": "exclude"}}
+{"text": "sule bomb cu 'e mix curti", "labels": {"strategy": "peak", "bars": "short"}}
+{"text": "aggiungi neon nights int' 'a coda sagli", "labels": {"queue": "add", "strategy": "rise"}}
+{"text": "sulo pe' stu piezz niente effetti live", "labels": {"remix": "off", "temporary": "yes"}}
+{"text": "oj dj comme si' impostato mo", "labels": {"info": "settings"}}
+{"text": "uè zio alza il tiro tira dentro un po di tech house", "labels": {"strategy": "rise", "genre": "add"}}
+{"text": "ciumbia che mortorio fai salire la pista con mix più corti", "labels": {"strategy": "rise", "bars": "short"}}
+{"text": "taaac transizioni da club techno infinite", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "uela sciur dj ferma tutto passa alla console", "labels": {"control": "stop", "view": "console"}}
+{"text": "minga reggaeton stasera fai tu le transizioni", "labels": {"genre": "exclude", "style": "auto"}}
+{"text": "ghe pensi ti ai pezzi tienila costante", "labels": {"mode": "ai", "strategy": "steady"}}
+{"text": "el prossim l'è brutt cambialo con afterglow", "labels": {"control": "skip", "queue": "playNext"}}
+{"text": "bella zio fai partire tutto con roba chill tipo lounge", "labels": {"control": "start", "strategy": "chill", "genre": "include"}}
+{"text": "oh pirla sto pezzo l'è una lagna cambia subit", "labels": {"control": "mixNow"}}
+{"text": "fa' andà la techno a manetta", "labels": {"genre": "include", "strategy": "peak"}}
+{"text": "va' là che bel pezzo", "labels": {}}
+{"text": "sciura maria vuole moonlight mettila in coda", "labels": {"queue": "add"}}
+{"text": "ndemo vecio alza el tiro mix più curti", "labels": {"strategy": "rise", "bars": "short"}}
+{"text": "ostrega che morto sto toco cambialo subito", "labels": {"control": "mixNow"}}
+{"text": "ciò basta sta techno sceglii ti i tochi", "labels": {"genre": "exclude", "mode": "ai"}}
+{"text": "xe massa forte cala un fià l'energia", "labels": {"strategy": "chill"}}
+{"text": "vara mettime golden hour come prossima sfuma longo", "labels": {"queue": "playNext", "style": "fade", "bars": "long"}}
+{"text": "cossa xe sto toco", "labels": {"info": "now"}}
+{"text": "dai ciò tirala su col filtro", "labels": {"strategy": "rise", "style": "filter"}}
+{"text": "ndemo con la dance anni 90 stile gabry", "labels": {"genre": "include", "style": "model"}}
+{"text": "xe ora de spacar tuto solo bombe", "labels": {"strategy": "peak"}}
+{"text": "la xe l'ultima dopo sta qua basta", "labels": {"control": "endAfterCurrent"}}
+{"text": "no stà sarar el set va vanti", "labels": {"control": "resume"}}
+{"text": "ciò fa un mashup ti scegli ti", "labels": {"mashup": "auto"}}
+{"text": "mescola la coda vecio che la xe sempre uguale", "labels": {"queue": "shuffle"}}
+{"text": "spegni i loop sora i tochi tienila cussì", "labels": {"remix": "off", "strategy": "steady"}}
+{"text": "che bea serata ciò", "labels": {}}
+{"text": "mandi", "labels": {"talk": "hello"}}
+{"text": "mandi frut alza un pôc", "labels": {"strategy": "rise"}}
+{"text": "cerea dj", "labels": {"talk": "hello"}}
+{"text": "bogia nen con l'energia tienla parej", "labels": {"strategy": "steady"}}
+{"text": "dai neh fai i passaggi coi bassi scambià", "labels": {"style": "bassswap"}}
+{"text": "belin abbassa un po che i vecchi si lamentano", "labels": {"strategy": "chill"}}
+{"text": "belin ciù forte con sti tagli secchi", "labels": {"strategy": "rise", "style": "cut"}}
+{"text": "belin che caldo", "labels": {}}
+{"text": "burdel dai mo alza", "labels": {"strategy": "rise"}}
+{"text": "socmel che pezzo", "labels": {}}
+{"text": "pota fa' partì la musica che i è riàcc", "labels": {"control": "start"}}
+{"text": "pota metti un po de liscio per i nonni", "labels": {"genre": "add"}}
+{"text": "dai mo che sei tu a scegliere i pezzi tirala su", "labels": {"mode": "ai", "strategy": "rise"}}
+{"text": "uè ciao bella zio", "labels": {"talk": "hello"}}
+{"text": "grazie zio sei un grande", "labels": {"talk": "thanks"}}
+{"text": "quanto costa un biglietto per sanremo", "labels": {"talk": "offtopic"}}
+{"text": "ciumbia che bomba sto drop", "labels": {}}
+{"text": "la sciura del bar ha chiuso la cassa", "labels": {}}
+{"text": "ciò che ora xe", "labels": {"talk": "offtopic"}}
+{"text": "amunì picciotti cchiù energia niente trap", "labels": {"strategy": "rise", "genre": "exclude"}}
+{"text": "talìa astuta 'a musica dopo chistu pezzu", "labels": {"control": "endAfterCurrent"}}
+{"text": "mbare fai i passaggi accussì lunghi cu l'eco", "labels": {"bars": "long", "style": "echo"}}
+{"text": "mizzica che pezzo", "labels": {}}
+{"text": "nenti mashup stasira fai tu i pezzi", "labels": {"mashupOpt": "off", "mode": "ai"}}
+{"text": "amunì parti cu 'na cosa calma", "labels": {"control": "start", "strategy": "chill"}}
+{"text": "mbare cancia stu pezzu ca è troppu lentu", "labels": {"control": "mixNow"}}
+{"text": "talìa metti fuoco subito dopo cchiù forte", "labels": {"queue": "playNext", "strategy": "rise"}}
+{"text": "picciò abbassa l'energia ca c'è a torta", "labels": {"strategy": "chill"}}
+{"text": "chi è stu pezzu", "labels": {"info": "now"}}
+{"text": "pirchì mittisti sta canzuna", "labels": {"info": "why"}}
+{"text": "amunì cu 'na scaletta di reggaeton pi stasira", "labels": {"set": "build", "genre": "include"}}
+{"text": "mizzica a pista è vacanti spingi cu 'u commerciale", "labels": {"strategy": "rise", "genre": "include"}}
+{"text": "nenti techno pi 'n paio di pezzi", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "cchiù tagli a raffica tipo lumix mbare", "labels": {"style": "rapid"}}
+{"text": "salutamu", "labels": {"talk": "hello"}}
+{"text": "grazii assai", "labels": {"talk": "thanks"}}
+{"text": "uè mena cchiù energia mitt la pizzica pe nu par de pezz", "labels": {"strategy": "rise", "genre": "include", "temporary": "yes"}}
+{"text": "nan ce sta nisciun in pista sveglia la gente co' la commerciale", "labels": {"strategy": "rise", "genre": "include"}}
+{"text": "attacca la musica sciamanin", "labels": {"control": "start"}}
+{"text": "uè u prossim nan me piasc cangiale", "labels": {"control": "skip"}}
+{"text": "mitt nu poc de anni 90 cu i stacc secch", "labels": {"genre": "add", "style": "cut"}}
+{"text": "statt calm co l energia tien sta vibe", "labels": {"strategy": "steady"}}
+{"text": "mena mena svuot la coda e fa tu", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "ce jè stu piezz", "labels": {"info": "now"}}
+{"text": "cumpà jamu cchiù forte niente lenti", "labels": {"strategy": "rise"}}
+{"text": "cumpà fai nu mashup cu a vuci i golden hour supra a basi i low tide", "labels": {"mashup": "explicit"}}
+{"text": "'ndamu cu 'na cosa tranquilla mix longhi", "labels": {"strategy": "chill", "bars": "long"}}
+{"text": "ajò parti cun roba tranquilla", "labels": {"control": "start", "strategy": "chill"}}
+{"text": "eja ajò alza tottu", "labels": {"strategy": "rise"}}
+{"text": "mi' su prossimu cambialu", "labels": {"control": "skip"}}
+{"text": "o icché tu metti un mi garba hambia subito", "labels": {"control": "mixNow"}}
+{"text": "deh bimbi alza l'energia hon le dissolvenze", "labels": {"strategy": "rise", "style": "fade"}}
+{"text": "la hoda svotala tutta", "labels": {"queue": "clear"}}
+{"text": "boia deh metti la tehno a palla", "labels": {"genre": "include", "strategy": "peak"}}
+{"text": "icché c'è in hoda", "labels": {"info": "queue"}}
+{"text": "icché tu sai fa'", "labels": {"info": "help"}}
+{"text": "o bimbi i' bagno gli è rotto", "labels": {}}
+{"text": "gli è l'ultima questa poi si va a hasa", "labels": {"control": "endAfterCurrent"}}
+{"text": "un tu chiudere ancora vai avanti", "labels": {"control": "resume"}}
+{"text": "la hoda mescolala un po'", "labels": {"queue": "shuffle"}}
+{"text": "ho lassato i' giubbotto 'n macchina", "labels": {}}
+{"text": "unn'è finita a serata jamu avanti cchiù forte", "labels": {"control": "resume", "strategy": "rise"}}
+{"text": "mizzica quantu caura", "labels": {}}
+{"text": "deh che serata bimbi", "labels": {}}
+{"text": "amunì 'na cosa tipo berlino cu blend infiniti", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "uè ciao segueo", "labels": {"talk": "hello"}}
+{"text": "abbassa u volum ca i vicini ci scassano", "labels": {}}
+{"text": "cmq alza lenergia mix lunghi nn voglio reggaeton", "labels": {"strategy": "rise", "bars": "long", "genre": "exclude"}}
+{"text": "xké sta roba cambiala dai", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "nn mi piace sto pezzo passa al prox metti qlc di house", "labels": {"control": "mixNow", "genre": "include"}}
+{"text": "tienila tt tranquilla x favore mix lunghi col filtro", "labels": {"strategy": "chill", "bars": "long", "style": "filter"}}
+{"text": "dp questo metti glass city x favore", "labels": {"queue": "playNext"}}
+{"text": "qlc di funk in mezzo cn i bassi scambiati", "labels": {"genre": "add", "style": "bassswap"}}
+{"text": "🔥🔥 alza alza solo bombe 🔥🔥", "labels": {"strategy": "peak"}}
+{"text": "piu energia trnsizioni piu lunghe nienet house", "labels": {"strategy": "rise", "bars": "long", "genre": "exclude"}}
+{"text": "alza l energia cn lo stile dance tipo gabry", "labels": {"strategy": "rise", "style": "model"}}
+{"text": "daiiii piu carica tagli a rafica", "labels": {"strategy": "rise", "style": "rapid"}}
+{"text": "calmaaa x i prox 2 pezzi", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "nn fare piu mashup automatici torna al bpm originale", "labels": {"mashupOpt": "off", "returnTempo": "on"}}
+{"text": "spegni i remix live fai tu i cambi", "labels": {"remix": "off", "style": "auto"}}
+{"text": "acendi i mashup automatci tienila uguale", "labels": {"mashupOpt": "on", "strategy": "steady"}}
+{"text": "sali piano cn mix da 32 batute", "labels": {"strategy": "rise", "bars": "long"}}
+{"text": "blend lunghisimi stile tecno x l after", "labels": {"bars": "verylong", "style": "model-techno"}}
+{"text": "abbassa un po lenergia sfumate morbide x la cena 🍝", "labels": {"strategy": "chill", "style": "fade"}}
+{"text": "picco massimo stacchi seci niente lenti", "labels": {"strategy": "peak", "style": "cut"}}
+{"text": "vai di onde tipo su e giu cn l eco", "labels": {"strategy": "wave", "style": "echo"}}
+{"text": "alterna pezzi tosti a quelli calmi mix corti", "labels": {"strategy": "wave", "bars": "short"}}
+{"text": "metti in coda neon nights alza un pelo", "labels": {"queue": "add", "strategy": "rise"}}
+{"text": "togli estate dalla coda x favore abbassa", "labels": {"queue": "remove", "strategy": "chill"}}
+{"text": "mescola la coda fai partire", "labels": {"queue": "shuffle", "control": "start"}}
+{"text": "svuota la coda crea na scaletta deep house", "labels": {"queue": "clear", "set": "build", "genre": "include"}}
+{"text": "crea un set di 2 ore commerciale in cresendo", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "fammi na playlist x un compleanno di 18enni tt reggaeton", "labels": {"set": "build", "genre": "include"}}
+{"text": "preprami un set a onde x l aperitivo", "labels": {"set": "build", "strategy": "wave"}}
+{"text": "fai un mashup a caso tu dp cambia pezzo", "labels": {"mashup": "auto", "control": "mixNow"}}
+{"text": "voce di moonlight sulla base di parallel fallo subito 🙏", "labels": {"mashup": "explicit"}}
+{"text": "che pezzo e questo alza un po", "labels": {"info": "now", "strategy": "rise"}}
+{"text": "xke hai messo sto lento tirala su", "labels": {"info": "why", "strategy": "rise"}}
+{"text": "qual e il prox metti golden hour al suo posto", "labels": {"info": "next", "control": "skip", "queue": "playNext"}}
+{"text": "come sei setato ora abbassa tt", "labels": {"info": "settings", "strategy": "chill"}}
+{"text": "cosa ce sta in coda mescolala", "labels": {"info": "queue", "queue": "shuffle"}}
+{"text": "cosa sai fare fai partire intanto", "labels": {"info": "help", "control": "start"}}
+{"text": "vista ai x favore alza lenergia", "labels": {"view": "ai", "strategy": "rise"}}
+{"text": "mettimi la console spegni la musica", "labels": {"view": "console", "control": "stop"}}
+{"text": "vai alla schermata ai dimmi cosa suoni", "labels": {"view": "ai", "info": "now"}}
+{"text": "x un po solo latin cn i tagli secchi", "labels": {"genre": "include", "style": "cut", "temporary": "yes"}}
+{"text": "x i prossimi 3 pezzi remix live acceso", "labels": {"remix": "on", "temporary": "yes"}}
+{"text": "x mezz ora niente mashup automatici", "labels": {"mashupOpt": "off", "temporary": "yes"}}
+{"text": "solo x il prossimo brano resta al bpm nuovo", "labels": {"returnTempo": "off", "temporary": "yes"}}
+{"text": "x 2 pezzi decidi tu cosa mettere", "labels": {"mode": "ai", "temporary": "yes"}}
+{"text": "suona solo la mia coda cn i mix lunghi", "labels": {"mode": "queue", "bars": "long"}}
+{"text": "segui solo la lista niente effetti", "labels": {"mode": "queue", "remix": "off"}}
+{"text": "lascia perdere la coda scegli tu tt", "labels": {"mode": "ai"}}
+{"text": "fai tu i pezzi solo afro house", "labels": {"mode": "ai", "genre": "include"}}
+{"text": "vai avanti nn chiudere solo hit", "labels": {"control": "resume", "strategy": "peak"}}
+{"text": "ultimo pezzo chiudi cn la dissolvenza", "labels": {"control": "endAfterCurrent", "style": "fade"}}
+{"text": "dopo questa basta rimettimi la console", "labels": {"control": "endAfterCurrent", "view": "console"}}
+{"text": "il prox cambialo nn va bene x niente", "labels": {"control": "skip"}}
+{"text": "skippa sto pezzo metti qlc di disco", "labels": {"control": "mixNow", "genre": "include"}}
+{"text": "next next sto pezzo fa schifo 🤮", "labels": {"control": "mixNow"}}
+{"text": "cambia subito cn un bel filtro", "labels": {"control": "mixNow", "style": "filter"}}
+{"text": "parti cn la deep tranquilla", "labels": {"control": "start", "genre": "include", "strategy": "chill"}}
+{"text": "accendi l ai dj in modalita scelta tua", "labels": {"control": "start", "mode": "ai"}}
+{"text": "ferma tt dimmi come sei impostato", "labels": {"control": "stop", "info": "settings"}}
+{"text": "tt i generi ok alza un po", "labels": {"genre": "clear", "strategy": "rise"}}
+{"text": "togli i filtri di genere fai un mashup", "labels": {"genre": "clear", "mashup": "auto"}}
+{"text": "genere libero cn le transizioni techno", "labels": {"genre": "clear", "style": "model-techno"}}
+{"text": "anche un po di trap x i prossimi 2", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "niente edm cn lo scambio dei bassi", "labels": {"genre": "exclude", "style": "bassswap"}}
+{"text": "solo techno dura picco totale 💥", "labels": {"genre": "include", "strategy": "peak"}}
+{"text": "basta commerciale tienila costante", "labels": {"genre": "exclude", "strategy": "steady"}}
+{"text": "anche qlc pezzo anni 80 sfumato", "labels": {"genre": "add", "style": "fade"}}
+{"text": "remix live on mashup auto off x favore", "labels": {"remix": "on", "mashupOpt": "off"}}
+{"text": "torna al tempo orginale dei pezzi mix brevi", "labels": {"returnTempo": "on", "bars": "short"}}
+{"text": "resta sul bpm del mix cn tagli netti", "labels": {"returnTempo": "off", "style": "cut"}}
+{"text": "non tornare al bpm vecchio alza", "labels": {"returnTempo": "off", "strategy": "rise"}}
+{"text": "riporta ogni pezzo al suo tempo calma", "labels": {"returnTempo": "on", "strategy": "chill"}}
+{"text": "loop ed effetti sopra i pezzi a palla", "labels": {"remix": "on", "strategy": "peak"}}
+{"text": "spegni gli effetti live tienila così", "labels": {"remix": "off", "strategy": "steady"}}
+{"text": "accendi il remix live cn l eco nei passaggi", "labels": {"remix": "on", "style": "echo"}}
+{"text": "mashup automatici si cn mix corti", "labels": {"mashupOpt": "on", "bars": "short"}}
+{"text": "basta mashup automatici solo house", "labels": {"mashupOpt": "off", "genre": "include"}}
+{"text": "fai i mashup in automatico ogni tanto alza", "labels": {"mashupOpt": "on", "strategy": "rise"}}
+{"text": "ok grz alza ancora 🙌", "labels": {"strategy": "rise"}}
+{"text": "grz mille 🙏", "labels": {"talk": "thanks"}}
+{"text": "ciaooo segueooo 👋", "labels": {"talk": "hello"}}
+{"text": "ehi ci 6", "labels": {"talk": "hello"}}
+{"text": "qnt fa 25 x 4", "labels": {"talk": "offtopic"}}
+{"text": "mi scrivi un messaggio x la mia ragazza", "labels": {"talk": "offtopic"}}
+{"text": "boh nn so", "labels": {}}
+{"text": "raga che serata 😍", "labels": {}}
+{"text": "ke caldo qui dentro", "labels": {}}
+{"text": "la gnt e tt al bar", "labels": {}}
+{"text": "sto pezzo e una bomba 💣", "labels": {}}
+{"text": "tra 10 min arriva la torta", "labels": {}}
+{"text": "il microfno nn va", "labels": {}}
+{"text": "okk 👍👍 vediamo", "labels": {}}
+{"text": "sfuma tt i cambi tipo 64 battute", "labels": {"style": "fade", "bars": "verylong"}}
+{"text": "cut secchi x 8 battute", "labels": {"style": "cut", "bars": "short"}}
+{"text": "eq swap passaggi lunghi", "labels": {"style": "bassswap", "bars": "long"}}
+{"text": "filtro passa alto cn mix da 48", "labels": {"style": "filter", "bars": "long"}}
+{"text": "stile gabry ponte cn mix lunghi", "labels": {"style": "model", "bars": "long"}}
+{"text": "raffica stile lumix x il prox pezzo", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "decidi tu le transizioni ma brevi", "labels": {"style": "auto", "bars": "short"}}
+{"text": "dissolvenze cn musica lounge", "labels": {"style": "fade", "genre": "include"}}
+{"text": "eco nei cambi niente rap", "labels": {"style": "echo", "genre": "exclude"}}
+{"text": "mettici golden hour in coda cn l eco", "labels": {"queue": "add", "style": "echo"}}
+{"text": "togli night drive dalla coda niente mashup", "labels": {"queue": "remove", "mashupOpt": "off"}}
+{"text": "svuota la coda remix live off", "labels": {"queue": "clear", "remix": "off"}}
+{"text": "metti summer rain come prox alza", "labels": {"queue": "playNext", "strategy": "rise"}}
+{"text": "mescola la lista ritorno al bpm originale attivo", "labels": {"queue": "shuffle", "returnTempo": "on"}}
+{"text": "afterglow subito dopo questo cn un taglio", "labels": {"queue": "playNext", "style": "cut"}}
+{"text": "accoda weightless solo commerciale", "labels": {"queue": "add", "genre": "include"}}
+{"text": "allora segueo fai partire la musica scegli tu i pezzi niente reggaeton", "labels": {"control": "start", "mode": "ai", "genre": "exclude"}}
+{"text": "ok adesso energia a onde con i passaggi col filtro per tutta la sera", "labels": {"strategy": "wave", "style": "filter"}}
+{"text": "senti metti la mia coda soltanto quella in ordine sparso", "labels": {"mode": "queue", "queue": "shuffle"}}
+{"text": "dunque la gente vuole ballare alza tutto con la dance commerciale", "labels": {"strategy": "rise", "genre": "include"}}
+{"text": "segueo voce di neon nights sopra la base di afterglow dopo fammi vedere la vista ai", "labels": {"mashup": "explicit", "view": "ai"}}
+{"text": "allora quanto manca al prossimo mix intanto tienila così", "labels": {"info": "next", "strategy": "steady"}}
+{"text": "punto dimmi perché hai scelto questa canzone virgola alza un po'", "labels": {"info": "why", "strategy": "rise"}}
+{"text": "segueo apri la vista ai voglio vedere cosa fai coi pezzi", "labels": {"view": "ai"}}
+{"text": "praticamente chiudi dopo questo pezzo con un eco lungo", "labels": {"control": "endAfterCurrent", "style": "echo", "bars": "long"}}
+{"text": "ok niente chiusura vai avanti con la mia lista soltanto", "labels": {"control": "resume", "mode": "queue"}}
+{"text": "allora stoppa la musica la lista svuotala subito", "labels": {"control": "stop", "queue": "clear"}}
+{"text": "tipo metti paradise city in coda per dopo la torta", "labels": {"queue": "add"}}
+{"text": "segueo togli mare blu dalla lista non la vogliono più", "labels": {"queue": "remove"}}
+{"text": "ehm fai un set di un'ora e mezza tutto disco anni 70 a onde", "labels": {"set": "build", "genre": "include", "strategy": "wave"}}
+{"text": "allora crea una scaletta per la palestra a cannone stile lumix", "labels": {"set": "build", "strategy": "peak", "style": "rapid"}}
+{"text": "ok fai i cambi come in un club techno a 64 battute per la prossima mezz'ora", "labels": {"style": "model-techno", "bars": "verylong", "temporary": "yes"}}
+{"text": "segueo spegni i mashup automatici torna al bpm di ogni pezzo", "labels": {"mashupOpt": "off", "returnTempo": "on"}}
+{"text": "allora accendi il remix live con roba più tosta", "labels": {"remix": "on", "strategy": "rise"}}
+{"text": "cioè fai tu lo stile dei passaggi con la techno melodica", "labels": {"style": "auto", "genre": "include"}}
+{"text": "ok ora a onde scambiando i bassi niente drum and bass", "labels": {"strategy": "wave", "style": "bassswap", "genre": "exclude"}}
+{"text": "segueo prossimo pezzo cambialo con qualcosa di latino", "labels": {"control": "skip", "genre": "include"}}
+{"text": "allora metti weightless subito dopo con una dissolvenza lenta", "labels": {"queue": "playNext", "style": "fade", "bars": "long"}}
+{"text": "mmm la pista si svuota fai un mashup tu per riprenderla", "labels": {"mashup": "auto", "strategy": "rise"}}
+{"text": "ok accendi l'ai dj con mix da otto battute", "labels": {"control": "start", "bars": "short"}}
+{"text": "senti suona dalla coda soltanto per i prossimi tre pezzi", "labels": {"mode": "queue", "temporary": "yes"}}
+{"text": "segueo cosa stai suonando aggiungilo anche alla coda per dopo", "labels": {"info": "now", "queue": "add"}}
+{"text": "allora mescola la coda dimmi cosa c'è dentro", "labels": {"queue": "shuffle", "info": "queue"}}
+{"text": "ok che comandi posso darti esattamente fammi vedere la console", "labels": {"info": "help", "view": "console"}}
+{"text": "praticamente tienila costante senza mashup", "labels": {"strategy": "steady", "mashupOpt": "off"}}
+{"text": "allora per il prossimo pezzo stile gabry ponte tutto carico", "labels": {"style": "model", "strategy": "rise", "temporary": "yes"}}
+{"text": "segueo tieni il bpm del mix con passaggi da 48 battute", "labels": {"returnTempo": "off", "bars": "long"}}
+{"text": "ehm alza il tiro con solo hip hop americano", "labels": {"strategy": "rise", "genre": "include"}}
+{"text": "allora qualsiasi genere va bene basta che fai i cambi secchi", "labels": {"genre": "clear", "style": "cut"}}
+{"text": "ok metti anche un po' di afro con il filtro passa basso", "labels": {"genre": "add", "style": "filter"}}
+{"text": "segueo togli la trance basta loop sopra i pezzi", "labels": {"genre": "exclude", "remix": "off"}}
+{"text": "dunque alza piano piano fino a mezzanotte mix lunghissimi", "labels": {"strategy": "rise", "bars": "verylong"}}
+{"text": "allora questo pezzo non mi convince cambialo con un echo", "labels": {"control": "mixNow", "style": "echo"}}
+{"text": "ok voce di fuoco sopra estate questo mashup lo voglio subito", "labels": {"mashup": "explicit"}}
+{"text": "segueo il pezzo dopo toglilo sostituiscilo con open water", "labels": {"control": "skip", "queue": "playNext"}}
+{"text": "allora preparami una scaletta tranquilla di quindici pezzi per la cena", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "senti tieni l'energia così con transizioni decise da te", "labels": {"strategy": "steady", "style": "auto"}}
+{"text": "ok fermati tutto adesso torna in console", "labels": {"control": "stop", "view": "console"}}
+{"text": "segueo riparti dopo la pausa con la house a palla", "labels": {"control": "start", "genre": "include", "strategy": "peak"}}
+{"text": "allora fammi sentire northern lights come prossima con il bass swap", "labels": {"queue": "playNext", "style": "bassswap"}}
+{"text": "segueo che impostazioni hai adesso passa alla vista ai", "labels": {"info": "settings", "view": "ai"}}
+{"text": "ok resta su questa energia ancora per un paio di pezzi", "labels": {"strategy": "steady", "temporary": "yes"}}
+{"text": "allora fai su e giù con i mashup automatici accesi", "labels": {"strategy": "wave", "mashupOpt": "on"}}
+{"text": "segueo cambi brevissimi con tagli netti a palla", "labels": {"bars": "short", "style": "cut", "strategy": "peak"}}
+{"text": "praticamente svuota la lista crea un set a onde", "labels": {"queue": "clear", "set": "build", "strategy": "wave"}}
+{"text": "allora per un po' mix lunghissimi con le sfumate", "labels": {"bars": "verylong", "style": "fade", "temporary": "yes"}}
+{"text": "ok la sposa vuole golden hour come prossima tutto più romantico", "labels": {"queue": "playNext", "strategy": "chill"}}
+{"text": "segueo cosa c'è dopo cambialo se è reggaeton", "labels": {"info": "next", "control": "skip"}}
+{"text": "allora mettici dentro qualche pezzo di nu disco con mix brevi", "labels": {"genre": "add", "bars": "short"}}
+{"text": "ok parti con la tua selezione a onde", "labels": {"control": "start", "mode": "ai", "strategy": "wave"}}
+{"text": "segueo perché hai fatto quel taglio fai dissolvenze da ora", "labels": {"info": "why", "style": "fade"}}
+{"text": "allora attiva il remix live per i prossimi due brani", "labels": {"remix": "on", "temporary": "yes"}}
+{"text": "senti non fare più mashup da solo fanne uno adesso tu", "labels": {"mashupOpt": "off", "mashup": "auto"}}
+{"text": "ok passa al prossimo brano con una botta di energia", "labels": {"control": "mixNow", "strategy": "rise"}}
+{"text": "allora togli tutti i filtri sui generi metti la vista ai", "labels": {"genre": "clear", "view": "ai"}}
+{"text": "segueo blend da trentadue battute con lo stile techno", "labels": {"bars": "long", "style": "model-techno"}}
+{"text": "ok chiudi la serata dopo questa canzone abbassando tutto", "labels": {"control": "endAfterCurrent", "strategy": "chill"}}
+{"text": "allora fammi una playlist di due ore pop italiano anni 2000", "labels": {"set": "build", "genre": "include"}}
+{"text": "segueo il bpm deve tornare quello originale dopo ogni passaggio col filtro", "labels": {"returnTempo": "on", "style": "filter"}}
+{"text": "ok accoda electric dreams con i mix più corti", "labels": {"queue": "add", "bars": "short"}}
+{"text": "aumneta lenergia cn i cmabi sfumati", "labels": {"strategy": "rise", "style": "fade"}}
+{"text": "trnaquillo cn lenrgia mix luhnghi", "labels": {"strategy": "chill", "bars": "long"}}
+{"text": "spigni di piu nieente pop", "labels": {"strategy": "rise", "genre": "exclude"}}
+{"text": "fia partire la muisca in cresendo", "labels": {"control": "start", "strategy": "rise"}}
+{"text": "camiba qeusto pezzo cn taglio sceco", "labels": {"control": "mixNow", "style": "cut"}}
+{"text": "metti golden huor cme prossmo cn il fitlro", "labels": {"queue": "playNext", "style": "filter"}}
+{"text": "svutoa la cdoa fai tu", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "mescloa la coda alza un ppo", "labels": {"queue": "shuffle", "strategy": "rise"}}
+{"text": "agigungi low tdie in coda nienet mashup", "labels": {"queue": "add", "mashupOpt": "off"}}
+{"text": "toglli moonlihgt dall coda calam un po", "labels": {"queue": "remove", "strategy": "chill"}}
+{"text": "crea un est di 20 pezzi tehcno a palla", "labels": {"set": "build", "genre": "include", "strategy": "peak"}}
+{"text": "fammi un mashpu tu cn i bassi scambiati", "labels": {"mashup": "auto", "style": "bassswap"}}
+{"text": "la voce di open wtaer sulla bsae di parallel", "labels": {"mashup": "explicit"}}
+{"text": "che canzonee questa abbassaa", "labels": {"info": "now", "strategy": "chill"}}
+{"text": "pecrhe sto pezzo cambalo", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "quale il prosimo pezzo alza", "labels": {"info": "next", "strategy": "rise"}}
+{"text": "cosa ce in cdoa svuotala", "labels": {"info": "queue", "queue": "clear"}}
+{"text": "come sei impsotato tienila cosi", "labels": {"info": "settings", "strategy": "steady"}}
+{"text": "aiutoo che comdani ci sono", "labels": {"info": "help"}}
+{"text": "vsita ai cn mix corti", "labels": {"view": "ai", "bars": "short"}}
+{"text": "tonra alla consle spegni tutto", "labels": {"view": "console", "control": "stop"}}
+{"text": "x i prosismi 3 bnrai solo dsico", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "x un ppo tagli a rafficaa", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "remix lvie acceso cn lenrgia a onde", "labels": {"remix": "on", "strategy": "wave"}}
+{"text": "mashpu automatici accessi nienet techno", "labels": {"mashupOpt": "on", "genre": "exclude"}}
+{"text": "rimani al bpm nouvo cn lo stlie gabry ponte", "labels": {"returnTempo": "off", "style": "model"}}
+{"text": "torna al bpm originlae cn mix da 32", "labels": {"returnTempo": "on", "bars": "long"}}
+{"text": "segui slo la mia cdoa a palla", "labels": {"mode": "queue", "strategy": "peak"}}
+{"text": "sceglli tu i pezzi cn lo stile tecno", "labels": {"mode": "ai", "style": "model-techno"}}
+{"text": "ultmo pezzo sfumalo luuungo", "labels": {"control": "endAfterCurrent", "style": "fade", "bars": "long"}}
+{"text": "non chudere contina cn la dance", "labels": {"control": "resume", "genre": "include"}}
+{"text": "il prossmo cambialo nn mi piace x niente", "labels": {"control": "skip"}}
+{"text": "qualsiasi genre va bene cn mix rapidi", "labels": {"genre": "clear", "bars": "short"}}
+{"text": "anche un po di reggeaton cn l eco", "labels": {"genre": "add", "style": "echo"}}
+{"text": "blend lunghisimi x il prossimo pezzo", "labels": {"bars": "verylong", "temporary": "yes"}}
+{"text": "passagi brevi brevi niente effeti", "labels": {"bars": "short", "remix": "off"}}
+{"text": "decid tu le transzioni a onde", "labels": {"style": "auto", "strategy": "wave"}}
+{"text": "filtro nei passaggi soloo afro hosue", "labels": {"style": "filter", "genre": "include"}}
+{"text": "picchia duroo cn i bass swap", "labels": {"strategy": "peak", "style": "bassswap"}}
+{"text": "rlassa la pista cn l echo out", "labels": {"strategy": "chill", "style": "echo"}}
+{"text": "tieni il livelo cn i tagli a raffica", "labels": {"strategy": "steady", "style": "rapid"}}
+{"text": "alzaaaa daiiiii", "labels": {"strategy": "rise"}}
+{"text": "fermaaaa tuttoooo", "labels": {"control": "stop"}}
+{"text": "partiiii cn la techno", "labels": {"control": "start", "genre": "include"}}
+{"text": "sfuamaaa cn calma", "labels": {"style": "fade"}}
+{"text": "nn tornare al bpm originale nn fare mashup automatici", "labels": {"returnTempo": "off", "mashupOpt": "off"}}
+{"text": "nn mettere trap nn fare effetti live", "labels": {"genre": "exclude", "remix": "off"}}
+{"text": "nn chiudere nn fermarti alza", "labels": {"control": "resume", "strategy": "rise"}}
+{"text": "nn voglio mix corti voglio blend da 64", "labels": {"bars": "verylong"}}
+{"text": "energia giu giu cn la lounge", "labels": {"strategy": "chill", "genre": "include"}}
+{"text": "energia su su cn la edm", "labels": {"strategy": "rise", "genre": "include"}}
+{"text": "energia uguale cn la house", "labels": {"strategy": "steady", "genre": "include"}}
+{"text": "energia a ondate cn la trance", "labels": {"strategy": "wave", "genre": "include"}}
+{"text": "energia al massimo cn la hardstyle", "labels": {"strategy": "peak", "genre": "include"}}
+{"text": "ki canta sta canzone tienila cosi", "labels": {"info": "now", "strategy": "steady"}}
+{"text": "k metti dopo dimmelo", "labels": {"info": "next"}}
+{"text": "xke qsto brano scegline unaltro x dopo", "labels": {"info": "why", "control": "skip"}}
+{"text": "cm sei settato x i mashup", "labels": {"info": "settings"}}
+{"text": "ke c e in lista", "labels": {"info": "queue"}}
+{"text": "ke posso dirti di fare", "labels": {"info": "help"}}
+{"text": "tt i generi vanno bene cn la tua scelta", "labels": {"genre": "clear", "mode": "ai"}}
+{"text": "qlc pezzo rap x un po", "labels": {"genre": "add", "temporary": "yes"}}
+{"text": "dp sto pezzo chiudi", "labels": {"control": "endAfterCurrent"}}
+{"text": "dp metti fuoco", "labels": {"queue": "add"}}
+{"text": "x favore cambia ora sto pezzo cn qlc di piu calmo", "labels": {"control": "mixNow", "strategy": "chill"}}
+{"text": "cmq fai tu i passaggi cn le canzoni della mia coda", "labels": {"style": "auto", "mode": "queue"}}
+{"text": "cmq il remix spegnilo x i prox 2 brani", "labels": {"remix": "off", "temporary": "yes"}}
+{"text": "cmq vista console x favore", "labels": {"view": "console"}}
+{"text": "nn so cosa fare scegli tu tt", "labels": {"mode": "ai"}}
+{"text": "la coda mescolala x bene cn i cambi a taglio", "labels": {"queue": "shuffle", "style": "cut"}}
+{"text": "😴😴 svegliali cn la commerciale", "labels": {"strategy": "rise", "genre": "include"}}
+{"text": "🥵 rallenta x 2 pezzi", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "🎉 mashup automatici on a palla 🎉", "labels": {"mashupOpt": "on", "strategy": "peak"}}
+{"text": "🙏 metti mare blu subito dopo", "labels": {"queue": "playNext"}}
+{"text": "💀 sto pezzo cambialo ora", "labels": {"control": "mixNow"}}
+{"text": "😎 tutto techno stile berlino", "labels": {"genre": "include", "style": "model-techno"}}
+{"text": "🔊 piu bassi nel mix scambiali", "labels": {"style": "bassswap"}}
+{"text": "👀 fammi vedé la schermata dell ai x favore", "labels": {"view": "ai"}}
+{"text": "🤔 xke hai messo questa", "labels": {"info": "why"}}
+{"text": "ao daje, tirala su e famme li mix più corti", "labels": {"strategy": "rise", "bars": "short"}}
+{"text": "uagliò cagna stu piezz e miett' 'o reggaeton", "labels": {"control": "mixNow", "genre": "include"}}
+{"text": "cmq alza, poi nn fare + mashup", "labels": {"strategy": "rise", "mashupOpt": "off"}}
+{"text": "raga sto pezzo nn va, cambialo e metti glass city come prossima", "labels": {"control": "mixNow", "queue": "playNext"}}
+{"text": "ostrega che mortorio! alza el tiro e niente lenti", "labels": {"strategy": "rise"}}
+{"text": "mbare abbassa, c'è a torta, e sfuma longu", "labels": {"strategy": "chill", "style": "fade", "bars": "long"}}
+{"text": "deh bimbi, icché tu fai? hambia la hanzone", "labels": {"control": "mixNow"}}
+{"text": "uè frà, metti la pizzica e poi alza alza", "labels": {"genre": "include", "strategy": "rise"}}
+{"text": "belin, ferma tutto e torna in console", "labels": {"control": "stop", "view": "console"}}
+{"text": "cmq, x i prox 3 pezzi, solo trap", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "xké hai messo sto lento?? cambialo subito!!", "labels": {"info": "why", "control": "mixNow"}}
+{"text": "che pezzo è??? lo voglio anche dopo in coda", "labels": {"info": "now", "queue": "add"}}
+{"text": "nn chiudere!!! vai avanti e alza", "labels": {"control": "resume", "strategy": "rise"}}
+{"text": "ferma, ferma, ferma! c'è un ferito", "labels": {"control": "stop"}}
+{"text": "svuota la coda e poi scegli tu", "labels": {"queue": "clear", "mode": "ai"}}
+{"text": "mescola la coda, e x favore niente techno", "labels": {"queue": "shuffle", "genre": "exclude"}}
+{"text": "aggiungi neon nights ma nn subito, più tardi", "labels": {"queue": "add"}}
+{"text": "togli fuoco dalla coda e alza un po'", "labels": {"queue": "remove", "strategy": "rise"}}
+{"text": "fai un mashup tu, poi alza", "labels": {"mashup": "auto", "strategy": "rise"}}
+{"text": "voce di golden hour, base di night drive, mashup ora!", "labels": {"mashup": "explicit"}}
+{"text": "mo' basta, ultimo pezzo e chiudemo", "labels": {"control": "endAfterCurrent"}}
+{"text": "annamo avanti, nun è finita, e mettece la house", "labels": {"control": "resume", "genre": "include"}}
+{"text": "parti! e sceglili tu i pezzi", "labels": {"control": "start", "mode": "ai"}}
+{"text": "come sei impostato? metti i mix lunghi", "labels": {"info": "settings", "bars": "long"}}
+{"text": "cosa hai in lista? leva parallel", "labels": {"info": "queue", "queue": "remove"}}
+{"text": "cosa sai fare? intanto alza", "labels": {"info": "help", "strategy": "rise"}}
+{"text": "quanto manca al mix? fallo col filtro", "labels": {"info": "next", "style": "filter"}}
+{"text": "vista ai, e fammi vedere che fai", "labels": {"view": "ai"}}
+{"text": "rimetti la console poi ferma tutto", "labels": {"view": "console", "control": "stop"}}
+{"text": "x un po' niente effetti, poi li riaccendi", "labels": {"remix": "off", "temporary": "yes"}}
+{"text": "remix live acceso e mashup automatici pure", "labels": {"remix": "on", "mashupOpt": "on"}}
+{"text": "resta al bpm nuovo, e i cambi falli secchi", "labels": {"returnTempo": "off", "style": "cut"}}
+{"text": "torna al bpm originale ma cn mix lunghi", "labels": {"returnTempo": "on", "bars": "long"}}
+{"text": "suona solo la mia coda, e mescolala", "labels": {"mode": "queue", "queue": "shuffle"}}
+{"text": "scegli tu, ma niente commerciale", "labels": {"mode": "ai", "genre": "exclude"}}
+{"text": "genere libero, e alza piano", "labels": {"genre": "clear", "strategy": "rise"}}
+{"text": "anche un po' di disco, ma poca", "labels": {"genre": "add"}}
+{"text": "solo deep, e tienila bassa", "labels": {"genre": "include", "strategy": "chill"}}
+{"text": "niente rap, poi stacchi netti", "labels": {"genre": "exclude", "style": "cut"}}
+{"text": "stile gabry ponte, mix corti, e a palla", "labels": {"style": "model", "bars": "short", "strategy": "peak"}}
+{"text": "stile techno e blend infiniti x favore", "labels": {"style": "model-techno", "bars": "verylong"}}
+{"text": "tagli a raffica tipo lumix, e solo edm", "labels": {"style": "rapid", "genre": "include"}}
+{"text": "dissolvenze, calma, e niente mashup", "labels": {"style": "fade", "strategy": "chill", "mashupOpt": "off"}}
+{"text": "eco nei passaggi e torna al tempo originale", "labels": {"style": "echo", "returnTempo": "on"}}
+{"text": "filtro, e mix da 8 battute", "labels": {"style": "filter", "bars": "short"}}
+{"text": "bass swap, mix lunghi e alza", "labels": {"style": "bassswap", "bars": "long", "strategy": "rise"}}
+{"text": "fai tu i cambi, io vado a fumare", "labels": {"style": "auto"}}
+{"text": "crea na scaletta x stasera, tt anni 90, e falla partire", "labels": {"set": "build", "genre": "include", "control": "start"}}
+{"text": "fammi un set di un ora, chill, x l aperitivo", "labels": {"set": "build", "strategy": "chill"}}
+{"text": "prepara una playlist reggaeton e poi mescola la coda", "labels": {"set": "build", "genre": "include", "queue": "shuffle"}}
+{"text": "mo' basta onde, tienila costante", "labels": {"strategy": "steady"}}
+{"text": "calmaaa, troppo forte, abbassa", "labels": {"strategy": "chill"}}
+{"text": "alza!! alza!! alza!!", "labels": {"strategy": "rise"}}
+{"text": "ok perfetto, ora però stacchi secchi", "labels": {"style": "cut"}}
+{"text": "grazie, ora a palla!", "labels": {"strategy": "peak"}}
+{"text": "ciao segueo, parti tu", "labels": {"control": "start"}}
+{"text": "ciao! cosa sta andando adesso?", "labels": {"info": "now"}}
+{"text": "oh, fermati dopo questa e grazie di tutto", "labels": {"control": "endAfterCurrent"}}
+{"text": "il prox è brutto, cambialo, e poi sfuma", "labels": {"control": "skip", "style": "fade"}}
+{"text": "jamm, aizza, e miett' 'e loop", "labels": {"strategy": "rise", "remix": "on"}}
+{"text": "amunì, cchiù forte, e tagli a raffica", "labels": {"strategy": "rise", "style": "rapid"}}
+{"text": "ué, fai partire e scegli ti", "labels": {"control": "start", "mode": "ai"}}
+{"text": "vecio, sto toco xe brutto, cambia", "labels": {"control": "mixNow"}}
+{"text": "mizzica! a pista è vacanti, metti commerciale", "labels": {"genre": "include"}}
+{"text": "uè, svota la coda e fa' 'na scaletta house", "labels": {"queue": "clear", "set": "build", "genre": "include"}}
+{"text": "ahò, che sta a suonà? è 'na bomba", "labels": {"info": "now"}}
+{"text": "nun me piace, cambia e resta ar tempo novo", "labels": {"control": "mixNow", "returnTempo": "off"}}
+{"text": "x favore: mix lunghi, energia su, niente reggaeton", "labels": {"bars": "long", "strategy": "rise", "genre": "exclude"}}
+{"text": "allora... metti la house, alza, e vai di filtro", "labels": {"genre": "include", "strategy": "rise", "style": "filter"}}
+{"text": "mmm no, nn quella, la prossima cambiala", "labels": {"control": "skip"}}
+{"text": "aspetta! nn chiudere. continua cn la techno", "labels": {"control": "resume", "genre": "include"}}
+{"text": "vai! parti!", "labels": {"control": "start"}}
+{"text": "cambia! cambia!", "labels": {"control": "mixNow"}}
+{"text": "stop... basta musica x stasera", "labels": {"control": "stop"}}
+{"text": "basta mashup, basta effetti", "labels": {"mashupOpt": "off", "remix": "off"}}
+{"text": "più tosto, più veloce nei cambi", "labels": {"strategy": "rise", "bars": "short"}}
+{"text": "meno roba, meno energia, + sfumature", "labels": {"strategy": "chill", "style": "fade"}}
+{"text": "golden hour subito dopo, poi alza", "labels": {"queue": "playNext", "strategy": "rise"}}
+{"text": "metti in coda summer rain e low tide, grazie", "labels": {"queue": "add"}}
+{"text": "togli weightless dalla coda e poi dimmi cosa c'è", "labels": {"queue": "remove", "info": "queue"}}
+{"text": "la vista ai x favore, e tienila così", "labels": {"view": "ai", "strategy": "steady"}}
+{"text": "picco, picco, picco! e cn i mashup", "labels": {"strategy": "peak", "mashupOpt": "on"}}
+{"text": "a onde, e decidi tu i passaggi", "labels": {"strategy": "wave", "style": "auto"}}
+{"text": "mantieni, nn cambiare, e nn tornare al bpm originale", "labels": {"strategy": "steady", "returnTempo": "off"}}
+{"text": "x il prossimo pezzo: house cn il filtro", "labels": {"genre": "include", "style": "filter", "temporary": "yes"}}
+{"text": "pe' 'n po' 'na cosa calma, poi ripartimo", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "x mezz'ora niente techno, poi vediamo", "labels": {"genre": "exclude", "temporary": "yes"}}
+{"text": "x 2 pezzi segui la coda, poi fai tu", "labels": {"mode": "queue", "temporary": "yes"}}
+{"text": "x un paio di brani mix brevi e taglio", "labels": {"bars": "short", "style": "cut", "temporary": "yes"}}
+{"text": "fai un mashup voce di estate su base di fuoco, poi vai in console", "labels": {"mashup": "explicit", "view": "console"}}
+{"text": "che metti dopo? la gente aspetta", "labels": {"info": "next"}}
+{"text": "perché questo? va bene cmq, tienila così", "labels": {"info": "why", "strategy": "steady"}}
+{"text": "grazie mille, sei un mito", "labels": {"talk": "thanks"}}
+{"text": "ciao ciao, buonasera", "labels": {"talk": "hello"}}
+{"text": "scusa, che ore sono?", "labels": {"talk": "offtopic"}}
+{"text": "uè, ndo se magna?", "labels": {"talk": "offtopic"}}
+{"text": "ciò fa' su e zo co l'energia scambiando i bassi", "labels": {"strategy": "wave", "style": "bassswap"}}
+{"text": "ndemo co' un set de do ore tuto house che cresse", "labels": {"set": "build", "genre": "include", "strategy": "rise"}}
+{"text": "vara che dopo ghe va moonlight mettila come prossima", "labels": {"queue": "playNext"}}
+{"text": "ciò spegni i mashup automatici che i me fa confusion", "labels": {"mashupOpt": "off"}}
+{"text": "fa' i passaggi longhi longhi col filtro vecio", "labels": {"bars": "verylong", "style": "filter"}}
+{"text": "sti tochi tienili sempre uguai de energia", "labels": {"strategy": "steady"}}
+{"text": "ciò torna al bpm originale dopo ogni cambio a tajo", "labels": {"returnTempo": "on", "style": "cut"}}
+{"text": "uè taaac fai partire la tua scelta con la techno", "labels": {"control": "start", "mode": "ai", "genre": "include"}}
+{"text": "zio i mashup lasciali fare a te ogni tanto alza", "labels": {"mashupOpt": "on", "strategy": "rise"}}
+{"text": "uè sciur dj quanto manca al mix", "labels": {"info": "next"}}
+{"text": "va' che bel drop zio", "labels": {}}
+{"text": "oh pirla cosa sai fare", "labels": {"info": "help"}}
+{"text": "fa' minga i tagli secchi sfuma", "labels": {"style": "fade"}}
+{"text": "ue fam vedè la console", "labels": {"view": "console"}}
+{"text": "mizzica chi bella vuci famme 'u mashup cu 'a vuci di estate supra a basi di parallel", "labels": {"mashup": "explicit"}}
+{"text": "picciò 'u remix live addumalu cchiù forte", "labels": {"remix": "on", "strategy": "rise"}}
+{"text": "astuta i mashup automatici e torna 'o tempu originali", "labels": {"mashupOpt": "off", "returnTempo": "on"}}
+{"text": "talìa a coda mischiala tutta", "labels": {"queue": "shuffle"}}
+{"text": "pi n'anticchia sulu tagli a raffica", "labels": {"style": "rapid", "temporary": "yes"}}
+{"text": "camora fai tu i pezzi a ondate", "labels": {"mode": "ai", "strategy": "wave"}}
+{"text": "mbare stile gabry ponte cu i mix curti", "labels": {"style": "model", "bars": "short"}}
+{"text": "'u prossimu levalo mettici summer rain", "labels": {"control": "skip", "queue": "playNext"}}
+{"text": "uè mena mitt i loop sop a i pezz", "labels": {"remix": "on"}}
+{"text": "nan ce vol u reggaeton fa tu", "labels": {"genre": "exclude", "mode": "ai"}}
+{"text": "mitt a vista ai mo", "labels": {"view": "ai"}}
+{"text": "ce stai a sunà", "labels": {"info": "now"}}
+{"text": "sciamanin dalla coda sola mitt i mix luengh", "labels": {"mode": "queue", "bars": "long"}}
+{"text": "icché tu fai hambia stile fai la tehno alla berlinese", "labels": {"style": "model-techno"}}
+{"text": "o bimbi la hoda la voglio sentire tutta in fila senza scelte tue", "labels": {"mode": "queue"}}
+{"text": "deh mettici northern lights in hoda", "labels": {"queue": "add"}}
+{"text": "un fà più mashup da solo", "labels": {"mashupOpt": "off"}}
+{"text": "chiudi dopo questa hanzone hon calma", "labels": {"control": "endAfterCurrent", "strategy": "chill"}}
+{"text": "boia deh che serata", "labels": {}}
+{"text": "ajò sardi alzate tottu cun s'eco", "labels": {"strategy": "rise", "style": "echo"}}
+{"text": "eja metti sa musica tranquilla pro sa cena", "labels": {"strategy": "chill"}}
+{"text": "cumpà fammi 'na scaletta de pizzica pe' stanotte", "labels": {"set": "build", "genre": "include"}}
+{"text": "uagliù mo fai 'na cosa a onde con la dance", "labels": {"strategy": "wave", "genre": "include"}}
+{"text": "abbash 'o tiro miett' 'e dissolvenze longhe", "labels": {"strategy": "chill", "style": "fade", "bars": "long"}}
+{"text": "'o volume è troppo forte", "labels": {}}
+{"text": "statte zitto", "labels": {}}
+{"text": "jamm cagna 'o prossimo piezz pecché nun me piace", "labels": {"control": "skip"}}
+{"text": "miett 'e mashup automatici ca 'a gente se diverte", "labels": {"mashupOpt": "on"}}
+{"text": "'o tiempo 'e ogni piezz rimettilo comm'era doppo 'o mix", "labels": {"returnTempo": "on"}}
+{"text": "fa' tu comme vuo' 'e cagnamient", "labels": {"style": "auto"}}
+{"text": "pe' tre piezz statte cchiù tranquillo", "labels": {"strategy": "chill", "temporary": "yes"}}
+{"text": "daje co' la vista ai aò", "labels": {"view": "ai"}}
+{"text": "che c'hai da fa' dopo 'sto pezzo", "labels": {"info": "next"}}
+{"text": "a dj spiegame perché 'sto pezzo", "labels": {"info": "why"}}
+{"text": "mettece 'n antro po' de house co' 'n mix da 32", "labels": {"genre": "add", "bars": "long"}}
+{"text": "nun fa' più li mashup da solo mo' famme vede' 'a console", "labels": {"mashupOpt": "off", "view": "console"}}
+{"text": "tiè famme sentì electric dreams subito dopo co' l'eco", "labels": {"queue": "playNext", "style": "echo"}}
+{"text": "ao ma 'sta coda mischiala tutta 'n po' de più tiro", "labels": {"queue": "shuffle", "strategy": "rise"}}
+{"text": "'n po' de onde stasera tajo secco", "labels": {"strategy": "wave", "style": "cut"}}
+{"text": "pe' 'n quarto d'ora 'n po' de afro", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "famme 'na scaletta pe' 'a palestra tutta a palla", "labels": {"set": "build", "strategy": "peak"}}
+{"text": "la gente vuole il liscio mettilo per due pezzi", "labels": {"genre": "include", "temporary": "yes"}}
+{"text": "passaggi da 64 battute alla berlinese", "labels": {"bars": "verylong", "style": "model-techno"}}
+{"text": "cambia stile prova coi tagli a raffica a palla", "labels": {"style": "rapid", "strategy": "peak"}}
+{"text": "alza il tiro torna al bpm originale dopo", "labels": {"strategy": "rise", "returnTempo": "on"}}
+{"text": "tienimi la mia coda cn le transizioni stile gabry", "labels": {"mode": "queue", "style": "model"}}
+{"text": "mashup automatici attivi solo deep", "labels": {"mashupOpt": "on", "genre": "include"}}
+{"text": "voce di glass city sopra la strumentale di low tide fallo adesso", "labels": {"mashup": "explicit"}}
+{"text": "fai partire stile techno mix lunghi", "labels": {"control": "start", "style": "model-techno", "bars": "long"}}
+{"text": "fermati qui torna alla vista ai", "labels": {"control": "stop", "view": "ai"}}
+{"text": "dopo questo ultimo basta niente mashup", "labels": {"control": "endAfterCurrent", "mashupOpt": "off"}}
+{"text": "lalalala", "labels": {}}
+{"text": "asdfghjkl", "labels": {}}
+{"text": "eh vabbè", "labels": {}}
+{"text": "pfff", "labels": {}}
+{"text": "madó ke stanchezza", "labels": {}}
+{"text": "nn ci capisco niente di sti cavi", "labels": {}}
+{"text": "raga vado in bagno 2 min", "labels": {}}
+{"text": "uff i vicini rompono", "labels": {}}
+{"text": "il dj di prima era meglio", "labels": {}}
+{"text": "nn mi ricordo la password del wifi", "labels": {}}
+{"text": "la sposa piange 😭", "labels": {}}
+{"text": "sto pezzo lo ballava mio nonno", "labels": {}}
+{"text": "ke bello sto mashup", "labels": {}}
+{"text": "xké nn si sente la cassa sx", "labels": {}}
+{"text": "nn bevo più", "labels": {}}
+{"text": "oh ma ki è quello vestito da banana", "labels": {}}
+{"text": "tra poco i fuochi d'artificio 🎆", "labels": {}}
+{"text": "aspetta un attimo ke rispondo al telefono", "labels": {}}
+{"text": "domani lavoro uff", "labels": {}}
+{"text": "la gente balla tt", "labels": {}}
+{"text": "sto mangiando nn scrivermi", "labels": {}}
+{"text": "ammazza quanta gente", "labels": {}}
+{"text": "ciò che bel ambiente", "labels": {}}
+{"text": "mamma mia che drop", "labels": {}}
+{"text": "nun trovo più er caricabatterie", "labels": {}}
+{"text": "che ber tramonto stasera", "labels": {}}
+{"text": "'a festa è bell'assaje", "labels": {}}
+{"text": "mizzica chi casino", "labels": {}}
+{"text": "dopo si va tutti a mangià i' lampredotto", "labels": {}}
+{"text": "eja chi bella festa", "labels": {}}
+{"text": "tu sei forte zio", "labels": {"talk": "thanks"}}
+{"text": "complimenti x il passaggio 👏", "labels": {"talk": "thanks"}}
+{"text": "ue ciao zio come butta", "labels": {"talk": "hello"}}
+{"text": "ehiii", "labels": {"talk": "hello"}}
+{"text": "chi ha vinto la partita", "labels": {"talk": "offtopic"}}
+{"text": "mi trovi un taxi x le 3", "labels": {"talk": "offtopic"}}
+{"text": "mo' me magno 'n supplì e torno", "labels": {}}
+{"text": "uagliò 'a pista è chiena", "labels": {}}
+{"text": "xe drio piovar fora", "labels": {}}
+{"text": "ciumbia el dj de l'altra sala l'è scars", "labels": {}}
+{"text": "oh ma il fonico ndo è finito", "labels": {}}
+{"text": "la torta è arivata tt in piedi", "labels": {}}
+{"text": "mizzica u zitu sta abballannu", "labels": {}}

@@ -251,7 +251,7 @@ test('SegueoChat + modello: le richieste riconosciute diventano azioni, l\'inter
   assert.match(r.notes[0], /quale brano/);
 });
 
-const MODEL = fileURLToPath(new URL('../src/renderer/models/segueo-chat.onnx', import.meta.url));
+const MODEL = fileURLToPath(new URL('../src/renderer/models/segueo-chat-v2.onnx', import.meta.url));
 test('SegueoChat + modello Segueo Chat vero: capisce modi di dire che l\'interprete non conosce', { skip: !existsSync(MODEL) && 'modello non scaricato' }, async () => {
   const ort = await import('onnxruntime-web');
   ort.env.wasm.numThreads = 1;
