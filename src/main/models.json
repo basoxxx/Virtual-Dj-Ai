@@ -109,11 +109,11 @@
       "source": "Separazione di voce e base per i mashup: Demucs v4 htdemucs_ft, sotto-modello voce 04573f0d (Meta, codice MIT; licenza dei pesi non dichiarata, uso deciso dall'utente), fp32 senza STFT, base = mix - voce"
     },
     {
-      "file": "segueo-transizioni-dance-v7.onnx",
+      "file": "segueo-transizioni-dance-v8.onnx",
       "bundle": true,
       "bytes": 6946394,
-      "sha256": "37dc1755ca4b4e648573be1ffeb2f85e5ca592832871d6ea3a3bfbcef4ff57f5",
-      "source": "Transizioni dell'AI DJ, stile dance (modello C v7: v6 rifinita sui mix di Gabry Ponte); int8 dinamico, stesso file di segueo-transizioni-v7.onnx"
+      "sha256": "342a0b821aaf93bc7432887d55dc4709271b7548e4868ca1fd92330d865c0de3",
+      "source": "Transizioni dell'AI DJ, stile dance (modello C v8: v6 rifinita sui mix di Gabry Ponte e su 65 transizioni di 88 mix recenti del DJ Mix Dataset); int8 dinamico"
     },
     {
       "file": "segueo-transizioni-techno-v6.onnx",
