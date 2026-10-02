@@ -54,7 +54,7 @@ test('tagli a raffica: filtro e bassi sull\'uscente, taglio netto alla fine dell
   assert.equal(transitionState('rapid', 0.99).xf, 1);
 });
 
-test('tagli a raffica: il piano dell\'AI DJ usa i tempi di LUM!X', async () => {
+test('tagli a raffica: il piano dell\'AI DJ usa i tempi misurati', async () => {
   const { AutoDJ } = await import('../src/renderer/js/ai/autodj.js');
   const dj = new AutoDJ({ engine: {}, decks: [], getControls: () => ({}), getPool: () => [], random: () => 0.1 });
   dj.options.style = 'rapid';
@@ -65,5 +65,5 @@ test('tagli a raffica: il piano dell\'AI DJ usa i tempi di LUM!X', async () => {
   assert.equal(plan.bars, 1);
   assert.equal(plan.startAt, 30); // 16 misure da 2 s, meno la misura del cambio
   assert.equal(plan.mixIn, 46); // drop a 48 s meno una misura
-  assert.match(plan.why, /LUM!X: 16 misure, entrata sul drop/);
+  assert.match(plan.why, /tagli a raffica: 16 misure, entrata sul drop/);
 });

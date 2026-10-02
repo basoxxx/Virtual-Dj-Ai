@@ -128,7 +128,6 @@ figcaption { font-size: 14px; color: var(--ink-3); margin-top: 16px; text-align:
 .pill { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); border: 1px solid var(--ink); border-radius: 980px; padding: 5px 12px; margin-bottom: 26px; }
 .soon-card h2 { font-size: clamp(38px, 5.4vw, 60px); line-height: 1.06; margin-bottom: 26px; }
 .soon-card p { font-size: 21px; line-height: 1.42; color: var(--ink-2); max-width: 720px; }
-.soon-card .soon-note { font-size: 16px; color: var(--ink-3); margin-top: 22px; max-width: 560px; }
 .model-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; margin: 34px 0 0; max-width: 760px; text-align: left; }
 .model-list div { border-top: 1px solid var(--line); padding-top: 14px; }
 .model-list dt { font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
