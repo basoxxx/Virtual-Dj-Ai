@@ -9,6 +9,17 @@ import { NO_FILTERS } from '../ai/selector.js';
 import { withIcon } from './icons.js';
 import { parseSetlist, matchEntries, entryLabel, claudePrompt, setlistFromQueue, STYLE_LABELS } from '../ai/setlist.js';
 
+/** " · circa 2 h 10 min" dal numero di secondi che mancano (vuoto finché non c'è una stima). */
+export function remaining(sec) {
+  if (sec == null || !Number.isFinite(sec)) return '';
+  if (sec < 90) return ' · meno di 2 min';
+  const min = Math.round(sec / 60);
+  if (min < 60) return ` · circa ${min} min`;
+  const h = Math.floor(min / 60);
+  const m = Math.round((min % 60) / 5) * 5;
+  return ` · circa ${h} h${m ? ` ${m} min` : ''}`;
+}
+
 export class SideUI {
   constructor(root, { sampler, automix, onSamplerChange, getTrack, analyzer, getPlaylists, getAllTracks, onAiOptions, planSet, openChat, stems, tabs = [] }) {
     this.root = root;
@@ -351,7 +362,7 @@ export class SideUI {
       this.anaBtn.textContent = 'Ferma analisi';
       this.anaInfo.textContent = an.paused
         ? `${an.done}/${an.total} · in pausa mentre separo voce e base`
-        : `${an.done}/${an.total}${an.current ? ` · ${an.current.title}` : ''}`;
+        : `${an.done}/${an.total}${remaining(an.eta())}${an.current ? ` · ${an.current.title}` : ''}`;
     } else {
       const pending = BatchAnalyzer.pending(this.getAllTracks()).length;
       this.anaBtn.textContent = 'Analizza libreria';

@@ -12,7 +12,9 @@ export function loadOrt() {
       // solo il .wasm: il codice di collegamento è già dentro il bundle
       ort.env.wasm.wasmPaths = { wasm: new URL('ort-wasm-simd-threaded.wasm', VENDOR).href };
       // i thread WASM richiedono l'isolamento cross-origin (SharedArrayBuffer)
-      ort.env.wasm.numThreads = self.crossOriginIsolated ? Math.max(1, Math.min(4, (navigator.hardwareConcurrency || 2) >> 1)) : 1;
+      // tutti i core meno uno (lasciato all'audio e all'interfaccia): con 4 thread invece di 2 Beat This! è 1,8 volte
+      // più veloce a parità di risultati (32 brani di prova, ml/REPORT.md)
+      ort.env.wasm.numThreads = self.crossOriginIsolated ? Math.max(1, Math.min(8, (navigator.hardwareConcurrency || 2) - 1)) : 1;
       return ort;
     })();
     ortPromise.catch(() => {
