@@ -385,6 +385,8 @@ input.lib-search { flex: 1; padding-left: 30px; background-image: url("data:imag
 .am-idx { color: var(--faint); font-variant-numeric: tabular-nums; }
 .am-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .am-dur { color: var(--dim); font-size: 10.5px; font-variant-numeric: tabular-nums; }
+.am-cue { display: block; width: fit-content; max-width: 100%; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; padding: 1px 6px; border-radius: 6px; background: var(--panel-3); color: var(--warn); font-size: 10px; font-weight: 600; }
+.row.tight.wrap { flex-wrap: wrap; }
 .am-empty { color: var(--faint); padding: 20px; text-align: center; }
 
 /* --- SegueoChat ------------------------------------------------------------ */

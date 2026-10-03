@@ -141,6 +141,19 @@ function createBrowserApi() {
       return file ? registerFile(file).path : null;
     },
     revealFile: async () => {},
+    openSetlist: async () => {
+      const [file] = await pickFiles('.json,.txt,.segueo,application/json,text/plain', false);
+      return file ? { name: file.name, text: await file.text() } : null;
+    },
+    saveSetlist: async ({ text, name }) => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+      a.download = `${name || 'Scaletta'}.json`;
+      a.click();
+      return a.download;
+    },
+    readClipboard: () => navigator.clipboard.readText(),
+    writeClipboard: (text) => navigator.clipboard.writeText(text),
     pathForFile: (file) => registerFile(file).path,
     recordStart: async ({ sampleRate, channels }) => {
       rec = { sampleRate, channels, chunks: [] };

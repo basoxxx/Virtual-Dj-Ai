@@ -7,6 +7,7 @@ import { BatchAnalyzer } from '../ai/batch-analyzer.js';
 import { describeFilters, describeTemporary } from '../ai/segueochat.js';
 import { NO_FILTERS } from '../ai/selector.js';
 import { withIcon } from './icons.js';
+import { parseSetlist, matchEntries, entryLabel, claudePrompt, setlistFromQueue, STYLE_LABELS } from '../ai/setlist.js';
 
 export class SideUI {
   constructor(root, { sampler, automix, onSamplerChange, getTrack, analyzer, getPlaylists, getAllTracks, onAiOptions, planSet, openChat, stems, tabs = [] }) {
@@ -206,6 +207,43 @@ export class SideUI {
       }
     } });
 
+    // scaletta già decisa (es. scritta con Claude): brani in ordine e cambi di stile
+    const setBtn = (text, title, fn) => {
+      const b = button(text, { className: 'small', title, onClick: async () => {
+        b.disabled = true;
+        try {
+          await fn();
+        } catch (err) {
+          toast(err.message, 'error');
+        } finally {
+          b.disabled = false;
+        }
+      } });
+      return b;
+    };
+    const setButtons = el('div', { class: 'row tight wrap' },
+      setBtn(withIcon('sparkles', 'Copia per Claude', 13), 'Copia la richiesta per Claude con l\'elenco della libreria: incollala su claude.ai e descrivi la serata', async () => {
+        const tracks = this.getAllTracks();
+        if (!tracks.length) throw new Error('La libreria è vuota: aggiungi prima la tua musica');
+        await api.writeClipboard(claudePrompt(tracks));
+        const pending = BatchAnalyzer.pending(tracks).length;
+        toast(pending
+          ? `Copiato. Consiglio: analizza prima la libreria (${pending} brani senza BPM o tonalità), così Claude li abbina meglio`
+          : 'Copiato: incollalo in una chat con Claude e descrivi la serata', pending ? 'warn' : undefined);
+      }),
+      setBtn('Incolla scaletta', 'Carica la scaletta copiata dalla risposta di Claude', async () => this.importSetlist(await api.readClipboard())),
+      setBtn('Apri file', 'Carica una scaletta salvata (.json)', async () => {
+        const f = await api.openSetlist();
+        if (f) this.importSetlist(f.text);
+      }),
+      setBtn('Salva coda', 'Salva la coda come scaletta, per riusarla o farla ritoccare a Claude', async () => {
+        if (!a.queue.length) throw new Error('La coda è vuota');
+        const after = a.options.mode === 'ai' ? 'continue' : 'stop';
+        const data = setlistFromQueue(a.queue, a.options, { title: a.setTitle || 'Coda di Segueo', after, cues: a.cues });
+        const saved = await api.saveSetlist({ text: `${JSON.stringify(data, null, 2)}\n`, name: data.scaletta });
+        if (saved) toast('Scaletta salvata');
+      }));
+
     this.anaBtn = button('Analizza libreria', { className: 'small', title: 'Calcola BPM, tonalità, energia e punti di mix di tutti i brani', onClick: () => {
       if (this.analyzer.running) this.analyzer.stop();
       else this.analyzer.run(this.getAllTracks());
@@ -253,13 +291,32 @@ export class SideUI {
         this.prompt,
         el('div', { class: 'row tight' }, genBtn,
           button('Mescola', { className: 'small', onClick: () => a.shuffle() }),
-          button('Svuota', { className: 'small', onClick: () => a.clear() }))),
+          button('Svuota', { className: 'small', onClick: () => a.clear() })),
+        el('div', { class: 'section-label' }, 'SCALETTA DA CLAUDE'),
+        setButtons),
       el('div', { class: 'am-group am-activity' },
         el('div', { class: 'section-label' }, 'CODA'),
         this.amList,
         el('div', { class: 'row tight' }, this.anaBtn, this.anaInfo),
         el('div', { class: 'section-label' }, 'DIARIO DELL\'AI'),
         this.logEl));
+  }
+
+  /** Carica una scaletta (testo JSON, anche dentro la risposta di Claude) e la mette in coda. */
+  importSetlist(text) {
+    const a = this.automix;
+    if (!String(text || '').trim()) throw new Error('Negli appunti non c\'è niente: copia prima la scaletta dalla risposta di Claude');
+    const set = parseSetlist(text);
+    const { found, missing } = matchEntries(set.entries, this.getAllTracks());
+    if (!found.length) throw new Error(`Nessuno dei ${set.entries.length} brani della scaletta è nella libreria`);
+    a.loadSet({ title: set.title, after: set.after, options: set.options, items: found });
+    this.onAiOptions(a.options);
+    if (missing.length) a.say(`Non trovati nella libreria (${missing.length}): ${missing.slice(0, 10).map(entryLabel).join('; ')}${missing.length > 10 ? '…' : ''}`);
+    for (const w of set.warnings.slice(0, 6)) a.say(`Scaletta: ${w}`);
+    // i brani non ancora analizzati si analizzano subito, così il set non aspetta
+    const pending = BatchAnalyzer.pending(found.map((x) => x.track));
+    if (pending.length && !this.analyzer.running) this.analyzer.run(pending);
+    toast(`Scaletta «${set.title}»: ${found.length} brani in coda${missing.length ? ` · ${missing.length} ${missing.length === 1 ? 'non trovato' : 'non trovati'} (vedi diario)` : ''}`, missing.length ? 'warn' : undefined);
   }
 
   refreshDirectives() {
@@ -341,10 +398,16 @@ export class SideUI {
     this.refreshDirectives();
     this.amList.innerHTML = '';
     if (!a.queue.length) this.amList.append(el('div', { class: 'am-empty' }, o.mode === 'ai' ? 'Coda vuota: l\'AI sceglie dalla sorgente' : 'Coda vuota'));
+    const cues = a.cues.filter((c) => !c.used);
     a.queue.forEach((t, i) => {
+      // indicazioni della scaletta per questo brano (cambio di stile, entrata/uscita)
+      const ci = cues.findIndex((c) => c.track === t);
+      const cue = ci >= 0 ? cues.splice(ci, 1)[0] : null;
+      const cueText = cue ? [cue.options.style && STYLE_LABELS[cue.options.style], cue.options.bars && `${cue.options.bars}b`,
+        cue.inAt != null && `da ${formatTime(cue.inAt, false)}`, cue.outAt != null && `esce ${formatTime(cue.outAt, false)}`].filter(Boolean).join(' · ') : '';
       const row = el('div', { class: 'am-row', draggable: 'true' },
         el('span', { class: 'am-idx' }, i + 1),
-        el('span', { class: 'am-title' }, `${t.artist ? `${t.artist} - ` : ''}${t.title}`),
+        el('span', { class: 'am-title' }, `${t.artist ? `${t.artist} - ` : ''}${t.title}`, cueText ? el('span', { class: 'am-cue', title: cue.note || 'Indicazioni della scaletta' }, cueText) : null),
         el('span', { class: 'am-dur' }, [t.bpm ? t.bpm.toFixed(0) : formatTime(t.duration, false), camelotOf(t.key)].filter(Boolean).join(' ')),
         button('×', { className: 'tiny ghost', onClick: () => a.remove(i) }));
       row.addEventListener('dragstart', (e) => e.dataTransfer.setData('text/x-am-index', String(i)));

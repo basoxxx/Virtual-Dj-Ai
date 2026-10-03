@@ -105,6 +105,39 @@ Nel pannello AI DJ scrivi com'è il set (*"deep house al tramonto, poi sempre pi
 l'after"*) e premi **✨ Crea scaletta**: genere, energia e numero di brani li capisce SegueoChat (interprete e modello
 Segueo Chat), il motore interno sceglie i brani compatibili e li mette in coda. Lo stesso si può chiedere in chat.
 
+### DJ set già pronti, preparati con Claude
+
+Un set deciso prima, brano per brano, che Segueo mixa da solo. Nel pannello AI DJ, sezione **Scaletta da Claude**:
+
+1. **Copia per Claude** mette negli appunti la richiesta per Claude con il formato della scaletta e l'elenco della
+   libreria (artista, titolo, BPM, tonalità, energia, genere, durata: conviene analizzare prima la libreria).
+2. Su [claude.ai](https://claude.ai) incolli il testo, descrivi la serata e Claude risponde con la scaletta (JSON).
+3. **Incolla scaletta** la legge dagli appunti, anche dentro la risposta di Claude con le frasi intorno; **Apri file**
+   la carica da un file `.json`. I brani vanno in coda nell'ordine dato (si trovano anche scritti in modo un po'
+   diverso); quelli che non sono nella libreria vengono saltati ed elencati nel diario.
+4. **Avvia AI DJ**: il set segue la scaletta. **Salva coda** la salva di nuovo come file, da riusare o far ritoccare.
+
+```json
+{
+  "scaletta": "Aperitivo in crescendo",
+  "dopo": "fine",
+  "impostazioni": { "transizioni": "bass swap", "battute": 16, "energia": "crescente" },
+  "brani": [
+    { "artista": "Kevin MacLeod", "titolo": "Ether Disco", "entrata": "0:16" },
+    { "artista": "Kevin MacLeod", "titolo": "Enter the Party", "transizioni": "raffica" },
+    { "artista": "Kevin MacLeod", "titolo": "Electro Cabello", "transizioni": "filtro", "battute": 8, "uscita": "2:40" }
+  ]
+}
+```
+
+Le impostazioni di un brano (`transizioni`: automatica, bass swap, filtro, echo, dissolvenza, taglio, raffica, dance,
+techno; `battute`; `energia`; `remix`; `mashup`) valgono per la transizione che lo fa entrare e restano finché un altro
+brano non le cambia: così si decide quando cambia lo stile del set. `entrata` e `uscita` (minuti:secondi) fissano il
+punto da cui parte il brano e quello in cui inizia il mix verso il successivo, allineati alla battuta; `nota` compare
+nel diario quando il brano va in onda; `"dopo": "continua"` lascia scegliere all'AI dopo l'ultimo brano. Istruzioni
+complete sul sito, nella pagina [Scalette](https://basoxxx.github.io/Virtual-Dj-Ai/scalette.html). Codice:
+`src/renderer/js/ai/setlist.js`.
+
 ## 🎛 Console DJ supportate
 
 Collega la console via USB: viene **riconosciuta automaticamente** e mappata, con i **LED dei pulsanti** che seguono

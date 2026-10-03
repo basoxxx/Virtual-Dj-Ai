@@ -32,6 +32,10 @@ contextBridge.exposeInMainWorld('api', {
   getCover: invoke('file:cover'),
   pickAudioFile: invoke('file:pickAudio'),
   revealFile: invoke('file:reveal'),
+  openSetlist: invoke('setlist:open'),
+  saveSetlist: invoke('setlist:save'),
+  readClipboard: invoke('clipboard:read'),
+  writeClipboard: invoke('clipboard:write'),
   pathForFile: (file) => {
     try {
       return webUtils.getPathForFile(file);

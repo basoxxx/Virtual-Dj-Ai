@@ -9,6 +9,7 @@ import { curvesAt } from './transition-model.js';
 import { needsAiRefine } from '../audio/analyzer-client.js';
 import { planRemix, REMIX_ACTIONS } from './remix.js';
 import { FADE_BARS, MASHUP_MIN_KEY, DEFAULT_MASHUP_BARS, savedStartAt } from './mashup-plan.js';
+import { describeOptions } from './setlist.js';
 
 const DEFAULT_OPTIONS = {
   mode: 'ai', // 'ai' = sceglie l'AI, 'queue' = segue la coda
@@ -44,6 +45,9 @@ export class AutoDJ extends EventTarget {
     this.step = 0;
     this.endAfterCurrent = false; // "chiudi il set dopo questo brano"
     this.temp = null; // impostazioni per i prossimi N brani: { remaining, restore }
+    // scaletta da file: per i brani in coda, impostazioni e punti di entrata/uscita decisi prima del set
+    this.cues = []; // { track, options, inAt, outAt, note, used }
+    this.setTitle = null;
   }
 
   // --- compatibilità con la vecchia coda Automix ---------------------------------
@@ -156,7 +160,44 @@ export class AutoDJ extends EventTarget {
 
   clear() {
     this.queue = [];
+    this.cues = [];
+    this.setTitle = null;
     this.emit();
+  }
+
+  /**
+   * Carica una scaletta già decisa (setlist.js): i brani vanno in coda nell'ordine dato, le impostazioni
+   * generali valgono da subito, quelle di ogni brano dalla transizione che lo fa entrare.
+   * after: 'stop' chiude il set con l'ultimo brano, 'continue' lascia poi scegliere all'AI.
+   */
+  loadSet({ title, after = 'stop', options = {}, items }) {
+    this.cues = items.map(({ track, entry }) => ({
+      track, options: entry.options || {}, inAt: entry.inAt ?? null, outAt: entry.outAt ?? null, note: entry.note || '', used: false,
+    }));
+    this.setTitle = title || 'Scaletta';
+    this.temp = null;
+    this.endAfterCurrent = false;
+    this.setOptions({ ...options, mode: after === 'continue' ? 'ai' : 'queue' });
+    this.setQueue(items.map((x) => x.track));
+    this.say(`Scaletta «${this.setTitle}»: ${items.length} brani${after === 'continue' ? ', poi sceglie l\'AI' : ''}`);
+  }
+
+  /** Le indicazioni della scaletta per un brano appena preso dalla coda (la prima non ancora usata). */
+  takeCue(track) {
+    const cue = this.cues.find((c) => !c.used && c.track === track);
+    if (cue) cue.used = true;
+    return cue || null;
+  }
+
+  /** Il brano della scaletta sta per entrare: le sue impostazioni valgono da questa transizione in poi. */
+  applyCue(cue, deck) {
+    deck._aiCue = cue;
+    if (!cue) return;
+    const desc = describeOptions(cue.options);
+    if (desc) {
+      this.setOptions(cue.options);
+      this.say(`Scaletta: da ${label(cue.track)} ${desc}`);
+    }
   }
 
   shuffle() {
@@ -212,8 +253,9 @@ export class AutoDJ extends EventTarget {
     if (this.endAfterCurrent) return null;
     if (this.queue.length) {
       const t = this.queue.shift();
+      const cue = this.takeCue(t);
       this.emit();
-      return { track: t, reason: 'dalla coda' };
+      return { track: t, reason: cue ? `dalla scaletta${this.setTitle ? ` «${this.setTitle}»` : ''}` : 'dalla coda', cue };
     }
     if (this.options.mode === 'queue') return null;
     const played = new Set(this.history.map((t) => t.id));
@@ -276,6 +318,7 @@ export class AutoDJ extends EventTarget {
       const deck = this.decks.find((d) => d.loaded && d.position < 1 && !d.playing && this.plan === null && d._aiReady) || this.decks[0];
       let track = deck._aiReady ? deck.track : null;
       let reason = 'brano pronto sul deck';
+      let cue = null;
       if (!track) {
         const pick = await this.pickNext(null);
         if (!pick) {
@@ -283,8 +326,11 @@ export class AutoDJ extends EventTarget {
           this.warnedEmpty = true;
           return;
         }
-        ({ track, reason } = pick);
+        ({ track, reason, cue = null } = pick);
         if (!(await deck.load(track))) return;
+        this.applyCue(cue, deck);
+        // il primo brano della scaletta può partire da un punto deciso
+        if (cue && cue.inAt != null && cue.inAt < (deck.duration || 0) - 8) deck.seek(cue.inAt);
       }
       this.warnedEmpty = false;
       deck._aiReady = false;
@@ -329,6 +375,7 @@ export class AutoDJ extends EventTarget {
           return;
         }
         next._aiReady = true;
+        this.applyCue(pick.cue || null, next);
       }
       this.warnedEnd = false;
       // aspetta l'analisi del brano appena caricato (BPM, punti di mix) e, con il motore AI,
@@ -368,6 +415,38 @@ export class AutoDJ extends EventTarget {
   }
 
   planFor(cur, next) {
+    return this.cuePoints(this.basePlan(cur, next), cur, next);
+  }
+
+  /** Entrata e uscita decise nella scaletta (minuti:secondi), allineate alla battuta forte. */
+  cuePoints(plan, cur, next) {
+    const cueOf = (d) => (d._aiCue && d._aiCue.track === d.track ? d._aiCue : null);
+    const out = cueOf(cur);
+    const inn = cueOf(next);
+    const why = [];
+    const bar = cur.beatLength * 4;
+    if (out && out.outAt != null && bar > 0) {
+      let at = cur.gridOffset + Math.round((out.outAt - cur.gridOffset) / bar) * bar;
+      if (at < cur.position + 1) at = cur.gridOffset + Math.ceil((cur.position + 1 - cur.gridOffset) / bar) * bar;
+      if (at < cur.duration - bar) {
+        plan.startAt = at;
+        plan.transTrackSec = Math.min(plan.transTrackSec, Math.max(bar, cur.duration - at - 0.5));
+        why.push(`uscita alle ${formatTime(out.outAt, false)}`);
+      }
+    }
+    const nbar = (next.beatLength || 0) * 4;
+    if (inn && inn.inAt != null && inn.inAt < (next.duration || Infinity) - 8) {
+      plan.mixIn = nbar > 0 ? Math.max(0, (next.gridOffset || 0) + Math.round((inn.inAt - (next.gridOffset || 0)) / nbar) * nbar) : inn.inAt;
+      why.push(`entrata alle ${formatTime(inn.inAt, false)}`);
+    }
+    // lo stile deciso nella scaletta non è una "scelta manuale" fatta nel pannello
+    const fromSet = inn && plan.why === 'scelta manuale';
+    if (fromSet) plan.why = why.length ? `dalla scaletta: ${why.join(', ')}` : 'dalla scaletta';
+    else if (why.length) plan.why = `${plan.why ? `${plan.why} · ` : ''}scaletta: ${why.join(', ')}`;
+    return plan;
+  }
+
+  basePlan(cur, next) {
     // con il modello si decide come in automatico (sync, ripiego), poi le curve vengono dal modello
     const wantModel = isModelStyle(this.options.style);
     const t = planTransition(cur.track, next.track, { style: wantModel ? 'auto' : this.options.style, bars: this.options.bars });
@@ -579,6 +658,7 @@ export class AutoDJ extends EventTarget {
     this.step++;
     this.plan = null;
     this.say(`In onda: ${label(to.track)}`);
+    if (to._aiCue && to._aiCue.track === to.track && to._aiCue.note) this.say(`Nota della scaletta: ${to._aiCue.note}`);
     this.onTrackOnAir();
     if (this.options.returnTempo && Math.abs(to.pitch) > 0.05) this.rampTempo(to);
     this.emit();
