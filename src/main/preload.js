@@ -36,6 +36,10 @@ contextBridge.exposeInMainWorld('api', {
   saveSetlist: invoke('setlist:save'),
   readClipboard: invoke('clipboard:read'),
   writeClipboard: invoke('clipboard:write'),
+  startRequest: invoke('requests:start'),
+  stopRequest: invoke('requests:stop'),
+  pickDownloadFolder: invoke('requests:pickFolder'),
+  defaultDownloadFolder: invoke('requests:defaultFolder'),
   pathForFile: (file) => {
     try {
       return webUtils.getPathForFile(file);
@@ -59,7 +63,7 @@ contextBridge.exposeInMainWorld('api', {
   updateInstall: invoke('update:install'),
 
   on: (channel, handler) => {
-    const allowed = ['menu', 'library:progress', 'update:progress', 'models:progress'];
+    const allowed = ['menu', 'library:progress', 'update:progress', 'models:progress', 'requests:arrived', 'requests:stopped'];
     if (!allowed.includes(channel)) return () => {};
     const listener = (_e, payload) => handler(payload);
     ipcRenderer.on(channel, listener);

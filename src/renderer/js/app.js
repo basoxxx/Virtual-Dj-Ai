@@ -29,6 +29,7 @@ import { UpdateUI } from './ui/update-ui.js';
 import { AiView } from './ui/ai-view.js';
 import { MashupUI } from './ui/mashup-ui.js';
 import { ChatUI } from './ui/chat-ui.js';
+import { RequestsUI, DEFAULT_REQUESTS } from './ui/requests-ui.js';
 
 const ACCENTS = ['#2ea8ff', '#ff6a3d'];
 
@@ -46,6 +47,8 @@ const DEFAULT_SETTINGS = {
     options: {},
   },
   updates: { auto: true },
+  // richieste dal pubblico: sito per "Cerca online" e cartella dei download da guardare ('' = quella di sistema)
+  requests: DEFAULT_REQUESTS,
   // view: ultima vista usata, 'console' (classica) o 'ai' (dedicata all'AI DJ); startView: 'last', 'console' o 'ai'
   ui: { view: 'console', startView: 'last' },
 };
@@ -252,6 +255,7 @@ class App {
       },
     });
     this.mashupUI = new MashupUI({ app: this });
+    this.requests = new RequestsUI(this);
     this.chatUI = new ChatUI({ app: this, chat: this.chat });
     this.sideUI = new SideUI(sideHost, {
       tabs: [{ id: 'chat', label: 'CHAT', pane: this.chatUI.root }, { id: 'mashup', label: 'MASHUP', pane: this.mashupUI.root }],
@@ -320,6 +324,7 @@ class App {
    */
   analysisPriority() {
     const now = new Set(this.automix.queue.map((t) => t.id));
+    if (this.requests) for (const id of this.requests.priorityIds) now.add(id);
     for (const d of this.decks) if (d.track) now.add(d.track.id);
     const draft = this.mashupUI ? this.mashupUI.draft : {};
     for (const t of [draft.base, draft.vocal]) if (t) now.add(t.id);

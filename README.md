@@ -187,6 +187,11 @@ lo stato del programma (play, cue, sync, hot cue, loop, preascolto, effetti…).
 
 **Altro**
 - Libreria con cartelle musicali, ricerca istantanea, ordinamento, playlist, cronologia, più suonati
+- **Richieste dal pubblico**: scrivi il brano nella ricerca della libreria e premi **Cerca online**. Si apre il browser
+  predefinito sulla ricerca (Google, Beatport, Beatsource, Bandcamp, Amazon o l'indirizzo del tuo record pool, da
+  *Impostazioni → Richieste*) e Segueo guarda la cartella dei download: ogni file audio che arriva, da qualsiasi sito o
+  da Google Drive, entra in libreria appena il browser ha finito di scriverlo, viene analizzato subito e si mette come
+  **prossimo** brano dell'AI DJ, in coda o su un deck con un clic (`src/main/downloads.js`, `ui/requests-ui.js`)
 - Evidenziazione dei brani compatibili (BPM vicino, tonalità armonica) col deck in onda
 - **Sampler** a 8 pad con suoni inclusi (air horn, sirena, riser…) e campioni personalizzabili
 - **AI DJ** (vedi sopra) con coda, scalette automatiche, mashup preparati e SegueoChat

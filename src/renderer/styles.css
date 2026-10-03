@@ -333,6 +333,17 @@ body.view-ai .lib-grid > :nth-child(n+6) { display: none; }
 .lib-main { display: flex; flex-direction: column; min-width: 0; min-height: 0; position: relative; }
 .lib-toolbar { display: flex; gap: 8px; align-items: center; padding: 8px; }
 input.lib-search { flex: 1; padding-left: 30px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236e6e73' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='M20 20l-4.3-4.3'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 10px center; }
+.req-btn { flex: none; white-space: nowrap; }
+.req-btn.on { background: var(--accent); color: #fff; }
+.req-bar { display: flex; flex-direction: column; gap: 4px; padding: 0 8px 8px; }
+.req-bar[hidden] { display: none; }
+.req-wait, .req-track { display: flex; align-items: center; gap: 6px; background: var(--panel-2); border-radius: 8px; padding: 5px 6px 5px 10px; font-size: 11.5px; }
+.req-wait { color: var(--dim); }
+.req-wait > span:nth-child(2), .req-title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.req-track { color: var(--ok); }
+.req-meta { color: var(--dim); }
+.req-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; animation: req-pulse 1.2s ease-in-out infinite; }
+@keyframes req-pulse { 50% { opacity: .25; } }
 .lib-status { color: var(--faint); min-width: 70px; text-align: right; font-variant-numeric: tabular-nums; }
 .lib-grid { display: grid; grid-template-columns: var(--lib-cols); gap: 8px; padding: 0 12px; align-items: center; }
 .lib-header { height: 26px; border-bottom: 1px solid var(--line); font-size: 10.5px; color: var(--faint); font-weight: 600; }
