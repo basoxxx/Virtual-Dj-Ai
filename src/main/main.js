@@ -1,5 +1,5 @@
 // Processo principale Electron: finestra, protocollo app://, libreria, file system, registrazione.
-const { app, BrowserWindow, ipcMain, dialog, protocol, net, session, shell, Menu, systemPreferences } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, protocol, net, session, shell, Menu, systemPreferences, clipboard } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
 const os = require('node:os');
@@ -234,6 +234,29 @@ function registerIpc() {
     return res.canceled ? null : res.filePaths[0];
   });
   ipcMain.handle('file:reveal', (_e, file) => shell.showItemInFolder(file));
+
+  // Scalette (DJ set già decisi, es. scritti con Claude): file di testo JSON e appunti
+  const setlistFilters = [{ name: 'Scaletta Segueo', extensions: ['json', 'txt', 'segueo'] }];
+  ipcMain.handle('setlist:open', async () => {
+    const res = await dialog.showOpenDialog(mainWindow, { title: 'Apri scaletta', properties: ['openFile'], filters: setlistFilters });
+    if (res.canceled || !res.filePaths[0]) return null;
+    const file = res.filePaths[0];
+    if (fs.statSync(file).size > 5 * 1024 * 1024) throw new Error('File troppo grande per essere una scaletta');
+    return { name: path.basename(file), text: fs.readFileSync(file, 'utf8') };
+  });
+  ipcMain.handle('setlist:save', async (_e, { text, name }) => {
+    const safe = String(name || 'Scaletta').replace(/[\\/:*?"<>|]+/g, ' ').trim() || 'Scaletta';
+    const res = await dialog.showSaveDialog(mainWindow, {
+      title: 'Salva scaletta',
+      defaultPath: path.join(app.getPath('documents'), `${safe}.json`),
+      filters: setlistFilters,
+    });
+    if (res.canceled || !res.filePath) return null;
+    fs.writeFileSync(res.filePath, String(text), 'utf8');
+    return res.filePath;
+  });
+  ipcMain.handle('clipboard:read', () => clipboard.readText());
+  ipcMain.handle('clipboard:write', (_e, text) => clipboard.writeText(String(text)));
 
   // Registrazione del mix: i campioni PCM arrivano a blocchi e vengono scritti
   // subito su disco, così anche set di ore non riempiono la memoria.

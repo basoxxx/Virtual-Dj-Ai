@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scalette con Claude — Segueo</title>
+  <meta name="description" content="Prepara il tuo DJ set con Claude: brani in ordine e cambi di stile. Segueo lo carica in un clic e lo mixa da solo.">
+  <meta property="og:title" content="Scalette con Claude — Segueo">
+  <meta property="og:description" content="Decidi il set con Claude, Segueo lo mixa da solo.">
+  <meta property="og:image" content="img/setlist.jpg">
+  <meta name="theme-color" content="#fbfbfd">
+  <link rel="icon" href="img/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><img src="img/icon.png" alt="" width="26" height="26">Segueo</a>
+    <nav class="nav-links" aria-label="Sezioni">
+      <a href="index.html#ai">AI DJ</a>
+      <a href="scalette.html" aria-current="page">Scalette</a>
+      <a href="index.html#console">Console</a>
+      <a href="index.html#funzioni">Funzioni</a>
+      <a href="index.html#download">Download</a>
+    </nav>
+    <a class="nav-cta" href="index.html#download">Scarica</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero sl-hero">
+    <p class="eyebrow reveal">Scalette con Claude</p>
+    <h1 class="reveal">Il set lo decidi tu.<br>Lo mixa Segueo.</h1>
+    <p class="lead reveal">Scegli con Claude i brani, l'ordine e quando cambiare stile. Segueo carica la scaletta in un clic e mixa tutto il DJ set da solo, a tempo, dal primo all'ultimo brano.</p>
+    <div class="hero-actions reveal">
+      <a class="btn btn-primary" href="#come">Come si fa</a>
+      <a class="btn-link" href="#formato">Il formato della scaletta <span aria-hidden="true">›</span></a>
+    </div>
+  </section>
+
+  <!-- PASSI -->
+  <section class="dark" id="come">
+    <div class="section-head">
+      <p class="eyebrow eyebrow-dark reveal">Come si fa</p>
+      <h2 class="reveal">Quattro passi.<br>Cinque minuti.</h2>
+      <p class="lead lead-dark reveal">Tutto parte dalla scheda <strong>AI DJ</strong>, nella sezione <strong>Scaletta da Claude</strong>. Serve solo un account su claude.ai, anche quello gratuito.</p>
+    </div>
+
+    <ol class="steps">
+      <li class="step reveal">
+        <span class="step-num">01</span>
+        <h3>Copia la libreria</h3>
+        <p>Premi <strong>Copia per Claude</strong>. Negli appunti c'è la richiesta per Claude con l'elenco dei tuoi brani: BPM, tonalità, energia, genere e durata.</p>
+      </li>
+      <li class="step reveal">
+        <span class="step-num">02</span>
+        <h3>Parla con Claude</h3>
+        <p>Apri <a href="https://claude.ai" rel="noopener">claude.ai</a>, incolla e racconta la serata: locale, pubblico, durata, generi, quando far salire l'energia. Claude risponde con la scaletta.</p>
+      </li>
+      <li class="step reveal">
+        <span class="step-num">03</span>
+        <h3>Incolla la scaletta</h3>
+        <p>Copia la risposta di Claude e premi <strong>Incolla scaletta</strong>. Oppure salvala come file <code>.json</code> e caricala con <strong>Apri file</strong>.</p>
+      </li>
+      <li class="step reveal">
+        <span class="step-num">04</span>
+        <h3>Avvia l'AI DJ</h3>
+        <p>I brani sono in coda nell'ordine deciso. Premi <strong>Avvia AI DJ</strong>: Segueo mixa il set e cambia stile proprio dove l'hai chiesto.</p>
+      </li>
+    </ol>
+
+    <div class="ai-showcase">
+      <figure class="ai-panel reveal">
+        <img src="img/setlist.jpg" alt="Pannello AI DJ con la scaletta «Aperitivo in crescendo» caricata: pulsanti Copia per Claude, Incolla scaletta, Apri file e Salva coda; in coda i brani con le indicazioni raffica, filtro 8 battute con uscita alle 02:40 e dance 32 battute; nel diario le scelte fatte dalla scaletta" loading="lazy" width="660" height="2164">
+      </figure>
+      <div class="ai-copy reveal">
+        <h3>Vedi subito cosa succederà.</h3>
+        <p>Accanto a ogni brano in coda compaiono le indicazioni della scaletta: lo <strong>stile della transizione</strong>, le <strong>battute</strong> del mix, il punto di <strong>entrata</strong> e quello di <strong>uscita</strong>. Nel diario dell'AI ogni scelta dice da dove viene.</p>
+        <div class="log" role="presentation">
+          <div><span>›</span>Scaletta «Aperitivo in crescendo»: 6 brani</div>
+          <div><span>›</span>Scaletta: da Enter the Party transizioni raffica</div>
+          <div class="log-dim">Transizione a raffica di 1 battute alle 01:02</div>
+          <div><span>›</span>Transizione filtro di 8 battute alle 02:40</div>
+          <div class="log-dim">dalla scaletta: uscita alle 02:40</div>
+        </div>
+        <ul class="ticks">
+          <li>I brani si trovano anche se Claude li scrive in modo un po' diverso: maiuscole, accenti, "(Radio Edit)"</li>
+          <li>Quelli che non sono nella libreria vengono saltati e elencati nel diario</li>
+          <li>Durante il set puoi sempre intervenire: <strong>Mixa ora</strong>, <strong>Cambia prossimo</strong>, SegueoChat</li>
+          <li><strong>Salva coda</strong> la trasforma in un file da riusare o da far ritoccare a Claude</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- COSA CHIEDERE -->
+  <section class="light">
+    <div class="section-head">
+      <p class="eyebrow reveal">Cosa chiedere</p>
+      <h2 class="reveal">Racconta la serata.<br>Come a un DJ vero.</h2>
+      <p class="lead reveal">Dopo aver incollato il testo di <strong>Copia per Claude</strong>, scrivi cosa ti serve. Più dettagli dai, più il set ti somiglia. Qualche esempio:</p>
+    </div>
+    <div class="sl-examples">
+      <figure class="sl-example reveal">
+        <blockquote>Aperitivo di due ore in un locale all'aperto. Si parte tranquilli con deep house, dopo un'ora si sale con brani più energici. Transizioni lunghe e morbide all'inizio, poi bass swap da 16 battute.</blockquote>
+        <button class="sl-copy" type="button" data-copy>Copia</button>
+      </figure>
+      <figure class="sl-example reveal">
+        <blockquote>Festa di 18 anni, 90 minuti. Commerciale e reggaeton, energia sempre alta. Negli ultimi 20 minuti tagli a raffica sul battere, e chiudi con il brano più famoso che ho.</blockquote>
+        <button class="sl-copy" type="button" data-copy>Copia</button>
+      </figure>
+      <figure class="sl-example reveal">
+        <blockquote>Set techno di un'ora e mezza. Apri con mix lunghi in stile techno da 32 battute, a metà set picco di energia con il modello dance e cambi da 8 battute, poi scendi piano per chiudere.</blockquote>
+        <button class="sl-copy" type="button" data-copy>Copia</button>
+      </figure>
+    </div>
+    <p class="sl-tip reveal"><strong>Consiglio:</strong> prima di premere Copia per Claude fai <strong>Analizza libreria</strong>. Così Claude conosce BPM, tonalità ed energia di ogni brano e mette vicini quelli che stanno bene insieme.</p>
+  </section>
+
+  <!-- FORMATO -->
+  <section class="features" id="formato">
+    <div class="section-head">
+      <p class="eyebrow reveal">Per chi vuole i dettagli</p>
+      <h2 class="reveal">Il formato della scaletta.</h2>
+      <p class="lead reveal">Claude lo conosce già: è scritto nel testo di Copia per Claude. Se preferisci, puoi anche scriverlo a mano o modificarlo. È un file di testo JSON.</p>
+    </div>
+
+    <div class="sl-format">
+      <div class="sl-code reveal">
+        <button class="sl-copy" type="button" data-copy-target="sl-json">Copia</button>
+<pre id="sl-json"><code>{
+  "scaletta": "Aperitivo in crescendo",
+  "dopo": "fine",
+  "impostazioni": { "transizioni": "bass swap", "battute": 16, "energia": "crescente" },
+  "brani": [
+    { "artista": "Kevin MacLeod", "titolo": "Ether Disco", "entrata": "0:16" },
+    { "artista": "Kevin MacLeod", "titolo": "Overcast", "nota": "si entra nel vivo" },
+    { "artista": "Kevin MacLeod", "titolo": "Enter the Party", "transizioni": "raffica" },
+    { "artista": "Kevin MacLeod", "titolo": "Bummin on Tremelo" },
+    { "artista": "Kevin MacLeod", "titolo": "Electro Cabello", "transizioni": "filtro", "battute": 8, "uscita": "2:40" },
+    { "artista": "Kevin MacLeod", "titolo": "C-Funk", "transizioni": "dance", "battute": 32 }
+  ]
+}</code></pre>
+      </div>
+
+      <div class="sl-fields reveal">
+        <h3>Il segreto è uno solo.</h3>
+        <p>Le impostazioni scritte su un brano valgono per la transizione che lo fa entrare e restano per i brani dopo, finché un altro brano non le cambia. Così decidi <strong>quando cambia lo stile</strong> del set.</p>
+        <dl>
+          <div><dt><code>brani</code></dt><dd>I brani in ordine. Artista e titolo come nella libreria, oppure <code>"file"</code> con il nome del file.</dd></div>
+          <div><dt><code>transizioni</code></dt><dd>automatica, bass swap, filtro, echo, dissolvenza, taglio, raffica, dance (modello AI), techno (modello AI, mix lunghi).</dd></div>
+          <div><dt><code>battute</code></dt><dd>Durata del mix, da 4 a 64. Di solito 8, 16 o 32.</dd></div>
+          <div><dt><code>entrata</code></dt><dd>Da che punto parte il brano, in minuti:secondi. Facoltativo.</dd></div>
+          <div><dt><code>uscita</code></dt><dd>Quando inizia il mix verso il brano dopo. Facoltativo: senza, Segueo sceglie l'inizio di una frase.</dd></div>
+          <div><dt><code>energia</code></dt><dd>costante, crescente, onde, rilassata, picco. Serve quando, finita la scaletta, sceglie l'AI.</dd></div>
+          <div><dt><code>remix</code>, <code>mashup</code></dt><dd><code>true</code> o <code>false</code>: remix dal vivo sulle frasi, voce del brano dopo sulla base di questo.</dd></div>
+          <div><dt><code>nota</code></dt><dd>Un promemoria che compare nel diario quando il brano va in onda.</dd></div>
+          <div><dt><code>dopo</code></dt><dd><code>"fine"</code> chiude il set con l'ultimo brano, <code>"continua"</code> lascia poi scegliere all'AI DJ.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOMANDE -->
+  <section class="light">
+    <div class="section-head">
+      <h2 class="reveal">Domande frequenti.</h2>
+    </div>
+    <div class="sl-faq">
+      <details class="reveal">
+        <summary>Claude ascolta la mia musica?</summary>
+        <p>No. Claude riceve solo il testo che incolli: artista, titolo, BPM, tonalità, energia, genere e durata dei brani. I file audio restano sul tuo computer, e Segueo non invia niente su internet da solo.</p>
+      </details>
+      <details class="reveal">
+        <summary>La risposta di Claude ha anche delle frasi oltre alla scaletta. Va bene?</summary>
+        <p>Sì. Copia pure tutta la risposta: Incolla scaletta trova da solo il blocco JSON, anche dentro un riquadro di codice.</p>
+      </details>
+      <details class="reveal">
+        <summary>Alcuni brani non vengono trovati.</summary>
+        <p>Segueo li salta, avvisa con un messaggio e li elenca nel diario dell'AI. Di solito succede quando Claude inventa un brano o ne scrive male il titolo: chiedigli di usare solo i brani dell'elenco, scritti esattamente così.</p>
+      </details>
+      <details class="reveal">
+        <summary>Ho una libreria enorme. Funziona lo stesso?</summary>
+        <p>Sì, ma un elenco di migliaia di brani è lungo da incollare. Puoi creare una playlist con i brani adatti alla serata, sceglierla come <strong>Sorgente</strong> e lavorare solo su quella, oppure chiedere a Claude di concentrarsi su certi generi.</p>
+      </details>
+      <details class="reveal">
+        <summary>Posso modificare una scaletta già pronta?</summary>
+        <p>Certo. Premi <strong>Salva coda</strong>, apri il file con un editor di testo o incollalo a Claude chiedendo cosa cambiare, poi ricaricalo con Apri file o Incolla scaletta.</p>
+      </details>
+      <details class="reveal">
+        <summary>Funziona anche con altri assistenti AI?</summary>
+        <p>Il formato è un normale JSON: qualunque assistente che sappia seguire le istruzioni del testo di Copia per Claude può scriverlo. Abbiamo provato con Claude.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section class="download">
+    <div class="section-head">
+      <h2 class="reveal">Prova il tuo primo set.</h2>
+      <p class="lead reveal">Le scalette sono incluse in Segueo, gratis.</p>
+      <div class="hero-actions reveal" style="margin: 34px 0 0">
+        <a class="btn btn-primary" href="index.html#download">Scarica Segueo</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><img src="img/icon.png" alt="" width="22" height="22">Segueo</div>
+    <p>La foto mostra l'interfaccia reale dell'app con brani di Kevin MacLeod (incompetech.com), licenza Creative Commons BY 4.0.</p>
+    <p>Progetto open source su <a href="https://github.com/basoxxx/Virtual-Dj-Ai">GitHub</a>.</p>
+  </div>
+</footer>
+
+<script src="main.js" defer></script>
+<script>
+  // pulsanti "Copia" degli esempi e del formato
+  document.querySelectorAll('[data-copy], [data-copy-target]').forEach((b) => {
+    b.addEventListener('click', async () => {
+      const src = b.dataset.copyTarget ? document.getElementById(b.dataset.copyTarget) : b.parentElement.querySelector('blockquote');
+      try {
+        await navigator.clipboard.writeText(src.textContent.trim());
+        b.textContent = 'Copiato ✓';
+      } catch {
+        b.textContent = 'Seleziona e copia';
+      }
+      setTimeout(() => { b.textContent = 'Copia'; }, 1800);
+    });
+  });
+</script>
+</body>
+</html>
