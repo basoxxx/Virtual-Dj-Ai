@@ -86,6 +86,46 @@ test('analisi della libreria: prima i brani con priorità, in pausa finché c\'�
   assert.equal(an.paused, false);
 });
 
+test('analisi della libreria: più brani insieme senza superare il limite, e stima del tempo che manca', async () => {
+  globalThis.window = globalThis.window || {};
+  globalThis.window.api = globalThis.window.api || {};
+  const { BatchAnalyzer } = await import('../src/renderer/js/ai/batch-analyzer.js');
+  const { remaining } = await import('../src/renderer/js/ui/side-ui.js').catch(() => ({}));
+  const an = new BatchAnalyzer(null);
+  const list = Array.from({ length: 10 }, (_, i) => ({ id: String(i) }));
+  let now = 0;
+  let peak = 0;
+  const started = [];
+  await an.pass(list, 3, 'first', async (t) => {
+    started.push(t.id);
+    now++;
+    peak = Math.max(peak, now);
+    await new Promise((r) => setTimeout(r, 5 + Math.random() * 10));
+    now--;
+    return null;
+  }, () => {});
+  assert.equal(peak, 3);
+  assert.equal(started.length, 10);
+  assert.deepEqual(started.slice(0, 3), ['0', '1', '2']);
+  // tempo rimanente: media dei tempi per brano, per la prima passata e per la rifinitura (4 volte più lenta finché non è misurata)
+  an.running = true;
+  an.left = { first: 100, refine: 100 };
+  an.timing = { first: null, refine: null };
+  assert.equal(an.eta(), null);
+  an.measure('first', 2);
+  assert.equal(an.eta(), 100 * 2 + 100 * 8);
+  an.measure('refine', 10);
+  assert.equal(an.eta(), 100 * 2 + 100 * 10);
+  an.measure('first', 4);
+  assert.ok(Math.abs(an.timing.first - 2.3) < 1e-9); // media mobile
+  if (remaining) {
+    assert.equal(remaining(null), '');
+    assert.equal(remaining(30), ' · meno di 2 min');
+    assert.equal(remaining(25 * 60), ' · circa 25 min');
+    assert.equal(remaining(2 * 3600 + 12 * 60), ' · circa 2 h 10 min');
+  }
+});
+
 test('mashup: gruppi Camelot compatibili (stessa tonalità, relativa, ±1 sulla ruota)', () => {
   assert.deepEqual([...compatibleCodes('8A')].sort(), ['7A', '8A', '8B', '9A']);
   assert.deepEqual([...compatibleCodes('12B')].sort(), ['11B', '12A', '12B', '1B']);

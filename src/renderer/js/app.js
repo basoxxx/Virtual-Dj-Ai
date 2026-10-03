@@ -16,7 +16,7 @@ import { ChatModel } from './ai/chat-model.js';
 import { DeckUI } from './ui/deck-ui.js';
 import { MixerUI } from './ui/mixer-ui.js';
 import { LibraryUI } from './ui/library-ui.js';
-import { SideUI } from './ui/side-ui.js';
+import { SideUI, remaining } from './ui/side-ui.js';
 import { ScrollingWaveform } from './ui/waveform.js';
 import { openSettings } from './ui/settings-ui.js';
 import { installKeyboard } from './keyboard.js';
@@ -289,7 +289,7 @@ class App {
     });
     this.analyzer.addEventListener('progress', (e) => {
       const p = e.detail;
-      if (p.running) this.showProgress({ label: 'Analisi AI', done: p.done, total: p.total });
+      if (p.running) this.showProgress({ label: 'Analisi AI', done: p.done, total: p.total, extra: remaining(p.eta) });
       else this.library.renderRows();
     });
     const bottom = el('div', { class: 'bottom' }, libHost, sideHost);
@@ -502,7 +502,7 @@ class App {
 
   showProgress(p) {
     clearTimeout(this.progressTimer);
-    this.progress.textContent = `${p.label}: ${p.done}/${p.total}`;
+    this.progress.textContent = `${p.label}: ${p.done}/${p.total}${p.extra || ''}`;
     this.progress.classList.add('show');
     this.progressTimer = setTimeout(() => this.progress.classList.remove('show'), 1500);
   }

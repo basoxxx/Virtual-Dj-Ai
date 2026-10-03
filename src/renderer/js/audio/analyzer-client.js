@@ -6,10 +6,7 @@ export const BEAT_MODEL = 'segueo-analisi-battute.onnx';
 // dopo questo tempo senza richieste il worker si chiude: la memoria WASM del modello torna libera
 const IDLE_MS = 20000;
 
-let worker = null;
 let seq = 0;
-let idleTimer = null;
-const pending = new Map();
 const config = { engine: 'classic', model: BEAT_MODEL };
 
 /** Motore di analisi del tempo: 'ai' (Beat This!) o 'classic'. */
@@ -35,33 +32,55 @@ export function refineWithAi(channels, sampleRate, encoded) {
   return analyze(channels, sampleRate, { engine: 'ai', waveform: false, key: false, bpm: true, encoded });
 }
 
-function getWorker() {
-  clearTimeout(idleTimer);
-  if (!worker) {
-    worker = new Worker(new URL('../../workers/analyzer.js', import.meta.url), { type: 'module' });
-    worker.onmessage = (e) => {
-      const p = pending.get(e.data.id);
-      if (!p) return;
-      pending.delete(e.data.id);
-      if (e.data.error) p.reject(new Error(e.data.error));
-      else p.resolve(e.data.result);
-      if (!pending.size) scheduleIdle();
-    };
-    worker.onerror = (e) => {
-      for (const p of pending.values()) p.reject(new Error(e.message || 'Errore del worker di analisi'));
-      pending.clear();
-      worker = null;
-    };
-  }
-  return worker;
+// Più worker in parallelo per l'analisi classica (un core ciascuno, uno lasciato all'interfaccia e all'audio);
+// il primo tiene anche la sessione di Beat This!, che usa già più thread da sola.
+export const POOL_SIZE = Math.max(1, Math.min(4, ((typeof navigator !== 'undefined' && navigator.hardwareConcurrency) || 2) - 1));
+const pool = []; // { worker, pending, idle }
+
+function spawn(slot) {
+  const w = { worker: new Worker(new URL('../../workers/analyzer.js', import.meta.url), { type: 'module' }), pending: new Map(), idle: null };
+  w.worker.onmessage = (e) => {
+    const p = w.pending.get(e.data.id);
+    if (!p) return;
+    w.pending.delete(e.data.id);
+    if (e.data.error) p.reject(new Error(e.data.error));
+    else p.resolve(e.data.result);
+    if (!w.pending.size) scheduleIdle(w, slot);
+  };
+  w.worker.onerror = (e) => {
+    for (const p of w.pending.values()) p.reject(new Error(e.message || 'Errore del worker di analisi'));
+    w.pending.clear();
+    pool[slot] = null;
+  };
+  pool[slot] = w;
+  return w;
 }
 
-function scheduleIdle() {
-  clearTimeout(idleTimer);
-  idleTimer = setTimeout(() => {
-    if (worker && !pending.size) {
-      worker.terminate();
-      worker = null;
+/** Worker per una richiesta: Beat This! sempre sul primo, il resto su quello meno occupato. */
+function getWorker(ai) {
+  let slot = 0;
+  if (!ai) {
+    let best = Infinity;
+    for (let i = 0; i < POOL_SIZE; i++) {
+      const load = pool[i] ? pool[i].pending.size : 0;
+      // a parità di carico si evita il primo, che può avere la rete neurale al lavoro
+      if (load + (i === 0 ? 0.5 : 0) < best) {
+        best = load + (i === 0 ? 0.5 : 0);
+        slot = i;
+      }
+    }
+  }
+  const w = pool[slot] || spawn(slot);
+  clearTimeout(w.idle);
+  return w;
+}
+
+function scheduleIdle(w, slot) {
+  clearTimeout(w.idle);
+  w.idle = setTimeout(() => {
+    if (pool[slot] === w && !w.pending.size) {
+      w.worker.terminate();
+      pool[slot] = null;
     }
   }, IDLE_MS);
 }
@@ -91,10 +110,11 @@ export async function decodeMono22050(bytes) {
  * l'audio a 22050 Hz; senza, o in caso di errore, il BPM viene dall'analisi classica.
  */
 export async function analyze(channels, sampleRate, options = {}) {
-  const { encoded, ...rest } = options;
+  const { encoded, mono22050: given, ...rest } = options;
   const opts = { engine: config.engine, model: config.model, ...rest };
-  let mono22050 = null;
-  if (opts.engine === 'ai' && opts.bpm !== false && encoded) {
+  const ai = opts.engine === 'ai' && opts.bpm !== false;
+  let mono22050 = given || null;
+  if (ai && !mono22050 && encoded) {
     try {
       mono22050 = await decodeMono22050(encoded);
     } catch (err) {
@@ -102,12 +122,29 @@ export async function analyze(channels, sampleRate, options = {}) {
     }
   }
   const id = ++seq;
+  const w = getWorker(ai);
+  // i buffer dell'audio si spostano nel worker senza copiarli (lo stesso buffer può comparire due volte)
+  const transfer = [...new Set([...(options.transfer ? channels.map((c) => c.buffer) : []), ...(mono22050 ? [mono22050.buffer] : [])])];
   const result = await new Promise((resolve, reject) => {
-    pending.set(id, { resolve, reject });
-    getWorker().postMessage({ id, channels, sampleRate, options: opts, mono22050 }, mono22050 ? [mono22050.buffer] : []);
+    w.pending.set(id, { resolve, reject });
+    w.worker.postMessage({ id, channels, sampleRate, options: { ...opts, transfer: undefined }, mono22050 }, transfer);
   });
   if (result.aiError) console.warn(`Analisi AI non riuscita, uso quella classica: ${result.aiError}`);
   return result;
+}
+
+/**
+ * Analisi di un file della libreria con una sola decodifica, mono a 22050 Hz: basta per BPM, tonalità,
+ * energia e struttura (stessi risultati della decodifica a 44,1/48 kHz, ml/REPORT.md) ed è quella che usa
+ * Beat This!. Senza forma d'onda: quella si calcola quando il brano va su un deck.
+ * @returns {{ res: object, duration: number }}
+ */
+export async function analyzeBytes(bytes, options = {}) {
+  const mono = await decodeMono22050(bytes);
+  const duration = mono.length / BT_SAMPLE_RATE;
+  const ai = (options.engine || config.engine) === 'ai' && options.bpm !== false;
+  const res = await analyze([mono], BT_SAMPLE_RATE, { waveform: false, ...options, mono22050: ai ? mono : undefined, transfer: true });
+  return { res, duration };
 }
 
 /** Converte il risultato dell'analisi nei campi salvati in libreria. */
