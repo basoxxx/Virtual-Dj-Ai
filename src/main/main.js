@@ -9,6 +9,7 @@ const { JsonStore } = require('./store');
 const updater = require('./updater');
 const aiAssets = require('./ai-assets');
 const migrate = require('./migrate');
+const { DownloadWatcher, searchUrl } = require('./downloads');
 
 const RENDERER_DIR = path.join(__dirname, '..', 'renderer');
 const isDev = process.argv.includes('--dev');
@@ -256,6 +257,34 @@ function registerIpc() {
     return res.filePath;
   });
   ipcMain.handle('clipboard:read', () => clipboard.readText());
+
+  // Richieste dal pubblico: "Cerca online" apre il browser e si importa ogni file audio che arriva nei download
+  const requests = new DownloadWatcher({
+    accept: isAudioFile,
+    onFile: async (file) => {
+      try {
+        await library.addFiles([file]);
+        const track = library.snapshot().tracks.find((t) => t.path === file) || null;
+        send('requests:arrived', { snapshot: library.snapshot(), track, file });
+      } catch (err) {
+        send('requests:arrived', { error: err.message, file });
+      }
+    },
+    onStop: () => send('requests:stopped', {}),
+  });
+  ipcMain.handle('requests:start', async (_e, { query = '', template = '', folder = '' } = {}) => {
+    const dir = folder || app.getPath('downloads');
+    const url = template === 'none' ? null : searchUrl(template, query); // un indirizzo non valido si segnala prima di iniziare
+    requests.start(dir);
+    if (url) await shell.openExternal(url);
+    return dir;
+  });
+  ipcMain.handle('requests:stop', () => requests.stop(false));
+  ipcMain.handle('requests:pickFolder', async () => {
+    const res = await dialog.showOpenDialog(mainWindow, { title: 'Cartella dei download', properties: ['openDirectory'] });
+    return res.canceled ? null : res.filePaths[0];
+  });
+  ipcMain.handle('requests:defaultFolder', () => app.getPath('downloads'));
   ipcMain.handle('clipboard:write', (_e, text) => clipboard.writeText(String(text)));
 
   // Registrazione del mix: i campioni PCM arrivano a blocchi e vengono scritti

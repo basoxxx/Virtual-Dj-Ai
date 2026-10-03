@@ -7,6 +7,8 @@ import { GAMEPAD_LAYOUT } from '../controllers/gamepad.js';
 import { icon, withIcon } from './icons.js';
 import { configureAnalysis, BEAT_MODEL } from '../audio/analyzer-client.js';
 import { CHAT_MODEL } from '../ai/chat-model.js';
+import { SEARCH_SITES, DEFAULT_REQUESTS } from './requests-ui.js';
+import { api } from '../api.js';
 
 export async function openSettings(app, initialTab = 'audio') {
   document.querySelectorAll('.settings-overlay').forEach((o) => o.remove());
@@ -35,6 +37,7 @@ export async function openSettings(app, initialTab = 'audio') {
     mixer: { label: 'Mixer & Deck', render: () => mixerPage(app) },
     ai: { label: 'AI', render: () => aiPage(app) },
     midi: { label: 'Console DJ', render: () => midiPage(app) },
+    requests: { label: 'Richieste', render: () => requestsPage(app) },
     keys: { label: 'Tastiera', render: () => keysPage() },
     about: { label: 'Informazioni', render: () => aboutPage(app) },
   };
@@ -268,6 +271,49 @@ function aiPage(app) {
     el('div', { class: 'section-title' }, 'SegueoChat'),
     el('p', { class: 'field-hint' }, 'Nella scheda CHAT (o con Ctrl+K) dici all\'AI DJ come suonare. I comandi li capisce un interprete integrato, i tanti altri modi di dirlo il modello Segueo Chat: entrambi girano sul computer, senza internet, e nessun messaggio esce dal PC.'),
     chatStatus);
+}
+
+function requestsPage(app) {
+  const r = app.requests ? app.requests.settings : (app.settings.requests = { ...DEFAULT_REQUESTS, ...(app.settings.requests || {}) });
+  const save = () => app.saveSettings();
+  const custom = el('input', { type: 'text', placeholder: 'https://sito.com/cerca?q={q}', value: r.custom || '' });
+  custom.addEventListener('keydown', (e) => e.stopPropagation());
+  custom.addEventListener('change', () => {
+    r.custom = custom.value.trim();
+    save();
+  });
+  const customRow = field('Indirizzo di ricerca', custom, 'Apri il sito dove scarichi i brani, cerca qualcosa e copia qui l\'indirizzo della pagina dei risultati, mettendo {q} al posto del testo cercato.');
+  customRow.hidden = r.site !== 'custom';
+  const site = select(SEARCH_SITES, r.site, (v) => {
+    r.site = v;
+    customRow.hidden = v !== 'custom';
+    save();
+  });
+  const folderLabel = el('span', { class: 'field-hint' }, '');
+  const showFolder = async () => {
+    folderLabel.textContent = r.folder || `${await api.defaultDownloadFolder()} (cartella Download del sistema)`;
+  };
+  showFolder();
+  const folderBtns = el('div', { class: 'row tight' },
+    button('Cambia…', { className: 'small', onClick: async () => {
+      const f = await api.pickDownloadFolder();
+      if (f) {
+        r.folder = f;
+        save();
+        showFolder();
+      }
+    } }),
+    button('Predefinita', { className: 'small', onClick: () => {
+      r.folder = '';
+      save();
+      showFolder();
+    } }));
+  return el('div', { class: 'settings-page' },
+    el('div', { class: 'section-title' }, 'Richieste dal pubblico'),
+    el('p', { class: 'field-hint' }, 'Ti chiedono un brano che non hai? Scrivilo nella ricerca della libreria e premi "Cerca online": si apre il browser e Segueo aspetta nella cartella dei download. Ogni file audio che scarichi (da qualsiasi sito, anche da Google Drive) entra da solo in libreria, viene analizzato subito e lo metti come prossimo, in coda o su un deck con un clic. Usa siti da cui hai il diritto di scaricare: negozi, record pool per DJ, i tuoi file.'),
+    field('Cerca su', site, 'Il sito che si apre con "Cerca online". Va bene qualsiasi browser: si usa quello predefinito del computer.'),
+    customRow,
+    el('div', { class: 'field' }, el('span', { class: 'field-label' }, 'Cartella dei download'), folderLabel, folderBtns));
 }
 
 function midiPage(app) {

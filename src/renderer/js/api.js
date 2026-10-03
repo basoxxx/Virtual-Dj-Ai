@@ -152,6 +152,15 @@ function createBrowserApi() {
       a.click();
       return a.download;
     },
+    // nel browser non si possono guardare i download: si apre solo la ricerca
+    startRequest: async ({ query = '', template = '' } = {}) => {
+      const t = template && template !== 'none' ? template : 'https://www.google.com/search?q={q}';
+      if (template !== 'none') window.open(t.replace('{q}', encodeURIComponent(query)), '_blank');
+      return null;
+    },
+    stopRequest: async () => {},
+    pickDownloadFolder: async () => null,
+    defaultDownloadFolder: async () => '',
     readClipboard: () => navigator.clipboard.readText(),
     writeClipboard: (text) => navigator.clipboard.writeText(text),
     pathForFile: (file) => registerFile(file).path,
