@@ -2,7 +2,10 @@
 // così l'AI DJ conosce i brani prima ancora di caricarli. Con librerie grandi dura ore: prima i brani che servono
 // subito (priorità) e pausa quando c'è da separare voce e base (la separazione non aspetta tutta la libreria).
 import { api } from '../api.js';
-import { analyzeBytes, analysisPatch, analysisEngine, isFullyAnalyzed, needsAiRefine, POOL_SIZE } from '../audio/analyzer-client.js';
+import { analyzeBytes, analysisPatch, isFullyAnalyzed, needsAiRefine, refineInBackground, POOL_SIZE } from '../audio/analyzer-client.js';
+
+// rifinitura AI fatta qui solo se si fa in background (altrimenti la fa il deck quando carica il brano)
+const refineHere = (t) => refineInBackground() && needsAiRefine(t);
 
 export class BatchAnalyzer extends EventTarget {
   /**
@@ -47,7 +50,7 @@ export class BatchAnalyzer extends EventTarget {
   }
 
   static pending(tracks) {
-    return tracks.filter((t) => !isFullyAnalyzed(t) || needsAiRefine(t));
+    return tracks.filter((t) => !isFullyAnalyzed(t) || refineHere(t));
   }
 
   stop() {
@@ -92,12 +95,12 @@ export class BatchAnalyzer extends EventTarget {
   async run(tracks) {
     if (this.running) return;
     const first = tracks.filter((t) => !isFullyAnalyzed(t));
-    if (!first.length && !tracks.some(needsAiRefine)) return;
+    if (!first.length && !tracks.some(refineHere)) return;
     this.running = true;
     this.stopRequested = false;
     this.done = 0;
     // i brani nuovi, con il motore AI, passano anche dalla rifinitura
-    const refine = tracks.filter((t) => needsAiRefine(t) || (!isFullyAnalyzed(t) && analysisEngine() === 'ai')).length;
+    const refine = tracks.filter((t) => refineHere(t) || (!isFullyAnalyzed(t) && refineInBackground())).length;
     this.total = first.length + refine;
     this.left = { first: first.length, refine };
     this.emit();
@@ -115,9 +118,10 @@ export class BatchAnalyzer extends EventTarget {
       // file non decodificabile: non si riprova in questa sessione
       t.analysisFailed = true;
     });
-    const second = tracks.filter(needsAiRefine);
+    const second = tracks.filter(refineHere);
     this.left.refine = second.length;
-    await this.pass(second, 1, 'refine', async (t) => {
+    // due brani in volo: mentre la rete neurale lavora su uno (nel worker, uno alla volta) il successivo si legge e si decodifica
+    await this.pass(second, 2, 'refine', async (t) => {
       const bytes = await api.readFile(t.path);
       const { res, duration } = await analyzeBytes(bytes, { engine: 'ai', key: false, bpm: true });
       if (!res.beat || res.beat.engine !== 'ai') throw new Error(res.aiError || 'rifinitura AI non riuscita');
@@ -166,7 +170,7 @@ export class BatchAnalyzer extends EventTarget {
     }
     this.active--;
     // con più brani insieme il tempo per brano è diviso per quanti ne girano in parallelo
-    this.measure(kind, (performance.now() - t0) / 1000 / (kind === 'first' ? POOL_SIZE : 1));
+    this.measure(kind, (performance.now() - t0) / 1000 / (kind === 'first' ? POOL_SIZE : 2));
     if (this.left && this.left[kind] > 0) this.left[kind]--;
     this.done++;
     this.emit();

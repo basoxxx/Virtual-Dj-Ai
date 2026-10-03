@@ -242,6 +242,16 @@ function aiPage(app) {
     if (v === 'ai' && ai.autoAnalyze && app.analyzer && app.library) app.analyzer.run(app.library.lib.tracks);
   });
   showEngineStatus();
+  const refine = select([
+    { value: 'library', label: 'Su tutta la libreria, in background' },
+    { value: 'deck', label: 'Solo quando il brano va su un deck (molto più veloce)' },
+  ], ai.refine || 'library', (v) => {
+    ai.refine = v;
+    configureAnalysis({ refine: v });
+    save();
+    if (v === 'library' && ai.autoAnalyze && app.analyzer && app.library && !app.analyzer.running) app.analyzer.run(app.library.lib.tracks);
+    if (app.sideUI) app.sideUI.refreshAnalysis();
+  });
   const chatStatus = el('div', { class: 'ai-test' });
   fetch(`models/${CHAT_MODEL}`, { method: 'HEAD' }).then((r) => r.ok, () => false).then((ok) => {
     chatStatus.textContent = ok ? 'Modello Segueo Chat installato' : 'Modello Segueo Chat non installato: SegueoChat capisce solo i comandi dell\'interprete';
@@ -259,6 +269,7 @@ function aiPage(app) {
     el('label', { class: 'check' }, auto, 'Analizza automaticamente i nuovi brani della libreria in background'),
     field('Motore di analisi', engine, 'L\'analisi classica dà subito BPM e forma d\'onda; con l\'AI, Segueo Analisi battute (una rete neurale che gira sul computer, solo con la CPU) rifinisce poi in background battute, battuta forte e struttura. Se il modello manca o dà errore resta l\'analisi classica. Le griglie corrette a mano non vengono toccate.'),
     engineStatus,
+    field('Rifinitura AI delle battute', refine, 'La rete neurale è la parte lenta dell\'analisi (circa 3/4 del tempo). Su tutta la libreria è pronta prima della serata; "solo sui deck" la fa quando il brano viene caricato (l\'AI DJ prepara il prossimo con minuti di anticipo): con migliaia di brani su un computer lento l\'analisi della libreria diventa circa 4 volte più breve. BPM, tonalità ed energia ci sono comunque per tutti i brani.'),
     el('div', { class: 'section-title' }, 'Vista'),
     field('Vista all\'avvio', select([
       { value: 'last', label: 'L\'ultima usata' },

@@ -72,7 +72,7 @@ class App {
 
   async start() {
     this.settings = merge(DEFAULT_SETTINGS, await api.getSettings());
-    configureAnalysis({ engine: this.settings.ai.analysisEngine });
+    configureAnalysis({ engine: this.settings.ai.analysisEngine, refine: this.settings.ai.refine || 'library' });
     this.engine = new AudioEngine();
     await this.engine.init({ latency: this.settings.audio.latency });
     this.engine.addEventListener('error', (e) => toast(e.detail, 'error'));

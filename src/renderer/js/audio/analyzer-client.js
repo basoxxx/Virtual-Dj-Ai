@@ -7,7 +7,8 @@ export const BEAT_MODEL = 'segueo-analisi-battute.onnx';
 const IDLE_MS = 20000;
 
 let seq = 0;
-const config = { engine: 'classic', model: BEAT_MODEL };
+// refine: 'library' = rifinitura AI di tutta la libreria in background, 'deck' = solo quando il brano va su un deck
+const config = { engine: 'classic', model: BEAT_MODEL, refine: 'library' };
 
 /** Motore di analisi del tempo: 'ai' (Beat This!) o 'classic'. */
 export function configureAnalysis(patch) {
@@ -16,6 +17,11 @@ export function configureAnalysis(patch) {
 
 export function analysisEngine() {
   return config.engine;
+}
+
+/** La rifinitura AI si fa in background su tutta la libreria (o solo sui deck)? */
+export function refineInBackground() {
+  return config.engine === 'ai' && config.refine !== 'deck';
 }
 
 /**
