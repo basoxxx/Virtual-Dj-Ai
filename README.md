@@ -145,16 +145,29 @@ lo stato del programma (play, cue, sync, hot cue, loop, preascolto, effetti…).
 
 | Casa / principianti | Semi-professionali | Professionali |
 | --- | --- | --- |
-| Pioneer DJ DDJ-200, DDJ-FLX2, DDJ-400, DDJ-FLX4, DDJ-SB3 | Pioneer DJ DDJ-FLX6, DDJ-SR2, DDJ-REV1/5/7, DDJ-800 | Pioneer DJ DDJ-SX3, DDJ-1000, DDJ-FLX10, XDJ-RX3/XZ, Opus Quad (modalità PC) |
-| Hercules DJControl Starlight, Inpulse 200/300, Mix | Hercules Inpulse 500, Inpulse T7 | Denon DJ MC7000, SC6000/SC5000/Prime 4 (modalità PC) |
-| Numark Party Mix, DJ2GO2 Touch, Mixtrack Pro FX, Mixtrack Platinum FX | Numark NS4FX, Mixstream Pro; Denon DJ MC4000, MC6000MK2 | Rane ONE, Seventy, Four; Allen & Heath Xone:K1/K2/K3 |
-| | Behringer CMD, Novation Launch Control | |
+| Pioneer DJ DDJ-200, DDJ-FLX2, DDJ-400, DDJ-FLX4, DDJ-SB3 | Pioneer DJ DDJ-FLX6, DDJ-SR2, DDJ-REV1, DDJ-800 | Pioneer DJ DDJ-SX3, DDJ-1000, DDJ-1000SRT, DDJ-FLX10, XDJ-RX3/XZ, Opus Quad (modalità PC) |
+| Hercules DJControl Starlight, Inpulse 200/300, Mix | Hercules Inpulse 500, Inpulse T7 ◇ | Denon DJ MC7000, Prime 4 ◇ (modalità PC) |
+| Numark Party Mix, DJ2GO2 Touch, Mixtrack Pro FX, Mixtrack Platinum FX | Numark NS4FX, Mixstream Pro; Denon DJ MC4000, MC6000MK2 | Rane ONE, Seventy, Four (profilo generico); Allen & Heath Xone:K1/K2/K3 |
+| Behringer CMD Micro | Behringer CMD MM-1, CMD Studio 4a; Novation Launch Control, Launch Control XL | |
+
+Tutte le console in tabella hanno una mappa verificata sul singolo modello (mappature Mixxx o documenti MIDI
+ufficiali del produttore), tranne quelle con ◇ (mappa della comunità misurata sull'hardware, ancora in prova) e le Rane
+(profilo generico: nessuna documentazione MIDI pubblica). Denon SC5000/SC6000, Pioneer DDJ-REV5/REV7 e le altre
+console si configurano con la procedura guidata.
 
 - **Qualsiasi altra console MIDI** si configura in un minuto con la **procedura guidata** (Impostazioni → 🎛 Console DJ):
   ti chiede un controllo alla volta. Ogni controllo si può anche correggere con **Learn** o invertire (⇅).
 - Le mappature si possono **esportare e importare** (file `.segueo.json`) per condividerle.
-- I profili seguono la documentazione MIDI pubblica dei produttori; se su un modello un comando non risponde,
-  basta correggerlo con Learn: le correzioni personali hanno sempre la precedenza.
+- Se su un modello un comando non risponde, basta correggerlo con Learn: le correzioni personali hanno sempre la precedenza
+  (quando un profilo viene corretto in un aggiornamento, le vecchie correzioni sono messe da parte e si possono ripristinare).
+- **Mappe verificate modello per modello** (✓ nelle impostazioni): ricavate dalle mappature Mixxx dei singoli modelli
+  e dai documenti MIDI ufficiali dei produttori, con livello SHIFT, modi dei pad (hot cue, loop, roll, slicer, sampler,
+  TonePlay, FX, beat jump), LED (anche a colori sui pad RGB), VU dei canali e guida al beatmatch dove la console li ha.
+- **Hercules DJControl Inpulse 300/500/T7**: la scheda audio della console viene impostata da sola:
+  **casse sulle uscite 1-2, cuffia sulle 3-4**.
+- Fader del pitch e del mixer **a 14 bit** quando la console li manda, **soft takeover** (se un controllo è stato spostato
+  dal programma o dall'AI DJ, la console lo riprende solo quando ci passa sopra, senza salti) e jog che segue la
+  velocità della mano nello scratch.
 - **Gamepad** Xbox, PlayStation, Switch Pro e simili funzionano come console (play, cue, sync, crossfader sui grilletti, jog sugli stick).
 - Console solo HID (es. Traktor Kontrol S2/S3/S4 MK3): vanno impostate in modalità MIDI con il software del produttore.
   Lettori CDJ/XDJ e mixer DJM si possono usare anche come sorgenti audio tramite gli ingressi linea dei deck.
@@ -167,8 +180,8 @@ lo stato del programma (play, cue, sync, hot cue, loop, preascolto, effetti…).
 - Forma d'onda scorrevole a colori per frequenza con beatgrid + vista d'insieme cliccabile
 - Jog wheel con **scratch** (modalità vinile) o pitch bend, copertina dell'album al centro
 - CUE stile CDJ (preascolto tenendo premuto), stutter, **8 hot cue** salvati per brano
-- **Loop** automatici (¼ – 32 battute), loop in/out manuali, reloop, ½×/2×, spostamento loop, **beat jump**
-- **Pitch** ±8/16/25/50/100 %, nudge, **keylock** (mantiene la tonalità), **SYNC** di tempo e fase
+- **Loop** automatici (¼ – 32 battute), loop in/out manuali, reloop, ½×/2×, spostamento loop, **beat jump**, loop roll e slicer dalla console
+- **Pitch** ±8/16/25/50/100 %, nudge, **keylock** (mantiene la tonalità), **cambio di tonalità** e allineamento della tonalità all'altro deck, **SYNC** di tempo e fase
 - Quantize, **slip mode**, reverse, **censor**, tap tempo, correzione beatgrid, ×2/÷2 BPM
 - 2 slot effetti per deck: Echo, Ping-pong delay, Reverb, Flanger, Phaser, Filtro LFO, Bitcrusher, Trance gate (sincronizzati al BPM)
 - **Ingresso linea**: ogni deck può prendere il segnale da un ingresso della scheda audio (giradischi, CD, strumenti)
@@ -181,7 +194,7 @@ lo stato del programma (play, cue, sync, hot cue, loop, preascolto, effetti…).
 
 **I/O audio locale**
 - Scelta della periferica di uscita master
-- Uscita cuffia su una **seconda periferica** (es. scheda DJ a 4 canali) oppure modalità **split** (master a sinistra, cuffia a destra) con una sola scheda
+- Uscita cuffia sulle **uscite 3-4** di una console con scheda a 4 uscite (es. Hercules Inpulse), su una **seconda periferica** oppure in modalità **split** (master a sinistra, cuffia a destra) con una sola scheda
 - Scelta dell'ingresso microfono e degli ingressi linea
 - Latenza configurabile
 

@@ -73,6 +73,25 @@ test('con keylock la tonalità resta invariata', () => {
   assert.ok(Math.abs(f - 440) < 8, `freq ${f}`);
 });
 
+test('cambio di tonalità: +2 semitoni senza cambiare il tempo', () => {
+  const p = make(sine(440, 4));
+  p.port.onmessage({ data: { type: 'key', value: 2 ** (2 / 12) } });
+  p.port.onmessage({ data: { type: 'play', startTime: 0 } });
+  const f = freqOf(render(p, SR).subarray(8192));
+  assert.ok(Math.abs(f - 440 * 2 ** (2 / 12)) < 8, `freq ${f}`);
+  assert.ok(Math.abs(p.pos - SR) < 256, `pos ${p.pos}`);
+});
+
+test('cambio di tonalità con keylock: −3 semitoni anche a tempo diverso', () => {
+  const p = make(sine(440, 4));
+  p.port.onmessage({ data: { type: 'tempo', value: 1.1 } });
+  p.port.onmessage({ data: { type: 'keylock', value: true } });
+  p.port.onmessage({ data: { type: 'key', value: 2 ** (-3 / 12) } });
+  p.port.onmessage({ data: { type: 'play', startTime: 0 } });
+  const f = freqOf(render(p, SR).subarray(8192));
+  assert.ok(Math.abs(f - 440 * 2 ** (-3 / 12)) < 8, `freq ${f}`);
+});
+
 test('il loop riporta la posizione all\'inizio', () => {
   const p = make(sine(100, 4));
   p.port.onmessage({ data: { type: 'loop', in: SR * 0.5, out: SR * 1, active: true } });

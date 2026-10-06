@@ -3,9 +3,11 @@
 import { api } from '../api.js';
 import { analyze, analysisPatch, analysisEngine, refineWithAi } from './analyzer-client.js';
 import { FxSlot } from './effects.js';
-import { shiftKey } from '../dsp/analysis.js';
+import { shiftKey, camelotOf } from '../dsp/analysis.js';
 
 export const HOTCUE_COUNT = 8;
+// finestra su cui si misura la velocità dei jog a impulsi
+const JOG_WINDOW_MS = 50;
 
 export class Deck extends EventTarget {
   constructor(engine, strip, id) {
@@ -39,9 +41,15 @@ export class Deck extends EventTarget {
     this.cuePoint = 0;
     this.hotcues = new Array(HOTCUE_COUNT).fill(null);
     this.loop = { in: 0, out: 0, active: false, beats: 0 };
+    this.loopBeats = 4; // dimensione del loop automatico scelta con l'encoder della console
+    this.rolling = 0; // dimensione del loop roll in corso (pad tenuto premuto)
+    this.slicing = 0; // pad dello slicer tenuto premuto (1–8)
     this.pitch = 0; // percentuale
     this.pitchRange = 8;
     this.keylock = false;
+    this.keyShift = 0; // trasposizione in semitoni (tonalità), indipendente dal tempo
+    this.lastHotcue = -1; // ultimo hot cue usato (per il TonePlay)
+    this.hotcuePlays = true; // hot cue a deck fermo: salta e parte (come CDJ, Serato, rekordbox)
     this.quantize = true;
     this.slip = false;
     this.slipAnchor = null;
@@ -57,6 +65,8 @@ export class Deck extends EventTarget {
     this.lineSource = null;
     this.lineDevice = null;
     this.bendTimer = null;
+    this.jogWin = []; // tick del jog negli ultimi istanti (jog a impulsi)
+    this.jogTimer = null;
   }
 
   emit(type, detail) {
@@ -97,8 +107,7 @@ export class Deck extends EventTarget {
 
   get displayKey() {
     if (!this.key) return '';
-    if (this.keylock) return this.key;
-    return shiftKey(this.key, 12 * Math.log2(this.tempo));
+    return shiftKey(this.key, (this.keylock ? 0 : 12 * Math.log2(this.tempo)) + this.keyShift);
   }
 
   /** posizione corrente stimata in secondi (interpolata tra i messaggi del worklet) */
@@ -148,6 +157,8 @@ export class Deck extends EventTarget {
       this.gridOffset = track.gridOffset || 0;
       this.key = track.key || '';
       this.hotcues = new Array(HOTCUE_COUNT).fill(null);
+      this.lastHotcue = -1;
+      if (this.keyShift) this.setKeyShift(0);
       (track.hotcues || []).forEach((c, i) => {
         if (i < HOTCUE_COUNT && typeof c === 'number') this.hotcues[i] = c;
       });
@@ -355,17 +366,26 @@ export class Deck extends EventTarget {
     this.play();
   }
 
+  /** Torna all'inizio del brano (in riproduzione continua a suonare). */
+  rewind() {
+    this.seek(0);
+  }
+
   // --- Hot cue ------------------------------------------------------------------------
 
   hotcue(i) {
     if (!this.loaded) return;
     const c = this.hotcues[i];
+    this.lastHotcue = i;
     if (c == null) {
       this.hotcues[i] = this.snap(this.position);
       this.saveHotcues();
     } else {
       this.seek(c);
-      if (!this.playing) this.cuePoint = c;
+      if (!this.playing) {
+        this.cuePoint = c;
+        if (this.hotcuePlays) this.play();
+      }
     }
     this.emit('state');
   }
@@ -433,17 +453,95 @@ export class Deck extends EventTarget {
       this.setLoopActive(false);
       return;
     }
-    const start = this.loop.active ? this.loop.in : this.snapDown(this.position);
+    const start = this.loop.active ? this.loop.in : this.snapDown(this.position, Math.min(1, beats));
     this.beginSlip();
     this.loop = { in: start, out: start + beats * this.beatLength, active: true, beats };
     this.sendLoop();
   }
 
-  snapDown(sec) {
+  /** Aggancia all'indietro sulla griglia (unit = frazione di battuta, es. 0.25 per i loop da ¼). */
+  snapDown(sec, unit = 1) {
     if (!this.quantize || !this.bpm) return sec;
-    const beat = this.beatLength;
-    const n = Math.floor((sec - this.gridOffset) / beat + 0.02);
-    return Math.max(0, this.gridOffset + n * beat);
+    const step = this.beatLength * unit;
+    const n = Math.floor((sec - this.gridOffset) / step + 0.02);
+    return Math.max(0, this.gridOffset + n * step);
+  }
+
+  /** Encoder LOOP della console: in loop dimezza/raddoppia, fuori dal loop sceglie la dimensione del prossimo. */
+  loopSizeStep(dir) {
+    if (this.loop.active) {
+      this.loopScale(dir > 0 ? 2 : 0.5);
+      return;
+    }
+    this.loopBeats = Math.max(1 / 32, Math.min(64, this.loopBeats * (dir > 0 ? 2 : 0.5)));
+    this.emit('state');
+  }
+
+  /** Pressione dell'encoder LOOP: avvia il loop della dimensione scelta o esce dal loop. */
+  toggleAutoLoop() {
+    if (this.loop.active) this.setLoopActive(false);
+    else this.autoLoop(this.loopBeats);
+  }
+
+  /** LOOP IN tenuto premuto: loop di `beats` battute che parte dal punto di IN. */
+  loopFromIn(beats) {
+    if (!this.loaded || this.loop.active) return;
+    this.beginSlip();
+    this.loop = { in: this.loop.in, out: this.loop.in + beats * this.beatLength, active: true, beats };
+    if (this.position >= this.loop.out) this.seek(this.loop.in);
+    this.sendLoop();
+  }
+
+  /** Slip forzato (loop roll, slicer): al rilascio il brano riprende dove sarebbe arrivato. */
+  anchorSlip() {
+    if (!this.slipAnchor) this.slipAnchor = { pos: this.position, t: this.ctx.currentTime, tempo: this.tempo };
+  }
+
+  /** Dove sarebbe arrivato il brano senza loop/scratch (o la posizione attuale se non c'è slip). */
+  slipPosition() {
+    const a = this.slipAnchor;
+    if (!a) return this.position;
+    return a.pos + (this.playing ? (this.ctx.currentTime - a.t) * a.tempo : 0);
+  }
+
+  /** Loop roll: loop di `beats` finché il pad è premuto, poi il brano riprende come se non si fosse fermato. */
+  roll(beats, on) {
+    if (!this.loaded) return;
+    if (on) {
+      this.anchorSlip();
+      this.rolling = beats;
+      const start = this.snapDown(this.position, Math.min(1, beats));
+      this.loop = { in: start, out: start + beats * this.beatLength, active: true, beats };
+      this.sendLoop();
+    } else if (this.rolling === beats) {
+      this.rolling = 0;
+      this.setLoopActive(false);
+      this.endSlip();
+    }
+  }
+
+  /**
+   * Slicer: le 8 battute in corso divise in 8 fette, una per pad. Tenendo premuto suona la fetta,
+   * al rilascio il brano riprende dove sarebbe arrivato.
+   */
+  slice(n, on) {
+    if (!this.loaded) return;
+    if (on) {
+      const beat = this.beatLength;
+      const ref = this.slipPosition();
+      const phrase = this.gridOffset + Math.floor((ref - this.gridOffset) / (8 * beat)) * 8 * beat;
+      if (this.loop.active) {
+        // esce dal loop senza perdere il punto di ritorno dello slip
+        this.loop.active = false;
+        this.sendLoop();
+      }
+      this.anchorSlip();
+      this.slicing = n;
+      this.seek(Math.max(0, phrase + (n - 1) * beat));
+    } else if (this.slicing === n) {
+      this.slicing = 0;
+      this.endSlip();
+    }
   }
 
   loopIn() {
@@ -526,6 +624,36 @@ export class Deck extends EventTarget {
     this.keylock = on;
     this.post({ type: 'keylock', value: on });
     this.emit('state');
+  }
+
+  /** Traspone di `semitones` (−12..+12) senza cambiare il tempo. */
+  setKeyShift(semitones) {
+    this.keyShift = Math.max(-12, Math.min(12, Math.round(semitones)));
+    this.post({ type: 'key', value: 2 ** (this.keyShift / 12) });
+    this.emit('state');
+  }
+
+  /** Porta la tonalità a quella dell'altro deck (o alla relativa maggiore/minore), col salto più piccolo. */
+  keySync(other) {
+    if (!other || !this.key || !other.key) return false;
+    const base = shiftKey(this.key, this.keylock ? 0 : 12 * Math.log2(this.tempo));
+    const target = parseInt(camelotOf(other.displayKey), 10);
+    for (const st of [0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6]) {
+      if (parseInt(camelotOf(shiftKey(base, st)), 10) === target) {
+        this.setKeyShift(st);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** TonePlay: riparte dall'ultimo hot cue (o dal cue) trasposto di `semitones`, come una tastiera. */
+  tonePlay(semitones) {
+    if (!this.loaded) return;
+    this.setKeyShift(semitones);
+    const c = this.hotcues[this.lastHotcue] ?? this.hotcues.find((h) => h != null) ?? this.cuePoint;
+    this.seek(c);
+    if (!this.playing) this.play();
   }
 
   /** nudge temporaneo (pitch bend) in percentuale */
@@ -617,6 +745,10 @@ export class Deck extends EventTarget {
   jogTouch(on) {
     if (!this.loaded) return;
     if (!this.vinyl) return;
+    // tocco o rilascio: si riparte da zero con la misura della velocità della mano
+    clearTimeout(this.jogTimer);
+    if (this.jogWin.length) this.bend(0);
+    this.jogWin = [];
     if (on) {
       this.beginSlip();
       this.post({ type: 'scratch', active: true, velocity: 0, reset: !this.playing });
@@ -637,6 +769,38 @@ export class Deck extends EventTarget {
     if (!this.loaded) return;
     if (this.playing) this.nudge(Math.max(-30, Math.min(30, delta * 40)), 120);
     else this.seek(this.position + delta * 0.5);
+  }
+
+  /**
+   * Jog "a impulsi" (Hercules e simili): ogni messaggio è un tick (±1), quindi la velocità della mano
+   * è nella frequenza dei messaggi. res = tick per giro; un giro a 33⅓ giri/min = 1,8 s di musica.
+   * top = piatto toccato (scratch in modalità vinile), altrimenti ghiera (bend in play, ricerca lenta da fermo).
+   */
+  jogTicks(delta, res, top) {
+    if (!this.loaded) return;
+    const secPerTick = 1.8 / res;
+    const scratch = top && this.scratching;
+    if (!this.playing && !scratch) {
+      // da fermo: ghiera = spostamento lento, piatto = medio
+      if (delta) this.seek(this.position + delta * secPerTick * (top ? 3 : 1));
+      return;
+    }
+    const now = performance.now();
+    this.jogWin = this.jogWin.filter((p) => now - p.t < JOG_WINDOW_MS);
+    if (delta) this.jogWin.push({ t: now, d: delta });
+    // velocità della mano in "velocità del disco" (1 = la mano segue il disco a velocità normale)
+    const speed = (this.jogWin.reduce((sum, p) => sum + p.d, 0) * secPerTick) / (JOG_WINDOW_MS / 1000);
+    if (scratch) this.jogScratch(speed);
+    else this.bend(Math.max(-30, Math.min(30, speed * 20)));
+    clearTimeout(this.jogTimer);
+    if (this.jogWin.length) this.jogTimer = setTimeout(() => this.jogTicks(0, res, top), JOG_WINDOW_MS / 4);
+    else if (!scratch) this.bend(0);
+  }
+
+  /** SHIFT + jog: ricerca veloce nel brano (un giro ≈ 30 s). */
+  jogSearch(delta, res = 0) {
+    if (!this.loaded) return;
+    this.seek(this.position + delta * (res ? 30 / res : 0.25));
   }
 
   setReverse(on) {

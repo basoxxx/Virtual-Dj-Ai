@@ -69,12 +69,21 @@ async function audioPage(app) {
   const outOpts = () => [{ value: '', label: 'Predefinita di sistema' }, ...outputs.filter((d) => d.deviceId !== 'default').map((d, i) => ({ value: d.deviceId, label: d.label || `Uscita ${i + 1}` }))];
   const inOpts = () => [{ value: 'default', label: 'Predefinito di sistema' }, ...inputs.filter((d) => d.deviceId !== 'default').map((d, i) => ({ value: d.deviceId, label: d.label || `Ingresso ${i + 1}` }))];
 
+  const outInfo = el('span', { class: 'field-hint' });
+  const showOutputs = (outputs, quad) => {
+    outInfo.textContent = `Uscite della scheda master: ${outputs}${quad ? ' · cuffia sulle uscite 3-4 ✓' : ''}`;
+  };
+  const maxOut = app.engine.ctx.destination.maxChannelCount;
+  showOutputs(maxOut, s.mode === 'quad' && maxOut >= 4);
   const apply = async () => {
-    await app.engine.applyRouting({ mode: s.mode, masterDevice: s.masterDevice, headphoneDevice: s.headphoneDevice });
+    const res = await app.engine.applyRouting({ mode: s.mode, masterDevice: s.masterDevice, headphoneDevice: s.headphoneDevice });
+    hpField.style.display = s.mode === 'single' ? '' : 'none';
+    if (res) showOutputs(res.outputs, res.quad);
     app.saveSettings();
   };
   const mode = select([
     { value: 'single', label: 'Master e cuffia su uscite separate (o solo master)' },
+    { value: 'quad', label: 'Console con scheda a 4 uscite (es. Hercules Inpulse): Master 1-2, Cuffia 3-4' },
     { value: 'split', label: 'Una sola scheda: Master a SINISTRA, Cuffia a DESTRA (mono)' },
   ], s.mode, (v) => {
     s.mode = v;
@@ -88,6 +97,8 @@ async function audioPage(app) {
     s.headphoneDevice = v;
     apply();
   });
+  const hpField = field('Uscita cuffia (preascolto)', hp);
+  hpField.style.display = s.mode === 'single' ? '' : 'none';
   const mic = select(inOpts(), s.micDevice || 'default', async (v) => {
     s.micDevice = v;
     app.saveSettings();
@@ -127,9 +138,10 @@ async function audioPage(app) {
   const ctx = app.engine.ctx;
   wrap.append(
     el('div', { class: 'section-title' }, 'Uscite'),
-    field('Modalità di uscita', mode, 'Con una scheda DJ a 4 canali scegli uscite diverse per master e cuffia. Con la scheda del PC usa lo split con un cavo sdoppiatore.'),
+    field('Modalità di uscita', mode, 'Con una console che ha la scheda audio a 4 uscite (Hercules Inpulse 300/500/T7…) scegli "Master 1-2, Cuffia 3-4" e come uscita master la console. Con la scheda del PC usa lo split con un cavo sdoppiatore.'),
     field('Uscita master (casse)', master),
-    field('Uscita cuffia (preascolto)', hp),
+    hpField,
+    outInfo,
     el('div', { class: 'section-title' }, 'Ingressi'),
     field('Microfono', mic, 'Usato dal canale MIC del mixer (on air, talkover, eco).'),
     el('div', { class: 'field-hint' }, 'Per mixare giradischi, lettori CD o strumenti esterni scegli "Linea: …" nel selettore sorgente in basso a ogni deck.'),
@@ -192,6 +204,10 @@ function mixerPage(app) {
     }),
     checkbox('Modalità vinile (scratch col jog)', m.vinyl, (v) => {
       m.vinyl = v;
+      save();
+    }),
+    checkbox('Hot cue a deck fermo: salta e parte subito (come CDJ, Serato, rekordbox)', m.hotcuePlay !== false, (v) => {
+      m.hotcuePlay = v;
       save();
     }),
     checkbox('Impedisci di caricare un brano su un deck in riproduzione', m.lockPlaying, (v) => {
@@ -339,7 +355,8 @@ function midiPage(app) {
     const rows = list.map((d) => el('div', { class: 'midi-dev' },
       el('span', { class: 'dev-name' }, icon('sliders', 15), d.name),
       d.preset
-        ? el('span', { class: `tier-badge ${d.preset.tier}` }, `${d.preset.brand} ${d.preset.name} · ${TIERS[d.preset.tier]}`)
+        ? el('span', { class: `tier-badge ${d.preset.tier}`, title: d.preset.verified ? 'Mappa verificata sul modello' : d.preset.community ? 'Mappa della comunità misurata sulla console, ancora in prova' : 'Profilo generico della marca: se un comando non risponde correggilo con Learn' },
+          `${d.preset.brand} ${d.preset.name} · ${TIERS[d.preset.tier]}${d.preset.verified ? ' · ✓ mappa verificata' : d.preset.community ? ' · mappa della comunità' : ''}`)
         : el('span', { class: 'tier-badge none' }, 'profilo non trovato: usa la procedura guidata')));
     for (const p of pads) rows.push(el('div', { class: 'midi-dev' }, el('span', { class: 'dev-name' }, icon('gamepad', 15), p.id), el('span', { class: 'tier-badge home' }, 'Gamepad')));
     if (!rows.length) {
@@ -418,6 +435,17 @@ function midiPage(app) {
     midi.clearAll();
     refresh();
   } });
+  // correzioni messe da parte quando il profilo della console è stato aggiornato
+  const restoreBtn = button('Ripristina correzioni', { className: 'small', title: 'Rimette le correzioni fatte prima dell\'aggiornamento del profilo della console', onClick: () => {
+    const backup = app.settings.midi.backup;
+    if (!backup) return;
+    midi.mapping = { ...backup, ...midi.mapping };
+    app.settings.midi.backup = null;
+    midi.dispatchEvent(new CustomEvent('mapping', { detail: midi.mapping }));
+    restoreBtn.style.display = 'none';
+    toast('Correzioni ripristinate', 'ok');
+  } });
+  if (!app.settings.midi.backup) restoreBtn.style.display = 'none';
 
   // --- gamepad
   const gp = el('input', { type: 'checkbox' });
@@ -470,18 +498,19 @@ function midiPage(app) {
   // --- console supportate
   const supported = el('div', { class: 'supported' }, groups.map((g) => el('div', { class: 'supported-col' },
     el('div', { class: `tier-title ${g.tier}` }, TIERS[g.tier]),
-    g.items.map((p) => el('div', { class: 'supported-item' }, el('b', {}, p.brand), ` ${p.name}`)))));
+    g.items.map((p) => el('div', { class: 'supported-item', title: p.verified ? 'Mappa verificata sul modello' : p.community ? 'Mappa della comunità, in prova' : 'Profilo generico della marca' }, el('b', {}, p.brand), ` ${p.name}`, p.verified ? el('span', { class: 'verified' }, ' ✓') : p.community ? el('span', { class: 'verified' }, ' ◇') : null)))));
 
   wrap.append(
     el('div', { class: 'section-title' }, 'Console collegate'), devices,
     field('Profilo console', presetSel, 'Il profilo si attiva da solo quando colleghi una console in elenco. Le tue correzioni con Learn hanno sempre la precedenza.'),
     wizardBox,
-    el('div', { class: 'row tight' }, exportBtn, importBtn, resetBtn),
+    el('div', { class: 'row tight' }, exportBtn, importBtn, resetBtn, restoreBtn),
     monitor,
     el('div', { class: 'section-title' }, 'Gamepad (Xbox, PlayStation, Switch…)'),
     el('label', { class: 'check' }, gp, 'Usa il gamepad come console DJ'),
     el('div', { class: 'keys-table' }, GAMEPAD_LAYOUT.map(([k, d]) => el('div', { class: 'key-row' }, el('kbd', {}, k), el('span', {}, d)))),
     el('div', { class: 'section-title' }, 'Console supportate'),
+    el('div', { class: 'field-hint' }, '✓ = mappa verificata sul singolo modello (mappature Mixxx o documenti MIDI del produttore); ◇ = mappa della comunità misurata sulla console, ancora in prova. Le altre usano il profilo generico della marca: se un comando non risponde correggilo con Learn.'),
     el('div', { class: 'field-hint' }, 'Le console che non hanno un canale MIDI (es. Traktor Kontrol S2/S3/S4 MK3 in modalità HID) vanno messe in modalità MIDI con il software del produttore, poi mappate con la procedura guidata. Lettori CDJ/XDJ e mixer DJM si possono usare anche come sorgenti audio tramite gli ingressi linea dei deck.'),
     supported,
     el('div', { class: 'section-title' }, 'Mappature'),

@@ -167,7 +167,9 @@ export class AudioEngine extends EventTarget {
    * mode:
    *  - 'single'   : master sull'uscita scelta, cuffia (se impostata) su una seconda periferica
    *  - 'split'    : stessa scheda, master mono a sinistra e cuffia mono a destra (cavo splitter)
+   *  - 'quad'     : scheda DJ a 4 uscite (es. Hercules Inpulse): master su 1-2, cuffia su 3-4
    *  - 'separate' : alias di single con cuffia obbligatoria su un'altra periferica
+   * Restituisce { outputs, quad }: canali di uscita della scheda master e se la cuffia è su 3-4.
    */
   async applyRouting(routing) {
     this.routing = { ...this.routing, ...routing };
@@ -188,6 +190,37 @@ export class AudioEngine extends EventTarget {
         console.warn('setSinkId master', err);
       }
     }
+    const dest = ctx.destination;
+    const outputs = dest.maxChannelCount || 2;
+    if (dest.channelCount !== 2) {
+      dest.channelCount = 2;
+      dest.channelInterpretation = 'speakers';
+    }
+
+    if (mode === 'quad') {
+      if (outputs < 4) {
+        this.masterRoute.connect(dest);
+        this.dispatchEvent(new CustomEvent('error', {
+          detail: `La scheda audio scelta ha ${outputs} uscite: per la cuffia su 3-4 ne servono 4. Su Windows imposta la scheda come "Quadrifonico" (Pannello audio → Configura) oppure scegli la cuffia come seconda uscita.`,
+        }));
+        return { outputs, quad: false };
+      }
+      dest.channelCount = 4;
+      dest.channelCountMode = 'explicit';
+      dest.channelInterpretation = 'discrete';
+      const merger = ctx.createChannelMerger(4);
+      const masterSplit = ctx.createChannelSplitter(2);
+      const hpSplit = ctx.createChannelSplitter(2);
+      this.masterRoute.connect(masterSplit);
+      this.hpRoute.connect(hpSplit);
+      masterSplit.connect(merger, 0, 0);
+      masterSplit.connect(merger, 1, 1);
+      hpSplit.connect(merger, 0, 2);
+      hpSplit.connect(merger, 1, 3);
+      merger.connect(dest);
+      this.splitMerger = merger;
+      return { outputs, quad: true };
+    }
 
     if (mode === 'split') {
       const merger = ctx.createChannelMerger(2);
@@ -202,7 +235,7 @@ export class AudioEngine extends EventTarget {
       this.hpRoute.connect(monoHp).connect(merger, 0, 1);
       merger.connect(ctx.destination);
       this.splitMerger = merger;
-      return;
+      return { outputs, quad: false };
     }
 
     this.masterRoute.connect(ctx.destination);
@@ -217,6 +250,7 @@ export class AudioEngine extends EventTarget {
         this.dispatchEvent(new CustomEvent('error', { detail: `Uscita cuffia non disponibile: ${err.message}` }));
       }
     }
+    return { outputs, quad: false };
   }
 
   get outputLatency() {

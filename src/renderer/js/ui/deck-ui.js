@@ -302,7 +302,8 @@ export class DeckUI {
     this.loopBtns.forEach((b) => b.setOn(d.loop.active && Number(b.dataset.beats) === d.loop.beats));
     this.reloopBtn.setOn(d.loop.active);
     this.bpmEl.textContent = d.bpm ? d.effectiveBpm.toFixed(2) : '---.--';
-    this.keyEl.textContent = d.displayKey || '';
+    this.keyEl.textContent = d.displayKey ? `${d.displayKey}${d.keyShift ? ` ${d.keyShift > 0 ? '+' : ''}${d.keyShift}` : ''}` : '';
+    this.keyEl.title = d.keyShift ? `Tonalità trasposta di ${d.keyShift} semitoni` : '';
     this.pitchEl.textContent = `${d.pitch >= 0 ? '+' : ''}${d.pitch.toFixed(2)}%`;
     const other = this.getOther();
     this.syncBtn.classList.toggle('matched', Boolean(other && other.bpm && d.bpm && Math.abs(other.effectiveBpm - d.effectiveBpm) < 0.05));

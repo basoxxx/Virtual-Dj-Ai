@@ -562,6 +562,7 @@ kbd { background: var(--control); border-radius: 6px; padding: 3px 7px; font-fam
 .tier-title.pro::before { background: #ff9f0a; }
 .supported-item { font-size: 11px; color: var(--dim); }
 .supported-item b { color: var(--text); font-weight: 600; }
+.supported-item .verified { color: var(--ok); font-weight: 700; }
 
 @media (max-height: 860px) {
   .lib-empty { gap: 8px; }
