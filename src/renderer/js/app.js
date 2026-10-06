@@ -17,7 +17,7 @@ import { DeckUI } from './ui/deck-ui.js';
 import { MixerUI } from './ui/mixer-ui.js';
 import { LibraryUI } from './ui/library-ui.js';
 import { SideUI, remaining } from './ui/side-ui.js';
-import { ScrollingWaveform } from './ui/waveform.js';
+import { ScrollingWaveform, HOTCUE_COLORS } from './ui/waveform.js';
 import { openSettings } from './ui/settings-ui.js';
 import { installKeyboard } from './keyboard.js';
 import { el, button, toast } from './ui/controls.js';
@@ -37,7 +37,7 @@ const DEFAULT_SETTINGS = {
   audio: { mode: 'single', masterDevice: '', headphoneDevice: '', micDevice: 'default', latency: 'interactive' },
   mixer: {
     xfCurve: 'smooth', autoGain: true, limiter: true, pitchRange: 8, keylock: false, quantize: true,
-    vinyl: true, lockPlaying: true, brakeTime: 0, startTime: 0,
+    vinyl: true, lockPlaying: true, brakeTime: 0, startTime: 0, hotcuePlay: true,
   },
   midi: { mapping: {}, preset: 'auto', gamepad: true },
   sampler: [],
@@ -155,6 +155,24 @@ class App {
       const levels = this.view === 'ai' ? strip.meter.read().levels : strip.meter.levels;
       const peak = Math.max(levels[0], levels[1]);
       return peak > 0 ? (20 * Math.log10(peak) + 42) / 42 : 0;
+    };
+    // guida al beatmatch sulla console: tempo +1 troppo veloce / −1 troppo lento / 0 ok; fase +1 avanti / −1 indietro / 0 a tempo
+    this.midi.guideSource = (id) => {
+      const d = this.decks.find((x) => x.id === id);
+      const o = this.decks.find((x) => x.id !== id);
+      if (!d || !o || !d.loaded || !o.loaded || !d.bpm || !o.bpm) return {};
+      let td = d.effectiveBpm;
+      let to = o.effectiveBpm;
+      // metà/doppio tempo
+      if (td / to > 1.5) td /= 2;
+      else if (to / td > 1.5) to /= 2;
+      const diff = td - to;
+      if (Math.abs(diff) > 0.25) return { tempo: diff > 0 ? 1 : -1 };
+      if (!d.playing || !o.playing) return { tempo: 0 };
+      let ph = d.beatPhase() - o.beatPhase();
+      if (ph > 0.5) ph -= 1;
+      if (ph < -0.5) ph += 1;
+      return { tempo: 0, phase: Math.abs(ph) < 0.02 ? 0 : ph > 0 ? 1 : -1 };
     };
     setInterval(() => this.midi.updateLeds(), 50);
     this.midi.addEventListener('mapping', (e) => {
@@ -433,6 +451,7 @@ class App {
       d.vinyl = m.vinyl;
       d.brakeTime = m.brakeTime;
       d.startTime = m.startTime;
+      d.hotcuePlays = m.hotcuePlay !== false;
       d.strip.setAutoGain(m.autoGain && d.track ? d.track.gain || 0 : 0);
       d.emit('state');
     }
@@ -572,9 +591,11 @@ class App {
   }
 
   registerActions() {
-    const add = (id, label, kind, run, led) => this.actions.set(id, { label, kind, run, led });
+    // get(): valore attuale 0..1 delle manopole, per il soft takeover della console
+    const add = (id, label, kind, run, led, get) => this.actions.set(id, { label, kind, run, led, get });
     const mix = this.mixerUI.controls;
     const scale = (ctl, min, max) => (v) => ctl.set(min + v * (max - min));
+    const knob = (id, label, ctl, min, max) => add(id, label, 'knob', scale(ctl, min, max), null, () => (ctl.getValue() - min) / (max - min));
     this.decks.forEach((d, i) => {
       const other = () => this.decks[1 - i];
       const X = d.id;
@@ -588,6 +609,18 @@ class App {
       });
       add(`${X}.stutter`, `Deck ${X}: Riparti dal cue`, 'button', (on) => on && d.cuePlay());
       add(`${X}.rewind`, `Deck ${X}: Torna all'inizio`, 'button', (on) => on && d.rewind());
+      add(`${X}.eject`, `Deck ${X}: Espelli il brano`, 'button', (on) => on && d.eject());
+      add(`${X}.keySync`, `Deck ${X}: Allinea la tonalità all'altro deck`, 'button', (on) => on && d.keySync(other()), () => d.keyShift !== 0);
+      // entry.arg = semitoni: keyShift li aggiunge (0 = tonalità originale), keySet li imposta, tonePlay riparte dall'hot cue
+      add(`${X}.keyShift`, `Deck ${X}: Tonalità ± (semitoni)`, 'button', (on, _v, e) => {
+        if (!on) return;
+        const st = e && e.arg != null ? e.arg : 0;
+        d.setKeyShift(st ? d.keyShift + st : 0);
+      });
+      add(`${X}.keySet`, `Deck ${X}: Imposta la tonalità (semitoni)`, 'button', (on, _v, e) => on && d.setKeyShift((e && e.arg) || 0),
+        (e) => d.keyShift === ((e && e.arg) || 0) && d.keyShift !== 0);
+      add(`${X}.tonePlay`, `Deck ${X}: TonePlay (pad)`, 'button', (on, _v, e) => on && d.tonePlay((e && e.arg) || 0),
+        (e) => d.loaded && d.keyShift === ((e && e.arg) || 0));
       add(`${X}.keylock`, `Deck ${X}: Keylock`, 'button', (on) => on && d.setKeylock(!d.keylock), () => d.keylock);
       add(`${X}.slip`, `Deck ${X}: Slip`, 'button', (on) => on && d.setSlip(!d.slip), () => d.slip);
       add(`${X}.quantize`, `Deck ${X}: Quantize`, 'button', (on) => {
@@ -601,7 +634,8 @@ class App {
         d.emit('state');
       }, () => d.vinyl);
       add(`${X}.censor`, `Deck ${X}: Censor (tieni premuto)`, 'button', (on) => d.censor(on), () => d.reverse);
-      for (let h = 0; h < 8; h++) add(`${X}.hotcue${h + 1}`, `Deck ${X}: Hot cue ${h + 1}`, 'button', (on) => on && d.hotcue(h), () => d.hotcues[h] != null);
+      // LED dell'hot cue: il suo colore (i pad RGB lo mostrano), spento se vuoto
+      for (let h = 0; h < 8; h++) add(`${X}.hotcue${h + 1}`, `Deck ${X}: Hot cue ${h + 1}`, 'button', (on) => on && d.hotcue(h), () => (d.hotcues[h] != null ? HOTCUE_COLORS[h] : false));
       // pad con SHIFT: entry.arg = numero dell'hot cue da cancellare
       add(`${X}.hotcueClear`, `Deck ${X}: Cancella hot cue`, 'button', (on, _v, e) => on && d.deleteHotcue(((e && e.arg) || 1) - 1));
       add(`${X}.loop4`, `Deck ${X}: Loop 4 battute`, 'button', (on) => on && d.autoLoop(4), () => d.loop.active);
@@ -631,7 +665,7 @@ class App {
       add(`${X}.nudgeDown`, `Deck ${X}: Nudge −`, 'button', (on) => d.bend(on ? -4 : 0));
       add(`${X}.nudgeUp`, `Deck ${X}: Nudge +`, 'button', (on) => d.bend(on ? 4 : 0));
       add(`${X}.tempoReset`, `Deck ${X}: Azzera pitch`, 'button', (on) => on && ui.pitchFader.set(0));
-      add(`${X}.pitch`, `Deck ${X}: Pitch fader`, 'knob', (v) => ui.pitchFader.set(v * 2 - 1));
+      add(`${X}.pitch`, `Deck ${X}: Pitch fader`, 'knob', (v) => ui.pitchFader.set(v * 2 - 1), null, () => (ui.pitchFader.getValue() + 1) / 2);
       // entry.res = tick per giro dei jog "a impulsi" (Hercules): la velocità segue la mano
       add(`${X}.jog`, `Deck ${X}: Jog (bordo / bend)`, 'jog', (delta, e) => (e && e.res ? d.jogTicks(delta, e.res, false) : d.jogTurn(delta / 64)));
       add(`${X}.jogTouch`, `Deck ${X}: Jog touch (scratch)`, 'button', (on) => d.jogTouch(on));
@@ -649,20 +683,25 @@ class App {
         clearTimeout(d._midiScratch);
         d._midiScratch = setTimeout(() => d.jogScratch(0), 40);
       });
-      add(`${X}.volume`, `Canale ${X}: Volume`, 'knob', scale(mix[X].vol, 0, 1));
-      add(`${X}.gain`, `Canale ${X}: Gain`, 'knob', scale(mix[X].gain, -12, 12));
-      for (const band of ['high', 'mid', 'low']) add(`${X}.eq.${band}`, `Canale ${X}: EQ ${band}`, 'knob', scale(mix[X].eq[band], -1, 1));
-      add(`${X}.filter`, `Canale ${X}: Filtro`, 'knob', scale(mix[X].filter, -1, 1));
+      knob(`${X}.volume`, `Canale ${X}: Volume`, mix[X].vol, 0, 1);
+      knob(`${X}.gain`, `Canale ${X}: Gain`, mix[X].gain, -12, 12);
+      for (const band of ['high', 'mid', 'low']) knob(`${X}.eq.${band}`, `Canale ${X}: EQ ${band}`, mix[X].eq[band], -1, 1);
+      knob(`${X}.filter`, `Canale ${X}: Filtro`, mix[X].filter, -1, 1);
       add(`${X}.pfl`, `Canale ${X}: Cuffia (PFL)`, 'button', (on) => on && mix[X].cue.click(), () => d.strip.cue);
       ui.fxBoxes.forEach((box, f) => {
         const c = box.fxControls;
         add(`${X}.fx${f + 1}.on`, `Deck ${X}: FX${f + 1} on/off`, 'button', (on) => on && c.onBtn.click(), () => c.slot.on);
-        add(`${X}.fx${f + 1}.mix`, `Deck ${X}: FX${f + 1} dry/wet`, 'knob', scale(c.wet, 0, 1));
-        add(`${X}.fx${f + 1}.param`, `Deck ${X}: FX${f + 1} parametro`, 'knob', scale(c.param, 0, 1));
+        knob(`${X}.fx${f + 1}.mix`, `Deck ${X}: FX${f + 1} dry/wet`, c.wet, 0, 1);
+        knob(`${X}.fx${f + 1}.param`, `Deck ${X}: FX${f + 1} parametro`, c.param, 0, 1);
       });
       add(`${X}.load`, `Deck ${X}: Carica brano selezionato`, 'button', (on) => on && this.loadTrack(this.library.selectedTracks()[0], X));
     });
-    add('xfader', 'Crossfader', 'knob', (v) => this.engine.setCrossfader(v * 2 - 1));
+    // interruttore del crossfader sulla console (es. Inpulse 500): escluso = crossfader al centro e fermo
+    add('xfader', 'Crossfader', 'knob', (v) => !this.xfDisabled && this.engine.setCrossfader(v * 2 - 1), null, () => (this.engine.crossfader + 1) / 2);
+    add('xfEnable', 'Crossfader abilitato (interruttore)', 'button', (on) => {
+      this.xfDisabled = !on;
+      if (!on) this.engine.setCrossfader(0);
+    }, () => !this.xfDisabled);
     // selettore della curva sulla console: MIX / (lineare) / SCRATCH
     add('xfCurve', 'Curva crossfader (selettore)', 'knob', (v) => {
       const curve = v < 0.34 ? 'smooth' : v < 0.67 ? 'linear' : 'cut';
@@ -671,9 +710,18 @@ class App {
       this.mixerUI.curveSel.value = curve;
       this.saveSettings();
     });
-    add('master', 'Volume master', 'knob', scale(this.mixerUI.masterKnob, 0, 1));
-    add('hpVolume', 'Volume cuffia', 'knob', scale(this.mixerUI.hpVolKnob, 0, 1));
-    add('cueMix', 'Cuffia: cue/master', 'knob', scale(this.mixerUI.cueMixKnob, 0, 1));
+    knob('master', 'Volume master', this.mixerUI.masterKnob, 0, 1);
+    knob('hpVolume', 'Volume cuffia', this.mixerUI.hpVolKnob, 0, 1);
+    knob('cueMix', 'Cuffia: cue/master', this.mixerUI.cueMixKnob, 0, 1);
+    add('vinylAll', 'Modalità vinile (entrambi i deck)', 'button', (on) => {
+      if (!on) return;
+      const v = !this.decks[0].vinyl;
+      for (const d of this.decks) {
+        d.vinyl = v;
+        d.emit('state');
+      }
+    }, () => this.decks[0].vinyl);
+    add('loadAuto', 'Libreria: carica sul deck libero', 'button', (on) => on && this.loadTrack(this.library.selectedTracks()[0]));
     add('mic', 'Microfono on air', 'button', (on) => on && this.mic.setOnAir(!this.mic.onAir), () => this.mic.onAir);
     add('automix', 'AI DJ on/off', 'button', (on) => on && this.automix.setEnabled(!this.automix.enabled), () => this.automix.enabled);
     add('view', 'Vista Console/AI', 'button', (on) => on && this.setView(this.view === 'ai' ? 'console' : 'ai'), () => this.view === 'ai');
@@ -686,15 +734,17 @@ class App {
       if (e && e.arg) this.sampler.stop(e.arg - 1);
       else this.sampler.stopAll();
     });
-    add('browse', 'Libreria: scorri (encoder)', 'jog', (delta) => {
+    const browse = (step) => (delta) => {
       const lib = this.library;
-      const i = Math.max(0, Math.min(lib.rows.length - 1, lib.lastClicked + Math.sign(delta)));
+      const i = Math.max(0, Math.min(lib.rows.length - 1, lib.lastClicked + Math.sign(delta) * step));
       if (!lib.rows[i]) return;
       lib.selected = new Set([lib.rows[i].id]);
       lib.lastClicked = i;
       lib.viewport.scrollTop = Math.max(0, i * 26 - lib.viewport.clientHeight / 2);
       lib.renderRows();
-    });
+    };
+    add('browse', 'Libreria: scorri (encoder)', 'jog', browse(1));
+    add('browseFast', 'Libreria: scorri veloce (10 righe)', 'jog', browse(10));
     const missing = knownActions().filter((id) => !this.actions.has(id));
     if (missing.length) console.warn('Azioni MIDI non registrate:', missing);
   }

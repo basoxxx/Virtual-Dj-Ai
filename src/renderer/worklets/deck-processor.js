@@ -1,6 +1,6 @@
 // Motore di riproduzione del deck in AudioWorklet:
 // velocità variabile (anche negativa per lo scratch), loop precisi al campione,
-// frenata/partenza del piatto e keylock tramite pitch shifter a doppia testina.
+// frenata/partenza del piatto, keylock e cambio di tonalità tramite pitch shifter a doppia testina.
 
 const PS_SIZE = 8192; // buffer circolare del pitch shifter (potenza di 2)
 const PS_MASK = PS_SIZE - 1;
@@ -25,6 +25,7 @@ class DeckProcessor extends AudioWorkletProcessor {
     this.loopIn = 0;
     this.loopOut = 0;
     this.keylock = false;
+    this.keyRatio = 1; // cambio di tonalità (2^(semitoni/12)), indipendente dal tempo
     this.reverse = false;
     this.ended = false;
     this.quanta = 0;
@@ -77,6 +78,9 @@ class DeckProcessor extends AudioWorkletProcessor {
         break;
       case 'tempo':
         this.tempo = m.value;
+        break;
+      case 'key':
+        this.keyRatio = m.value;
         break;
       case 'bend':
         this.bend = m.value;
@@ -169,12 +173,12 @@ class DeckProcessor extends AudioWorkletProcessor {
         }
       }
 
-      // keylock: riporta l'intonazione originale compensando la velocità
+      // keylock: riporta l'intonazione originale compensando la velocità; keyRatio la trasporta
       const absVel = Math.abs(vel);
-      if (this.keylock && !this.scratching && absVel > 0.05 && Math.abs(absVel - 1) > 0.002) {
+      const ratio = absVel > 0.05 ? (this.keylock ? 1 / absVel : 1) * this.keyRatio : 1;
+      if (!this.scratching && absVel > 0.05 && Math.abs(ratio - 1) > 0.002) {
         this.psBufL[this.psWrite & PS_MASK] = l;
         this.psBufR[this.psWrite & PS_MASK] = r;
-        const ratio = 1 / absVel;
         this.psPhase += 1 - ratio;
         if (this.psPhase >= W) this.psPhase -= W;
         if (this.psPhase < 0) this.psPhase += W;

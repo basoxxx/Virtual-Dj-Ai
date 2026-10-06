@@ -3,7 +3,7 @@
 import { api } from '../api.js';
 import { analyze, analysisPatch, analysisEngine, refineWithAi } from './analyzer-client.js';
 import { FxSlot } from './effects.js';
-import { shiftKey } from '../dsp/analysis.js';
+import { shiftKey, camelotOf } from '../dsp/analysis.js';
 
 export const HOTCUE_COUNT = 8;
 // finestra su cui si misura la velocità dei jog a impulsi
@@ -47,6 +47,9 @@ export class Deck extends EventTarget {
     this.pitch = 0; // percentuale
     this.pitchRange = 8;
     this.keylock = false;
+    this.keyShift = 0; // trasposizione in semitoni (tonalità), indipendente dal tempo
+    this.lastHotcue = -1; // ultimo hot cue usato (per il TonePlay)
+    this.hotcuePlays = true; // hot cue a deck fermo: salta e parte (come CDJ, Serato, rekordbox)
     this.quantize = true;
     this.slip = false;
     this.slipAnchor = null;
@@ -104,8 +107,7 @@ export class Deck extends EventTarget {
 
   get displayKey() {
     if (!this.key) return '';
-    if (this.keylock) return this.key;
-    return shiftKey(this.key, 12 * Math.log2(this.tempo));
+    return shiftKey(this.key, (this.keylock ? 0 : 12 * Math.log2(this.tempo)) + this.keyShift);
   }
 
   /** posizione corrente stimata in secondi (interpolata tra i messaggi del worklet) */
@@ -155,6 +157,8 @@ export class Deck extends EventTarget {
       this.gridOffset = track.gridOffset || 0;
       this.key = track.key || '';
       this.hotcues = new Array(HOTCUE_COUNT).fill(null);
+      this.lastHotcue = -1;
+      if (this.keyShift) this.setKeyShift(0);
       (track.hotcues || []).forEach((c, i) => {
         if (i < HOTCUE_COUNT && typeof c === 'number') this.hotcues[i] = c;
       });
@@ -372,12 +376,16 @@ export class Deck extends EventTarget {
   hotcue(i) {
     if (!this.loaded) return;
     const c = this.hotcues[i];
+    this.lastHotcue = i;
     if (c == null) {
       this.hotcues[i] = this.snap(this.position);
       this.saveHotcues();
     } else {
       this.seek(c);
-      if (!this.playing) this.cuePoint = c;
+      if (!this.playing) {
+        this.cuePoint = c;
+        if (this.hotcuePlays) this.play();
+      }
     }
     this.emit('state');
   }
@@ -616,6 +624,36 @@ export class Deck extends EventTarget {
     this.keylock = on;
     this.post({ type: 'keylock', value: on });
     this.emit('state');
+  }
+
+  /** Traspone di `semitones` (−12..+12) senza cambiare il tempo. */
+  setKeyShift(semitones) {
+    this.keyShift = Math.max(-12, Math.min(12, Math.round(semitones)));
+    this.post({ type: 'key', value: 2 ** (this.keyShift / 12) });
+    this.emit('state');
+  }
+
+  /** Porta la tonalità a quella dell'altro deck (o alla relativa maggiore/minore), col salto più piccolo. */
+  keySync(other) {
+    if (!other || !this.key || !other.key) return false;
+    const base = shiftKey(this.key, this.keylock ? 0 : 12 * Math.log2(this.tempo));
+    const target = parseInt(camelotOf(other.displayKey), 10);
+    for (const st of [0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6]) {
+      if (parseInt(camelotOf(shiftKey(base, st)), 10) === target) {
+        this.setKeyShift(st);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** TonePlay: riparte dall'ultimo hot cue (o dal cue) trasposto di `semitones`, come una tastiera. */
+  tonePlay(semitones) {
+    if (!this.loaded) return;
+    this.setKeyShift(semitones);
+    const c = this.hotcues[this.lastHotcue] ?? this.hotcues.find((h) => h != null) ?? this.cuePoint;
+    this.seek(c);
+    if (!this.playing) this.play();
   }
 
   /** nudge temporaneo (pitch bend) in percentuale */
