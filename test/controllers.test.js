@@ -47,8 +47,14 @@ test('decodifica degli encoder relativi', () => {
 function fakeActions(log) {
   const actions = new Map();
   for (const id of knownActions()) {
-    const kind = /pitch|volume|gain|eq|filter|xfader|master|hpVolume|cueMix|mix$|param$/.test(id) ? 'knob' : /jog$|jogScratch|browse/.test(id) ? 'jog' : 'button';
-    actions.set(id, { label: id, kind, run: (...a) => log.push([id, ...a]), led: () => id === 'A.play' });
+    const kind = /pitch|volume|gain|eq|filter|xfader|xfCurve|master|hpVolume|cueMix|mix$|param$/.test(id) ? 'knob' : /jog$|jogScratch|jogSearch|loopSize|browse/.test(id) ? 'jog' : 'button';
+    // l'ultimo argomento è la voce della mappa: nel log si tiene solo il suo parametro (arg/res), se c'è
+    const run = (...a) => {
+      const e = a.at(-1);
+      if (e && typeof e === 'object') a = [...a.slice(0, -1), ...(e.arg != null ? [{ arg: e.arg }] : e.res ? [{ res: e.res }] : [])];
+      log.push([id, ...a]);
+    };
+    actions.set(id, { label: id, kind, run, led: () => id === 'A.play' });
   }
   return actions;
 }
@@ -142,4 +148,85 @@ test('gamepad: pulsanti, grilletti e croce', () => {
   assert.deepEqual(log.filter((l) => l[0] === 'A.play').length, 1);
   assert.ok(log.some((l) => l[0] === 'xfader' && l[1] === 1));
   assert.ok(log.some((l) => l[0] === 'B.load'));
+});
+
+test('profilo Hercules Inpulse 500: EQ, loop, SHIFT e pad come sulla console', () => {
+  const log = [];
+  const m = new MidiManager(fakeActions(log));
+  const dev = { name: 'DJControl Inpulse 500' };
+  assert.equal(detectPreset(dev.name).name, 'DJControl Inpulse 500');
+  m.onMessage([0x91, 0x07, 127], dev); // play A
+  m.onMessage([0x92, 0x06, 127], dev); // cue B
+  m.onMessage([0xb1, 0x02, 127], dev); // manopola LOW deck A
+  m.onMessage([0xb1, 0x04, 0], dev); // manopola HIGH deck A
+  m.onMessage([0x91, 0x09, 127], dev); // LOOP IN
+  m.onMessage([0x94, 0x09, 127], dev); // SHIFT + IN = ÷2
+  m.onMessage([0xb1, 0x0e, 0x7f], dev); // encoder loop indietro
+  m.onMessage([0x96, 0x02, 127], dev); // pad 3 in HOT CUE
+  m.onMessage([0x96, 0x0a, 127], dev); // SHIFT + pad 3 = cancella hot cue 3
+  m.onMessage([0x97, 0x75, 127], dev); // deck B, BEAT JUMP pad 6 = +4
+  m.onMessage([0x96, 0x30, 127], dev); // pad 1 in SAMPLER
+  m.onMessage([0x94, 0x06, 127], dev); // SHIFT + CUE = inizio brano
+  m.onMessage([0xb1, 0x0a, 0x01], dev); // jog (piatto), un tick
+  m.onMessage([0xb0, 0x00, 0], dev); // crossfader
+  assert.deepEqual(log, [
+    ['A.play', true, 1], ['B.cue', true, 1], ['A.eq.low', 1], ['A.eq.high', 0], ['A.loopIn', true, 1], ['A.loopHalf', true, 1],
+    ['A.loopSize', -1], ['A.hotcue3', true, 1], ['A.hotcueClear', true, 1, { arg: 3 }], ['B.beatjump', true, 1, { arg: 4 }],
+    ['sampler1', true, 1], ['A.rewind', true, 1], ['A.jogScratch', 1, { res: 720 }], ['xfader', 0],
+  ]);
+});
+
+test('profili Hercules: EQ basse sul CC 2 e alte sul CC 4 per tutta la gamma', () => {
+  for (const p of PRESETS.filter((x) => x.family === 'hercules')) {
+    assert.equal(normalizeEntry(p.mapping['cc:1:2']).a, 'A.eq.low', p.name);
+    assert.equal(normalizeEntry(p.mapping['cc:2:4']).a, 'B.eq.high', p.name);
+    assert.equal(p.rev, 2, p.name);
+  }
+});
+
+test('procedura guidata: i fader a 14 bit e i controlli che continuano a muoversi non sfasano i passi', () => {
+  const log = [];
+  const m = new MidiManager(fakeActions(log));
+  let t = 1000;
+  m.now = () => t;
+  m.startWizard(['A.volume', 'A.eq.high', 'A.jogTouch', 'A.jogScratch', 'A.play']);
+  m.onMessage([0xb1, 0x00, 70]); // fader: byte alto…
+  m.onMessage([0xb1, 0x20, 12]); // …e byte basso subito dopo: non va sull'EQ
+  t += 30;
+  m.onMessage([0xb1, 0x00, 71]); // il fader continua a muoversi
+  t += 800;
+  m.onMessage([0x91, 0x08, 127]); // toccare il jog non è una manopola: ignorato
+  m.onMessage([0xb1, 0x04, 40]); // EQ HIGH
+  t += 800;
+  m.onMessage([0x91, 0x08, 127]); // touch del jog
+  t += 800;
+  m.onMessage([0x91, 0x08, 127]); // il touch di nuovo non è il jog che gira
+  m.onMessage([0xb1, 0x0a, 1]); // jog
+  t += 50;
+  m.onMessage([0xb1, 0x0a, 127]); // il jog che gira ancora non diventa "play"
+  t += 800;
+  m.onMessage([0x91, 0x07, 127]); // play
+  assert.equal(m.wizard, null);
+  assert.equal(m.keyFor('A.volume'), 'cc:1:0');
+  assert.equal(m.keyFor('A.eq.high'), 'cc:1:4');
+  assert.equal(m.keyFor('A.jogTouch'), 'note:1:8');
+  assert.equal(m.keyFor('A.jogScratch'), 'cc:1:10');
+  assert.equal(m.keyFor('A.play'), 'note:1:7');
+});
+
+test('Hercules: all\'avvio chiede la posizione dei controlli e accende i VU dei canali', () => {
+  const sent = [];
+  const m = new MidiManager(fakeActions([]));
+  m.access = {
+    inputs: new Map([['i', { id: 'i', name: 'DJControl Inpulse 500' }]]),
+    outputs: new Map([['o', { id: 'o', name: 'DJControl Inpulse 500', send: (d) => sent.push(d) }]]),
+  };
+  m.vuSource = (id) => (id === 'A' ? 1 : 0);
+  m.updateLeds();
+  assert.deepEqual(sent[0], [0xb0, 0x7f, 0x7f]);
+  assert.ok(sent.some((d) => d[0] === 0xb1 && d[1] === 0x40 && d[2] === 125), 'VU deck A pieno');
+  assert.ok(sent.some((d) => d[0] === 0xb2 && d[1] === 0x40 && d[2] === 0), 'VU deck B spento');
+  const n = sent.length;
+  m.updateLeds();
+  assert.equal(sent.length, n, 'avvio e VU non si ripetono se non cambia nulla');
 });

@@ -147,7 +147,16 @@ class App {
       this.updateMidiBadge();
     });
     this.gamepad.addEventListener('disconnected', () => this.updateMidiBadge());
-    setInterval(() => this.midi.updateLeds(), 100);
+    // VU dei canali sulla console (in dB: −42 dB spento, 0 dB tutto acceso)
+    this.midi.vuSource = (id) => {
+      const strip = this.strips.find((st) => st.name === id);
+      if (!strip) return 0;
+      // nella vista AI il mixer non legge i meter: li legge la console
+      const levels = this.view === 'ai' ? strip.meter.read().levels : strip.meter.levels;
+      const peak = Math.max(levels[0], levels[1]);
+      return peak > 0 ? (20 * Math.log10(peak) + 42) / 42 : 0;
+    };
+    setInterval(() => this.midi.updateLeds(), 50);
     this.midi.addEventListener('mapping', (e) => {
       this.settings.midi.mapping = e.detail;
       this.saveSettings();
@@ -440,6 +449,8 @@ class App {
           mapping: this.midi ? this.midi.mapping : this.settings.midi.mapping,
           preset: this.midi ? this.midi.presetMode : this.settings.midi.preset,
           gamepad: this.gamepad ? this.gamepad.enabled : this.settings.midi.gamepad,
+          presetRevs: this.settings.midi.presetRevs || {},
+          backup: this.settings.midi.backup || null,
         },
         sampler: this.sampler.serialize(),
         ai: this.settings.ai,
@@ -473,6 +484,59 @@ class App {
       this.announced.add(known.id);
       toast(`Console riconosciuta: ${known.preset.brand} ${known.preset.name}`, 'ok');
     }
+    for (const d of devices) if (d.preset) this.setupConsole(d.preset);
+  }
+
+  /**
+   * Prima volta con un profilo (o con una sua versione corretta): le correzioni fatte a mano sulla versione
+   * vecchia servivano a tappare i suoi errori, quindi si mettono da parte (si possono ripristinare);
+   * con una console che ha la scheda audio a 4 uscite si prepara anche l'audio.
+   */
+  setupConsole(preset) {
+    const m = this.settings.midi;
+    m.presetRevs = m.presetRevs || {};
+    const seen = m.presetRevs[preset.id] || 0;
+    if (seen >= preset.rev) return;
+    m.presetRevs[preset.id] = preset.rev;
+    if (preset.rev > 1 && Object.keys(this.midi.mapping).length) {
+      m.backup = { ...this.midi.mapping };
+      this.midi.clearAll();
+      toast(`Profilo ${preset.brand} ${preset.name} aggiornato: le tue vecchie correzioni sono state messe da parte (Impostazioni → Console DJ → Ripristina correzioni)`, 'ok', 9000);
+    }
+    this.saveSettings();
+    if (preset.audio && preset.audio.quad) this.setupConsoleAudio(preset);
+  }
+
+  /** Scheda audio della console: casse sulle uscite 1-2, cuffia sulle 3-4 (se l'audio non è già impostato a mano). */
+  async setupConsoleAudio(preset, attempt = 0) {
+    const a = this.settings.audio;
+    if (a.mode !== 'single' || a.headphoneDevice) return;
+    const { outputs } = await AudioEngine.devices();
+    const names = preset.match.map((x) => x.toLowerCase());
+    const found = outputs.filter((o) => o.deviceId !== 'default' && o.deviceId !== 'communications' && names.some((n) => (o.label || '').toLowerCase().includes(n)));
+    if (!found.length) {
+      // la scheda audio USB può comparire qualche secondo dopo la porta MIDI
+      if (attempt < 3) setTimeout(() => this.setupConsoleAudio(preset, attempt + 1), 2000);
+      return;
+    }
+    if (a.masterDevice && !found.some((o) => o.deviceId === a.masterDevice)) return; // casse su un'altra scheda, scelta a mano
+    const before = { ...a };
+    Object.assign(a, { mode: 'quad', masterDevice: found[0].deviceId });
+    const res = await this.engine.applyRouting(a);
+    if (res && res.quad) {
+      toast(`Audio sulla ${preset.name}: casse sulle uscite 1-2, cuffia sulle uscite 3-4`, 'ok', 6000);
+    } else if (found.length > 1) {
+      // alcuni driver mostrano la scheda come due uscite stereo: una per le casse e una per la cuffia
+      const hp = found.find((o) => /3.?4|head|phone|cuffi|casque|kopfh/i.test(o.label)) || found[1];
+      Object.assign(a, { mode: 'single', masterDevice: found.find((o) => o !== hp).deviceId, headphoneDevice: hp.deviceId });
+      await this.engine.applyRouting(a);
+      toast(`Audio sulla ${preset.name}: casse su "${found.find((o) => o !== hp).label}", cuffia su "${hp.label}"`, 'ok', 6000);
+    } else {
+      Object.assign(a, before);
+      await this.engine.applyRouting(a);
+      return;
+    }
+    this.saveSettings();
   }
 
   async toggleRecording() {
@@ -523,25 +587,60 @@ class App {
         return Boolean(o.bpm && d.bpm && Math.abs(o.effectiveBpm - d.effectiveBpm) < 0.05);
       });
       add(`${X}.stutter`, `Deck ${X}: Riparti dal cue`, 'button', (on) => on && d.cuePlay());
+      add(`${X}.rewind`, `Deck ${X}: Torna all'inizio`, 'button', (on) => on && d.rewind());
       add(`${X}.keylock`, `Deck ${X}: Keylock`, 'button', (on) => on && d.setKeylock(!d.keylock), () => d.keylock);
       add(`${X}.slip`, `Deck ${X}: Slip`, 'button', (on) => on && d.setSlip(!d.slip), () => d.slip);
+      add(`${X}.quantize`, `Deck ${X}: Quantize`, 'button', (on) => {
+        if (!on) return;
+        d.quantize = !d.quantize;
+        d.emit('state');
+      }, () => d.quantize);
+      add(`${X}.vinyl`, `Deck ${X}: Modalità vinile (scratch)`, 'button', (on) => {
+        if (!on) return;
+        d.vinyl = !d.vinyl;
+        d.emit('state');
+      }, () => d.vinyl);
       add(`${X}.censor`, `Deck ${X}: Censor (tieni premuto)`, 'button', (on) => d.censor(on), () => d.reverse);
       for (let h = 0; h < 8; h++) add(`${X}.hotcue${h + 1}`, `Deck ${X}: Hot cue ${h + 1}`, 'button', (on) => on && d.hotcue(h), () => d.hotcues[h] != null);
+      // pad con SHIFT: entry.arg = numero dell'hot cue da cancellare
+      add(`${X}.hotcueClear`, `Deck ${X}: Cancella hot cue`, 'button', (on, _v, e) => on && d.deleteHotcue(((e && e.arg) || 1) - 1));
       add(`${X}.loop4`, `Deck ${X}: Loop 4 battute`, 'button', (on) => on && d.autoLoop(4), () => d.loop.active);
+      add(`${X}.autoLoop`, `Deck ${X}: Loop on/off (dimensione dall'encoder)`, 'button', (on) => on && d.toggleAutoLoop(), () => d.loop.active);
+      add(`${X}.loopSize`, `Deck ${X}: Dimensione loop (encoder)`, 'jog', (delta) => d.loopSizeStep(delta));
       add(`${X}.reloop`, `Deck ${X}: Reloop/Esci`, 'button', (on) => on && d.reloop(), () => d.loop.active);
       add(`${X}.loopHalf`, `Deck ${X}: Loop ÷2`, 'button', (on) => on && d.loopScale(0.5));
       add(`${X}.loopDouble`, `Deck ${X}: Loop ×2`, 'button', (on) => on && d.loopScale(2));
-      add(`${X}.loopIn`, `Deck ${X}: Loop in`, 'button', (on) => on && d.loopIn());
-      add(`${X}.loopOut`, `Deck ${X}: Loop out`, 'button', (on) => on && d.loopOut());
+      // IN: punto di inizio; tenuto premuto avvia un loop di 4 battute da lì
+      add(`${X}.loopIn`, `Deck ${X}: Loop in (tieni: loop 4 battute)`, 'button', (on) => {
+        clearTimeout(d._loopInHold);
+        if (!on) return;
+        d.loopIn();
+        d._loopInHold = setTimeout(() => d.loopFromIn(4), 600);
+      });
+      add(`${X}.loopOut`, `Deck ${X}: Loop out`, 'button', (on) => on && d.loopOut(), () => d.loop.active);
+      // pad: entry.arg = battute (loop, roll), fetta 1–8 (slicer), salto in battute con segno (beat jump)
+      add(`${X}.beatloop`, `Deck ${X}: Loop automatico (pad)`, 'button', (on, _v, e) => on && d.autoLoop((e && e.arg) || 4),
+        (e) => d.loop.active && !d.rolling && d.loop.beats === ((e && e.arg) || 4));
+      add(`${X}.roll`, `Deck ${X}: Loop roll (tieni premuto)`, 'button', (on, _v, e) => d.roll((e && e.arg) || 1, on),
+        (e) => d.rolling === ((e && e.arg) || 1));
+      add(`${X}.slice`, `Deck ${X}: Slicer (tieni premuto)`, 'button', (on, _v, e) => d.slice((e && e.arg) || 1, on),
+        (e) => d.slicing === ((e && e.arg) || 1));
+      add(`${X}.beatjump`, `Deck ${X}: Beat jump (pad)`, 'button', (on, _v, e) => on && d.beatJump((e && e.arg) || 4));
       add(`${X}.jumpBack`, `Deck ${X}: Beat jump indietro`, 'button', (on) => on && d.beatJump(-4));
       add(`${X}.jumpFwd`, `Deck ${X}: Beat jump avanti`, 'button', (on) => on && d.beatJump(4));
       add(`${X}.nudgeDown`, `Deck ${X}: Nudge −`, 'button', (on) => d.bend(on ? -4 : 0));
       add(`${X}.nudgeUp`, `Deck ${X}: Nudge +`, 'button', (on) => d.bend(on ? 4 : 0));
       add(`${X}.tempoReset`, `Deck ${X}: Azzera pitch`, 'button', (on) => on && ui.pitchFader.set(0));
       add(`${X}.pitch`, `Deck ${X}: Pitch fader`, 'knob', (v) => ui.pitchFader.set(v * 2 - 1));
-      add(`${X}.jog`, `Deck ${X}: Jog (bordo / bend)`, 'jog', (delta) => d.jogTurn(delta / 64));
+      // entry.res = tick per giro dei jog "a impulsi" (Hercules): la velocità segue la mano
+      add(`${X}.jog`, `Deck ${X}: Jog (bordo / bend)`, 'jog', (delta, e) => (e && e.res ? d.jogTicks(delta, e.res, false) : d.jogTurn(delta / 64)));
       add(`${X}.jogTouch`, `Deck ${X}: Jog touch (scratch)`, 'button', (on) => d.jogTouch(on));
-      add(`${X}.jogScratch`, `Deck ${X}: Jog piatto (scratch)`, 'jog', (delta) => {
+      add(`${X}.jogSearch`, `Deck ${X}: Jog con SHIFT (ricerca veloce)`, 'jog', (delta, e) => d.jogSearch(delta, e && e.res));
+      add(`${X}.jogScratch`, `Deck ${X}: Jog piatto (scratch)`, 'jog', (delta, e) => {
+        if (e && e.res) {
+          d.jogTicks(delta, e.res, true);
+          return;
+        }
         if (!d.scratching) {
           d.jogTurn(delta / 64);
           return;
@@ -564,6 +663,14 @@ class App {
       add(`${X}.load`, `Deck ${X}: Carica brano selezionato`, 'button', (on) => on && this.loadTrack(this.library.selectedTracks()[0], X));
     });
     add('xfader', 'Crossfader', 'knob', (v) => this.engine.setCrossfader(v * 2 - 1));
+    // selettore della curva sulla console: MIX / (lineare) / SCRATCH
+    add('xfCurve', 'Curva crossfader (selettore)', 'knob', (v) => {
+      const curve = v < 0.34 ? 'smooth' : v < 0.67 ? 'linear' : 'cut';
+      this.settings.mixer.xfCurve = curve;
+      this.engine.setCrossfaderCurve(curve);
+      this.mixerUI.curveSel.value = curve;
+      this.saveSettings();
+    });
     add('master', 'Volume master', 'knob', scale(this.mixerUI.masterKnob, 0, 1));
     add('hpVolume', 'Volume cuffia', 'knob', scale(this.mixerUI.hpVolKnob, 0, 1));
     add('cueMix', 'Cuffia: cue/master', 'knob', scale(this.mixerUI.cueMixKnob, 0, 1));
@@ -574,6 +681,11 @@ class App {
     add('aiSkip', 'AI DJ: cambia prossimo brano', 'button', (on) => on && this.automix.skipNext());
     add('record', 'Registrazione', 'button', (on) => on && this.toggleRecording(), () => this.engine.recording);
     for (let p = 0; p < 8; p++) add(`sampler${p + 1}`, `Sampler pad ${p + 1}`, 'button', (on) => on && this.sampler.trigger(p), () => Boolean(this.sampler.pads[p].source));
+    add('samplerStop', 'Sampler: ferma il pad', 'button', (on, _v, e) => {
+      if (!on) return;
+      if (e && e.arg) this.sampler.stop(e.arg - 1);
+      else this.sampler.stopAll();
+    });
     add('browse', 'Libreria: scorri (encoder)', 'jog', (delta) => {
       const lib = this.library;
       const i = Math.max(0, Math.min(lib.rows.length - 1, lib.lastClicked + Math.sign(delta)));

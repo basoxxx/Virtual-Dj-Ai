@@ -155,6 +155,9 @@ lo stato del programma (play, cue, sync, hot cue, loop, preascolto, effetti…).
 - Le mappature si possono **esportare e importare** (file `.segueo.json`) per condividerle.
 - I profili seguono la documentazione MIDI pubblica dei produttori; se su un modello un comando non risponde,
   basta correggerlo con Learn: le correzioni personali hanno sempre la precedenza.
+- **Hercules DJControl Inpulse 300/500/T7**: profilo completo con SHIFT (cancella hot cue, loop ÷2/×2, torna all'inizio),
+  encoder del loop, modi dei pad (hot cue, loop, roll, slicer, sampler, FX, beat jump), VU dei canali e jog che segue
+  la mano nello scratch. La scheda audio della console viene impostata da sola: **casse sulle uscite 1-2, cuffia sulle 3-4**.
 - **Gamepad** Xbox, PlayStation, Switch Pro e simili funzionano come console (play, cue, sync, crossfader sui grilletti, jog sugli stick).
 - Console solo HID (es. Traktor Kontrol S2/S3/S4 MK3): vanno impostate in modalità MIDI con il software del produttore.
   Lettori CDJ/XDJ e mixer DJM si possono usare anche come sorgenti audio tramite gli ingressi linea dei deck.
@@ -181,7 +184,7 @@ lo stato del programma (play, cue, sync, hot cue, loop, preascolto, effetti…).
 
 **I/O audio locale**
 - Scelta della periferica di uscita master
-- Uscita cuffia su una **seconda periferica** (es. scheda DJ a 4 canali) oppure modalità **split** (master a sinistra, cuffia a destra) con una sola scheda
+- Uscita cuffia sulle **uscite 3-4** di una console con scheda a 4 uscite (es. Hercules Inpulse), su una **seconda periferica** oppure in modalità **split** (master a sinistra, cuffia a destra) con una sola scheda
 - Scelta dell'ingresso microfono e degli ingressi linea
 - Latenza configurabile
 

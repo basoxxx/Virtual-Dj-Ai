@@ -13,6 +13,12 @@ export class MidiManager extends EventTarget {
     this.learning = null;
     this.wizard = null;
     this.ledCache = new Map();
+    this.initialized = new Set(); // porte di uscita a cui è già stato mandato l'avvio del profilo
+    this.lastCc = new Map(); // "canale:numero" -> istante dell'ultimo CC (per riconoscere i fader a 14 bit)
+    this.learnHold = 0; // durante la procedura guidata: ignora i messaggi fino a questo istante
+    this.learnedKey = '';
+    this.vuSource = null; // (deckId) => livello 0..1 per i VU della console
+    this.now = () => performance.now();
     this.supported = typeof navigator !== 'undefined' && typeof navigator.requestMIDIAccess === 'function';
   }
 
@@ -30,6 +36,7 @@ export class MidiManager extends EventTarget {
     this.access.onstatechange = () => {
       this.bindInputs();
       this.ledCache.clear();
+      this.initialized.clear();
       this.dispatchEvent(new CustomEvent('devices'));
     };
     return true;
@@ -89,23 +96,47 @@ export class MidiManager extends EventTarget {
   onMessage(data, device = null) {
     const msg = MidiManager.parse(data);
     if (!msg) return;
+    const now = this.now();
+    let lsb = false;
+    if (!msg.isNote && msg.key.startsWith('cc:')) {
+      const [, ch, n] = msg.key.split(':').map(Number);
+      // fader a 14 bit (es. Hercules Inpulse): il CC n+32 subito dopo il CC n è la parte fine dello stesso fader
+      lsb = n >= 32 && n < 64 && now - (this.lastCc.get(`${ch}:${n - 32}`) ?? -1e9) < 40;
+      msg.burst = now - (this.lastCc.get(`${ch}:${n}`) ?? -1e9) < 250;
+      this.lastCc.set(`${ch}:${n}`, now);
+    }
     this.dispatchEvent(new CustomEvent('message', { detail: { ...msg, device: device && device.name } }));
     if (this.learning) {
-      if (msg.isNote && msg.value === 0) return;
-      this.assign(this.learning, msg);
+      if (!lsb && this.accepts(this.learning, msg, now)) this.assign(this.learning, msg);
       return;
     }
     const entry = this.resolve(msg.key, device);
     const action = entry && this.actions.get(entry.a);
     if (!action) return;
     if (action.kind === 'button') {
-      action.run(msg.value > 0, msg.value);
+      action.run(msg.value > 0, msg.value, entry);
     } else if (action.kind === 'jog') {
       const delta = decodeRelative(msg.raw, entry.enc);
-      if (delta) action.run(entry.invert ? -delta : delta);
+      if (delta) action.run(entry.invert ? -delta : delta, entry);
     } else {
-      action.run(entry.invert ? 1 - msg.value : msg.value);
+      action.run(entry.invert ? 1 - msg.value : msg.value, entry);
     }
+  }
+
+  /** Durante Learn/procedura guidata: il messaggio è adatto al controllo richiesto? */
+  accepts(actionId, msg, now) {
+    if (msg.isNote && msg.value === 0) return false;
+    const action = this.actions.get(actionId);
+    const kind = action ? action.kind : 'button';
+    // una manopola, un fader o un jog non si mappano su un tasto (es. il touch del jog)
+    if (kind !== 'button' && msg.isNote) return false;
+    // un tasto mandato come CC vale 127 alla pressione; i messaggi a raffica sono jog o fader in movimento
+    if (kind === 'button' && !msg.isNote && (msg.raw < 64 || msg.burst)) return false;
+    if (this.wizard) {
+      // il controllo appena appreso continua a mandare messaggi (fader, jog): non deve finire sul passo dopo
+      if (now < this.learnHold || msg.key === this.learnedKey) return false;
+    }
+    return true;
   }
 
   assign(actionId, msg) {
@@ -118,6 +149,8 @@ export class MidiManager extends EventTarget {
     }
     this.mapping[msg.key] = entry;
     this.learning = null;
+    this.learnedKey = msg.key;
+    this.learnHold = this.now() + 600;
     this.dispatchEvent(new CustomEvent('learned', { detail: { id: actionId, key: msg.key } }));
     this.dispatchEvent(new CustomEvent('mapping', { detail: this.mapping }));
     if (this.wizard) this.wizardNext();
@@ -179,6 +212,8 @@ export class MidiManager extends EventTarget {
   // --- procedura guidata -------------------------------------------------------------
 
   startWizard(steps = WIZARD_STEPS) {
+    this.learnHold = 0;
+    this.learnedKey = '';
     this.wizard = { steps: steps.filter((s) => this.actions.has(s)), index: -1 };
     this.wizardNext();
   }
@@ -197,6 +232,7 @@ export class MidiManager extends EventTarget {
   }
 
   skipWizardStep() {
+    this.learnHold = 0;
     if (this.wizard) this.wizardNext();
   }
 
@@ -225,22 +261,42 @@ export class MidiManager extends EventTarget {
       const out = this.outputFor(input);
       if (!out) continue;
       const preset = this.presetFor(input);
-      const entries = [];
-      if (preset && preset.leds) for (const [k, v] of Object.entries(preset.mapping)) entries.push([k, normalizeEntry(v).a]);
-      for (const [k, v] of Object.entries(this.mapping)) entries.push([k, normalizeEntry(v).a]);
-      for (const [key, actionId] of entries) {
+      const send = (data) => {
+        try {
+          out.send(data);
+        } catch {
+          // porta chiusa
+        }
+      };
+      if (preset && !this.initialized.has(out.id)) {
+        this.initialized.add(out.id);
+        for (const data of preset.init || []) send(data);
+      }
+      const entries = new Map();
+      if (preset && preset.leds) for (const [k, v] of Object.entries(preset.mapping)) entries.set(k, normalizeEntry(v));
+      for (const [k, v] of Object.entries(this.mapping)) entries.set(k, normalizeEntry(v));
+      for (const [key, entry] of entries) {
         if (!key.startsWith('note:')) continue;
-        const action = this.actions.get(actionId);
+        const action = this.actions.get(entry.a);
         if (!action || !action.led) continue;
-        const on = Boolean(action.led());
+        const on = Boolean(action.led(entry));
         const cacheKey = `${out.id}|${key}`;
         if (this.ledCache.get(cacheKey) === on) continue;
         this.ledCache.set(cacheKey, on);
         const [, ch, n] = key.split(':').map(Number);
-        try {
-          out.send([0x90 | ch, n, on ? 0x7f : 0x00]);
-        } catch {
-          // porta chiusa
+        send([0x90 | ch, n, on ? 0x7f : 0x00]);
+      }
+      // VU dei canali sulla console
+      if (preset && preset.vu && this.vuSource) {
+        for (const deckId of ['A', 'B']) {
+          const key = preset.vu[deckId];
+          if (!key) continue;
+          const value = Math.round(Math.max(0, Math.min(1, this.vuSource(deckId))) * preset.vu.max);
+          const cacheKey = `${out.id}|${key}`;
+          if (this.ledCache.get(cacheKey) === value) continue;
+          this.ledCache.set(cacheKey, value);
+          const [, ch, n] = key.split(':').map(Number);
+          send([0xb0 | ch, n, value]);
         }
       }
     }

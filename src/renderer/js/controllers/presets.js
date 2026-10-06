@@ -16,23 +16,28 @@ export const TIERS = {
 export function knownActions() {
   const ids = [];
   for (const X of ['A', 'B']) {
-    ids.push(`${X}.play`, `${X}.cue`, `${X}.sync`, `${X}.stutter`, `${X}.keylock`, `${X}.slip`, `${X}.censor`);
+    ids.push(`${X}.play`, `${X}.cue`, `${X}.sync`, `${X}.stutter`, `${X}.rewind`, `${X}.keylock`, `${X}.slip`, `${X}.quantize`, `${X}.vinyl`, `${X}.censor`);
     for (let h = 1; h <= 8; h++) ids.push(`${X}.hotcue${h}`);
-    ids.push(`${X}.loop4`, `${X}.reloop`, `${X}.loopHalf`, `${X}.loopDouble`, `${X}.loopIn`, `${X}.loopOut`);
+    ids.push(`${X}.hotcueClear`);
+    ids.push(`${X}.loop4`, `${X}.autoLoop`, `${X}.loopSize`, `${X}.reloop`, `${X}.loopHalf`, `${X}.loopDouble`, `${X}.loopIn`, `${X}.loopOut`);
+    ids.push(`${X}.beatloop`, `${X}.roll`, `${X}.slice`, `${X}.beatjump`);
     ids.push(`${X}.jumpBack`, `${X}.jumpFwd`, `${X}.nudgeDown`, `${X}.nudgeUp`, `${X}.tempoReset`);
-    ids.push(`${X}.pitch`, `${X}.jog`, `${X}.jogTouch`, `${X}.jogScratch`);
+    ids.push(`${X}.pitch`, `${X}.jog`, `${X}.jogTouch`, `${X}.jogScratch`, `${X}.jogSearch`);
     ids.push(`${X}.volume`, `${X}.gain`, `${X}.eq.high`, `${X}.eq.mid`, `${X}.eq.low`, `${X}.filter`, `${X}.pfl`);
     for (let f = 1; f <= 2; f++) ids.push(`${X}.fx${f}.on`, `${X}.fx${f}.mix`, `${X}.fx${f}.param`);
     ids.push(`${X}.load`);
   }
-  ids.push('xfader', 'master', 'hpVolume', 'cueMix', 'mic', 'automix', 'aiMixNow', 'aiSkip', 'record', 'browse');
+  ids.push('xfader', 'xfCurve', 'master', 'hpVolume', 'cueMix', 'mic', 'automix', 'aiMixNow', 'aiSkip', 'record', 'browse');
   for (let p = 1; p <= 8; p++) ids.push(`sampler${p}`);
+  ids.push('samplerStop');
   return ids;
 }
 
 const note = (ch, n) => `note:${ch}:${n}`;
 const cc = (ch, n) => `cc:${ch}:${n}`;
 const DECKS = ['A', 'B'];
+// voce con parametro (es. dimensione del loop, numero dell'hot cue): l'azione lo riceve in entry.arg
+const withArg = (a, arg) => ({ a, arg });
 
 // --- Famiglie ---------------------------------------------------------------------------
 
@@ -69,34 +74,126 @@ function pioneerDDJ() {
   return m;
 }
 
-/** Hercules DJControl (Inpulse, Starlight…): mixer sul canale 1, deck sui canali 2 e 3. */
-function herculesDJControl() {
+// Pad delle Hercules: ogni modo dei pad manda note diverse (pad 1 = base, SHIFT + pad = base + 8).
+const ROLL_SIZES = [1 / 8, 1 / 4, 1 / 2, 1, 2, 4, 8, 16];
+const JUMPS = [-1, 1, -2, 2, -4, 4, -8, 8];
+const JUMPS_SHIFT = [-16, 16, -32, 32, -64, 64, -128, 128];
+
+/**
+ * Hercules DJControl (Inpulse, Starlight, Mix): canale 1 generale, deck sui canali 2 e 3,
+ * con SHIFT premuto gli stessi comandi arrivano sui canali 5 e 6, pad sui canali 7 e 8.
+ * Fonte: mappature Mixxx dei modelli Hercules e manuale dell'Inpulse 500. I jog mandano ±1 per tick
+ * (`res` = tick per giro), i fader principali sono a 14 bit (qui si usa il byte alto).
+ */
+function herculesDJControl({ pads = 8, padModes = {}, loop = 'inout', assistant = true, fxButtons = false, xfCurve = false, mixMaster = false, jogRes = 248 } = {}) {
   const m = {};
   DECKS.forEach((X, d) => {
     const ch = d + 1;
+    const sh = d + 4;
+    const pad = d + 6;
     m[note(ch, 0x07)] = `${X}.play`;
     m[note(ch, 0x06)] = `${X}.cue`;
     m[note(ch, 0x05)] = `${X}.sync`;
+    m[note(sh, 0x07)] = `${X}.stutter`;
+    m[note(sh, 0x06)] = `${X}.rewind`;
     m[note(ch, 0x08)] = `${X}.jogTouch`;
-    m[cc(ch, 0x09)] = { a: `${X}.jog`, enc: 'twos' };
-    m[cc(ch, 0x0a)] = { a: `${X}.jogScratch`, enc: 'twos' };
+    m[note(sh, 0x08)] = `${X}.jogTouch`;
+    m[cc(ch, 0x09)] = { a: `${X}.jog`, enc: 'twos', res: jogRes };
+    m[cc(ch, 0x0a)] = { a: `${X}.jogScratch`, enc: 'twos', res: jogRes };
+    m[cc(sh, 0x09)] = { a: `${X}.jogSearch`, enc: 'twos', res: jogRes };
+    m[cc(sh, 0x0a)] = { a: `${X}.jogSearch`, enc: 'twos', res: jogRes };
+    // fader del pitch: in alto il "−" (manda 0 in basso = più veloce)
     m[cc(ch, 0x08)] = { a: `${X}.pitch`, invert: true };
+    m[cc(sh, 0x08)] = { a: `${X}.pitch`, invert: true };
     m[cc(ch, 0x00)] = `${X}.volume`;
-    m[cc(ch, 0x05)] = `${X}.gain`;
-    m[cc(ch, 0x02)] = `${X}.eq.high`;
-    m[cc(ch, 0x03)] = `${X}.eq.mid`;
-    m[cc(ch, 0x04)] = `${X}.eq.low`;
+    m[cc(sh, 0x00)] = `${X}.volume`;
     m[cc(ch, 0x01)] = `${X}.filter`;
+    m[cc(ch, 0x02)] = `${X}.eq.low`;
+    m[cc(ch, 0x03)] = `${X}.eq.mid`;
+    m[cc(ch, 0x04)] = `${X}.eq.high`;
+    m[cc(ch, 0x05)] = `${X}.gain`;
     m[note(ch, 0x0c)] = `${X}.pfl`;
     m[note(ch, 0x0d)] = `${X}.load`;
-    m[note(ch, 0x09)] = `${X}.loop4`;
-    for (let h = 0; h < 8; h++) m[note(d + 6, h)] = `${X}.hotcue${h + 1}`;
-    for (let p = 0; p < 4; p++) m[note(d + 6, 0x30 + p)] = `sampler${d * 4 + p + 1}`;
+    m[note(ch, 0x03)] = `${X}.vinyl`;
+    if (pads === 8) {
+      m[note(ch, 0x01)] = `${X}.slip`;
+      m[note(ch, 0x02)] = `${X}.quantize`;
+      m[note(sh, 0x02)] = `${X}.keylock`;
+    }
+    if (loop === 'inout') {
+      // IN (tenuto: loop di 4 battute), OUT, SHIFT+IN = ÷2, SHIFT+OUT = ×2
+      m[note(ch, 0x09)] = `${X}.loopIn`;
+      m[note(ch, 0x0a)] = `${X}.loopOut`;
+    } else if (loop === 'auto') {
+      m[note(ch, 0x09)] = `${X}.loop4`;
+      m[note(ch, 0x0a)] = `${X}.reloop`;
+    }
+    if (loop) {
+      m[note(sh, 0x09)] = `${X}.loopHalf`;
+      m[note(sh, 0x0a)] = `${X}.loopDouble`;
+    }
+    if (pads === 8) {
+      // encoder LOOP: gira = dimensione (÷2 / ×2), premi = loop on/off, SHIFT+premi = reloop
+      m[cc(ch, 0x0e)] = { a: `${X}.loopSize`, enc: 'twos' };
+      m[cc(sh, 0x0e)] = { a: `${X}.loopSize`, enc: 'twos' };
+      m[note(ch, 0x2c)] = `${X}.autoLoop`;
+      m[note(sh, 0x2c)] = `${X}.reloop`;
+    }
+
+    // --- pad
+    const P = { hotcue: 0x00, sampler: 0x30, ...padModes };
+    for (let i = 0; i < pads; i++) {
+      m[note(pad, P.hotcue + i)] = `${X}.hotcue${i + 1}`;
+      m[note(pad, P.hotcue + 8 + i)] = withArg(`${X}.hotcueClear`, i + 1);
+      const sample = pads === 8 ? i + 1 : d * 4 + i + 1;
+      m[note(pad, P.sampler + i)] = `sampler${sample}`;
+      if (pads === 8) m[note(pad, P.sampler + 8 + i)] = withArg('samplerStop', sample);
+      if (P.beatloop != null) {
+        const sizes = pads === 8 ? ROLL_SIZES : [1, 2, 4, 8];
+        m[note(pad, P.beatloop + i)] = withArg(`${X}.beatloop`, sizes[i]);
+        m[note(pad, P.beatloop + 8 + i)] = withArg(`${X}.roll`, sizes[i]);
+      }
+      if (P.roll != null) {
+        const sizes = pads === 8 ? ROLL_SIZES : [1, 2, 4, 8];
+        m[note(pad, P.roll + i)] = withArg(`${X}.roll`, sizes[i]);
+        m[note(pad, P.roll + 8 + i)] = withArg(`${X}.roll`, sizes[i]);
+      }
+      if (P.slicer != null) m[note(pad, P.slicer + i)] = withArg(`${X}.slice`, i + 1);
+      if (P.slicer2 != null) m[note(pad, P.slicer2 + i)] = withArg(`${X}.slice`, i + 1);
+      if (P.beatjump != null) {
+        m[note(pad, P.beatjump + i)] = withArg(`${X}.beatjump`, JUMPS[i]);
+        m[note(pad, P.beatjump + 8 + i)] = withArg(`${X}.beatjump`, JUMPS_SHIFT[i]);
+      }
+    }
+    if (P.fx != null) {
+      m[note(pad, P.fx)] = `${X}.fx1.on`;
+      m[note(pad, P.fx + 1)] = `${X}.fx2.on`;
+    }
   });
   m[cc(0, 0x00)] = 'xfader';
   m[cc(0, 0x01)] = { a: 'browse', enc: 'twos' };
+  if (assistant) m[note(0, 0x03)] = 'automix';
+  if (fxButtons) {
+    // FX1–FX4 al centro: effetti 1 e 2 del deck A, poi del deck B
+    m[note(0, 0x14)] = 'A.fx1.on';
+    m[note(0, 0x15)] = 'A.fx2.on';
+    m[note(0, 0x16)] = 'B.fx1.on';
+    m[note(0, 0x17)] = 'B.fx2.on';
+  }
+  if (xfCurve) m[cc(0, 0x0b)] = 'xfCurve';
+  if (mixMaster) {
+    m[cc(0, 0x03)] = 'master';
+    m[cc(0, 0x04)] = 'hpVolume';
+  }
   return m;
 }
+
+// Inpulse 300 (come in Mixxx/DJUCED): 2 roll, 3 slicer, 4 sampler, 6 FX, 7 slicer loop, 8 beat jump
+const INPULSE_300 = { pads: 8, padModes: { roll: 0x10, slicer: 0x20, fx: 0x50, slicer2: 0x60, beatjump: 0x70 } };
+// Inpulse 500 / T7 (come in Mixxx): 2 loop automatici (SHIFT = roll), 3 slicer, 4 sampler, 6 roll, 7 FX, 8 beat jump
+const INPULSE_500 = { pads: 8, padModes: { beatloop: 0x10, slicer: 0x20, roll: 0x50, fx: 0x60, beatjump: 0x70 }, fxButtons: true, xfCurve: true, jogRes: 720 };
+// Inpulse con scheda audio a 4 uscite (casse su 1-2, cuffia su 3-4) e VU dei canali pilotati dal software
+const HERCULES_4OUT = { vu: { A: cc(1, 0x40), B: cc(2, 0x40), max: 125 }, audio: { quad: true } };
 
 /** inMusic (Numark, Denon DJ, Rane, Akai): deck sui canali 1–4, mixer sul canale 16. */
 function inMusic({ jog = 'twos' } = {}) {
@@ -145,7 +242,15 @@ function gridController() {
 
 const FAMILIES = {
   'pioneer-ddj': { brand: 'Pioneer DJ / AlphaTheta', build: pioneerDDJ, leds: true },
-  hercules: { brand: 'Hercules', build: herculesDJControl, leds: true },
+  // rev 2: EQ alti/bassi corretti, loop, SHIFT, modi dei pad, jog a impulsi (le vecchie correzioni vengono messe da parte)
+  hercules: {
+    brand: 'Hercules',
+    build: herculesDJControl,
+    leds: true,
+    rev: 2,
+    // all'avvio la console rimanda la posizione di fader e manopole
+    init: [[0xb0, 0x7f, 0x7f]],
+  },
   numark: { brand: 'Numark', build: () => inMusic({ jog: 'twos' }), leds: true },
   denon: { brand: 'Denon DJ', build: () => inMusic({ jog: 'rel64' }), leds: true },
   rane: { brand: 'Rane', build: () => inMusic({ jog: 'rel64' }), leds: true },
@@ -171,12 +276,12 @@ const MODELS = [
   ['pioneer-ddj', 'XDJ-RX3 / XDJ-XZ (modalità PC)', 'pro', ['XDJ-RX', 'XDJ-XZ']],
   ['pioneer-ddj', 'Opus Quad (modalità PC)', 'pro', ['OPUS-QUAD', 'Opus Quad']],
   // Hercules
-  ['hercules', 'DJControl Starlight', 'home', ['Starlight']],
-  ['hercules', 'DJControl Inpulse 200', 'home', ['Inpulse 200']],
-  ['hercules', 'DJControl Inpulse 300', 'home', ['Inpulse 300']],
-  ['hercules', 'DJControl Inpulse 500', 'semi', ['Inpulse 500']],
-  ['hercules', 'DJControl Mix / Mix Ultra', 'home', ['DJControl Mix']],
-  ['hercules', 'DJControl Inpulse T7', 'semi', ['Inpulse T7']],
+  ['hercules', 'DJControl Starlight', 'home', ['Starlight'], { opts: { pads: 4, loop: null, assistant: false, padModes: { beatloop: 0x10, fx: 0x20 } } }],
+  ['hercules', 'DJControl Inpulse 200', 'home', ['Inpulse 200'], { opts: { pads: 4, loop: 'auto', padModes: { roll: 0x10, fx: 0x20 } } }],
+  ['hercules', 'DJControl Inpulse 300', 'home', ['Inpulse 300'], { opts: INPULSE_300, ...HERCULES_4OUT }],
+  ['hercules', 'DJControl Inpulse 500', 'semi', ['Inpulse 500'], { opts: INPULSE_500, ...HERCULES_4OUT }],
+  ['hercules', 'DJControl Mix / Mix Ultra', 'home', ['DJControl Mix'], { opts: { pads: 4, loop: null, assistant: false, mixMaster: true, padModes: { sampler: 0x10, fx: 0x20, beatloop: 0x30 } } }],
+  ['hercules', 'DJControl Inpulse T7', 'semi', ['Inpulse T7'], { opts: INPULSE_500, ...HERCULES_4OUT }],
   // Numark
   ['numark', 'Party Mix / Party Mix Live / Party Mix II', 'home', ['Party Mix']],
   ['numark', 'DJ2GO2 Touch', 'home', ['DJ2GO2']],
@@ -198,7 +303,7 @@ const MODELS = [
   ['grid', 'Behringer CMD / Novation Launch Control', 'semi', ['CMD ', 'Launch Control']],
 ];
 
-export const PRESETS = MODELS.map(([family, name, tier, match]) => {
+export const PRESETS = MODELS.map(([family, name, tier, match, extra = {}]) => {
   const f = FAMILIES[family];
   return {
     id: `${family}-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`,
@@ -208,7 +313,11 @@ export const PRESETS = MODELS.map(([family, name, tier, match]) => {
     family,
     match,
     leds: f.leds,
-    mapping: f.build(),
+    rev: f.rev || 1,
+    init: f.init || [],
+    vu: extra.vu || null,
+    audio: extra.audio || null,
+    mapping: f.build(extra.opts),
   };
 });
 
@@ -235,11 +344,14 @@ export function presetById(id) {
   return PRESETS.find((p) => p.id === id) || null;
 }
 
-/** Normalizza una voce di mappatura in { a, enc, invert }. */
+/** Normalizza una voce di mappatura in { a, enc, invert, arg, res }. */
 export function normalizeEntry(v) {
   if (!v) return null;
   if (typeof v === 'string') return { a: v, enc: 'twos', invert: false };
-  return { a: v.a, enc: v.enc || 'twos', invert: Boolean(v.invert) };
+  const e = { a: v.a, enc: v.enc || 'twos', invert: Boolean(v.invert) };
+  if (v.arg != null) e.arg = v.arg;
+  if (v.res) e.res = v.res;
+  return e;
 }
 
 /** Decodifica un encoder relativo in un passo con segno. */
