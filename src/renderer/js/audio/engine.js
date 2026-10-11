@@ -2,6 +2,17 @@
 // periferiche locali (uscita master, uscita cuffia separata o split), registrazione.
 import { Meter } from './mixer.js';
 
+// una scheda che non risponde (driver USB bloccato) non deve fermare per sempre i cambi di uscita, che sono in fila
+const DEVICE_TIMEOUT_MS = 5000;
+
+function deviceCall(promise, ms) {
+  let timer;
+  const timeout = new Promise((_resolve, reject) => {
+    timer = setTimeout(() => reject(new Error(`la periferica non risponde da ${ms / 1000} s`)), ms);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
+
 export class AudioEngine extends EventTarget {
   constructor() {
     super();
@@ -68,6 +79,10 @@ export class AudioEngine extends EventTarget {
     this.recorder = new AudioWorkletNode(ctx, 'recorder-processor', { numberOfInputs: 1, numberOfOutputs: 0, channelCount: 2, channelCountMode: 'explicit' });
     this.masterOut.connect(this.recorder);
     this.recorder.port.onmessage = (e) => this.onRecorderMessage(e.data);
+    this.recorder.onprocessorerror = (e) => {
+      console.error('Registratore audio', e);
+      this.dispatchEvent(new CustomEvent('error', { detail: 'Il registratore si è fermato per un errore: la registrazione potrebbe essere incompleta, riavvia Segueo per registrare ancora' }));
+    };
 
     await this.applyRouting(this.routing);
     return ctx;
@@ -158,7 +173,8 @@ export class AudioEngine extends EventTarget {
         outputs: list.filter((d) => d.kind === 'audiooutput'),
         inputs: list.filter((d) => d.kind === 'audioinput'),
       };
-    } catch {
+    } catch (err) {
+      console.warn('Elenco delle periferiche audio non disponibile', err);
       return { outputs: [], inputs: [] };
     }
   }
@@ -169,9 +185,18 @@ export class AudioEngine extends EventTarget {
    *  - 'split'    : stessa scheda, master mono a sinistra e cuffia mono a destra (cavo splitter)
    *  - 'quad'     : scheda DJ a 4 uscite (es. Hercules Inpulse): master su 1-2, cuffia su 3-4
    *  - 'separate' : alias di single con cuffia obbligatoria su un'altra periferica
-   * Restituisce { outputs, quad }: canali di uscita della scheda master e se la cuffia è su 3-4.
+   * Restituisce { outputs, quad, sinkOk }: canali di uscita della scheda master, se la cuffia è su 3-4 e se l'uscita
+   * master scelta è stata applicata (se no la musica resta sull'uscita di prima e si avvisa con 'error').
+   * quiet: niente avviso se la scheda non ha 4 uscite (configurazione automatica della console, che prova altro).
+   * Le chiamate si mettono in fila: due cambi insieme lascerebbero collegamenti di entrambi.
    */
-  async applyRouting(routing) {
+  applyRouting(routing, opts = {}) {
+    const run = (this.routingQueue || Promise.resolve()).then(() => this.route(routing, opts));
+    this.routingQueue = run.catch(() => {});
+    return run;
+  }
+
+  async route(routing, { quiet = false } = {}) {
     this.routing = { ...this.routing, ...routing };
     const { mode, masterDevice, headphoneDevice } = this.routing;
     const ctx = this.ctx;
@@ -183,13 +208,18 @@ export class AudioEngine extends EventTarget {
     this.hpAudio.pause();
     this.hpAudio.srcObject = null;
 
+    let sinkOk = true;
     if (typeof ctx.setSinkId === 'function') {
       try {
-        await ctx.setSinkId(masterDevice || '');
+        await deviceCall(ctx.setSinkId(masterDevice || ''), this.deviceTimeoutMs ?? DEVICE_TIMEOUT_MS);
       } catch (err) {
+        // scheda scollegata (NotFoundError) o non utilizzabile: la musica resta sull'uscita di prima
         console.warn('setSinkId master', err);
+        sinkOk = false;
+        this.dispatchEvent(new CustomEvent('error', { detail: `Uscita master non disponibile (${err.message}): la scheda audio scelta è collegata? Intanto la musica esce dall'uscita di prima` }));
       }
     }
+    this.sinkOk = sinkOk;
     const dest = ctx.destination;
     const outputs = dest.maxChannelCount || 2;
     if (dest.channelCount !== 2) {
@@ -198,12 +228,15 @@ export class AudioEngine extends EventTarget {
     }
 
     if (mode === 'quad') {
-      if (outputs < 4) {
+      if (outputs < 4 || !sinkOk) {
         this.masterRoute.connect(dest);
-        this.dispatchEvent(new CustomEvent('error', {
-          detail: `La scheda audio scelta ha ${outputs} uscite: per la cuffia su 3-4 ne servono 4. Su Windows imposta la scheda come "Quadrifonico" (Pannello audio → Configura) oppure scegli la cuffia come seconda uscita.`,
-        }));
-        return { outputs, quad: false };
+        // senza la scheda scelta le uscite contate sono di un'altra: l'avviso giusto è già quello dell'uscita master
+        if (sinkOk && !quiet) {
+          this.dispatchEvent(new CustomEvent('error', {
+            detail: `La scheda audio scelta ha ${outputs} uscite: per la cuffia su 3-4 ne servono 4. Su Windows imposta la scheda come "Quadrifonico" (Pannello audio → Configura) oppure scegli la cuffia come seconda uscita.`,
+          }));
+        }
+        return { outputs, quad: false, sinkOk };
       }
       dest.channelCount = 4;
       dest.channelCountMode = 'explicit';
@@ -219,7 +252,7 @@ export class AudioEngine extends EventTarget {
       hpSplit.connect(merger, 1, 3);
       merger.connect(dest);
       this.splitMerger = merger;
-      return { outputs, quad: true };
+      return { outputs, quad: true, sinkOk };
     }
 
     if (mode === 'split') {
@@ -235,22 +268,25 @@ export class AudioEngine extends EventTarget {
       this.hpRoute.connect(monoHp).connect(merger, 0, 1);
       merger.connect(ctx.destination);
       this.splitMerger = merger;
-      return { outputs, quad: false };
+      return { outputs, quad: false, sinkOk };
     }
 
     this.masterRoute.connect(ctx.destination);
+    let hpOk = true;
     if (headphoneDevice && headphoneDevice !== masterDevice) {
       this.hpRoute.connect(this.hpStreamDest);
       this.hpAudio.srcObject = this.hpStreamDest.stream;
       try {
-        if (this.hpAudio.setSinkId) await this.hpAudio.setSinkId(headphoneDevice);
-        await this.hpAudio.play();
+        const ms = this.deviceTimeoutMs ?? DEVICE_TIMEOUT_MS;
+        if (this.hpAudio.setSinkId) await deviceCall(this.hpAudio.setSinkId(headphoneDevice), ms);
+        await deviceCall(this.hpAudio.play(), ms);
       } catch (err) {
         console.warn('Uscita cuffia', err);
+        hpOk = false;
         this.dispatchEvent(new CustomEvent('error', { detail: `Uscita cuffia non disponibile: ${err.message}` }));
       }
     }
-    return { outputs, quad: false };
+    return { outputs, quad: false, sinkOk, hpOk };
   }
 
   get outputLatency() {
@@ -270,16 +306,27 @@ export class AudioEngine extends EventTarget {
     this.dispatchEvent(new CustomEvent('recording', { detail: true }));
   }
 
+  /**
+   * Aspetta gli ultimi campioni dal worklet e chiude il file. Se il worklet non risponde entro 3 s (contesto audio
+   * sospeso o chiuso) il file si chiude lo stesso; gli errori di chiusura e salvataggio arrivano a chi chiama.
+   */
   stopRecording() {
     if (!this.recording) return Promise.resolve(null);
-    return new Promise((resolve) => {
-      this.onRecStopped = async () => {
+    if (this.recStopping) return this.recStopping;
+    this.recStopping = new Promise((resolve, reject) => {
+      const finish = () => {
+        clearTimeout(this.recStopTimer);
+        this.onRecStopped = null;
+        this.recStopping = null;
         this.recording = false;
         this.dispatchEvent(new CustomEvent('recording', { detail: false }));
-        resolve(await this.recApi.recordStop());
+        this.recApi.recordStop().then(resolve, reject);
       };
+      this.onRecStopped = finish;
+      this.recStopTimer = setTimeout(finish, 3000);
       this.recorder.port.postMessage({ type: 'stop' });
     });
+    return this.recStopping;
   }
 
   onRecorderMessage(m) {

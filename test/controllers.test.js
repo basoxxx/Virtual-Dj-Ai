@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { PRESETS, TIERS, knownActions, detectPreset, presetById, decodeRelative, normalizeEntry, WIZARD_STEPS } from '../src/renderer/js/controllers/presets.js';
+import { PRESETS, TIERS, knownActions, actionKind, detectPreset, presetById, decodeRelative, normalizeEntry, WIZARD_STEPS } from '../src/renderer/js/controllers/presets.js';
 import { MidiManager } from '../src/renderer/js/midi.js';
 import { GamepadController } from '../src/renderer/js/controllers/gamepad.js';
 
@@ -31,6 +31,11 @@ test('riconoscimento automatico dal nome della periferica', () => {
   assert.equal(detectPreset('Numark Party Mix Live').brand, 'Numark');
   assert.equal(detectPreset('Denon DJ MC7000').tier, 'pro');
   assert.equal(detectPreset('Rane ONE MIDI').brand, 'Rane');
+  // se un nome è contenuto in un altro vince il più lungo
+  assert.equal(detectPreset('PIONEER DDJ-1000SRT').id, 'pioneer-ddj-ddj-1000srt');
+  assert.equal(detectPreset('PIONEER DDJ-1000').id, 'pioneer-ddj-ddj-1000-1000srt');
+  assert.equal(detectPreset('Launch Control XL').name, 'Novation Launch Control XL');
+  assert.equal(detectPreset('Launch Control').name, 'Novation Launch Control');
   assert.equal(detectPreset('Tastiera USB generica'), null);
   assert.equal(detectPreset(''), null);
 });
@@ -47,7 +52,8 @@ test('decodifica degli encoder relativi', () => {
 function fakeActions(log) {
   const actions = new Map();
   for (const id of knownActions()) {
-    const kind = /pitch|volume|gain|eq|filter|xfader|xfCurve|master|hpVolume|cueMix|mix$|param$/.test(id) ? 'knob' : /jog$|jogScratch|jogSearch|loopSize|browse/.test(id) ? 'jog' : 'button';
+    // stesso tipo con cui l'app registra l'azione (es. "automix" è un tasto, non una manopola)
+    const kind = actionKind(id);
     // l'ultimo argomento è la voce della mappa: nel log si tiene solo il suo parametro (arg/res), se c'è
     const run = (...a) => {
       const e = a.at(-1);
@@ -129,7 +135,7 @@ test('export/import delle mappature', () => {
   m.onMessage([0x90, 5, 127]);
   const json = m.exportMapping();
   const m2 = new MidiManager(fakeActions([]));
-  assert.equal(m2.importMapping(json), 1);
+  assert.deepEqual(m2.importMapping(json), { count: 1, dropped: 0, presetIgnored: false });
   assert.equal(m2.keyFor('A.play'), 'note:0:5');
   assert.throws(() => m2.importMapping('{"foo":1}'));
 });
@@ -179,7 +185,9 @@ test('profilo Hercules Inpulse 500: EQ, loop, SHIFT e pad come sulla console', (
 });
 
 test('profili Hercules: EQ basse sul CC 2 e alte sul CC 4 per tutta la gamma', () => {
-  for (const p of PRESETS.filter((x) => x.family === 'hercules')) {
+  const hercules = PRESETS.filter((x) => x.family === 'hercules');
+  assert.ok(hercules.length >= 5, 'profili Hercules nel catalogo');
+  for (const p of hercules) {
     assert.equal(normalizeEntry(p.mapping['cc:1:2']).a, 'A.eq.low', p.name);
     assert.equal(normalizeEntry(p.mapping['cc:2:4']).a, 'B.eq.high', p.name);
     assert.equal(p.rev, 2, p.name);
@@ -245,13 +253,15 @@ test('fader a 14 bit: il byte basso affina il valore (pitch dell\'Inpulse 500)',
   assert.equal(log.length, 2);
   assert.ok(Math.abs(log[0][1] - (1 - 64 / 127)) < 1e-9);
   assert.ok(Math.abs(log[1][1] - (1 - 8192 / 16383)) < 1e-9, `14 bit: ${log[1][1]}`);
-  // un fader appreso con Learn diventa a 14 bit da solo
+  // un fader appreso con Learn diventa a 14 bit da solo, dopo qualche coppia byte alto + byte basso di fila
   m.learn('B.volume');
   m.onMessage([0xb5, 0x10, 100]);
-  t += 100;
-  m.onMessage([0xb5, 0x10, 101]);
-  t += 1;
-  m.onMessage([0xb5, 0x30, 127]);
+  for (let i = 0; i < 4; i++) {
+    t += 100;
+    m.onMessage([0xb5, 0x10, 101]);
+    t += 1;
+    m.onMessage([0xb5, 0x30, 127]);
+  }
   assert.equal(normalizeEntry(m.mapping['cc:5:16']).hires, true);
   assert.ok(Math.abs(log.at(-1)[1] - ((101 << 7) | 127) / 16383) < 1e-9);
 });
@@ -269,10 +279,15 @@ test('soft takeover: la console riprende un controllo spostato da altro solo qua
   send(40); // la console è ancora in basso: niente salto
   assert.equal(got.length, 1);
   assert.equal(cur, 0.8);
-  send(105); // la console supera 0.8: riprende il controllo
+  send(121); // 0,95 in un colpo solo: lontano da 0,8 ma l'ha attraversato, riprende il controllo
   assert.equal(got.length, 2);
-  send(110);
+  send(122);
   assert.equal(got.length, 3);
+  cur = 0.2; // di nuovo spostato da altro
+  send(127); // lontano e dalla stessa parte: niente salto
+  assert.equal(got.length, 3);
+  send(28); // 0,22: non lo attraversa ma ci arriva vicino (entro 0,04), riprende il controllo
+  assert.equal(got.length, 4);
 });
 
 test('Inpulse 500: hot cue a colori, nota 0x2C riservata alla guida al beatmatch', () => {

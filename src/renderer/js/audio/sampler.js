@@ -194,15 +194,28 @@ export class Sampler extends EventTarget {
     this.output = this.ctx.createGain();
     this.output.gain.value = 0.8;
     this.output.connect(engine.samplerBus);
-    this.pads = BUILTIN.map((b) => ({ name: b.name, color: b.color, buffer: null, source: null, loop: false, path: null }));
+    // lost: campione salvato che all'avvio non si è caricato (disco scollegato): il pad suona quello di serie ma
+    // l'assegnazione resta salvata finché non se ne sceglie un altro
+    this.pads = BUILTIN.map((b) => ({ name: b.name, color: b.color, buffer: null, source: null, loop: false, path: null, lost: null }));
+    this.missing = []; // { pad, name, error } dei campioni salvati non trovati all'avvio
   }
 
   async init(saved = []) {
     await Promise.all(BUILTIN.map(async (b, i) => {
       this.pads[i].buffer = await b.make();
     }));
+    this.missing = [];
     for (const [i, s] of saved.entries()) {
-      if (s && s.path) await this.loadFile(i, s.path, s.name).catch(() => {});
+      if (!this.pads[i]) continue;
+      if (s && s.path) {
+        try {
+          await this.loadFile(i, s.path, s.name);
+        } catch (err) {
+          console.warn('Campione del sampler non caricato', s.path, err);
+          this.pads[i].lost = { path: s.path, name: s.name || null };
+          this.missing.push({ pad: i + 1, name: s.name || s.path.split(/[\\/]/).pop(), error: err.message });
+        }
+      }
       if (s && s.loop) this.pads[i].loop = true;
     }
   }
@@ -213,6 +226,7 @@ export class Sampler extends EventTarget {
     const pad = this.pads[i];
     pad.buffer = buf;
     pad.path = path;
+    pad.lost = null;
     pad.name = name || path.split(/[\\/]/).pop().replace(/\.[^.]+$/, '').replace(/#.*$/, '');
     this.dispatchEvent(new CustomEvent('change'));
   }
@@ -222,6 +236,7 @@ export class Sampler extends EventTarget {
     const pad = this.pads[i];
     pad.name = b.name;
     pad.path = null;
+    pad.lost = null;
     b.make().then((buf) => {
       pad.buffer = buf;
       this.dispatchEvent(new CustomEvent('change'));
@@ -273,6 +288,9 @@ export class Sampler extends EventTarget {
   }
 
   serialize() {
-    return this.pads.map((p) => ({ path: p.path, name: p.path ? p.name : null, loop: p.loop }));
+    return this.pads.map((p) => {
+      if (!p.path && p.lost) return { path: p.lost.path, name: p.lost.name, loop: p.loop };
+      return { path: p.path, name: p.path ? p.name : null, loop: p.loop };
+    });
   }
 }

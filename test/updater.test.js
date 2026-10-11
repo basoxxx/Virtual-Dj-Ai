@@ -98,9 +98,9 @@ test('installScript: aspetta la chiusura, installa e riapre', () => {
   assert.equal(updater.installScript('linux', { pid: 1, installer: '/tmp/a' }), null);
 });
 
-test('install: su Linux senza AppImage apre la cartella (manuale)', () => {
+test('install: su Linux senza AppImage apre la cartella (manuale)', async () => {
   let shown = null;
-  const r = updater.install('/tmp/x.AppImage', { platform: 'linux', appImage: undefined, shell: { showItemInFolder: (f) => { shown = f; } } });
+  const r = await updater.install('/tmp/x.AppImage', { platform: 'linux', appImage: undefined, shell: { showItemInFolder: (f) => { shown = f; } } });
   assert.equal(r, 'manual');
   assert.equal(shown, '/tmp/x.AppImage');
 });

@@ -1,15 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import {
   deckBlock, perBeatWave, gridBeats, transitionInput, curvesAt, TM_MAX_BEATS, TM_INPUTS, TM_DECK,
 } from '../src/renderer/js/ai/transition-model.js';
-import { TRANSITION_MODEL } from '../src/renderer/js/ai/transition-planner.js';
+import { TRANSITION_STYLES } from '../src/renderer/js/ai/transition-planner.js';
+import { modelPath, skipWithoutModel } from './helpers/models.js';
 
 // riferimenti prodotti da ml/transitions/export_onnx.py
 const FIX = fileURLToPath(new URL('./fixtures/transition-model/reference.json', import.meta.url));
-const MODELS = fileURLToPath(new URL('../src/renderer/models/', import.meta.url));
 const ref = JSON.parse(readFileSync(FIX, 'utf8'));
 
 test('modello C: ingressi per battuta uguali a deck_block in Python', () => {
@@ -113,12 +113,12 @@ test('modello C: ogni stile di transizione del pannello ha il suo modello e la s
 // parità di ogni stile con onnxruntime Python: riferimenti da ml/transitions/export_onnx.py
 // (reference.json per lo stile predefinito, reference-techno.json per la v6 dello stile techno)
 const PARITY = [
-  [TRANSITION_MODEL, ref],
-  ['segueo-transizioni-techno-v6.onnx', JSON.parse(readFileSync(fileURLToPath(new URL('./fixtures/transition-model/reference-techno.json', import.meta.url)), 'utf8'))],
+  [TRANSITION_STYLES.model.file, ref],
+  [TRANSITION_STYLES['model-techno'].file, JSON.parse(readFileSync(fileURLToPath(new URL('./fixtures/transition-model/reference-techno.json', import.meta.url)), 'utf8'))],
 ];
 for (const [file, r] of PARITY) {
-  const path = MODELS + file;
-  test(`modello C int8 con onnxruntime-web (${file}): curve come onnxruntime Python`, { skip: !existsSync(path) && 'modello non scaricato' }, async () => {
+  const path = modelPath(file);
+  test(`modello C int8 con onnxruntime-web (${file}): curve come onnxruntime Python`, { skip: skipWithoutModel(file) }, async () => {
     const ort = await import('onnxruntime-web');
     ort.env.wasm.numThreads = 1;
     const s = await ort.InferenceSession.create(new Uint8Array(readFileSync(path)), { executionProviders: ['wasm'] });

@@ -71,6 +71,7 @@ canvas { display: block; }
 .clock { color: var(--dim); font-variant-numeric: tabular-nums; min-width: 42px; text-align: right; font-weight: 500; }
 .badge { padding: 4px 10px; border-radius: 980px; background: var(--control); color: var(--faint); font-weight: 600; font-size: 11px; cursor: pointer; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .badge.on { color: #000; background: var(--ok); }
+.badge.warn { color: #000; background: var(--warn); }
 .progress { color: var(--dim); opacity: 0; transition: opacity .3s; font-variant-numeric: tabular-nums; }
 .progress.show { opacity: 1; }
 .rec-time { color: var(--err); font-variant-numeric: tabular-nums; min-width: 40px; font-weight: 600; }
@@ -115,6 +116,7 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 .row.center { justify-content: center; }
 .row.end { justify-content: flex-end; }
 .hint { color: var(--faint); font-size: 11px; padding: 6px 2px; }
+.hint.error { color: var(--err); }
 .mini-label, .section-label { font-size: 10px; color: var(--faint); font-weight: 600; letter-spacing: .02em; }
 
 /* --- Forme d'onda --------------------------------------------------------- */
@@ -518,6 +520,8 @@ body.view-ai .mash-group + .mash-group { margin-top: 0; }
 .midi-kind { color: var(--faint); font-size: 10px; }
 .midi-key { font-family: ui-monospace, "SF Mono", Menlo, monospace; color: var(--ok); font-size: 11px; }
 .midi-key.from-preset { color: var(--a); }
+.midi-reject { grid-column: 1 / -1; flex-basis: 100%; color: var(--warn); font-size: 11px; }
+.midi-reject:empty { display: none; }
 .keys-table { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 20px; }
 .key-row { display: flex; gap: 10px; align-items: center; }
 kbd { background: var(--control); border-radius: 6px; padding: 3px 7px; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11px; min-width: 70px; text-align: center; box-shadow: inset 0 -1px 0 #45454a; }

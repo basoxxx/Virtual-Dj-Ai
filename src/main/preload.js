@@ -1,11 +1,19 @@
 // Ponte sicuro tra renderer e processo principale.
 const { contextBridge, ipcRenderer, webUtils } = require('electron');
 
-const invoke = (channel) => (...args) => ipcRenderer.invoke(channel, ...args);
+// gli errori del processo principale arrivano come "Error invoking remote method 'x': Error: …": resta solo il messaggio
+const invoke = (channel) => async (...args) => {
+  try {
+    return await ipcRenderer.invoke(channel, ...args);
+  } catch (err) {
+    throw new Error(String((err && err.message) || err).replace(/^Error invoking remote method '[^']*': (?:\w*Error: )?/, ''));
+  }
+};
 
 contextBridge.exposeInMainWorld('api', {
   isElectron: true,
   appInfo: invoke('app:info'),
+  takeNotices: invoke('app:notices'),
   getSettings: invoke('settings:get'),
   setSettings: invoke('settings:set'),
 
@@ -39,6 +47,7 @@ contextBridge.exposeInMainWorld('api', {
   startRequest: invoke('requests:start'),
   stopRequest: invoke('requests:stop'),
   pickDownloadFolder: invoke('requests:pickFolder'),
+  checkSearchSite: invoke('requests:checkSite'),
   defaultDownloadFolder: invoke('requests:defaultFolder'),
   pathForFile: (file) => {
     try {
@@ -63,7 +72,8 @@ contextBridge.exposeInMainWorld('api', {
   updateInstall: invoke('update:install'),
 
   on: (channel, handler) => {
-    const allowed = ['menu', 'library:progress', 'update:progress', 'models:progress', 'requests:arrived', 'requests:stopped'];
+    const allowed = ['menu', 'library:progress', 'update:progress', 'models:progress', 'requests:arrived', 'requests:stopped', 'requests:ignored',
+      'app:notice', 'record:error'];
     if (!allowed.includes(channel)) return () => {};
     const listener = (_e, payload) => handler(payload);
     ipcRenderer.on(channel, listener);

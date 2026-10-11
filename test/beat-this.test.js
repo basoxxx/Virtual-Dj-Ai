@@ -1,16 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import {
   logMelSpectrogram, chunkStarts, predictLogits, minimalPostprocess, beatGrid, createBeatThisSession, trackBeats,
   BT_CHUNK, BT_MELS,
 } from '../src/renderer/js/dsp/beat-this.js';
 import { musicClip, toInt16Precision } from './helpers/music.js';
+import { modelPath, skipWithoutModel } from './helpers/models.js';
+import { BEAT_MODEL } from '../src/renderer/js/audio/analyzer-client.js';
 
 // riferimenti prodotti da ml/beat_this/export_onnx.py (torchaudio + onnxruntime Python)
 const FIX = fileURLToPath(new URL('./fixtures/beat-this/', import.meta.url));
-const MODELS = fileURLToPath(new URL('../src/renderer/models/', import.meta.url));
 const ref = JSON.parse(readFileSync(FIX + 'reference.json', 'utf8'));
 const f32 = (name) => {
   const b = readFileSync(FIX + name);
@@ -146,10 +147,10 @@ test('beatGrid: metà/doppio tempo dentro 70–180 BPM e casi degeneri', () => {
 // incluso nell'app (Segueo Analisi battute = Beat This! small0 int8). Scarto misurato sui logit rispetto a
 // onnxruntime Python: int8 fino a 0,35 anche a parità di spettrogramma (i kernel int8 di WASM arrotondano
 // diversamente da quelli nativi), battute identiche.
-const E2E = [['small0', 'int8', 0.5, 'segueo-analisi-battute.onnx']];
+const E2E = [['small0', 'int8', 0.5, BEAT_MODEL]];
 for (const [name, variant, tolerance, file] of E2E) {
-  const path = `${MODELS}${file}`;
-  test(`Segueo Analisi battute (${name} ${variant}) con onnxruntime-web: logit e battute come Python`, { skip: !existsSync(path) && 'modello non scaricato' }, async () => {
+  const path = modelPath(file);
+  test(`Segueo Analisi battute (${name} ${variant}) con onnxruntime-web: logit e battute come Python`, { skip: skipWithoutModel(file) }, async () => {
     const ort = await import('onnxruntime-web');
     ort.env.wasm.numThreads = 1;
     const { run, release } = await createBeatThisSession(ort, new Uint8Array(readFileSync(path)));
@@ -188,8 +189,8 @@ test('modelli: l\'app usa modelli inclusi nel pacchetto e scaricati da npm run m
   for (const m of manifest.models) assert.match(m.sha256, /^[0-9a-f]{64}$/);
 });
 
-const BUNDLED = `${MODELS}segueo-analisi-battute.onnx`;
-test('Beat This! small0 int8: BPM e prima battuta forte su brani a tempo noto', { skip: !existsSync(BUNDLED) && 'modello non scaricato' }, async () => {
+const BUNDLED = modelPath(BEAT_MODEL);
+test('Beat This! small0 int8: BPM e prima battuta forte su brani a tempo noto', { skip: skipWithoutModel(BEAT_MODEL) }, async () => {
   const ort = await import('onnxruntime-web');
   ort.env.wasm.numThreads = 1;
   const { run, release } = await createBeatThisSession(ort, new Uint8Array(readFileSync(BUNDLED)));

@@ -117,6 +117,7 @@ export class MashupUI {
       node.classList.remove('drop');
       const t = this.app.library.track(e.dataTransfer.getData('text/x-track-id'));
       if (t) this.useTrack(t, role);
+      else toast('Trascina un brano dalla libreria', 'warn');
     });
     this.parts[role] = { title, meta, clear, ai };
     return node;
@@ -422,6 +423,8 @@ export class MashupUI {
     } catch (err) {
       this.preview = null;
       toast(`Prova non riuscita: ${err.message}`, 'error');
+      // un deck già passato a solo base o solo voce torna al brano completo
+      await this.restoreFull();
     }
     this.renderList();
   }
@@ -441,8 +444,15 @@ export class MashupUI {
     const [a, b] = this.app.decks;
     a.pause();
     b.pause();
-    await Promise.all([a.setStem('full'), b.setStem('full')]).catch(() => {});
+    await this.restoreFull();
     this.renderList();
+  }
+
+  /** Dopo la prova i deck tornano al brano completo (se non riesce restano solo base o solo voce: lo si dice). */
+  async restoreFull() {
+    const res = await Promise.allSettled(this.app.decks.map((d) => d.setStem('full')));
+    const failed = res.find((r) => r.status === 'rejected');
+    if (failed) toast(`I deck non sono tornati al brano completo: ${failed.reason.message}`, 'error');
   }
 
   /** Deck fermati a mano dalla console: la prova è finita. */
@@ -452,6 +462,7 @@ export class MashupUI {
     const [a, b] = this.app.decks;
     if (!a.playing && !b.playing) {
       this.preview = null;
+      this.restoreFull();
       this.renderList();
     }
   }

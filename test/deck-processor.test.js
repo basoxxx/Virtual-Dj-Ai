@@ -138,3 +138,37 @@ test('swap cambia versione del brano senza fermarlo né spostarlo (mashup)', () 
   const out = render(p, SR / 2);
   assert.ok(Math.abs(freqOf(out) - 300) < 10, `frequenza ${freqOf(out)}`);
 });
+
+test('valori non finiti (NaN, infinito) scartati: l\'uscita resta un numero e il deck viene avvisato', () => {
+  const p = make(sine(440, 2));
+  p.port.onmessage({ data: { type: 'play', startTime: 0 } });
+  render(p, 1024);
+  const pos = p.pos;
+  p.port.onmessage({ data: { type: 'tempo', value: NaN } });
+  p.port.onmessage({ data: { type: 'bend', value: Infinity } });
+  p.port.onmessage({ data: { type: 'seek', pos: NaN } });
+  p.port.onmessage({ data: { type: 'loop', in: 0, out: NaN, active: true } });
+  p.port.onmessage({ data: { type: 'key', value: undefined } });
+  assert.equal(p.tempo, 1);
+  assert.equal(p.bend, 0);
+  assert.equal(p.keyRatio, 1);
+  assert.equal(p.loopActive, false);
+  assert.ok(p.pos >= pos);
+  assert.equal(p.sent.filter((m) => m.type === 'error').length, 5);
+  const out = render(p, 4096);
+  assert.ok(out.every(Number.isFinite), 'uscita senza NaN');
+  // i campi facoltativi possono mancare
+  p.port.onmessage({ data: { type: 'pause' } });
+  p.port.onmessage({ data: { type: 'scratch', active: false } });
+  assert.equal(p.sent.filter((m) => m.type === 'error').length, 5);
+});
+
+test('spegnere il loop non richiede punti validi', () => {
+  const p = make(sine(100, 4));
+  p.port.onmessage({ data: { type: 'loop', in: SR * 0.5, out: SR * 1, active: true } });
+  assert.equal(p.loopActive, true);
+  p.port.onmessage({ data: { type: 'loop', in: NaN, out: NaN, active: false } });
+  assert.equal(p.loopActive, false);
+  assert.equal(p.loopIn, SR * 0.5);
+  assert.ok(!(p.sent || []).some((m) => m.type === 'error'));
+});

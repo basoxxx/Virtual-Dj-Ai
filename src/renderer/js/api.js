@@ -24,12 +24,14 @@ function createBrowserApi() {
   }
   let rec = null;
   const stems = new Map();
+  const fresh = new Set(); // brani nuovi registrati da pathForFile (trascinati), non ancora contati da addFiles
   const snapshot = () => structuredClone(lib);
 
   const registerFile = (file) => {
     const path = `browser://${file.name}#${file.size}`;
     files.set(path, file);
     if (!lib.tracks.find((t) => t.path === path)) {
+      fresh.add(path);
       const name = file.name.replace(/\.[^.]+$/, '');
       const dash = name.indexOf(' - ');
       lib.tracks.push({
@@ -47,6 +49,7 @@ function createBrowserApi() {
   return {
     isElectron: false,
     appInfo: async () => ({ version: 'web', platform: 'browser', arch: '', electron: '-', chrome: navigator.userAgent }),
+    takeNotices: async () => [],
     getSettings: async () => settings,
     setSettings: async (patch) => {
       Object.assign(settings, patch);
@@ -60,18 +63,25 @@ function createBrowserApi() {
     getLibrary: async () => snapshot(),
     addFolder: async () => {
       const list = await pickFiles('audio/*', true, true);
-      list.filter((f) => /\.(mp3|wav|flac|ogg|m4a|aac|opus|aiff?|webm)$/i.test(f.name)).forEach(registerFile);
-      return snapshot();
+      const audio = list.filter((f) => /\.(mp3|wav|flac|ogg|m4a|aac|opus|aiff?|webm)$/i.test(f.name));
+      const before = lib.tracks.length;
+      for (const f of audio) fresh.delete(registerFile(f).path);
+      return { snapshot: snapshot(), added: lib.tracks.length - before, found: audio.length, skipped: [], errors: [] };
     },
     addFiles: async (paths) => {
-      if (paths && paths.length) return { snapshot: snapshot(), added: [] };
+      if (paths && paths.length) {
+        // i file trascinati sono già registrati da pathForFile: nuovi sono quelli non ancora contati
+        const added = lib.tracks.filter((t) => paths.includes(t.path) && fresh.delete(t.path));
+        return { snapshot: snapshot(), added, found: paths.length, folders: 0, skipped: [], errors: [], ignored: 0 };
+      }
       const list = await pickFiles();
       const added = list.map(registerFile);
-      return { snapshot: snapshot(), added };
+      for (const t of added) fresh.delete(t.path);
+      return { snapshot: snapshot(), added, found: list.length };
     },
     registerFile,
     removeFolder: async () => snapshot(),
-    rescan: async () => snapshot(),
+    rescan: async () => ({ snapshot: snapshot(), removed: 0, added: 0, offline: [], skipped: [] }),
     removeTrack: async (ids) => {
       const gone = new Set([].concat(ids));
       lib.tracks = lib.tracks.filter((t) => !gone.has(t.id));
@@ -160,6 +170,7 @@ function createBrowserApi() {
     },
     stopRequest: async () => {},
     pickDownloadFolder: async () => null,
+    checkSearchSite: async () => null, // nel browser non si guardano i download: niente sito personalizzato da controllare
     defaultDownloadFolder: async () => '',
     readClipboard: () => navigator.clipboard.readText(),
     writeClipboard: (text) => navigator.clipboard.writeText(text),
@@ -178,7 +189,7 @@ function createBrowserApi() {
       a.href = URL.createObjectURL(blob);
       a.download = `Mix-${Date.now()}.wav`;
       a.click();
-      return a.download;
+      return { file: a.download };
     },
     requestMic: async () => true,
     // mashup: nel browser niente download di modelli; le parti separate restano in memoria

@@ -17,6 +17,8 @@ export const GAMEPAD_LAYOUT = [
   ['Select / Share', 'AI DJ: mixa ora'],
 ];
 
+import { runAction } from '../midi.js';
+
 // indici del layout "standard" della Gamepad API
 const BTN = { A: 0, B: 1, X: 2, Y: 3, LB: 4, RB: 5, LT: 6, RT: 7, SELECT: 8, START: 9, LS: 10, RS: 11, UP: 12, DOWN: 13, LEFT: 14, RIGHT: 15 };
 
@@ -28,9 +30,11 @@ export class GamepadController extends EventTarget {
     this.prev = new Map();
     this.lastXf = null;
     this.repeat = 0;
+    this.reported = new Set(); // comandi che hanno già dato errore (un avviso solo)
     this.supported = typeof navigator !== 'undefined' && typeof navigator.getGamepads === 'function';
     if (this.supported) {
-      window.addEventListener('gamepadconnected', (e) => this.dispatchEvent(new CustomEvent('connected', { detail: e.gamepad.id })));
+      // mapping diverso da "standard": gli indici dei tasti qui sotto potrebbero non corrispondere
+      window.addEventListener('gamepadconnected', (e) => this.dispatchEvent(new CustomEvent('connected', { detail: { id: e.gamepad.id, mapping: e.gamepad.mapping } })));
       window.addEventListener('gamepaddisconnected', () => this.dispatchEvent(new CustomEvent('disconnected')));
     }
   }
@@ -40,9 +44,16 @@ export class GamepadController extends EventTarget {
     return [...navigator.getGamepads()].filter(Boolean);
   }
 
+  /** Esegue un comando: un errore si dice una volta (evento 'error') e non ferma il polling. */
   run(id, ...args) {
     const a = this.actions.get(id);
-    if (a) a.run(...args);
+    if (!a) return;
+    runAction(a, args, (err) => {
+      if (this.reported.has(id)) return;
+      this.reported.add(id);
+      console.error(`Gamepad: ${id}`, err);
+      this.dispatchEvent(new CustomEvent('error', { detail: `Comando «${a.label || id}» dal gamepad non riuscito: ${err && err.message ? err.message : err}` }));
+    });
   }
 
   /** Da chiamare a ogni frame. */

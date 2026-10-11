@@ -1,6 +1,6 @@
 // Browser della libreria: sorgenti, playlist, ricerca, ordinamento, lista virtualizzata,
 // evidenziazione dei brani compatibili (BPM e tonalità Camelot) con il deck in onda.
-import { el, button, toast, askText, confirmDialog } from './controls.js';
+import { el, button, toast, askText, confirmDialog, guard, reportError } from './controls.js';
 import { formatTime, camelotOf, harmonicMatch } from '../dsp/analysis.js';
 import { api } from '../api.js';
 import { icon, withIcon } from './icons.js';
@@ -99,10 +99,19 @@ export class LibraryUI extends EventTarget {
       if (!e.dataTransfer.files.length) return;
       e.preventDefault();
       const paths = [...e.dataTransfer.files].map((f) => api.pathForFile(f)).filter(Boolean);
-      if (!paths.length) return;
-      const res = await api.addFiles(paths);
-      this.setLibrary(res.snapshot);
-      toast(`${res.added.length} brani aggiunti`);
+      // file senza un percorso sul disco (es. trascinato dal browser o da dentro un archivio)
+      if (!paths.length) {
+        toast('Il file non è su disco: salvalo prima in una cartella e riprova', 'warn', 6000);
+        return;
+      }
+      // anche le cartelle: entrano in libreria come con + Cartella
+      try {
+        const res = await api.addFiles(paths);
+        this.setLibrary(res.snapshot);
+        this.reportImport(res);
+      } catch (err) {
+        toast(`Importazione non riuscita: ${err.message}`, 'error', 8000);
+      }
     });
     this.menu = null;
     document.addEventListener('pointerdown', (e) => {
@@ -170,10 +179,13 @@ export class LibraryUI extends EventTarget {
           e.preventDefault();
           node.classList.remove('drop');
           const ids = (e.dataTransfer.getData('text/x-track-ids') || '').split(',').filter(Boolean);
-          if (ids.length) {
+          if (!ids.length) return;
+          try {
             await api.addToPlaylist(source.id, ids);
             await this.reloadPlaylists();
             toast(`${ids.length} brani aggiunti alla playlist`);
+          } catch (err) {
+            reportError(err, 'Brani non aggiunti alla playlist');
           }
         });
         node.addEventListener('contextmenu', (e) => {
@@ -231,20 +243,62 @@ export class LibraryUI extends EventTarget {
     s.append(el('div', { class: 'lib-actions' },
       button('+ Cartella', { className: 'small', onClick: () => this.addFolder() }),
       button('+ File', { className: 'small', onClick: () => this.addFiles() }),
-      button(icon('refresh', 14), { className: 'small', title: 'Aggiorna libreria', onClick: async () => {
-        this.setLibrary(await api.rescan());
-        toast('Libreria aggiornata');
-      } })));
+      button(icon('refresh', 14), { className: 'small', title: 'Aggiorna libreria', onClick: () => this.rescan() })));
+  }
+
+  /** Brani spariti tolti e nuovi aggiunti; le cartelle su dischi scollegati restano com'erano (e lo si dice). */
+  async rescan() {
+    try {
+      const res = await api.rescan();
+      this.setLibrary(res.snapshot);
+      const changes = [res.added && `${res.added} aggiunti`, res.removed && `${res.removed} tolti perché cancellati`].filter(Boolean).join(', ');
+      if (res.offline.length) {
+        toast(`Non raggiungibili (disco scollegato?): ${res.offline.join(', ')}. I loro brani restano in libreria${changes ? ` · ${changes}` : ''}`, 'warn', 10000);
+      } else {
+        toast(`Libreria aggiornata${changes ? `: ${changes}` : ''}`, 'ok');
+      }
+      this.reportSkipped(res.skipped);
+    } catch (err) {
+      toast(`Aggiornamento della libreria non riuscito: ${err.message}`, 'error', 8000);
+    }
   }
 
   async addFolder() {
-    this.setLibrary(await api.addFolder());
+    try {
+      const res = await api.addFolder();
+      this.setLibrary(res.snapshot);
+      if (!res.canceled) this.reportImport(res);
+    } catch (err) {
+      toast(err.message, 'error', 12000); // es. permessi di macOS, con dove si sbloccano
+    }
   }
 
   async addFiles() {
-    const res = await api.addFiles();
-    this.setLibrary(res.snapshot);
-    if (res.added.length) toast(`${res.added.length} brani aggiunti`);
+    try {
+      const res = await api.addFiles();
+      this.setLibrary(res.snapshot);
+      if (!res.canceled) this.reportImport(res);
+    } catch (err) {
+      toast(`Importazione non riuscita: ${err.message}`, 'error', 8000);
+    }
+  }
+
+  /** Esito di un'importazione (+ Cartella, + File, trascinamento): si dice sempre, anche quando non entra niente. */
+  reportImport(res) {
+    const errors = res.errors || [];
+    for (const msg of errors) toast(msg, 'error', 12000);
+    const n = Array.isArray(res.added) ? res.added.length : res.added || 0;
+    if (n) toast(`${n} ${n === 1 ? 'brano aggiunto' : 'brani aggiunti'}`, 'ok');
+    else if (res.found) toast('Nessun brano nuovo: erano già tutti in libreria', 'warn');
+    else if (!errors.length && !res.ignored) toast('Nessun file audio trovato nella cartella', 'warn');
+    if (res.ignored) toast(`${res.ignored} ${res.ignored === 1 ? 'file non audio ignorato' : 'file non audio ignorati'}`, 'warn');
+    this.reportSkipped(res.skipped);
+  }
+
+  reportSkipped(skipped = []) {
+    if (!skipped.length) return;
+    const more = skipped.length > 2 ? ` e altre ${skipped.length - 2}` : '';
+    toast(`Sottocartelle non leggibili (permessi), saltate: ${skipped.slice(0, 2).join(', ')}${more}`, 'warn', 10000);
   }
 
   playlistTracks(id) {
@@ -454,7 +508,7 @@ export class LibraryUI extends EventTarget {
       const node = el('div', { class: 'ctx-item' }, it.label);
       node.addEventListener('click', () => {
         this.closeMenu();
-        it.run();
+        guard(it.run); // le voci async (rinomina, elimina, rianalizza…) non devono fallire in silenzio
       });
       menu.append(node);
     }

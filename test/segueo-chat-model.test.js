@@ -1,14 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { readFileSync } from 'node:fs';
 import { chatNormalize, chatFeaturize, splitClauses, chatInputs, softmaxHeads, chatDecide } from '../src/renderer/js/ai/chat-features.js';
 import { CHAT_HEADS, CHAT_THRESHOLDS } from '../src/renderer/js/ai/chat-heads.js';
+import { CHAT_MODEL } from '../src/renderer/js/ai/chat-model.js';
+import { modelPath, skipWithoutModel } from './helpers/models.js';
 
 const FIX = new URL('./fixtures/segueo-chat/', import.meta.url);
 const CASES = JSON.parse(readFileSync(new URL('cases.json', FIX), 'utf8'));
 const DECISIONS = JSON.parse(readFileSync(new URL('decisions.json', FIX), 'utf8'));
-const MODEL = fileURLToPath(new URL('../src/renderer/models/segueo-chat-v2.onnx', import.meta.url));
+const MODEL = modelPath(CHAT_MODEL);
+
+test('Segueo Chat: casi di riferimento presenti (con liste vuote i confronti passerebbero senza provare niente)', () => {
+  assert.ok(CASES.length > 0, 'cases.json vuoto');
+  assert.ok(DECISIONS.length > 1, 'decisions.json vuoto');
+});
 
 test('Segueo Chat: testo e caratteristiche identici a ml/segueochat (Python)', () => {
   for (const c of CASES) {
@@ -40,7 +46,7 @@ test('Segueo Chat: soglie per ogni testa e decisione (saluti solo senza richiest
   assert.deepEqual(chatDecide(logits({ talk: 'hello' }), [], CHAT_THRESHOLDS), { talk: 'hello' });
 });
 
-test('Segueo Chat: con onnxruntime-web l\'app decide come Python', { skip: !existsSync(MODEL) && 'modello non scaricato' }, async () => {
+test('Segueo Chat: con onnxruntime-web l\'app decide come Python', { skip: skipWithoutModel(CHAT_MODEL) }, async () => {
   const ort = await import('onnxruntime-web');
   ort.env.wasm.numThreads = 1;
   const s = await ort.InferenceSession.create(new Uint8Array(readFileSync(MODEL)));

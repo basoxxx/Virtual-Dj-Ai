@@ -5,17 +5,22 @@ const path = require('node:path');
 
 const FILES = ['ort.wasm.bundle.min.mjs', 'ort-wasm-simd-threaded.wasm'];
 const root = path.join(__dirname, '..');
-// percorso diretto: il campo "exports" del pacchetto non espone package.json
-const dist = path.join(root, 'node_modules', 'onnxruntime-web', 'dist');
-if (!fs.existsSync(dist)) {
-  console.log('onnxruntime-web non installato: analisi AI non disponibile, resta quella classica');
-  process.exit(0);
-}
 const out = path.join(root, 'src', 'renderer', 'vendor', 'onnxruntime-web');
-fs.mkdirSync(out, { recursive: true });
-for (const f of FILES) fs.copyFileSync(path.join(dist, f), path.join(out, f));
-// il pacchetto npm non contiene il file di licenza: testo MIT del repository microsoft/onnxruntime
-fs.writeFileSync(path.join(out, 'LICENSE'), `onnxruntime-web ${require(path.join(dist, '..', 'package.json')).version}
+
+function main() {
+  // percorso diretto: il campo "exports" del pacchetto non espone package.json
+  const dist = path.join(root, 'node_modules', 'onnxruntime-web', 'dist');
+  if (!fs.existsSync(dist)) {
+    // npm install non deve fallire per questo, ma l'avviso si deve vedere (e npm run dist si rifiuta di continuare)
+    process.stderr.write(`\nATTENZIONE: onnxruntime-web non è installato (${dist}).\n`
+      + 'L\'analisi AI (battute con Beat This!, AI DJ, mashup) non sarà disponibile: resta quella classica.\n'
+      + 'Per averla: npm install onnxruntime-web. Senza, npm run dist non crea il pacchetto (scripts/check-dist.js).\n\n');
+    process.exit(0);
+  }
+  fs.mkdirSync(out, { recursive: true });
+  for (const f of FILES) fs.copyFileSync(path.join(dist, f), path.join(out, f));
+  // il pacchetto npm non contiene il file di licenza: testo MIT del repository microsoft/onnxruntime
+  fs.writeFileSync(path.join(out, 'LICENSE'), `onnxruntime-web ${require(path.join(dist, '..', 'package.json')).version}
 https://github.com/microsoft/onnxruntime
 
 MIT License
@@ -40,4 +45,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 `);
-console.log(`onnxruntime-web copiato in ${path.relative(root, out)}`);
+  console.log(`onnxruntime-web copiato in ${path.relative(root, out)}`);
+}
+
+if (require.main === module) main();
+
+module.exports = { FILES };

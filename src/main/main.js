@@ -9,7 +9,10 @@ const { JsonStore } = require('./store');
 const updater = require('./updater');
 const aiAssets = require('./ai-assets');
 const migrate = require('./migrate');
-const { DownloadWatcher, searchUrl } = require('./downloads');
+const recorder = require('./recorder');
+const { Notices } = require('./notices');
+const { fsErrorText } = require('./errors');
+const { DownloadWatcher, searchUrl, searchTemplateProblem } = require('./downloads');
 
 const RENDERER_DIR = path.join(__dirname, '..', 'renderer');
 const isDev = process.argv.includes('--dev');
@@ -22,9 +25,83 @@ let mainWindow = null;
 let library = null;
 let settings = null;
 let recording = null;
+let quitWithRecording = false; // l'utente ha scelto di uscire anche se si registra
 
 function send(channel, payload) {
   if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send(channel, payload);
+}
+
+// --- avvisi all'utente e registro degli errori ----------------------------------------
+// Gli avvisi nati prima che l'interfaccia sia pronta (avvio, migrazione, file illeggibili) aspettano che li chieda.
+const notices = new Notices((n) => {
+  if (!mainWindow || mainWindow.isDestroyed()) return false;
+  mainWindow.webContents.send('app:notice', n);
+  return true;
+});
+
+function notice(message, type = 'error', ms = 9000, onDelivered = null) {
+  notices.add(message, type, ms, onDelivered);
+}
+
+function logFile() {
+  return path.join(app.getPath('userData'), 'logs', 'main.log');
+}
+
+/** Errore nel registro userData/logs/main.log (oltre 1 MB il precedente passa in main.log.1). */
+function logError(where, err) {
+  console.error(`${where}:`, err);
+  try {
+    const file = logFile();
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    try {
+      if (fs.statSync(file).size > 1048576) fs.renameSync(file, `${file}.1`);
+    } catch {
+      // registro ancora vuoto
+    }
+    fs.appendFileSync(file, `${new Date().toISOString()} ${where}: ${(err && err.stack) || err}\n`);
+  } catch {
+    // il registro non si scrive (es. disco pieno): resta la console
+  }
+}
+
+function openExternal(url) {
+  shell.openExternal(url).catch((err) => notice(`Non riesco ad aprire il browser (${err.message})`, 'error'));
+}
+
+// --- registrazione: mai persa in silenzio ------------------------------------------------
+function recoveryDir() {
+  return path.join(app.getPath('userData'), recorder.RECOVERY_DIR);
+}
+
+/** Chiude la registrazione senza chiedere dove salvarla: resta nella cartella di recupero e all'avvio si avvisa. */
+function abandonRecording() {
+  if (!recording) return null;
+  const rec = recording;
+  recording = null;
+  try {
+    recorder.finalizeRecording(rec);
+  } catch (err) {
+    logError('Chiusura della registrazione', err); // all'avvio si rifà l'intestazione dalla dimensione del file
+  }
+  return rec.file;
+}
+
+/** Chiudere o uscire mentre si registra: si chiede. true = si può chiudere. */
+function confirmQuitWhileRecording() {
+  if (!recording || quitWithRecording) return true;
+  const options = {
+    type: 'warning',
+    buttons: ['Ferma e salva…', 'Esci comunque', 'Annulla'],
+    defaultId: 0,
+    cancelId: 2,
+    message: 'La registrazione del mix è in corso',
+    detail: `Se esci adesso la registrazione si chiude e resta in ${recoveryDir()}.`,
+  };
+  const win = mainWindow && !mainWindow.isDestroyed() ? mainWindow : null;
+  const choice = win ? dialog.showMessageBoxSync(win, options) : dialog.showMessageBoxSync(options);
+  if (choice === 0) send('menu', 'record'); // l'interfaccia la ferma e chiede dove salvarla
+  if (choice === 1) quitWithRecording = true;
+  return choice === 1;
 }
 
 function registerAppProtocol() {
@@ -79,15 +156,47 @@ function createWindow() {
     mainWindow.show();
     if (settings.data.maximized) mainWindow.maximize();
   });
-  mainWindow.on('close', () => {
+  mainWindow.on('close', (e) => {
+    if (!confirmQuitWhileRecording()) {
+      e.preventDefault();
+      return;
+    }
     settings.data.maximized = mainWindow.isMaximized();
-    settings.flush();
+    try {
+      settings.flush();
+    } catch (err) {
+      logError('Salvataggio delle impostazioni alla chiusura', err);
+    }
   });
+  // macOS: chiusa la finestra l'app resta aperta, ma l'interfaccia che registrava non c'è più
+  mainWindow.on('closed', () => abandonRecording());
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    if (/^https?:/.test(url)) shell.openExternal(url);
+    if (/^https?:/.test(url)) openExternal(url);
     return { action: 'deny' };
   });
   mainWindow.webContents.on('will-navigate', (e) => e.preventDefault());
+  mainWindow.webContents.on('did-start-loading', () => notices.reset()); // gli avvisi aspettano la nuova interfaccia
+  // interfaccia bloccata o terminata: la registrazione si chiude con quanto registrato, si avvisa e si riparte
+  let lastGone = 0;
+  mainWindow.webContents.on('render-process-gone', (_e, details) => {
+    if (details.reason === 'clean-exit') return;
+    logError('Interfaccia terminata', details.reason);
+    notices.reset();
+    const file = abandonRecording();
+    const saved = file ? ` La registrazione in corso è salvata in ${file}` : '';
+    if (Date.now() - lastGone < 15000) {
+      // si blocca di nuovo subito: niente ripartenze all'infinito; gli avvisi in attesa (es. dov'è la registrazione)
+      // si mostrano qui, così all'avvio dopo non si ripetono
+      const pending = notices.drain().map((n) => n.message);
+      if (file) recorder.clearMarker({ file });
+      dialog.showErrorBox('Segueo', [`L'interfaccia continua a bloccarsi (${details.reason}): chiudi e riapri Segueo. Dettagli in ${logFile()}.${saved}`, ...pending].join('\n\n'));
+      return;
+    }
+    // il marcatore della registrazione resta finché l'avviso non arriva: se non arriva, si avvisa all'avvio dopo
+    notice(`L'interfaccia si è bloccata (${details.reason}) ed è ripartita.${saved}`, 'error', 20000, file ? () => recorder.clearMarker({ file }) : null);
+    lastGone = Date.now();
+    mainWindow.reload();
+  });
   mainWindow.loadURL('app://dj/index.html');
   if (isDev) mainWindow.webContents.openDevTools({ mode: 'detach' });
 }
@@ -131,7 +240,7 @@ function buildMenu() {
       label: 'Aiuto',
       submenu: [
         { label: 'Scorciatoie da tastiera', accelerator: 'F1', click: () => send('menu', 'help') },
-        { label: 'Pagina del progetto', click: () => shell.openExternal('https://github.com/basoxxx/Virtual-Dj-Ai') },
+        { label: 'Pagina del progetto', click: () => openExternal('https://github.com/basoxxx/Virtual-Dj-Ai') },
       ],
     },
   ];
@@ -158,6 +267,9 @@ function registerIpc() {
     chrome: process.versions.chrome,
   }));
 
+  // l'interfaccia è pronta: riceve gli avvisi nati prima (avvio, migrazione, file illeggibili), poi arrivano in diretta
+  ipcMain.handle('app:notices', () => notices.take());
+
   ipcMain.handle('settings:get', () => settings.data);
   ipcMain.handle('settings:set', (_e, patch) => {
     Object.assign(settings.data, patch);
@@ -166,34 +278,70 @@ function registerIpc() {
   });
 
   ipcMain.handle('library:get', () => library.snapshot());
-  ipcMain.handle('library:addFolder', async (_e, folder) => {
-    let target = folder;
-    if (!target) {
-      const res = await dialog.showOpenDialog(mainWindow, { properties: ['openDirectory', 'multiSelections'] });
-      if (res.canceled) return library.snapshot();
-      for (const f of res.filePaths) await library.addFolder(f, progress('Scansione'));
-      return library.snapshot();
+  // cartelle che non si leggono (permessi, disco): non entrano in libreria e il motivo arriva all'interfaccia
+  async function addFolders(folders) {
+    const res = { tracks: [], found: 0, skipped: [], errors: [] };
+    for (const folder of folders) {
+      try {
+        const r = await library.addFolder(folder, progress('Scansione'));
+        res.tracks.push(...r.added);
+        res.found += r.found;
+        res.skipped.push(...r.skipped);
+      } catch (err) {
+        res.errors.push(err.message);
+      }
     }
-    await library.addFolder(target, progress('Scansione'));
-    return library.snapshot();
+    return res;
+  }
+  ipcMain.handle('library:addFolder', async (_e, folder) => {
+    let folders = folder ? [folder] : null;
+    if (!folders) {
+      const res = await dialog.showOpenDialog(mainWindow, { properties: ['openDirectory', 'multiSelections'] });
+      if (res.canceled) return { snapshot: library.snapshot(), canceled: true, added: 0, found: 0, skipped: [], errors: [] };
+      folders = res.filePaths;
+    }
+    const r = await addFolders(folders);
+    if (r.errors.length && r.errors.length === folders.length) throw new Error(r.errors.join(' · ')); // non è entrata nessuna
+    return { snapshot: library.snapshot(), added: r.tracks.length, found: r.found, skipped: r.skipped, errors: r.errors };
   });
   ipcMain.handle('library:addFiles', async (_e, files) => {
     let list = files;
     if (!list || !list.length) {
       const res = await dialog.showOpenDialog(mainWindow, { properties: ['openFile', 'multiSelections'], filters: audioFilters() });
-      if (res.canceled) return { snapshot: library.snapshot(), added: [] };
+      if (res.canceled) return { snapshot: library.snapshot(), added: [], canceled: true };
       list = res.filePaths;
     }
-    const added = await library.addFiles(list.filter((f) => typeof f === 'string'), progress('Importazione'));
-    return { snapshot: library.snapshot(), added };
+    list = list.filter((f) => typeof f === 'string');
+    // cartelle trascinate: si aggiungono come cartelle della libreria
+    const folders = list.filter((f) => {
+      try {
+        return fs.statSync(f).isDirectory();
+      } catch {
+        return false;
+      }
+    });
+    const plain = list.filter((f) => !folders.includes(f));
+    const fromFolders = await addFolders(folders);
+    const added = await library.addFiles(plain, progress('Importazione'));
+    const audio = plain.filter(isAudioFile).length;
+    return {
+      snapshot: library.snapshot(),
+      added: [...fromFolders.tracks, ...added],
+      found: fromFolders.found + audio, // file audio trovati, anche già in libreria
+      folders: folders.length - fromFolders.errors.length,
+      skipped: fromFolders.skipped,
+      errors: fromFolders.errors,
+      ignored: plain.length - audio,
+    };
   });
   ipcMain.handle('library:removeFolder', (_e, folder) => {
     library.removeFolder(folder);
     return library.snapshot();
   });
+  // removed/added: brani tolti e aggiunti; offline: cartelle non raggiungibili (i loro brani restano)
   ipcMain.handle('library:rescan', async () => {
-    await library.rescan(progress('Aggiornamento'));
-    return library.snapshot();
+    const r = await library.rescan(progress('Aggiornamento'));
+    return { snapshot: library.snapshot(), ...r };
   });
   // uno o più brani; l'interfaccia ricarica la libreria una volta sola alla fine
   ipcMain.handle('library:removeTrack', (_e, ids) => {
@@ -263,20 +411,35 @@ function registerIpc() {
     accept: isAudioFile,
     onFile: async (file) => {
       try {
-        await library.addFiles([file]);
+        const [added] = await library.addFiles([file]);
+        // estensione audio ma non è audio (es. pagina d'errore salvata come .mp3) o non si legge: non si importa
+        if (added && added.metadataError && !added.duration) {
+          library.removeTrack(added.id);
+          send('requests:arrived', { error: `File non audio o danneggiato: ${path.basename(file)} (${added.metadataError})`, file });
+          return;
+        }
         const track = library.snapshot().tracks.find((t) => t.path === file) || null;
         send('requests:arrived', { snapshot: library.snapshot(), track, file });
       } catch (err) {
         send('requests:arrived', { error: err.message, file });
       }
     },
-    onStop: () => send('requests:stopped', {}),
+    onIgnored: (file) => send('requests:ignored', { file, name: path.basename(file) }),
+    // da sola (30 minuti senza file, cartella non più leggibile): con il motivo
+    onStop: (info) => send('requests:stopped', info),
   });
   ipcMain.handle('requests:start', async (_e, { query = '', template = '', folder = '' } = {}) => {
     const dir = folder || app.getPath('downloads');
     const url = template === 'none' ? null : searchUrl(template, query); // un indirizzo non valido si segnala prima di iniziare
     requests.start(dir);
-    if (url) await shell.openExternal(url);
+    if (url) {
+      try {
+        await shell.openExternal(url);
+      } catch (err) {
+        requests.stop(false); // niente attesa di download che non arriveranno
+        throw new Error(`Non riesco ad aprire il browser (${err.message})`);
+      }
+    }
     return dir;
   });
   ipcMain.handle('requests:stop', () => requests.stop(false));
@@ -285,48 +448,44 @@ function registerIpc() {
     return res.canceled ? null : res.filePaths[0];
   });
   ipcMain.handle('requests:defaultFolder', () => app.getPath('downloads'));
+  ipcMain.handle('requests:checkSite', (_e, template) => searchTemplateProblem(template));
   ipcMain.handle('clipboard:write', (_e, text) => clipboard.writeText(String(text)));
 
-  // Registrazione del mix: i campioni PCM arrivano a blocchi e vengono scritti
-  // subito su disco, così anche set di ore non riempiono la memoria.
+  // Registrazione del mix (recorder.js): si scrive a blocchi nella cartella di recupero, da cui si sposta solo salvando
   ipcMain.handle('record:start', (_e, { sampleRate, channels }) => {
     if (recording) throw new Error('Registrazione già in corso');
-    const tmp = path.join(os.tmpdir(), `segueo-rec-${Date.now()}.wav`);
-    const fd = fs.openSync(tmp, 'w');
-    fs.writeSync(fd, Buffer.alloc(44));
-    recording = { tmp, fd, sampleRate, channels, bytes: 0 };
-    return tmp;
+    recording = recorder.startRecording(recoveryDir(), { sampleRate, channels });
+    quitWithRecording = false;
+    return recording.file;
   });
   ipcMain.on('record:chunk', (_e, chunk) => {
     if (!recording) return;
-    const buf = Buffer.from(chunk.buffer, chunk.byteOffset, chunk.byteLength);
-    fs.writeSync(recording.fd, buf);
-    recording.bytes += buf.byteLength;
+    // disco pieno o scollegato: una volta sola all'interfaccia, che ferma la registrazione
+    const problem = recorder.writeChunk(recording, Buffer.from(chunk.buffer, chunk.byteOffset, chunk.byteLength));
+    if (problem) {
+      logError('Scrittura della registrazione', recording.error);
+      send('record:error', { message: problem });
+    }
   });
+  // { file } salvata; { canceled, kept } non salvata, resta nella cartella di recupero (mai cancellata)
   ipcMain.handle('record:stop', async () => {
     if (!recording) return null;
     const rec = recording;
     recording = null;
-    const header = wavHeader(rec.bytes, rec.sampleRate, rec.channels);
-    fs.writeSync(rec.fd, header, 0, 44, 0);
-    fs.closeSync(rec.fd);
-    const stamp = new Date().toISOString().replace(/[:T]/g, '-').slice(0, 19);
+    try {
+      recorder.finalizeRecording(rec);
+    } catch (err) {
+      logError('Chiusura della registrazione', err);
+      throw new Error(`Chiusura della registrazione non riuscita (${fsErrorText(err)}): il file è in ${rec.file}, al prossimo avvio provo a sistemarlo`);
+    }
     const res = await dialog.showSaveDialog(mainWindow, {
       title: 'Salva registrazione del mix',
-      defaultPath: path.join(app.getPath('music'), `Mix-${stamp}.wav`),
+      defaultPath: path.join(app.getPath('music'), path.basename(rec.file)),
       filters: [{ name: 'WAV', extensions: ['wav'] }],
     });
-    if (res.canceled || !res.filePath) {
-      fs.rmSync(rec.tmp, { force: true });
-      return null;
-    }
-    try {
-      fs.renameSync(rec.tmp, res.filePath);
-    } catch {
-      fs.copyFileSync(rec.tmp, res.filePath);
-      fs.rmSync(rec.tmp, { force: true });
-    }
-    return res.filePath;
+    recorder.clearMarker(rec); // da qui l'interfaccia dice dov'è la registrazione
+    if (res.canceled || !res.filePath) return { canceled: true, kept: rec.file };
+    return { file: recorder.saveRecording(rec.file, res.filePath) };
   });
 
   // --- aggiornamenti automatici ---------------------------------------------------
@@ -346,16 +505,16 @@ function registerIpc() {
     });
     return { file: downloadedInstaller, verified: Boolean(updateInfo.asset.sha256) };
   });
-  ipcMain.handle('update:install', () => {
+  ipcMain.handle('update:install', async () => {
     if (!downloadedInstaller) throw new Error('Scarica prima l\'aggiornamento');
+    if (recording) throw new Error('Ferma la registrazione prima di aggiornare');
     // dal codice sorgente non si sostituisce mai l'eseguibile: si apre solo l'installer
-    const result = app.isPackaged ? updater.install(downloadedInstaller, { shell }) : 'manual';
+    const result = app.isPackaged
+      ? await updater.install(downloadedInstaller, { shell, version: app.getVersion(), latest: updateInfo && updateInfo.latest })
+      : 'manual';
     if (result === 'manual' && !app.isPackaged) shell.showItemInFolder(downloadedInstaller);
-    if (result === 'restart') {
-      if (library) library.flush();
-      if (settings) settings.flush();
-      setTimeout(() => app.quit(), 300);
-    }
+    // libreria e impostazioni si salvano all'uscita (before-quit), ognuna per conto suo
+    if (result === 'restart') setTimeout(() => app.quit(), 300);
     return result;
   });
 
@@ -376,32 +535,15 @@ function registerIpc() {
     if (process.platform !== 'darwin') return true;
     try {
       return await systemPreferences.askForMediaAccess('microphone');
-    } catch {
+    } catch (err) {
+      logError('Richiesta di accesso al microfono', err);
       return false;
     }
   });
 }
 
-function wavHeader(dataBytes, sampleRate, channels) {
-  const b = Buffer.alloc(44);
-  b.write('RIFF', 0);
-  b.writeUInt32LE(Math.min(0xffffffff, 36 + dataBytes), 4);
-  b.write('WAVE', 8);
-  b.write('fmt ', 12);
-  b.writeUInt32LE(16, 16);
-  b.writeUInt16LE(1, 20);
-  b.writeUInt16LE(channels, 22);
-  b.writeUInt32LE(sampleRate, 24);
-  b.writeUInt32LE(sampleRate * channels * 2, 28);
-  b.writeUInt16LE(channels * 2, 32);
-  b.writeUInt16LE(16, 34);
-  b.write('data', 36);
-  b.writeUInt32LE(Math.min(0xffffffff, dataBytes), 40);
-  return b;
-}
-
-// Passaggio dal vecchio nome: sposta l'app (macOS) e copia i dati prima che Chromium apra la cartella.
-function migrateFromLegacyName() {
+// Passaggio dal vecchio nome, macOS: l'app si sposta prima di tutto (e si riapre col nome nuovo).
+function renameLegacyBundle() {
   if (app.isPackaged && process.platform === 'darwin') {
     const move = migrate.macBundleRename(process.execPath, app.getName());
     if (move) {
@@ -411,23 +553,71 @@ function migrateFromLegacyName() {
         app.exit(0);
         return true;
       } catch (err) {
-        console.error('Rinomina dell\'app non riuscita:', err);
+        logError('Rinomina dell\'app', err);
       }
     }
-  }
-  try {
-    migrate.migrateUserData(path.join(app.getPath('appData'), migrate.LEGACY_NAME), app.getPath('userData'));
-  } catch (err) {
-    console.error('Migrazione dei dati non riuscita:', err);
   }
   return false;
 }
 
-const relaunching = migrateFromLegacyName();
+// I dati del vecchio nome si copiano solo con il lock dell'istanza unica (un secondo avvio non deve spostare file da
+// sotto l'app già aperta) e prima che Chromium apra la cartella.
+function migrateLegacyData() {
+  const oldDir = path.join(app.getPath('appData'), migrate.LEGACY_NAME);
+  try {
+    const res = migrate.migrateUserData(oldDir, app.getPath('userData'));
+    if (res && res.aside) {
+      notice(`Dati di '${migrate.LEGACY_NAME}' portati in Segueo. Quello che avevi fatto dopo il tentativo non riuscito è in ${res.aside}`, 'warn', 30000);
+    }
+  } catch (err) {
+    logError('Migrazione dei dati', err);
+    notice(`Non sono riuscito a portare i dati da '${migrate.LEGACY_NAME}' (${fsErrorText(err)}): sono ancora in ${oldDir}. Riprovo al prossimo avvio`, 'error', 30000);
+  }
+}
+
+// Errori non gestiti: nel registro e all'utente in italiano, senza la finestra di Electron con lo stack in inglese
+process.on('uncaughtException', (err) => {
+  logError('Eccezione non gestita', err);
+  notice(`Errore interno di Segueo: ${(err && err.message) || err}. Dettagli in ${logFile()}`, 'error', 12000);
+});
+process.on('unhandledRejection', (reason) => {
+  logError('Promessa rifiutata non gestita', reason);
+  notice(`Errore interno di Segueo: ${(reason && reason.message) || reason}. Dettagli in ${logFile()}`, 'error', 12000);
+});
+
+/** All'avvio: registrazioni interrotte, esito dell'ultimo aggiornamento, libreria o impostazioni illeggibili. */
+function startupChecks() {
+  for (const store of [library.store, settings]) {
+    if (!store.loadError) continue;
+    logError('Caricamento', store.loadError);
+    notice(store.loadError, 'error', 30000);
+  }
+  try {
+    for (const file of recorder.recoverInterrupted(recoveryDir())) {
+      notice(`Registrazione non salvata (Segueo si è chiuso mentre registravi): la trovi in ${file}`, 'warn', 30000);
+    }
+  } catch (err) {
+    logError('Recupero delle registrazioni', err);
+  }
+  try {
+    const update = updater.checkInstallResult(updater.UPDATE_DIR, app.getVersion());
+    if (update && !update.ok) {
+      notice(`Aggiornamento a ${update.to} non riuscito${update.code ? ` (codice ${update.code})` : ''}: installa a mano da ${update.installer}`, 'error', 30000);
+    } else if (update) {
+      notice(`Segueo aggiornato alla versione ${app.getVersion()}`, 'ok', 6000);
+    }
+  } catch (err) {
+    logError('Esito dell\'aggiornamento', err);
+  }
+}
+
+const relaunching = renameLegacyBundle();
+// il lock crea solo SingletonLock/Cookie/Socket (Windows: lockfile): esclusi dalla migrazione, non contano come dati
 const gotLock = !relaunching && app.requestSingleInstanceLock();
 if (!gotLock) {
   app.quit();
 } else {
+  migrateLegacyData();
   app.on('second-instance', () => {
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore();
@@ -437,8 +627,10 @@ if (!gotLock) {
 
   app.whenReady().then(() => {
     const userData = app.getPath('userData');
-    library = new Library(userData);
-    settings = new JsonStore(path.join(userData, 'settings.json'), {});
+    const saveError = (what) => (err) => notice(`Impossibile salvare ${what} (${fsErrorText(err)}): le ultime modifiche non sono su disco`, 'error', 15000);
+    library = new Library(userData, { onSaveError: saveError('la libreria') });
+    settings = new JsonStore(path.join(userData, 'settings.json'), {}, { label: 'Impostazioni', onError: saveError('le impostazioni') });
+    startupChecks();
     registerAppProtocol();
     configurePermissions();
     registerIpc();
@@ -447,18 +639,30 @@ if (!gotLock) {
     app.on('activate', () => {
       if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
+  }).catch((err) => {
+    logError('Avvio', err);
+    dialog.showErrorBox('Segueo non si è avviato', `${err.message}\n\nDettagli in ${logFile()}`);
+    app.quit();
   });
 
-  app.on('before-quit', () => {
-    if (library) library.flush();
-    if (settings) settings.flush();
-    if (recording) {
+  app.on('before-quit', (e) => {
+    if (!confirmQuitWhileRecording()) {
+      e.preventDefault();
+      return;
+    }
+    // ognuno per conto suo: se un salvataggio non riesce gli altri si fanno lo stesso
+    const failed = [];
+    for (const [what, store] of [['la libreria', library], ['le impostazioni', settings]]) {
+      if (!store) continue;
       try {
-        fs.closeSync(recording.fd);
-      } catch {
-        // già chiuso
+        store.flush();
+      } catch (err) {
+        logError(`Salvataggio all'uscita (${what})`, err);
+        failed.push(`${what} (${fsErrorText(err)})`);
       }
     }
+    abandonRecording();
+    if (failed.length) dialog.showErrorBox('Segueo', `Non sono riuscito a salvare ${failed.join(' e ')}: le ultime modifiche non sono su disco.`);
   });
 
   app.on('window-all-closed', () => {
@@ -466,4 +670,3 @@ if (!gotLock) {
   });
 }
 
-module.exports = { wavHeader };

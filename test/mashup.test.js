@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
+import './helpers/browser-env.js';
 import {
   mashupCompatibility, suggestPartners, pickPartner, pickPair, vocalEntryFrom, autoBaseStart, barNumber, stepPoint, savedStartAt, FADE_BARS,
 } from '../src/renderer/js/ai/mashup-plan.js';
@@ -11,6 +12,8 @@ import { AutoDJ } from '../src/renderer/js/ai/autodj.js';
 
 const require = createRequire(import.meta.url);
 const { Library } = require('../src/main/library.js');
+// api.js legge window.api una volta sola, al primo import: i test cambiano i metodi di questo oggetto, non l'oggetto
+const api = globalThis.window.api;
 
 // 120 BPM: una battuta dura 2 s
 const T = (id, bpm, key, extra = {}) => ({ id, title: `T${id}`, artist: `A${id}`, path: `/m/${id}.mp3`, bpm, key, gridOffset: 0.5, duration: 300, ...extra });
@@ -192,15 +195,14 @@ test('AI DJ: con l\'opzione mashup, dopo la base di un mashup salvato sceglie la
 
 test('gestore dei mashup: prepara voce e base, trova l\'entrata della voce e la salva', async () => {
   const store = [];
-  globalThis.window = globalThis.window || {};
-  globalThis.window.api = {
+  Object.assign(api, {
     saveMashup: async (m) => {
       const saved = { bars: 16, baseStart: null, vocalStart: null, ...m, id: m.id || `m${store.length + 1}` };
       store.push(saved);
       return saved;
     },
     deleteMashup: async () => {},
-  };
+  });
   const { MashupManager } = await import('../src/renderer/js/ai/mashups.js');
   const tracks = { a: T('a', 120, 'Am'), b: T('b', 120, 'Am') };
   const onDisk = new Set();
@@ -243,8 +245,14 @@ test('gestore dei mashup: prepara voce e base, trova l\'entrata della voce e la 
 });
 
 test('gestore dei mashup: se il brano della voce non ha ancora il BPM (analisi in pausa) lo aspetta', async () => {
-  globalThis.window = globalThis.window || {};
-  globalThis.window.api = { saveMashup: async (m) => ({ ...m, id: m.id || 'm1' }), deleteMashup: async () => {} };
+  const saved = [];
+  Object.assign(api, {
+    saveMashup: async (m) => {
+      saved.push(m);
+      return { ...m, id: m.id || 'm1' };
+    },
+    deleteMashup: async () => {},
+  });
   const { MashupManager } = await import('../src/renderer/js/ai/mashups.js');
   const tracks = { a: T('a', 120, 'Am'), b: T('b', 0, '') };
   const stems = Object.assign(new EventTarget(), {
@@ -252,10 +260,13 @@ test('gestore dei mashup: se il brano della voce non ha ancora il BPM (analisi i
   });
   const mm = new MashupManager({ stems, getTrack: (id) => tracks[id], bpmWait: 2000 });
   const m = await mm.save({ baseId: 'a', vocalId: 'b', bars: 16, vocalStart: null });
+  assert.equal(m.id, 'm1'); // salvato con l'api di questo test
   setTimeout(() => { tracks.b.bpm = 124; }, 300); // l'analisi riparte dopo la separazione
   await mm.prepare(m.id);
   assert.equal(mm.status(mm.get(m.id)).id, 'ready');
   assert.equal(mm.get(m.id).vocalStart, 16.5);
+  // l'entrata della voce trovata dopo l'attesa si salva
+  assert.equal(saved.at(-1).vocalStart, 16.5);
   // se il BPM non arriva: errore chiaro, non un'attesa infinita
   tracks.b.bpm = 0;
   const m2 = await mm.save({ id: 'm2', baseId: 'a', vocalId: 'b', bars: 16, vocalStart: null });

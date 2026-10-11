@@ -56,6 +56,12 @@ export class UpdateUI {
           this.notified = true;
           toast(`È disponibile Segueo ${this.info.latest}`, 'ok', 5000);
         }
+      } else if (this.info.newer) {
+        // versione nuova ma senza installer per questo sistema o architettura: non è "hai già l'ultima"
+        if (manual || !this.notifiedMissing) {
+          this.notifiedMissing = true;
+          toast(`È uscita Segueo ${this.info.latest} ma non c'è l'installer per questo computer: guarda ${this.info.page}`, 'warn', 12000);
+        }
       } else if (manual) {
         toast(`Hai già l'ultima versione (${this.info.current})`, 'ok');
       }
@@ -106,9 +112,12 @@ export class UpdateUI {
       const res = await this.api.updateDownload();
       this.verified = res.verified;
       this.state = 'ready';
+      if (!this.dialog) toast(`Segueo ${this.info.latest} scaricato: premi "Aggiorna a ${this.info.latest}" in alto per installarlo`, 'ok', 8000);
     } catch (err) {
       this.state = 'error';
       this.error = err.message;
+      // finestra nascosta durante il download: l'errore non deve passare in silenzio
+      if (!this.dialog) toast(`Aggiornamento non scaricato: ${err.message}`, 'error', 10000);
     }
     this.renderDialog();
   }
@@ -158,7 +167,8 @@ export class UpdateUI {
       actions.append(button('Più tardi', { onClick: () => this.closeDialog() }),
         button('Scarica e installa', { className: 'primary', onClick: () => this.startDownload() }));
     } else if (this.state === 'downloading') {
-      actions.append(button('Download in corso…', { className: 'primary' }));
+      // il download continua anche a finestra chiusa (si riapre dal pulsante in alto)
+      actions.append(button('Nascondi', { onClick: () => this.closeDialog() }), button('Download in corso…', { className: 'primary' }));
       actions.lastChild.disabled = true;
     } else if (this.state === 'ready') {
       actions.append(button('Più tardi', { onClick: () => this.closeDialog() }),

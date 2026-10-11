@@ -38,26 +38,83 @@ export function refineWithAi(channels, sampleRate, encoded) {
   return analyze(channels, sampleRate, { engine: 'ai', waveform: false, key: false, bpm: true, encoded });
 }
 
+// Rifiniture AI in corso (id del brano -> promessa del risultato): un deck e l'analisi della libreria non rifanno
+// lo stesso brano, e l'AI DJ sa se c'è davvero una rifinitura da aspettare.
+const refining = new Map();
+
+/** Il brano è in rifinitura AI in questo momento (su un deck o nell'analisi della libreria)? */
+export function isRefining(t) {
+  return Boolean(t && refining.has(t.id));
+}
+
+/**
+ * Rifinitura AI di un brano una volta sola: se è già in corso altrove si aspetta quella invece di rifarla.
+ * run() restituisce { res, duration }; shared = true se l'ha fatta qualcun altro (che ne salva lui il risultato).
+ */
+export function refineOnce(t, run) {
+  const running = refining.get(t.id);
+  if (running) return running.then((r) => ({ ...r, shared: true }));
+  const p = Promise.resolve().then(run).finally(() => {
+    if (refining.get(t.id) === p) refining.delete(t.id);
+  });
+  refining.set(t.id, p);
+  return p.then((r) => ({ ...r, shared: false }));
+}
+
+// Avvisi dell'analisi per l'interfaccia: 'ai-unavailable' (detail = motivo) quando la rifinitura AI non può
+// funzionare (modello mancante, onnxruntime o WASM che non partono), una volta sola per motivo.
+export const analysisEvents = new EventTarget();
+const aiWarned = new Set();
+
+function aiUnavailable(reason) {
+  if (aiWarned.has(reason)) return;
+  aiWarned.add(reason);
+  analysisEvents.dispatchEvent(new CustomEvent('ai-unavailable', { detail: reason }));
+}
+
 // Più worker in parallelo per l'analisi classica (un core ciascuno, uno lasciato all'interfaccia e all'audio);
 // il primo tiene anche la sessione di Beat This!, che usa già più thread da sola.
 export const POOL_SIZE = Math.max(1, Math.min(4, ((typeof navigator !== 'undefined' && navigator.hardwareConcurrency) || 2) - 1));
 const pool = []; // { worker, pending, idle }
+
+/**
+ * Tempo massimo per una richiesta, da quando il worker la comincia: abbondante (Beat This! su un brano lungo
+ * con una CPU lenta), serve solo a non restare in attesa per sempre se il worker si blocca.
+ */
+export function analysisTimeoutMs(seconds, ai) {
+  return 120000 + seconds * (ai ? 1000 : 250);
+}
+
+/** Worker caduto, fermo o non avviato: le sue richieste falliscono (si possono riprovare) e la memoria torna libera. */
+function failWorker(w, slot, message) {
+  for (const p of w.pending.values()) {
+    clearTimeout(p.timer);
+    p.reject(Object.assign(new Error(message), { kind: 'worker' }));
+  }
+  w.pending.clear();
+  clearTimeout(w.idle);
+  w.worker.terminate();
+  if (pool[slot] === w) pool[slot] = null;
+}
 
 function spawn(slot) {
   const w = { worker: new Worker(new URL('../../workers/analyzer.js', import.meta.url), { type: 'module' }), pending: new Map(), idle: null };
   w.worker.onmessage = (e) => {
     const p = w.pending.get(e.data.id);
     if (!p) return;
+    if (e.data.started) {
+      // il worker comincia la richiesta (le precedenti sono finite): da qui parte il tempo massimo
+      p.timer = setTimeout(() => failWorker(w, slot, 'L\'analisi non ha risposto in tempo'), p.timeoutMs);
+      return;
+    }
+    clearTimeout(p.timer);
     w.pending.delete(e.data.id);
     if (e.data.error) p.reject(new Error(e.data.error));
     else p.resolve(e.data.result);
     if (!w.pending.size) scheduleIdle(w, slot);
   };
-  w.worker.onerror = (e) => {
-    for (const p of w.pending.values()) p.reject(new Error(e.message || 'Errore del worker di analisi'));
-    w.pending.clear();
-    pool[slot] = null;
-  };
+  w.worker.onerror = (e) => failWorker(w, slot, e && e.message ? `Errore del worker di analisi: ${e.message}` : 'Worker di analisi non avviato: file mancante?');
+  w.worker.onmessageerror = () => failWorker(w, slot, 'Risultato dell\'analisi non leggibile');
   pool[slot] = w;
   return w;
 }
@@ -129,13 +186,23 @@ export async function analyze(channels, sampleRate, options = {}) {
   }
   const id = ++seq;
   const w = getWorker(ai);
+  const timeoutMs = analysisTimeoutMs(channels[0] ? channels[0].length / sampleRate : 0, ai);
   // i buffer dell'audio si spostano nel worker senza copiarli (lo stesso buffer può comparire due volte)
   const transfer = [...new Set([...(options.transfer ? channels.map((c) => c.buffer) : []), ...(mono22050 ? [mono22050.buffer] : [])])];
   const result = await new Promise((resolve, reject) => {
-    w.pending.set(id, { resolve, reject });
-    w.worker.postMessage({ id, channels, sampleRate, options: { ...opts, transfer: undefined }, mono22050 }, transfer);
+    w.pending.set(id, { resolve, reject, timeoutMs, timer: null });
+    try {
+      w.worker.postMessage({ id, channels, sampleRate, options: { ...opts, transfer: undefined }, mono22050 }, transfer);
+    } catch (err) {
+      // richiesta non partita (es. buffer non trasferibile): non deve restare in attesa nel worker
+      w.pending.delete(id);
+      reject(err);
+    }
   });
-  if (result.aiError) console.warn(`Analisi AI non riuscita, uso quella classica: ${result.aiError}`);
+  if (result.aiError) {
+    console.warn(`Analisi AI non riuscita, uso quella classica: ${result.aiError}`);
+    if (result.aiSystemic) aiUnavailable(result.aiError);
+  }
   return result;
 }
 
@@ -146,7 +213,13 @@ export async function analyze(channels, sampleRate, options = {}) {
  * @returns {{ res: object, duration: number }}
  */
 export async function analyzeBytes(bytes, options = {}) {
-  const mono = await decodeMono22050(bytes);
+  let mono;
+  try {
+    mono = await decodeMono22050(bytes);
+  } catch (err) {
+    // formato non supportato o file rovinato: riprovare non serve (kind = 'decode')
+    throw Object.assign(new Error(`file non decodificabile (${err.message})`), { kind: 'decode' });
+  }
   const duration = mono.length / BT_SAMPLE_RATE;
   const ai = (options.engine || config.engine) === 'ai' && options.bpm !== false;
   const res = await analyze([mono], BT_SAMPLE_RATE, { waveform: false, ...options, mono22050: ai ? mono : undefined, transfer: true });

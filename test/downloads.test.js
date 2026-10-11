@@ -15,7 +15,7 @@ test('richieste: file ancora in scaricamento e indirizzo di ricerca', () => {
   for (const n of ['Brano.mp3.crdownload', 'Unconfirmed 123.crdownload', 'x.mp3.part', 'x.download', '.DS_Store', '~$tmp']) assert.ok(isPartialDownload(n), n);
   assert.ok(!isPartialDownload('Artista - Brano.mp3'));
   assert.equal(searchUrl('https://www.beatport.com/search?q={q}', 'Tanti auguri & co'), 'https://www.beatport.com/search?q=Tanti%20auguri%20%26%20co');
-  assert.equal(searchUrl('', 'despacito'), 'https://www.google.com/search?q=despacito');
+  assert.throws(() => searchUrl('', 'despacito'), /Impostazioni/); // sito personalizzato vuoto: niente Google al suo posto
   assert.equal(searchUrl('https://bandcamp.com/search?q={q}', ''), 'https://bandcamp.com');
   assert.throws(() => searchUrl('file:///etc/passwd?q={q}', 'x'), /non valido/);
 });

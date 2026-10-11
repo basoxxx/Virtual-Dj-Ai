@@ -1,9 +1,10 @@
 // Deck: caricamento traccia, trasporto, cue stile CDJ, 8 hot cue, loop, beat jump,
 // pitch/keylock, sync di tempo e fase, slip mode, reverse/censor, ingresso linea.
 import { api } from '../api.js';
-import { analyze, analysisPatch, analysisEngine, refineWithAi } from './analyzer-client.js';
+import { analyze, analysisPatch, refineWithAi, refineOnce, needsAiRefine } from './analyzer-client.js';
 import { FxSlot } from './effects.js';
 import { shiftKey, camelotOf } from '../dsp/analysis.js';
+import { askMicAccess } from './mic.js';
 
 export const HOTCUE_COUNT = 8;
 // finestra su cui si misura la velocità dei jog a impulsi
@@ -16,19 +17,18 @@ export class Deck extends EventTarget {
     this.ctx = engine.ctx;
     this.strip = strip;
     this.id = id;
-    this.node = new AudioWorkletNode(this.ctx, 'deck-processor', { numberOfInputs: 0, numberOfOutputs: 1, outputChannelCount: [2] });
     this.playerGain = this.ctx.createGain();
     this.lineGain = this.ctx.createGain();
     this.lineGain.gain.value = 0;
     this.fx = [new FxSlot(this.ctx), new FxSlot(this.ctx)];
-    this.node.connect(this.playerGain);
+    this.createNode();
     this.playerGain.connect(this.fx[0].input);
     this.lineGain.connect(this.fx[0].input);
     this.fx[0].output.connect(this.fx[1].input);
     this.fx[1].output.connect(strip.input);
-    this.node.port.onmessage = (e) => this.onWorklet(e.data);
 
     this.track = null;
+    this.analyzing = false; // analisi classica (forma d'onda, BPM, tonalità) del brano caricato in corso
     this.duration = 0;
     this.sampleRate = this.ctx.sampleRate;
     this.waveform = null;
@@ -77,8 +77,75 @@ export class Deck extends EventTarget {
     this.node.port.postMessage(msg);
   }
 
+  /** Motore di riproduzione (AudioWorklet). Se il costruttore non riesce resta quello di prima (e lo stato broken). */
+  createNode() {
+    const node = new AudioWorkletNode(this.ctx, 'deck-processor', { numberOfInputs: 0, numberOfOutputs: 1, outputChannelCount: [2] });
+    if (this.node) this.node.disconnect();
+    this.node = node;
+    this.broken = false;
+    node.connect(this.playerGain);
+    node.port.onmessage = (e) => this.onWorklet(e.data);
+    // un'eccezione nel processore lo ferma per sempre (solo silenzio): se ne crea subito un altro
+    node.onprocessorerror = (e) => this.onProcessorError(e);
+  }
+
+  /**
+   * Il processore si è fermato per un errore: se ne crea subito uno nuovo con il brano (o la parte separata in uso),
+   * la posizione e le impostazioni del deck. Al massimo 3 volte in un minuto, per non girare in tondo su un errore
+   * che si ripete: poi il deck resta fermo finché non si ricarica il brano (load ricrea il motore).
+   */
+  onProcessorError(e) {
+    console.error(`Deck ${this.id}: errore nel motore audio`, e);
+    const now = performance.now();
+    this.crashes = (this.crashes || []).filter((t) => now - t < 60000);
+    this.crashes.push(now);
+    const wasPlaying = this.playing;
+    const pos = this.position;
+    if (this.crashes.length <= 3) {
+      try {
+        this.createNode();
+        this.postSettings();
+        this.restoreTrack(pos, wasPlaying);
+        this.emit('error', `Deck ${this.id}: errore nel motore audio, ripartito da dove era`);
+        this.emit('state');
+        return;
+      } catch (err) {
+        console.error(`Deck ${this.id}: motore audio non ricreato`, err);
+      }
+    }
+    this.broken = true;
+    this.playing = false;
+    this._aiReady = false; // l'AI DJ non lo considera "già pronto": lo ricarica o sceglie un altro brano
+    this.emit('error', `Deck ${this.id}: motore audio fermato, ricarica il brano`);
+    this.emit('state');
+  }
+
+  /** Tempo, tonalità, keylock e reverse del deck nel motore appena creato. */
+  postSettings() {
+    this.post({ type: 'tempo', value: this.tempo });
+    this.post({ type: 'keylock', value: this.keylock });
+    this.post({ type: 'key', value: 2 ** (this.keyShift / 12) });
+    this.post({ type: 'reverse', value: this.reverse });
+  }
+
+  /** Il brano caricato (o la parte separata in uso) nel motore appena creato, dalla posizione `pos` (s), con il loop. */
+  restoreTrack(pos, playing) {
+    const buf = this.stem && this.stem !== 'full' && this.stemBuffers ? this.stemBuffers : this.fullBuffers;
+    if (!buf || !this.loaded) return;
+    this.post({ type: 'load', left: buf.left, right: buf.right });
+    this.post({ type: 'seek', pos: pos * this.sampleRate });
+    this.lastPos = pos * this.sampleRate;
+    this.lastVel = 0;
+    this.lastT = this.ctx.currentTime;
+    this.post({ type: 'loop', in: this.loop.in * this.sampleRate, out: this.loop.out * this.sampleRate, active: this.loop.active });
+    if (playing) this.post({ type: 'play', startTime: 0 });
+  }
+
   onWorklet(m) {
-    if (m.type === 'pos') {
+    if (m.type === 'error') {
+      // valore non valido (NaN, infinito) scartato dal processore: è un errore di Segueo, non del brano
+      console.error(`Deck ${this.id}: ${m.message}`);
+    } else if (m.type === 'pos') {
       this.lastPos = m.pos;
       this.lastVel = m.vel;
       this.lastT = m.t;
@@ -138,10 +205,17 @@ export class Deck extends EventTarget {
       const audio = await this.ctx.decodeAudioData(ab);
       const left = audio.getChannelData(0);
       const right = audio.numberOfChannels > 1 ? audio.getChannelData(1) : left;
+      if (this.broken) {
+        // motore fermato da un errore: se ne crea uno nuovo con le impostazioni del deck
+        this.createNode();
+        this.postSettings();
+      }
+      this.resetBend();
       this.post({ type: 'unload' });
       this.post({ type: 'load', left, right });
       // versione completa (per tornarci dopo solo voce / solo base)
       this.fullBuffers = { left, right };
+      this.stemBuffers = null;
       this.stem = 'full';
       this.post({ type: 'seek', pos: 0 });
       this.track = track;
@@ -182,7 +256,7 @@ export class Deck extends EventTarget {
       if (!track.barEnergy && track.analyzed && api.getTrack) {
         api.getTrack(track.id).then((full) => {
           if (full && full.barEnergy && !track.barEnergy) track.barEnergy = full.barEnergy;
-        }).catch(() => {});
+        }).catch((err) => console.warn('Energia per battuta non disponibile (remix dal vivo)', track.path, err));
       }
       this.runAnalysis(track, [left, right === left ? left : right], audio.sampleRate, bytes);
       return true;
@@ -197,10 +271,20 @@ export class Deck extends EventTarget {
   async runAnalysis(track, channels, sampleRate, encoded) {
     const needBeat = !track.analyzed || !track.bpm;
     const needKey = !track.key;
+    this.analyzing = true;
     this.emit('analyzing', true);
     try {
       // prima il classico (risultati subito), poi con il motore AI la rifinitura in background
-      const res = await analyze(channels, sampleRate, { engine: 'classic', bpm: needBeat, key: needKey, knownBpm: track.bpm || 0, knownOffset: track.gridOffset || 0 });
+      const opts = { engine: 'classic', bpm: needBeat, key: needKey, knownBpm: track.bpm || 0, knownOffset: track.gridOffset || 0 };
+      let res;
+      try {
+        res = await analyze(channels, sampleRate, opts);
+      } catch (err) {
+        // worker caduto o fermo (anche per colpa di un'altra richiesta): un secondo tentativo su un worker nuovo
+        if (err.kind !== 'worker' || this.track !== track) throw err;
+        console.warn('Analisi del deck: nuovo tentativo', err);
+        res = await analyze(channels, sampleRate, opts);
+      }
       if (this.track !== track) return;
       this.waveform = res.waveform;
       const patch = analysisPatch(res, this.duration);
@@ -224,28 +308,40 @@ export class Deck extends EventTarget {
     } catch (err) {
       this.emit('error', `Analisi non riuscita: ${err.message}`);
     } finally {
+      if (this.track === track) this.analyzing = false;
       this.emit('analyzing', false);
     }
-    if (needBeat && analysisEngine() === 'ai' && this.track === track) await this.refineAnalysis(track, channels, sampleRate, encoded);
+    // con il motore AI ogni brano non ancora rifinito (o corretto a mano) passa da Beat This!, anche se l'analisi
+    // della libreria gli ha già dato BPM e griglia classici: è la rifinitura "solo sui deck"
+    if (this.track === track && needsAiRefine(track)) await this.refineAnalysis(track, channels, sampleRate, encoded);
   }
 
   /** Rifinitura AI (Beat This!) di griglia, battuta forte e struttura dopo l'analisi classica. */
   async refineAnalysis(track, channels, sampleRate, encoded) {
-    let res;
+    const duration = this.duration;
+    let out;
     try {
-      res = await refineWithAi(channels, sampleRate, encoded);
+      // se l'analisi della libreria sta già rifinendo questo brano si aspetta quella (e la salva lei)
+      out = await refineOnce(track, async () => ({ res: await refineWithAi(channels, sampleRate, encoded), duration }));
     } catch (err) {
+      // worker caduto o fermo: non dipende dal brano, si riprova al prossimo caricamento
       console.warn('Rifinitura AI non riuscita', err);
+      return;
     }
-    if (!res || !res.beat || res.beat.engine !== 'ai') {
-      track.aiRefineFailed = true;
+    const { res, shared } = out;
+    if (!res.beat || res.beat.engine !== 'ai') {
+      // modello mancante o onnxruntime che non parte: l'avviso arriva una volta sola (analysisEvents) e il brano
+      // resta da rifinire; un errore del brano invece non si riprova
+      if (!res.aiSystemic && !shared) track.aiRefineFailed = true;
       return;
     }
     if (track.bpmEngine === 'manual') return; // griglia corretta a mano nel frattempo
-    const patch = analysisPatch(res, this.duration);
-    delete patch.gain;
-    Object.assign(track, patch);
-    api.updateTrack(track.id, patch);
+    if (!shared) {
+      const patch = analysisPatch(res, duration);
+      delete patch.gain;
+      Object.assign(track, patch);
+      api.updateTrack(track.id, patch);
+    }
     // un deck in riproduzione cambia solo fase e battuta forte, non il tempo: chi è in sync non salta
     if (this.track !== track || (this.playing && Math.abs(res.beat.bpm - this.bpm) >= 0.5)) return;
     const atCue = Math.abs(this.position - this.cuePoint) < 0.01 && !this.playing;
@@ -281,6 +377,11 @@ export class Deck extends EventTarget {
 
   play() {
     if (!this.loaded) return;
+    if (this.broken) {
+      // il motore non si è potuto ricreare: niente play "muto" (l'AI DJ se ne accorge e interrompe il mix)
+      this.emit('error', `Deck ${this.id}: motore audio fermato, ricarica il brano`);
+      return;
+    }
     this.engine.resume();
     this.cuePreview = false;
     this.playing = true;
@@ -296,6 +397,7 @@ export class Deck extends EventTarget {
     if (!this.loaded) return;
     this.playing = false;
     this.cuePreview = false;
+    this.resetBend();
     this.post({ type: 'pause', brakeTime: this.brakeTime });
     this.emit('state');
   }
@@ -307,6 +409,7 @@ export class Deck extends EventTarget {
 
   stop() {
     this.playing = false;
+    this.resetBend();
     this.post({ type: 'pause', brakeTime: 0 });
     this.seek(this.cuePoint);
     this.emit('state');
@@ -339,6 +442,10 @@ export class Deck extends EventTarget {
     }
     const pos = this.position;
     if (Math.abs(pos - this.cuePoint) < 0.02) {
+      if (this.broken) {
+        this.emit('error', `Deck ${this.id}: motore audio fermato, ricarica il brano`);
+        return;
+      }
       this.cuePreview = true;
       this.playing = true;
       this.post({ type: 'play', startTime: 0 });
@@ -425,6 +532,8 @@ export class Deck extends EventTarget {
     }
     if (this.track !== track) return false;
     this.post({ type: 'swap', left, right });
+    // la parte in uso serve per ripartire se il motore audio si ferma per un errore
+    this.stemBuffers = kind === 'full' ? null : { left, right };
     this.stem = kind;
     this.emit('state');
     return true;
@@ -667,6 +776,18 @@ export class Deck extends EventTarget {
     this.bendTimer = setTimeout(() => this.bend(0), ms);
   }
 
+  /** Niente pitch bend rimasto attivo (nudge, jog): il prossimo play parte al tempo giusto. */
+  resetBend() {
+    clearTimeout(this.bendTimer);
+    // con il piatto toccato il timer del jog è quello che riporta a 0 la velocità dello scratch (cue juggling:
+    // CUE premuto con la mano sul piatto): resta com'è
+    if (!this.scratching) {
+      clearTimeout(this.jogTimer);
+      this.jogWin = [];
+    }
+    this.bend(0);
+  }
+
   sync(master) {
     if (!master || !master.bpm || !this.bpm) return false;
     let ratio = master.effectiveBpm / this.bpm;
@@ -781,6 +902,8 @@ export class Deck extends EventTarget {
     const secPerTick = 1.8 / res;
     const scratch = top && this.scratching;
     if (!this.playing && !scratch) {
+      // il deck si è fermato mentre il jog piegava il tempo: il bend non deve restare per il prossimo play
+      if (this.jogWin.length) this.resetBend();
       // da fermo: ghiera = spostamento lento, piatto = medio
       if (delta) this.seek(this.position + delta * secPerTick * (top ? 3 : 1));
       return;
@@ -832,15 +955,17 @@ export class Deck extends EventTarget {
       this.lineStream.getTracks().forEach((t) => t.stop());
       this.lineStream = null;
     }
+    // prima di tutto di nuovo il brano (stato sicuro): se il nuovo ingresso non si apre il deck non resta muto
+    const wasLine = this.lineDevice;
     this.lineDevice = null;
-    if (!deviceId) {
-      this.lineGain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.01);
-      this.playerGain.gain.setTargetAtTime(1, this.ctx.currentTime, 0.01);
+    this.lineGain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.01);
+    this.playerGain.gain.setTargetAtTime(1, this.ctx.currentTime, 0.01);
+    if (!deviceId || wasLine) {
       this.emit('line', null);
       this.emit('state');
-      return;
     }
-    await api.requestMic();
+    if (!deviceId) return;
+    await askMicAccess();
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: {
         deviceId: deviceId === 'default' ? undefined : { exact: deviceId },

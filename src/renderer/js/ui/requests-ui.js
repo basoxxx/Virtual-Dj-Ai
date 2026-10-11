@@ -34,9 +34,14 @@ export class RequestsUI {
     this.bar = el('div', { class: 'req-bar', hidden: true });
     lib.search.parentElement.after(this.bar);
     api.on('requests:arrived', (p) => this.onArrived(p));
-    api.on('requests:stopped', () => {
+    // smesso da solo (30 minuti senza file, cartella non più leggibile): si dice perché
+    api.on('requests:stopped', (info) => {
       this.waiting = false;
       this.render();
+      if (info && info.message) toast(info.message, 'warn', 10000);
+    });
+    api.on('requests:ignored', ({ name }) => {
+      toast(`${name} non è un file audio: non lo importo (se è un archivio .zip, estrailo e trascina i brani nella libreria)`, 'warn', 9000);
     });
   }
 
@@ -48,6 +53,7 @@ export class RequestsUI {
 
   template() {
     const s = this.settings;
+    // sito personalizzato vuoto o senza {q}: lo segnala il processo principale prima di aprire il browser
     return s.site === 'custom' ? s.custom : s.site;
   }
 
@@ -89,12 +95,26 @@ export class RequestsUI {
     this.analyzeSoon();
   }
 
-  /** L'analisi del brano arrivato passa davanti a quella della libreria (che poi riprende). */
+  /**
+   * L'analisi del brano arrivato passa davanti a quella della libreria: si ferma l'analisi in corso, si aspetta il
+   * brano che sta analizzando e si riparte con tutti quelli da analizzare, il brano arrivato per primo (priorità).
+   * Non si rinuncia: se un brano lungo tiene occupata l'analisi si aspetta, e lo si scrive nella console.
+   */
   async analyzeSoon() {
     const an = this.app.analyzer;
     if (an.running) {
       an.stop();
-      for (let i = 0; i < 600 && an.running; i++) await new Promise((r) => setTimeout(r, 100));
+      await new Promise((resolve) => {
+        const slow = setTimeout(() => console.warn('Richieste: l\'analisi della libreria non si è ancora fermata, il brano arrivato aspetta'), 60000);
+        const check = () => {
+          if (an.running) return;
+          clearTimeout(slow);
+          an.removeEventListener('progress', check);
+          resolve();
+        };
+        an.addEventListener('progress', check);
+        check();
+      });
     }
     an.run(BatchAnalyzer.pending(this.app.library.lib.tracks));
   }
