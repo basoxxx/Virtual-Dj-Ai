@@ -25,7 +25,7 @@ test('migrateUserData: copia i dati del vecchio nome e salta cache e lock', () =
   fs.mkdirSync(newDir);
   fs.writeFileSync(path.join(newDir, 'SingletonLock'), 'nuovo');
 
-  assert.equal(migrate.migrateUserData(oldDir, newDir), true);
+  assert.deepEqual(migrate.migrateUserData(oldDir, newDir), { aside: null });
   assert.equal(fs.readFileSync(path.join(newDir, 'settings.json'), 'utf8'), '{"volume":0.8}');
   assert.equal(fs.readFileSync(path.join(newDir, 'Local Storage', 'leveldb', '000003.log'), 'utf8'), 'midi');
   assert.equal(fs.existsSync(path.join(newDir, 'GPUCache')), false);

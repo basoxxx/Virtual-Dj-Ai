@@ -31,13 +31,24 @@ function getWorker() {
       if (e.data.error) p.reject(new Error(e.data.error));
       else p.resolve(e.data.curves);
     };
-    worker.onerror = (e) => {
-      for (const p of pending.values()) p.reject(new Error(e.message || 'Errore del pianificatore'));
+    // worker caduto o non avviato: le richieste falliscono (l'AI DJ usa le regole) e la memoria torna libera
+    const fail = (message) => {
+      for (const p of pending.values()) p.reject(new Error(message));
       pending.clear();
+      if (worker) worker.terminate();
       worker = null;
     };
+    worker.onerror = (e) => fail(e && e.message ? `errore del pianificatore: ${e.message}` : 'pianificatore non avviato: file mancante?');
+    worker.onmessageerror = () => fail('risposta del pianificatore non leggibile');
   }
   return worker;
+}
+
+/** Le curve arrivate dal modello si possono usare? (almeno `length` battute × 9 controlli, tutti numeri finiti) */
+export function validCurves(curves, length) {
+  if (!curves || !(curves.length >= length * 9)) return false;
+  for (let i = 0; i < length * 9; i++) if (!Number.isFinite(curves[i])) return false;
+  return true;
 }
 
 /**
@@ -57,5 +68,7 @@ export async function planCurves(from, fromStart, to, toStart, bars, { style = '
       if (pending.delete(id)) reject(new Error('il modello non ha risposto in tempo'));
     }, timeoutMs);
   });
+  // curve corte o con NaN fermerebbero il mix a metà: meglio le regole
+  if (!validCurves(curves, length)) throw new Error('curve del modello non valide');
   return { curves, length };
 }

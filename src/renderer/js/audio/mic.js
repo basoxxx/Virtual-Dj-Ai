@@ -2,6 +2,13 @@
 import { api } from '../api.js';
 import { Meter } from './mixer.js';
 
+/** Permesso del sistema per microfono e ingressi linea (macOS): se è negato lo si dice, con dove riattivarlo. */
+export async function askMicAccess() {
+  if (!(await api.requestMic())) {
+    throw new Error('accesso al microfono negato: consentilo a Segueo in Impostazioni di Sistema → Privacy e sicurezza → Microfono');
+  }
+}
+
 export class MicChannel extends EventTarget {
   constructor(engine) {
     super();
@@ -40,36 +47,52 @@ export class MicChannel extends EventTarget {
     this.deviceId = null;
     this.onAir = false;
     this.talkover = true;
+    this.airSeq = 0; // ultima richiesta di on air (Spazio premuto e rilasciato mentre si apre il microfono)
   }
 
+  /**
+   * Apre il microfono scelto. Il nuovo si apre prima di chiudere quello in uso: se non si apre resta il vecchio,
+   * l'on air non cambia e la scelta resta (il prossimo tentativo riprova lo stesso microfono).
+   */
   async open(deviceId) {
-    this.close();
-    await api.requestMic();
-    this.stream = await navigator.mediaDevices.getUserMedia({
+    const id = deviceId || 'default';
+    this.deviceId = id;
+    await askMicAccess();
+    const stream = await navigator.mediaDevices.getUserMedia({
       audio: {
-        deviceId: deviceId && deviceId !== 'default' ? { exact: deviceId } : undefined,
+        deviceId: id !== 'default' ? { exact: id } : undefined,
         echoCancellation: false,
         noiseSuppression: false,
         autoGainControl: false,
         latency: 0,
       },
     });
-    this.source = this.ctx.createMediaStreamSource(this.stream);
+    if (this.deviceId !== id) {
+      // nel frattempo è stato scelto un altro microfono
+      stream.getTracks().forEach((t) => t.stop());
+      return;
+    }
+    this.release();
+    this.stream = stream;
+    this.source = this.ctx.createMediaStreamSource(stream);
     this.source.connect(this.input);
-    this.deviceId = deviceId || 'default';
     this.dispatchEvent(new CustomEvent('change'));
   }
 
-  close() {
+  release() {
     if (this.source) this.source.disconnect();
     if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
     this.source = null;
     this.stream = null;
-    this.deviceId = null;
+  }
+
+  close() {
+    this.release();
     this.setOnAir(false);
   }
 
   async setOnAir(on) {
+    const req = ++this.airSeq;
     if (on && !this.stream) {
       try {
         await this.open(this.deviceId || 'default');
@@ -77,6 +100,8 @@ export class MicChannel extends EventTarget {
         this.dispatchEvent(new CustomEvent('error', { detail: `Microfono non disponibile: ${err.message}` }));
         return;
       }
+      // Spazio rilasciato (o altra richiesta) mentre si apriva il microfono: vale l'ultima, il microfono resta spento
+      if (req !== this.airSeq) return;
     }
     this.onAir = on;
     this.gate.gain.setTargetAtTime(on ? 1 : 0, this.ctx.currentTime, 0.02);

@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { JsonStore } = require('./store');
+const { fsErrorText } = require('./errors');
 
 const AUDIO_EXTENSIONS = new Set([
   '.mp3', '.wav', '.wave', '.flac', '.ogg', '.oga', '.opus', '.m4a', '.aac', '.mp4', '.aif', '.aiff', '.webm', '.wma',
@@ -60,26 +61,83 @@ async function readMetadata(file) {
     if (c.year) track.year = String(c.year);
     if (c.bpm) track.bpm = Number(c.bpm) || 0;
     if (c.key) track.key = c.key;
-    if (meta.format && meta.format.duration) track.duration = meta.format.duration;
-  } catch {
-    // file non leggibile dai metadati: resta con i dati del nome file
+    const f = meta.format || {};
+    // es. una pagina HTML d'errore salvata come .mp3: si legge senza errori ma non c'è nessun formato audio
+    if (!f.container && !f.codec && !f.sampleRate) track.metadataError = 'formato audio non riconosciuto';
+    if (f.duration) track.duration = f.duration;
+  } catch (err) {
+    // metadati illeggibili: il brano resta con i dati del nome file, ma il motivo si ricorda (file non audio, permessi)
+    track.metadataError = fsErrorText(err);
   }
   return track;
 }
 
-async function walk(dir, out, depth = 0) {
+/** Cartella non leggibile, in parole (su macOS spesso è la privacy di Musica, Download, Scrivania e dischi esterni). */
+function folderError(dir, err) {
+  if (err.code === 'ENOENT') return new Error(`Cartella non trovata: ${dir}`);
+  if (err.code === 'ENOTDIR') return new Error(`Non è una cartella: ${dir}`);
+  if (err.code === 'EPERM' || err.code === 'EACCES') {
+    const mac = process.platform === 'darwin'
+      ? '. Su macOS consenti l\'accesso a Segueo in Impostazioni di Sistema → Privacy e sicurezza → File e cartelle (o Accesso completo al disco), poi riprova'
+      : '';
+    return new Error(`Non ho il permesso di leggere la cartella ${dir}${mac}`);
+  }
+  return new Error(`Cartella non leggibile: ${dir} (${fsErrorText(err)})`);
+}
+
+/**
+ * File audio della cartella e delle sottocartelle. Se non si legge la cartella di partenza è un errore (non una
+ * cartella vuota); le sottocartelle che non si leggono finiscono in skipped.
+ */
+async function walk(dir, out, skipped = [], depth = 0) {
   if (depth > 24) return;
   let entries;
   try {
     entries = await fs.promises.readdir(dir, { withFileTypes: true });
-  } catch {
+  } catch (err) {
+    if (depth === 0) throw folderError(dir, err);
+    skipped.push(dir);
     return;
   }
   for (const entry of entries) {
     if (entry.name.startsWith('.')) continue;
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) await walk(full, out, depth + 1);
+    if (entry.isDirectory()) await walk(full, out, skipped, depth + 1);
     else if (entry.isFile() && isAudioFile(entry.name)) out.push(full);
+  }
+}
+
+function inside(file, folder) {
+  return file.startsWith(folder.endsWith(path.sep) ? folder : folder + path.sep);
+}
+
+/** La cartella si raggiunge? Vuota ma con brani registrati = quasi sempre un punto di mount senza il disco (NAS, Linux). */
+async function folderReachable(folder, hasTracks) {
+  try {
+    const d = await fs.promises.opendir(folder);
+    const first = await d.read();
+    await d.close();
+    return Boolean(first) || !hasTracks;
+  } catch {
+    return false;
+  }
+}
+
+/** Il file è stato cancellato davvero (non solo illeggibile per permessi o disco). */
+function fileMissing(file) {
+  try {
+    fs.statSync(file);
+    return false;
+  } catch (err) {
+    return err.code === 'ENOENT' || err.code === 'ENOTDIR';
+  }
+}
+
+function dirExists(dir) {
+  try {
+    return fs.statSync(dir).isDirectory();
+  } catch {
+    return false;
   }
 }
 
@@ -99,7 +157,8 @@ async function mapLimit(items, limit, fn) {
 const SAVE_DELAY = 2000;
 
 class Library {
-  constructor(userDataDir) {
+  /** onSaveError(err): salvataggio in background non riuscito (disco pieno, permessi). */
+  constructor(userDataDir, { onSaveError = null } = {}) {
     this.store = new JsonStore(path.join(userDataDir, 'library.json'), {
       version: 1,
       folders: [],
@@ -107,7 +166,7 @@ class Library {
       playlists: [],
       history: [],
       mashups: [],
-    }, { delay: SAVE_DELAY });
+    }, { delay: SAVE_DELAY, label: 'Libreria', onError: onSaveError });
   }
 
   get data() {
@@ -146,9 +205,10 @@ class Library {
       const id = trackId(file);
       const existing = this.data.tracks[id];
       if (!existing) {
-        const track = await readMetadata(file);
+        // il motivo dei metadati illeggibili serve solo a chi importa (es. le richieste), non si salva in libreria
+        const { metadataError, ...track } = await readMetadata(file);
         this.data.tracks[id] = track;
-        added.push(track);
+        added.push(metadataError ? { ...track, metadataError } : track);
       }
       done++;
       if (onProgress && (done % 10 === 0 || done === audio.length)) onProgress(done, audio.length);
@@ -157,13 +217,18 @@ class Library {
     return added;
   }
 
+  /**
+   * Una cartella non leggibile è un errore e non entra in libreria. Restituisce i brani aggiunti, quanti file audio
+   * ha trovato (anche già in libreria) e le sottocartelle che non ha potuto leggere.
+   */
   async addFolder(folder, onProgress) {
     const resolved = path.resolve(folder);
-    if (!this.data.folders.includes(resolved)) this.data.folders.push(resolved);
     const files = [];
-    await walk(resolved, files);
-    await this.addFiles(files, onProgress);
-    this.store.save();
+    const skipped = [];
+    await walk(resolved, files, skipped);
+    if (!this.data.folders.includes(resolved)) this.data.folders.push(resolved);
+    const added = await this.addFiles(files, onProgress);
+    return { added, found: files.length, skipped };
   }
 
   removeFolder(folder) {
@@ -176,14 +241,38 @@ class Library {
     this.store.save();
   }
 
+  /**
+   * Toglie i brani spariti e aggiunge quelli nuovi. Un brano si toglie solo se è stato cancellato davvero: se la sua
+   * cartella della libreria non si raggiunge (disco esterno o di rete scollegato) cue, griglie, voti e analisi restano.
+   * Per i brani aggiunti uno per uno vale la loro cartella: se manca anche quella, il disco è scollegato.
+   */
   async rescan(onProgress) {
-    // rimuove i file spariti e aggiunge quelli nuovi
-    for (const [id, t] of Object.entries(this.data.tracks)) {
-      if (!fs.existsSync(t.path)) delete this.data.tracks[id];
+    const tracks = Object.entries(this.data.tracks);
+    const offline = [];
+    for (const folder of this.data.folders) {
+      if (!(await folderReachable(folder, tracks.some(([, t]) => inside(t.path, folder))))) offline.push(folder);
+    }
+    let removed = 0;
+    for (const [id, t] of tracks) {
+      const root = this.data.folders.find((f) => inside(t.path, f));
+      if (root ? offline.includes(root) : !dirExists(path.dirname(t.path))) continue;
+      if (fileMissing(t.path)) {
+        delete this.data.tracks[id];
+        removed++;
+      }
     }
     const files = [];
-    for (const folder of this.data.folders) await walk(folder, files);
-    await this.addFiles(files, onProgress);
+    const skipped = [];
+    for (const folder of this.data.folders) {
+      if (offline.includes(folder)) continue;
+      try {
+        await walk(folder, files, skipped);
+      } catch {
+        offline.push(folder); // sparita proprio adesso
+      }
+    }
+    const added = await this.addFiles(files, onProgress);
+    return { removed, added: added.length, offline, skipped };
   }
 
   removeTrack(id) {

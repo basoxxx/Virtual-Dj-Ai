@@ -194,20 +194,42 @@ export function fader({ vertical = true, min = 0, max = 1, value = 0, def = valu
   return wrap;
 }
 
+/** Errore di un comando dell'interfaccia: in console e in un avviso, invece di sparire in silenzio. */
+export function reportError(err, context = '') {
+  console.error(context || 'Errore', err);
+  const msg = err && err.message ? err.message : String(err);
+  toast(context ? `${context}: ${msg}` : msg, 'error', 6000);
+}
+
+/**
+ * Chiama un gestore di eventi e segnala i suoi errori, anche quelli di una funzione async.
+ * La chiamata resta sincrona: alcuni gestori aprono finestre (es. input.click()) e devono farlo nel gesto dell'utente.
+ */
+export function guard(fn, ...args) {
+  try {
+    const res = fn(...args);
+    if (res && typeof res.then === 'function') res.then(null, (err) => reportError(err));
+    return res;
+  } catch (err) {
+    reportError(err);
+    return undefined;
+  }
+}
+
 export function button(label, { className = '', title = '', onClick, onDown, onUp, toggle = false } = {}) {
   const b = el('button', { class: `btn ${className}`, title, type: 'button' }, label);
-  if (onClick) b.addEventListener('click', (e) => onClick(e));
+  if (onClick) b.addEventListener('click', (e) => guard(onClick, e));
   if (onDown) {
     b.addEventListener('pointerdown', (e) => {
       if (e.button !== 0) return;
       b.setPointerCapture(e.pointerId);
-      onDown(e);
+      guard(onDown, e);
     });
   }
   if (onUp) {
     const up = (e) => {
       if (b.hasPointerCapture(e.pointerId)) b.releasePointerCapture(e.pointerId);
-      onUp(e);
+      guard(onUp, e);
     };
     b.addEventListener('pointerup', up);
     b.addEventListener('pointercancel', up);
@@ -270,7 +292,7 @@ export function select(options, value, onChange, className = '') {
     if (v != null) s.value = v;
   };
   fill(options, value);
-  s.addEventListener('change', () => onChange && onChange(s.value));
+  s.addEventListener('change', () => onChange && guard(onChange, s.value));
   s.setOptions = fill;
   return s;
 }

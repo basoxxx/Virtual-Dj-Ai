@@ -37,6 +37,15 @@ export function knownActions() {
   return ids;
 }
 
+// tipo di ogni azione, lo stesso con cui la registra l'app: manopole e fader, jog ed encoder, il resto sono tasti
+const KNOB_ACTIONS = /\.(pitch|volume|gain|eq\.(high|mid|low)|filter|fx\d\.(mix|param))$|^(xfader|xfCurve|master|hpVolume|cueMix)$/;
+const JOG_ACTIONS = /\.(jog|jogScratch|jogSearch|loopSize)$|^(browse|browseFast)$/;
+
+/** Tipo di un'azione: 'knob' (manopole e fader), 'jog' (jog ed encoder relativi) o 'button'. */
+export function actionKind(id) {
+  return KNOB_ACTIONS.test(id) ? 'knob' : JOG_ACTIONS.test(id) ? 'jog' : 'button';
+}
+
 const note = (ch, n) => `note:${ch}:${n}`;
 const cc = (ch, n) => `cc:${ch}:${n}`;
 const DECKS = ['A', 'B'];
@@ -428,7 +437,7 @@ export const PRESETS = MODELS.map(([family, name, tier, match, extra = {}]) => {
 export function detectPreset(deviceName) {
   if (!deviceName) return null;
   const name = deviceName.toLowerCase();
-  // i nomi più lunghi vincono (es. "DDJ-FLX10" prima di "DDJ-FLX1")
+  // se un nome è contenuto in un altro vince il più lungo (es. "DDJ-1000SRT" su "DDJ-1000", "Launch Control XL" su "Launch Control")
   let best = null;
   let bestLen = 0;
   for (const p of PRESETS) {

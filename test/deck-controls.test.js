@@ -101,3 +101,42 @@ test('LOOP IN tenuto premuto: loop di 4 battute dal punto di IN', () => {
   assert.equal(d.loop.in, 3);
   assert.equal(d.loop.out, 5);
 });
+
+test('jog a impulsi: se il deck si ferma mentre il jog piega il tempo, il bend non resta per il prossimo play', async () => {
+  const d = fakeDeck({ playing: true });
+  at(d, 30);
+  const bends = () => d.posts.filter((m) => m.type === 'bend').map((m) => m.value);
+  for (let i = 0; i < 5; i++) { now += 2.5; d.jogTicks(1, 720, false); }
+  assert.ok(bends().at(-1) > 0, `bend in play: ${bends().at(-1)}`);
+  // fine del brano (o CUE) entro la finestra del jog: il timer trova il deck fermo
+  d.playing = false;
+  now += 20;
+  await new Promise((r) => setTimeout(r, 30));
+  assert.equal(bends().at(-1), 0);
+  assert.deepEqual(d.jogWin, []);
+  // anche pausa e stop azzerano un nudge ancora in corso
+  d.playing = true;
+  d.nudge(10, 5000);
+  d.pause();
+  assert.equal(bends().at(-1), 0);
+  d.nudge(-10, 5000);
+  d.stop();
+  assert.equal(bends().at(-1), 0);
+});
+
+test('cue juggling: CUE con la mano sul piatto non lascia lo scratch alla velocità dell\'ultima mano', async () => {
+  const d = fakeDeck({ playing: true, scratching: true });
+  at(d, 30);
+  const vels = () => d.posts.filter((m) => m.type === 'scratchVelocity').map((m) => m.velocity);
+  try {
+    for (let i = 0; i < 10; i++) { now += 2.5; d.jogTicks(1, 720, true); }
+    assert.ok(vels().at(-1) > 0.3, `velocità della mano: ${vels().at(-1)}`);
+    // CUE in play: pausa e ritorno al cue, la mano è ancora sul piatto ma ferma
+    d.pause();
+    now += 100;
+    await new Promise((r) => setTimeout(r, 30));
+    assert.equal(vels().at(-1), 0);
+  } finally {
+    clearTimeout(d.jogTimer);
+  }
+});

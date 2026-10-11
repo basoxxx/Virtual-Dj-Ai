@@ -5,6 +5,26 @@
 const PS_SIZE = 8192; // buffer circolare del pitch shifter (potenza di 2)
 const PS_MASK = PS_SIZE - 1;
 
+// campi numerici dei messaggi (? = facoltativo): un NaN o un infinito arriverebbe ai filtri del mixer e
+// zittirebbe il master fino al riavvio, quindi il messaggio si scarta
+const NUMERIC = {
+  seek: ['pos'], tempo: ['value'], key: ['value'], bend: ['value'], loop: ['in', 'out'],
+  play: ['startTime?'], pause: ['brakeTime?'], scratch: ['velocity?'], scratchVelocity: ['velocity'],
+};
+
+/** Il primo campo numerico non valido del messaggio (o null). */
+function invalidField(m) {
+  // per spegnere il loop non servono punti validi
+  if (m.type === 'loop' && !m.active) return null;
+  for (const f of NUMERIC[m.type] || []) {
+    const optional = f.endsWith('?');
+    const k = optional ? f.slice(0, -1) : f;
+    if (optional && m[k] == null) continue;
+    if (typeof m[k] !== 'number' || !Number.isFinite(m[k])) return k;
+  }
+  return null;
+}
+
 class DeckProcessor extends AudioWorkletProcessor {
   constructor() {
     super();
@@ -38,6 +58,11 @@ class DeckProcessor extends AudioWorkletProcessor {
   }
 
   onMessage(m) {
+    const bad = invalidField(m);
+    if (bad) {
+      this.port.postMessage({ type: 'error', message: `messaggio "${m.type}" scartato: ${bad} = ${m[bad]}` });
+      return;
+    }
     switch (m.type) {
       case 'load':
         this.L = m.left;
@@ -92,9 +117,10 @@ class DeckProcessor extends AudioWorkletProcessor {
         this.reverse = m.value;
         break;
       case 'loop':
-        this.loopIn = m.in;
-        this.loopOut = m.out;
-        this.loopActive = m.active && m.out > m.in;
+        // loop spento con punti non validi: si tengono quelli di prima
+        if (Number.isFinite(m.in)) this.loopIn = m.in;
+        if (Number.isFinite(m.out)) this.loopOut = m.out;
+        this.loopActive = Boolean(m.active) && m.out > m.in;
         if (this.loopActive && this.pos > this.loopOut) this.pos = this.loopIn;
         break;
       case 'scratch':

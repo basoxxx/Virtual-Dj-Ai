@@ -5,10 +5,10 @@ import { ChannelStrip } from './audio/mixer.js';
 import { Deck } from './audio/deck.js';
 import { Sampler } from './audio/sampler.js';
 import { MicChannel } from './audio/mic.js';
-import { MidiManager } from './midi.js';
+import { MidiManager, migrateMapping } from './midi.js';
 import { AutoDJ } from './ai/autodj.js';
 import { BatchAnalyzer } from './ai/batch-analyzer.js';
-import { configureAnalysis } from './audio/analyzer-client.js';
+import { configureAnalysis, analysisEvents } from './audio/analyzer-client.js';
 import { StemManager } from './ai/stems.js';
 import { MashupManager } from './ai/mashups.js';
 import { SegueoChat } from './ai/segueochat.js';
@@ -22,7 +22,7 @@ import { openSettings } from './ui/settings-ui.js';
 import { installKeyboard } from './keyboard.js';
 import { el, button, toast } from './ui/controls.js';
 import { formatTime } from './dsp/analysis.js';
-import { knownActions } from './controllers/presets.js';
+import { knownActions, actionKind } from './controllers/presets.js';
 import { GamepadController } from './controllers/gamepad.js';
 import { icon, withIcon } from './ui/icons.js';
 import { UpdateUI } from './ui/update-ui.js';
@@ -88,6 +88,9 @@ class App {
     this.mic.addEventListener('error', (e) => toast(e.detail, 'error'));
     this.sampler = new Sampler(this.engine);
     await this.sampler.init(this.settings.sampler);
+    // campioni personali non trovati (disco scollegato): il pad suona quello di serie, l'assegnazione resta salvata
+    const lost = this.sampler.missing;
+    if (lost.length) toast(`Sampler: ${lost.length === 1 ? '1 campione non trovato' : `${lost.length} campioni non trovati`} (${lost.map((m) => `pad ${m.pad} «${m.name}»`).join(', ')}): ricollega il disco o riassegnali`, 'warn', 9000);
     // il modello linguistico locale (Ollama, LM Studio) non c'è più: via le sue impostazioni e opzioni salvate
     for (const k of ['llm', 'provider', 'endpoint', 'model', 'apiKey']) delete this.settings.ai[k];
     if (this.settings.ai.options) {
@@ -129,24 +132,45 @@ class App {
     this.buildLayout();
     this.applyMixerSettings();
     try {
-      await this.engine.applyRouting(this.settings.audio);
+      await this.applyAudioOutputs();
     } catch (err) {
       toast(`Uscita audio: ${err.message}`, 'error');
     }
 
     this.registerActions();
+    // il tipo di ogni comando deve essere quello del catalogo delle console (lo usano anche i test)
+    const wrongKind = [...this.actions].filter(([id, a]) => actionKind(id) !== a.kind).map(([id]) => id);
+    if (wrongKind.length) console.warn('Azioni MIDI con un tipo diverso da actionKind() in presets.js:', wrongKind);
     this.midi = new MidiManager(this.actions);
+    // porta che non si apre, comando che dà errore, console che non riceve i messaggi di Segueo
+    this.midi.addEventListener('error', (e) => toast(e.detail, 'error', 9000));
     // la console MIDI non deve bloccare l'avvio: se il sistema non risponde entro 3 s si va avanti
     // (libreria, interfaccia) e la console si collega appena arriva la risposta
-    const midiReady = this.midi.init(this.settings.midi.mapping, this.settings.midi.preset).then(() => this.updateMidiBadge());
+    const midiReady = this.midi.init(this.settings.midi.mapping, this.settings.midi.preset).then((ok) => {
+      if (!ok && this.midi.error) toast(`MIDI non disponibile: ${this.midi.error} (i gamepad funzionano comunque)`, 'warn', 8000);
+      this.updateMidiBadge();
+    });
+    // init ha già controllato le impostazioni salvate: mappature con comandi che non esistono più e profilo tolto
+    const ms = this.settings.midi;
+    const discarded = Object.keys(this.midi.discarded).length;
+    if (discarded) {
+      ms.backup = { ...this.midi.discarded, ...(ms.backup || {}) };
+      toast(`Console DJ: ${discarded === 1 ? 'una mappatura personale usa' : `${discarded} mappature personali usano`} comandi che non esistono più, messe da parte`, 'warn', 8000);
+    }
+    if (this.midi.presetMissing) toast('Il profilo console scelto non esiste più: torno al riconoscimento automatico', 'warn', 8000);
+    if (discarded || this.midi.presetMissing) this.saveSettings();
     await Promise.race([midiReady, new Promise((r) => setTimeout(r, 3000))]);
     this.gamepad = new GamepadController(this.actions);
     this.gamepad.enabled = this.settings.midi.gamepad !== false;
     this.gamepad.addEventListener('connected', (e) => {
-      toast(`Gamepad collegato: ${e.detail}`);
+      const { id, mapping } = e.detail;
+      // senza il layout "standard" gli indici dei tasti cambiano da modello a modello
+      if (mapping === 'standard') toast(`Gamepad collegato: ${id}`);
+      else toast(`Gamepad collegato: ${id} — layout non standard, i tasti potrebbero non corrispondere`, 'warn', 7000);
       this.updateMidiBadge();
     });
     this.gamepad.addEventListener('disconnected', () => this.updateMidiBadge());
+    this.gamepad.addEventListener('error', (e) => toast(e.detail, 'error', 9000));
     // VU dei canali sulla console (in dB: −42 dB spento, 0 dB tutto acceso)
     this.midi.vuSource = (id) => {
       const strip = this.strips.find((st) => st.name === id);
@@ -185,7 +209,24 @@ class App {
     installKeyboard(this);
     api.on('menu', (cmd) => this.onMenu(cmd));
     api.on('library:progress', (p) => this.showProgress(p));
-    if (navigator.mediaDevices) navigator.mediaDevices.addEventListener('devicechange', () => this.refreshInputs());
+    // avvisi del processo principale (file illeggibili, salvataggi non riusciti, errori interni): anche quelli nati
+    // prima che l'interfaccia fosse pronta
+    const notice = (n) => toast(n.message, n.type || 'error', n.ms || 9000);
+    api.on('app:notice', notice);
+    api.takeNotices().then((list) => list.forEach(notice));
+    // disco pieno durante la registrazione: si ferma subito, il file resta valido con quanto registrato
+    api.on('record:error', async ({ message }) => {
+      toast(`Registrazione: ${message}`, 'error', 60000);
+      if (this.engine.recording) await this.toggleRecording();
+    });
+    if (navigator.mediaDevices) {
+      navigator.mediaDevices.addEventListener('devicechange', () => {
+        this.refreshInputs();
+        // una scheda USB che si ricollega manda più avvisi di fila: le uscite si controllano una volta sola
+        clearTimeout(this.outputsTimer);
+        this.outputsTimer = setTimeout(() => this.checkOutputs().catch((err) => toast(`Uscita audio: ${err.message}`, 'error')), 300);
+      });
+    }
     this.refreshInputs();
 
     await this.library.reload();
@@ -319,6 +360,19 @@ class App {
       if (p.running) this.showProgress({ label: 'Analisi AI', done: p.done, total: p.total, extra: remaining(p.eta) });
       else this.library.renderRows();
     });
+    // riepilogo a fine analisi: brani non riusciti (file non raggiungibili, non decodificabili) o analisi interrotta
+    this.analyzer.addEventListener('finished', (e) => {
+      const { analyzed, failed, error, stopped } = e.detail;
+      // analisi fermata a metà (dall'utente o da Richieste per un brano arrivato): nessun riepilogo parziale
+      if (error) {
+        toast(`Analisi della libreria interrotta: ${error}`, 'error', 9000);
+      } else if (failed.length && !stopped) {
+        const examples = failed.slice(0, 2).map((f) => `«${f.track.title}»: ${f.reason}`).join('; ');
+        toast(`Analisi finita: ${analyzed} brani analizzati, ${failed.length} non riusciti (es. ${examples})`, 'warn', 10000);
+      }
+    });
+    // rifinitura AI impossibile (modello mancante, onnxruntime o WASM che non partono): un avviso per motivo
+    analysisEvents.addEventListener('ai-unavailable', (e) => toast(`Rifinitura AI non disponibile (${e.detail}): uso l'analisi classica`, 'warn', 9000));
     const bottom = el('div', { class: 'bottom' }, libHost, sideHost);
     this.aiView = new AiView(el('section', {}), { app: this, accents: ACCENTS });
     root.append(top, waves, middle, this.aiView.root, bottom);
@@ -428,11 +482,23 @@ class App {
     const files = [...e.dataTransfer.files];
     if (!files.length) return;
     const paths = files.map((f) => api.pathForFile(f)).filter(Boolean);
-    if (!paths.length) return;
-    const res = await api.addFiles(paths);
+    // file senza un percorso sul disco (es. trascinato dal browser o da dentro un archivio)
+    if (!paths.length) {
+      toast('Il file non è su disco: salvalo prima in una cartella e riprova', 'warn', 6000);
+      return;
+    }
+    let res;
+    try {
+      res = await api.addFiles(paths);
+    } catch (err) {
+      toast(`Importazione non riuscita: ${err.message}`, 'error', 8000);
+      return;
+    }
     this.library.setLibrary(res.snapshot);
+    for (const msg of res.errors || []) toast(msg, 'error', 9000);
     const t = this.library.lib.tracks.find((x) => x.path === paths[0] || x.path.endsWith(paths[0]));
     if (t) this.loadTrack(t, deck.id);
+    else if (res.folders) toast('Cartella aggiunta alla libreria: sul deck trascina un brano', 'warn');
     else toast('Formato file non supportato', 'error');
   }
 
@@ -475,7 +541,8 @@ class App {
         ai: this.settings.ai,
         updates: this.settings.updates,
         ui: this.settings.ui,
-      });
+        requests: this.settings.requests,
+      }).catch((err) => toast(`Impostazioni non salvate: ${err.message}`, 'error', 8000));
     }, 300);
   }
 
@@ -484,8 +551,71 @@ class App {
   }
 
   async refreshInputs() {
-    const { inputs } = await AudioEngine.devices();
-    for (const ui of this.deckUIs) ui.updateInputs(inputs.filter((i) => i.deviceId !== 'default' && i.deviceId !== 'communications'));
+    try {
+      const { inputs } = await AudioEngine.devices();
+      for (const ui of this.deckUIs) ui.updateInputs(inputs.filter((i) => i.deviceId !== 'default' && i.deviceId !== 'communications'));
+    } catch (err) {
+      console.error('Ingressi audio', err);
+      toast(`Elenco degli ingressi audio non aggiornato: ${err.message}`, 'warn');
+    }
+  }
+
+  /**
+   * Uscite audio salvate. Se la scheda delle casse salvata non è collegata (es. la console rimasta in borsa) per
+   * questa sessione si usa l'uscita di sistema, senza errori e senza cambiare le impostazioni: checkOutputs la
+   * riprende appena la si ricollega.
+   */
+  async applyAudioOutputs() {
+    const a = this.settings.audio;
+    const { outputs } = await AudioEngine.devices();
+    // senza permesso il browser nasconde gli id delle schede: allora non si può dire che manca
+    const known = outputs.some((o) => o.deviceId && o.deviceId !== 'default');
+    const missing = Boolean(a.masterDevice) && known && !outputs.some((o) => o.deviceId === a.masterDevice);
+    if (!missing) {
+      await this.engine.applyRouting(a);
+      return;
+    }
+    const hp = a.mode === 'single' && outputs.some((o) => o.deviceId === a.headphoneDevice) ? a.headphoneDevice : '';
+    await this.engine.applyRouting({ mode: 'single', masterDevice: '', headphoneDevice: hp });
+    this.outputLost = true;
+    toast('La scheda audio scelta per le casse non è collegata: per ora la musica esce dall\'uscita di sistema', 'info', 6000);
+  }
+
+  /** Periferiche cambiate: la scheda delle casse salvata è tornata (si riprende) o è stata scollegata (si avvisa). */
+  async checkOutputs() {
+    // un controllo alla volta: uno arrivato durante l'altro si rifà alla fine (niente doppio ripristino né doppio avviso)
+    if (this.checkingOutputs) {
+      this.outputsAgain = true;
+      return;
+    }
+    this.checkingOutputs = true;
+    try {
+      do {
+        this.outputsAgain = false;
+        await this.checkOutputsOnce();
+      } while (this.outputsAgain);
+    } finally {
+      this.checkingOutputs = false;
+    }
+  }
+
+  async checkOutputsOnce() {
+    const a = this.settings.audio;
+    if (!a.masterDevice) return;
+    const { outputs } = await AudioEngine.devices();
+    if (!outputs.some((o) => o.deviceId && o.deviceId !== 'default')) return;
+    const present = outputs.some((o) => o.deviceId === a.masterDevice);
+    const inUse = !this.outputLost && this.engine.sinkOk !== false && this.engine.routing.masterDevice === a.masterDevice;
+    if (present && !inUse) {
+      const res = await this.engine.applyRouting(a);
+      if (res.sinkOk) {
+        this.outputLost = false;
+        toast('Uscita master ripristinata', 'ok');
+      }
+    } else if (!present && !this.outputLost) {
+      this.outputLost = true;
+      toast('La scheda audio delle casse è stata scollegata: ricollegala (Segueo la riprende da solo) o scegline un\'altra in Impostazioni → Audio', 'warn', 9000);
+    }
   }
 
   updateMidiBadge() {
@@ -493,16 +623,16 @@ class App {
     const pads = this.gamepad ? this.gamepad.pads : [];
     const n = devices.length + pads.length;
     const known = devices.find((d) => d.preset);
+    // console collegata senza profilo né mappature personali: non comanda niente finché non la si configura
+    const idle = devices.some((d) => !d.preset && !d.virtual) && !Object.keys(this.midi.mapping).length && !known && !pads.length;
     this.midiBadge.textContent = known ? known.preset.name.split(' /')[0] : pads.length && !devices.length ? 'Gamepad' : 'MIDI';
-    this.midiBadge.classList.toggle('on', n > 0);
-    this.midiBadge.title = n
-      ? [...devices.map((d) => `${d.name}${d.preset ? ` → profilo ${d.preset.brand} ${d.preset.name}` : ' (nessun profilo: usa Learn o la procedura guidata)'}`), ...pads.map((p) => `Gamepad: ${p.id}`)].join('\n')
-      : 'Nessuna console collegata';
-    if (known && !this.announced?.has(known.id)) {
-      this.announced = this.announced || new Set();
-      this.announced.add(known.id);
-      toast(`Console riconosciuta: ${known.preset.brand} ${known.preset.name}`, 'ok');
-    }
+    this.midiBadge.classList.toggle('on', n > 0 && !idle);
+    this.midiBadge.classList.toggle('warn', idle);
+    const lines = [...devices.map((d) => `${d.name}${d.preset ? ` → profilo ${d.preset.brand} ${d.preset.name}` : ' (nessun profilo: usa Learn o la procedura guidata)'}`), ...pads.map((p) => `Gamepad: ${p.id}`)];
+    if (this.midi.error) lines.unshift(`MIDI non disponibile: ${this.midi.error}`);
+    this.midiBadge.title = lines.length ? lines.join('\n') : 'Nessuna console collegata';
+    // console riconosciuta, senza profilo, con un profilo scelto a mano diverso, scollegata o ricollegata
+    for (const note of this.midi.deviceNotices()) toast(note.text, note.type, note.type === 'warn' ? 8000 : 3500);
     for (const d of devices) if (d.preset) this.setupConsole(d.preset);
   }
 
@@ -513,12 +643,12 @@ class App {
    */
   setupConsole(preset) {
     const m = this.settings.midi;
-    m.presetRevs = m.presetRevs || {};
-    const seen = m.presetRevs[preset.id] || 0;
-    if (seen >= preset.rev) return;
-    m.presetRevs[preset.id] = preset.rev;
-    if (preset.rev > 1 && Object.keys(this.midi.mapping).length) {
-      m.backup = { ...this.midi.mapping };
+    const res = migrateMapping(m, this.midi.mapping, preset);
+    if (!res) return;
+    m.presetRevs = res.presetRevs;
+    if (res.moved) {
+      // il backup unisce quello di prima: collegare una seconda console non fa perdere le correzioni della prima
+      m.backup = res.backup;
       this.midi.clearAll();
       toast(`Profilo ${preset.brand} ${preset.name} aggiornato: le tue vecchie correzioni sono state messe da parte (Impostazioni → Console DJ → Ripristina correzioni)`, 'ok', 9000);
     }
@@ -526,8 +656,20 @@ class App {
     if (preset.audio && preset.audio.quad) this.setupConsoleAudio(preset);
   }
 
-  /** Scheda audio della console: casse sulle uscite 1-2, cuffia sulle 3-4 (se l'audio non è già impostato a mano). */
+  /**
+   * Scheda audio della console: casse sulle uscite 1-2, cuffia sulle 3-4 (se l'audio non è già impostato a mano).
+   * Chi la chiama non aspetta: gli errori si mostrano qui.
+   */
   async setupConsoleAudio(preset, attempt = 0) {
+    try {
+      await this.configureConsoleAudio(preset, attempt);
+    } catch (err) {
+      console.error('Audio della console', err);
+      toast(`Audio della ${preset.name}: ${err.message}`, 'error');
+    }
+  }
+
+  async configureConsoleAudio(preset, attempt) {
     const a = this.settings.audio;
     if (a.mode !== 'single' || a.headphoneDevice) return;
     const { outputs } = await AudioEngine.devices();
@@ -536,39 +678,55 @@ class App {
     if (!found.length) {
       // la scheda audio USB può comparire qualche secondo dopo la porta MIDI
       if (attempt < 3) setTimeout(() => this.setupConsoleAudio(preset, attempt + 1), 2000);
+      else toast(`Scheda audio della ${preset.name} non trovata: scegli le uscite in Impostazioni → Audio`, 'warn', 9000);
       return;
     }
     if (a.masterDevice && !found.some((o) => o.deviceId === a.masterDevice)) return; // casse su un'altra scheda, scelta a mano
-    const before = { ...a };
-    Object.assign(a, { mode: 'quad', masterDevice: found[0].deviceId });
-    const res = await this.engine.applyRouting(a);
-    if (res && res.quad) {
-      toast(`Audio sulla ${preset.name}: casse sulle uscite 1-2, cuffia sulle uscite 3-4`, 'ok', 6000);
-    } else if (found.length > 1) {
+    // si prova su una copia: le impostazioni cambiano (e si salvano) solo se la configurazione riesce;
+    // quiet: con 2 uscite (Windows, scheda vista come due uscite stereo) si prova altro invece di dare errore
+    const quad = { ...a, mode: 'quad', masterDevice: found[0].deviceId };
+    const res = await this.engine.applyRouting(quad, { quiet: true });
+    let chosen = null;
+    let message = '';
+    if (res.sinkOk && res.quad) {
+      chosen = quad;
+      message = `Audio sulla ${preset.name}: casse sulle uscite 1-2, cuffia sulle uscite 3-4`;
+    } else if (res.sinkOk && found.length > 1) {
       // alcuni driver mostrano la scheda come due uscite stereo: una per le casse e una per la cuffia
       const hp = found.find((o) => /3.?4|head|phone|cuffi|casque|kopfh/i.test(o.label)) || found[1];
-      Object.assign(a, { mode: 'single', masterDevice: found.find((o) => o !== hp).deviceId, headphoneDevice: hp.deviceId });
+      const speakers = found.find((o) => o !== hp);
+      const pair = { ...a, mode: 'single', masterDevice: speakers.deviceId, headphoneDevice: hp.deviceId };
+      const res2 = await this.engine.applyRouting(pair);
+      if (res2.sinkOk && res2.hpOk !== false) {
+        chosen = pair;
+        message = `Audio sulla ${preset.name}: casse su "${speakers.label}", cuffia su "${hp.label}"`;
+      }
+    }
+    if (!chosen) {
+      // si torna a com'era; con una sola uscita stereo la cuffia sulle 3-4 va impostata a mano
       await this.engine.applyRouting(a);
-      toast(`Audio sulla ${preset.name}: casse su "${found.find((o) => o !== hp).label}", cuffia su "${hp.label}"`, 'ok', 6000);
-    } else {
-      Object.assign(a, before);
-      await this.engine.applyRouting(a);
+      if (res.sinkOk) toast(`La scheda audio della ${preset.name} ha ${res.outputs} uscite: per la cuffia sulle 3-4 su Windows impostala come "Quadrifonico" (Pannello audio → Configura), oppure scegli le uscite in Impostazioni → Audio`, 'warn', 10000);
       return;
     }
+    Object.assign(a, chosen);
+    this.outputLost = false;
+    toast(message, 'ok', 6000);
     this.saveSettings();
   }
 
   async toggleRecording() {
     try {
       if (this.engine.recording) {
-        const path = await this.engine.stopRecording();
-        if (path) toast(`Registrazione salvata: ${path}`, 'ok', 6000);
+        // { file } salvata; { canceled, kept } non salvata: non si cancella mai, resta nella cartella di recupero
+        const res = await this.engine.stopRecording();
+        if (res && res.file) toast(`Registrazione salvata: ${res.file}`, 'ok', 6000);
+        else if (res && res.canceled) toast(`Registrazione non salvata: la trovi in ${res.kept}`, 'warn', 12000);
       } else {
         await this.engine.startRecording(api);
         toast('Registrazione avviata');
       }
     } catch (err) {
-      toast(`Registrazione: ${err.message}`, 'error');
+      toast(`Registrazione: ${err.message}`, 'error', 12000);
     }
   }
 
@@ -786,23 +944,49 @@ class App {
   }
 
   loop() {
+    // ogni pezzo per conto suo: un errore in uno (es. il disegno di una forma d'onda) non deve fermare gli altri
+    // né i frame successivi, altrimenti tempo, forme d'onda, VU, orologio e gamepad si bloccano mentre l'audio va avanti
+    const steps = [
+      ['gamepad', () => this.gamepad && this.gamepad.poll()],
+      ...this.scrollers.map((s, i) => [`forma d'onda ${this.decks[i].id}`, () => s.draw()]),
+      ['vista AI', () => this.view === 'ai' && this.aiView.frame()],
+      ...this.deckUIs.map((ui, i) => [`deck ${this.decks[i].id}`, () => this.view !== 'ai' && ui.frame()]),
+      ['mixer', () => this.view !== 'ai' && this.mixerUI.frame()],
+      ['orologio', () => {
+        if (this.engine.recording) this.recTime.textContent = formatTime((performance.now() - this.engine.recordStart) / 1000, false);
+        this.clock.textContent = new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+      }],
+    ];
+    const failed = new Set();
     const frame = () => {
-      if (this.gamepad) this.gamepad.poll();
-      for (const s of this.scrollers) s.draw();
-      if (this.view === 'ai') {
-        this.aiView.frame();
-      } else {
-        for (const ui of this.deckUIs) ui.frame();
-        this.mixerUI.frame();
-      }
-      if (this.engine.recording) this.recTime.textContent = formatTime((performance.now() - this.engine.recordStart) / 1000, false);
-      const now = new Date();
-      this.clock.textContent = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
       requestAnimationFrame(frame);
+      for (const [name, fn] of steps) {
+        try {
+          fn();
+        } catch (err) {
+          // un avviso per pezzo, non uno a ogni frame
+          if (failed.has(name)) continue;
+          failed.add(name);
+          console.error(`Interfaccia (${name}):`, err);
+          toast(`Errore nell'interfaccia (${name}): ${err && err.message ? err.message : err}. L'audio continua`, 'error', 9000);
+        }
+      }
     };
     requestAnimationFrame(frame);
   }
 }
+
+// ultima difesa: una promessa rifiutata che nessuno gestisce diventa un avviso invece di sparire in silenzio
+const unhandled = new Set();
+window.addEventListener('unhandledrejection', (e) => {
+  const err = e.reason;
+  const msg = err && err.message ? err.message : String(err);
+  e.preventDefault();
+  console.error('Promessa rifiutata non gestita:', err);
+  if (unhandled.has(msg)) return;
+  unhandled.add(msg);
+  toast(`Errore inatteso: ${msg}`, 'error', 8000);
+});
 
 const app = new App();
 window.dj = app;

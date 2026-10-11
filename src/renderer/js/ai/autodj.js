@@ -6,7 +6,7 @@ import { formatTime } from '../dsp/analysis.js';
 import { planCurves, isModelStyle, TRANSITION_STYLES } from './transition-planner.js';
 import { rapidTiming } from './rapid.js';
 import { curvesAt } from './transition-model.js';
-import { needsAiRefine } from '../audio/analyzer-client.js';
+import { isRefining, analysisEngine } from '../audio/analyzer-client.js';
 import { planRemix, REMIX_ACTIONS } from './remix.js';
 import { FADE_BARS, MASHUP_MIN_KEY, DEFAULT_MASHUP_BARS, savedStartAt } from './mashup-plan.js';
 import { describeOptions } from './setlist.js';
@@ -48,6 +48,10 @@ export class AutoDJ extends EventTarget {
     // scaletta da file: per i brani in coda, impostazioni e punti di entrata/uscita decisi prima del set
     this.cues = []; // { track, options, inAt, outAt, note, used }
     this.setTitle = null;
+    // brani che non si caricano (file spostato, disco scollegato, file rovinato): non si ripropongono
+    this.unloadable = new Set();
+    this.loadFailures = 0; // brani di fila che non si sono caricati
+    this.pauseUntil = 0; // dopo tanti brani di fila che non si caricano si aspetta un po' prima di riprovare
   }
 
   // --- compatibilità con la vecchia coda Automix ---------------------------------
@@ -62,6 +66,11 @@ export class AutoDJ extends EventTarget {
 
   emit(type = 'change', detail) {
     this.dispatchEvent(new CustomEvent(type, { detail }));
+  }
+
+  /** Attesa tra un controllo e l'altro (i test la accorciano). */
+  wait(ms) {
+    return sleep(ms);
   }
 
   say(text) {
@@ -214,8 +223,12 @@ export class AutoDJ extends EventTarget {
     clearInterval(this.timer);
     if (on) {
       this.say(`AI DJ attivato (${this.options.mode === 'ai' ? 'scelta automatica dei brani' : 'segue la coda'})`);
-      this.timer = setInterval(() => this.tick(), 150);
-      this.tick();
+      // si riprovano anche i brani che prima non si caricavano (disco ricollegato)
+      this.unloadable.clear();
+      this.loadFailures = 0;
+      this.pauseUntil = 0;
+      this.timer = setInterval(() => this.safeTick(), 150);
+      this.safeTick();
     } else {
       this.cancelRemix();
       this.abortTransition();
@@ -223,6 +236,16 @@ export class AutoDJ extends EventTarget {
       this.say('AI DJ disattivato');
     }
     this.emit();
+  }
+
+  /** tick() senza eccezioni perse: l'errore va nel diario (una volta sola se si ripete uguale). */
+  safeTick() {
+    return this.tick().catch((err) => {
+      console.error('AI DJ', err);
+      const text = `Errore dell'AI DJ: ${err.message}`;
+      if (text !== this.lastError) this.say(text);
+      this.lastError = text;
+    });
   }
 
   // --- stato dei deck -------------------------------------------------------------
@@ -246,7 +269,7 @@ export class AutoDJ extends EventTarget {
   // --- scelta del brano -----------------------------------------------------------
 
   sourcePool() {
-    return this.getPool(this.options.source).filter((t) => t && t.path);
+    return this.getPool(this.options.source).filter((t) => t && t.path && !this.unloadable.has(t.id));
   }
 
   async pickNext(currentTrack) {
@@ -255,7 +278,7 @@ export class AutoDJ extends EventTarget {
       const t = this.queue.shift();
       const cue = this.takeCue(t);
       this.emit();
-      return { track: t, reason: cue ? `dalla scaletta${this.setTitle ? ` «${this.setTitle}»` : ''}` : 'dalla coda', cue };
+      return { track: t, reason: cue ? `dalla scaletta${this.setTitle ? ` «${this.setTitle}»` : ''}` : 'dalla coda', cue, fromQueue: true };
     }
     if (this.options.mode === 'queue') return null;
     const played = new Set(this.history.map((t) => t.id));
@@ -284,6 +307,7 @@ export class AutoDJ extends EventTarget {
 
   async tick() {
     if (!this.enabled || this.selecting || this.transition) return;
+    if (Date.now() < this.pauseUntil) return;
     const cur = this.current();
     if (!cur) {
       if (this.endAfterCurrent && this.history.length) {
@@ -307,6 +331,11 @@ export class AutoDJ extends EventTarget {
       next._aiReady = Boolean(next.track);
       return;
     }
+    if (this.plan.noBpm && cur.bpm && next.bpm && !next.playing) {
+      // il BPM che mancava è arrivato prima del mix: si ripianifica con il sync
+      this.plan = null;
+      return;
+    }
     if (next.playing) return; // l'utente sta suonando manualmente l'altro deck
     if (cur.position >= this.plan.startAt) this.beginTransition(cur, next, this.plan);
     else if (this.options.remix) this.remixTick(cur);
@@ -327,7 +356,11 @@ export class AutoDJ extends EventTarget {
           return;
         }
         ({ track, reason, cue = null } = pick);
-        if (!(await deck.load(track))) return;
+        if (!(await deck.load(track))) {
+          this.skipUnloadable(track, pick.fromQueue);
+          return;
+        }
+        this.loadFailures = 0;
         this.applyCue(cue, deck);
         // il primo brano della scaletta può partire da un punto deciso
         if (cue && cue.inAt != null && cue.inAt < (deck.duration || 0) - 8) deck.seek(cue.inAt);
@@ -349,9 +382,12 @@ export class AutoDJ extends EventTarget {
   }
 
   async prepareNext(cur, next) {
-    if (!cur.loaded || !cur.bpm) {
-      // senza analisi non si può pianificare: si aspetta
-      return;
+    if (!cur.loaded) return;
+    if (!cur.bpm) {
+      // analisi del brano in onda in corso: si aspetta; senza BPM (analisi non riuscita) si mixa senza sync
+      if (cur.analyzing) return;
+      if (this.warnedNoBpm !== cur.track) this.say(`BPM di ${label(cur.track)} sconosciuto: il prossimo mix sarà senza sync`);
+      this.warnedNoBpm = cur.track;
     }
     this.selecting = true;
     try {
@@ -372,16 +408,22 @@ export class AutoDJ extends EventTarget {
         if (next.playing) return;
         if (!(await next.load(track))) {
           this.plan = null;
+          this.skipUnloadable(track, pick.fromQueue);
           return;
         }
+        this.loadFailures = 0;
         next._aiReady = true;
         this.applyCue(pick.cue || null, next);
       }
       this.warnedEnd = false;
       // aspetta l'analisi del brano appena caricato (BPM, punti di mix) e, con il motore AI,
       // la rifinitura di griglia e battuta forte (il piano si allinea alle frasi)
-      for (let i = 0; i < 100 && !next.bpm && this.enabled; i++) await sleep(100);
-      for (let i = 0; i < 300 && needsAiRefine(next.track) && this.enabled; i++) await sleep(100);
+      for (let i = 0; i < 100 && !next.bpm && this.enabled; i++) await this.wait(100);
+      if (!next.bpm && this.enabled) this.say(`Analisi di ${label(next.track)} non pronta: mix senza sync`);
+      // la rifinitura si aspetta solo se è davvero in corso (sul deck o nell'analisi della libreria), al massimo 30 s
+      let waited = 0;
+      for (; waited < 300 && this.refining(next) && this.enabled; waited++) await this.wait(100);
+      if (waited >= 300 && this.enabled) this.say('Griglia AI non pronta: uso quella classica');
       if (!this.enabled) return;
       this.plan = this.makePlan(cur, next);
       if (this.plan.wantModel) await this.attachModelCurves(this.plan);
@@ -399,6 +441,25 @@ export class AutoDJ extends EventTarget {
       this.emit();
     } finally {
       this.selecting = false;
+    }
+  }
+
+  /** Sul deck c'è una rifinitura AI da aspettare (in corso, o in arrivo appena finisce l'analisi classica)? */
+  refining(deck) {
+    return isRefining(deck.track) || Boolean(deck.analyzing && analysisEngine() === 'ai');
+  }
+
+  /**
+   * Il brano scelto non si carica (file spostato, disco scollegato, file rovinato): non si ripropone. Dopo tre di
+   * fila si aspetta un po' prima di riprovare, invece di passare tutta la libreria in pochi secondi.
+   */
+  skipUnloadable(track, fromQueue) {
+    this.unloadable.add(track.id);
+    this.say(`Non riesco a caricare ${label(track)}: ${fromQueue ? 'tolto dalla coda' : 'lo salto e ne scelgo un altro'}`);
+    if (++this.loadFailures >= 3) {
+      this.loadFailures = 0;
+      this.pauseUntil = Date.now() + 15000;
+      this.say('Diversi brani di fila non si caricano: il disco della musica è collegato? Riprovo tra 15 secondi');
     }
   }
 
@@ -450,6 +511,12 @@ export class AutoDJ extends EventTarget {
     // con il modello si decide come in automatico (sync, ripiego), poi le curve vengono dal modello
     const wantModel = isModelStyle(this.options.style);
     const t = planTransition(cur.track, next.track, { style: wantModel ? 'auto' : this.options.style, bars: this.options.bars });
+    const unknown = !cur.track.bpm ? cur.track : !next.track.bpm ? next.track : null;
+    if (unknown) {
+      // senza BPM non c'è sync: il motivo vero, non "tempi troppo diversi"
+      t.noBpm = true;
+      t.why = t.why === 'scelta manuale' ? `scelta manuale, senza sync (BPM di ${label(unknown)} non noto)` : `BPM di ${label(unknown)} non noto: ${TRANSITION_NAMES[t.type] || t.type} senza sync`;
+    }
     t.wantModel = wantModel && t.sync;
     if (wantModel) t.modelStyle = this.options.style;
     const bar = cur.beatLength * 4;
@@ -477,7 +544,7 @@ export class AutoDJ extends EventTarget {
     const info = (d) => ({ waveform: d.waveform, bpm: d.bpm, gridOffset: d.gridOffset, duration: d.duration });
     // il modello usa forma d'onda e griglia di entrambi i brani: si aspetta la fine dell'analisi (max 30 s)
     const ready = () => plan.from.waveform && plan.to.waveform && plan.from.bpm && plan.to.bpm;
-    for (let i = 0; i < 300 && !ready() && this.enabled; i++) await sleep(100);
+    for (let i = 0; i < 300 && !ready() && this.enabled; i++) await this.wait(100);
     // il modello conosce transizioni fino alla sua finestra (32 misure fino alla v4, 64 dalla v5)
     const style = plan.modelStyle || 'model';
     const maxBars = TRANSITION_STYLES[style].beats / 4;
@@ -565,17 +632,44 @@ export class AutoDJ extends EventTarget {
     const stepFn = () => {
       if (!this.transition) return;
       const tr = this.transition;
-      if (!tr.to.playing) {
-        this.abortTransition();
-        return;
+      try {
+        if (!tr.to.playing) {
+          this.abortTransition();
+          return;
+        }
+        const p = Math.min(1, (performance.now() - tr.start) / tr.duration);
+        if (tr.plan.curves) this.applyModelState(tr, curvesAt(tr.plan.curves, tr.plan.curveLength, p * tr.plan.curveLength));
+        else this.applyState(tr, transitionState(tr.plan.type, p));
+        if (p < 1) tr.raf = requestAnimationFrame(stepFn);
+        else this.finishTransition();
+      } catch (err) {
+        this.failTransition(err);
       }
-      const p = Math.min(1, (performance.now() - tr.start) / tr.duration);
-      if (tr.plan.curves) this.applyModelState(tr, curvesAt(tr.plan.curves, tr.plan.curveLength, p * tr.plan.curveLength));
-      else this.applyState(tr, transitionState(tr.plan.type, p));
-      if (p < 1) tr.raf = requestAnimationFrame(stepFn);
-      else this.finishTransition();
     };
     this.transition.raf = requestAnimationFrame(stepFn);
+  }
+
+  /**
+   * Un errore a metà mix fermerebbe l'animazione con il crossfader a metà corsa e l'AI DJ bloccato:
+   * si chiude il mix sul brano entrante e lo si scrive nel diario.
+   */
+  failTransition(err) {
+    console.error('Errore durante il mix', err);
+    this.say(`Errore durante il mix (${err.message}): porto il crossfader sul brano entrante`);
+    const tr = this.transition;
+    try {
+      this.finishTransition();
+    } catch (err2) {
+      console.error('Chiusura del mix', err2);
+      this.transition = null;
+      this.plan = null;
+      if (tr) this.engine.setCrossfader(this.side(tr.to));
+    }
+  }
+
+  /** Il deck torna al brano completo dopo un mashup (se non riesce resta solo voce o solo base: lo si dice). */
+  restoreStem(deck) {
+    deck.setStem('full').catch((err) => this.say(`Deck ${deck.id}: non riesco a tornare al brano completo (${err.message})`));
   }
 
   setControl(tr, key, ctl, value) {
@@ -641,8 +735,8 @@ export class AutoDJ extends EventTarget {
     from.pause();
     const allEq = Boolean(tr.plan.curves);
     if (tr.mashup) {
-      from.setStem('full').catch(() => {});
-      to.setStem('full').catch(() => {});
+      this.restoreStem(from);
+      this.restoreStem(to);
     }
     setTimeout(() => {
       this.resetChannel(from, { allEq });
@@ -670,8 +764,8 @@ export class AutoDJ extends EventTarget {
     cancelAnimationFrame(tr.raf);
     this.transition = null;
     if (tr.mashup) {
-      tr.from.setStem('full').catch(() => {});
-      tr.to.setStem('full').catch(() => {});
+      this.restoreStem(tr.from);
+      this.restoreStem(tr.to);
     }
     this.resetChannel(tr.from, { allEq: Boolean(tr.plan.curves) });
     this.resetChannel(tr.to, { allEq: Boolean(tr.plan.curves) });
@@ -729,51 +823,67 @@ export class AutoDJ extends EventTarget {
     const remaining = from.duration - from.position;
     const fadeBars = FADE_BARS;
     const mashBars = Math.max(4, Math.min(plan.mashup.bars || DEFAULT_MASHUP_BARS, Math.floor(remaining / (4 * beat)) - fadeBars));
-    this.transition = {
+    const mix = {
       from, to, plan, controls: this.getControls(), mashup: true, mashBars, fadeBars, applied: {},
       start: performance.now(), duration: (((mashBars + fadeBars) * 4 * beat) / from.tempo) * 1000,
       fxBackup: { type: from.fx[1].type, on: from.fx[1].on, mix: from.fx[1].mix },
     };
+    this.transition = mix;
+    // AI DJ spento (o mix interrotto) mentre si caricano voce e base: la voce non deve partire e i deck tornano
+    // al brano completo (una parte separata ancora in arrivo arriverebbe dopo il ripristino di abortTransition)
+    const gone = () => {
+      if (this.transition === mix) return false;
+      this.restoreStem(from);
+      this.restoreStem(to);
+      return true;
+    };
     try {
       await from.setStem('instrumental');
+      if (gone()) return;
       if (from.bpm && to.bpm) to.sync(from);
       await to.setStem('vocals');
+      if (gone()) return;
       to.seek(plan.mashup.vocalStart);
       to.play();
       if (from.bpm && to.bpm) to.alignPhase(from);
     } catch (err) {
+      if (gone()) return;
       this.say(`Mashup interrotto: ${err.message}`);
       this.abortTransition();
       return;
     }
-    const vol = this.transition.controls[to.id] && this.transition.controls[to.id].vol;
+    const vol = mix.controls[to.id] && mix.controls[to.id].vol;
     if (vol && vol.getValue() < 0.5) vol.set(0.85);
     this.say(`Mashup: voce di ${label(to.track)} sulla base di ${label(from.track)} per ${mashBars} battute`);
     this.emit();
     const stepFn = () => {
       const tr = this.transition;
       if (!tr) return;
-      if (!tr.to.playing) {
-        this.abortTransition();
-        return;
-      }
-      const p = Math.min(1, (performance.now() - tr.start) / tr.duration);
-      const split = tr.mashBars / (tr.mashBars + tr.fadeBars);
-      const a = this.side(tr.from);
-      const b = this.side(tr.to);
-      if (p < split) {
-        // entrambi a volume pieno: con la curva "smooth" il centro non abbassa nessuno dei due
-        this.engine.setCrossfader(a + (b - a) * 0.5);
-      } else {
-        if (!tr.applied.full) {
-          tr.applied.full = true;
-          tr.to.setStem('full').catch(() => {});
+      try {
+        if (!tr.to.playing) {
+          this.abortTransition();
+          return;
         }
-        const q = (p - split) / (1 - split);
-        this.engine.setCrossfader(a + (b - a) * (0.5 + 0.5 * (0.5 - 0.5 * Math.cos(Math.PI * q))));
+        const p = Math.min(1, (performance.now() - tr.start) / tr.duration);
+        const split = tr.mashBars / (tr.mashBars + tr.fadeBars);
+        const a = this.side(tr.from);
+        const b = this.side(tr.to);
+        if (p < split) {
+          // entrambi a volume pieno: con la curva "smooth" il centro non abbassa nessuno dei due
+          this.engine.setCrossfader(a + (b - a) * 0.5);
+        } else {
+          if (!tr.applied.full) {
+            tr.applied.full = true;
+            this.restoreStem(tr.to);
+          }
+          const q = (p - split) / (1 - split);
+          this.engine.setCrossfader(a + (b - a) * (0.5 + 0.5 * (0.5 - 0.5 * Math.cos(Math.PI * q))));
+        }
+        if (p < 1) tr.raf = requestAnimationFrame(stepFn);
+        else this.finishTransition();
+      } catch (err) {
+        this.failTransition(err);
       }
-      if (p < 1) tr.raf = requestAnimationFrame(stepFn);
-      else this.finishTransition();
     };
     this.transition.raf = requestAnimationFrame(stepFn);
   }
@@ -900,6 +1010,8 @@ export class AutoDJ extends EventTarget {
       strategy,
       seed: cur ? cur.track : null,
     });
+    // libreria appena importata: una scaletta vuota cancellerebbe la coda senza dire perché
+    if (!set.length) throw new Error('Nessun brano analizzato da mettere in scaletta: premi "Analizza libreria" e riprova');
     this.say(`Scaletta creata dal motore interno: ${set.length} brani (${strategy})`);
     return set;
   }

@@ -1,5 +1,5 @@
 // Pannello laterale: AI DJ (coda e diario), altre schede (es. MASHUP) e sampler a 8 pad.
-import { el, button, knob, toast, select } from './controls.js';
+import { el, button, knob, toast, select, guard } from './controls.js';
 import { api } from '../api.js';
 import { formatTime, camelotOf } from '../dsp/analysis.js';
 import { STRATEGIES, TRANSITIONS } from '../ai/selector.js';
@@ -85,6 +85,7 @@ export class SideUI {
         if (id) path = this.getTrack(id)?.path;
         else if (e.dataTransfer.files.length) path = api.pathForFile(e.dataTransfer.files[0]);
         if (path) this.loadPad(i, path);
+        else toast('Trascina sul pad un brano della libreria o un file audio', 'warn');
       });
       pad.nameEl = name;
       grid.append(pad);
@@ -130,7 +131,7 @@ export class SideUI {
       const n = el('div', { class: 'ctx-item' }, it.label);
       n.addEventListener('click', () => {
         menu.remove();
-        it.run();
+        guard(it.run); // "Carica campione…" è async: un errore non deve sparire in silenzio
       });
       menu.append(n);
     }
@@ -190,6 +191,7 @@ export class SideUI {
       this.mashBtn.disabled = true;
       try {
         if (await this.stems.downloadModel()) toast('Modello per i mashup installato');
+        else toast('Download finito ma il modello non risulta installato: riprova', 'error');
       } catch (err) {
         toast(`Download non riuscito: ${err.message}`, 'error');
       } finally {
@@ -198,7 +200,7 @@ export class SideUI {
     } });
     if (this.stems) {
       this.stems.addEventListener('change', () => this.refreshStems());
-      this.stems.checkModel();
+      this.stems.checkModel().catch((err) => toast(`Mashup: ${err.message}`, 'warn', 6000));
     }
     // indicazioni date a SegueoChat: filtri, cambi per i prossimi brani, chiusura del set
     this.directives = el('div', { class: 'am-directives' });
@@ -208,9 +210,11 @@ export class SideUI {
     const genBtn = button(withIcon('sparkles', 'Crea scaletta', 13), { className: 'small primary', title: 'Genera la coda: genere, energia e durata dalla descrizione, capiti come in SegueoChat', onClick: async () => {
       genBtn.disabled = true;
       try {
+        // una scaletta vuota non deve cancellare la coda (generateSet dice già perché è vuota)
         const { tracks } = await this.planSet(this.prompt.value.trim());
+        if (!tracks.length) throw new Error('Nessun brano da mettere in scaletta: la coda resta com\'era');
         a.setQueue(tracks);
-        if (tracks.length) toast(`Scaletta pronta: ${tracks.length} brani in coda`);
+        toast(`Scaletta pronta: ${tracks.length} brani in coda`);
       } catch (err) {
         toast(err.message, 'error');
       } finally {
@@ -351,8 +355,17 @@ export class SideUI {
 
   refreshSources() {
     const lists = this.getPlaylists();
-    this.sourceSel.setOptions([{ value: 'library', label: 'Tutta la libreria' }, ...lists.map((p) => ({ value: p.id, label: `Playlist: ${p.name}` }))], this.automix.options.source);
-    if (this.sourceSel.value !== this.automix.options.source) this.sourceSel.value = 'library';
+    const a = this.automix;
+    const src = a.options.source;
+    this.sourceSel.setOptions([{ value: 'library', label: 'Tutta la libreria' }, ...lists.map((p) => ({ value: p.id, label: `Playlist: ${p.name}` }))], src);
+    // playlist sorgente eliminata: torna a tutta la libreria anche l'AI DJ, non solo il menu, altrimenti non trova brani.
+    // Si arriva qui dopo il caricamento della libreria (eventi della libreria); con la libreria vuota non si tocca niente
+    if (src && src !== 'library' && !lists.some((p) => p.id === src) && this.getAllTracks().length) {
+      a.setOptions({ source: 'library' });
+      this.onAiOptions(a.options);
+      a.say('La playlist sorgente non esiste più: l\'AI DJ sceglie da tutta la libreria');
+    }
+    if (this.sourceSel.value !== a.options.source) this.sourceSel.value = 'library';
     this.refreshAnalysis();
   }
 
@@ -364,9 +377,15 @@ export class SideUI {
         ? `${an.done}/${an.total} · in pausa mentre separo voce e base`
         : `${an.done}/${an.total}${remaining(an.eta())}${an.current ? ` · ${an.current.title}` : ''}`;
     } else {
-      const pending = BatchAnalyzer.pending(this.getAllTracks()).length;
+      const all = this.getAllTracks();
+      const pending = BatchAnalyzer.pending(all).length;
+      // file non decodificabili: contano come analizzati (non si riprovano) ma la libreria non è "a posto"
+      const broken = all.filter((t) => t.analysisFailed).length;
+      const parts = [pending && `${pending} brani da analizzare`, broken && `${broken} brani non analizzabili`, an.aiError && 'rifinitura AI non disponibile'].filter(Boolean);
       this.anaBtn.textContent = 'Analizza libreria';
-      this.anaInfo.textContent = pending ? `${pending} brani da analizzare` : 'Libreria analizzata ✓';
+      this.anaInfo.textContent = parts.length ? parts.join(' · ') : 'Libreria analizzata ✓';
+      // nel suggerimento il perché (ultima analisi)
+      this.anaInfo.title = [...an.failed.slice(0, 8).map((f) => `${f.track.title}: ${f.reason}`), an.aiError && `Rifinitura AI: ${an.aiError}`].filter(Boolean).join('\n');
     }
   }
 

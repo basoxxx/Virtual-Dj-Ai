@@ -604,8 +604,15 @@ export class SegueoChat extends EventTarget {
           if (!actions.length) notes.push(...res.notes);
           if (!parsed.smallTalk && !actions.length && labels.talk) parsed.smallTalk = labels.talk;
         }
-      } catch {
-        // senza modello resta l'interprete
+      } catch (err) {
+        // senza modello resta l'interprete: lo si dice una volta sola
+        console.warn('Modello Segueo Chat', err);
+        if (!this.modelNoted) {
+          this.modelNoted = true;
+          notes.push(/non installato/.test(err.message)
+            ? 'Il modello Segueo Chat non è installato: uso solo i comandi integrati.'
+            : `Il modello Segueo Chat non risponde (${err.message}): uso solo i comandi integrati.`);
+        }
       }
     }
     return { actions, notes, parsed, engine };
@@ -799,11 +806,17 @@ export class SegueoChat extends EventTarget {
     a.temp = b.temp;
     a.setQueue(b.queue);
     if (a.endAfterCurrent !== b.endAfterCurrent) a.setEndAfterCurrent(b.endAfterCurrent);
-    for (const id of b.mashups) if (this.env.mashups) await this.env.mashups.remove(id).catch(() => {});
+    const errors = [];
+    for (const id of b.mashups) {
+      if (this.env.mashups) await this.env.mashups.remove(id).catch((err) => errors.push(String((err && err.message) || err)));
+    }
     msg.undo = null;
     msg.undone = true;
     a.say('SegueoChat: modifiche annullate');
-    this.push({ role: 'assistant', text: 'Annullato: tutto come prima.', engine: 'rules' });
+    const text = errors.length
+      ? `Annullato, ma non ho potuto eliminare ${errors.length === 1 ? 'il mashup creato' : `${errors.length} mashup creati`} (${errors.join('; ')}): ${errors.length === 1 ? 'toglilo' : 'toglili'} dalla scheda MASHUP.`
+      : 'Annullato: tutto come prima.';
+    this.push({ role: 'assistant', text, errors, engine: 'rules' });
   }
 
   /** Risposte sullo stato del set. */

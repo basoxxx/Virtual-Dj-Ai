@@ -179,8 +179,8 @@ export class DeckUI {
     const tools = el('div', { class: 'row tight deck-tools' },
       button('TAP', { className: 'small', title: 'Batti il tempo per impostare il BPM', onClick: () => d.tapTempo() }),
       button('GRID', { className: 'small', title: 'Allinea la beatgrid alla posizione attuale', onClick: () => d.setGridHere() }),
-      button('×2', { className: 'small', title: 'Raddoppia BPM', onClick: () => d.setBpm(d.bpm * 2) }),
-      button('÷2', { className: 'small', title: 'Dimezza BPM', onClick: () => d.setBpm(d.bpm / 2) }),
+      button('×2', { className: 'small', title: 'Raddoppia BPM', onClick: () => this.setBpm(d.bpm * 2) }),
+      button('÷2', { className: 'small', title: 'Dimezza BPM', onClick: () => this.setBpm(d.bpm / 2) }),
       this.quantBtn = button('Q', { className: 'small toggle', title: 'Quantize: cue e loop agganciati alla battuta', onClick: () => { d.quantize = !d.quantize; this.refresh(); } }),
       button(icon('eject', 14), { className: 'small', title: 'Espelli', onClick: () => { if (!d.eject()) toast('Ferma il deck prima di espellere', 'warn'); } }),
       this.lineSel);
@@ -205,8 +205,20 @@ export class DeckUI {
     });
     this.bpmEl.addEventListener('dblclick', async () => {
       const v = await askText('BPM del brano', d.bpm ? d.bpm.toFixed(2) : '');
-      if (v) d.setBpm(parseFloat(v.replace(',', '.')));
+      if (v) this.setBpm(parseFloat(v.replace(',', '.')), true);
     });
+  }
+
+  /** BPM scritto a mano o ×2/÷2: fuori scala il deck lo ignorerebbe senza dirlo (stesso intervallo di Deck.setBpm). */
+  setBpm(bpm, typed = false) {
+    const d = this.deck;
+    if (bpm > 20 && bpm < 400) {
+      d.setBpm(bpm);
+    } else if (typed) {
+      toast('BPM non valido: scrivi un numero tra 20 e 400', 'warn');
+    } else {
+      toast(d.bpm ? `BPM fuori scala (${bpm.toFixed(1)}): deve stare tra 20 e 400` : 'Il deck non ha ancora un BPM: carica un brano o usa TAP', 'warn');
+    }
   }
 
   updateInputs(inputs) {

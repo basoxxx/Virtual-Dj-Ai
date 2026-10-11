@@ -44,7 +44,9 @@ async function downloadModel(userData, name, { fetchImpl, onProgress } = {}) {
     url: `https://github.com/${manifest.repo}/releases/download/${manifest.release}/${m.file}`,
   };
   await download(asset, { dir: modelsDir(userData), fetchImpl, onProgress });
-  return modelStatus(userData, name);
+  const status = modelStatus(userData, name);
+  if (!status.installed) throw new Error(`Il modello ${name} scaricato non è completo: riprova il download`);
+  return status;
 }
 
 // nome di file sicuro per l'id del brano

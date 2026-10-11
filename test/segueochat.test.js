@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { readFileSync } from 'node:fs';
 import {
   parseMessage, genreVocabulary, matchTracks, mergeFilters, describeFilters, intentsToActions, SegueoChat,
 } from '../src/renderer/js/ai/segueochat.js';
@@ -9,6 +8,8 @@ import { chatInputs, chatFeaturize, softmaxHeads, chatDecide } from '../src/rend
 import { CHAT_THRESHOLDS } from '../src/renderer/js/ai/chat-heads.js';
 import { AutoDJ } from '../src/renderer/js/ai/autodj.js';
 import { matchesFilters, NO_FILTERS } from '../src/renderer/js/ai/selector.js';
+import { CHAT_MODEL } from '../src/renderer/js/ai/chat-model.js';
+import { modelPath, skipWithoutModel } from './helpers/models.js';
 
 const T = (id, artist, title, genre, bpm = 124, key = 'Am', energy = 6) => ({ id, artist, title, genre, bpm, key, energy, path: `/m/${id}.mp3` });
 const TRACKS = [
@@ -251,8 +252,8 @@ test('SegueoChat + modello: le richieste riconosciute diventano azioni, l\'inter
   assert.match(r.notes[0], /quale brano/);
 });
 
-const MODEL = fileURLToPath(new URL('../src/renderer/models/segueo-chat-v2.onnx', import.meta.url));
-test('SegueoChat + modello Segueo Chat vero: capisce modi di dire che l\'interprete non conosce', { skip: !existsSync(MODEL) && 'modello non scaricato' }, async () => {
+const MODEL = modelPath(CHAT_MODEL);
+test('SegueoChat + modello Segueo Chat vero: capisce modi di dire che l\'interprete non conosce', { skip: skipWithoutModel(CHAT_MODEL) }, async () => {
   const ort = await import('onnxruntime-web');
   ort.env.wasm.numThreads = 1;
   const s = await ort.InferenceSession.create(new Uint8Array(readFileSync(MODEL)));

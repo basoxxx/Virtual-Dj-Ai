@@ -4,6 +4,7 @@ import { AudioEngine } from '../audio/engine.js';
 import { SHORTCUTS } from '../keyboard.js';
 import { PRESETS, TIERS } from '../controllers/presets.js';
 import { GAMEPAD_LAYOUT } from '../controllers/gamepad.js';
+import { cleanMapping } from '../midi.js';
 import { icon, withIcon } from './icons.js';
 import { configureAnalysis, BEAT_MODEL } from '../audio/analyzer-client.js';
 import { CHAT_MODEL } from '../ai/chat-model.js';
@@ -45,7 +46,13 @@ export async function openSettings(app, initialTab = 'audio') {
   const show = async (id) => {
     for (const [k, b] of Object.entries(tabBtns)) b.classList.toggle('on', k === id);
     body.replaceChildren(el('div', { class: 'hint' }, 'Caricamento…'));
-    body.replaceChildren(await pages[id].render());
+    try {
+      body.replaceChildren(await pages[id].render());
+    } catch (err) {
+      // altrimenti resterebbe "Caricamento…" per sempre
+      console.error(err);
+      body.replaceChildren(el('div', { class: 'hint error' }, `Impossibile aprire "${pages[id].label}": ${err && err.message ? err.message : err}`));
+    }
   };
   for (const [id, p] of Object.entries(pages)) {
     tabBtns[id] = button(p.label, { className: 'tab', onClick: () => show(id) });
@@ -69,6 +76,15 @@ async function audioPage(app) {
   const outOpts = () => [{ value: '', label: 'Predefinita di sistema' }, ...outputs.filter((d) => d.deviceId !== 'default').map((d, i) => ({ value: d.deviceId, label: d.label || `Uscita ${i + 1}` }))];
   const inOpts = () => [{ value: 'default', label: 'Predefinito di sistema' }, ...inputs.filter((d) => d.deviceId !== 'default').map((d, i) => ({ value: d.deviceId, label: d.label || `Ingresso ${i + 1}` }))];
 
+  // scheda delle casse salvata ma non collegata: resta scelta (torna da sola quando la si ricollega) e lo si dice
+  const masterMissing = () => Boolean(s.masterDevice) && !outputs.some((d) => d.deviceId === s.masterDevice);
+  const masterOpts = () => [...outOpts(), ...(masterMissing() ? [{ value: s.masterDevice, label: 'Scheda scelta (non collegata)' }] : [])];
+  const masterHint = el('span', { class: 'field-hint' });
+  const showMasterHint = () => {
+    masterHint.textContent = masterMissing() ? 'La scheda scelta per le casse non è collegata: la musica esce dall\'uscita di sistema finché non la ricolleghi.' : '';
+    masterHint.hidden = !masterMissing();
+  };
+  showMasterHint();
   const outInfo = el('span', { class: 'field-hint' });
   const showOutputs = (outputs, quad) => {
     outInfo.textContent = `Uscite della scheda master: ${outputs}${quad ? ' · cuffia sulle uscite 3-4 ✓' : ''}`;
@@ -78,7 +94,12 @@ async function audioPage(app) {
   const apply = async () => {
     const res = await app.engine.applyRouting({ mode: s.mode, masterDevice: s.masterDevice, headphoneDevice: s.headphoneDevice });
     hpField.style.display = s.mode === 'single' ? '' : 'none';
-    if (res) showOutputs(res.outputs, res.quad);
+    if (res) {
+      showOutputs(res.outputs, res.quad);
+      // uscita scelta a mano: se non si è applicata, checkOutputs la riprende quando la scheda torna
+      app.outputLost = !res.sinkOk;
+    }
+    showMasterHint();
     app.saveSettings();
   };
   const mode = select([
@@ -89,7 +110,7 @@ async function audioPage(app) {
     s.mode = v;
     apply();
   });
-  const master = select(outOpts(), s.masterDevice, (v) => {
+  const master = select(masterOpts(), s.masterDevice, (v) => {
     s.masterDevice = v;
     apply();
   });
@@ -130,7 +151,8 @@ async function audioPage(app) {
       // permesso negato: si mostrano comunque le periferiche senza nome
     }
     ({ outputs, inputs } = await AudioEngine.devices());
-    master.setOptions(outOpts(), s.masterDevice);
+    master.setOptions(masterOpts(), s.masterDevice);
+    showMasterHint();
     hp.setOptions([{ value: '', label: 'Nessuna (preascolto disattivato)' }, ...outOpts().slice(1)], s.headphoneDevice);
     mic.setOptions(inOpts(), s.micDevice || 'default');
     app.refreshInputs();
@@ -140,6 +162,7 @@ async function audioPage(app) {
     el('div', { class: 'section-title' }, 'Uscite'),
     field('Modalità di uscita', mode, 'Con una console che ha la scheda audio a 4 uscite (Hercules Inpulse 300/500/T7…) scegli "Master 1-2, Cuffia 3-4" e come uscita master la console. Con la scheda del PC usa lo split con un cavo sdoppiatore.'),
     field('Uscita master (casse)', master),
+    masterHint,
     hpField,
     outInfo,
     el('div', { class: 'section-title' }, 'Ingressi'),
@@ -305,25 +328,51 @@ function requestsPage(app) {
   const save = () => app.saveSettings();
   const custom = el('input', { type: 'text', placeholder: 'https://sito.com/cerca?q={q}', value: r.custom || '' });
   custom.addEventListener('keydown', (e) => e.stopPropagation());
+  // indirizzo vuoto o senza {q}: lo si dice subito qui, non solo al primo "Cerca online"
+  const customProblem = el('span', { class: 'field-hint ai-test error', hidden: true });
+  let checks = 0;
+  const checkCustom = async () => {
+    const n = ++checks;
+    const problem = r.site === 'custom' ? await api.checkSearchSite(custom.value) : null;
+    if (n !== checks) return; // nel frattempo è cambiato di nuovo
+    customProblem.textContent = problem ? `Da sistemare: ${problem}` : '';
+    customProblem.hidden = !problem;
+  };
   custom.addEventListener('change', () => {
     r.custom = custom.value.trim();
     save();
+    checkCustom();
   });
   const customRow = field('Indirizzo di ricerca', custom, 'Apri il sito dove scarichi i brani, cerca qualcosa e copia qui l\'indirizzo della pagina dei risultati, mettendo {q} al posto del testo cercato.');
+  customRow.append(customProblem);
   customRow.hidden = r.site !== 'custom';
+  if (r.custom) checkCustom();
   const site = select(SEARCH_SITES, r.site, (v) => {
     r.site = v;
     customRow.hidden = v !== 'custom';
     save();
+    checkCustom();
   });
   const folderLabel = el('span', { class: 'field-hint' }, '');
   const showFolder = async () => {
-    folderLabel.textContent = r.folder || `${await api.defaultDownloadFolder()} (cartella Download del sistema)`;
+    let system = '';
+    try {
+      system = await api.defaultDownloadFolder();
+    } catch (err) {
+      system = `non trovata (${err.message})`;
+    }
+    folderLabel.textContent = r.folder || `${system} (cartella Download del sistema)`;
   };
   showFolder();
   const folderBtns = el('div', { class: 'row tight' },
     button('Cambia…', { className: 'small', onClick: async () => {
-      const f = await api.pickDownloadFolder();
+      let f;
+      try {
+        f = await api.pickDownloadFolder();
+      } catch (err) {
+        toast(`Scelta della cartella non riuscita: ${err.message}`, 'error');
+        return;
+      }
       if (f) {
         r.folder = f;
         save();
@@ -360,9 +409,11 @@ function midiPage(app) {
         : el('span', { class: 'tier-badge none' }, 'profilo non trovato: usa la procedura guidata')));
     for (const p of pads) rows.push(el('div', { class: 'midi-dev' }, el('span', { class: 'dev-name' }, icon('gamepad', 15), p.id), el('span', { class: 'tier-badge home' }, 'Gamepad')));
     if (!rows.length) {
-      rows.push(el('div', { class: 'hint' }, midi.access
+      rows.push(el('div', { class: midi.error ? 'hint error' : 'hint' }, midi.access
         ? 'Nessuna console collegata. Collegala via USB: verrà riconosciuta automaticamente.'
-        : 'MIDI non disponibile su questo sistema (i gamepad funzionano comunque).'));
+        : midi.error
+          ? `MIDI non disponibile: ${midi.error} (i gamepad funzionano comunque).`
+          : 'MIDI non disponibile su questo sistema (i gamepad funzionano comunque).'));
     }
     devices.replaceChildren(...rows);
   };
@@ -389,7 +440,9 @@ function midiPage(app) {
 
   // --- procedura guidata
   const wizardBox = el('div', { class: 'wizard-box' });
+  const wizardWhy = el('span', { class: 'midi-reject' }); // perché l'ultimo controllo mosso non è stato preso
   const renderWizard = (info) => {
+    wizardWhy.textContent = '';
     if (!midi.wizard) {
       wizardBox.replaceChildren(
         button(withIcon('compass', 'Procedura guidata di mappatura'), { className: 'small primary', onClick: () => midi.startWizard() }),
@@ -402,7 +455,8 @@ function midiPage(app) {
       el('div', { class: 'wizard-step' }, `Passo ${midi.wizard.index + 1}/${midi.wizard.steps.length}: `, el('b', {}, action ? action.label : id),
         el('span', { class: 'field-hint' }, action && action.kind === 'button' ? ' — premi il pulsante' : ' — muovi il controllo')),
       button('Salta', { className: 'small', onClick: () => midi.skipWizardStep() }),
-      button('Fine', { className: 'small', onClick: () => midi.stopWizard(true) }));
+      button('Fine', { className: 'small', onClick: () => midi.stopWizard(true) }),
+      wizardWhy);
   };
   renderWizard();
   midi.addEventListener('wizard', (e) => renderWizard(e.detail));
@@ -421,12 +475,15 @@ function midiPage(app) {
     input.accept = '.json,application/json';
     input.onchange = async () => {
       try {
-        const n = midi.importMapping(await input.files[0].text());
+        const res = midi.importMapping(await input.files[0].text());
         presetSel.value = midi.presetMode;
-        toast(`Mappatura importata: ${n} controlli`, 'ok');
+        toast(`Mappatura importata: ${res.count} controlli`, 'ok');
+        if (res.dropped) toast(`${res.dropped} controlli del file scartati: comandi che Segueo non conosce o messaggi non validi`, 'warn', 7000);
+        if (res.presetIgnored) toast('Il profilo console indicato nel file non esiste in questa versione: resta quello attuale', 'warn', 7000);
         refresh();
       } catch (err) {
-        toast(err.message, 'error');
+        // la mappatura attuale resta com'è
+        toast(`Importazione non riuscita: ${err.message}`, 'error', 7000);
       }
     };
     input.click();
@@ -439,11 +496,14 @@ function midiPage(app) {
   const restoreBtn = button('Ripristina correzioni', { className: 'small', title: 'Rimette le correzioni fatte prima dell\'aggiornamento del profilo della console', onClick: () => {
     const backup = app.settings.midi.backup;
     if (!backup) return;
-    midi.mapping = { ...backup, ...midi.mapping };
+    // le voci con comandi che non esistono più non funzionerebbero: si scartano dicendolo
+    const { clean, dropped } = cleanMapping(backup, midi.actions);
+    const lost = Object.keys(dropped).length;
+    midi.mapping = { ...clean, ...midi.mapping };
     app.settings.midi.backup = null;
     midi.dispatchEvent(new CustomEvent('mapping', { detail: midi.mapping }));
     restoreBtn.style.display = 'none';
-    toast('Correzioni ripristinate', 'ok');
+    toast(lost ? `Correzioni ripristinate; ${lost} scartate perché usano comandi che non esistono più` : 'Correzioni ripristinate', lost ? 'warn' : 'ok');
   } });
   if (!app.settings.midi.backup) restoreBtn.style.display = 'none';
 
@@ -472,8 +532,9 @@ function midiPage(app) {
     const inv = button('⇅', { className: 'tiny ghost', title: 'Inverti il verso (per manopole, fader e jog appresi)', onClick: () => midi.toggleInvert(id) });
     if (action.kind === 'button') inv.style.visibility = 'hidden';
     const clear = button('×', { className: 'tiny ghost', title: 'Rimuovi la mappatura personale', onClick: () => midi.clear(id) });
-    const row = el('div', { class: 'midi-row' }, el('span', { class: 'midi-label' }, action.label), el('span', { class: 'midi-kind' }, action.kind), keyEl, learn, inv, clear);
-    rows.set(id, { keyEl, learn, inv });
+    const why = el('span', { class: 'midi-reject' }); // Learn: perché il controllo mosso non è stato preso
+    const row = el('div', { class: 'midi-row' }, el('span', { class: 'midi-label' }, action.label), el('span', { class: 'midi-kind' }, action.kind), keyEl, learn, inv, clear, why);
+    rows.set(id, { keyEl, learn, inv, why });
     table.append(row);
   }
   const refresh = () => {
@@ -485,10 +546,19 @@ function midiPage(app) {
       r.inv.classList.toggle('on', Boolean(user && user.invert));
       r.learn.classList.toggle('on', midi.learning === id);
       r.learn.textContent = midi.learning === id ? 'Muovi un controllo…' : 'Learn';
+      r.why.textContent = '';
     }
   };
   refresh();
   midi.addEventListener('learning', refresh);
+  // Learn e procedura guidata: il controllo mosso non va bene per quel comando (es. un tasto per un fader)
+  midi.addEventListener('rejected', (e) => {
+    const { id, reason } = e.detail;
+    const text = reason.charAt(0).toUpperCase() + reason.slice(1);
+    const r = rows.get(id);
+    if (r) r.why.textContent = text;
+    if (midi.wizard) wizardWhy.textContent = text;
+  });
   midi.addEventListener('mapping', () => {
     refresh();
     app.saveSettings();

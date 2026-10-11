@@ -5,12 +5,15 @@ import { DEMUCS_SR } from '../dsp/demucs.js';
 import { vocalEntryFrom } from './mashup-plan.js';
 
 export const SEPARATION_MODEL = 'segueo-separazione-voce-v2.onnx';
+// separazione ferma: nessun avanzamento per tanto tempo (il primo arriva dopo il caricamento del modello)
+const STALL_MS = 5 * 60000;
 
 export class StemManager extends EventTarget {
   /** isBusy(): true se in quel momento non si deve separare (es. analisi della libreria in corso). */
-  constructor({ isBusy = () => false } = {}) {
+  constructor({ isBusy = () => false, stallMs = STALL_MS } = {}) {
     super();
     this.isBusy = isBusy;
+    this.stallMs = stallMs;
     this.queue = [];
     this.running = null; // { track, progress }
     this.ready = new Map(); // id del brano -> true
@@ -30,11 +33,15 @@ export class StemManager extends EventTarget {
     }));
   }
 
+  /** Il modello è installato? Se non si riesce a saperlo l'errore vero si propaga (non è "da scaricare"). */
   async checkModel() {
     try {
       this.modelInstalled = (await api.modelStatus(SEPARATION_MODEL)).installed;
-    } catch {
-      this.modelInstalled = false;
+    } catch (err) {
+      console.error('Stato del modello per separare voce e base', err);
+      this.modelInstalled = null;
+      this.emit();
+      throw new Error(`non riesco a sapere se il modello per separare voce e base è installato (${err.message})`);
     }
     this.emit();
     return this.modelInstalled;
@@ -137,16 +144,27 @@ export class StemManager extends EventTarget {
   separate(left, right, onProgress) {
     return new Promise((resolve, reject) => {
       const worker = new Worker(new URL('../../workers/separator.js', import.meta.url), { type: 'module' });
+      let timer = null;
+      // separazione bloccata: senza un avanzamento per stallMs si ferma (e la memoria del modello torna libera)
+      const watch = () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => done(reject, new Error('Il modello non ha risposto in tempo')), this.stallMs);
+      };
       const done = (fn, v) => {
+        clearTimeout(timer);
         worker.terminate();
         fn(v);
       };
       worker.onmessage = (e) => {
-        if (e.data.progress != null) onProgress(e.data.progress);
-        else if (e.data.error) done(reject, new Error(e.data.error));
+        if (e.data.progress != null) {
+          watch();
+          onProgress(e.data.progress);
+        } else if (e.data.error) done(reject, new Error(e.data.error));
         else done(resolve, e.data);
       };
-      worker.onerror = (e) => done(reject, new Error(e.message || 'errore del separatore'));
+      worker.onerror = (e) => done(reject, new Error(e && e.message ? `errore del separatore: ${e.message}` : 'Separatore non avviato: file mancante?'));
+      worker.onmessageerror = () => done(reject, new Error('risultato della separazione non leggibile'));
+      watch();
       worker.postMessage({ id: 1, model: SEPARATION_MODEL, left, right }, [left.buffer, right.buffer]);
     });
   }

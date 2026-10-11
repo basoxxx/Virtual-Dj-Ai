@@ -20,6 +20,8 @@ files:
   - "!**/*.map"
 
 asar: true
+# niente installer senza i modelli AI qui sopra o senza onnxruntime-web (vale anche per la CI)
+beforePack: scripts/check-dist.js
 afterPack: scripts/after-pack.js
 
 win:

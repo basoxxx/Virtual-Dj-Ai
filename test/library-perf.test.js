@@ -5,6 +5,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { compatibleCodes, suggestPartners } from '../src/renderer/js/ai/mashup-plan.js';
+import './helpers/browser-env.js';
+import { remaining } from '../src/renderer/js/ui/side-ui.js';
 
 const require = createRequire(import.meta.url);
 const { Library } = require('../src/main/library.js');
@@ -90,7 +92,6 @@ test('analisi della libreria: più brani insieme senza superare il limite, e sti
   globalThis.window = globalThis.window || {};
   globalThis.window.api = globalThis.window.api || {};
   const { BatchAnalyzer } = await import('../src/renderer/js/ai/batch-analyzer.js');
-  const { remaining } = await import('../src/renderer/js/ui/side-ui.js').catch(() => ({}));
   const an = new BatchAnalyzer(null);
   const list = Array.from({ length: 10 }, (_, i) => ({ id: String(i) }));
   let now = 0;
@@ -118,12 +119,10 @@ test('analisi della libreria: più brani insieme senza superare il limite, e sti
   assert.equal(an.eta(), 100 * 2 + 100 * 10);
   an.measure('first', 4);
   assert.ok(Math.abs(an.timing.first - 2.3) < 1e-9); // media mobile
-  if (remaining) {
-    assert.equal(remaining(null), '');
-    assert.equal(remaining(30), ' · meno di 2 min');
-    assert.equal(remaining(25 * 60), ' · circa 25 min');
-    assert.equal(remaining(2 * 3600 + 12 * 60), ' · circa 2 h 10 min');
-  }
+  assert.equal(remaining(null), '');
+  assert.equal(remaining(30), ' · meno di 2 min');
+  assert.equal(remaining(25 * 60), ' · circa 25 min');
+  assert.equal(remaining(2 * 3600 + 12 * 60), ' · circa 2 h 10 min');
 });
 
 test('mashup: gruppi Camelot compatibili (stessa tonalità, relativa, ±1 sulla ruota)', () => {

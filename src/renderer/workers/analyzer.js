@@ -21,7 +21,13 @@ function loadBeatThis(model) {
 }
 
 async function aiBeat(mono22050, model) {
-  const { run } = await loadBeatThis(model);
+  let run;
+  try {
+    ({ run } = await loadBeatThis(model));
+  } catch (err) {
+    // modello mancante o rovinato, onnxruntime o WASM che non partono: non dipende dal brano
+    throw Object.assign(new Error(String((err && err.message) || err)), { systemic: true });
+  }
   const { beats, grid } = await trackBeats(run, mono22050);
   if (!grid.bpm) throw new Error('nessuna battuta riconosciuta');
   return { bpm: grid.bpm, offset: grid.offset, confidence: grid.confidence, engine: 'ai', beats: beats.length };
@@ -29,14 +35,18 @@ async function aiBeat(mono22050, model) {
 
 async function handle({ id, channels, sampleRate, options = {}, mono22050 }) {
   try {
+    // il client fa partire da qui il tempo massimo della richiesta (le precedenti in coda sono finite)
+    self.postMessage({ id, started: true });
     let beat = null;
     let aiError = null;
+    let aiSystemic = false;
     if (options.bpm !== false && options.engine === 'ai') {
       try {
         if (!mono22050) throw new Error('audio a 22050 Hz non disponibile');
         beat = await aiBeat(mono22050, options.model);
       } catch (err) {
         aiError = String((err && err.message) || err);
+        aiSystemic = Boolean(err && err.systemic);
       }
     }
     const opts = beat ? { ...options, bpm: false, knownBpm: beat.bpm, knownOffset: beat.offset } : options;
@@ -44,6 +54,7 @@ async function handle({ id, channels, sampleRate, options = {}, mono22050 }) {
     if (beat) result.beat = beat;
     else if (result.beat) result.beat.engine = 'classic';
     if (aiError) result.aiError = aiError;
+    if (aiSystemic) result.aiSystemic = true;
     const wf = result.waveform;
     self.postMessage({ id, result }, wf ? [wf.peak.buffer, wf.low.buffer, wf.mid.buffer, wf.high.buffer] : []);
   } catch (err) {
@@ -54,5 +65,6 @@ async function handle({ id, channels, sampleRate, options = {}, mono22050 }) {
 // una richiesta alla volta: la sessione ONNX non accetta esecuzioni sovrapposte
 let queue = Promise.resolve();
 self.onmessage = (e) => {
-  queue = queue.then(() => handle(e.data));
+  // un errore imprevisto non deve fermare la coda: le richieste successive aspetterebbero per sempre
+  queue = queue.then(() => handle(e.data)).catch((err) => console.error('Worker di analisi', err));
 };
