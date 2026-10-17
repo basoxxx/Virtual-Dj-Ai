@@ -61,6 +61,8 @@ jobs:
             args: --linux AppImage --x64
             files: dist/*.AppImage
     runs-on: ${{ matrix.os }}
+    env:
+      SIGNPATH_ENABLED: ${{ secrets.SIGNPATH_API_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -77,6 +79,42 @@ jobs:
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Firma Windows gratuita (SignPath Foundation, vedi docs/firma-codice.md): attiva solo quando il
+      # secret SIGNPATH_API_TOKEN esiste, altrimenti l'MSI esce non firmato come prima.
+      - name: MSI da firmare
+        id: unsigned
+        if: matrix.os == 'windows-latest' && env.SIGNPATH_ENABLED == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-windows
+          path: dist/*.msi
+          if-no-files-found: error
+          retention-days: 1
+      - name: Firma con SignPath (Segueo.exe dentro l'MSI e l'MSI stesso)
+        if: matrix.os == 'windows-latest' && env.SIGNPATH_ENABLED == 'true'
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG || 'Virtual-Dj-Ai' }}
+          signing-policy-slug: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG || 'release-signing' }}
+          artifact-configuration-slug: ${{ vars.SIGNPATH_ARTIFACT_CONFIGURATION_SLUG || 'msi' }}
+          github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
+          wait-for-completion: true
+          # la firma di rilascio va approvata a mano su app.signpath.io: un'ora per farlo
+          wait-for-completion-timeout-in-seconds: 3600
+          output-artifact-directory: signed
+      - name: Sostituisce l'MSI con quello firmato
+        if: matrix.os == 'windows-latest' && env.SIGNPATH_ENABLED == 'true'
+        shell: pwsh
+        run: |
+          $signed = Get-ChildItem signed -Recurse -Filter *.msi
+          if (-not $signed) { throw "SignPath non ha restituito nessun MSI firmato" }
+          Remove-Item dist/*.msi
+          $signed | Copy-Item -Destination dist
+          $sig = Get-AuthenticodeSignature (Get-ChildItem dist/*.msi)
+          if ($sig.Status -ne 'Valid') { throw "Firma dell'MSI non valida: $($sig.Status)" }
+          "Firmato da: $($sig.SignerCertificate.Subject)"
       - uses: actions/upload-artifact@v4
         with:
           name: installer-${{ matrix.os }}
@@ -92,6 +130,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: installers
+          pattern: installer-*
           merge-multiple: true
       - uses: softprops/action-gh-release@v2
         with:
