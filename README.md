@@ -17,8 +17,12 @@ Ad ogni push o merge su `main`, GitHub Actions compila e pubblica automaticament
 | macOS Intel | `Segueo-<versione>-mac-x64.dmg` |
 | Linux | `Segueo-<versione>-linux-x86_64.AppImage` |
 
-> **macOS:** l'app non è firmata con un certificato Apple. Al primo avvio fai clic destro sull'app → **Apri**,
-> oppure esegui `xattr -cr "/Applications/Segueo.app"` nel Terminale.
+> **macOS:** l'app non è firmata con un certificato Apple, quindi al primo avvio macOS la blocca. Vai in
+> **Impostazioni di Sistema → Privacy e sicurezza** e premi **Apri comunque** (su macOS 14 e precedenti basta
+> anche clic destro sull'app → **Apri**), oppure esegui `xattr -cr "/Applications/Segueo.app"` nel Terminale.
+>
+> **Windows — firma del codice:** free code signing provided by [SignPath.io](https://about.signpath.io),
+> certificate by [SignPath Foundation](https://signpath.org) — vedi la [policy di firma](docs/firma-codice.md).
 
 ## 🤖 AI DJ: mix automatico con AI sul computer
 
