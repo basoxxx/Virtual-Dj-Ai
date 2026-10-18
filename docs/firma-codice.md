@@ -1,5 +1,8 @@
 # Firma del codice (Windows)
 
+> **Non attiva.** La richiesta a SignPath Foundation è stata rifiutata: gli installer escono non firmati.
+> La CI resta pronta e si attiva da sola se in futuro viene aggiunto il secret `SIGNPATH_API_TOKEN`.
+
 ## Code signing policy
 
 Free code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).
