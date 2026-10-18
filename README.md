@@ -21,8 +21,8 @@ Ad ogni push o merge su `main`, GitHub Actions compila e pubblica automaticament
 > **Impostazioni di Sistema → Privacy e sicurezza** e premi **Apri comunque** (su macOS 14 e precedenti basta
 > anche clic destro sull'app → **Apri**), oppure esegui `xattr -cr "/Applications/Segueo.app"` nel Terminale.
 >
-> **Windows — firma del codice:** free code signing provided by [SignPath.io](https://about.signpath.io),
-> certificate by [SignPath Foundation](https://signpath.org) — vedi la [policy di firma](docs/firma-codice.md).
+> **Windows:** l'installer non è firmato. Se compare «Windows ha protetto il PC», fai clic su
+> **Ulteriori informazioni** → **Esegui comunque**.
 
 ## 🤖 AI DJ: mix automatico con AI sul computer
 

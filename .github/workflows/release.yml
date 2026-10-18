@@ -153,6 +153,7 @@ jobs:
           body: |
             ## Installazione
             - **Windows**: scarica `Segueo-${{ needs.version.outputs.version }}-win-x64.msi` e fai doppio clic.
+              Se compare «Windows ha protetto il PC», fai clic su **Ulteriori informazioni** → **Esegui comunque**.
             - **macOS Apple Silicon (M1/M2/M3/M4)**: `…-mac-arm64.dmg` · **macOS Intel**: `…-mac-x64.dmg`.
               L'app non è firmata da Apple: se al primo avvio macOS la blocca, vai in **Impostazioni di Sistema →
               Privacy e sicurezza** e premi **Apri comunque**, oppure esegui `xattr -cr "/Applications/Segueo.app"` nel Terminale.
