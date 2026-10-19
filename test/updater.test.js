@@ -91,8 +91,13 @@ test('installScript: aspetta la chiusura, installa e riapre', () => {
   assert.match(mac.content, /DEST="\$\(dirname "\$APP"\)\/\$\(basename "\$SRC"\)"/);
   assert.match(mac.content, /open "\$DEST"/);
   const win = updater.installScript('win32', { pid: 7, installer: 'C:\\T\\a.msi', execPath: 'C:\\P\\Segueo.exe' });
-  assert.match(win.content, /msiexec \/i "C:\\T\\a\.msi" \/passive/);
-  assert.match(win.content, /start "" "C:\\P\\Segueo\.exe"/);
+  // i percorsi passano dall'ambiente (Unicode), mai scritti nel .cmd che cmd.exe legge con la codepage OEM
+  const accented = updater.installScript('win32', { pid: 7, installer: 'C:\\Users\\Niccolò\\a.msi', execPath: 'C:\\Users\\Niccolò\\Segueo.exe' });
+  assert.match(win.content, /msiexec \/i "%SEGUEO_MSI%" \/passive/);
+  assert.match(win.content, /start "" "%SEGUEO_EXE%"/);
+  assert.deepEqual(win.env, { SEGUEO_MSI: 'C:\\T\\a.msi', SEGUEO_RESULT: 'C:\\T\\install-result.txt', SEGUEO_EXE: 'C:\\P\\Segueo.exe' });
+  assert.ok(!/ò/.test(accented.content));
+  assert.equal(accented.env.SEGUEO_EXE, 'C:\\Users\\Niccolò\\Segueo.exe');
   const lin = updater.installScript('linux', { pid: 1, installer: '/tmp/a.AppImage', appImage: '/home/u/VDJ.AppImage' });
   assert.match(lin.content, /mv "\/home\/u\/VDJ\.AppImage\.new" "\/home\/u\/VDJ\.AppImage"/);
   assert.equal(updater.installScript('linux', { pid: 1, installer: '/tmp/a' }), null);

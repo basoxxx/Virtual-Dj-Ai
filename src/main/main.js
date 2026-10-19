@@ -152,9 +152,27 @@ function createWindow() {
       autoplayPolicy: 'no-user-gesture-required',
     },
   });
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
-    if (settings.data.maximized) mainWindow.maximize();
+  // la finestra nasce nascosta e si mostra al primo disegno; se non arriva (driver video, antivirus che rallenta il
+  // primo avvio, pagina che non si carica) si mostra lo stesso: un processo invisibile terrebbe il lock dell'istanza
+  // unica e ogni nuovo avvio si chiuderebbe in silenzio
+  const win = mainWindow;
+  let shown = false;
+  const reveal = () => {
+    if (shown || win.isDestroyed()) return;
+    shown = true;
+    clearTimeout(showTimer);
+    win.show();
+    if (settings.data.maximized) win.maximize();
+  };
+  const showTimer = setTimeout(() => {
+    if (!shown) logError('Avvio', 'ready-to-show non arrivato entro 8 s: finestra mostrata comunque');
+    reveal();
+  }, 8000);
+  win.once('ready-to-show', reveal);
+  win.webContents.on('did-fail-load', (_e, code, description, url, isMainFrame) => {
+    if (!isMainFrame) return;
+    logError('Caricamento dell\'interfaccia', `${description} (${code}) ${url}`);
+    reveal();
   });
   mainWindow.on('close', (e) => {
     if (!confirmQuitWhileRecording()) {
@@ -618,11 +636,16 @@ if (!gotLock) {
   app.quit();
 } else {
   migrateLegacyData();
+  // un secondo avvio (doppio clic, riavvio dopo l'aggiornamento) porta davanti la finestra, anche se era nascosta
   app.on('second-instance', () => {
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.focus();
+    if (!app.isReady() || !settings) return; // la finestra arriva comunque dall'avvio in corso
+    if (!mainWindow || mainWindow.isDestroyed()) {
+      createWindow();
+      return;
     }
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    if (!mainWindow.isVisible()) mainWindow.show();
+    mainWindow.focus();
   });
 
   app.whenReady().then(() => {
@@ -643,6 +666,11 @@ if (!gotLock) {
     logError('Avvio', err);
     dialog.showErrorBox('Segueo non si è avviato', `${err.message}\n\nDettagli in ${logFile()}`);
     app.quit();
+  });
+
+  // GPU che si blocca (driver video vecchi, desktop remoto, macchine virtuali): nel registro, Chromium ripiega da solo
+  app.on('child-process-gone', (_e, details) => {
+    if (details.type === 'GPU' && details.reason !== 'clean-exit') logError('Processo GPU terminato', `${details.reason} (${details.exitCode})`);
   });
 
   app.on('before-quit', (e) => {
