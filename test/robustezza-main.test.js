@@ -514,7 +514,8 @@ test('installScript: ogni script scrive l\'esito accanto all\'installer', () => 
   assert.doesNotMatch(mac.content, /if mv "\$APP" "\$APP\.old" && ditto/);
   const win = updater.installScript('win32', { pid: 7, installer: 'C:\\T\\a.msi', execPath: 'C:\\P\\Segueo.exe' });
   assert.match(win.content, /set CODE=%ERRORLEVEL%/);
-  assert.match(win.content, /> "C:\\T\\install-result\.txt" echo %CODE%/);
+  assert.match(win.content, /> "%SEGUEO_RESULT%" echo %CODE%/);
+  assert.equal(win.env.SEGUEO_RESULT, 'C:\\T\\install-result.txt');
   const lin = updater.installScript('linux', { pid: 1, installer: '/tmp/a.AppImage', appImage: '/home/u/VDJ.AppImage' });
   assert.match(lin.content, /echo 1 > "\$RESULT"/);
 });

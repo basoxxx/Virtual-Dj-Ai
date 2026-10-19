@@ -213,16 +213,19 @@ open "$DEST"
     };
   }
   if (platform === 'win32') {
-    // l'esito di msiexec (0 riuscito, 3010 riuscito con riavvio, 1602 annullato, 1603 errore) si scrive prima di riaprire
+    // l'esito di msiexec (0 riuscito, 3010 riuscito con riavvio, 1602 annullato, 1603 errore) si scrive prima di riaprire.
+    // I percorsi arrivano come variabili d'ambiente: cmd.exe legge il file con la codepage OEM (850 in italiano) e un
+    // nome utente con lettere accentate (C:\Users\Niccolò) scritto nel file diventerebbe un percorso che non esiste
     return {
       file: 'install-update.cmd',
+      env: { SEGUEO_MSI: installer, SEGUEO_RESULT: result, SEGUEO_EXE: execPath },
       content: `@echo off\r
 :wait\r
 tasklist /FI "PID eq ${pid}" 2>nul | find "${pid}" >nul && (timeout /t 1 /nobreak >nul & goto wait)\r
-msiexec /i "${installer}" /passive /norestart\r
+msiexec /i "%SEGUEO_MSI%" /passive /norestart\r
 set CODE=%ERRORLEVEL%\r
-> "${result}" echo %CODE%\r
-start "" "${execPath}"\r
+> "%SEGUEO_RESULT%" echo %CODE%\r
+start "" "%SEGUEO_EXE%"\r
 `,
     };
   }
@@ -289,7 +292,7 @@ async function install(installer, { platform = process.platform, execPath = proc
   fs.rmSync(path.join(dir, RESULT_FILE), { force: true });
   fs.writeFileSync(pending, JSON.stringify({ from: version, to: latest, installer, at: Date.now() }));
   const child = platform === 'win32'
-    ? spawn('cmd.exe', ['/c', file], { detached: true, stdio: 'ignore', windowsHide: true })
+    ? spawn('cmd.exe', ['/c', file], { detached: true, stdio: 'ignore', windowsHide: true, env: { ...process.env, ...script.env } })
     : spawn('/bin/sh', [file], { detached: true, stdio: 'ignore' });
   await new Promise((resolve, reject) => {
     child.once('spawn', resolve);
