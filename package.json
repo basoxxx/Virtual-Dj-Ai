@@ -25,11 +25,11 @@
     "dist:linux": "electron-builder --linux AppImage --publish never"
   },
   "dependencies": {
-    "music-metadata": "^7.14.0"
+    "music-metadata": "^12.2.3"
   },
   "devDependencies": {
-    "electron": "^38.8.6",
-    "electron-builder": "^26.0.12",
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0",
     "onnxruntime-web": "1.30.0"
   }
 }
